@@ -1,13 +1,13 @@
 # math.yunhan.me
 
-Small math tools, served by one Cloudflare Worker.
+Small math tools, hosted on Azure Static Web Apps (Free tier).
 
-- `public/` — the pages. `public/zetamac/index.html` is the Zetamac clone; `public/index.html` is the index.
-- `src/worker.js` — the Worker. `scripts/build.mjs` inlines `public/` into it and writes `dist/worker.js`.
-- `wrangler.jsonc` — deploys `dist/worker.js` as the `math` Worker on the custom domain `math.yunhan.me`.
+- `public/` is the whole site. `public/zetamac/index.html` is the Zetamac clone, `public/index.html` the index, `public/404.html` the not-found page.
+- `public/staticwebapp.config.json` sets no-trailing-slash routing, the 404 page, and cache/security headers.
+- Azure: subscription "Azure subscription 1", resource group `math`, Static Web App `math`, custom domain `math.yunhan.me` (CNAME at Cloudflare, DNS-only).
 
 ```bash
 npm install
-npm run dev      # local preview at http://localhost:8787
-npm run deploy   # build + wrangler deploy (needs `npx wrangler login` once)
+npm run dev      # local preview at http://localhost:4280
+npm run deploy   # needs `az login` (uses your Azure CLI session)
 ```

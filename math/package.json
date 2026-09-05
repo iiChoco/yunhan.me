@@ -3,11 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "dev": "npm run build && wrangler dev",
-    "deploy": "npm run build && wrangler deploy"
+    "dev": "swa start public",
+    "deploy": "swa deploy public --env production --resource-group math --app-name math --subscription-id 43f4620c-0a0c-470d-ac03-ff875c9328fc"
   },
   "devDependencies": {
-    "wrangler": "^4.129.0"
+    "@azure/static-web-apps-cli": "^2.0.10"
   }
 }
