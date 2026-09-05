@@ -54,6 +54,9 @@ a:hover{text-decoration:underline;text-decoration-color:var(--gold-dim)}
 .chip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--line-strong);clip-path:var(--cut8);font:600 10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);white-space:nowrap;background:rgba(160,240,255,.025)}
 button.chip:hover{border-color:rgba(140,240,255,.45);color:var(--text)}
 .chip .dot{width:6px;height:6px;border-radius:50%;background:var(--st-idle);flex:none}
+#acct .dot.ok{background:var(--st-listening);box-shadow:0 0 9px var(--st-listening)}
+#acct .dot.err{background:var(--st-error)}
+#acct .dot.busy{background:var(--st-thinking);animation:br 1.6s ease-in-out infinite}
 .chip[aria-pressed="true"]{background:rgba(160,240,255,.12);border-color:rgba(160,240,255,.6);color:#c7f4fd}
 .chip.gold{border-color:rgba(232,201,138,.5);color:var(--gold);background:rgba(232,201,138,.08)}
 button.chip.gold:hover{border-color:rgba(232,201,138,.8);background:rgba(232,201,138,.14);color:#f0dbaf}
@@ -202,6 +205,7 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
     <span class="crumb">/ zetamac</span>
   </div>
   <span class="spacer"></span>
+  <a class="chip" id="acct" hidden><span class="dot" id="acctDot" hidden></span><span id="acctLabel">Sign in</span></a>
   <span class="chip" id="state"><span class="dot"></span><span id="statelabel">idle</span></span>
 </header>
 <main>
@@ -531,7 +535,7 @@ function renderHistory(el, s, currentTs) {
   el.querySelector('[data-progress]').onclick = () => openProgress(key);
   el.querySelector('[data-clear]').onclick = () => {
     if (!confirm('Delete all saved runs for these settings?')) return;
-    hist = hist.filter(h => h.key !== key); save(LS.history, hist); renderHistory(el, s, null);
+    hist = hist.filter(h => h.key !== key); save(LS.history, hist); Sync.push(); renderHistory(el, s, null);
   };
 }
 
@@ -685,7 +689,7 @@ function renderProgress() {
   lineChart($('#pc4').lastChild, { xs: runs.map(r => r.ts), series: [{ name: 'mistakes', color: '#1fa3c9', values: runs.map(r => r.mistakes || 0) }], yFmt: v => String(Math.round(v)), height: 150, yZero: true, bars: true, label: 'Mistakes per run' });
   $('#pClear').onclick = () => {
     if (!confirm('Delete all saved runs for these settings?')) return;
-    hist = hist.filter(h => h.key !== P.key); save(LS.history, hist);
+    hist = hist.filter(h => h.key !== P.key); save(LS.history, hist); Sync.push();
     if (hist.length) openProgress(null); else { show('setup'); settingsToForm(settings); }
   };
 }
@@ -825,7 +829,7 @@ function finish() {
   const byOp = {};
   for (const p of g.problems) { (byOp[p.op] ||= { n: 0, ms: 0, mist: 0 }); byOp[p.op].n++; byOp[p.op].ms += Math.round(p.ms); byOp[p.op].mist += p.mistake ? 1 : 0; }
   const entry = { ts: Date.now(), key: g.key, desc: describe(g.s), mode: g.s.mode, score, n, elapsed: Math.round(elapsed), avgMs: Math.round(avgMs), mistakes: g.mistakes, byOp };
-  hist.push(entry); if (hist.length > 2000) hist = hist.slice(-2000); save(LS.history, hist);
+  hist.push(entry); if (hist.length > 2000) hist = hist.slice(-2000); save(LS.history, hist); Sync.push();
   renderResults(g, entry, isPb, prevBest);
   setState('speaking');
   show('results');
@@ -887,9 +891,61 @@ async function copy(text, msg) {
   catch { prompt('Copy this:', text); }
 }
 
+// ---------- the door: sign-in and history sync ----------
+// The door (auth.<site>) holds the accounts and a small per-user store.
+// Signed out, everything stays in this browser; signed in, history is
+// merged with the store on load and pushed after every run.
+const AUTH = (() => {
+  const h = location.hostname;
+  if (h === 'localhost' || h.endsWith('.localhost')) return 'http://localhost:8770';
+  return 'https://auth.' + h.split('.').slice(-2).join('.');
+})();
+const mergeRuns = (a, b) => { const m = new Map(); for (const r of [...a, ...b]) if (r && r.ts && r.key) m.set(r.ts + '|' + r.key, r); return [...m.values()].sort((x, y) => x.ts - y.ts); };
+const Sync = {
+  user: null, timer: null,
+  chip(state) {
+    const a = $('#acct'), dot = $('#acctDot'); a.hidden = false;
+    if (!this.user) { dot.hidden = true; $('#acctLabel').textContent = 'Sign in'; a.href = AUTH + '/?next=' + encodeURIComponent(location.href); a.title = 'Sign in to keep history across devices'; return; }
+    dot.hidden = false; dot.className = 'dot ' + (state || ''); $('#acctLabel').textContent = this.user.username; a.href = AUTH + '/?auto=0'; a.title = 'Account';
+  },
+  async boot() {
+    try {
+      const r = await fetch(AUTH + '/api/me', { credentials: 'include' });
+      if (!r.ok) { this.user = null; this.chip(); return; }
+      this.user = await r.json(); this.chip('busy');
+      await this.pull();
+    } catch { this.user = null; this.chip(); }
+  },
+  async pull() {
+    try {
+      const r = await fetch(AUTH + '/api/store/zetamac/history', { credentials: 'include' });
+      if (r.status === 404) { this.push(0); return; }
+      if (!r.ok) { this.chip('err'); return; }
+      const remote = await r.json();
+      const theirs = Array.isArray(remote.runs) ? remote.runs : [];
+      const merged = mergeRuns(hist, theirs);
+      const changed = merged.length !== hist.length;
+      hist = merged; save(LS.history, hist);
+      if (changed) { if ($('#setup').classList.contains('active')) settingsToForm(settings); toast('History synced'); }
+      if (merged.length !== theirs.length) this.push(0); else this.chip('ok');
+    } catch { this.chip('err'); }
+  },
+  push(delay = 800) {
+    if (!this.user) return;
+    clearTimeout(this.timer); this.chip('busy');
+    this.timer = setTimeout(async () => {
+      try {
+        const r = await fetch(AUTH + '/api/store/zetamac/history', { method: 'PUT', credentials: 'include', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ v: 1, runs: hist.slice(-2000) }) });
+        this.chip(r.ok ? 'ok' : 'err');
+      } catch { this.chip('err'); }
+    }, delay);
+  },
+};
+
 // ---------- init ----------
 applyUrlParams();
 settingsToForm(settings);
+Sync.boot();
 })();
 </script>
 </body>

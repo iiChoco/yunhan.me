@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · {{SITE}}</title>
+<meta name="theme-color" content="#030608">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='58' fill='none' stroke='%23e8c98a' stroke-opacity='.5' stroke-width='7' stroke-dasharray='4 12'/%3E%3Ccircle cx='64' cy='64' r='34' fill='none' stroke='%23a0f0ff' stroke-opacity='.7' stroke-width='7'/%3E%3Ccircle cx='64' cy='64' r='12' fill='%23e8c98a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/instrument.css">
+<style>
+main{max-width:520px;padding-top:40px}
+form{display:grid;gap:12px}
+input[type=text],input[type=password]{width:100%}
+.who{font:400 28px/1.2 var(--serif);color:#f7f2e7}
+</style>
+</head>
+<body data-site="{{SITE}}">
+<div id="scan"></div>
+<div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+<header>
+  <div class="brand">
+    <a href="/">
+      <svg class="aperture" width="26" height="26" viewBox="0 0 128 128" aria-hidden="true"><circle class="c-outer" cx="64" cy="64" r="58" fill="none" stroke-width="5" stroke-dasharray="4 12"/><circle class="c-mid" cx="64" cy="64" r="34" fill="none" stroke-width="5"/><circle class="c-core" cx="64" cy="64" r="10"/></svg>
+      <span class="wordmark">{{SITE}}</span>
+    </a>
+    <span class="crumb">/ door</span>
+  </div>
+</header>
+<main>
+  <section id="signin" class="panel" hidden>
+    <div class="cap">Sign in</div>
+    <p class="voice" style="margin-bottom:16px">One login for every {{SITE}} surface.</p>
+    <form id="form" autocomplete="on">
+      <label class="field"><span class="lbl">Username</span><input type="text" id="u" name="username" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" required></label>
+      <label class="field"><span class="lbl">Password</span><input type="password" id="p" name="password" autocomplete="current-password" required></label>
+      <div class="row" style="margin-top:4px"><button class="chip gold big" type="submit" id="go">Sign in</button><span class="err" id="err"></span></div>
+    </form>
+    <p class="faint small" style="margin-top:14px">No signup. Accounts are made by the owner.</p>
+  </section>
+
+  <section id="signedin" class="panel" hidden>
+    <div class="cap">Signed in</div>
+    <div class="who" id="who"></div>
+    <div class="row" style="margin-top:16px;gap:8px">
+      <a class="chip gold" id="next" hidden>Continue</a>
+      <a class="chip" id="adminLink" href="/admin" hidden>Accounts</a>
+      <button class="chip" id="pwToggle">Change password</button>
+      <button class="chip" id="out">Sign out</button>
+    </div>
+    <form id="pwForm" hidden style="margin-top:16px">
+      <label class="field"><span class="lbl">Current password</span><input type="password" id="pw0" autocomplete="current-password" required></label>
+      <label class="field"><span class="lbl">New password (8+ characters)</span><input type="password" id="pw1" autocomplete="new-password" required minlength="8"></label>
+      <div class="row"><button class="chip gold" type="submit">Save</button><span class="err" id="pwErr"></span></div>
+    </form>
+  </section>
+</main>
+<footer>{{SITE}}</footer>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const site = document.body.dataset.site;
+const api = (path, opts = {}) => fetch(path, { credentials: 'same-origin', headers: { 'content-type': 'application/json' }, ...opts });
+let toastT;
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1800); };
+function safeNext() {
+  const raw = new URLSearchParams(location.search).get('next');
+  if (!raw) return null;
+  try {
+    const u = new URL(raw, location.href);
+    const h = u.hostname;
+    const ok = (u.protocol === 'https:' && (h === site || h.endsWith('.' + site))) || (u.protocol === 'http:' && h === 'localhost');
+    return ok ? u.href : null;
+  } catch { return null; }
+}
+const next = safeNext();
+function showSignedIn(me) {
+  $('#signin').hidden = true; $('#signedin').hidden = false;
+  $('#who').textContent = me.username;
+  $('#adminLink').hidden = !me.admin;
+  if (next) { const a = $('#next'); a.href = next; a.hidden = false; try { a.textContent = 'Continue to ' + new URL(next).hostname; } catch {} }
+}
+async function boot() {
+  const r = await api('/api/me');
+  if (r.ok) { const me = await r.json(); if (next && new URLSearchParams(location.search).get('auto') !== '0') { location.replace(next); return; } showSignedIn(me); }
+  else { $('#signin').hidden = false; $('#u').focus(); }
+}
+$('#form').addEventListener('submit', async e => {
+  e.preventDefault(); $('#err').textContent = ''; $('#go').disabled = true;
+  try {
+    const r = await api('/api/login', { method: 'POST', body: JSON.stringify({ username: $('#u').value.trim(), password: $('#p').value }) });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) { $('#err').textContent = d.reason || 'sign in failed'; return; }
+    if (next) { location.replace(next); return; }
+    showSignedIn(d);
+  } catch { $('#err').textContent = 'network error'; }
+  finally { $('#go').disabled = false; }
+});
+$('#out').onclick = async () => { await api('/api/logout', { method: 'POST', body: '{}' }); location.reload(); };
+$('#pwToggle').onclick = () => { const f = $('#pwForm'); f.hidden = !f.hidden; if (!f.hidden) $('#pw0').focus(); };
+$('#pwForm').addEventListener('submit', async e => {
+  e.preventDefault(); $('#pwErr').textContent = '';
+  const r = await api('/api/password', { method: 'POST', body: JSON.stringify({ current: $('#pw0').value, new: $('#pw1').value }) });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) { $('#pwErr').textContent = d.reason || 'failed'; return; }
+  $('#pwForm').hidden = true; $('#pw0').value = ''; $('#pw1').value = ''; toast('Password changed');
+});
+boot();
+})();
+</script>
+</body>
+</html>

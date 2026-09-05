@@ -1,13 +1,10 @@
 # math.yunhan.me
 
-Small math tools, hosted on Azure Static Web Apps (Free tier).
+Small math tools. Static files in `public/`, served by the door (`../door`) on the Ciel VM as the `math.yunhan.me` site, behind the Cloudflare Tunnel.
 
-- `public/` is the whole site. `public/zetamac/index.html` is the Zetamac clone, `public/index.html` the index, `public/404.html` the not-found page.
-- `public/staticwebapp.config.json` sets no-trailing-slash routing, the 404 page, and cache/security headers.
-- Azure: subscription "Azure subscription 1", resource group `math`, Static Web App `math`, custom domain `math.yunhan.me` (CNAME at Cloudflare, DNS-only).
+- `public/zetamac/index.html` is the Zetamac clone: presets, sprint mode, per-run stats, progress charts, and, when signed in through the door, history that follows you across devices.
+- `public/index.html` is the index; `public/404.html` the not-found page.
 
-```bash
-npm install
-npm run dev      # local preview at http://localhost:4280
-npm run deploy   # needs `az login` (uses your Azure CLI session)
-```
+Deploy is `scripts/push.sh` from the repo root: files are read from disk per request, so they are live when they land.
+
+Local preview: run the door with a dev config that lists `"math.localhost" = "<repo>/math/public"` under `[sites]` and open http://math.localhost:8770/zetamac.
