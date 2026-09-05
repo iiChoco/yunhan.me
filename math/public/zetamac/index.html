@@ -125,11 +125,6 @@ th{font:600 9.5px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;co
 td.r,th.r{text-align:right}
 tr:last-child td{border-bottom:0}
 .hist td.cur{color:var(--cyan)}
-.spark{width:100%;height:56px;display:block;margin:2px 0 8px}
-.spark polyline{fill:none;stroke:rgba(160,240,255,.7);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
-.spark circle{fill:var(--cyan)}
-.spark circle.best{fill:var(--gold)}
-.spark circle.cur{stroke:#fff;stroke-width:1}
 
 /* play: the instrument speaks, you answer */
 #play{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:62dvh;position:relative}
@@ -148,6 +143,36 @@ tr:last-child td{border-bottom:0}
 .problem input.wrong{border-color:var(--st-error);background:linear-gradient(180deg,rgba(232,138,138,.14),rgba(232,138,138,.04));animation:shake .18s}
 .countdown{font:400 110px/1 var(--serif);color:var(--gold);letter-spacing:-.02em;animation:ha 1s ease-in-out infinite}
 .playhint{position:absolute;bottom:0;display:flex;gap:14px;align-items:center;color:var(--text-faint);font:500 9.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
+
+/* charts */
+.chart{position:relative;margin:4px 0 2px}
+.chart svg{display:block;width:100%;overflow:visible}
+.chart .ax{font:500 9.5px var(--mono);fill:var(--text-faint);letter-spacing:.04em}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .mk{stroke:#050c11;stroke-width:2}
+.chart .hl{stroke:rgba(232,201,138,.55);stroke-width:1;stroke-dasharray:3 4}
+.chart .hlt{font:500 9px var(--mono);fill:var(--gold-dim);letter-spacing:.14em;text-transform:uppercase}
+.chart .endl{font:500 9.5px var(--mono);fill:var(--text-dim);letter-spacing:.1em;text-transform:uppercase}
+.chart .xh{stroke:rgba(160,240,255,.35);stroke-width:1}
+.chart .cur{fill:none;stroke:var(--gold);stroke-width:1.5}
+.chart .hit{fill:transparent;cursor:crosshair}
+.chart .tip{position:absolute;top:6px;pointer-events:none;border:1px solid var(--line-strong);background:rgba(5,12,17,.96);clip-path:var(--cut7);padding:7px 10px;font:12px/1.5 var(--sans);color:var(--text);white-space:nowrap;z-index:5}
+.chart .tip .t{font:600 9.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);margin-bottom:3px}
+.chart .tip .r{display:flex;align-items:center;gap:7px}
+.chart .tip .r i{width:8px;height:8px;border-radius:50%;flex:none}
+.chart .tip .r b{margin-left:auto;font-weight:600;font-variant-numeric:tabular-nums;padding-left:10px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:0 0 8px;font:500 9.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:14px;height:2px;border-radius:1px;display:inline-block}
+.legend i.dash{background:repeating-linear-gradient(90deg,currentColor 0 4px,transparent 4px 7px)}
+.selwrap{position:relative;display:inline-flex}
+select.chip{appearance:none;-webkit-appearance:none;padding-right:26px;max-width:min(60vw,420px);overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+select.chip option{background:#0b1922;color:var(--text);text-transform:none;letter-spacing:0;font:13px var(--sans)}
+.selwrap .arr{position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--text-faint);font-size:10px}
+.trend.up{color:var(--st-listening)}.trend.down{color:var(--st-error)}
+.scrolltable{max-height:340px;overflow:auto;border:1px solid var(--line);scrollbar-color:rgba(160,240,255,.25) transparent;scrollbar-width:thin}
+.scrolltable thead th{position:sticky;top:0;background:#071118;z-index:1}
 
 /* results */
 .bigscore{text-align:center;padding:8px 0 4px}
@@ -262,6 +287,7 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
   <div class="startrow">
     <button class="chip gold big" id="startBtn">Start <kbd>↵</kbd></button>
     <span class="spacer"></span>
+    <button class="chip" id="progressBtn">Progress</button>
     <button class="chip" id="shareBtn" title="Copy a link that opens these exact settings">Copy settings link</button>
   </div>
   <div class="err" id="setupErr"></div>
@@ -305,6 +331,23 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
   <div class="panel"><div class="cap">By operation</div><table id="rOps"></table></div>
   <div class="panel"><div class="cap">Slowest problems</div><table id="rSlow"></table></div>
   <div class="panel"><div class="cap">Progress with these settings</div><div id="rHist"></div></div>
+</section>
+
+<!-- ============ PROGRESS ============ -->
+<section id="progress" class="screen">
+  <div class="row" style="justify-content:space-between;margin-bottom:14px;gap:10px">
+    <div class="row" style="gap:6px">
+      <button class="chip" id="pBack">Settings <kbd>Esc</kbd></button>
+      <span class="selwrap"><select class="chip" id="pKey" aria-label="Which settings to show"></select><span class="arr">▾</span></span>
+    </div>
+    <div class="row" id="pRange" style="gap:6px" aria-label="Range">
+      <button class="chip" data-range="10">Last 10</button>
+      <button class="chip" data-range="30">Last 30</button>
+      <button class="chip" data-range="100">Last 100</button>
+      <button class="chip" data-range="0">All</button>
+    </div>
+  </div>
+  <div id="pBody"></div>
 </section>
 
 </main>
@@ -461,23 +504,18 @@ function bestFor(key, mode, list) {
   return best;
 }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function scoreFmt(mode) { return v => mode === 'sprint' ? fmtClock(v) : String(Math.round(v * 10) / 10); }
+function rolling(vals, w) { return vals.map((_, i) => { const a = vals.slice(Math.max(0, i - w + 1), i + 1); return a.reduce((x, y) => x + y, 0) / a.length; }); }
 function renderHistory(el, s, currentTs) {
   const key = settingsKey(s);
   const runs = hist.filter(h => h.key === key);
   if (!runs.length) { el.innerHTML = `<p class="muted small">No runs yet with <span class="num">${esc(describe(s))}</span>. Results will collect here.</p>`; return; }
+  const fmtScore = scoreFmt(s.mode);
   const scores = runs.map(r => r.score);
   const best = s.mode === 'sprint' ? Math.min(...scores) : Math.max(...scores);
   const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
   const last10 = runs.slice(-10);
   const avg10 = last10.reduce((a, r) => a + r.score, 0) / last10.length;
-  const fmtScore = v => s.mode === 'sprint' ? fmtClock(v) : String(Math.round(v * 10) / 10);
-  const pts = runs.slice(-40);
-  const w = 600, h = 56, pad = 6;
-  const lo = Math.min(...pts.map(p => p.score)), hi = Math.max(...pts.map(p => p.score));
-  const x = i => pts.length === 1 ? w / 2 : pad + i * (w - 2 * pad) / (pts.length - 1);
-  const y = v => hi === lo ? h / 2 : (s.mode === 'sprint' ? pad + (v - lo) / (hi - lo) * (h - 2 * pad) : h - pad - (v - lo) / (hi - lo) * (h - 2 * pad));
-  const poly = pts.map((p, i) => `${x(i).toFixed(1)},${y(p.score).toFixed(1)}`).join(' ');
-  const dots = pts.map((p, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(p.score).toFixed(1)}" r="${p.ts === currentTs ? 4 : 2.5}" class="${p.score === best ? 'best' : ''} ${p.ts === currentTs ? 'cur' : ''}"><title>${fmtScore(p.score)} · ${new Date(p.ts).toLocaleString()}</title></circle>`).join('');
   const rows = runs.slice(-8).reverse().map(r => `<tr><td class="${r.ts === currentTs ? 'cur' : ''}">${new Date(r.ts).toLocaleString([], {dateStyle:'medium', timeStyle:'short'})}</td><td class="r num">${fmtScore(r.score)}</td><td class="r num muted">${r.avgMs ? fmtS(r.avgMs) : ''}</td><td class="r num muted">${r.mistakes ?? ''}</td></tr>`).join('');
   el.innerHTML = `
     <div class="stats" style="margin-bottom:12px">
@@ -486,14 +524,175 @@ function renderHistory(el, s, currentTs) {
       <div class="stat"><div class="v num">${fmtScore(avg)}</div><div class="l">all‑time avg</div></div>
       <div class="stat"><div class="v num">${runs.length}</div><div class="l">runs</div></div>
     </div>
-    <svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${poly}"/>${dots}</svg>
-    <table class="hist"><thead><tr><th>When</th><th class="r">Score</th><th class="r">Avg / problem</th><th class="r">Mistakes</th></tr></thead><tbody>${rows}</tbody></table>
-    <div class="row" style="margin-top:12px;justify-content:flex-end"><button class="chip" data-clear="1">Clear history for these settings</button></div>`;
+    <div data-chart></div>
+    <table class="hist" style="margin-top:8px"><thead><tr><th>When</th><th class="r">Score</th><th class="r">Avg / problem</th><th class="r">Mistakes</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="row" style="margin-top:12px;justify-content:flex-end;gap:6px"><button class="chip" data-clear="1">Clear history for these settings</button><button class="chip gold" data-progress="1">Full progress</button></div>`;
+  scoreChart(el.querySelector('[data-chart]'), runs.slice(-40), s.mode, { height: 170, currentTs });
+  el.querySelector('[data-progress]').onclick = () => openProgress(key);
   el.querySelector('[data-clear]').onclick = () => {
     if (!confirm('Delete all saved runs for these settings?')) return;
     hist = hist.filter(h => h.key !== key); save(LS.history, hist); renderHistory(el, s, null);
   };
 }
+
+// ---------- charts: thin marks, one axis, crosshair tooltip ----------
+const OPCOLOR = { add: '#c4830f', sub: '#1fa3c9', mul: '#8f6fe6', div: '#2aa860' }; // validated categorical set for the dark surface
+const CH = {
+  date: ts => new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric' }),
+  when: ts => new Date(ts).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }),
+  ticks(lo, hi, n) {
+    if (hi === lo) hi = lo + 1;
+    const raw = (hi - lo) / n, mag = Math.pow(10, Math.floor(Math.log10(raw))), norm = raw / mag;
+    const step = (norm < 1.5 ? 1 : norm < 3 ? 2 : norm < 7 ? 5 : 10) * mag;
+    const out = []; for (let v = Math.floor(lo / step) * step; v <= hi + step * 0.5; v += step) out.push(+v.toFixed(10));
+    return out;
+  },
+};
+// o: { xs:[ts], series:[{name,color,values,dashed}], yFmt, height, yZero, bars, hline:{y,label}, cur:index, endLabels }
+function lineChart(el, o) {
+  el.classList.add('chart');
+  const draw = () => {
+    const W = Math.max(240, el.clientWidth || 600), H = o.height || 220, n = o.xs.length;
+    const vals = o.series.flatMap(sr => sr.values).filter(v => v != null).concat(o.hline ? [o.hline.y] : []);
+    let lo = o.yZero ? 0 : Math.min(...vals), hi = Math.max(...vals);
+    if (!Number.isFinite(lo)) { lo = 0; hi = 1; }
+    if (hi === lo) { lo = o.yZero ? 0 : lo - 1; hi = hi + 1; }
+    const ticks = CH.ticks(lo, hi, 4); lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]);
+    const yl = ticks.map(o.yFmt);
+    const padL = 10 + Math.max(...yl.map(t => t.length)) * 6.2, padT = 12, padB = 22;
+    const padR = o.endLabels && o.series.length > 1 ? 12 + Math.max(...o.series.map(sr => sr.name.length)) * 6.4 : 10;
+    const pw = W - padL - padR, ph = H - padT - padB;
+    const x = i => padL + (n === 1 ? pw / 2 : i * pw / (n - 1));
+    const y = v => padT + ph * (1 - (v - lo) / (hi - lo));
+    const step = n > 1 ? pw / (n - 1) : pw;
+    let g = '';
+    for (const t of ticks) g += `<line class="grid" x1="${padL}" x2="${W - padR}" y1="${y(t).toFixed(1)}" y2="${y(t).toFixed(1)}"/><text class="ax" x="${padL - 6}" y="${(y(t) + 3).toFixed(1)}" text-anchor="end">${o.yFmt(t)}</text>`;
+    const every = Math.max(1, Math.ceil(n / Math.max(2, Math.floor(pw / 70)))); let lastLab = '';
+    for (let i = 0; i < n; i += every) { const lab = CH.date(o.xs[i]); if (lab === lastLab) continue; lastLab = lab; g += `<text class="ax" x="${x(i).toFixed(1)}" y="${H - 6}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">${lab}</text>`; }
+    if (o.hline) g += `<line class="hl" x1="${padL}" x2="${W - padR}" y1="${y(o.hline.y).toFixed(1)}" y2="${y(o.hline.y).toFixed(1)}"/><text class="hlt" x="${W - padR}" y="${(y(o.hline.y) - 4).toFixed(1)}" text-anchor="end">${o.hline.label}</text>`;
+    const showMk = n <= 60;
+    o.series.forEach(sr => {
+      if (o.bars) {
+        const bw = Math.max(2, Math.min(18, step - 2)), y0 = y(lo);
+        sr.values.forEach((v, i) => { if (v == null) return; const top = y(v), h = Math.max(0, y0 - top); g += `<rect x="${(x(i) - bw / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" fill="${sr.color}"><title>${CH.when(o.xs[i])}: ${o.yFmt(v)}</title></rect>`; });
+        return;
+      }
+      let d = '', pen = false;
+      sr.values.forEach((v, i) => { if (v == null) { pen = false; return; } d += `${pen ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`; pen = true; });
+      g += `<path class="ln" d="${d}" stroke="${sr.color}"${sr.dashed ? ' stroke-dasharray="4 4"' : ''}/>`;
+      if (showMk && !sr.dashed) sr.values.forEach((v, i) => { if (v != null) g += `<circle class="mk" cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="3" fill="${sr.color}"/>`; });
+    });
+    if (o.endLabels && o.series.length > 1) {
+      const labs = o.series.map(sr => { let i = sr.values.length - 1; while (i >= 0 && sr.values[i] == null) i--; return i < 0 ? null : { name: sr.name, y: y(sr.values[i]) }; }).filter(Boolean).sort((a, b) => a.y - b.y);
+      for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 11) labs[i].y = labs[i - 1].y + 11;
+      labs.forEach(l => g += `<text class="endl" x="${W - padR + 6}" y="${(l.y + 3).toFixed(1)}">${l.name}</text>`);
+    }
+    if (o.cur != null && o.cur >= 0) { const v = o.series[0].values[o.cur]; if (v != null) g += `<circle class="cur" cx="${x(o.cur).toFixed(1)}" cy="${y(v).toFixed(1)}" r="6.5"/>`; }
+    g += `<g class="hov" style="display:none"><line class="xh" y1="${padT}" y2="${padT + ph}"/>${o.series.map(sr => `<circle r="4.5" fill="${sr.color}" class="mk"/>`).join('')}</g>`;
+    g += `<rect class="hit" x="${padL}" y="${padT}" width="${pw}" height="${ph}"/>`;
+    el.innerHTML = `<svg width="100%" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.label || ''}">${g}</svg><div class="tip" hidden></div>`;
+    const svg = el.firstChild, hov = svg.querySelector('.hov'), xh = hov.querySelector('line'), dots = hov.querySelectorAll('circle'), tip = el.querySelector('.tip');
+    const move = clientX => {
+      const r = svg.getBoundingClientRect(); const mx = (clientX - r.left) * W / r.width;
+      const i = Math.max(0, Math.min(n - 1, Math.round((mx - padL) / step)));
+      hov.style.display = ''; xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i));
+      o.series.forEach((sr, k) => { const v = sr.values[i]; dots[k].style.display = v == null ? 'none' : ''; if (v != null) { dots[k].setAttribute('cx', x(i)); dots[k].setAttribute('cy', y(v)); } });
+      tip.innerHTML = `<div class="t">${o.tipTitle ? o.tipTitle(i) : CH.when(o.xs[i])}</div>` + o.series.map(sr => sr.values[i] == null ? '' : `<div class="r"><i style="background:${sr.color}"></i>${sr.name}<b>${(sr.fmt || o.yFmt)(sr.values[i])}</b></div>`).join('');
+      tip.hidden = false;
+      const px = x(i) * r.width / W; tip.style.left = ''; tip.style.right = '';
+      if (px > r.width * 0.62) tip.style.right = (r.width - px + 12) + 'px'; else tip.style.left = (px + 12) + 'px';
+    };
+    const hit = svg.querySelector('.hit');
+    hit.addEventListener('mousemove', e => move(e.clientX));
+    hit.addEventListener('touchstart', e => move(e.touches[0].clientX), { passive: true });
+    hit.addEventListener('touchmove', e => move(e.touches[0].clientX), { passive: true });
+    const leave = () => { hov.style.display = 'none'; tip.hidden = true; };
+    hit.addEventListener('mouseleave', leave); hit.addEventListener('touchend', leave);
+  };
+  el._draw = draw; draw();
+  if (!el._ro) { el._ro = new ResizeObserver(() => el._draw && el._draw()); el._ro.observe(el); }
+}
+function legend(series) { return `<div class="legend">${series.map(sr => `<span><i class="${sr.dashed ? 'dash' : ''}" style="background:${sr.dashed ? '' : sr.color};color:${sr.color}"></i>${sr.name}</span>`).join('')}</div>`; }
+function scoreChart(el, runs, mode, opts = {}) {
+  const sprint = mode === 'sprint', fmt = scoreFmt(mode);
+  const scores = runs.map(r => r.score);
+  const best = sprint ? Math.min(...scores) : Math.max(...scores);
+  const series = [{ name: sprint ? 'time' : 'score', color: '#1fa3c9', values: scores }];
+  if (runs.length >= 3) series.push({ name: '5‑run avg', color: '#c4830f', values: rolling(scores, 5), dashed: true });
+  el.innerHTML = legend(series) + '<div></div>';
+  lineChart(el.lastChild, { xs: runs.map(r => r.ts), series, yFmt: fmt, height: opts.height || 220, yZero: !sprint, hline: { y: best, label: 'best ' + fmt(best) }, cur: opts.currentTs ? runs.findIndex(r => r.ts === opts.currentTs) : -1, label: sprint ? 'Time per sprint' : 'Score per run' });
+}
+
+// ---------- progress screen ----------
+const P = { key: null, range: load('zm.prange', 30) };
+function descFor(key) { for (let i = hist.length - 1; i >= 0; i--) if (hist[i].key === key && hist[i].desc) return hist[i].desc; return key; }
+function openProgress(key) {
+  const keys = []; for (let i = hist.length - 1; i >= 0; i--) if (!keys.includes(hist[i].key)) keys.push(hist[i].key);
+  if (!keys.length) { toast('No runs saved yet'); return; }
+  P.key = keys.includes(key) ? key : keys[0];
+  const sel = $('#pKey');
+  sel.innerHTML = keys.map(k => `<option value="${esc(k)}">${esc(descFor(k))} · ${hist.filter(h => h.key === k).length} runs</option>`).join('');
+  sel.value = P.key;
+  setState('idle'); show('progress'); renderProgress(); window.scrollTo(0, 0);
+}
+function renderProgress() {
+  $$('#pRange button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.range === P.range)));
+  const all = hist.filter(h => h.key === P.key);
+  const runs = P.range ? all.slice(-P.range) : all;
+  const body = $('#pBody');
+  if (!runs.length) { body.innerHTML = '<p class="muted small">Nothing here.</p>'; return; }
+  const mode = runs[runs.length - 1].mode, sprint = mode === 'sprint', fmt = scoreFmt(mode);
+  const scores = runs.map(r => r.score);
+  const best = sprint ? Math.min(...scores) : Math.max(...scores);
+  const mean = a => a.reduce((x, y) => x + y, 0) / a.length;
+  const k = Math.min(10, Math.floor(runs.length / 2));
+  let trend = '';
+  if (k >= 2) {
+    const last = mean(scores.slice(-k)), prev = mean(scores.slice(-2 * k, -k)), d = last - prev;
+    const good = sprint ? d < 0 : d > 0;
+    trend = `<div class="stat"><div class="v num trend ${d === 0 ? '' : good ? 'up' : 'down'}">${d === 0 ? '±0' : (d > 0 ? '+' : '−') + (sprint ? fmtClock(Math.abs(d)) : (Math.round(Math.abs(d) * 10) / 10))}</div><div class="l">last ${k} vs previous ${k}</div></div>`;
+  }
+  const withN = runs.filter(r => r.n > 0), withOps = runs.filter(r => r.byOp && r.n > 0);
+  body.innerHTML = `
+    <div class="stats" style="margin-bottom:14px">
+      <div class="stat"><div class="v num">${runs.length}</div><div class="l">runs shown</div></div>
+      <div class="stat"><div class="v num" style="color:var(--gold)">${fmt(best)}</div><div class="l">best</div></div>
+      <div class="stat"><div class="v num">${fmt(mean(scores.slice(-10)))}</div><div class="l">avg of last ${Math.min(10, runs.length)}</div></div>
+      ${trend}
+      <div class="stat"><div class="v num">${withN.length ? fmtS(mean(withN.map(r => r.avgMs))) : '—'}</div><div class="l">avg / problem</div></div>
+      <div class="stat"><div class="v num">${runs.reduce((a, r) => a + (r.mistakes || 0), 0)}</div><div class="l">mistakes</div></div>
+    </div>
+    <div class="panel"><div class="cap">${sprint ? 'Time per sprint' : 'Score per run'}</div><div id="pc1"></div></div>
+    <div class="panel"><div class="cap">Seconds per problem</div><div id="pc2"></div></div>
+    <div class="panel"><div class="cap">Seconds per problem, by operation</div><div id="pc3"></div></div>
+    <div class="panel"><div class="cap">Mistakes per run</div><div id="pc4"></div></div>
+    <div class="panel"><div class="cap">Every run</div><div class="scrolltable"><table class="hist"><thead><tr><th>#</th><th>When</th><th class="r">${sprint ? 'Time' : 'Score'}</th><th class="r">Solved</th><th class="r">Avg / problem</th><th class="r">Mistakes</th></tr></thead><tbody>${runs.map((r, i) => `<tr><td class="muted num">${all.length - runs.length + i + 1}</td><td>${CH.when(r.ts)}</td><td class="r num ${r.score === best ? 'cur' : ''}">${fmt(r.score)}</td><td class="r num muted">${r.n ?? ''}</td><td class="r num muted">${r.avgMs ? fmtS(r.avgMs) : ''}</td><td class="r num muted">${r.mistakes ?? ''}</td></tr>`).reverse().join('')}</tbody></table></div>
+      <div class="row" style="margin-top:12px;justify-content:flex-end"><button class="chip" id="pClear">Clear history for these settings</button></div></div>`;
+  scoreChart($('#pc1'), runs, mode, { height: 240 });
+  if (withN.length >= 2) {
+    const sec = withN.map(r => r.avgMs / 1000);
+    const series = [{ name: 'avg seconds', color: '#1fa3c9', values: sec }];
+    if (withN.length >= 3) series.push({ name: '5‑run avg', color: '#c4830f', values: rolling(sec, 5), dashed: true });
+    $('#pc2').innerHTML = legend(series) + '<div></div>';
+    lineChart($('#pc2').lastChild, { xs: withN.map(r => r.ts), series, yFmt: v => v.toFixed(2) + 's', height: 200, yZero: true, label: 'Seconds per problem' });
+  } else $('#pc2').innerHTML = '<p class="muted small">Needs at least two runs with solved problems.</p>';
+  if (withOps.length >= 2) {
+    const series = ['add', 'sub', 'mul', 'div'].filter(op => withOps.some(r => r.byOp[op])).map(op => ({ name: OPNAME[op].toLowerCase(), color: OPCOLOR[op], values: withOps.map(r => r.byOp[op] && r.byOp[op].n ? r.byOp[op].ms / r.byOp[op].n / 1000 : null) }));
+    $('#pc3').innerHTML = legend(series) + '<div></div>';
+    lineChart($('#pc3').lastChild, { xs: withOps.map(r => r.ts), series, yFmt: v => v.toFixed(2) + 's', height: 240, yZero: true, endLabels: true, label: 'Seconds per problem by operation' });
+  } else $('#pc3').innerHTML = '<p class="muted small">Per‑operation timing is recorded for runs from now on. Play two more runs to see this chart.</p>';
+  $('#pc4').innerHTML = '<div></div>';
+  lineChart($('#pc4').lastChild, { xs: runs.map(r => r.ts), series: [{ name: 'mistakes', color: '#1fa3c9', values: runs.map(r => r.mistakes || 0) }], yFmt: v => String(Math.round(v)), height: 150, yZero: true, bars: true, label: 'Mistakes per run' });
+  $('#pClear').onclick = () => {
+    if (!confirm('Delete all saved runs for these settings?')) return;
+    hist = hist.filter(h => h.key !== P.key); save(LS.history, hist);
+    if (hist.length) openProgress(null); else { show('setup'); settingsToForm(settings); }
+  };
+}
+$('#progressBtn').onclick = () => openProgress(settingsKey(settings));
+$('#pBack').onclick = () => { show('setup'); settingsToForm(settings); };
+$('#pKey').onchange = e => { P.key = e.target.value; renderProgress(); };
+$('#pRange').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; P.range = +b.dataset.range; save('zm.prange', P.range); renderProgress(); });
 
 // ---------- problem generation ----------
 const rint = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
@@ -623,7 +822,9 @@ function finish() {
   const avgMs = n ? g.problems.reduce((a, p) => a + p.ms, 0) / n : 0;
   const prevBest = bestFor(g.key, g.s.mode, hist);
   const isPb = n > 0 && (prevBest === null || better(g.s.mode, score, prevBest));
-  const entry = { ts: Date.now(), key: g.key, mode: g.s.mode, score, n, elapsed: Math.round(elapsed), avgMs: Math.round(avgMs), mistakes: g.mistakes };
+  const byOp = {};
+  for (const p of g.problems) { (byOp[p.op] ||= { n: 0, ms: 0, mist: 0 }); byOp[p.op].n++; byOp[p.op].ms += Math.round(p.ms); byOp[p.op].mist += p.mistake ? 1 : 0; }
+  const entry = { ts: Date.now(), key: g.key, desc: describe(g.s), mode: g.s.mode, score, n, elapsed: Math.round(elapsed), avgMs: Math.round(avgMs), mistakes: g.mistakes, byOp };
   hist.push(entry); if (hist.length > 2000) hist = hist.slice(-2000); save(LS.history, hist);
   renderResults(g, entry, isPb, prevBest);
   setState('speaking');
@@ -669,7 +870,7 @@ document.addEventListener('keydown', e => {
   const active = $('.screen.active').id;
   if (e.key === 'Escape') {
     if (active === 'play') { e.preventDefault(); abort(); }
-    else if (active === 'results') { e.preventDefault(); setState('idle'); show('setup'); settingsToForm(settings); }
+    else if (active === 'results' || active === 'progress') { e.preventDefault(); setState('idle'); show('setup'); settingsToForm(settings); }
     return;
   }
   if (isEnter(e) && !e.isComposing) {
