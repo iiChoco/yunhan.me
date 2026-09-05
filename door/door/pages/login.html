@@ -69,7 +69,8 @@ function safeNext() {
   try {
     const u = new URL(raw, location.href);
     const h = u.hostname;
-    const ok = (u.protocol === 'https:' && (h === site || h.endsWith('.' + site))) || (u.protocol === 'http:' && h === 'localhost');
+    const inSite = h === site || h.endsWith('.' + site);
+    const ok = (u.protocol === 'https:' && inSite) || (u.protocol === 'http:' && inSite && (site === 'localhost'));
     return ok ? u.href : null;
   } catch { return null; }
 }
