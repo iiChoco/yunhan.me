@@ -1,0 +1,695 @@
+<!doctype html>
+<!-- Zetamac, dressed as the Instrument: cyan is structure, gold is voice.
+     The problem is the instrument speaking (serif against a gold hairline);
+     your answer is cut-corner cyan glass. One self-contained file. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zetamac · math.yunhan.me</title>
+<meta name="description" content="A friendlier arithmetic speed drill in the style of Zetamac: presets, sprint mode, history, personal bests, per-problem stats, and shareable settings.">
+<meta name="theme-color" content="#030608">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='58' fill='none' stroke='%23e8c98a' stroke-opacity='.5' stroke-width='7' stroke-dasharray='4 12'/%3E%3Ccircle cx='64' cy='64' r='34' fill='none' stroke='%23a0f0ff' stroke-opacity='.7' stroke-width='7'/%3E%3Ccircle cx='64' cy='64' r='12' fill='%23e8c98a'/%3E%3C/svg%3E">
+<style>
+:root{
+  /* cyan is structure */
+  --line:rgba(140,240,255,.14);--line-strong:rgba(140,240,255,.22);--glass-border:rgba(160,240,255,.28);
+  --text:#dfe6e6;--text-dim:rgba(223,230,230,.65);--text-faint:rgba(223,230,230,.34);
+  /* gold is voice and anything that wants you */
+  --gold:#e8c98a;--gold-dim:rgba(232,201,138,.45);--gold-line:rgba(232,201,138,.16);
+  --cyan:#a0f0ff;
+  --serif:Georgia,"Times New Roman",serif;--mono:ui-monospace,Menlo,Consolas,monospace;
+  --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif;
+  --st-idle:#8fa8b3;--st-listening:#7adea8;--st-thinking:#e8c98a;--st-reasoning:#b89be8;--st-speaking:#a0f0ff;--st-error:#e88a8a;
+  --cut6:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  --cut7:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));
+  --cut8:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+  --cut10:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  --cut12:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+html{min-height:100%}
+body{min-height:100dvh;display:flex;flex-direction:column;background:radial-gradient(120% 85% at 50% -10%,#0b1922 0%,#050c11 55%,#030608 100%) #030608;color:var(--text);font:14.5px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+button{font:inherit;background:none;border:none;color:inherit;cursor:pointer;padding:0}
+input{font:inherit;color:inherit}
+:focus-visible{outline:1px solid rgba(160,240,255,.55);outline-offset:2px}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline;text-decoration-color:var(--gold-dim)}
+.num{font-variant-numeric:tabular-nums}
+@keyframes br{0%,100%{opacity:.45;transform:scale(.88)}50%{opacity:1;transform:scale(1.08)}}
+@keyframes ha{0%,100%{opacity:.5}50%{opacity:.95}}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+
+/* the projection */
+#scan{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.3;background:repeating-linear-gradient(180deg,rgba(160,240,255,.05) 0 1px,transparent 1px 3px)}
+.corner{position:fixed;z-index:51;width:13px;height:13px;pointer-events:none}
+.corner.tl{top:10px;left:10px;border-left:1px solid rgba(232,201,138,.6);border-top:1px solid rgba(232,201,138,.6)}
+.corner.tr{top:10px;right:10px;border-right:1px solid rgba(232,201,138,.6);border-top:1px solid rgba(232,201,138,.6)}
+.corner.bl{bottom:10px;left:10px;border-left:1px solid rgba(232,201,138,.35);border-bottom:1px solid rgba(232,201,138,.35)}
+.corner.br{bottom:10px;right:10px;border-right:1px solid rgba(232,201,138,.35);border-bottom:1px solid rgba(232,201,138,.35)}
+
+/* chips: the one shape */
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--line-strong);clip-path:var(--cut8);font:600 10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);white-space:nowrap;background:rgba(160,240,255,.025)}
+button.chip:hover{border-color:rgba(140,240,255,.45);color:var(--text)}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:var(--st-idle);flex:none}
+.chip[aria-pressed="true"]{background:rgba(160,240,255,.12);border-color:rgba(160,240,255,.6);color:#c7f4fd}
+.chip.gold{border-color:rgba(232,201,138,.5);color:var(--gold);background:rgba(232,201,138,.08)}
+button.chip.gold:hover{border-color:rgba(232,201,138,.8);background:rgba(232,201,138,.14);color:#f0dbaf}
+.chip.big{font-size:12px;padding:13px 24px;letter-spacing:.24em;clip-path:var(--cut10)}
+.chip kbd{font:inherit;letter-spacing:.1em;opacity:.55}
+kbd{font:500 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);border:1px solid var(--line-strong);padding:2px 6px 1px;clip-path:var(--cut6)}
+
+/* state chip: color is the message */
+#state{padding:6px 13px 6px 10px;letter-spacing:.22em;background:rgba(143,168,179,.1);border-color:rgba(143,168,179,.42);color:#b6c6cd}
+body[data-state="thinking"] #state{background:rgba(232,201,138,.12);border-color:rgba(232,201,138,.55);color:#f0dbaf}
+body[data-state="thinking"] #state .dot{background:var(--st-thinking);box-shadow:0 0 9px var(--st-thinking);animation:br 3.4s ease-in-out infinite}
+body[data-state="listening"] #state{background:rgba(122,222,168,.1);border-color:rgba(122,222,168,.5);color:#a6ecc7}
+body[data-state="listening"] #state .dot{background:var(--st-listening);box-shadow:0 0 9px var(--st-listening);animation:br 3.4s ease-in-out infinite}
+body[data-state="speaking"] #state{background:rgba(160,240,255,.12);border-color:rgba(160,240,255,.6);color:#c7f4fd}
+body[data-state="speaking"] #state .dot{background:var(--st-speaking);box-shadow:0 0 9px var(--st-speaking);animation:br 1.6s ease-in-out infinite}
+
+header{display:flex;align-items:center;gap:14px;padding:14px 28px;border-bottom:1px solid var(--line);flex:none}
+.brand{display:flex;align-items:center;gap:12px}
+.brand a{color:inherit;text-decoration:none}
+.wordmark{font:400 18px/1 var(--serif);letter-spacing:.24em;color:#f3efe6;text-transform:uppercase}
+.aperture .c-outer{stroke:rgba(232,201,138,.35)}.aperture .c-mid{stroke:rgba(160,240,255,.5)}.aperture .c-core{fill:rgba(232,201,138,.85)}
+body[data-state="thinking"] .aperture,body[data-state="listening"] .aperture{animation:ha 4s ease-in-out infinite}
+body[data-state="listening"] .aperture .c-core{fill:var(--gold)}
+.spacer{flex:1}
+.crumb{font:500 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint)}
+
+main{flex:1;width:100%;max-width:820px;margin:0 auto;padding:22px 28px 40px}
+@media (max-width:600px){header{padding:12px 18px}main{padding:16px 18px 32px}}
+.screen{display:none}.screen.active{display:block}
+
+/* panels */
+.panel{border:1px solid var(--line);clip-path:var(--cut12);background:linear-gradient(180deg,rgba(160,240,255,.035),rgba(160,240,255,.012));padding:16px 18px 18px}
+.panel+.panel{margin-top:14px}
+.cap{font:600 10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:rgba(160,214,235,.55);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.cap::after{content:"";flex:1;height:1px;background:var(--line)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.muted{color:var(--text-dim)}.faint{color:var(--text-faint)}.small{font-size:13px}
+.mono{font:500 10px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+
+/* operations */
+.ops{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:600px){.ops{grid-template-columns:1fr}}
+.op{border:1px solid var(--line);clip-path:var(--cut8);padding:11px 13px;background:rgba(3,6,8,.35)}
+.op label.head{display:flex;align-items:center;gap:10px;cursor:pointer;font:600 10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text)}
+input[type=checkbox]{width:14px;height:14px;accent-color:var(--cyan);margin:0;cursor:pointer}
+.op .ranges{margin-top:10px;display:grid;gap:6px}
+.op .ranges .r{display:flex;align-items:center;gap:6px;font:500 9.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+.op .ranges .r span.sym{width:12px;text-align:center;color:var(--text-faint)}
+.op .ranges .note{font:13px/1.5 var(--sans);letter-spacing:0;text-transform:none;color:var(--text-dim)}
+.op.off .ranges{opacity:.35;pointer-events:none}
+input[type=number],input[type=text].n{width:74px;padding:6px 8px;border:1px solid var(--line-strong);clip-path:var(--cut6);background:rgba(160,240,255,.05);text-align:center;font:500 13px/1 var(--mono);font-variant-numeric:tabular-nums;color:#eaf9fb}
+input[type=number]:focus{outline:1px solid rgba(160,240,255,.55);outline-offset:0;border-color:rgba(160,240,255,.5)}
+input[type=number]::-webkit-inner-spin-button{opacity:.35}
+.lbl{font:500 9.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);width:76px}
+.opts{display:grid;gap:10px}
+.opts label{display:flex;align-items:center;gap:10px;cursor:pointer;color:var(--text-dim)}
+.opts label:hover{color:var(--text)}
+.startrow{display:flex;align-items:center;gap:16px;margin:20px 0 6px;flex-wrap:wrap}
+.err{color:var(--st-error);font-size:13px;min-height:1.3em;margin-top:8px}
+
+/* stats & tables */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px}
+.stat{border:1px solid var(--line);clip-path:var(--cut7);padding:10px 12px;background:rgba(3,6,8,.35)}
+.stat .v{font:400 24px/1.15 var(--serif);color:#f7f2e7;letter-spacing:-.01em}
+.stat .l{font:500 9.5px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);margin-top:3px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{font:600 9.5px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:rgba(160,214,235,.55)}
+td.r,th.r{text-align:right}
+tr:last-child td{border-bottom:0}
+.hist td.cur{color:var(--cyan)}
+.spark{width:100%;height:56px;display:block;margin:2px 0 8px}
+.spark polyline{fill:none;stroke:rgba(160,240,255,.7);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
+.spark circle{fill:var(--cyan)}
+.spark circle.best{fill:var(--gold)}
+.spark circle.cur{stroke:#fff;stroke-width:1}
+
+/* play: the instrument speaks, you answer */
+#play{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:62dvh;position:relative}
+#play.active{display:flex}
+.hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center}
+.hud .chip b{font:600 14px/1 var(--mono);letter-spacing:.06em;color:var(--text)}
+.hud .chip.low{border-color:rgba(232,201,138,.55);background:rgba(232,201,138,.12);color:#f0dbaf}
+.hud .chip.low b{color:var(--gold)}
+.bar{position:absolute;top:44px;left:0;right:0;height:1px;background:var(--line)}
+.bar i{display:block;height:100%;background:rgba(160,240,255,.75);width:100%;transition:width .12s linear;box-shadow:0 0 6px rgba(160,240,255,.5)}
+.bar i.low{background:var(--gold);box-shadow:0 0 6px var(--gold-dim)}
+.problem{display:flex;align-items:center;gap:22px;margin-top:14px;flex-wrap:wrap;justify-content:center}
+.problem .q{font:400 clamp(38px,8vw,68px)/1.1 var(--serif);color:#f7f2e7;padding-left:22px;border-left:1px solid rgba(232,201,138,.5);white-space:nowrap;letter-spacing:.01em}
+.problem input{font:400 clamp(38px,8vw,68px)/1.1 var(--sans);width:3.2ch;min-width:3.2ch;padding:2px 14px;border:1px solid var(--glass-border);clip-path:var(--cut10);background:linear-gradient(180deg,rgba(160,240,255,.13),rgba(160,240,255,.04));color:#eaf9fb;caret-color:var(--cyan);font-variant-numeric:tabular-nums}
+.problem input:focus{outline:0;border-color:rgba(160,240,255,.6)}
+.problem input.wrong{border-color:var(--st-error);background:linear-gradient(180deg,rgba(232,138,138,.14),rgba(232,138,138,.04));animation:shake .18s}
+.countdown{font:400 110px/1 var(--serif);color:var(--gold);letter-spacing:-.02em;animation:ha 1s ease-in-out infinite}
+.playhint{position:absolute;bottom:0;display:flex;gap:14px;align-items:center;color:var(--text-faint);font:500 9.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
+
+/* results */
+.bigscore{text-align:center;padding:8px 0 4px}
+.bigscore .v{font:400 76px/1 var(--serif);color:#f7f2e7;letter-spacing:-.02em}
+.bigscore .l{color:var(--text-dim);margin-top:8px;font-size:13px}
+.bigscore .pbwrap{margin-top:12px;min-height:26px}
+.rbtns{display:flex;gap:10px;justify-content:center;margin:18px 0 2px;flex-wrap:wrap}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:60;border:1px solid rgba(232,201,138,.5);background:rgba(11,25,34,.96);color:#f0dbaf;padding:8px 14px;clip-path:var(--cut8);font:600 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line);font:500 9.5px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+</style>
+</head>
+<body data-state="idle">
+<div id="scan"></div>
+<div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+
+<header>
+  <div class="brand">
+    <a href="/" title="math.yunhan.me" style="display:flex;align-items:center;gap:12px">
+      <svg class="aperture" width="26" height="26" viewBox="0 0 128 128" aria-hidden="true">
+        <circle class="c-outer" cx="64" cy="64" r="58" fill="none" stroke-width="5" stroke-dasharray="4 12"/>
+        <circle class="c-mid" cx="64" cy="64" r="34" fill="none" stroke-width="5"/>
+        <circle class="c-core" cx="64" cy="64" r="10"/>
+      </svg>
+      <span class="wordmark">Math</span>
+    </a>
+    <span class="crumb">/ zetamac</span>
+  </div>
+  <span class="spacer"></span>
+  <span class="chip" id="state"><span class="dot"></span><span id="statelabel">idle</span></span>
+</header>
+<main>
+
+<!-- ============ SETUP ============ -->
+<section id="setup" class="screen active">
+  <div class="panel">
+    <div class="cap">Presets</div>
+    <div class="row" id="presets">
+      <button class="chip" data-preset="zetamac">Zetamac default</button>
+      <button class="chip" data-preset="easy">Easy</button>
+      <button class="chip" data-preset="hard">Hard</button>
+      <button class="chip" data-preset="mulonly">Multiplication only</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="cap">Operations</div>
+    <div class="ops">
+      <div class="op" id="op-add">
+        <label class="head"><input type="checkbox" id="add-on"> Addition</label>
+        <div class="ranges">
+          <div class="r"><span>First number</span></div>
+          <div class="r"><input type="number" id="add-a1" min="0" max="99999"><span class="sym">–</span><input type="number" id="add-a2" min="0" max="99999"></div>
+          <div class="r"><span>Second number</span></div>
+          <div class="r"><input type="number" id="add-b1" min="0" max="99999"><span class="sym">–</span><input type="number" id="add-b2" min="0" max="99999"></div>
+        </div>
+      </div>
+      <div class="op" id="op-sub">
+        <label class="head"><input type="checkbox" id="sub-on"> Subtraction</label>
+        <div class="ranges"><div class="r"><span class="note">Inverse of the addition problems, so answers stay non‑negative.</span></div></div>
+      </div>
+      <div class="op" id="op-mul">
+        <label class="head"><input type="checkbox" id="mul-on"> Multiplication</label>
+        <div class="ranges">
+          <div class="r"><span>First number</span></div>
+          <div class="r"><input type="number" id="mul-a1" min="0" max="99999"><span class="sym">–</span><input type="number" id="mul-a2" min="0" max="99999"></div>
+          <div class="r"><span>Second number</span></div>
+          <div class="r"><input type="number" id="mul-b1" min="0" max="99999"><span class="sym">–</span><input type="number" id="mul-b2" min="0" max="99999"></div>
+        </div>
+      </div>
+      <div class="op" id="op-div">
+        <label class="head"><input type="checkbox" id="div-on"> Division</label>
+        <div class="ranges"><div class="r"><span class="note">Inverse of the multiplication problems, so it always divides evenly.</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="cap">Mode</div>
+    <div class="row" style="margin-bottom:12px">
+      <div class="row" id="modeSeg" style="gap:6px">
+        <button class="chip" data-mode="timed" aria-pressed="true">Timed</button>
+        <button class="chip" data-mode="sprint" aria-pressed="false">Sprint</button>
+      </div>
+      <span class="muted small" id="modeHelp">Solve as many as you can before time runs out.</span>
+    </div>
+    <div class="row" id="timedRow">
+      <span class="lbl">Duration</span>
+      <div class="row" id="durSeg" style="gap:6px">
+        <button class="chip" data-dur="30">30s</button><button class="chip" data-dur="60">60s</button><button class="chip" data-dur="120">120s</button><button class="chip" data-dur="180">180s</button><button class="chip" data-dur="300">5 min</button>
+      </div>
+      <label class="lbl" style="width:auto;display:flex;align-items:center;gap:6px">custom <input type="number" id="durCustom" min="5" max="3600" style="width:64px"> s</label>
+    </div>
+    <div class="row" id="sprintRow" hidden>
+      <span class="lbl">Problems</span>
+      <div class="row" id="cntSeg" style="gap:6px">
+        <button class="chip" data-cnt="20">20</button><button class="chip" data-cnt="50">50</button><button class="chip" data-cnt="100">100</button>
+      </div>
+      <label class="lbl" style="width:auto;display:flex;align-items:center;gap:6px">custom <input type="number" id="cntCustom" min="1" max="1000" style="width:64px"></label>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="cap">Options</div>
+    <div class="opts">
+      <label><input type="checkbox" id="opt-enter"> Require <kbd>Enter</kbd> to submit. Off means the problem advances the moment the answer is right, like Zetamac.</label>
+      <label><input type="checkbox" id="opt-countdown"> Three‑second countdown before the clock starts.</label>
+      <label><input type="checkbox" id="opt-shuffle"> Shuffle operand order, so 87 × 6 shows up as well as 6 × 87.</label>
+    </div>
+  </div>
+
+  <div class="startrow">
+    <button class="chip gold big" id="startBtn">Start <kbd>↵</kbd></button>
+    <span class="spacer"></span>
+    <button class="chip" id="shareBtn" title="Copy a link that opens these exact settings">Copy settings link</button>
+  </div>
+  <div class="err" id="setupErr"></div>
+
+  <div class="panel" id="histCard" style="margin-top:18px">
+    <div class="cap">Your history with these settings</div>
+    <div id="histBody"></div>
+  </div>
+</section>
+
+<!-- ============ PLAY ============ -->
+<section id="play" class="screen">
+  <div class="hud">
+    <span class="chip">Score <b class="num" id="score">0</b></span>
+    <span class="chip" id="timeChip">Time <b class="num" id="time">120</b></span>
+  </div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="countdown num" id="countdown" hidden>3</div>
+  <div class="problem" id="problemWrap">
+    <span class="q num" id="q">47 + 89 =</span>
+    <input type="text" id="ans" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Answer">
+  </div>
+  <div class="playhint"><span><kbd>Esc</kbd> quit</span></div>
+</section>
+
+<!-- ============ RESULTS ============ -->
+<section id="results" class="screen">
+  <div class="panel">
+    <div class="bigscore">
+      <div class="v num" id="rScore">0</div>
+      <div class="l" id="rLabel"></div>
+      <div class="pbwrap" id="rPb"></div>
+    </div>
+    <div class="rbtns">
+      <button class="chip gold" id="againBtn">Play again <kbd>↵</kbd></button>
+      <button class="chip" id="settingsBtn">Settings <kbd>Esc</kbd></button>
+      <button class="chip" id="copyBtn">Copy result</button>
+    </div>
+  </div>
+  <div class="panel"><div class="cap">Stats</div><div class="stats" id="rStats"></div></div>
+  <div class="panel"><div class="cap">By operation</div><table id="rOps"></table></div>
+  <div class="panel"><div class="cap">Slowest problems</div><table id="rSlow"></table></div>
+  <div class="panel"><div class="cap">Progress with these settings</div><div id="rHist"></div></div>
+</section>
+
+</main>
+<footer>After <a href="https://arithmetic.zetamac.com" target="_blank" rel="noopener">arithmetic.zetamac.com</a> · everything stays in this browser</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const LS = { settings:'zm.settings', history:'zm.history' };
+const OPSYM = { add:'+', sub:'−', mul:'×', div:'÷' };
+const OPNAME = { add:'Addition', sub:'Subtraction', mul:'Multiplication', div:'Division' };
+
+const DEFAULTS = {
+  add:{on:true,a:[2,100],b:[2,100]}, sub:{on:true},
+  mul:{on:true,a:[2,12],b:[2,100]}, div:{on:true},
+  mode:'timed', duration:120, count:50,
+  requireEnter:false, countdown:false, shuffle:false,
+};
+const PRESETS = {
+  zetamac:{ add:{on:true,a:[2,100],b:[2,100]}, sub:{on:true}, mul:{on:true,a:[2,12],b:[2,100]}, div:{on:true}, mode:'timed', duration:120 },
+  easy:{ add:{on:true,a:[1,20],b:[1,20]}, sub:{on:true}, mul:{on:true,a:[1,10],b:[1,10]}, div:{on:true}, mode:'timed', duration:60 },
+  hard:{ add:{on:true,a:[10,999],b:[10,999]}, sub:{on:true}, mul:{on:true,a:[2,99],b:[2,99]}, div:{on:true}, mode:'timed', duration:120 },
+  mulonly:{ add:{on:false,a:[2,100],b:[2,100]}, sub:{on:false}, mul:{on:true,a:[2,12],b:[2,100]}, div:{on:false}, mode:'timed', duration:120 },
+};
+
+// ---------- storage ----------
+const load = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+const deepMerge = (base, over) => {
+  const out = JSON.parse(JSON.stringify(base));
+  for (const k in over) {
+    if (over[k] && typeof over[k] === 'object' && !Array.isArray(over[k])) out[k] = deepMerge(out[k] || {}, over[k]);
+    else out[k] = over[k];
+  }
+  return out;
+};
+let settings = deepMerge(DEFAULTS, load(LS.settings, {}));
+let hist = load(LS.history, []);
+if (!Array.isArray(hist)) hist = [];
+
+// ---------- state chip ----------
+const STATE_LABEL = { idle:'idle', thinking:'arming', listening:'live', speaking:'done' };
+function setState(s) { document.body.dataset.state = s; $('#statelabel').textContent = STATE_LABEL[s]; }
+
+// ---------- URL params ----------
+function parseRange(s) { const m = /^(\d+)-(\d+)$/.exec(s || ''); return m ? [+m[1], +m[2]] : null; }
+function applyUrlParams() {
+  const p = new URLSearchParams(location.search);
+  if (![...p.keys()].length) return;
+  const s = {};
+  if (p.has('ops')) { const o = p.get('ops'); s.add={on:o.includes('a')}; s.sub={on:o.includes('s')}; s.mul={on:o.includes('m')}; s.div={on:o.includes('d')}; }
+  if (p.has('a')) { const [x,y] = p.get('a').split(','); const A=parseRange(x), B=parseRange(y||x); if (A&&B) s.add = {...(s.add||{}), a:A, b:B}; }
+  if (p.has('m')) { const [x,y] = p.get('m').split(','); const A=parseRange(x), B=parseRange(y||x); if (A&&B) s.mul = {...(s.mul||{}), a:A, b:B}; }
+  if (p.has('t')) { s.mode='timed'; s.duration = Math.max(5, Math.min(3600, +p.get('t')||120)); }
+  if (p.has('n')) { s.mode='sprint'; s.count = Math.max(1, Math.min(1000, +p.get('n')||50)); }
+  if (p.has('enter')) s.requireEnter = p.get('enter') === '1';
+  if (p.has('shuffle')) s.shuffle = p.get('shuffle') === '1';
+  settings = deepMerge(settings, s);
+  save(LS.settings, settings);
+  window.history.replaceState(null, '', location.pathname);
+}
+function settingsToUrl(s) {
+  const p = new URLSearchParams();
+  p.set('ops', ['add','sub','mul','div'].filter(o => s[o].on).map(o => o[0]).join(''));
+  p.set('a', `${s.add.a.join('-')},${s.add.b.join('-')}`);
+  p.set('m', `${s.mul.a.join('-')},${s.mul.b.join('-')}`);
+  if (s.mode === 'sprint') p.set('n', s.count); else p.set('t', s.duration);
+  if (s.requireEnter) p.set('enter', '1');
+  if (s.shuffle) p.set('shuffle', '1');
+  return `${location.origin}${location.pathname}?${p}`;
+}
+
+// ---------- settings form ----------
+function formToSettings() {
+  const num = id => { const v = parseInt($('#'+id).value, 10); return Number.isFinite(v) ? Math.max(0, Math.min(99999, v)) : 0; };
+  const range = (a, b) => { let x = num(a), y = num(b); if (x > y) [x, y] = [y, x]; return [x, y]; };
+  const s = deepMerge(settings, {});
+  s.add = { on: $('#add-on').checked, a: range('add-a1','add-a2'), b: range('add-b1','add-b2') };
+  s.sub = { on: $('#sub-on').checked };
+  s.mul = { on: $('#mul-on').checked, a: range('mul-a1','mul-a2'), b: range('mul-b1','mul-b2') };
+  s.div = { on: $('#div-on').checked };
+  s.mode = $('#modeSeg [aria-pressed="true"]').dataset.mode;
+  const dc = parseInt($('#durCustom').value, 10); if (Number.isFinite(dc)) s.duration = Math.max(5, Math.min(3600, dc));
+  const cc = parseInt($('#cntCustom').value, 10); if (Number.isFinite(cc)) s.count = Math.max(1, Math.min(1000, cc));
+  s.requireEnter = $('#opt-enter').checked;
+  s.countdown = $('#opt-countdown').checked;
+  s.shuffle = $('#opt-shuffle').checked;
+  return s;
+}
+function settingsToForm(s) {
+  $('#add-on').checked = s.add.on; [$('#add-a1').value, $('#add-a2').value] = s.add.a; [$('#add-b1').value, $('#add-b2').value] = s.add.b;
+  $('#sub-on').checked = s.sub.on;
+  $('#mul-on').checked = s.mul.on; [$('#mul-a1').value, $('#mul-a2').value] = s.mul.a; [$('#mul-b1').value, $('#mul-b2').value] = s.mul.b;
+  $('#div-on').checked = s.div.on;
+  for (const o of ['add','sub','mul','div']) $('#op-'+o).classList.toggle('off', !s[o].on);
+  $$('#modeSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === s.mode)));
+  $('#timedRow').hidden = s.mode !== 'timed'; $('#sprintRow').hidden = s.mode !== 'sprint';
+  $('#modeHelp').textContent = s.mode === 'timed' ? 'Solve as many as you can before time runs out.' : 'Solve a fixed number of problems as fast as you can.';
+  $$('#durSeg button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.dur === s.duration)));
+  $('#durCustom').value = s.duration;
+  $$('#cntSeg button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.cnt === s.count)));
+  $('#cntCustom').value = s.count;
+  $('#opt-enter').checked = s.requireEnter; $('#opt-countdown').checked = s.countdown; $('#opt-shuffle').checked = s.shuffle;
+  $$('#presets button').forEach(b => b.setAttribute('aria-pressed', String(matchesPreset(s, PRESETS[b.dataset.preset]))));
+  renderHistory($('#histBody'), s, null);
+}
+function matchesPreset(s, p) {
+  return ['add','sub','mul','div'].every(o => s[o].on === p[o].on && (!p[o].a || (s[o].a.join() === p[o].a.join() && s[o].b.join() === p[o].b.join())))
+    && s.mode === p.mode && s.duration === p.duration;
+}
+function syncFromForm() { settings = formToSettings(); save(LS.settings, settings); settingsToForm(settings); }
+
+$('#setup').addEventListener('change', syncFromForm);
+$('#setup').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.preset) { settings = deepMerge(settings, PRESETS[b.dataset.preset]); }
+  else if (b.dataset.mode) { settings.mode = b.dataset.mode; }
+  else if (b.dataset.dur) { settings.duration = +b.dataset.dur; }
+  else if (b.dataset.cnt) { settings.count = +b.dataset.cnt; }
+  else return;
+  save(LS.settings, settings); settingsToForm(settings);
+});
+$('#startBtn').onclick = () => start();
+$('#shareBtn').onclick = () => copy(settingsToUrl(settings), 'Settings link copied');
+
+// ---------- history & keys ----------
+function settingsKey(s) {
+  const ops = ['add','sub','mul','div'].filter(o => s[o].on).map(o => o[0]).join('');
+  const parts = [ops];
+  if (s.add.on || s.sub.on) parts.push('a' + s.add.a.join('-') + ',' + s.add.b.join('-'));
+  if (s.mul.on || s.div.on) parts.push('m' + s.mul.a.join('-') + ',' + s.mul.b.join('-'));
+  parts.push(s.mode === 'sprint' ? 'n' + s.count : 't' + s.duration);
+  if (s.requireEnter) parts.push('e');
+  if (s.shuffle) parts.push('sh');
+  return parts.join('|');
+}
+function describe(s) {
+  const ops = ['add','sub','mul','div'].filter(o => s[o].on).map(o => OPSYM[o]).join(' ');
+  const r = [];
+  if (s.add.on || s.sub.on) r.push(`${s.add.a[0]}–${s.add.a[1]} + ${s.add.b[0]}–${s.add.b[1]}`);
+  if (s.mul.on || s.div.on) r.push(`${s.mul.a[0]}–${s.mul.a[1]} × ${s.mul.b[0]}–${s.mul.b[1]}`);
+  const mode = s.mode === 'sprint' ? `${s.count} problems` : `${s.duration}s`;
+  return `${ops} · ${r.join(', ')} · ${mode}${s.requireEnter ? ' · enter' : ''}`;
+}
+const fmtS = ms => (ms / 1000).toFixed(2) + 's';
+const fmtClock = ms => { const s = ms / 1000; return s >= 60 ? `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}.${String(Math.floor((s%1)*10))}` : s.toFixed(1) + 's'; };
+const better = (mode, a, b) => mode === 'sprint' ? a < b : a > b;
+function bestFor(key, mode, list) {
+  let best = null;
+  for (const h of list) if (h.key === key && (best === null || better(mode, h.score, best))) best = h.score;
+  return best;
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderHistory(el, s, currentTs) {
+  const key = settingsKey(s);
+  const runs = hist.filter(h => h.key === key);
+  if (!runs.length) { el.innerHTML = `<p class="muted small">No runs yet with <span class="num">${esc(describe(s))}</span>. Results will collect here.</p>`; return; }
+  const scores = runs.map(r => r.score);
+  const best = s.mode === 'sprint' ? Math.min(...scores) : Math.max(...scores);
+  const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+  const last10 = runs.slice(-10);
+  const avg10 = last10.reduce((a, r) => a + r.score, 0) / last10.length;
+  const fmtScore = v => s.mode === 'sprint' ? fmtClock(v) : String(Math.round(v * 10) / 10);
+  const pts = runs.slice(-40);
+  const w = 600, h = 56, pad = 6;
+  const lo = Math.min(...pts.map(p => p.score)), hi = Math.max(...pts.map(p => p.score));
+  const x = i => pts.length === 1 ? w / 2 : pad + i * (w - 2 * pad) / (pts.length - 1);
+  const y = v => hi === lo ? h / 2 : (s.mode === 'sprint' ? pad + (v - lo) / (hi - lo) * (h - 2 * pad) : h - pad - (v - lo) / (hi - lo) * (h - 2 * pad));
+  const poly = pts.map((p, i) => `${x(i).toFixed(1)},${y(p.score).toFixed(1)}`).join(' ');
+  const dots = pts.map((p, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(p.score).toFixed(1)}" r="${p.ts === currentTs ? 4 : 2.5}" class="${p.score === best ? 'best' : ''} ${p.ts === currentTs ? 'cur' : ''}"><title>${fmtScore(p.score)} · ${new Date(p.ts).toLocaleString()}</title></circle>`).join('');
+  const rows = runs.slice(-8).reverse().map(r => `<tr><td class="${r.ts === currentTs ? 'cur' : ''}">${new Date(r.ts).toLocaleString([], {dateStyle:'medium', timeStyle:'short'})}</td><td class="r num">${fmtScore(r.score)}</td><td class="r num muted">${r.avgMs ? fmtS(r.avgMs) : ''}</td><td class="r num muted">${r.mistakes ?? ''}</td></tr>`).join('');
+  el.innerHTML = `
+    <div class="stats" style="margin-bottom:12px">
+      <div class="stat"><div class="v num" style="color:var(--gold)">${fmtScore(best)}</div><div class="l">personal best</div></div>
+      <div class="stat"><div class="v num">${fmtScore(avg10)}</div><div class="l">avg of last ${last10.length}</div></div>
+      <div class="stat"><div class="v num">${fmtScore(avg)}</div><div class="l">all‑time avg</div></div>
+      <div class="stat"><div class="v num">${runs.length}</div><div class="l">runs</div></div>
+    </div>
+    <svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${poly}"/>${dots}</svg>
+    <table class="hist"><thead><tr><th>When</th><th class="r">Score</th><th class="r">Avg / problem</th><th class="r">Mistakes</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="row" style="margin-top:12px;justify-content:flex-end"><button class="chip" data-clear="1">Clear history for these settings</button></div>`;
+  el.querySelector('[data-clear]').onclick = () => {
+    if (!confirm('Delete all saved runs for these settings?')) return;
+    hist = hist.filter(h => h.key !== key); save(LS.history, hist); renderHistory(el, s, null);
+  };
+}
+
+// ---------- problem generation ----------
+const rint = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+let lastText = '';
+function genProblem(s) {
+  const ops = ['add','sub','mul','div'].filter(o => s[o].on);
+  for (let tries = 0; tries < 20; tries++) {
+    const op = ops[rint(0, ops.length - 1)];
+    let x, y, ans, text;
+    if (op === 'add' || op === 'sub') { x = rint(...s.add.a); y = rint(...s.add.b); }
+    else { x = rint(...s.mul.a); y = rint(...s.mul.b); }
+    if (s.shuffle && Math.random() < 0.5) [x, y] = [y, x];
+    if (op === 'add') { ans = x + y; text = `${x} + ${y}`; }
+    else if (op === 'mul') { ans = x * y; text = `${x} × ${y}`; }
+    else if (op === 'sub') { const total = x + y; if (Math.random() < 0.5) { ans = y; text = `${total} − ${x}`; } else { ans = x; text = `${total} − ${y}`; } }
+    else {
+      const prod = x * y;
+      if (x === 0 && y === 0) continue;
+      const byX = x !== 0 && (y === 0 || Math.random() < 0.5);
+      if (byX) { ans = y; text = `${prod} ÷ ${x}`; } else { ans = x; text = `${prod} ÷ ${y}`; }
+    }
+    if (text === lastText && tries < 19) continue;
+    lastText = text;
+    return { op, text, ans };
+  }
+  return { op: 'add', text: '1 + 1', ans: 2 };
+}
+
+// ---------- game state ----------
+const ansEl = $('#ans');
+let G = null, timer = null, cdTimer = null;
+function show(id) { $$('.screen').forEach(s => s.classList.toggle('active', s.id === id)); }
+
+function validate(s) {
+  if (!['add','sub','mul','div'].some(o => s[o].on)) return 'Pick at least one operation.';
+  if ((s.mul.on || s.div.on) && s.mul.a[1] === 0 && s.mul.b[1] === 0) return 'Multiplication range can’t be all zeros.';
+  return '';
+}
+
+function start() {
+  if ($('#setup').classList.contains('active')) { settings = formToSettings(); save(LS.settings, settings); }
+  const err = validate(settings); $('#setupErr').textContent = err; if (err) { show('setup'); return; }
+  show('play');
+  $('#score').textContent = '0';
+  $('#timeChip').classList.remove('low');
+  $('#bar').className = ''; $('#bar').style.width = '100%';
+  $('#time').textContent = settings.mode === 'timed' ? settings.duration : '0.0s';
+  if (settings.countdown) {
+    setState('thinking');
+    $('#problemWrap').hidden = true; $('#countdown').hidden = false;
+    let n = 3; $('#countdown').textContent = n;
+    cdTimer = setInterval(() => { n--; if (n <= 0) { clearInterval(cdTimer); cdTimer = null; $('#countdown').hidden = true; $('#problemWrap').hidden = false; begin(); } else $('#countdown').textContent = n; }, 1000);
+  } else begin();
+}
+function begin() {
+  setState('listening');
+  G = { s: settings, key: settingsKey(settings), problems: [], score: 0, mistakes: 0, start: performance.now(), cur: null, curStart: 0, curMistake: false };
+  next();
+  timer = setInterval(tick, 50);
+  tick();
+}
+function next() {
+  G.cur = genProblem(G.s); G.curStart = performance.now(); G.curMistake = false;
+  $('#q').textContent = G.cur.text + ' =';
+  ansEl.value = ''; ansEl.classList.remove('wrong');
+  ansEl.style.width = Math.max(3.2, String(G.cur.ans).length + 1.4) + 'ch';
+  ansEl.focus();
+}
+function tick() {
+  if (!G) return;
+  const el = performance.now() - G.start;
+  if (G.s.mode === 'timed') {
+    const rem = G.s.duration * 1000 - el;
+    if (rem <= 0) { finish(); return; }
+    $('#time').textContent = Math.ceil(rem / 1000);
+    const low = rem < 10000 && G.s.duration >= 20;
+    $('#timeChip').classList.toggle('low', low); $('#bar').classList.toggle('low', low);
+    $('#bar').style.width = (rem / (G.s.duration * 1000) * 100) + '%';
+  } else {
+    $('#time').textContent = fmtClock(el);
+    $('#bar').style.width = (G.score / G.s.count * 100) + '%';
+  }
+}
+function correct() {
+  const now = performance.now();
+  G.problems.push({ op: G.cur.op, text: G.cur.text, ans: G.cur.ans, ms: now - G.curStart, mistake: G.curMistake });
+  G.score++; $('#score').textContent = G.score;
+  if (G.s.mode === 'sprint' && G.score >= G.s.count) { finish(); return; }
+  next();
+}
+function wrong() {
+  if (!G.curMistake) { G.curMistake = true; G.mistakes++; }
+  ansEl.classList.remove('wrong'); void ansEl.offsetWidth; ansEl.classList.add('wrong');
+  if (G.s.requireEnter) ansEl.select();
+}
+ansEl.addEventListener('input', () => {
+  if (!G) return;
+  const clean = ansEl.value.replace(/[^\d]/g, '');
+  if (clean !== ansEl.value) ansEl.value = clean;
+  if (G.s.requireEnter) { ansEl.classList.remove('wrong'); return; }
+  if (!clean) return;
+  const want = String(G.cur.ans);
+  if (clean === want) correct();
+  else if (clean.length >= want.length) wrong();
+});
+ansEl.addEventListener('keydown', e => {
+  if (!G) return;
+  if (isEnter(e)) {
+    e.preventDefault();
+    if (!G.s.requireEnter) return;
+    if (ansEl.value === String(G.cur.ans)) correct(); else if (ansEl.value) wrong();
+  }
+});
+$('#play').addEventListener('click', () => ansEl.focus());
+function abort() {
+  clearInterval(timer); timer = null;
+  if (cdTimer) { clearInterval(cdTimer); cdTimer = null; $('#countdown').hidden = true; $('#problemWrap').hidden = false; }
+  G = null; setState('idle'); show('setup'); settingsToForm(settings);
+}
+function finish() {
+  clearInterval(timer); timer = null;
+  const end = performance.now();
+  const g = G; G = null;
+  const elapsed = end - g.start;
+  const n = g.problems.length;
+  const score = g.s.mode === 'sprint' ? elapsed : n;
+  const avgMs = n ? g.problems.reduce((a, p) => a + p.ms, 0) / n : 0;
+  const prevBest = bestFor(g.key, g.s.mode, hist);
+  const isPb = n > 0 && (prevBest === null || better(g.s.mode, score, prevBest));
+  const entry = { ts: Date.now(), key: g.key, mode: g.s.mode, score, n, elapsed: Math.round(elapsed), avgMs: Math.round(avgMs), mistakes: g.mistakes };
+  hist.push(entry); if (hist.length > 2000) hist = hist.slice(-2000); save(LS.history, hist);
+  renderResults(g, entry, isPb, prevBest);
+  setState('speaking');
+  show('results');
+  $('#againBtn').focus();
+}
+
+// ---------- results ----------
+let lastSummary = '';
+function renderResults(g, e, isPb, prevBest) {
+  const s = g.s, n = e.n;
+  const fmtScore = v => s.mode === 'sprint' ? fmtClock(v) : String(v);
+  $('#rScore').textContent = fmtScore(e.score);
+  $('#rLabel').textContent = s.mode === 'sprint' ? `for ${s.count} problems · ${describe(s)}` : `in ${s.duration}s · ${describe(s)}`;
+  $('#rPb').innerHTML = isPb ? `<span class="chip gold">New personal best${prevBest !== null ? ` · was ${fmtScore(prevBest)}` : ''}</span>` : (prevBest !== null ? `<span class="chip">Personal best ${fmtScore(prevBest)}</span>` : '');
+  const ms = g.problems.map(p => p.ms);
+  const fastest = ms.length ? Math.min(...ms) : 0, slowest = ms.length ? Math.max(...ms) : 0;
+  const acc = n + g.mistakes ? n / (n + g.mistakes) * 100 : 100;
+  const ppm = e.elapsed ? n / (e.elapsed / 60000) : 0;
+  const median = ms.length ? [...ms].sort((a, b) => a - b)[Math.floor(ms.length / 2)] : 0;
+  $('#rStats').innerHTML = [
+    [n, 'solved'], [fmtS(e.avgMs), 'avg / problem'], [fmtS(median), 'median'], [ppm.toFixed(1), 'per minute'],
+    [g.mistakes, 'mistakes'], [acc.toFixed(0) + '%', 'accuracy'], [fmtS(fastest), 'fastest'], [fmtS(slowest), 'slowest'],
+  ].map(([v, l]) => `<div class="stat"><div class="v num">${v}</div><div class="l">${l}</div></div>`).join('');
+  const byOp = {};
+  for (const p of g.problems) { (byOp[p.op] ||= { n: 0, ms: 0, mist: 0 }); byOp[p.op].n++; byOp[p.op].ms += p.ms; byOp[p.op].mist += p.mistake ? 1 : 0; }
+  const opRows = ['add','sub','mul','div'].filter(o => byOp[o]).map(o => `<tr><td>${OPNAME[o]}</td><td class="r num">${byOp[o].n}</td><td class="r num">${fmtS(byOp[o].ms / byOp[o].n)}</td><td class="r num">${byOp[o].mist}</td></tr>`).join('');
+  $('#rOps').innerHTML = opRows ? `<thead><tr><th>Op</th><th class="r">Solved</th><th class="r">Avg time</th><th class="r">Mistakes</th></tr></thead><tbody>${opRows}</tbody>` : '<tbody><tr><td class="muted">Nothing solved.</td></tr></tbody>';
+  const slow = [...g.problems].sort((a, b) => b.ms - a.ms).slice(0, 6);
+  $('#rSlow').innerHTML = slow.length ? `<tbody>${slow.map(p => `<tr><td class="num">${p.text} = ${p.ans}</td><td class="r num">${fmtS(p.ms)}${p.mistake ? ' <span class="faint">· mistake</span>' : ''}</td></tr>`).join('')}</tbody>` : '<tbody><tr><td class="muted">Nothing solved.</td></tr></tbody>';
+  renderHistory($('#rHist'), s, e.ts);
+  lastSummary = s.mode === 'sprint'
+    ? `Zetamac sprint: ${s.count} problems in ${fmtClock(e.score)} (${describe(s)}) · avg ${fmtS(e.avgMs)} · ${g.mistakes} mistakes${isPb ? ' · new PB' : ''} — math.yunhan.me/zetamac`
+    : `Zetamac: ${n} in ${s.duration}s (${describe(s)}) · avg ${fmtS(e.avgMs)} · ${g.mistakes} mistakes${isPb ? ' · new PB' : ''} — math.yunhan.me/zetamac`;
+}
+$('#againBtn').onclick = () => start();
+$('#settingsBtn').onclick = () => { setState('idle'); show('setup'); settingsToForm(settings); };
+$('#copyBtn').onclick = () => copy(lastSummary, 'Result copied');
+
+// ---------- global keys ----------
+const isEnter = e => e.key === 'Enter' || e.code === 'Enter' || e.code === 'NumpadEnter';
+document.addEventListener('keydown', e => {
+  const active = $('.screen.active').id;
+  if (e.key === 'Escape') {
+    if (active === 'play') { e.preventDefault(); abort(); }
+    else if (active === 'results') { e.preventDefault(); setState('idle'); show('setup'); settingsToForm(settings); }
+    return;
+  }
+  if (isEnter(e) && !e.isComposing) {
+    if (active === 'setup') { if (e.target.tagName === 'BUTTON' && e.target.id !== 'startBtn') return; e.preventDefault(); start(); }
+    else if (active === 'results') { if (e.target.tagName === 'BUTTON' && e.target.id !== 'againBtn') return; e.preventDefault(); start(); }
+  }
+});
+
+// ---------- misc ----------
+let toastT;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1600); }
+async function copy(text, msg) {
+  try { await navigator.clipboard.writeText(text); toast(msg); }
+  catch { prompt('Copy this:', text); }
+}
+
+// ---------- init ----------
+applyUrlParams();
+settingsToForm(settings);
+})();
+</script>
+</body>
+</html>
