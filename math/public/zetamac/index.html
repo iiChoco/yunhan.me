@@ -107,6 +107,11 @@ input[type=checkbox]{width:14px;height:14px;accent-color:var(--cyan);margin:0;cu
 .op .ranges .r span.sym{width:12px;text-align:center;color:var(--text-faint)}
 .op .ranges .note{font:13px/1.5 var(--sans);letter-spacing:0;text-transform:none;color:var(--text-dim)}
 .op.off .ranges{opacity:.35;pointer-events:none}
+.op select{padding:4px 8px;border:1px solid var(--line-strong);clip-path:var(--cut6);background:rgba(160,240,255,.05);font:500 11px/1.2 var(--mono);color:#eaf9fb;letter-spacing:.06em}
+.op select option{background:#0b1922;color:var(--text)}
+.op .ranges .r label{display:inline-flex;align-items:center;gap:5px;letter-spacing:.14em}
+.playhint button.chip{pointer-events:auto}
+.hud .chip .q{color:var(--text-faint);margin-left:4px;font-weight:500;letter-spacing:.06em}
 input[type=number],input[type=text].n{width:74px;padding:6px 8px;border:1px solid var(--line-strong);clip-path:var(--cut6);background:rgba(160,240,255,.05);text-align:center;font:500 13px/1 var(--mono);font-variant-numeric:tabular-nums;color:#eaf9fb}
 input[type=number]:focus{outline:1px solid rgba(160,240,255,.55);outline-offset:0;border-color:rgba(160,240,255,.5)}
 input[type=number]::-webkit-inner-spin-button{opacity:.35}
@@ -219,7 +224,15 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
       <button class="chip" data-preset="easy">Easy</button>
       <button class="chip" data-preset="hard">Hard</button>
       <button class="chip" data-preset="mulonly">Multiplication only</button>
+      <button class="chip" data-preset="twodigit">Two‑digit ×</button>
+      <button class="chip gold" data-preset="optiver">Optiver 80‑in‑8</button>
+      <button class="chip" data-preset="quant">Quant mix</button>
+      <button class="chip" data-preset="pct">Percentages</button>
+      <button class="chip" data-preset="decfrac">Decimals &amp; fractions</button>
+      <button class="chip" data-preset="solve">Solve for x</button>
+      <button class="chip" data-preset="sqrt">Squares &amp; roots</button>
     </div>
+    <p class="faint small" style="margin:10px 0 0">Optiver 80‑in‑8: 80 questions, 8 minutes, decimals, fractions and negatives, a wrong answer costs a point, skipping is free. The other quant presets are the question types trading firms' arithmetic tests draw on.</p>
   </div>
 
   <div class="panel">
@@ -255,6 +268,55 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
   </div>
 
   <div class="panel">
+    <div class="cap">Quant extras</div>
+    <div class="ops">
+      <div class="op" id="op-dec">
+        <label class="head"><input type="checkbox" id="dec-on"> Decimals</label>
+        <div class="ranges">
+          <div class="r"><span>Places</span><select id="dec-places"><option value="1">1</option><option value="2">2</option></select><span>Ops</span><select id="dec-ops"><option value="as">+ −</option><option value="md">× ÷</option><option value="all">all</option></select></div>
+          <div class="r"><span class="note">0.7 × 12 · 45.6 + 3.7 · 8.4 ÷ 4</span></div>
+        </div>
+      </div>
+      <div class="op" id="op-frac">
+        <label class="head"><input type="checkbox" id="frac-on"> Fractions</label>
+        <div class="ranges">
+          <div class="r"><span>Max denominator</span><select id="frac-maxden"><option value="6">6</option><option value="12">12</option><option value="20">20</option></select><span>Ops</span><select id="frac-ops"><option value="as">+ −</option><option value="md">× ÷</option><option value="all">all</option></select></div>
+          <div class="r"><span class="note">3/4 + 1/8 · 2/3 × 9/4 · 3/8 of 64. Answer as a fraction or a decimal.</span></div>
+        </div>
+      </div>
+      <div class="op" id="op-pct">
+        <label class="head"><input type="checkbox" id="pct-on"> Percentages</label>
+        <div class="ranges">
+          <div class="r"><span>Level</span><select id="pct-level"><option value="easy">easy · 5, 10, 25 % of round numbers</option><option value="hard">hard · any % with a whole answer</option></select></div>
+          <div class="r"><span class="note">15% of 240 · 36 is what % of 240 · 240 + 15%</span></div>
+        </div>
+      </div>
+      <div class="op" id="op-neg">
+        <label class="head"><input type="checkbox" id="neg-on"> Negatives</label>
+        <div class="ranges">
+          <div class="r"><span>Up to</span><input type="number" id="neg-max" min="5" max="9999"></div>
+          <div class="r"><span class="note">−13 + 27 · 12 − (−5) · −7 × 6</span></div>
+        </div>
+      </div>
+      <div class="op" id="op-sq">
+        <label class="head"><input type="checkbox" id="sq-on"> Squares &amp; roots</label>
+        <div class="ranges">
+          <div class="r"><span>n up to</span><input type="number" id="sq-max" min="5" max="99"><label><input type="checkbox" id="sq-roots"> roots</label><label><input type="checkbox" id="sq-cubes"> cubes</label><label><input type="checkbox" id="sq-pow2"> 2ⁿ</label></div>
+          <div class="r"><span class="note">17² · √289 · 12³ · 2¹²</span></div>
+        </div>
+      </div>
+      <div class="op" id="op-solve">
+        <label class="head"><input type="checkbox" id="solve-on"> Solve for x</label>
+        <div class="ranges"><div class="r"><span class="note">x + 47 = 112 · 6x = 72 · x ÷ 4 = 15. Uses the ranges above.</span></div></div>
+      </div>
+      <div class="op" id="op-seq">
+        <label class="head"><input type="checkbox" id="seq-on"> Sequences</label>
+        <div class="ranges"><div class="r"><span class="note">2, 5, 10, 17, 26, ? — arithmetic, geometric, squares, Fibonacci‑like, second differences.</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
     <div class="cap">Mode</div>
     <div class="row" style="margin-bottom:12px">
       <div class="row" id="modeSeg" style="gap:6px">
@@ -269,6 +331,11 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
         <button class="chip" data-dur="30">30s</button><button class="chip" data-dur="60">60s</button><button class="chip" data-dur="120">120s</button><button class="chip" data-dur="180">180s</button><button class="chip" data-dur="300">5 min</button>
       </div>
       <label class="lbl" style="width:auto;display:flex;align-items:center;gap:6px">custom <input type="number" id="durCustom" min="5" max="3600" style="width:64px"> s</label>
+    </div>
+    <div class="row" id="limitRow" style="margin-top:8px">
+      <span class="lbl">Stop after</span>
+      <input type="number" id="limit" min="0" max="1000" style="width:74px">
+      <span class="lbl" style="width:auto">problems · 0 = no cap</span>
     </div>
     <div class="row" id="sprintRow" hidden>
       <span class="lbl">Problems</span>
@@ -285,6 +352,7 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
       <label><input type="checkbox" id="opt-enter"> Require <kbd>Enter</kbd> to submit. Off means the problem advances the moment the answer is right, like Zetamac.</label>
       <label><input type="checkbox" id="opt-countdown"> Three‑second countdown before the clock starts.</label>
       <label><input type="checkbox" id="opt-shuffle"> Shuffle operand order, so 87 × 6 shows up as well as 6 × 87.</label>
+      <label><input type="checkbox" id="opt-penalty"> Test scoring: a wrong answer costs a point and moves on, skipping is free. Turns on <kbd>Enter</kbd> to submit.</label>
     </div>
   </div>
 
@@ -305,7 +373,7 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
 <!-- ============ PLAY ============ -->
 <section id="play" class="screen">
   <div class="hud">
-    <span class="chip">Score <b class="num" id="score">0</b></span>
+    <span class="chip">Score <b class="num" id="score">0</b><span class="q num" id="qcount" hidden></span></span>
     <span class="chip" id="timeChip">Time <b class="num" id="time">120</b></span>
   </div>
   <div class="bar"><i id="bar"></i></div>
@@ -314,7 +382,7 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
     <span class="q num" id="q">47 + 89 =</span>
     <input type="text" id="ans" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Answer">
   </div>
-  <div class="playhint"><span><kbd>Esc</kbd> quit</span></div>
+  <div class="playhint"><button class="chip" id="skipBtn">Skip <kbd>Tab</kbd></button><span><kbd>Esc</kbd> quit</span></div>
 </section>
 
 <!-- ============ RESULTS ============ -->
@@ -333,7 +401,7 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
   </div>
   <div class="panel"><div class="cap">Stats</div><div class="stats" id="rStats"></div></div>
   <div class="panel"><div class="cap">By operation</div><table id="rOps"></table></div>
-  <div class="panel"><div class="cap">Slowest problems</div><table id="rSlow"></table></div>
+  <div class="panel"><div class="cap">Missed and slowest problems</div><table id="rSlow"></table></div>
   <div class="panel"><div class="cap">Progress with these settings</div><div id="rHist"></div></div>
 </section>
 
@@ -364,20 +432,34 @@ footer{text-align:center;padding:14px 20px 22px;border-top:1px solid var(--line)
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 const LS = { settings:'zm.settings', history:'zm.history' };
-const OPSYM = { add:'+', sub:'−', mul:'×', div:'÷' };
-const OPNAME = { add:'Addition', sub:'Subtraction', mul:'Multiplication', div:'Division' };
+const OPS = ['add','sub','mul','div','dec','frac','pct','neg','sq','solve','seq'];
+const OPLETTER = { add:'a', sub:'s', mul:'m', div:'d', dec:'D', frac:'F', pct:'P', neg:'N', sq:'Q', solve:'X', seq:'S' };
+const OPSYM = { add:'+', sub:'−', mul:'×', div:'÷', dec:'0.0', frac:'½', pct:'%', neg:'±', sq:'x²', solve:'x=', seq:'…' };
+const OPNAME = { add:'Addition', sub:'Subtraction', mul:'Multiplication', div:'Division', dec:'Decimals', frac:'Fractions', pct:'Percentages', neg:'Negatives', sq:'Squares & roots', solve:'Solve for x', seq:'Sequences' };
 
 const DEFAULTS = {
   add:{on:true,a:[2,100],b:[2,100]}, sub:{on:true},
   mul:{on:true,a:[2,12],b:[2,100]}, div:{on:true},
-  mode:'timed', duration:120, count:50,
-  requireEnter:false, countdown:false, shuffle:false,
+  dec:{on:false,places:1,ops:'all'}, frac:{on:false,maxden:12,ops:'all'},
+  pct:{on:false,level:'easy'}, neg:{on:false,max:100},
+  sq:{on:false,max:30,roots:true,cubes:false,pow2:false},
+  solve:{on:false}, seq:{on:false},
+  mode:'timed', duration:120, count:50, limit:0,
+  requireEnter:false, countdown:false, shuffle:false, penalty:false,
 };
+const NOBASE = { add:{on:false}, sub:{on:false}, mul:{on:false}, div:{on:false} };
 const PRESETS = {
-  zetamac:{ add:{on:true,a:[2,100],b:[2,100]}, sub:{on:true}, mul:{on:true,a:[2,12],b:[2,100]}, div:{on:true}, mode:'timed', duration:120 },
-  easy:{ add:{on:true,a:[1,20],b:[1,20]}, sub:{on:true}, mul:{on:true,a:[1,10],b:[1,10]}, div:{on:true}, mode:'timed', duration:60 },
-  hard:{ add:{on:true,a:[10,999],b:[10,999]}, sub:{on:true}, mul:{on:true,a:[2,99],b:[2,99]}, div:{on:true}, mode:'timed', duration:120 },
-  mulonly:{ add:{on:false,a:[2,100],b:[2,100]}, sub:{on:false}, mul:{on:true,a:[2,12],b:[2,100]}, div:{on:false}, mode:'timed', duration:120 },
+  zetamac: {},
+  easy: { add:{a:[1,20],b:[1,20]}, mul:{a:[1,10],b:[1,10]}, duration:60 },
+  hard: { add:{a:[10,999],b:[10,999]}, mul:{a:[2,99],b:[2,99]} },
+  mulonly: { add:{on:false}, sub:{on:false}, div:{on:false} },
+  twodigit: { add:{on:false}, sub:{on:false}, div:{on:false}, mul:{a:[11,99],b:[11,99]} },
+  optiver: { add:{a:[2,999],b:[2,999]}, mul:{a:[2,20],b:[2,99]}, dec:{on:true,places:2,ops:'all'}, frac:{on:true,maxden:12,ops:'all'}, neg:{on:true,max:100}, mode:'timed', duration:480, limit:80, requireEnter:true, penalty:true, countdown:true },
+  quant: { dec:{on:true}, frac:{on:true}, pct:{on:true}, neg:{on:true}, sq:{on:true}, solve:{on:true}, seq:{on:true}, duration:180 },
+  pct: { ...NOBASE, pct:{on:true,level:'easy'} },
+  decfrac: { ...NOBASE, dec:{on:true}, frac:{on:true} },
+  solve: { ...NOBASE, solve:{on:true} },
+  sqrt: { ...NOBASE, sq:{on:true,max:30,roots:true,cubes:true,pow2:true} },
 };
 
 // ---------- storage ----------
@@ -391,6 +473,7 @@ const deepMerge = (base, over) => {
   }
   return out;
 };
+for (const k in PRESETS) PRESETS[k] = deepMerge(DEFAULTS, PRESETS[k]);
 let settings = deepMerge(DEFAULTS, load(LS.settings, {}));
 let hist = load(LS.history, []);
 if (!Array.isArray(hist)) hist = [];
@@ -405,12 +488,19 @@ function applyUrlParams() {
   const p = new URLSearchParams(location.search);
   if (![...p.keys()].length) return;
   const s = {};
-  if (p.has('ops')) { const o = p.get('ops'); s.add={on:o.includes('a')}; s.sub={on:o.includes('s')}; s.mul={on:o.includes('m')}; s.div={on:o.includes('d')}; }
+  if (p.has('ops')) { const o = p.get('ops'); for (const op of OPS) s[op] = { on: o.includes(OPLETTER[op]) }; }
   if (p.has('a')) { const [x,y] = p.get('a').split(','); const A=parseRange(x), B=parseRange(y||x); if (A&&B) s.add = {...(s.add||{}), a:A, b:B}; }
   if (p.has('m')) { const [x,y] = p.get('m').split(','); const A=parseRange(x), B=parseRange(y||x); if (A&&B) s.mul = {...(s.mul||{}), a:A, b:B}; }
+  if (p.has('dec')) { const [pl, ops] = p.get('dec').split(','); s.dec = {...(s.dec||{}), places: +pl === 2 ? 2 : 1, ops: ['as','md','all'].includes(ops) ? ops : 'all'}; }
+  if (p.has('frac')) { const [md, ops] = p.get('frac').split(','); s.frac = {...(s.frac||{}), maxden: [6,12,20].includes(+md) ? +md : 12, ops: ['as','md','all'].includes(ops) ? ops : 'all'}; }
+  if (p.has('pct')) s.pct = {...(s.pct||{}), level: p.get('pct') === 'hard' ? 'hard' : 'easy'};
+  if (p.has('neg')) s.neg = {...(s.neg||{}), max: Math.max(5, Math.min(9999, +p.get('neg') || 100))};
+  if (p.has('sq')) { const [mx, fl = ''] = p.get('sq').split(','); s.sq = {...(s.sq||{}), max: Math.max(5, Math.min(99, +mx || 30)), roots: fl.includes('r'), cubes: fl.includes('c'), pow2: fl.includes('p')}; }
   if (p.has('t')) { s.mode='timed'; s.duration = Math.max(5, Math.min(3600, +p.get('t')||120)); }
   if (p.has('n')) { s.mode='sprint'; s.count = Math.max(1, Math.min(1000, +p.get('n')||50)); }
+  if (p.has('lim')) s.limit = Math.max(0, Math.min(1000, +p.get('lim') || 0));
   if (p.has('enter')) s.requireEnter = p.get('enter') === '1';
+  if (p.has('pen')) s.penalty = p.get('pen') === '1';
   if (p.has('shuffle')) s.shuffle = p.get('shuffle') === '1';
   settings = deepMerge(settings, s);
   save(LS.settings, settings);
@@ -418,28 +508,43 @@ function applyUrlParams() {
 }
 function settingsToUrl(s) {
   const p = new URLSearchParams();
-  p.set('ops', ['add','sub','mul','div'].filter(o => s[o].on).map(o => o[0]).join(''));
+  p.set('ops', OPS.filter(o => s[o].on).map(o => OPLETTER[o]).join(''));
   p.set('a', `${s.add.a.join('-')},${s.add.b.join('-')}`);
   p.set('m', `${s.mul.a.join('-')},${s.mul.b.join('-')}`);
-  if (s.mode === 'sprint') p.set('n', s.count); else p.set('t', s.duration);
+  if (s.dec.on) p.set('dec', `${s.dec.places},${s.dec.ops}`);
+  if (s.frac.on) p.set('frac', `${s.frac.maxden},${s.frac.ops}`);
+  if (s.pct.on) p.set('pct', s.pct.level);
+  if (s.neg.on) p.set('neg', s.neg.max);
+  if (s.sq.on) p.set('sq', `${s.sq.max},${s.sq.roots ? 'r' : ''}${s.sq.cubes ? 'c' : ''}${s.sq.pow2 ? 'p' : ''}`);
+  if (s.mode === 'sprint') p.set('n', s.count); else { p.set('t', s.duration); if (s.limit) p.set('lim', s.limit); }
   if (s.requireEnter) p.set('enter', '1');
+  if (s.penalty) p.set('pen', '1');
   if (s.shuffle) p.set('shuffle', '1');
   return `${location.origin}${location.pathname}?${p}`;
 }
 
 // ---------- settings form ----------
 function formToSettings() {
-  const num = id => { const v = parseInt($('#'+id).value, 10); return Number.isFinite(v) ? Math.max(0, Math.min(99999, v)) : 0; };
-  const range = (a, b) => { let x = num(a), y = num(b); if (x > y) [x, y] = [y, x]; return [x, y]; };
+  const num = (id, lo, hi) => { const v = parseInt($('#'+id).value, 10); return Number.isFinite(v) ? Math.max(lo, Math.min(hi, v)) : lo; };
+  const range = (a, b) => { let x = num(a, 0, 99999), y = num(b, 0, 99999); if (x > y) [x, y] = [y, x]; return [x, y]; };
   const s = deepMerge(settings, {});
   s.add = { on: $('#add-on').checked, a: range('add-a1','add-a2'), b: range('add-b1','add-b2') };
   s.sub = { on: $('#sub-on').checked };
   s.mul = { on: $('#mul-on').checked, a: range('mul-a1','mul-a2'), b: range('mul-b1','mul-b2') };
   s.div = { on: $('#div-on').checked };
+  s.dec = { on: $('#dec-on').checked, places: +$('#dec-places').value === 2 ? 2 : 1, ops: $('#dec-ops').value };
+  s.frac = { on: $('#frac-on').checked, maxden: +$('#frac-maxden').value, ops: $('#frac-ops').value };
+  s.pct = { on: $('#pct-on').checked, level: $('#pct-level').value };
+  s.neg = { on: $('#neg-on').checked, max: num('neg-max', 5, 9999) };
+  s.sq = { on: $('#sq-on').checked, max: num('sq-max', 5, 99), roots: $('#sq-roots').checked, cubes: $('#sq-cubes').checked, pow2: $('#sq-pow2').checked };
+  s.solve = { on: $('#solve-on').checked };
+  s.seq = { on: $('#seq-on').checked };
   s.mode = $('#modeSeg [aria-pressed="true"]').dataset.mode;
   const dc = parseInt($('#durCustom').value, 10); if (Number.isFinite(dc)) s.duration = Math.max(5, Math.min(3600, dc));
   const cc = parseInt($('#cntCustom').value, 10); if (Number.isFinite(cc)) s.count = Math.max(1, Math.min(1000, cc));
-  s.requireEnter = $('#opt-enter').checked;
+  s.limit = num('limit', 0, 1000);
+  s.penalty = $('#opt-penalty').checked;
+  s.requireEnter = $('#opt-enter').checked || s.penalty;
   s.countdown = $('#opt-countdown').checked;
   s.shuffle = $('#opt-shuffle').checked;
   return s;
@@ -449,28 +554,32 @@ function settingsToForm(s) {
   $('#sub-on').checked = s.sub.on;
   $('#mul-on').checked = s.mul.on; [$('#mul-a1').value, $('#mul-a2').value] = s.mul.a; [$('#mul-b1').value, $('#mul-b2').value] = s.mul.b;
   $('#div-on').checked = s.div.on;
-  for (const o of ['add','sub','mul','div']) $('#op-'+o).classList.toggle('off', !s[o].on);
+  $('#dec-on').checked = s.dec.on; $('#dec-places').value = s.dec.places; $('#dec-ops').value = s.dec.ops;
+  $('#frac-on').checked = s.frac.on; $('#frac-maxden').value = s.frac.maxden; $('#frac-ops').value = s.frac.ops;
+  $('#pct-on').checked = s.pct.on; $('#pct-level').value = s.pct.level;
+  $('#neg-on').checked = s.neg.on; $('#neg-max').value = s.neg.max;
+  $('#sq-on').checked = s.sq.on; $('#sq-max').value = s.sq.max; $('#sq-roots').checked = s.sq.roots; $('#sq-cubes').checked = s.sq.cubes; $('#sq-pow2').checked = s.sq.pow2;
+  $('#solve-on').checked = s.solve.on; $('#seq-on').checked = s.seq.on;
+  for (const o of OPS) $('#op-'+o).classList.toggle('off', !s[o].on);
   $$('#modeSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === s.mode)));
-  $('#timedRow').hidden = s.mode !== 'timed'; $('#sprintRow').hidden = s.mode !== 'sprint';
+  $('#timedRow').hidden = s.mode !== 'timed'; $('#limitRow').hidden = s.mode !== 'timed'; $('#sprintRow').hidden = s.mode !== 'sprint';
   $('#modeHelp').textContent = s.mode === 'timed' ? 'Solve as many as you can before time runs out.' : 'Solve a fixed number of problems as fast as you can.';
   $$('#durSeg button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.dur === s.duration)));
-  $('#durCustom').value = s.duration;
+  $('#durCustom').value = s.duration; $('#limit').value = s.limit;
   $$('#cntSeg button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.cnt === s.count)));
   $('#cntCustom').value = s.count;
-  $('#opt-enter').checked = s.requireEnter; $('#opt-countdown').checked = s.countdown; $('#opt-shuffle').checked = s.shuffle;
+  $('#opt-enter').checked = s.requireEnter; $('#opt-enter').disabled = s.penalty;
+  $('#opt-penalty').checked = s.penalty; $('#opt-countdown').checked = s.countdown; $('#opt-shuffle').checked = s.shuffle;
   $$('#presets button').forEach(b => b.setAttribute('aria-pressed', String(matchesPreset(s, PRESETS[b.dataset.preset]))));
   renderHistory($('#histBody'), s, null);
 }
-function matchesPreset(s, p) {
-  return ['add','sub','mul','div'].every(o => s[o].on === p[o].on && (!p[o].a || (s[o].a.join() === p[o].a.join() && s[o].b.join() === p[o].b.join())))
-    && s.mode === p.mode && s.duration === p.duration;
-}
+function matchesPreset(s, p) { return settingsKey(s) === settingsKey(p); }
 function syncFromForm() { settings = formToSettings(); save(LS.settings, settings); settingsToForm(settings); }
 
 $('#setup').addEventListener('change', syncFromForm);
 $('#setup').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
-  if (b.dataset.preset) { settings = deepMerge(settings, PRESETS[b.dataset.preset]); }
+  if (b.dataset.preset) { settings = deepMerge(PRESETS[b.dataset.preset], { countdown: settings.countdown }); }
   else if (b.dataset.mode) { settings.mode = b.dataset.mode; }
   else if (b.dataset.dur) { settings.duration = +b.dataset.dur; }
   else if (b.dataset.cnt) { settings.count = +b.dataset.cnt; }
@@ -482,22 +591,26 @@ $('#shareBtn').onclick = () => copy(settingsToUrl(settings), 'Settings link copi
 
 // ---------- history & keys ----------
 function settingsKey(s) {
-  const ops = ['add','sub','mul','div'].filter(o => s[o].on).map(o => o[0]).join('');
-  const parts = [ops];
-  if (s.add.on || s.sub.on) parts.push('a' + s.add.a.join('-') + ',' + s.add.b.join('-'));
-  if (s.mul.on || s.div.on) parts.push('m' + s.mul.a.join('-') + ',' + s.mul.b.join('-'));
-  parts.push(s.mode === 'sprint' ? 'n' + s.count : 't' + s.duration);
-  if (s.requireEnter) parts.push('e');
+  const parts = [OPS.filter(o => s[o].on).map(o => OPLETTER[o]).join('')];
+  if (s.add.on || s.sub.on || s.solve.on) parts.push('a' + s.add.a.join('-') + ',' + s.add.b.join('-'));
+  if (s.mul.on || s.div.on || s.solve.on) parts.push('m' + s.mul.a.join('-') + ',' + s.mul.b.join('-'));
+  if (s.dec.on) parts.push('D' + s.dec.places + s.dec.ops);
+  if (s.frac.on) parts.push('F' + s.frac.maxden + s.frac.ops);
+  if (s.pct.on) parts.push('P' + s.pct.level);
+  if (s.neg.on) parts.push('N' + s.neg.max);
+  if (s.sq.on) parts.push('Q' + s.sq.max + (s.sq.roots ? 'r' : '') + (s.sq.cubes ? 'c' : '') + (s.sq.pow2 ? 'p' : ''));
+  parts.push(s.mode === 'sprint' ? 'n' + s.count : 't' + s.duration + (s.limit ? 'l' + s.limit : ''));
+  if (s.penalty) parts.push('pen'); else if (s.requireEnter) parts.push('e');
   if (s.shuffle) parts.push('sh');
   return parts.join('|');
 }
 function describe(s) {
-  const ops = ['add','sub','mul','div'].filter(o => s[o].on).map(o => OPSYM[o]).join(' ');
+  const ops = OPS.filter(o => s[o].on).map(o => OPSYM[o]).join(' ');
   const r = [];
   if (s.add.on || s.sub.on) r.push(`${s.add.a[0]}–${s.add.a[1]} + ${s.add.b[0]}–${s.add.b[1]}`);
   if (s.mul.on || s.div.on) r.push(`${s.mul.a[0]}–${s.mul.a[1]} × ${s.mul.b[0]}–${s.mul.b[1]}`);
-  const mode = s.mode === 'sprint' ? `${s.count} problems` : `${s.duration}s`;
-  return `${ops} · ${r.join(', ')} · ${mode}${s.requireEnter ? ' · enter' : ''}`;
+  const mode = s.mode === 'sprint' ? `${s.count} problems` : `${s.duration}s${s.limit ? ` · ≤${s.limit}` : ''}`;
+  return `${ops}${r.length ? ' · ' + r.join(', ') : ''} · ${mode}${s.penalty ? ' · −1 wrong' : s.requireEnter ? ' · enter' : ''}`;
 }
 const fmtS = ms => (ms / 1000).toFixed(2) + 's';
 const fmtClock = ms => { const s = ms / 1000; return s >= 60 ? `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}.${String(Math.floor((s%1)*10))}` : s.toFixed(1) + 's'; };
@@ -540,7 +653,7 @@ function renderHistory(el, s, currentTs) {
 }
 
 // ---------- charts: thin marks, one axis, crosshair tooltip ----------
-const OPCOLOR = { add: '#c4830f', sub: '#1fa3c9', mul: '#8f6fe6', div: '#2aa860' }; // validated categorical set for the dark surface
+const CHART6 = ['#c4830f', '#1fa3c9', '#bd4f9a', '#2aa860', '#8f6fe6', '#5a9a2b']; // validated on the dark surface; the by-op chart shows at most six ops
 const CH = {
   date: ts => new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric' }),
   when: ts => new Date(ts).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }),
@@ -681,7 +794,9 @@ function renderProgress() {
     lineChart($('#pc2').lastChild, { xs: withN.map(r => r.ts), series, yFmt: v => v.toFixed(2) + 's', height: 200, yZero: true, label: 'Seconds per problem' });
   } else $('#pc2').innerHTML = '<p class="muted small">Needs at least two runs with solved problems.</p>';
   if (withOps.length >= 2) {
-    const series = ['add', 'sub', 'mul', 'div'].filter(op => withOps.some(r => r.byOp[op])).map(op => ({ name: OPNAME[op].toLowerCase(), color: OPCOLOR[op], values: withOps.map(r => r.byOp[op] && r.byOp[op].n ? r.byOp[op].ms / r.byOp[op].n / 1000 : null) }));
+    const tally = OPS.map(op => [op, withOps.reduce((a, r) => a + ((r.byOp[op] && r.byOp[op].n) || 0), 0)]).filter(([, c]) => c > 0);
+    const shown = tally.sort((a, b) => b[1] - a[1]).slice(0, 6).map(([op]) => op);
+    const series = OPS.filter(op => shown.includes(op)).map((op, i) => ({ name: OPNAME[op].toLowerCase(), color: CHART6[i], values: withOps.map(r => r.byOp[op] && r.byOp[op].n ? r.byOp[op].ms / r.byOp[op].n / 1000 : null) }));
     $('#pc3').innerHTML = legend(series) + '<div></div>';
     lineChart($('#pc3').lastChild, { xs: withOps.map(r => r.ts), series, yFmt: v => v.toFixed(2) + 's', height: 240, yZero: true, endLabels: true, label: 'Seconds per problem by operation' });
   } else $('#pc3').innerHTML = '<p class="muted small">Per‑operation timing is recorded for runs from now on. Play two more runs to see this chart.</p>';
@@ -699,31 +814,114 @@ $('#pKey').onchange = e => { P.key = e.target.value; renderProgress(); };
 $('#pRange').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; P.range = +b.dataset.range; save('zm.prange', P.range); renderProgress(); });
 
 // ---------- problem generation ----------
+// Every generator returns { op, text, ans (a number), astr (the canonical
+// answer as typed), suffix (what follows the text; ' =' unless the text
+// already asks) }. Answers are always exact: decimals with the asked
+// places, fractions reduced, percentages with whole results.
 const rint = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const pick = arr => arr[rint(0, arr.length - 1)];
+const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+const round = (v, p) => Math.round(v * 10 ** p) / 10 ** p;
+const numStr = v => String(round(v, 6));
+const fracStr = (n, d) => { const g = gcd(n, d) || 1; n /= g; d /= g; if (d < 0) { n = -n; d = -d; } return d === 1 ? String(n) : `${n}/${d}`; };
+const SUP = { '0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹' };
+const sup = n => String(n).replace(/\d/g, c => SUP[c]);
+const neg = v => v < 0 ? `−${-v}` : String(v);        // a leading negative
+const negp = v => v < 0 ? `(−${-v})` : String(v);     // a negative as the second operand
+const Q = (op, text, ans, astr, suffix) => ({ op, text, ans, astr: astr ?? numStr(ans), suffix: suffix ?? ' =' });
+const opsOf = (v, all) => v === 'as' ? 'as' : v === 'md' ? 'md' : all;
+const GEN = {
+  add(s) { let x = rint(...s.add.a), y = rint(...s.add.b); if (s.shuffle && Math.random() < .5) [x, y] = [y, x]; return Q('add', `${x} + ${y}`, x + y); },
+  sub(s) { const x = rint(...s.add.a), y = rint(...s.add.b), t = x + y; return Math.random() < .5 ? Q('sub', `${t} − ${x}`, y) : Q('sub', `${t} − ${y}`, x); },
+  mul(s) { let x = rint(...s.mul.a), y = rint(...s.mul.b); if (s.shuffle && Math.random() < .5) [x, y] = [y, x]; return Q('mul', `${x} × ${y}`, x * y); },
+  div(s) { let x = rint(...s.mul.a), y = rint(...s.mul.b); if (!x && !y) x = 2; const p = x * y; return (x && (Math.random() < .5 || !y)) ? Q('div', `${p} ÷ ${x}`, y) : Q('div', `${p} ÷ ${y}`, x); },
+  dec(s) {
+    const p = s.dec.places, k = 10 ** p, kind = pick([...opsOf(s.dec.ops, 'asmd')]);
+    const d = () => rint(1, 99 * k) / k;
+    if (kind === 'a') { const x = d(), y = d(); return Q('dec', `${numStr(x)} + ${numStr(y)}`, round(x + y, p)); }
+    if (kind === 's') { let x = d(), y = d(); if (x < y) [x, y] = [y, x]; return Q('dec', `${numStr(x)} − ${numStr(y)}`, round(x - y, p)); }
+    if (kind === 'm') { let x = rint(2, 20), y = p === 1 ? rint(11, 99) / 10 : rint(11, 999) / 100; const t = Math.random() < .5 ? `${x} × ${numStr(y)}` : `${numStr(y)} × ${x}`; return Q('dec', t, round(x * y, p)); }
+    const c = p === 1 ? rint(11, 99) / 10 : rint(11, 999) / 100, b = rint(2, 12); return Q('dec', `${numStr(round(c * b, p))} ÷ ${b}`, c);
+  },
+  frac(s) {
+    const D = s.frac.maxden, kind = pick([...opsOf(s.frac.ops, 'asmdo')]);
+    const f = () => { const d = rint(2, D); const n = rint(1, d - 1); const g = gcd(n, d); return [n / g, d / g]; };
+    let [a, b] = f(), [c, d] = f();
+    if (kind === 'a') { const n = a * d + c * b, m = b * d; return Q('frac', `${a}/${b} + ${c}/${d}`, n / m, fracStr(n, m)); }
+    if (kind === 's') { if (a / b < c / d) [a, b, c, d] = [c, d, a, b]; const n = a * d - c * b, m = b * d; return Q('frac', `${a}/${b} − ${c}/${d}`, n / m, fracStr(n, m)); }
+    if (kind === 'm') return Q('frac', `${a}/${b} × ${c}/${d}`, (a * c) / (b * d), fracStr(a * c, b * d));
+    if (kind === 'd') return Q('frac', `${a}/${b} ÷ ${c}/${d}`, (a * d) / (b * c), fracStr(a * d, b * c));
+    const n = b * rint(2, Math.max(2, Math.floor(200 / b))); return Q('frac', `${a}/${b} of ${n}`, a * n / b);
+  },
+  pct(s) {
+    let p, n;
+    if (s.pct.level !== 'hard') { p = pick([5, 10, 15, 20, 25, 30, 40, 50, 60, 75, 80, 90]); n = rint(1, 50) * 20; }
+    else { p = rint(1, 99); const step = 100 / gcd(p, 100); n = rint(1, Math.max(1, Math.floor(999 / step))) * step; }
+    const part = p * n / 100, kind = rint(0, 3);
+    if (kind === 0) return Q('pct', `${p}% of ${n}`, part);
+    if (kind === 1) return Q('pct', `${part} is what % of ${n}`, p, String(p), '?');
+    if (kind === 2) return Q('pct', `${n} + ${p}%`, n + part);
+    return Q('pct', `${n} − ${p}%`, n - part);
+  },
+  neg(s) {
+    const M = s.neg.max, sgn = () => Math.random() < .5 ? -1 : 1, kind = rint(0, 2);
+    let x = rint(1, M) * sgn(), y = rint(1, M) * sgn();
+    if (kind === 2) { x = rint(2, 12) * sgn(); y = rint(2, Math.min(M, 25)) * sgn(); }
+    if (x > 0 && y > 0) (Math.random() < .5 ? x = -x : y = -y);
+    if (kind === 0) return Q('neg', `${neg(x)} + ${negp(y)}`, x + y);
+    if (kind === 1) return Q('neg', `${neg(x)} − ${negp(y)}`, x - y);
+    return Q('neg', `${neg(x)} × ${negp(y)}`, x * y);
+  },
+  sq(s) {
+    const kinds = ['sq']; if (s.sq.roots) kinds.push('rt'); if (s.sq.cubes) kinds.push('cu'); if (s.sq.pow2) kinds.push('p2');
+    const k = pick(kinds), n = rint(2, s.sq.max);
+    if (k === 'sq') return Q('sq', `${n}²`, n * n);
+    if (k === 'rt') return Q('sq', `√${n * n}`, n);
+    if (k === 'cu') { const m = rint(2, Math.min(15, s.sq.max)); return Q('sq', `${m}³`, m ** 3); }
+    const e = rint(1, 16); return Q('sq', `2${sup(e)}`, 2 ** e);
+  },
+  solve(s) {
+    const k = rint(0, 3);
+    if (k === 0) { const x = rint(...s.add.a), a = rint(...s.add.b); return Q('solve', `x + ${a} = ${x + a}`, x, null, ', x ='); }
+    if (k === 1) { const x = rint(...s.add.a), b = rint(...s.add.b); return Q('solve', `${x + b} − x = ${b}`, x, null, ', x ='); }
+    if (k === 2) { const a = Math.max(2, rint(...s.mul.a)), x = rint(...s.mul.b); return Q('solve', `${a}x = ${a * x}`, x, null, ', x ='); }
+    const a = Math.max(2, rint(...s.mul.a)), b = rint(...s.mul.b); return Q('solve', `x ÷ ${a} = ${b}`, a * b, null, ', x =');
+  },
+  seq() {
+    const k = rint(0, 5); let t = [];
+    if (k === 0) { const a = rint(1, 30), d = rint(2, 12); for (let i = 0; i < 6; i++) t.push(a + i * d); }
+    else if (k === 1) { const a = rint(1, 5), r = pick([2, 3]); for (let i = 0; i < 6; i++) t.push(a * r ** i); }
+    else if (k === 2) { const o = rint(0, 5); for (let i = 1; i <= 6; i++) t.push((i + o) ** 2); }
+    else if (k === 3) { const a = rint(1, 5); t = [a, rint(a + 1, 9)]; while (t.length < 6) t.push(t.at(-1) + t.at(-2)); }
+    else if (k === 4) { const a = rint(1, 20), d = rint(1, 5); for (let i = 0; i < 6; i++) t.push(a + d * i * (i + 1) / 2); }
+    else { const a = rint(1, 20), d1 = rint(1, 9), d2 = rint(1, 9); for (let i = 0; i < 6; i++) t.push(a + Math.floor(i / 2) * (d1 + d2) + (i % 2) * d1); }
+    const ans = t.pop(); return Q('seq', t.join(', ') + ', ?', ans, null, '');
+  },
+};
 let lastText = '';
 function genProblem(s) {
-  const ops = ['add','sub','mul','div'].filter(o => s[o].on);
+  const ops = OPS.filter(o => s[o].on);
   for (let tries = 0; tries < 20; tries++) {
-    const op = ops[rint(0, ops.length - 1)];
-    let x, y, ans, text;
-    if (op === 'add' || op === 'sub') { x = rint(...s.add.a); y = rint(...s.add.b); }
-    else { x = rint(...s.mul.a); y = rint(...s.mul.b); }
-    if (s.shuffle && Math.random() < 0.5) [x, y] = [y, x];
-    if (op === 'add') { ans = x + y; text = `${x} + ${y}`; }
-    else if (op === 'mul') { ans = x * y; text = `${x} × ${y}`; }
-    else if (op === 'sub') { const total = x + y; if (Math.random() < 0.5) { ans = y; text = `${total} − ${x}`; } else { ans = x; text = `${total} − ${y}`; } }
-    else {
-      const prod = x * y;
-      if (x === 0 && y === 0) continue;
-      const byX = x !== 0 && (y === 0 || Math.random() < 0.5);
-      if (byX) { ans = y; text = `${prod} ÷ ${x}`; } else { ans = x; text = `${prod} ÷ ${y}`; }
-    }
-    if (text === lastText && tries < 19) continue;
-    lastText = text;
-    return { op, text, ans };
+    const q = GEN[pick(ops)](s);
+    if (q.text === lastText && tries < 19) continue;
+    lastText = q.text;
+    q.alen = Math.max(digits(q.astr), q.op === 'frac' ? digits(numStr(round(q.ans, 4))) : 0);
+    return q;
   }
-  return { op: 'add', text: '1 + 1', ans: 2 };
+  return Q('add', '1 + 1', 2);
 }
+// What the player typed, as a number: integers, decimals, negatives, a/b.
+function parseAnswer(str) {
+  const t = str.replace(/[−–]/g, '-').replace(/[%\s]/g, '');
+  const m = /^(-?(?:\d+\.?\d*|\.\d+))(?:\/(-?(?:\d+\.?\d*|\.\d+)))?$/.exec(t);
+  if (!m) return null;
+  const a = parseFloat(m[1]);
+  if (m[2] === undefined) return Number.isFinite(a) ? a : null;
+  const b = parseFloat(m[2]); return b ? a / b : null;
+}
+const digits = s => (String(s).match(/\d/g) || []).length;
+const matchesAnswer = (typed, q) => { const v = parseAnswer(typed); return v !== null && Math.abs(v - q.ans) < 1e-9; };
+window.zm = { genProblem, parseAnswer, matchesAnswer, DEFAULTS, PRESETS, GEN, get cur() { return G && G.cur; }, get game() { return G; } };
 
 // ---------- game state ----------
 const ansEl = $('#ans');
@@ -731,16 +929,19 @@ let G = null, timer = null, cdTimer = null;
 function show(id) { $$('.screen').forEach(s => s.classList.toggle('active', s.id === id)); }
 
 function validate(s) {
-  if (!['add','sub','mul','div'].some(o => s[o].on)) return 'Pick at least one operation.';
-  if ((s.mul.on || s.div.on) && s.mul.a[1] === 0 && s.mul.b[1] === 0) return 'Multiplication range can’t be all zeros.';
+  if (!OPS.some(o => s[o].on)) return 'Pick at least one operation.';
+  if ((s.mul.on || s.div.on || s.solve.on) && s.mul.a[1] === 0 && s.mul.b[1] === 0) return 'Multiplication range can’t be all zeros.';
   return '';
 }
+const target = s => s.mode === 'sprint' ? s.count : s.limit;   // problems to stop after, 0 = none
 
 function start() {
   if ($('#setup').classList.contains('active')) { settings = formToSettings(); save(LS.settings, settings); }
   const err = validate(settings); $('#setupErr').textContent = err; if (err) { show('setup'); return; }
   show('play');
   $('#score').textContent = '0';
+  $('#qcount').hidden = !target(settings); $('#qcount').textContent = target(settings) ? `0/${target(settings)}` : '';
+  $('#skipBtn').hidden = false;
   $('#timeChip').classList.remove('low');
   $('#bar').className = ''; $('#bar').style.width = '100%';
   $('#time').textContent = settings.mode === 'timed' ? settings.duration : '0.0s';
@@ -753,17 +954,23 @@ function start() {
 }
 function begin() {
   setState('listening');
-  G = { s: settings, key: settingsKey(settings), problems: [], score: 0, mistakes: 0, start: performance.now(), cur: null, curStart: 0, curMistake: false };
+  G = { s: settings, key: settingsKey(settings), problems: [], score: 0, wrong: 0, skipped: 0, mistakes: 0, start: performance.now(), cur: null, curStart: 0, curMistake: false };
   next();
   timer = setInterval(tick, 50);
   tick();
 }
+const net = g => g.score - (g.s.penalty ? g.wrong : 0);
+const done = g => g.problems.length;
 function next() {
   G.cur = genProblem(G.s); G.curStart = performance.now(); G.curMistake = false;
-  $('#q').textContent = G.cur.text + ' =';
+  $('#q').textContent = G.cur.text + G.cur.suffix;
   ansEl.value = ''; ansEl.classList.remove('wrong');
-  ansEl.style.width = Math.max(3.2, String(G.cur.ans).length + 1.4) + 'ch';
+  ansEl.style.width = Math.max(3.2, G.cur.astr.length + 1.4) + 'ch';
   ansEl.focus();
+}
+function hud() {
+  $('#score').textContent = net(G);
+  if (target(G.s)) $('#qcount').textContent = `${done(G)}/${target(G.s)}`;
 }
 function tick() {
   if (!G) return;
@@ -777,39 +984,42 @@ function tick() {
     $('#bar').style.width = (rem / (G.s.duration * 1000) * 100) + '%';
   } else {
     $('#time').textContent = fmtClock(el);
-    $('#bar').style.width = (G.score / G.s.count * 100) + '%';
+    $('#bar').style.width = (done(G) / G.s.count * 100) + '%';
   }
 }
-function correct() {
-  const now = performance.now();
-  G.problems.push({ op: G.cur.op, text: G.cur.text, ans: G.cur.ans, ms: now - G.curStart, mistake: G.curMistake });
-  G.score++; $('#score').textContent = G.score;
-  if (G.s.mode === 'sprint' && G.score >= G.s.count) { finish(); return; }
+function record(result) {
+  G.problems.push({ op: G.cur.op, text: G.cur.text, suffix: G.cur.suffix, ans: G.cur.astr, ms: performance.now() - G.curStart, mistake: G.curMistake, result });
+  if (result === 'ok') G.score++; else if (result === 'wrong') G.wrong++; else G.skipped++;
+  hud();
+  if (target(G.s) && done(G) >= target(G.s)) { finish(); return; }
   next();
 }
+function correct() { record('ok'); }
+function skip() { if (G) record('skip'); }
 function wrong() {
   if (!G.curMistake) { G.curMistake = true; G.mistakes++; }
   ansEl.classList.remove('wrong'); void ansEl.offsetWidth; ansEl.classList.add('wrong');
+  if (G.s.penalty) { record('wrong'); return; }
   if (G.s.requireEnter) ansEl.select();
 }
 ansEl.addEventListener('input', () => {
   if (!G) return;
-  const clean = ansEl.value.replace(/[^\d]/g, '');
+  const clean = ansEl.value.replace(/[−–]/g, '-').replace(/[^\d.\-\/]/g, '');
   if (clean !== ansEl.value) ansEl.value = clean;
   if (G.s.requireEnter) { ansEl.classList.remove('wrong'); return; }
-  if (!clean) return;
-  const want = String(G.cur.ans);
-  if (clean === want) correct();
-  else if (clean.length >= want.length) wrong();
+  if (!clean || /[.\/-]$/.test(clean)) return;
+  if (matchesAnswer(clean, G.cur)) correct();
+  else if (digits(clean) >= G.cur.alen) wrong();
 });
 ansEl.addEventListener('keydown', e => {
   if (!G) return;
   if (isEnter(e)) {
     e.preventDefault();
     if (!G.s.requireEnter) return;
-    if (ansEl.value === String(G.cur.ans)) correct(); else if (ansEl.value) wrong();
+    if (matchesAnswer(ansEl.value, G.cur)) correct(); else if (ansEl.value.trim()) wrong();
   }
 });
+$('#skipBtn').onclick = () => { skip(); ansEl.focus(); };
 $('#play').addEventListener('click', () => ansEl.focus());
 function abort() {
   clearInterval(timer); timer = null;
@@ -821,14 +1031,15 @@ function finish() {
   const end = performance.now();
   const g = G; G = null;
   const elapsed = end - g.start;
-  const n = g.problems.length;
-  const score = g.s.mode === 'sprint' ? elapsed : n;
-  const avgMs = n ? g.problems.reduce((a, p) => a + p.ms, 0) / n : 0;
+  const solved = g.problems.filter(p => p.result === 'ok');
+  const n = solved.length;
+  const score = g.s.mode === 'sprint' ? elapsed : net(g);
+  const avgMs = n ? solved.reduce((a, p) => a + p.ms, 0) / n : 0;
   const prevBest = bestFor(g.key, g.s.mode, hist);
   const isPb = n > 0 && (prevBest === null || better(g.s.mode, score, prevBest));
   const byOp = {};
-  for (const p of g.problems) { (byOp[p.op] ||= { n: 0, ms: 0, mist: 0 }); byOp[p.op].n++; byOp[p.op].ms += Math.round(p.ms); byOp[p.op].mist += p.mistake ? 1 : 0; }
-  const entry = { ts: Date.now(), key: g.key, desc: describe(g.s), mode: g.s.mode, score, n, elapsed: Math.round(elapsed), avgMs: Math.round(avgMs), mistakes: g.mistakes, byOp };
+  for (const p of g.problems) { (byOp[p.op] ||= { n: 0, ms: 0, mist: 0 }); if (p.result === 'ok') { byOp[p.op].n++; byOp[p.op].ms += Math.round(p.ms); } byOp[p.op].mist += (p.mistake || p.result === 'wrong') ? 1 : 0; }
+  const entry = { ts: Date.now(), key: g.key, desc: describe(g.s), mode: g.s.mode, score, n, wrong: g.wrong, skipped: g.skipped, elapsed: Math.round(elapsed), avgMs: Math.round(avgMs), mistakes: g.mistakes, byOp };
   hist.push(entry); if (hist.length > 2000) hist = hist.slice(-2000); save(LS.history, hist); Sync.push();
   renderResults(g, entry, isPb, prevBest);
   setState('speaking');
@@ -844,25 +1055,33 @@ function renderResults(g, e, isPb, prevBest) {
   $('#rScore').textContent = fmtScore(e.score);
   $('#rLabel').textContent = s.mode === 'sprint' ? `for ${s.count} problems · ${describe(s)}` : `in ${s.duration}s · ${describe(s)}`;
   $('#rPb').innerHTML = isPb ? `<span class="chip gold">New personal best${prevBest !== null ? ` · was ${fmtScore(prevBest)}` : ''}</span>` : (prevBest !== null ? `<span class="chip">Personal best ${fmtScore(prevBest)}</span>` : '');
-  const ms = g.problems.map(p => p.ms);
+  const solved = g.problems.filter(p => p.result === 'ok'), ms = solved.map(p => p.ms);
   const fastest = ms.length ? Math.min(...ms) : 0, slowest = ms.length ? Math.max(...ms) : 0;
-  const acc = n + g.mistakes ? n / (n + g.mistakes) * 100 : 100;
+  const attempts = n + g.wrong + g.mistakes;
+  const acc = attempts ? n / attempts * 100 : 100;
   const ppm = e.elapsed ? n / (e.elapsed / 60000) : 0;
   const median = ms.length ? [...ms].sort((a, b) => a - b)[Math.floor(ms.length / 2)] : 0;
-  $('#rStats').innerHTML = [
-    [n, 'solved'], [fmtS(e.avgMs), 'avg / problem'], [fmtS(median), 'median'], [ppm.toFixed(1), 'per minute'],
-    [g.mistakes, 'mistakes'], [acc.toFixed(0) + '%', 'accuracy'], [fmtS(fastest), 'fastest'], [fmtS(slowest), 'slowest'],
-  ].map(([v, l]) => `<div class="stat"><div class="v num">${v}</div><div class="l">${l}</div></div>`).join('');
+  const tiles = [[n, 'correct']];
+  if (s.penalty || g.wrong) tiles.push([g.wrong, 'wrong']);
+  if (g.skipped) tiles.push([g.skipped, 'skipped']);
+  if (s.penalty) tiles.push([net(g), 'net score']);
+  tiles.push([fmtS(e.avgMs), 'avg / problem'], [fmtS(median), 'median'], [ppm.toFixed(1), 'per minute'], [g.mistakes, 'mistakes'], [acc.toFixed(0) + '%', 'accuracy'], [fmtS(fastest), 'fastest'], [fmtS(slowest), 'slowest']);
+  $('#rStats').innerHTML = tiles.map(([v, l]) => `<div class="stat"><div class="v num">${v}</div><div class="l">${l}</div></div>`).join('');
   const byOp = {};
-  for (const p of g.problems) { (byOp[p.op] ||= { n: 0, ms: 0, mist: 0 }); byOp[p.op].n++; byOp[p.op].ms += p.ms; byOp[p.op].mist += p.mistake ? 1 : 0; }
-  const opRows = ['add','sub','mul','div'].filter(o => byOp[o]).map(o => `<tr><td>${OPNAME[o]}</td><td class="r num">${byOp[o].n}</td><td class="r num">${fmtS(byOp[o].ms / byOp[o].n)}</td><td class="r num">${byOp[o].mist}</td></tr>`).join('');
-  $('#rOps').innerHTML = opRows ? `<thead><tr><th>Op</th><th class="r">Solved</th><th class="r">Avg time</th><th class="r">Mistakes</th></tr></thead><tbody>${opRows}</tbody>` : '<tbody><tr><td class="muted">Nothing solved.</td></tr></tbody>';
-  const slow = [...g.problems].sort((a, b) => b.ms - a.ms).slice(0, 6);
-  $('#rSlow').innerHTML = slow.length ? `<tbody>${slow.map(p => `<tr><td class="num">${p.text} = ${p.ans}</td><td class="r num">${fmtS(p.ms)}${p.mistake ? ' <span class="faint">· mistake</span>' : ''}</td></tr>`).join('')}</tbody>` : '<tbody><tr><td class="muted">Nothing solved.</td></tr></tbody>';
+  for (const p of g.problems) { (byOp[p.op] ||= { n: 0, ms: 0, mist: 0, wrong: 0 }); if (p.result === 'ok') { byOp[p.op].n++; byOp[p.op].ms += p.ms; } byOp[p.op].mist += p.mistake ? 1 : 0; byOp[p.op].wrong += p.result === 'wrong' ? 1 : 0; }
+  const opRows = OPS.filter(o => byOp[o]).map(o => `<tr><td>${OPNAME[o]}</td><td class="r num">${byOp[o].n}</td><td class="r num">${byOp[o].n ? fmtS(byOp[o].ms / byOp[o].n) : '—'}</td><td class="r num">${byOp[o].mist + byOp[o].wrong}</td></tr>`).join('');
+  $('#rOps').innerHTML = opRows ? `<thead><tr><th>Op</th><th class="r">Correct</th><th class="r">Avg time</th><th class="r">Wrong</th></tr></thead><tbody>${opRows}</tbody>` : '<tbody><tr><td class="muted">Nothing solved.</td></tr></tbody>';
+  const flag = p => p.result === 'wrong' ? ' <span class="faint">· wrong</span>' : p.result === 'skip' ? ' <span class="faint">· skipped</span>' : p.mistake ? ' <span class="faint">· mistake</span>' : '';
+  const line = p => `${p.text}${p.suffix ?? ' ='} ${String(p.ans).replace(/^-/, '−')}`;
+  const missed = g.problems.filter(p => p.result !== 'ok');
+  const slow = [...solved].sort((a, b) => b.ms - a.ms).slice(0, 6);
+  const rows = [...missed.slice(0, 10), ...slow].map(p => `<tr><td class="num">${line(p)}</td><td class="r num">${fmtS(p.ms)}${flag(p)}</td></tr>`).join('');
+  $('#rSlow').innerHTML = rows ? `<tbody>${rows}</tbody>` : '<tbody><tr><td class="muted">Nothing solved.</td></tr></tbody>';
   renderHistory($('#rHist'), s, e.ts);
+  const extra = (s.penalty ? ` · ${g.wrong} wrong` : '') + (g.skipped ? ` · ${g.skipped} skipped` : '');
   lastSummary = s.mode === 'sprint'
-    ? `Zetamac sprint: ${s.count} problems in ${fmtClock(e.score)} (${describe(s)}) · avg ${fmtS(e.avgMs)} · ${g.mistakes} mistakes${isPb ? ' · new PB' : ''} — math.yunhan.me/zetamac`
-    : `Zetamac: ${n} in ${s.duration}s (${describe(s)}) · avg ${fmtS(e.avgMs)} · ${g.mistakes} mistakes${isPb ? ' · new PB' : ''} — math.yunhan.me/zetamac`;
+    ? `Zetamac sprint: ${s.count} problems in ${fmtClock(e.score)} (${describe(s)}) · avg ${fmtS(e.avgMs)} · ${g.mistakes} mistakes${extra}${isPb ? ' · new PB' : ''} — math.yunhan.me/zetamac`
+    : `Zetamac: ${e.score} in ${s.duration}s (${describe(s)}) · avg ${fmtS(e.avgMs)} · ${g.mistakes} mistakes${extra}${isPb ? ' · new PB' : ''} — math.yunhan.me/zetamac`;
 }
 $('#againBtn').onclick = () => start();
 $('#settingsBtn').onclick = () => { setState('idle'); show('setup'); settingsToForm(settings); };
@@ -872,12 +1091,14 @@ $('#copyBtn').onclick = () => copy(lastSummary, 'Result copied');
 const isEnter = e => e.key === 'Enter' || e.code === 'Enter' || e.code === 'NumpadEnter';
 document.addEventListener('keydown', e => {
   const active = $('.screen.active').id;
+  if (e.key === 'Tab' && active === 'play' && G) { e.preventDefault(); skip(); return; }
   if (e.key === 'Escape') {
     if (active === 'play') { e.preventDefault(); abort(); }
     else if (active === 'results' || active === 'progress') { e.preventDefault(); setState('idle'); show('setup'); settingsToForm(settings); }
     return;
   }
   if (isEnter(e) && !e.isComposing) {
+    if (e.target === ansEl) return;   // the answer box handles its own Enter; a finishing one must not restart the game
     if (active === 'setup') { if (e.target.tagName === 'BUTTON' && e.target.id !== 'startBtn') return; e.preventDefault(); start(); }
     else if (active === 'results') { if (e.target.tagName === 'BUTTON' && e.target.id !== 'againBtn') return; e.preventDefault(); start(); }
   }
