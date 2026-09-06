@@ -9,8 +9,9 @@ Personal website and independent web tools. This repository lives at
 - `scripts/push.sh`: forwards deployment to `~/Projects/infrastructure`.
 
 Infrastructure owns server service definitions and deployment configuration.
-Run `scripts/push.sh` to preview, `scripts/push.sh --dry-run` to compare with the
-server, or `scripts/push.sh --sync --apply` to deploy with locked dependency sync.
+Run `scripts/push.sh --preview` to print commands, `scripts/push.sh --dry-run`
+to compare with the server, or `scripts/push.sh --sync` to deploy with locked
+dependency sync. The wrapper deploys by default.
 The server checkout remains `/home/ciel/yunhan.me`; runtime data stays in `~/.door`.
 
 For local development, `cd door` and run `uv sync --locked`, then follow the
