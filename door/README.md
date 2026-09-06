@@ -13,4 +13,4 @@ uv run door add-user alice               # prints the password once
 uv run door import-ciel ~/.ciel/interview
 ```
 
-Production: `deploy/door.service` on the Ciel VM, `auth.yunhan.me` and `math.yunhan.me` as tunnel ingress rules to its port, and a Cloudflare Access application (owner only) on `auth.yunhan.me/admin` and `/api/admin`.
+Production: `~/Projects/infrastructure/services/systemd/door.service` on the Ciel VM, `auth.yunhan.me` and `math.yunhan.me` as tunnel ingress rules to its port, and a Cloudflare Access application (owner only) on `auth.yunhan.me/admin` and `/api/admin`.
