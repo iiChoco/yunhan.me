@@ -1,0 +1,66 @@
+/* Landing and Toolbox layouts, using the shared Instrument tokens. */
+body{background:radial-gradient(ellipse at 60% 40%,#0b1922 0,transparent 65%),#030608}
+a{touch-action:manipulation}
+.home-header{width:calc(100% - 112px);max-width:1240px;margin:0 auto;padding:28px 0;justify-content:space-between;border:0}
+.home-brand{display:flex;align-items:center;gap:12px;font:500 12px/1 var(--mono);letter-spacing:.03em;color:var(--text)}
+.home-brand:hover{text-decoration:none;color:var(--gold)}
+.home-header nav{display:flex;align-items:center;gap:32px;font:500 11px/1.4 var(--mono)}
+.home-header nav a{color:var(--text-dim);padding:12px 0}
+.home-header nav a:hover,.home-header nav a[aria-current=page]{color:var(--gold)}
+.home-header nav span{margin-left:5px;color:var(--gold)}
+main{width:calc(100% - 112px);max-width:1240px;padding:0;margin:0 auto}
+main:focus{outline:none}
+.landing{display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:40px;padding:50px 0 80px}
+.landing h1{font:400 clamp(58px,8vw,108px)/1.1 var(--serif);letter-spacing:-.045em}
+.landing h1 em{display:block;font-weight:400;color:var(--gold)}
+.landing p{margin-top:24px;color:var(--text-dim);font:400 14px/1.6 var(--sans)}
+.orbital{position:relative;width:100%;max-width:520px;justify-self:end}
+.orbital:hover{text-decoration:none}
+.orbital:focus-visible{outline:1px solid var(--gold);outline-offset:6px}
+.orbital svg{display:block;width:100%;height:auto;transition:transform .35s ease,filter .35s ease}
+.orbital:focus-visible svg{transform:translateY(-4px) scale(1.025);filter:brightness(1.18) drop-shadow(0 0 10px rgba(160,240,255,.16))}
+@media(hover:hover){.orbital:hover svg{transform:translateY(-4px) scale(1.025);filter:brightness(1.18) drop-shadow(0 0 10px rgba(160,240,255,.16))}}
+.axis{stroke:var(--line)}
+/* Motion stays in SVG coordinates, so the points follow their tracks at any size. */
+.satellite{offset-path:path("M476 260 A216 80 0 1 1 44 260 A216 80 0 1 1 476 260");offset-anchor:0px 0px;offset-rotate:0deg;animation:orbit-travel 24s linear infinite}
+.satellite-gold{animation-delay:-2s}
+.satellite-cyan{animation-duration:32s;animation-delay:-18s;animation-direction:reverse}
+.satellite-blue{animation-duration:40s;animation-delay:-27s}
+.orbit-ring{transform-origin:260px 260px;animation:orbit-turn 120s linear infinite}
+@keyframes orbit-travel{from{offset-distance:0%}to{offset-distance:100%}}
+@keyframes orbit-turn{to{transform:rotate(360deg)}}
+.toolbox{max-width:720px;padding:82px 0 100px}
+.toolbox-heading{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.toolbox-heading h1{font:400 38px/1.2 var(--serif);letter-spacing:-.035em}
+.toolbox-heading h1 span{color:var(--gold)}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:16px}
+.tool{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0;padding:12px 8px;color:var(--text-dim);text-align:center}
+.tool:hover{text-decoration:none;color:var(--gold)}
+.tool:focus-visible{outline:1px solid var(--gold);outline-offset:2px;color:var(--gold)}
+.tool-icon{display:grid;place-items:center;width:60px;height:60px;border:1px solid var(--line-strong);clip-path:var(--cut8);color:var(--cyan);background:linear-gradient(145deg,rgba(160,240,255,.06),rgba(160,240,255,.015));transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.tool:is(:hover,:focus-visible) .tool-icon{transform:translateY(-3px);border-color:var(--gold-dim);background:rgba(160,240,255,.08)}
+.tool-name{font:400 12px/1.5 var(--sans)}
+.home-footer{width:calc(100% - 112px);max-width:1240px;margin:0 auto;padding:22px 0 28px;border:0;text-align:center;font:400 10px/1.6 var(--mono);letter-spacing:0;text-transform:none;color:var(--text-dim)}
+.skip-link{position:fixed;left:20px;top:16px;z-index:100;padding:12px 18px;background:#0b1922;color:var(--gold);border:1px solid var(--gold);transform:translateY(-200%)}
+.skip-link:focus{transform:none}
+@media(max-width:900px){.home-header,main,.home-footer{width:calc(100% - 64px)}}
+@media(max-width:600px){
+  .home-header,main,.home-footer{width:calc(100% - 44px)}
+  .home-header{padding:20px 0}
+  .home-header nav{gap:20px;font-size:10px}
+  .home-brand{font-size:11px;gap:8px}
+  .landing{grid-template-columns:1fr;align-content:center;text-align:center;gap:28px;padding:30px 0}
+  .orbital{width:68%;max-width:260px;justify-self:center}
+  .landing h1{font-size:clamp(62px,16vw,86px)}
+  .landing h1 em{display:block}
+  .landing p{font-size:13px;margin-top:22px}
+  .toolbox{padding:45px 0 60px}
+  .toolbox-heading{margin-bottom:24px}
+  .toolbox-heading h1{font-size:32px}
+  .tools{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important}
+  .orbital .animated{animation-play-state:paused}
+  .orbital:is(:hover,:focus-visible) svg,.tool:is(:hover,:focus-visible) .tool-icon{transform:none}
+}

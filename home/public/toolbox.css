@@ -1,0 +1,14 @@
+/* Favorites extend the compact launcher without changing the shared tokens. */
+#favorites-retry{appearance:none;border:0;border-radius:0;background:none;padding:10px 0;font:400 12px/1.5 var(--sans);color:var(--gold);cursor:pointer}
+.favorites-divider{grid-column:1/-1;width:100%;margin:8px 0;border:0;border-top:1px solid var(--line-strong)}
+.favorites-feedback{display:flex;align-items:center;gap:12px;min-height:32px;margin-bottom:12px}
+#favorites-status{font:400 12px/1.6 var(--sans);color:var(--text-dim)}
+.tool-entry{position:relative;min-width:0}
+.favorite-toggle{position:absolute;top:0;right:0;display:grid;place-items:center;width:32px;height:32px;padding:0;border:1px solid transparent;border-radius:50%;background:#081018;color:var(--text-dim);cursor:pointer;touch-action:manipulation}
+.favorite-toggle svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linejoin:round}
+.favorite-toggle[aria-pressed=true]{color:var(--gold)}
+.favorite-toggle[aria-pressed=true] svg{fill:var(--gold)}
+.favorite-toggle:hover{color:var(--gold);border-color:var(--gold-dim)}
+.favorite-toggle:disabled,.favorite-toggle[aria-disabled=true]{cursor:wait;opacity:.4}
+.favorite-toggle:focus-visible,#favorites-retry:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
+.toolbox [hidden]{display:none!important}

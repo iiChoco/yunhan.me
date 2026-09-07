@@ -55,9 +55,9 @@ existing sentence-style commit titles; do not invent Ciel subsystem codenames.
 
 From `door/`, use `uv run --no-sync ...` with an already prepared environment;
 `uv sync --locked` prepares or updates that environment without changing the lock.
-There is no repository-wide test runner currently documented. Inspect available
-checks for the touched component and run a focused check with temporary fixtures
-for backend behavior changes. Use local browser verification for UI changes and
+Door's authentication checks run from `door/` with
+`uv run --no-sync python -m unittest discover -s tests -v`. Inspect other available
+checks for the touched component and use temporary fixtures for backend changes. Use local browser verification for UI changes and
 state what was actually checked. Do not claim a test suite exists or passed if
 it does not. Documentation-only work needs link/command checks and `git diff --check`.
 

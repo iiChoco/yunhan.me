@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yunhan Wang</title>
+<meta name="description" content="The personal website of Yunhan Wang.">
+<meta name="theme-color" content="#030608">
+<link rel="canonical" href="https://yunhan.me/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='58' fill='none' stroke='%23e8c98a' stroke-width='5' stroke-dasharray='4 12'/%3E%3Ccircle cx='64' cy='64' r='34' fill='none' stroke='%23a0f0ff' stroke-width='5'/%3E%3Ccircle cx='64' cy='64' r='10' fill='%23e8c98a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/instrument.css">
+<link rel="stylesheet" href="/home.css?v=7">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="corner tl" aria-hidden="true"></div><div class="corner tr" aria-hidden="true"></div>
+<div class="corner bl" aria-hidden="true"></div><div class="corner br" aria-hidden="true"></div>
+<header class="home-header">
+  <a class="home-brand" href="/" aria-label="Yunhan Wang home">
+    <svg class="aperture" width="26" height="26" viewBox="0 0 128 128" aria-hidden="true">
+      <circle class="c-outer" cx="64" cy="64" r="58" fill="none" stroke-width="5" stroke-dasharray="4 12"/>
+      <circle class="c-mid" cx="64" cy="64" r="34" fill="none" stroke-width="5"/>
+      <circle class="c-core" cx="64" cy="64" r="10"/>
+    </svg>
+    <span>yunhan.me</span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a href="/toolbox">Toolbox</a>
+    <a href="https://github.com/iiChoco">GitHub <span aria-hidden="true">↗</span></a>
+  </nav>
+</header>
+<main class="landing" id="main" tabindex="-1">
+  <div class="landing-copy">
+    <h1>Yunhan <em>Wang.</em></h1>
+    <p>A personal corner of the internet.</p>
+  </div>
+  <a class="orbital" href="https://ciel.yunhan.me" aria-label="Open Ciel" title="Open Ciel">
+    <svg viewBox="0 0 520 520" fill="none" aria-hidden="true">
+      <defs>
+        <radialGradient id="glow"><stop stop-color="#a0f0ff" stop-opacity=".09"/><stop offset="1" stop-color="#a0f0ff" stop-opacity="0"/></radialGradient>
+        <linearGradient id="orbit" x1="50" y1="100" x2="450" y2="440" gradientUnits="userSpaceOnUse"><stop stop-color="#a0f0ff" stop-opacity=".65"/><stop offset=".5" stop-color="#a0f0ff" stop-opacity=".1"/><stop offset="1" stop-color="#e8c98a" stop-opacity=".55"/></linearGradient>
+      </defs>
+      <circle cx="260" cy="260" r="250" fill="url(#glow)"/>
+      <path d="M260 22v476M22 260h476" class="axis"/>
+      <circle cx="260" cy="260" r="218" class="axis orbit-ring animated" stroke-dasharray="2 9"/>
+      <circle cx="260" cy="260" r="182" class="axis"/>
+      <circle cx="260" cy="260" r="105" class="axis"/>
+      <g stroke="url(#orbit)" stroke-width="1">
+        <ellipse cx="260" cy="260" rx="216" ry="80" transform="rotate(-38 260 260)"/>
+        <ellipse cx="260" cy="260" rx="216" ry="80" transform="rotate(38 260 260)"/>
+        <ellipse cx="260" cy="260" rx="216" ry="80" transform="rotate(90 260 260)"/>
+      </g>
+      <path d="M249 42h22M478 249v22M249 478h22M42 249v22" stroke="var(--gold-dim)"/>
+      <circle cx="260" cy="260" r="32" stroke="var(--gold-dim)"/>
+      <circle cx="260" cy="260" r="19" stroke="var(--cyan)" stroke-opacity=".65"/>
+      <circle cx="260" cy="260" r="5" fill="var(--gold)"/>
+      <!-- Each moving point shares the exact ellipse and rotation of its track. -->
+      <g transform="rotate(-38 260 260)">
+        <g class="satellite satellite-gold animated">
+          <circle r="5" fill="var(--gold)"/>
+          <circle r="13" stroke="var(--gold)" stroke-opacity=".25"/>
+        </g>
+      </g>
+      <g transform="rotate(38 260 260)">
+        <circle class="satellite satellite-cyan animated" r="3" fill="var(--cyan)"/>
+      </g>
+      <g transform="rotate(90 260 260)">
+        <circle class="satellite satellite-blue animated" r="3" fill="var(--cyan)"/>
+      </g>
+    </svg>
+  </a>
+</main>
+<script>
+// Start each point somewhere on its track without changing the CSS-only fallback.
+for (const point of document.querySelectorAll('.satellite')) {
+  const duration = parseFloat(getComputedStyle(point).animationDuration);
+  point.style.animationDelay = `${-Math.random() * duration}s`;
+}
+</script>
+<footer class="home-footer"><span>yunhan.me</span></footer>
+</body>
+</html>

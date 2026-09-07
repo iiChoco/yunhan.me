@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Converters — Toolbox</title>
+<meta name="description" content="Quick access to Math, Ciel, and Ciel Interview.">
+<meta name="theme-color" content="#030608">
+<link rel="canonical" href="https://tools.yunhan.me/convert">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='58' fill='none' stroke='%23e8c98a' stroke-width='5' stroke-dasharray='4 12'/%3E%3Ccircle cx='64' cy='64' r='34' fill='none' stroke='%23a0f0ff' stroke-width='5'/%3E%3Ccircle cx='64' cy='64' r='10' fill='%23e8c98a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/instrument.css">
+<link rel="stylesheet" href="/home.css?v=7">
+<link rel="stylesheet" href="/utilities/utilities.css?v=1">
+<script type="module" src="/utilities/converters.js?v=1"></script>
+</head>
+<body data-home-origin="{{HOME_ORIGIN}}">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="corner tl" aria-hidden="true"></div><div class="corner tr" aria-hidden="true"></div>
+<div class="corner bl" aria-hidden="true"></div><div class="corner br" aria-hidden="true"></div>
+<header class="home-header">
+  <a class="home-brand" href="{{HOME_ORIGIN}}/" aria-label="Yunhan Wang home">
+    <svg class="aperture" width="26" height="26" viewBox="0 0 128 128" aria-hidden="true">
+      <circle class="c-outer" cx="64" cy="64" r="58" fill="none" stroke-width="5" stroke-dasharray="4 12"/>
+      <circle class="c-mid" cx="64" cy="64" r="34" fill="none" stroke-width="5"/>
+      <circle class="c-core" cx="64" cy="64" r="10"/>
+    </svg>
+    <span>yunhan.me</span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a href="{{HOME_ORIGIN}}/toolbox" >Toolbox</a>
+    <a href="/login?auto=0&amp;next=/convert">Account</a>
+  </nav>
+</header>
+<main class="utility" id="main" tabindex="-1"><a class="back-link" href="{{HOME_ORIGIN}}/toolbox">← Toolbox</a><div class="utility-heading"><h1>Converters</h1><p>Units, timestamps, time zones, and text encodings.</p><span class="local-note">On your device · nothing uploaded</span></div><noscript><p class="notice">Enable JavaScript to use this tool. Processing happens in your browser.</p></noscript><div class="tabs" role="group" aria-label="Conversion type"><button class="chip" data-converter="units" aria-pressed="true">Units</button><button class="chip" data-converter="timestamps" aria-pressed="false">Timestamps</button><button class="chip" data-converter="zones" aria-pressed="false">Time zones</button><button class="chip" data-converter="encoding" aria-pressed="false">Encoding</button></div><section class="work-panel" data-converter-panel="units"><label>Category<select id="unit-category"><option>Length</option><option>Mass</option><option>Temperature</option><option>Area</option><option>Volume</option><option>Speed</option><option>Data</option></select></label><div class="fields"><label>Value<input id="unit-value" type="number" step="any" value="1"></label><label>From<select id="unit-from"></select></label><label>To<select id="unit-to"></select></label></div><output id="unit-output" class="big-output"></output></section><section class="work-panel" data-converter-panel="timestamps" hidden><div class="fields"><label>Unix timestamp<input id="stamp-input" type="text" inputmode="numeric" placeholder="1704067200"></label><label>Unit<select id="stamp-unit"><option value="1000">Seconds</option><option value="1">Milliseconds</option></select></label></div><div class="actions"><button id="stamp-decode" class="chip gold">To date</button><button id="stamp-now" class="chip">Use now</button></div><label>Date with time zone<input id="stamp-date" type="text" placeholder="2024-01-01T00:00:00Z"></label><button id="stamp-encode" class="chip">To timestamp</button><output id="stamp-output" class="big-output"></output></section><section class="work-panel" data-converter-panel="zones" hidden><label>Date &amp; time<input id="zone-date" type="datetime-local" step="1"></label><div class="fields"><label>From time zone<select id="zone-from"></select></label><label>To time zone<select id="zone-to"></select></label></div><button id="zone-convert" class="chip gold">Convert time</button><output id="zone-output" class="big-output"></output><p id="zone-note" class="hint"></p></section><section class="work-panel" data-converter-panel="encoding" hidden><label>Text<textarea id="encoding-input" rows="6" spellcheck="false"></textarea></label><div class="actions"><label>Encoding<select id="encoding-type"><option value="url">URL component</option><option value="base64">Base64 · UTF-8</option></select></label><button id="encoding-encode" class="chip gold">Encode</button><button id="encoding-decode" class="chip">Decode</button></div><label>Result<textarea id="encoding-output" rows="6" readonly spellcheck="false"></textarea></label><button id="encoding-copy" class="chip">Copy result</button></section><p id="status" class="status" role="status" aria-live="polite"></p></main>
+<footer class="home-footer"><span>yunhan.me</span></footer>
+</body>
+</html>

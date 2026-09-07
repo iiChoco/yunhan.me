@@ -9,7 +9,9 @@ Three jobs on one port, told apart by hostname and path:
   app, and key, as a flat file. What a static page keeps across devices.
 * **sites** — a hostname listed under ``[sites]`` is served straight from a
   directory: index files, no trailing slashes, a 404 page if the site has
-  one. This is how math.yunhan.me lives on the same box.
+  one. This is how math.yunhan.me lives on the same box. The parent domain
+  serves home/public; its Toolbox is a separate authenticated handler reading
+  home/private, never the public static directory.
 
 Cross-origin callers are the listed origins only, with credentials; any
 other Origin on an unsafe method is refused outright, which is the CSRF
@@ -22,6 +24,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+from html import escape
 import mimetypes
 import os
 import re
@@ -37,6 +40,7 @@ from door.accounts import (
     read_cookie, sign_cookie,
 )
 from door.config import Config
+from door.shortlinks import ShortLinks
 
 log = logging.getLogger("door")
 
@@ -44,6 +48,9 @@ KEY = re.compile(r"^[a-z0-9][a-z0-9_.-]{0,63}$")
 """App and key names: boring, because they name files."""
 
 STATIC_DENY = {".DS_Store", "staticwebapp.config.json"}
+UTILITY_PATHS = {'qr': 'qr-code', 'color': 'color-picker', 'url': 'url-shortener', 'convert': 'converters', 'image': 'image-tools', 'json': 'json-formatter', 'pdf': 'pdf-tools', 'text': 'text-tools', 'password': 'password-generator', 'timer': 'timer'}
+UTILITY_PAGES = frozenset(('qr-code', 'image-tools', 'pdf-tools', 'text-tools', 'json-formatter', 'converters', 'color-picker', 'password-generator', 'timer', 'url-shortener'))
+
 MAX_FAILURES = 8
 FAILURE_WINDOW = 600.0
 
@@ -59,6 +66,7 @@ class Door:
         self.secret = ""
         self.attempts: dict[str, deque[float]] = {}
         self.pages = Path(__file__).parent / "pages"
+        self.shortlinks = ShortLinks(cfg.dir / "shortlinks.sqlite3", cfg.home / "public")
 
     # ── app ──────────────────────────────────────────────────────────────────
 
@@ -69,6 +77,11 @@ class Door:
         )
         r = app.router
         r.add_get("/", self._page_login)
+        r.add_get("/login", self._page_login)
+        r.add_get("/toolbox", self._page_toolbox)
+        r.add_get("/toolbox/", self._page_toolbox)
+        r.add_get("/tools/{tool}", self._page_utility)
+        r.add_get("/tools/{tool}/", self._page_utility)
         r.add_get("/admin", self._page_admin)
         r.add_get("/instrument.css", self._instrument_css)
         r.add_get("/healthz", self._healthz)
@@ -80,12 +93,17 @@ class Door:
         r.add_get("/api/store/{app}/{key}", self._store_get)
         r.add_put("/api/store/{app}/{key}", self._store_put)
         r.add_delete("/api/store/{app}/{key}", self._store_delete)
+        r.add_get("/api/links", self._links_list)
+        r.add_post("/api/links", self._links_create)
+        r.add_delete("/api/links/{slug}", self._links_delete)
         r.add_get("/api/admin/accounts", self._admin_list)
         r.add_post("/api/admin/accounts", self._admin_create)
         r.add_post("/api/admin/accounts/{u}/reset", self._admin_reset)
         r.add_post("/api/admin/accounts/{u}/disable", self._admin_disable)
         r.add_post("/api/admin/accounts/{u}/enable", self._admin_enable)
         r.add_delete("/api/admin/accounts/{u}", self._admin_delete)
+        r.add_get("/{tool}", self._page_short_utility)
+        r.add_get("/{tool}/", self._page_short_utility)
         app.on_startup.append(self._startup)
         return app
 
@@ -96,6 +114,7 @@ class Door:
         except OSError:
             pass
         self.secret = mint_secret(self.cfg.secret_file)
+        await asyncio.to_thread(self.shortlinks.initialize)
         n = len(self.accounts.list())
         log.info(
             "door open on %s:%d — %d account%s, cookie %s on %r, %d site%s: %s",
@@ -124,9 +143,70 @@ class Door:
     def _origin_allowed(self, request: web.Request, origin: str) -> bool:
         return origin in self.cfg.origins or origin == self._own_origin(request)
 
+    def _preview(self) -> bool:
+        return self.cfg.site in {"127.0.0.1", "localhost", "::1"} and not self.cfg.tools_host
+
+    def _tools_host(self) -> str:
+        return self.cfg.tools_host or f"tools.{self.cfg.site}"
+
+    def _home_origin(self, request: web.Request) -> str:
+        if self.cfg.site in {"127.0.0.1", "localhost", "::1"} or self.cfg.site.endswith(".localhost"):
+            port = request.url.port
+            return f"http://{self.cfg.site}" + (f":{port}" if port and port != 80 else "")
+        return f"https://{self.cfg.site}"
+
+    def _tools_origin(self, request: web.Request) -> str:
+        home = self._home_origin(request)
+        return home if self._preview() else home.replace(self.cfg.site, self._tools_host(), 1)
+
     @web.middleware
     async def _sites_mw(self, request: web.Request, handler: Any) -> web.StreamResponse:
-        root = self.cfg.sites.get(self._hostname(request))
+        hostname = self._hostname(request)
+        if hostname == self._tools_host():
+            if request.path in {"/", "/toolbox", "/toolbox/"}:
+                raise web.HTTPFound(f"{self._home_origin(request)}/toolbox", headers={"Cache-Control": "no-store"})
+            if request.path.startswith("/api/links"):
+                try:
+                    response = await handler(request)
+                except web.HTTPException as exc:
+                    exc.headers["Cache-Control"] = "private, no-store"
+                    raise
+                response.headers["Cache-Control"] = "private, no-store"
+                return response
+            if request.path.rstrip("/")[1:] in UTILITY_PATHS or request.path.startswith("/tools/") or request.path in {"/login", "/api/login", "/api/logout", "/api/me", "/api/password"}:
+                return await handler(request)
+            return await self._static(request, self.cfg.home / "public")
+        if hostname == self.cfg.site:
+            # The apex shares Door's account endpoints, but admin stays on the
+            # auth hostname where its additional Cloudflare Access gate lives.
+            if request.path == "/admin":
+                raise web.HTTPFound(f"https://auth.{self.cfg.site}/admin")
+            if request.path in {"/api/links", "/api/store/toolbox-favorites"} or request.path.startswith(("/api/links/", "/api/store/toolbox-favorites/")):
+                # Account data and failed API responses must never be cached.
+                try:
+                    response = await handler(request)
+                except web.HTTPException as exc:
+                    exc.headers["Cache-Control"] = "private, no-store"
+                    raise
+                response.headers["Cache-Control"] = "private, no-store"
+                return response
+            if (self._preview() and request.path.rstrip("/")[1:] in UTILITY_PATHS) or request.path.startswith("/tools/") or request.path in {"/login", "/toolbox", "/toolbox/", "/api/login", "/api/logout", "/api/me", "/api/password"}:
+                return await handler(request)
+            if re.fullmatch(r"/[a-z]+(?:-[a-z]+){0,3}", request.path):
+                found, target = await asyncio.to_thread(self.shortlinks.resolve, request.path[1:])
+                if found:
+                    headers = {"Cache-Control": "no-store", "Referrer-Policy": "no-referrer", "X-Robots-Tag": "noindex, nofollow"}
+                    if request.method not in {"GET", "HEAD"}:
+                        return web.Response(status=405, headers={**headers, "Allow": "GET, HEAD"})
+                    if target:
+                        raise web.HTTPFound(target, headers=headers)
+                    return web.Response(status=410, text="This link has expired. Ask the sender for a new link.", headers=headers)
+            response = await self._static(request, self.cfg.home / "public")
+            if response.status == 404:
+                # A missing word can become a new short link after this request.
+                response.headers["Cache-Control"] = "no-store"
+            return response
+        root = self.cfg.sites.get(hostname)
         if root is not None:
             return await self._static(request, root)
         return await handler(request)
@@ -147,18 +227,18 @@ class Door:
             # A raised 401/403/400 is a response too; it needs the same headers
             # or the browser reports a CORS failure instead of the real status.
             if allowed:
-                exc.headers.update(self._cors_headers(origin))
+                exc.headers.update(self._cors_headers(origin, vary=exc.headers.get("Vary", "")))
             raise
         if allowed:
-            response.headers.update(self._cors_headers(origin))
+            response.headers.update(self._cors_headers(origin, vary=response.headers.get("Vary", "")))
         return response
 
     @staticmethod
-    def _cors_headers(origin: str, preflight: bool = False) -> dict[str, str]:
+    def _cors_headers(origin: str, preflight: bool = False, *, vary: str = "") -> dict[str, str]:
         h = {
             "Access-Control-Allow-Origin": origin,
             "Access-Control-Allow-Credentials": "true",
-            "Vary": "Origin",
+            "Vary": ", ".join(dict.fromkeys([v.strip() for v in vary.split(",") if v.strip()] + ["Origin"])),
         }
         if preflight:
             h["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
@@ -222,6 +302,39 @@ class Door:
 
     async def _page_login(self, request: web.Request) -> web.Response:
         return self._page("login.html")
+
+    async def _page_toolbox(self, request: web.Request) -> web.Response:
+        return self._private_page(request, "toolbox.html", "/toolbox")
+
+    async def _page_utility(self, request: web.Request) -> web.Response:
+        slug = request.match_info["tool"]
+        if slug not in UTILITY_PAGES or self._hostname(request) not in {self.cfg.site, self._tools_host()}:
+            raise web.HTTPNotFound(headers={"Cache-Control": "no-store"})
+        short = next(key for key, value in UTILITY_PATHS.items() if value == slug)
+        if not self._preview():
+            raise web.HTTPFound(f"{self._tools_origin(request)}/{short}", headers={"Cache-Control": "no-store"})
+        return self._private_page(request, f"utilities/{slug}.html", f"/tools/{slug}")
+
+    async def _page_short_utility(self, request: web.Request) -> web.Response:
+        short = request.match_info["tool"]
+        if short not in UTILITY_PATHS or not (self._hostname(request) == self._tools_host() or (self._preview() and self._hostname(request) == self.cfg.site)):
+            raise web.HTTPNotFound(headers={"Cache-Control": "no-store"})
+        return self._private_page(request, f"utilities/{UTILITY_PATHS[short]}.html", f"/{short}")
+
+    def _private_page(self, request: web.Request, filename: str, return_path: str) -> web.Response:
+        headers = {"Cache-Control": "private, no-store", "Vary": "Cookie"}
+        allowed_hosts = {self.cfg.site, self._tools_host()} if filename.startswith("utilities/") else {self.cfg.site}
+        if self._hostname(request) not in allowed_hosts:
+            raise web.HTTPNotFound(headers=headers)
+        if self._user(request) is None:
+            # Both arguments come from fixed routes, never a submitted file path.
+            raise web.HTTPFound(f"/login?next={return_path}", headers=headers)
+        page = self.cfg.home / "private" / filename
+        if not page.is_file():
+            raise web.HTTPNotFound(headers=headers)
+        html = page.read_text().replace("{{HOME_ORIGIN}}", escape(self._home_origin(request), quote=True)).replace("{{TOOLS_ORIGIN}}", escape(self._tools_origin(request), quote=True))
+        return web.Response(text=html, content_type="text/html", charset="utf-8",
+                            headers={**headers, "X-Content-Type-Options": "nosniff"})
 
     async def _page_admin(self, request: web.Request) -> web.Response:
         return self._page("admin.html")
@@ -356,6 +469,36 @@ class Door:
         response = web.json_response({"ok": True})
         self._set_cookie(response, request, account.username)
         return response
+
+    # ── temporary links ─────────────────────────────────────────────────────
+
+    def _links_owner(self, request: web.Request) -> str:
+        if self._hostname(request) not in {self.cfg.site, self._tools_host()}:
+            raise web.HTTPNotFound(headers={"Cache-Control": "no-store"})
+        return self._require(request).username
+
+    async def _links_list(self, request: web.Request) -> web.Response:
+        owner = self._links_owner(request)
+        links = await asyncio.to_thread(self.shortlinks.list, owner)
+        return web.json_response({"links": links})
+
+    async def _links_create(self, request: web.Request) -> web.Response:
+        owner = self._links_owner(request)
+        body = await self._body(request)
+        try:
+            link = await asyncio.to_thread(self.shortlinks.create, owner, body.get("destination"), body.get("expires_in", 86400))
+        except ValueError as exc:
+            return fail(400, "bad_link", str(exc))
+        except RuntimeError as exc:
+            return fail(503, "unavailable", str(exc))
+        return web.json_response(link, status=201)
+
+    async def _links_delete(self, request: web.Request) -> web.Response:
+        owner = self._links_owner(request)
+        removed = await asyncio.to_thread(self.shortlinks.revoke, owner, request.match_info["slug"])
+        if not removed:
+            return fail(404, "not_found", "No such active link.")
+        return web.json_response({"ok": True})
 
     # ── store ────────────────────────────────────────────────────────────────
 

@@ -3,7 +3,10 @@
 Small math tools. Static files in `public/`, served by the door (`../door`) on the Ciel VM as the `math.yunhan.me` site, behind the Cloudflare Tunnel.
 
 - `public/zetamac/index.html` is the Zetamac clone: presets, sprint mode, per-run stats, progress charts, and, when signed in through the door, history that follows you across devices.
-- `public/index.html` is the index; `public/404.html` the not-found page.
+- `public/index.html` is intentionally blank while the math landing page is reserved
+  for later. The central Toolbox at `yunhan.me/toolbox` links directly to
+  `math.yunhan.me/zetamac`; the drill and not-found page link back to Toolbox.
+- `public/404.html` is the not-found page.
 
 Deployment is forwarded to the infrastructure repository by `scripts/push.sh` from the repo root. It deploys by default; use `scripts/push.sh --preview` to print commands without deploying. Files are read from disk per request, so they are live when they land.
 

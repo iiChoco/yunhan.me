@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toolbox — Yunhan Wang</title>
+<meta name="description" content="Quick access to Math, Ciel Interview, and everyday tools.">
+<meta name="theme-color" content="#030608">
+<link rel="canonical" href="https://yunhan.me/toolbox">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='58' fill='none' stroke='%23e8c98a' stroke-width='5' stroke-dasharray='4 12'/%3E%3Ccircle cx='64' cy='64' r='34' fill='none' stroke='%23a0f0ff' stroke-width='5'/%3E%3Ccircle cx='64' cy='64' r='10' fill='%23e8c98a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/instrument.css">
+<link rel="stylesheet" href="/home.css?v=7">
+<link rel="stylesheet" href="/toolbox.css?v=2">
+<script type="module" src="/toolbox.js?v=2"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="corner tl" aria-hidden="true"></div><div class="corner tr" aria-hidden="true"></div>
+<div class="corner bl" aria-hidden="true"></div><div class="corner br" aria-hidden="true"></div>
+<header class="home-header">
+  <a class="home-brand" href="/" aria-label="Yunhan Wang home">
+    <svg class="aperture" width="26" height="26" viewBox="0 0 128 128" aria-hidden="true">
+      <circle class="c-outer" cx="64" cy="64" r="58" fill="none" stroke-width="5" stroke-dasharray="4 12"/>
+      <circle class="c-mid" cx="64" cy="64" r="34" fill="none" stroke-width="5"/>
+      <circle class="c-core" cx="64" cy="64" r="10"/>
+    </svg>
+    <span>yunhan.me</span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a href="/toolbox" aria-current="page">Toolbox</a>
+    <a href="/login?auto=0&amp;next=/toolbox">Account</a>
+  </nav>
+</header>
+<main class="toolbox" id="main" tabindex="-1">
+  <div class="toolbox-heading">
+    <h1>Toolbox<span>.</span></h1>
+  </div>
+  <div class="favorites-feedback">
+    <p id="favorites-status" role="status" aria-live="polite"></p>
+    <button type="button" id="favorites-retry" hidden>Retry</button>
+  </div>
+  <nav class="tools" aria-label="Tools">
+    <a class="tool" data-tool-id="ciel-interview" href="https://ciel.yunhan.me/interview">
+      <span class="tool-icon">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M5 5h20v14H13l-6 5v-5H5V5Z" stroke="currentColor" stroke-width="1.2"/><path d="M10 10h10M10 14h7" stroke="var(--gold)" stroke-width="1.2"/></svg>
+      </span>
+      <span class="tool-name">Ciel Interview</span>
+    </a>
+    <a class="tool" data-tool-id="color-picker" href="{{TOOLS_ORIGIN}}/color"><span class="tool-icon"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M15 3C12 8 6 13 6 19a9 9 0 0 0 18 0c0-6-6-11-9-16Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tool-name">Color Picker</span></a>
+    <a class="tool" data-tool-id="converters" href="{{TOOLS_ORIGIN}}/convert"><span class="tool-icon"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M4 9h21l-5-5M26 21H5l5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tool-name">Converters</span></a>
+    <a class="tool" data-tool-id="image-tools" href="{{TOOLS_ORIGIN}}/image"><span class="tool-icon"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M4 4h22v22H4zM4 21l7-8 5 5 4-6 6 9M19 8h.01" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tool-name">Image Tools</span></a>
+    <a class="tool" data-tool-id="json-formatter" href="{{TOOLS_ORIGIN}}/json"><span class="tool-icon"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M11 3H8v9l-4 3 4 3v9h3M19 3h3v9l4 3-4 3v9h-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tool-name">JSON Formatter</span></a>
+    <a class="tool" data-tool-id="math" href="https://math.yunhan.me/zetamac">
+      <span class="tool-icon">
+        <svg width="28" height="28" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M4 8h10M9 3v10M20 7h7M5 20l7 7M12 20l-7 7M20 22h7M20 26h7" stroke="currentColor" stroke-width="1.3"/></svg>
+      </span>
+      <span class="tool-name">Math</span>
+    </a>
+    <a class="tool" data-tool-id="password-generator" href="{{TOOLS_ORIGIN}}/password"><span class="tool-icon"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M7 13h16v14H7zM10 13V8a5 5 0 0 1 10 0v5M15 19v3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tool-name">Password Generator</span></a>
+    <a class="tool" data-tool-id="pdf-tools" href="{{TOOLS_ORIGIN}}/pdf"><span class="tool-icon"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M7 3h11l6 6v18H7zM18 3v7h6M11 15h9M11 19h9M11 23h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tool-name">PDF Tools</span></a>
+    <a class="tool" data-tool-id="qr-code" href="{{TOOLS_ORIGIN}}/qr"><span class="tool-icon"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M3 3h8v8H3zM19 3h8v8h-8zM3 19h8v8H3zM18 18h4v4h-4zM25 19v8h-7M15 3v10M3 15h10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tool-name">QR Code</span></a>
+    <a class="tool" data-tool-id="text-tools" href="{{TOOLS_ORIGIN}}/text"><span class="tool-icon"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M4 5h22M15 5v21M10 26h10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tool-name">Text Tools</span></a>
+    <a class="tool" data-tool-id="timer" href="{{TOOLS_ORIGIN}}/timer"><span class="tool-icon"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M11 3h8M15 3v4M24 8l2-2M15 12v7l4 2M25 18a10 10 0 1 1-20 0 10 10 0 0 1 20 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tool-name">Timer</span></a>
+    <a class="tool" data-tool-id="url-shortener" href="{{TOOLS_ORIGIN}}/url"><span class="tool-icon"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="m12 18 6-6M10 20l-2 2a5 5 0 0 1-7-7l6-6a5 5 0 0 1 7 0M20 10l2-2a5 5 0 0 0-7-7l-6 6" transform="translate(3 3)" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span><span class="tool-name">URL Shortener</span></a>
+  </nav>
+</main>
+<footer class="home-footer"><span>yunhan.me</span></footer>
+</body>
+</html>

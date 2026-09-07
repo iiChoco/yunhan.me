@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>URL Shortener — Toolbox</title>
+<meta name="description" content="Quick access to Math, Ciel, and Ciel Interview.">
+<meta name="theme-color" content="#030608">
+<link rel="canonical" href="https://tools.yunhan.me/url">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='58' fill='none' stroke='%23e8c98a' stroke-width='5' stroke-dasharray='4 12'/%3E%3Ccircle cx='64' cy='64' r='34' fill='none' stroke='%23a0f0ff' stroke-width='5'/%3E%3Ccircle cx='64' cy='64' r='10' fill='%23e8c98a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/instrument.css">
+<link rel="stylesheet" href="/home.css?v=7">
+<link rel="stylesheet" href="/utilities/utilities.css?v=1">
+<script type="module" src="/utilities/url-shortener.js?v=2"></script>
+<link rel="stylesheet" href="/utilities/url-shortener.css?v=1">
+</head>
+<body data-home-origin="{{HOME_ORIGIN}}">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="corner tl" aria-hidden="true"></div><div class="corner tr" aria-hidden="true"></div>
+<div class="corner bl" aria-hidden="true"></div><div class="corner br" aria-hidden="true"></div>
+<header class="home-header">
+  <a class="home-brand" href="{{HOME_ORIGIN}}/" aria-label="Yunhan Wang home">
+    <svg class="aperture" width="26" height="26" viewBox="0 0 128 128" aria-hidden="true">
+      <circle class="c-outer" cx="64" cy="64" r="58" fill="none" stroke-width="5" stroke-dasharray="4 12"/>
+      <circle class="c-mid" cx="64" cy="64" r="34" fill="none" stroke-width="5"/>
+      <circle class="c-core" cx="64" cy="64" r="10"/>
+    </svg>
+    <span>yunhan.me</span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a href="{{HOME_ORIGIN}}/toolbox" >Toolbox</a>
+    <a href="/login?auto=0&amp;next=/url">Account</a>
+  </nav>
+</header>
+<main class="utility" id="main" tabindex="-1">
+  <a class="back-link" href="{{HOME_ORIGIN}}/toolbox">← Toolbox</a>
+  <div class="utility-heading"><h1>URL Shortener</h1><p>A short link, for a little while.</p><span class="local-note">Anyone with the link can open it · expires within 24 hours</span></div>
+  <noscript><p class="notice">Enable JavaScript to create and manage links.</p></noscript>
+  <form id="shorten-form" class="work-panel narrow-panel">
+    <label>Destination URL<input id="destination" type="url" placeholder="https://example.com/a-long-link" required maxlength="4096" autocomplete="off"></label>
+    <div class="fields">
+      <label>Expire after<input id="duration" type="number" min="1" max="24" step="1" value="24" required></label>
+      <label>Unit<select id="duration-unit" aria-label="Unit"><option value="60">Minutes</option><option value="3600" selected>Hours</option></select></label>
+    </div>
+    <button id="shorten" type="submit" class="chip gold">Create short link</button>
+  </form>
+  <p id="status" class="status" role="status" aria-live="polite"></p>
+  <section class="short-links narrow-panel" aria-labelledby="links-heading">
+    <div class="actions"><h2 id="links-heading">Your active links</h2><button id="refresh-links" type="button" class="chip">Refresh</button></div>
+    <p id="links-empty" class="hint">Loading links…</p>
+    <div id="links-list"></div>
+  </section>
+</main>
+<footer class="home-footer"><span>yunhan.me</span></footer>
+</body>
+</html>

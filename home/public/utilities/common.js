@@ -1,0 +1,9 @@
+export const $ = id => document.getElementById(id);
+export function status(message = '', error = false) { const node = $('status'); node.textContent = message; node.classList.toggle('error', error); }
+export function on(id, event, fn) { $(id).addEventListener(event, async e => { try { status(); await fn(e); } catch (err) { status(err.message || String(err), true); } }); }
+export function download(blob, name) { const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = name; link.click(); setTimeout(() => URL.revokeObjectURL(url), 60000); }
+export async function copy(value) { if (!value) throw Error('There is nothing to copy yet.'); try { await navigator.clipboard.writeText(value); status('Copied.'); } catch { throw Error('Clipboard access was unavailable. Select the result and copy it manually.'); } }
+export function integer(value, min, max, name) { const n = Number(value); if (!String(value).trim() || !Number.isInteger(n) || n < min || n > max) throw Error(`${name} must be a whole number from ${min} to ${max}.`); return n; }
+export function size(bytes) { return bytes < 1024 ? `${bytes} B` : bytes < 1048576 ? `${(bytes / 1024).toFixed(1)} KB` : `${(bytes / 1048576).toFixed(1)} MB`; }
+export function loadScript(path) { return new Promise((resolve, reject) => { const script = document.createElement('script'); script.src = path; script.onload = resolve; script.onerror = () => reject(Error('A tool component could not load. Refresh and try again.')); document.head.append(script); }); }
+export async function busy(buttons, action) { const previous = buttons.map(b => b.disabled); buttons.forEach(b => { b.disabled = true; }); try { return await action(); } finally { buttons.forEach((b, i) => { b.disabled = previous[i]; }); } }

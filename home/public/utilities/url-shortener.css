@@ -1,0 +1,11 @@
+input[type=url]{width:100%;min-width:0;padding:11px 12px;border:1px solid var(--line-strong);background:rgba(160,240,255,.035);color:var(--text);font:400 13px/1.5 var(--mono);border-radius:0}
+input[type=url]:focus-visible{outline:1px solid var(--cyan);outline-offset:1px}
+.short-links{margin-top:24px}
+.short-links h2{font:400 24px/1.4 var(--serif);margin-right:auto}
+#links-empty{margin-top:18px}
+.short-link{display:grid;gap:12px;margin-top:16px;padding:20px;border:1px solid var(--line);background:rgba(160,240,255,.02)}
+.short-link a{color:var(--gold);font:400 18px/1.5 var(--mono);overflow-wrap:anywhere}
+.short-link p{margin:0;overflow-wrap:anywhere}
+.short-link time{font:400 12px/1.5 var(--sans);color:var(--text-dim)}
+.short-link .actions{margin-top:4px}
+.short-link:focus{outline:1px solid var(--gold);outline-offset:3px}

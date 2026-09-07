@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF Tools — Toolbox</title>
+<meta name="description" content="Quick access to Math, Ciel, and Ciel Interview.">
+<meta name="theme-color" content="#030608">
+<link rel="canonical" href="https://tools.yunhan.me/pdf">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='58' fill='none' stroke='%23e8c98a' stroke-width='5' stroke-dasharray='4 12'/%3E%3Ccircle cx='64' cy='64' r='34' fill='none' stroke='%23a0f0ff' stroke-width='5'/%3E%3Ccircle cx='64' cy='64' r='10' fill='%23e8c98a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/instrument.css">
+<link rel="stylesheet" href="/home.css?v=7">
+<link rel="stylesheet" href="/utilities/utilities.css?v=1">
+<script type="module" src="/utilities/pdf-tools.js?v=1"></script>
+</head>
+<body data-home-origin="{{HOME_ORIGIN}}">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="corner tl" aria-hidden="true"></div><div class="corner tr" aria-hidden="true"></div>
+<div class="corner bl" aria-hidden="true"></div><div class="corner br" aria-hidden="true"></div>
+<header class="home-header">
+  <a class="home-brand" href="{{HOME_ORIGIN}}/" aria-label="Yunhan Wang home">
+    <svg class="aperture" width="26" height="26" viewBox="0 0 128 128" aria-hidden="true">
+      <circle class="c-outer" cx="64" cy="64" r="58" fill="none" stroke-width="5" stroke-dasharray="4 12"/>
+      <circle class="c-mid" cx="64" cy="64" r="34" fill="none" stroke-width="5"/>
+      <circle class="c-core" cx="64" cy="64" r="10"/>
+    </svg>
+    <span>yunhan.me</span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a href="{{HOME_ORIGIN}}/toolbox" >Toolbox</a>
+    <a href="/login?auto=0&amp;next=/pdf">Account</a>
+  </nav>
+</header>
+<main class="utility" id="main" tabindex="-1"><a class="back-link" href="{{HOME_ORIGIN}}/toolbox">← Toolbox</a><div class="utility-heading"><h1>PDF Tools</h1><p>Merge, split, reorder, or extract pages.</p><span class="local-note">On your device · nothing uploaded</span></div><noscript><p class="notice">Enable JavaScript to use this tool. Processing happens in your browser.</p></noscript><section class="work-panel"><label>Add PDFs<input id="pdf-files" type="file" accept="application/pdf,.pdf" multiple></label><p class="hint">Files stay on this device. Password-protected PDFs are not supported. Exports copy page content; document-level bookmarks, attachments, and interactive forms may not carry over.</p><div class="actions"><button id="pdf-all" class="chip" disabled>Select all</button><button id="pdf-none" class="chip" disabled>Select none</button><button id="pdf-clear" class="chip" disabled>Clear files</button><span id="pdf-count" class="hint">No pages added.</span></div><div id="pdf-pages" class="page-list"></div><div class="actions"><button id="pdf-merge" class="chip gold" disabled>Download selected PDF</button><button id="pdf-split" class="chip" disabled>Split selected pages into ZIP</button></div><p class="hint">Select the pages to keep. Use the arrows to reorder them. The combined download follows this order.</p></section><p id="status" class="status" role="status" aria-live="polite"></p></main>
+<footer class="home-footer"><span>yunhan.me</span></footer>
+</body>
+</html>

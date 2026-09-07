@@ -70,7 +70,8 @@ function safeNext() {
     const u = new URL(raw, location.href);
     const h = u.hostname;
     const inSite = h === site || h.endsWith('.' + site);
-    const ok = (u.protocol === 'https:' && inSite) || (u.protocol === 'http:' && inSite && (site === 'localhost'));
+    const localReturn = u.origin === location.origin && ['localhost', '127.0.0.1', '[::1]'].includes(h);
+    const ok = !u.username && !u.password && ((u.protocol === 'https:' && inSite) || (u.protocol === 'http:' && (localReturn || (inSite && (site === 'localhost' || site.endsWith('.localhost'))))));
     return ok ? u.href : null;
   } catch { return null; }
 }
