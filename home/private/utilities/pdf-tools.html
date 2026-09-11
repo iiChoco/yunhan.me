@@ -4,16 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PDF Tools — Toolbox</title>
-<meta name="description" content="Quick access to Math, Ciel, and Ciel Interview.">
+<meta name="description" content="Combine PDFs, choose pages, and arrange your download. Everything stays on your device.">
 <meta name="theme-color" content="#030608">
 <link rel="canonical" href="https://tools.yunhan.me/pdf">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='58' fill='none' stroke='%23e8c98a' stroke-width='5' stroke-dasharray='4 12'/%3E%3Ccircle cx='64' cy='64' r='34' fill='none' stroke='%23a0f0ff' stroke-width='5'/%3E%3Ccircle cx='64' cy='64' r='10' fill='%23e8c98a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/instrument.css">
 <link rel="stylesheet" href="/home.css?v=7">
 <link rel="stylesheet" href="/utilities/utilities.css?v=1">
-<script type="module" src="/utilities/pdf-tools.js?v=1"></script>
+<link rel="stylesheet" href="/utilities/pdf-tools.css?v=2">
+<script type="module" src="/utilities/pdf-tools.js?v=2"></script>
 </head>
-<body data-home-origin="{{HOME_ORIGIN}}">
+<body class="pdf-tool" data-home-origin="{{HOME_ORIGIN}}">
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="corner tl" aria-hidden="true"></div><div class="corner tr" aria-hidden="true"></div>
 <div class="corner bl" aria-hidden="true"></div><div class="corner br" aria-hidden="true"></div>
@@ -31,7 +32,47 @@
     <a href="/login?auto=0&amp;next=/pdf">Account</a>
   </nav>
 </header>
-<main class="utility" id="main" tabindex="-1"><a class="back-link" href="{{HOME_ORIGIN}}/toolbox">← Toolbox</a><div class="utility-heading"><h1>PDF Tools</h1><p>Merge, split, reorder, or extract pages.</p><span class="local-note">On your device · nothing uploaded</span></div><noscript><p class="notice">Enable JavaScript to use this tool. Processing happens in your browser.</p></noscript><section class="work-panel"><label>Add PDFs<input id="pdf-files" type="file" accept="application/pdf,.pdf" multiple></label><p class="hint">Files stay on this device. Password-protected PDFs are not supported. Exports copy page content; document-level bookmarks, attachments, and interactive forms may not carry over.</p><div class="actions"><button id="pdf-all" class="chip" disabled>Select all</button><button id="pdf-none" class="chip" disabled>Select none</button><button id="pdf-clear" class="chip" disabled>Clear files</button><span id="pdf-count" class="hint">No pages added.</span></div><div id="pdf-pages" class="page-list"></div><div class="actions"><button id="pdf-merge" class="chip gold" disabled>Download selected PDF</button><button id="pdf-split" class="chip" disabled>Split selected pages into ZIP</button></div><p class="hint">Select the pages to keep. Use the arrows to reorder them. The combined download follows this order.</p></section><p id="status" class="status" role="status" aria-live="polite"></p></main>
+<main class="utility" id="main" tabindex="-1">
+  <a class="back-link" href="{{HOME_ORIGIN}}/toolbox">← Toolbox</a>
+  <div class="utility-heading"><h1>PDF Tools</h1><p>A few files. Just the pages you need. In your order.</p><span class="local-note">On your device · nothing uploaded</span></div>
+  <noscript><p class="notice">Enable JavaScript to use this tool. Processing happens in your browser.</p></noscript>
+  <section id="pdf-add" class="work-panel" aria-labelledby="pdf-add-heading">
+    <h2 id="pdf-add-heading"><span class="pdf-step">01</span> Add your PDFs</h2>
+    <div id="pdf-drop" class="pdf-drop">
+      <p>Drop PDFs here to get started</p>
+      <label>Or choose files<input id="pdf-files" type="file" accept="application/pdf,.pdf" multiple aria-describedby="pdf-limits"></label>
+      <p class="hint" id="pdf-limits">Add one PDF to extract or reorder pages, or several to merge. Up to 50 MB and 300 pages in total.</p>
+    </div>
+    <div id="pdf-sources" class="pdf-sources"></div>
+  </section>
+  <section id="pdf-workspace" class="work-panel" aria-labelledby="pdf-arrange-heading" hidden>
+    <div class="pdf-section-heading"><h2 id="pdf-arrange-heading"><span class="pdf-step">02</span> Choose pages &amp; order</h2><button id="pdf-clear" class="chip">Clear files</button></div>
+    <p class="hint" id="pdf-order-help">Checked pages go into your download, in the order below. Drag a page’s move handle, use its arrow keys, or enter a new position.</p>
+    <div class="actions">
+      <button id="pdf-all" class="chip">Select all</button><button id="pdf-none" class="chip">Select none</button>
+      <button id="pdf-first" class="chip">Move selected to start</button><button id="pdf-last" class="chip">Move selected to end</button>
+      <span id="pdf-count" class="hint" aria-live="polite"></span>
+    </div>
+    <div id="pdf-pages" class="pdf-grid" role="list" aria-label="Pages in download order" aria-describedby="pdf-order-help"></div>
+    <p id="pdf-no-selection" class="hint" hidden>No pages selected. Check a page or use Select all to continue.</p>
+  </section>
+  <section id="pdf-export" class="work-panel" aria-labelledby="pdf-export-heading" hidden>
+    <h2 id="pdf-export-heading"><span class="pdf-step">03</span> Download</h2>
+    <fieldset class="pdf-formats"><legend>What would you like to get?</legend>
+      <label class="pdf-format"><input type="radio" name="pdf-format" value="combined" checked><span><strong>One PDF</strong><span class="hint">Combine the checked pages into one document.</span></span></label>
+      <label class="pdf-format"><input type="radio" name="pdf-format" value="separate"><span><strong>One PDF per page</strong><span class="hint">A ZIP containing a separate PDF for each checked page.</span></span></label>
+    </fieldset>
+    <label class="pdf-filename">Download name<input id="pdf-name" type="text" value="combined" maxlength="120" spellcheck="false" aria-describedby="pdf-name-help"><span id="pdf-name-help" class="hint">The .pdf extension is added automatically.</span></label>
+    <div class="pdf-download-row"><p id="pdf-result" class="pdf-result" aria-live="polite"></p><button id="pdf-download" class="chip gold" disabled>Download PDF</button></div>
+  </section>
+  <p id="status" class="status" role="status" aria-live="polite"></p>
+  <details class="pdf-notes"><summary>PDF compatibility</summary><p class="hint">Password-protected PDFs are not supported. Exports copy page content; document-level bookmarks, attachments, and interactive forms may not carry over. Previews use your browser’s PDF viewer. Closing this page clears your files.</p></details>
+  <dialog id="pdf-preview" aria-labelledby="pdf-preview-title">
+    <div class="pdf-section-heading"><h2 id="pdf-preview-title">Page preview</h2><button id="pdf-preview-close" class="chip" autofocus>Close preview</button></div>
+    <p class="hint">This preview contains just this page. If it does not display, <a id="pdf-preview-open" target="_blank" rel="noopener">open the preview in a new tab</a>.</p>
+    <iframe id="pdf-preview-frame" title="PDF page preview"></iframe>
+  </dialog>
+</main>
 <footer class="home-footer"><span>yunhan.me</span></footer>
 </body>
 </html>

@@ -99,6 +99,46 @@ source tarball integrity, licenses, and the EFF wordlist attribution are in
 `public/vendor/`. Libraries load only on tools that use them. Shared input,
 status, copy, and download helpers live in `public/utilities/common.js`.
 
+PDF Tools follows three steps: add PDFs, choose pages and order, then download.
+Drop files into the picker or browse for them; new files append to the current work.
+Each source has a page-range selector (`all`, `1-3, 5`), a way to move all its pages
+to the start, and a remove action. Ranges change selection for that source without
+changing page order or other files. Checked pages are exported in the displayed
+order. Drag a page's move handle, use its arrow keys (Home/End jump to the ends),
+or enter a position; selected pages can also move to the start or end as a group.
+The page grid scrolls so a long document does not bury the download controls.
+
+**Preview page** opens a single-page copy in the browser's PDF viewer, with a
+new-tab fallback. Escape or Close returns to the page control. **One PDF** combines
+or extracts checked pages; **One PDF per page** creates a ZIP with sequentially
+numbered PDFs in that same order. The result summary states the output and page
+count before download. Names are editable, and the correct extension is appended.
+A rejected upload batch keeps the existing selection and arrangement intact.
+All processing and preview data stay in the browser, with the existing vendored
+libraries; no upload service or additional PDF renderer is used.
+
+The PDF browser regression script uses temporary generated PDFs and a loopback
+fixture server. With Playwright available to Node, run from the repository root:
+
+```sh
+node home/tests/pdf-tools.browser.cjs
+```
+
+Set `NODE_PATH` to an existing package directory if Playwright is not on Node's
+module path, and `CHROME_PATH` to the local Chrome executable when it differs
+from the default macOS location. `PDF_CHECK_OUTPUT` chooses the screenshot folder;
+otherwise screenshots go into a fresh temporary directory. The fixture server
+serves the utility for these checks only; it does not replace Door's login checks.
+
+PDF verification on 2026-09-11: all 42 Chrome browser checks passed, including
+PDF and ZIP contents, preview bytes, range and order controls, keyboard focus,
+failed batches, loading locks, limits, and a complete 300-page export. Layouts
+were checked at 320, 390, and 1,280 pixels; desktop and narrow page controls,
+download choices, and rendered previews were visually inspected. Processing
+made no external requests or input uploads. Door's 25 routing/authentication
+checks also passed. Native PDF preview behavior in Safari and Firefox was not
+verified.
+
 Image input is limited to 50 MB and 40 million pixels; output dimensions are
 limited to 8,192 per side and 40 million pixels. Animated images become one frame.
 PDF input is limited to 50 MB and 300 pages. Encrypted PDFs are rejected; copied
