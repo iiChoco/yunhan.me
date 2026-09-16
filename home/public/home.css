@@ -1,23 +1,26 @@
 /* Landing and Toolbox layouts, using the shared Instrument tokens. */
 body{background:radial-gradient(ellipse at 60% 40%,#0b1922 0,transparent 65%),#030608}
 a{touch-action:manipulation}
-.home-header{width:calc(100% - 112px);max-width:1240px;margin:0 auto;padding:28px 0;justify-content:space-between;border:0}
+.home-header{width:calc(100% - 112px);max-width:1240px;margin:0 auto;padding:28px 0;justify-content:space-between;flex-wrap:wrap;row-gap:14px;border:0}
 .home-brand{display:flex;align-items:center;gap:12px;font:500 12px/1 var(--mono);letter-spacing:.03em;color:var(--text)}
 .home-brand:hover{text-decoration:none;color:var(--gold)}
-.home-header nav{display:flex;align-items:center;gap:32px;font:500 11px/1.4 var(--mono)}
-.home-header nav a{color:var(--text-dim);padding:12px 0}
+.home-header nav{display:flex;align-items:center;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;gap:32px;font:500 11px/1.4 var(--mono)}
+.home-header nav a{color:var(--text-dim);padding:12px 0;white-space:nowrap}
 .home-header nav a:hover,.home-header nav a[aria-current=page]{color:var(--gold)}
 .home-header nav span{margin-left:5px;color:var(--gold)}
+.home-header nav a.chip{padding:8px 13px;color:var(--gold)}
+.home-header nav a.chip:hover{color:#f0dbaf}
 main{width:calc(100% - 112px);max-width:1240px;padding:0;margin:0 auto}
 main:focus{outline:none}
-.landing{display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:40px;padding:50px 0 80px}
-.landing h1{font:400 clamp(58px,8vw,108px)/1.1 var(--serif);letter-spacing:-.045em}
-.landing h1 em{display:block;font-weight:400;color:var(--gold)}
-.landing p{margin-top:24px;color:var(--text-dim);font:400 14px/1.6 var(--sans)}
-.orbital{position:relative;width:100%;max-width:520px;justify-self:end}
+/* The landing page is exactly one screen: a fixed body height lets the graphic
+   below take its size from the space left between header and footer. */
+.home-landing{height:100dvh}
+.landing{display:flex;align-items:center;justify-content:center;min-height:0;padding:40px 0 60px}
+/* Square, and sized by the height left over, so a short window shrinks it instead of scrolling. */
+.orbital{position:relative;aspect-ratio:1;height:100%;max-height:520px;width:auto;max-width:100%}
 .orbital:hover{text-decoration:none}
 .orbital:focus-visible{outline:1px solid var(--gold);outline-offset:6px}
-.orbital svg{display:block;width:100%;height:auto;transition:transform .35s ease,filter .35s ease}
+.orbital svg{display:block;width:100%;height:100%;transition:transform .35s ease,filter .35s ease}
 .orbital:focus-visible svg{transform:translateY(-4px) scale(1.025);filter:brightness(1.18) drop-shadow(0 0 10px rgba(160,240,255,.16))}
 @media(hover:hover){.orbital:hover svg{transform:translateY(-4px) scale(1.025);filter:brightness(1.18) drop-shadow(0 0 10px rgba(160,240,255,.16))}}
 .axis{stroke:var(--line)}
@@ -47,13 +50,11 @@ main:focus{outline:none}
 @media(max-width:600px){
   .home-header,main,.home-footer{width:calc(100% - 44px)}
   .home-header{padding:20px 0}
-  .home-header nav{gap:20px;font-size:10px}
+  .home-header nav{gap:16px;font-size:10px}
+  .home-header nav a.chip{padding:7px 10px;font-size:9px;letter-spacing:.14em}
   .home-brand{font-size:11px;gap:8px}
-  .landing{grid-template-columns:1fr;align-content:center;text-align:center;gap:28px;padding:30px 0}
-  .orbital{width:68%;max-width:260px;justify-self:center}
-  .landing h1{font-size:clamp(62px,16vw,86px)}
-  .landing h1 em{display:block}
-  .landing p{font-size:13px;margin-top:22px}
+  .landing{padding:30px 0}
+  .orbital{height:auto;max-height:100%;width:78%;max-width:300px}
   .toolbox{padding:45px 0 60px}
   .toolbox-heading{margin-bottom:24px}
   .toolbox-heading h1{font-size:32px}

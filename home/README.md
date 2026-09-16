@@ -1,11 +1,20 @@
 # Home
 
-The public landing page at `/` pairs a name with the animated orbital graphic.
+The public landing page at `/` is the animated orbital graphic alone: no
+headline, no tagline, nothing between the header and the footer. The graphic is
+square and takes its size from the height left between them, so a short window
+shrinks it rather than scrolling; the page is always exactly one screen.
 Hover or keyboard focus adds a gentle lift and glow; activating it opens Ciel.
 A small script randomizes the points' starting positions on each load. Without
 JavaScript, their CSS animation uses fixed positions. Reduced-motion settings
 keep them still and disable the lift. The orbital graphic is the website’s
 only launcher for Ciel itself; Ciel Interview remains in Toolbox.
+
+The header carries the brand, the Toolbox and GitHub links, and a Teaching
+button in the Instrument's chip shape at the right. Its `/teaching` page does
+not exist yet, so the button is a dead link until that page is written. Three
+items no longer fit one row on a narrow phone, so the header wraps and the
+links move to a second, right-aligned row.
 
 Toolbox at `/toolbox` is an alphabetical icon launcher for Ciel Interview,
 Math, nine browser utilities, and a temporary URL shortener. It requires an active Door account. Signed-out visitors go to
@@ -90,7 +99,7 @@ the landing page and launcher navigation work without it.
 | JSON Formatter | `tools.yunhan.me/json` | Validate, format, minify, search, copy, download |
 | Password Generator | `tools.yunhan.me/password` | Secure random passwords and EFF-wordlist passphrases |
 | PDF Tools | `tools.yunhan.me/pdf` | Select/reorder pages, merge/extract a PDF, split selected pages into ZIP |
-| QR Code | `tools.yunhan.me/qr` | Unicode text/URL QR generation, PNG and SVG downloads |
+| QR Code | `tools.yunhan.me/qr` | Scan QR images to copy/open links; Unicode text/URL QR generation, PNG and SVG downloads |
 | Text Tools | `tools.yunhan.me/text` | Counts, case changes, line cleanup/deduplication, line comparison |
 | Timer | `tools.yunhan.me/timer` | Countdown, stopwatch/laps, focus/break presets and optional finish sound |
 
@@ -98,6 +107,24 @@ The QR, PDF, ZIP, and diff libraries are pinned and vendored; their versions,
 source tarball integrity, licenses, and the EFF wordlist attribution are in
 `public/vendor/`. Libraries load only on tools that use them. Shared input,
 status, copy, and download helpers live in `public/utilities/common.js`.
+
+QR Code opens on **Make a code**, with the generator and preview together.
+**Scan an image** opens the scanner in the same space; switching modes preserves
+both results. Arrow keys, Home, and End move between the tabs. Dropping an image
+anywhere switches to Scan automatically, or use its keyboard-accessible picker. Scanning stays on-device and shows the decoded text;
+HTTP(S) links without embedded credentials also get an explicit Open link action.
+Nothing opens automatically. One code is returned per image. Missing or unreadable
+codes show a retry message, and a new image clears the old result. Scans accept
+up to 20 MB and 40 million pixels, resize to 2,048 pixels on the longest side,
+and run in a worker with a 15-second limit. Crop around small codes in large
+screenshots if needed. The pinned jsQR decoder and its license are vendored locally.
+
+Scanner verification: 32 local Chrome checks cover image drops and file selection,
+exact URL and Unicode decoding, copy by click and keyboard, link handling, unreadable
+and empty images, the file-size limit, replacing an in-flight scan, default maker
+visibility, keyboard tab navigation, preserved results, and both modes at
+320, 390, and 1,280 pixels. All requests stayed on the preview origin. The maker was also visually inspected on mobile
+and desktop; Door’s 25 authentication/routing tests passed.
 
 PDF Tools follows three steps: add PDFs, choose pages and order, then download.
 Drop files into the picker or browse for them; new files append to the current work.
