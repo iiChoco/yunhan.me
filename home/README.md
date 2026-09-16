@@ -11,10 +11,19 @@ keep them still and disable the lift. The orbital graphic is the website’s
 only launcher for Ciel itself; Ciel Interview remains in Toolbox.
 
 The header carries the brand, the Toolbox and GitHub links, and a Teaching
-button in the Instrument's chip shape at the right. Its `/teaching` page does
-not exist yet, so the button is a dead link until that page is written. Three
-items no longer fit one row on a narrow phone, so the header wraps and the
-links move to a second, right-aligned row.
+button in the Instrument's chip shape at the right. Three items no longer fit
+one row on a narrow phone, so the header wraps and the links move to a second,
+right-aligned row.
+
+Teaching at `/teaching` is a public reading list: notes, slides, and problem
+sets, so a link handed out in class keeps working. It is a plain static page
+under `public/teaching/`, served like any other public asset, and it holds an
+empty-state line until the first course goes up. One `section.course` per
+course, newest first; each material is a row that is either a file kept beside
+the page, with its type and size, or a link out marked with the same arrow the
+header uses, with its destination named. The comment in the page shows the
+shape. `teaching` is in Door's short-link `RESERVED` set, so a generated link
+can never take the route from the page.
 
 Toolbox at `/toolbox` is an alphabetical icon launcher for Ciel Interview,
 Math, nine browser utilities, and a temporary URL shortener. It requires an active Door account. Signed-out visitors go to

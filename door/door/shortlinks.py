@@ -20,7 +20,7 @@ from typing import Any
 from yarl import URL
 
 MAX_LIFETIME = 86400
-RESERVED = {'password', 'pdf', 'json', 'url', 'text', 'timer', 'image', 'convert', 'qr', 'color'} | {"api", "admin", "login", "logout", "toolbox", "tools", "healthz", "utilities", "vendor", "private", "public", "portfolio", "projects", "about", "contact", "assets", "instrument", "home"}
+RESERVED = {'password', 'pdf', 'json', 'url', 'text', 'timer', 'image', 'convert', 'qr', 'color'} | {"api", "admin", "login", "logout", "toolbox", "tools", "healthz", "utilities", "vendor", "private", "public", "portfolio", "projects", "about", "contact", "assets", "instrument", "home", "teaching"}
 
 
 def destination(value: Any) -> str:
