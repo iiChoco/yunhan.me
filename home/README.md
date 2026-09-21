@@ -10,14 +10,25 @@ than scrolling; the page is always exactly one screen. It rests idle. Hover or
 keyboard focus wakes it to listening, with a gentle lift; activating it opens
 Ciel. The brand glyph in this page's header is the same renderer showing only
 the core, and wakes with it. Without JavaScript, a still drawing of the idle
-mark stands in the same box and the header keeps the older aperture glyph.
+mark stands in the same box and the header shows a still of the core.
 Reduced-motion settings hold the mark still and disable the lift. The mark is
 the website's only launcher for Ciel itself; Ciel Interview remains in Toolbox.
 
 `public/ciel-mark.js` is a copy of the engine inlined in Ciel's
 `src/ciel/remote/chart.html`, taken 2026-09-20. Ciel's copy is the source:
-change it there, re-copy, and bump the `?v=` on the script tag. Toolbox,
-Teaching, the utilities, and Door's login still wear the aperture glyph.
+change it there, re-copy, and bump the `?v=` on the script tag.
+
+Every other page wears the same mark by one rule: a small mark is only what
+lives inside the iris, a large one is the whole instrument. Toolbox, Teaching,
+the utilities, Door's login and admin, and Zetamac carry the Instrument's
+`.brand-mark` box in their header, and `public/brand-mark.js` mounts the living
+core in it after `ciel-mark.js`; the box holds a still of the core until then,
+and keeps it without JavaScript. A page that keeps `data-state` on its body, as
+Zetamac does, has its mark follow that state. Door answers `/ciel-mark.js` and
+`/brand-mark.js` itself on the auth hostname, where no static tree does; Zetamac
+loads both from the apex and falls back to the still when it cannot. Favicons
+are a still of the core on the eclipse disc. The old three-circle aperture
+glyph is retired from this repository.
 
 The header carries the brand, the Toolbox and GitHub links, and a Teaching
 button in the Instrument's chip shape at the right. Three items no longer fit

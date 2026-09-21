@@ -25,11 +25,6 @@ main:focus{outline:none}
 .orbital>*{position:absolute;inset:0;display:block;width:100%;height:100%;transition:transform .35s ease,filter .35s ease}
 .orbital:focus-visible>*{transform:translateY(-4px) scale(1.025);filter:brightness(1.18)}
 @media(hover:hover){.orbital:hover>*{transform:translateY(-4px) scale(1.025);filter:brightness(1.18)}}
-.brand-mark{position:relative;display:block;width:26px;height:26px;flex:none}
-.brand-mark>*{position:absolute;inset:0;display:block;width:100%;height:100%}
-.mark-live{visibility:hidden}
-.mark-on .mark-live{visibility:visible}
-.mark-on .mark-still{visibility:hidden}
 .toolbox{max-width:720px;padding:82px 0 100px}
 .toolbox-heading{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
 .toolbox-heading h1{font:400 38px/1.2 var(--serif);letter-spacing:-.035em}

@@ -84,6 +84,8 @@ class Door:
         r.add_get("/tools/{tool}/", self._page_utility)
         r.add_get("/admin", self._page_admin)
         r.add_get("/instrument.css", self._instrument_css)
+        r.add_get("/ciel-mark.js", self._mark_script)
+        r.add_get("/brand-mark.js", self._mark_script)
         r.add_get("/healthz", self._healthz)
         r.add_post("/api/login", self._login)
         r.add_post("/api/logout", self._logout)
@@ -344,6 +346,15 @@ class Door:
         if not path.is_file():
             return web.Response(status=404, text="no instrument.css")
         return web.FileResponse(path, headers={"Content-Type": "text/css; charset=utf-8", "Cache-Control": "public, max-age=300"})
+
+    async def _mark_script(self, request: web.Request) -> web.StreamResponse:
+        # Login and admin wear the living mark on the auth hostname, where no
+        # static tree answers; the apex and tools hosts serve the same two
+        # files from home/public before a request gets here.
+        path = self.cfg.home / "public" / request.path.lstrip("/")
+        if not path.is_file():
+            return web.Response(status=404, text="no mark")
+        return web.FileResponse(path, headers={"Content-Type": "application/javascript; charset=utf-8", "Cache-Control": "public, max-age=300", "X-Content-Type-Options": "nosniff"})
 
     async def _healthz(self, request: web.Request) -> web.Response:
         return web.json_response({"ok": True, "accounts": len(self.accounts.list())})

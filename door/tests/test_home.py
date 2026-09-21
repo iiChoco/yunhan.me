@@ -42,7 +42,7 @@ class HomeAccess(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(response.status, 200)
 
     async def test_landing_assets_and_login_are_public(self) -> None:
-        for path in ("/", "/home.css?v=6", "/instrument.css", "/login?next=/toolbox"):
+        for path in ("/", "/home.css?v=6", "/instrument.css", "/ciel-mark.js", "/brand-mark.js", "/login?next=/toolbox"):
             with self.subTest(path=path):
                 response = await self.client.get(path)
                 self.assertEqual(response.status, 200)
@@ -94,6 +94,9 @@ class HomeAccess(unittest.IsolatedAsyncioTestCase):
         response = await self.client.get("/toolbox", headers={"Host": "yunhan.me", "Cookie": f"yh_session={cookie.value}"})
         self.assertEqual(response.status, 200)
         self.assertEqual((await self.client.get("/", headers={"Host": "auth.yunhan.me"})).status, 200)
+        # The login page wears the living mark there too, with no static tree behind it.
+        for path in ("/ciel-mark.js", "/brand-mark.js"):
+            self.assertEqual((await self.client.get(path, headers={"Host": "auth.yunhan.me"})).status, 200)
 
     async def test_logout_revokes_browser_access(self) -> None:
         await self.login()
