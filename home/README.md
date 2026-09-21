@@ -1,14 +1,23 @@
 # Home
 
-The public landing page at `/` is the animated orbital graphic alone: no
-headline, no tagline, nothing between the header and the footer. The graphic is
-square and takes its size from the height left between them, so a short window
-shrinks it rather than scrolling; the page is always exactly one screen.
-Hover or keyboard focus adds a gentle lift and glow; activating it opens Ciel.
-A small script randomizes the points' starting positions on each load. Without
-JavaScript, their CSS animation uses fixed positions. Reduced-motion settings
-keep them still and disable the lift. The orbital graphic is the website’s
-only launcher for Ciel itself; Ciel Interview remains in Toolbox.
+The public landing page at `/` is Ciel's living mark alone: no headline, no
+tagline, nothing between the header and the footer. The mark is the same
+instrument Ciel's Chart wears — an eclipse disc behind iris blades, a corona,
+and a ring of ticks and cardinal marks around an armillary core — drawn on a
+canvas by `public/ciel-mark.js`. It is square and takes its size from the
+height left between header and footer, so a short window shrinks it rather
+than scrolling; the page is always exactly one screen. It rests idle. Hover or
+keyboard focus wakes it to listening, with a gentle lift; activating it opens
+Ciel. The brand glyph in this page's header is the same renderer showing only
+the core, and wakes with it. Without JavaScript, a still drawing of the idle
+mark stands in the same box and the header keeps the older aperture glyph.
+Reduced-motion settings hold the mark still and disable the lift. The mark is
+the website's only launcher for Ciel itself; Ciel Interview remains in Toolbox.
+
+`public/ciel-mark.js` is a copy of the engine inlined in Ciel's
+`src/ciel/remote/chart.html`, taken 2026-09-20. Ciel's copy is the source:
+change it there, re-copy, and bump the `?v=` on the script tag. Toolbox,
+Teaching, the utilities, and Door's login still wear the aperture glyph.
 
 The header carries the brand, the Toolbox and GitHub links, and a Teaching
 button in the Instrument's chip shape at the right. Three items no longer fit
@@ -39,8 +48,8 @@ through Door's existing per-user store, with one key per tool in
 `toolbox-favorites`. The page refreshes favorites when reopened or returned to;
 failed loads and saves offer a retry. Favorites need JavaScript; tool links do not.
 
-`public/index.html`, `public/home.css`, and the vendored `public/instrument.css`
-are public assets. `private/toolbox.html` is outside the static tree and is only
+`public/index.html`, `public/home.css`, `public/ciel-mark.js`, and the vendored
+`public/instrument.css` are public assets. `private/toolbox.html` is outside the static tree and is only
 read after Door validates the session. Private responses and login redirects use
 `Cache-Control: private, no-store`. Do not put a copy of Toolbox under `public/`.
 The Instrument copy is v1, 2026-09-04; update it from

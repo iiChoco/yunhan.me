@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://yunhan.me/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ccircle cx='64' cy='64' r='58' fill='none' stroke='%23e8c98a' stroke-width='5' stroke-dasharray='4 12'/%3E%3Ccircle cx='64' cy='64' r='34' fill='none' stroke='%23a0f0ff' stroke-width='5'/%3E%3Ccircle cx='64' cy='64' r='10' fill='%23e8c98a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/instrument.css">
-<link rel="stylesheet" href="/home.css?v=8">
+<link rel="stylesheet" href="/home.css?v=9">
 </head>
 <body class="home-landing">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -17,11 +17,14 @@
 <div class="corner bl" aria-hidden="true"></div><div class="corner br" aria-hidden="true"></div>
 <header class="home-header">
   <a class="home-brand" href="/" aria-label="Yunhan Wang home">
-    <svg class="aperture" width="26" height="26" viewBox="0 0 128 128" aria-hidden="true">
-      <circle class="c-outer" cx="64" cy="64" r="58" fill="none" stroke-width="5" stroke-dasharray="4 12"/>
-      <circle class="c-mid" cx="64" cy="64" r="34" fill="none" stroke-width="5"/>
-      <circle class="c-core" cx="64" cy="64" r="10"/>
-    </svg>
+    <span class="brand-mark">
+      <svg class="aperture mark-still" width="26" height="26" viewBox="0 0 128 128" aria-hidden="true">
+        <circle class="c-outer" cx="64" cy="64" r="58" fill="none" stroke-width="5" stroke-dasharray="4 12"/>
+        <circle class="c-mid" cx="64" cy="64" r="34" fill="none" stroke-width="5"/>
+        <circle class="c-core" cx="64" cy="64" r="10"/>
+      </svg>
+      <canvas class="mark-live" aria-hidden="true"></canvas>
+    </span>
     <span>yunhan.me</span>
   </a>
   <nav aria-label="Main navigation">
@@ -32,46 +35,63 @@
 </header>
 <main class="landing" id="main" tabindex="-1">
   <a class="orbital" href="https://ciel.yunhan.me" aria-label="Open Ciel" title="Open Ciel">
-    <svg viewBox="0 0 520 520" fill="none" aria-hidden="true">
+    <svg class="mark-still" viewBox="0 0 520 520" fill="none" aria-hidden="true">
       <defs>
-        <radialGradient id="glow"><stop stop-color="#a0f0ff" stop-opacity=".09"/><stop offset="1" stop-color="#a0f0ff" stop-opacity="0"/></radialGradient>
-        <linearGradient id="orbit" x1="50" y1="100" x2="450" y2="440" gradientUnits="userSpaceOnUse"><stop stop-color="#a0f0ff" stop-opacity=".65"/><stop offset=".5" stop-color="#a0f0ff" stop-opacity=".1"/><stop offset="1" stop-color="#e8c98a" stop-opacity=".55"/></linearGradient>
+        <radialGradient id="corona" gradientUnits="userSpaceOnUse" cx="260" cy="260" r="200"><stop offset=".38" stop-color="#8fa8b3" stop-opacity=".3"/><stop offset=".55" stop-color="#8fa8b3" stop-opacity=".07"/><stop offset="1" stop-color="#8fa8b3" stop-opacity="0"/></radialGradient>
       </defs>
-      <circle cx="260" cy="260" r="250" fill="url(#glow)"/>
-      <path d="M260 22v476M22 260h476" class="axis"/>
-      <circle cx="260" cy="260" r="218" class="axis orbit-ring animated" stroke-dasharray="2 9"/>
-      <circle cx="260" cy="260" r="182" class="axis"/>
-      <circle cx="260" cy="260" r="105" class="axis"/>
-      <g stroke="url(#orbit)" stroke-width="1">
-        <ellipse cx="260" cy="260" rx="216" ry="80" transform="rotate(-38 260 260)"/>
-        <ellipse cx="260" cy="260" rx="216" ry="80" transform="rotate(38 260 260)"/>
-        <ellipse cx="260" cy="260" rx="216" ry="80" transform="rotate(90 260 260)"/>
+      <circle cx="260" cy="260" r="200" fill="url(#corona)"/>
+      <g stroke="#8fa8b3">
+        <circle cx="260" cy="260" r="208" stroke-opacity=".18"/>
+        <circle cx="260" cy="260" r="150" stroke-opacity=".1"/>
+        <circle cx="260" cy="260" r="217" stroke-opacity=".35" stroke-width="9" stroke-dasharray="1 13.2"/>
+        <path d="M260 40v18M480 260h-18M260 480v-18M40 260h18" stroke-opacity=".5"/>
+        <path d="M108 118A208 208 0 0 1 300 56M464 300A208 208 0 0 1 380 430" stroke-opacity=".55" stroke-width="2.4" transform="rotate(8 260 260) scale(.93) translate(19.6 19.6)"/>
       </g>
-      <path d="M249 42h22M478 249v22M249 478h22M42 249v22" stroke="var(--gold-dim)"/>
-      <circle cx="260" cy="260" r="32" stroke="var(--gold-dim)"/>
-      <circle cx="260" cy="260" r="19" stroke="var(--cyan)" stroke-opacity=".65"/>
-      <circle cx="260" cy="260" r="5" fill="var(--gold)"/>
-      <!-- Each moving point shares the exact ellipse and rotation of its track. -->
-      <g transform="rotate(-38 260 260)">
-        <g class="satellite satellite-gold animated">
-          <circle r="5" fill="var(--gold)"/>
-          <circle r="13" stroke="var(--gold)" stroke-opacity=".25"/>
-        </g>
+      <circle cx="260" cy="260" r="78" fill="#030608"/>
+      <circle cx="260" cy="260" r="79" stroke="#b6c6cd" stroke-opacity=".45" stroke-width="2.2"/>
+      <path d="M336.0 260.0L226.0 328.0M325.8 298.0L196.6 301.8M298.0 325.8L184.1 264.5M260.0 336.0L192.0 226.0M222.0 325.8L218.2 196.6M194.2 298.0L255.5 184.1M184.0 260.0L294.0 192.0M194.2 222.0L323.4 218.2M222.0 194.2L335.9 255.5M260.0 184.0L328.0 294.0M298.0 194.2L301.8 323.4M325.8 222.0L264.5 335.9" stroke="#8fa8b3" stroke-opacity=".28"/>
+      <circle cx="260" cy="260" r="40" stroke="#b6c6cd" stroke-opacity=".5" fill="#8fa8b3" fill-opacity=".06"/>
+      <g stroke="#b6c6cd" stroke-opacity=".6">
+        <ellipse cx="260" cy="260" rx="36" ry="13" transform="rotate(-38 260 260)"/>
+        <ellipse cx="260" cy="260" rx="31" ry="11" transform="rotate(38 260 260)"/>
+        <ellipse cx="260" cy="260" rx="26" ry="9" transform="rotate(90 260 260)"/>
       </g>
-      <g transform="rotate(38 260 260)">
-        <circle class="satellite satellite-cyan animated" r="3" fill="var(--cyan)"/>
-      </g>
-      <g transform="rotate(90 260 260)">
-        <circle class="satellite satellite-blue animated" r="3" fill="var(--cyan)"/>
+      <circle cx="260" cy="260" r="2" fill="#fff"/>
+      <g fill="#8fa8b3" fill-opacity=".55" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" text-anchor="middle" dominant-baseline="middle">
+        <text x="260" y="19">000</text><text x="501" y="260">090</text><text x="260" y="501">180</text><text x="19" y="260">270</text>
       </g>
     </svg>
+    <canvas class="mark-live" aria-hidden="true"></canvas>
   </a>
 </main>
+<script src="/ciel-mark.js?v=1"></script>
 <script>
-// Start each point somewhere on its track without changing the CSS-only fallback.
-for (const point of document.querySelectorAll('.satellite')) {
-  const duration = parseFloat(getComputedStyle(point).animationDuration);
-  point.style.animationDelay = `${-Math.random() * duration}s`;
+// The living mark replaces the still one once the engine is here. The large
+// mark is the whole instrument; the header glyph is only its core. Both rest
+// idle and wake to listening while the launcher is hovered or focused.
+if (window.CielSymbol2) {
+  const launcher = document.querySelector('.orbital');
+  const marks = [
+    {canvas: launcher.querySelector('canvas'), core: false},
+    {canvas: document.querySelector('.brand-mark canvas'), core: true},
+  ];
+  for (const m of marks) { m.inst = new CielSymbol2(m.canvas, {concept: 'final'}); m.inst.coreOnly = m.core; }
+  document.documentElement.classList.add('mark-on');
+  const attend = on => { for (const m of marks) on ? m.inst.wake() : m.inst.setState('idle'); };
+  launcher.addEventListener('pointerenter', () => attend(true));
+  launcher.addEventListener('pointerleave', () => attend(launcher.matches(':focus-visible')));
+  launcher.addEventListener('focus', () => attend(launcher.matches(':focus-visible')));
+  launcher.addEventListener('blur', () => attend(launcher.matches(':hover')));
+  // Returning through the back-forward cache must not leave it listening.
+  addEventListener('pageshow', () => attend(false));
+  new ResizeObserver(() => { for (const m of marks) m.inst.resize(); }).observe(marks[0].canvas);
+  let last = performance.now();
+  const frame = now => {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    for (const m of marks) m.inst.tick(dt);
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
 }
 </script>
 <footer class="home-footer"><span>yunhan.me</span></footer>
