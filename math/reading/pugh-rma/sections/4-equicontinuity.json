@@ -1,0 +1,257 @@
+{
+ "version": 1,
+ "id": "4-equicontinuity",
+ "blocks": [
+  {
+   "id": "c4-eq-intro",
+   "kind": "prose",
+   "number": "",
+   "tex": "In $\\R^m$ the Heine–Borel theorem says a set is compact exactly when it is closed and bounded. In the function space $C^0[a,b]$ this fails: the sequence $x^n$ lies in the closed unit ball of $C^0[0,1]$ and has no uniformly convergent subsequence. The missing ingredient is a condition that keeps all the functions in the set from oscillating too wildly, \\emph{equicontinuity}. With it, bounded sequences do have uniformly convergent subsequences (the Arzelà–Ascoli theorem), and compact subsets of $C^0$ are exactly the closed, bounded, equicontinuous ones.\n\nIn this section compactness of a metric space is used in its sequential form: every sequence has a subsequence converging to a point of the space. (By Chapter 2 this is equivalent to covering compactness, which the next section uses.)"
+  },
+  {
+   "id": "c4-def-equicontinuous",
+   "kind": "definition",
+   "number": "",
+   "title": "Equicontinuity",
+   "tex": "Let $M$ be a metric space with metric $d$ and let $\\mathcal{E}$ be a set of functions $M \\to \\R$.\n\\begin{itemize}\n\\item $\\mathcal{E}$ is \\emph{equicontinuous} if for every $\\eps > 0$ there is a $\\delta > 0$ such that for all $f \\in \\mathcal{E}$ and all $s, t \\in M$,\n\\[ d(s,t) < \\delta \\implies \\abs{f(s) - f(t)} < \\eps . \\]\n\\item $\\mathcal{E}$ is \\emph{pointwise equicontinuous} if for every $p \\in M$ and every $\\eps > 0$ there is a $\\delta > 0$ such that for all $f \\in \\mathcal{E}$ and all $x \\in M$, $d(x,p) < \\delta$ implies $\\abs{f(x) - f(p)} < \\eps$.\n\\end{itemize}\nA sequence $(f_n)$ is called (pointwise) equicontinuous if the set $\\set{f_n : n \\in \\N}$ is. In equicontinuity one $\\delta$ serves all functions and all points; in pointwise equicontinuity $\\delta$ may depend on $p$ but still not on $f$. Each member of an equicontinuous set is uniformly continuous.\n\nA subset $\\mathcal{E}$ of $C_b(M)$ is \\emph{bounded} if there is a constant $B$ with $\\norm{f} \\le B$ for all $f \\in \\mathcal{E}$; this is boundedness in the sup metric, and is also called \\emph{uniform boundedness}."
+  },
+  {
+   "id": "c4-ex-xn-not-equicontinuous",
+   "kind": "exercise",
+   "number": "",
+   "title": "The powers $x^n$ are not equicontinuous",
+   "tex": "The sequence $f_n(x) = x^n$ on $[0,1]$ is bounded in $C^0[0,1]$ but is not equicontinuous.",
+   "proof": "$\\norm{f_n} = 1$ for all $n$, so the sequence is bounded.\n\nTake $\\eps = \\tfrac12$ and let $\\delta > 0$ be arbitrary. Put $t = \\max(0, 1 - \\delta/2)$, so $t \\in [0,1)$ and $\\abs{1 - t} \\le \\delta/2 < \\delta$. Since $0 \\le t < 1$, $t^n \\to 0$, so there is an $n$ with $t^n < \\tfrac12$. For this $n$,\n\\[ \\abs{f_n(1) - f_n(t)} = 1 - t^n > \\tfrac12 = \\eps \\]\nalthough $\\abs{1 - t} < \\delta$. So no $\\delta$ works for $\\eps = \\tfrac12$, and the sequence is not equicontinuous.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Negate the definition: find one $\\eps$ such that for every $\\delta$ some $f_n$ changes by at least $\\eps$ between two points closer than $\\delta$.",
+    "Look near $x = 1$: fix $t < 1$ close to $1$ and let $n$ grow."
+   ],
+   "uses": [
+    "c4-def-equicontinuous"
+   ]
+  },
+  {
+   "id": "c4-prop-lipschitz-equicontinuous",
+   "kind": "proposition",
+   "number": "",
+   "title": "A common Lipschitz constant gives equicontinuity",
+   "tex": "Let $M$ be a metric space, $L \\ge 0$, and let $\\mathcal{E}$ be a set of functions $M \\to \\R$ such that $\\abs{f(s) - f(t)} \\le L\\, d(s,t)$ for all $f \\in \\mathcal{E}$ and $s,t \\in M$. Then $\\mathcal{E}$ is equicontinuous.\n\nIn particular, if $\\mathcal{E}$ is a set of differentiable functions $[a,b] \\to \\R$ with $\\abs{f'(x)} \\le L$ for all $f \\in \\mathcal{E}$ and all $x \\in [a,b]$, then $\\mathcal{E}$ is equicontinuous.",
+   "proof": "Let $\\eps > 0$ and put $\\delta = \\eps/(L+1)$. If $f \\in \\mathcal{E}$ and $d(s,t) < \\delta$ then $\\abs{f(s) - f(t)} \\le L\\,d(s,t) \\le L\\delta < \\eps$. So $\\mathcal{E}$ is equicontinuous.\n\nFor the second statement let $f \\in \\mathcal{E}$ and $s < t$ in $[a,b]$. By the mean value theorem there is a $\\theta \\in (s,t)$ with $f(t) - f(s) = f'(\\theta)(t - s)$, so $\\abs{f(t) - f(s)} \\le L\\abs{t - s}$; this also holds trivially when $s = t$ and by symmetry when $s > t$. So the first statement applies.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Choose $\\delta$ in terms of $\\eps$ and $L$ only. For the second part, the mean value theorem converts a bound on $f'$ into a Lipschitz bound."
+   ],
+   "uses": [
+    "c4-def-equicontinuous"
+   ]
+  },
+  {
+   "id": "c4-prop-convergent-equicontinuous",
+   "kind": "proposition",
+   "number": "",
+   "title": "A uniformly convergent sequence is equicontinuous",
+   "tex": "Let $M$ be a nonempty compact metric space and let $(f_n)$ be a sequence in $C^0(M)$ that converges uniformly on $M$. Then $(f_n)$ is equicontinuous. Also, every finite subset of $C^0(M)$ is equicontinuous.",
+   "proof": "Recall that a continuous real function on a compact metric space is uniformly continuous.\n\n\\emph{Finite sets.} Let $g_1,\\dots,g_k \\in C^0(M)$ and $\\eps > 0$. Each $g_i$ is uniformly continuous, so there is $\\delta_i > 0$ with $\\abs{g_i(s) - g_i(t)} < \\eps$ whenever $d(s,t) < \\delta_i$. Then $\\delta = \\min(\\delta_1,\\dots,\\delta_k) > 0$ works for all $g_i$.\n\n\\emph{Uniformly convergent sequences.} Let $f_n \\rightrightarrows f$. Then $f$ is continuous, being a uniform limit of continuous functions, hence uniformly continuous on $M$. Let $\\eps > 0$. Choose $N$ with $\\abs{f_n(x) - f(x)} < \\eps/3$ for all $n \\ge N$ and all $x \\in M$, and $\\delta_0 > 0$ with $\\abs{f(s) - f(t)} < \\eps/3$ whenever $d(s,t) < \\delta_0$. For $n \\ge N$ and $d(s,t) < \\delta_0$,\n\\[ \\abs{f_n(s) - f_n(t)} \\le \\abs{f_n(s) - f(s)} + \\abs{f(s) - f(t)} + \\abs{f(t) - f_n(t)} < \\eps . \\]\nIf $N = 1$ there are no further indices and $\\delta = \\delta_0$ works for every $n$. Otherwise, by the finite case applied to $f_1, \\dots, f_{N-1}$, there is $\\delta_1 > 0$ such that $\\abs{f_n(s) - f_n(t)} < \\eps$ whenever $d(s,t) < \\delta_1$ and $n < N$; then $\\delta = \\min(\\delta_0,\\delta_1)$ works for every $n$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Handle the tail of the sequence and the finitely many initial terms separately.",
+    "For $n \\ge N$ compare $f_n$ with the limit $f$, which is uniformly continuous because $M$ is compact; three terms of size $\\eps/3$."
+   ],
+   "uses": [
+    "c4-def-equicontinuous",
+    "c4-thm-uniform-limit-continuous"
+   ]
+  },
+  {
+   "id": "c4-lem-pointwise-equicontinuous-compact",
+   "kind": "lemma",
+   "number": "",
+   "title": "On a compact space, pointwise equicontinuity is equicontinuity",
+   "tex": "Let $M$ be a compact metric space and $\\mathcal{E}$ a pointwise equicontinuous set of functions $M \\to \\R$. Then $\\mathcal{E}$ is equicontinuous.",
+   "proof": "Suppose not. Then there is an $\\eps > 0$ such that for every $k \\in \\N$ the choice $\\delta = 1/k$ fails: there are $f_k \\in \\mathcal{E}$ and $s_k, t_k \\in M$ with $d(s_k,t_k) < 1/k$ and $\\abs{f_k(s_k) - f_k(t_k)} \\ge \\eps$.\n\nBy compactness a subsequence $(s_{k_j})$ converges to some $p \\in M$. Since $d(t_{k_j}, p) \\le d(t_{k_j}, s_{k_j}) + d(s_{k_j}, p) < 1/k_j + d(s_{k_j},p) \\to 0$, also $t_{k_j} \\to p$.\n\nBy pointwise equicontinuity at $p$ there is a $\\delta > 0$ such that $\\abs{f(x) - f(p)} < \\eps/2$ for all $f \\in \\mathcal{E}$ and all $x$ with $d(x,p) < \\delta$. Choose $j$ so large that $d(s_{k_j},p) < \\delta$ and $d(t_{k_j},p) < \\delta$. Then with $k = k_j$,\n\\[ \\abs{f_k(s_k) - f_k(t_k)} \\le \\abs{f_k(s_k) - f_k(p)} + \\abs{f_k(p) - f_k(t_k)} < \\frac{\\eps}{2} + \\frac{\\eps}{2} = \\eps , \\]\ncontradicting $\\abs{f_k(s_k) - f_k(t_k)} \\ge \\eps$.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Argue by contradiction, exactly as in the proof that a continuous function on a compact space is uniformly continuous.",
+    "Get bad triples $(f_k, s_k, t_k)$ with $d(s_k,t_k) < 1/k$; pass to a subsequence with $s_k \\to p$ and use pointwise equicontinuity at the single point $p$."
+   ],
+   "uses": [
+    "c4-def-equicontinuous"
+   ]
+  },
+  {
+   "id": "c4-lem-finite-nets",
+   "kind": "lemma",
+   "number": "",
+   "title": "Finite nets and a countable dense subset",
+   "tex": "Let $M$ be a compact metric space.\n\\begin{enumerate}\n\\item For every $r > 0$ there is a finite set $F \\subseteq M$ such that every point of $M$ is at distance less than $r$ from some point of $F$.\n\\item $M$ has a countable dense subset.\n\\end{enumerate}",
+   "proof": "If $M$ is empty take $F = \\emptyset$ and $D = \\emptyset$; so let $M$ be nonempty.\n\n(1) Suppose that for some $r > 0$ no such finite set exists. Choose $x_1 \\in M$. Having chosen $x_1,\\dots,x_n$, the finite set $\\set{x_1,\\dots,x_n}$ does not have the required property, so there is a point $x_{n+1} \\in M$ with $d(x_{n+1}, x_i) \\ge r$ for all $i \\le n$. This produces a sequence with $d(x_m, x_n) \\ge r$ whenever $m \\ne n$. No subsequence of it is Cauchy, hence no subsequence converges, contradicting the compactness of $M$.\n\n(2) For each $n \\in \\N$ let $F_n$ be a finite set as in (1) with $r = 1/n$, and let $D = \\bigcup_{n} F_n$, a countable union of finite sets and therefore countable. Given $x \\in M$ and $\\eps > 0$, choose $n$ with $1/n < \\eps$; some point of $F_n \\subseteq D$ lies within $1/n < \\eps$ of $x$. So $D$ is dense in $M$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "For (1), if no finite set works, build a sequence whose points are pairwise at least $r$ apart.",
+    "For (2), take the union of finite $1/n$-nets over all $n$."
+   ],
+   "uses": []
+  },
+  {
+   "id": "c4-lem-diagonal",
+   "kind": "lemma",
+   "number": "",
+   "title": "Diagonal subsequence",
+   "tex": "Let $D$ be a countable set and let $f_n : D \\to \\R$ $(n \\in \\N)$ be functions such that for each $x \\in D$ the sequence of numbers $(f_n(x))_{n}$ is bounded. Then there is a subsequence $(f_{n_k})$ such that $(f_{n_k}(x))_k$ converges for every $x \\in D$.",
+   "proof": "If $D$ is empty there is nothing to prove. Otherwise list the points of $D$ as $d_1, d_2, d_3, \\dots$ (repeating points if $D$ is finite).\n\nWe construct infinite sets of indices $\\N = A_0 \\supseteq A_1 \\supseteq A_2 \\supseteq \\cdots$ such that, for each $j \\ge 1$, the numbers $f_n(d_j)$ converge as $n \\to \\infty$ through $A_j$. Suppose $A_{j-1}$ has been constructed. The sequence $(f_n(d_j))_{n \\in A_{j-1}}$ (indices in increasing order) is bounded, so by the Bolzano–Weierstrass theorem it has a convergent subsequence; let $A_j \\subseteq A_{j-1}$ be the infinite set of indices of that subsequence.\n\nNow choose $n_1 \\in A_1$ and, inductively, $n_k \\in A_k$ with $n_k > n_{k-1}$; this is possible because $A_k$ is infinite. Then $n_1 < n_2 < \\cdots$, so $(f_{n_k})$ is a subsequence of $(f_n)$.\n\nFix $j$. For $k \\ge j$ we have $n_k \\in A_k \\subseteq A_j$, and the $n_k$ are strictly increasing, so $(f_{n_k}(d_j))_{k \\ge j}$ is a subsequence of the convergent sequence $(f_n(d_j))_{n \\in A_j}$. Hence $(f_{n_k}(d_j))_k$ converges. Since every point of $D$ is some $d_j$, the subsequence converges at every point of $D$.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Handle the points of $D$ one at a time: Bolzano–Weierstrass gives a subsequence converging at $d_1$, then a further subsequence converging at $d_2$, and so on.",
+    "No single one of these nested subsequences works for all points. Take the $k$-th term of the $k$-th subsequence (the diagonal): from the $j$-th term on it is a subsequence of the $j$-th one."
+   ],
+   "uses": []
+  },
+  {
+   "id": "c4-thm-propagation",
+   "kind": "theorem",
+   "number": "",
+   "title": "Arzelà–Ascoli propagation theorem",
+   "tex": "Let $M$ be a compact metric space, $D$ a dense subset of $M$, and $(f_n)$ an equicontinuous sequence of functions $M \\to \\R$ such that $(f_n(x))$ converges for every $x \\in D$. Then $(f_n)$ converges uniformly on $M$.",
+   "proof": "By the Cauchy criterion for uniform convergence it suffices to show that $(f_n)$ is uniformly Cauchy. Let $\\eps > 0$.\n\nBy equicontinuity there is a $\\delta > 0$ such that $\\abs{f_n(s) - f_n(t)} < \\eps/3$ for all $n$ whenever $d(s,t) < \\delta$.\n\nBy the lemma on finite nets there are points $x_1,\\dots,x_J \\in M$ such that every point of $M$ is within $\\delta/2$ of some $x_j$. Since $D$ is dense, for each $j$ there is a $d_j \\in D$ with $d(d_j, x_j) < \\delta/2$. Then every $x \\in M$ satisfies $d(x, d_j) \\le d(x,x_j) + d(x_j,d_j) < \\delta$ for some $j \\in \\set{1,\\dots,J}$.\n\nFor each $j$ the sequence $(f_n(d_j))_n$ converges, hence is Cauchy, so there is an $N_j$ with $\\abs{f_m(d_j) - f_n(d_j)} < \\eps/3$ for $m,n \\ge N_j$. Let $N = \\max(N_1,\\dots,N_J)$.\n\nNow let $m, n \\ge N$ and $x \\in M$, and pick $j$ with $d(x,d_j) < \\delta$. Then\n\\[ \\abs{f_m(x) - f_n(x)} \\le \\abs{f_m(x) - f_m(d_j)} + \\abs{f_m(d_j) - f_n(d_j)} + \\abs{f_n(d_j) - f_n(x)} < \\frac{\\eps}{3} + \\frac{\\eps}{3} + \\frac{\\eps}{3} = \\eps . \\]\nSo $(f_n)$ is uniformly Cauchy, and therefore converges uniformly on $M$. (If $M$ is empty the statement is vacuous.)",
+   "difficulty": 4,
+   "minutes": 50,
+   "hints": [
+    "You do not know the limit off $D$, so prove that $(f_n)$ is uniformly Cauchy.",
+    "Equicontinuity gives a $\\delta$ for $\\eps/3$. Use compactness and density to find \\emph{finitely many} points of $D$ such that every point of $M$ is within $\\delta$ of one of them.",
+    "At finitely many points the sequences are simultaneously Cauchy from some $N$ on. Then estimate $\\abs{f_m(x) - f_n(x)}$ by passing through a nearby $d_j$."
+   ],
+   "uses": [
+    "c4-def-equicontinuous",
+    "c4-lem-finite-nets",
+    "c4-lem-uniform-cauchy"
+   ]
+  },
+  {
+   "id": "c4-thm-arzela-ascoli",
+   "kind": "theorem",
+   "number": "",
+   "title": "Arzelà–Ascoli theorem",
+   "tex": "Let $M$ be a nonempty compact metric space. Every bounded, equicontinuous sequence $(f_n)$ in $C^0(M)$ has a subsequence that converges uniformly on $M$; its limit belongs to $C^0(M)$. In particular this holds for $M = [a,b]$.",
+   "proof": "By the lemma on finite nets $M$ has a countable dense subset $D$. Let $B$ be a bound: $\\norm{f_n} \\le B$ for all $n$. Then for each $x \\in D$ the sequence $(f_n(x))$ is bounded by $B$, so by the diagonal subsequence lemma (applied to the restrictions of the $f_n$ to $D$) there is a subsequence $(f_{n_k})$ such that $(f_{n_k}(x))_k$ converges for every $x \\in D$.\n\nThe subsequence $(f_{n_k})$ is still equicontinuous, since the same $\\delta$ works for a subset of the functions. By the propagation theorem it converges uniformly on $M$. Its limit is continuous because a uniform limit of continuous functions is continuous.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Three ingredients are already available: a countable dense set, the diagonal subsequence lemma, and the propagation theorem.",
+    "Boundedness gives pointwise bounded sequences on the dense set $D$; extract a subsequence converging at every point of $D$; then propagate."
+   ],
+   "uses": [
+    "c4-lem-finite-nets",
+    "c4-lem-diagonal",
+    "c4-thm-propagation",
+    "c4-thm-uniform-limit-continuous"
+   ]
+  },
+  {
+   "id": "c4-cor-bounded-derivatives",
+   "kind": "corollary",
+   "number": "",
+   "title": "Bounded derivatives",
+   "tex": "Let $f_n : [a,b] \\to \\R$ be differentiable functions and suppose there are constants $L$ and $C$ and a point $x_0 \\in [a,b]$ such that $\\abs{f_n'(x)} \\le L$ for all $n$ and all $x \\in [a,b]$, and $\\abs{f_n(x_0)} \\le C$ for all $n$. Then $(f_n)$ has a uniformly convergent subsequence.",
+   "proof": "Each $f_n$ is differentiable, hence continuous, so $f_n \\in C^0[a,b]$. A set of differentiable functions whose derivatives are bounded by a common constant $L$ is equicontinuous, and moreover (by the mean value theorem, as in that proposition) $\\abs{f_n(x) - f_n(x_0)} \\le L\\abs{x - x_0}$. Hence for all $n$ and $x$,\n\\[ \\abs{f_n(x)} \\le \\abs{f_n(x_0)} + L\\abs{x - x_0} \\le C + L(b-a) , \\]\nso the sequence is bounded in $C^0[a,b]$. The Arzelà–Ascoli theorem gives a uniformly convergent subsequence.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Check the two hypotheses of Arzelà–Ascoli. The bound on the derivatives gives equicontinuity; what gives boundedness?"
+   ],
+   "uses": [
+    "c4-prop-lipschitz-equicontinuous",
+    "c4-thm-arzela-ascoli"
+   ]
+  },
+  {
+   "id": "c4-thm-heine-borel-function-space",
+   "kind": "theorem",
+   "number": "",
+   "title": "Heine–Borel theorem in a function space",
+   "tex": "Let $M$ be a nonempty compact metric space. A subset $\\mathcal{E} \\subseteq C^0(M)$ is compact (in the sup metric) if and only if it is closed, bounded and equicontinuous.",
+   "proof": "\\emph{Closed, bounded, equicontinuous implies compact.} Let $(f_n)$ be a sequence in $\\mathcal{E}$. It is bounded and equicontinuous, so by the Arzelà–Ascoli theorem a subsequence $(f_{n_k})$ converges uniformly to some $f \\in C^0(M)$, i.e. $\\norm{f_{n_k} - f} \\to 0$. Since $\\mathcal{E}$ is closed in $C^0(M)$, $f \\in \\mathcal{E}$. So every sequence in $\\mathcal{E}$ has a subsequence converging to a point of $\\mathcal{E}$.\n\n\\emph{Compact implies closed, bounded, equicontinuous.} A compact subset of any metric space is closed and bounded; bounded here means contained in some ball about a function $g \\in C^0(M)$ of some radius $\\rho$ in the sup metric, and then $\\norm{f} \\le \\norm{g} + \\rho$ for all $f \\in \\mathcal{E}$. (If $\\mathcal{E}$ is empty all three properties hold trivially.)\n\nSuppose $\\mathcal{E}$ is not equicontinuous. Then there is an $\\eps > 0$ such that for each $k \\in \\N$ there are $f_k \\in \\mathcal{E}$ and $s_k, t_k \\in M$ with\n\\[ d(s_k, t_k) < 1/k \\quad \\text{and} \\quad \\abs{f_k(s_k) - f_k(t_k)} \\ge \\eps . \\]\nBy compactness of $\\mathcal{E}$ a subsequence $(f_{k_j})_j$ converges in the sup metric, that is uniformly, to some $f \\in \\mathcal{E}$. A uniformly convergent sequence in $C^0(M)$ is equicontinuous, so there is a $\\delta > 0$ such that $\\abs{f_{k_j}(s) - f_{k_j}(t)} < \\eps$ for all $j$ whenever $d(s,t) < \\delta$. Choose $j$ with $1/k_j < \\delta$. Then $d(s_{k_j}, t_{k_j}) < \\delta$, so $\\abs{f_{k_j}(s_{k_j}) - f_{k_j}(t_{k_j})} < \\eps$, contradicting the choice of $f_{k_j}, s_{k_j}, t_{k_j}$. Hence $\\mathcal{E}$ is equicontinuous.",
+   "difficulty": 4,
+   "minutes": 45,
+   "hints": [
+    "One direction is Arzelà–Ascoli plus closedness. For the other, closed and bounded come for free from compactness; equicontinuity is the real content.",
+    "If $\\mathcal{E}$ is not equicontinuous, get $f_k \\in \\mathcal{E}$ and points $s_k, t_k$ with $d(s_k,t_k) < 1/k$ but $\\abs{f_k(s_k) - f_k(t_k)} \\ge \\eps$.",
+    "Compactness gives a uniformly convergent subsequence of $(f_k)$, and a uniformly convergent sequence of continuous functions on a compact space is equicontinuous."
+   ],
+   "uses": [
+    "c4-thm-arzela-ascoli",
+    "c4-prop-convergent-equicontinuous",
+    "c4-def-equicontinuous",
+    "c4-thm-sup-metric-uniform"
+   ]
+  },
+  {
+   "id": "c4-ex-unit-ball-not-compact",
+   "kind": "exercise",
+   "number": "",
+   "title": "The closed unit ball of $C^0[0,1]$ is not compact",
+   "tex": "Let $\\mathcal{B} = \\set{ f \\in C^0[0,1] : \\norm{f} \\le 1 }$. Then $\\mathcal{B}$ is closed and bounded in $C^0[0,1]$, but it is not compact.",
+   "proof": "$\\mathcal{B}$ is bounded by definition. It is closed: if $f_n \\in \\mathcal{B}$ and $\\norm{f_n - f} \\to 0$ with $f \\in C^0[0,1]$, then $\\norm{f} \\le \\norm{f - f_n} + \\norm{f_n} \\le \\norm{f - f_n} + 1$ for every $n$, and letting $n \\to \\infty$ gives $\\norm{f} \\le 1$.\n\nThe functions $f_n(x) = x^n$ belong to $\\mathcal{B}$. Suppose some subsequence $(f_{n_k})$ converged in the sup metric to a function $g \\in C^0[0,1]$. Then $f_{n_k} \\rightrightarrows g$, hence $f_{n_k} \\to g$ pointwise. But $x^{n_k} \\to 0$ for $0 \\le x < 1$ and $1^{n_k} \\to 1$, so $g(x) = 0$ for $x < 1$ and $g(1) = 1$, which is not continuous at $1$ — a contradiction with $g \\in C^0[0,1]$. So $(f_n)$ has no subsequence converging in $C^0[0,1]$, and $\\mathcal{B}$ is not compact.\n\n(Alternatively: $\\mathcal{B}$ contains the sequence $(x^n)$, which is not equicontinuous, so $\\mathcal{B}$ is not equicontinuous and the Heine–Borel theorem in a function space applies.)",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Exhibit a sequence in the ball with no uniformly convergent subsequence.",
+    "Try $x^n$: any uniform limit of a subsequence would have to equal the pointwise limit, which is discontinuous."
+   ],
+   "uses": [
+    "c4-thm-sup-metric-uniform",
+    "c4-prop-sup-norm"
+   ]
+  }
+ ],
+ "cards": [
+  {
+   "id": "c4-card-equicontinuous",
+   "front": "Define: the set $\\mathcal{E}$ of functions $M \\to \\R$ is equicontinuous.",
+   "back": "For every $\\eps>0$ there is $\\delta>0$ such that $d(s,t)<\\delta$ implies $\\abs{f(s)-f(t)}<\\eps$ for all $s,t \\in M$ and all $f \\in \\mathcal{E}$: one $\\delta$ for all points and all functions.",
+   "item": "c4-def-equicontinuous"
+  },
+  {
+   "id": "c4-card-equi-examples",
+   "front": "Give a simple sufficient condition for equicontinuity, and a bounded sequence in $C^0[0,1]$ that is not equicontinuous.",
+   "back": "A common Lipschitz constant, e.g. differentiable functions with $\\abs{f'} \\le L$. Not equicontinuous: $x^n$ (near $x=1$), or $\\sin(nx)$.",
+   "item": "c4-prop-lipschitz-equicontinuous"
+  },
+  {
+   "id": "c4-card-arzela-ascoli",
+   "front": "State the Arzelà–Ascoli theorem.",
+   "back": "If $M$ is compact, every bounded equicontinuous sequence in $C^0(M)$ has a uniformly convergent subsequence.",
+   "item": "c4-thm-arzela-ascoli"
+  },
+  {
+   "id": "c4-card-aa-proof",
+   "front": "Outline the proof of the Arzelà–Ascoli theorem in three steps.",
+   "back": "(1) $M$ has a countable dense subset $D$. (2) Diagonal argument with Bolzano–Weierstrass: a subsequence converges at every point of $D$. (3) Propagation: equicontinuity plus a finite $\\delta$-net of points of $D$ makes the subsequence uniformly Cauchy on $M$.",
+   "item": "c4-thm-arzela-ascoli"
+  },
+  {
+   "id": "c4-card-propagation",
+   "front": "State the Arzelà–Ascoli propagation theorem.",
+   "back": "On a compact metric space, an equicontinuous sequence that converges pointwise on a dense subset converges uniformly on the whole space.",
+   "item": "c4-thm-propagation"
+  },
+  {
+   "id": "c4-card-hb-function-space",
+   "front": "Which subsets of $C^0(M)$, $M$ compact, are compact?",
+   "back": "Exactly the closed, bounded, equicontinuous ones. Closed and bounded is not enough: the closed unit ball of $C^0[0,1]$ contains $x^n$, which has no uniformly convergent subsequence.",
+   "item": "c4-thm-heine-borel-function-space"
+  },
+  {
+   "id": "c4-card-diagonal",
+   "front": "What does the diagonal subsequence lemma say, and what is the trick?",
+   "back": "A sequence of functions that is bounded at each point of a countable set $D$ has a subsequence converging at every point of $D$. Take nested subsequences converging at $d_1$, then $d_2$, …, and pick the $k$-th term of the $k$-th one.",
+   "item": "c4-lem-diagonal"
+  }
+ ]
+}

@@ -1,0 +1,448 @@
+from c5lib import Section
+S = Section("5-derivatives")
+b, c = S.b, S.c
+
+b("der-intro", "prose", r"""
+In one variable, $f'(p)$ is the slope of the line that best fits the graph at $p$. In several variables a single
+number cannot do this job, but the same idea works once it is said correctly: $f$ is differentiable at $p$ when
+the increment $f(p+v) - f(p)$ is, up to an error that is small compared with $\abs{v}$, a \emph{linear} function
+of $v$. That linear map is the derivative. Everything in this section (partial derivatives, the chain rule, the
+mean value theorem) is organized around this definition. Throughout, $U$ is an open subset of $\R^n$.
+""")
+
+b("def-derivative", "definition", r"""
+Let $U \subseteq \R^n$ be open, $f : U \to \R^m$, and $p \in U$. We say $f$ is \emph{differentiable at $p$} if
+there is a linear map $T : \R^n \to \R^m$ such that
+\[ \lim_{v \to 0} \frac{\abs{f(p+v) - f(p) - Tv}}{\abs{v}} = 0 . \]
+Equivalently, $f(p+v) = f(p) + Tv + R(v)$ where the remainder $R$ is \emph{sublinear}: $\abs{R(v)}/\abs{v} \to 0$
+as $v \to 0$. (Here $v$ ranges over the nonzero vectors with $p + v \in U$; since $U$ is open this includes all
+small $v$.) The map $T$ is called the \emph{derivative} of $f$ at $p$, written $(Df)_p$. We say $f$ is
+differentiable on $U$ if it is differentiable at every point of $U$.
+""", title="The derivative")
+
+b("thm-derivative-unique", "theorem", r"""
+Let $f : U \to \R^m$ be differentiable at $p$, with a linear map $T$ as in the definition. Then for every
+$u \in \R^n$,
+\[ Tu = \lim_{t \to 0} \frac{f(p + tu) - f(p)}{t} . \]
+In particular $T$ is uniquely determined by $f$ and $p$, so the notation $(Df)_p$ is justified.
+""", title="The derivative is unique", proof=r"""
+If $u = 0$ both sides are $0$. Let $u \ne 0$ and write $f(p+v) = f(p) + Tv + R(v)$ with $\abs{R(v)}/\abs{v} \to 0$
+as $v \to 0$. For $t \ne 0$ small enough that $p + tu \in U$, linearity of $T$ gives
+\[ \frac{f(p+tu) - f(p)}{t} - Tu = \frac{R(tu)}{t}, \qquad
+\abs{\frac{R(tu)}{t}} = \frac{\abs{R(tu)}}{\abs{tu}}\,\abs{u} . \]
+As $t \to 0$ the vector $tu$ tends to $0$ and is nonzero, so $\abs{R(tu)}/\abs{tu} \to 0$. Hence the difference
+quotient converges to $Tu$. The limit on the right depends only on $f$, $p$ and $u$, so two linear maps
+satisfying the definition agree at every $u$.
+""", d=2, m=15, hints=[
+r"Restrict the defining limit to vectors of the form $v = tu$ with $u$ fixed and $t \to 0$.",
+], uses=["def-derivative"])
+
+b("thm-diff-continuous", "theorem", r"""
+If $f : U \to \R^m$ is differentiable at $p$, then $f$ is continuous at $p$.
+""", title="Differentiability implies continuity", proof=r"""
+Write $f(p+v) = f(p) + Tv + R(v)$ with $T = (Df)_p$. Since $\abs{R(v)}/\abs{v} \to 0$, there is a $\delta_0 > 0$
+such that $\abs{R(v)} \le \abs{v}$ whenever $0 < \abs{v} < \delta_0$ (and $p + v \in U$); also $R(0) = 0$. Then for
+$\abs{v} < \delta_0$,
+\[ \abs{f(p+v) - f(p)} \le \abs{Tv} + \abs{R(v)} \le (\norm{T} + 1)\abs{v} , \]
+where $\norm{T} < \infty$ because linear maps $\R^n \to \R^m$ are bounded. Given $\eps > 0$, any $v$ with
+$\abs{v} < \min\set{\delta_0, \eps/(\norm{T}+1)}$ gives $\abs{f(p+v) - f(p)} < \eps$.
+""", d=1, m=10, hints=[
+r"Both $Tv$ and $R(v)$ tend to $0$ with $v$; bound each by a multiple of $\abs{v}$.",
+], uses=["def-derivative", "prop-rn-bounded", "prop-opnorm-bound"])
+
+b("prop-one-variable", "proposition", r"""
+Let $f : (a,b) \to \R^m$ and $t \in (a,b)$. Then $f$ is differentiable at $t$ in the sense of this section if and
+only if the limit
+\[ f'(t) = \lim_{h \to 0} \frac{f(t+h) - f(t)}{h} \in \R^m \]
+exists, and in that case $(Df)_t(h) = h\,f'(t)$ for $h \in \R$. (A limit of vectors exists if and only if it exists
+componentwise, so for $m = 1$ this is the derivative of Chapter 3.)
+""", title="Consistency with one-variable calculus", proof=r"""
+Suppose $f$ is differentiable at $t$ with derivative $T : \R \to \R^m$. By the formula for $Tu$ as a limit of
+difference quotients, applied with $u = 1$, the limit $f'(t)$ exists and equals $T(1)$; and
+$T(h) = hT(1) = hf'(t)$ by linearity.
+
+Conversely suppose the limit $f'(t)$ exists and define the linear map $T(h) = hf'(t)$. For $h \ne 0$,
+\[ \frac{\abs{f(t+h) - f(t) - T(h)}}{\abs{h}} = \abs{ \frac{f(t+h) - f(t)}{h} - f'(t) } \to 0 \quad (h \to 0), \]
+so $f$ is differentiable at $t$ with $(Df)_t = T$.
+""", d=1, m=10, hints=[
+r"A linear map $\R \to \R^m$ is $h \mapsto hw$ for a single vector $w$. Divide the defining limit by $\abs{h}$.",
+], uses=["def-derivative", "thm-derivative-unique"])
+
+b("def-partials", "definition", r"""
+Let $f = (f_1, \dots, f_m) : U \to \R^m$ and $p \in U$. The \emph{$j$-th partial derivative} of $f_i$ at $p$ is
+\[ \frac{\partial f_i}{\partial x_j}(p) = \lim_{t \to 0} \frac{f_i(p + te_j) - f_i(p)}{t} , \]
+when the limit exists: the ordinary derivative of $f_i$ along the $j$-th coordinate line through $p$. If all of
+them exist, the $m \times n$ matrix $\big( \frac{\partial f_i}{\partial x_j}(p) \big)$ is the \emph{Jacobian
+matrix} of $f$ at $p$. We also write $\frac{\partial f}{\partial x_j}(p) \in \R^m$ for its $j$-th column.
+""", title="Partial derivatives and the Jacobian matrix")
+
+b("prop-jacobian", "proposition", r"""
+If $f : U \to \R^m$ is differentiable at $p$, then all partial derivatives $\frac{\partial f_i}{\partial x_j}(p)$
+exist, and the matrix of the linear map $(Df)_p$ is the Jacobian matrix of $f$ at $p$. That is,
+\[ (Df)_p(e_j) = \frac{\partial f}{\partial x_j}(p), \qquad \big((Df)_p v\big)_i = \sum_{j=1}^n \frac{\partial f_i}{\partial x_j}(p)\,v_j . \]
+""", title="The derivative's matrix is the Jacobian", proof=r"""
+By the theorem expressing the derivative through difference quotients, applied with $u = e_j$,
+\[ (Df)_p(e_j) = \lim_{t \to 0} \frac{f(p + te_j) - f(p)}{t} \quad \text{in } \R^m . \]
+A limit in $\R^m$ exists exactly when each component has a limit, and the $i$-th component of the quotient is
+$(f_i(p+te_j) - f_i(p))/t$. So $\frac{\partial f_i}{\partial x_j}(p)$ exists and equals the $i$-th component of
+$(Df)_p(e_j)$, which by definition is the $(i,j)$ entry of the matrix of $(Df)_p$. The second formula is the
+formula for a linear map in terms of its matrix.
+""", d=1, m=10, hints=[
+r"Use the limit formula for $(Df)_p u$ with $u = e_j$ and read off components.",
+], uses=["thm-derivative-unique", "def-partials", "def-linear-map"])
+
+b("prop-components", "proposition", r"""
+A function $f = (f_1, \dots, f_m) : U \to \R^m$ is differentiable at $p$ if and only if each component
+$f_i : U \to \R$ is differentiable at $p$. In that case $(Df_i)_p$ is the $i$-th component of $(Df)_p$:
+$(Df_i)_p(v) = \big((Df)_p v\big)_i$.
+""", title="Differentiability is componentwise", proof=r"""
+For a linear map $T : \R^n \to \R^m$ let $T_i : \R^n \to \R$ be its $i$-th component, which is linear, and put
+$R(v) = f(p+v) - f(p) - Tv$, whose $i$-th component is $R_i(v) = f_i(p+v) - f_i(p) - T_i v$. For any vector,
+each component is at most the norm in absolute value, and the norm is at most the sum of the absolute values of
+the components:
+\[ \abs{R_i(v)} \le \abs{R(v)} \le \sum_{k=1}^m \abs{R_k(v)} . \]
+If $f$ is differentiable at $p$ with $T = (Df)_p$, the first inequality gives $\abs{R_i(v)}/\abs{v} \to 0$, so
+$f_i$ is differentiable at $p$ with derivative $T_i$. Conversely, if each $f_i$ is differentiable at $p$, let $T$
+be the linear map whose components are $T_i = (Df_i)_p$; the second inequality gives
+$\abs{R(v)}/\abs{v} \le \sum_k \abs{R_k(v)}/\abs{v} \to 0$, so $f$ is differentiable at $p$ with derivative $T$.
+""", d=1, m=10, hints=[
+r"Compare the norm of the remainder vector with the absolute values of its components.",
+], uses=["def-derivative"])
+
+b("ex-partials-not-enough", "exercise", r"""
+Define $f : \R^2 \to \R$ by $f(x,y) = \dfrac{xy}{x^2 + y^2}$ for $(x,y) \ne (0,0)$ and $f(0,0) = 0$. Show that both
+partial derivatives of $f$ exist at the origin, but $f$ is not continuous at the origin, and hence not
+differentiable there.
+""", title="Partial derivatives do not suffice", proof=r"""
+For $t \ne 0$ we have $f(t, 0) = 0 = f(0,t)$, and $f(0,0) = 0$. So both difference quotients
+$(f(t,0) - f(0,0))/t$ and $(f(0,t) - f(0,0))/t$ are identically $0$, and
+$\frac{\partial f}{\partial x}(0,0) = \frac{\partial f}{\partial y}(0,0) = 0$.
+
+On the other hand $f(t,t) = t^2/(2t^2) = \frac12$ for $t \ne 0$. The points $(1/k, 1/k)$ converge to the origin
+while $f(1/k,1/k) = \frac12 \not\to 0 = f(0,0)$. So $f$ is not continuous at the origin. Since differentiability at
+a point implies continuity there, $f$ is not differentiable at the origin.
+""", d=1, m=10, hints=[
+r"The partial derivatives only see $f$ on the two axes. Look at $f$ along the diagonal.",
+], uses=["def-partials", "thm-diff-continuous"])
+
+b("thm-continuous-partials", "theorem", r"""
+Let $f : U \to \R^m$ and $p \in U$. Suppose all partial derivatives $\frac{\partial f_i}{\partial x_j}$ exist at
+every point of $U$ and are continuous at $p$. Then $f$ is differentiable at $p$.
+""", title="Continuous partial derivatives imply differentiability", proof=r"""
+Since differentiability is componentwise, it suffices to treat one component; so assume $m = 1$. Write
+$\partial_j f$ for $\frac{\partial f}{\partial x_j}$ and let $Tv = \sum_{j=1}^n \partial_j f(p)\,v_j$, a linear
+map $\R^n \to \R$. We show $T$ is the derivative of $f$ at $p$.
+
+Let $\eps > 0$. Choose $\delta > 0$ so that the ball $B = \set{x : \abs{x - p} < \delta}$ lies in $U$ and
+$\abs{\partial_j f(x) - \partial_j f(p)} < \eps/n$ for all $x \in B$ and all $j$. Fix $v$ with
+$0 < \abs{v} < \delta$ and define points
+\[ p_0 = p, \qquad p_j = p + v_1 e_1 + \dots + v_j e_j \quad (1 \le j \le n), \]
+so that $p_n = p + v$ and $p_j = p_{j-1} + v_j e_j$. Every point of the segment from $p_{j-1}$ to $p_j$ has the
+form $p + v_1e_1 + \dots + v_{j-1}e_{j-1} + s\,v_je_j$ with $0 \le s \le 1$, and its distance from $p$ is at most
+$\abs{v} < \delta$; so these segments lie in $B$.
+
+Fix $j$. If $v_j = 0$ then $p_j = p_{j-1}$; set $q_j = p_{j-1}$. Otherwise consider
+$g(s) = f(p_{j-1} + s e_j)$ for $s$ between $0$ and $v_j$. By the definition of the partial derivative, $g$ is
+differentiable with $g'(s) = \partial_j f(p_{j-1} + se_j)$, so by the one-variable mean value theorem there is
+an $s_j$ strictly between $0$ and $v_j$ with $g(v_j) - g(0) = g'(s_j)\,v_j$. Put $q_j = p_{j-1} + s_je_j \in B$.
+In both cases
+\[ f(p_j) - f(p_{j-1}) = \partial_j f(q_j)\,v_j . \]
+Summing over $j$, the left sides telescope to $f(p+v) - f(p)$, so
+\[ \abs{f(p+v) - f(p) - Tv} = \abs{ \sum_{j=1}^n \big(\partial_j f(q_j) - \partial_j f(p)\big) v_j }
+\le \sum_{j=1}^n \frac{\eps}{n}\,\abs{v_j} \le \eps\abs{v} . \]
+Thus $\abs{f(p+v) - f(p) - Tv}/\abs{v} \le \eps$ whenever $0 < \abs{v} < \delta$, which is the definition of
+differentiability at $p$.
+""", d=3, m=40, hints=[
+r"Reduce to a real-valued $f$. The candidate derivative is $v \mapsto \sum_j \partial_j f(p) v_j$.",
+r"Walk from $p$ to $p + v$ along $n$ segments, each parallel to a coordinate axis, and apply the one-variable mean value theorem on each.",
+r"You get $f(p+v) - f(p) = \sum_j \partial_j f(q_j) v_j$ with every $q_j$ within $\abs{v}$ of $p$; now use continuity of the partials at $p$.",
+], uses=["prop-components", "def-partials", "def-derivative"])
+
+b("thm-linear-rules", "theorem", r"""
+Let $U \subseteq \R^n$ be open and $p \in U$.
+\begin{enumerate}
+\item A constant map $U \to \R^m$ is differentiable at $p$ with derivative $0$.
+\item If $T : \R^n \to \R^m$ is linear, then $T$ is differentiable at $p$ and $(DT)_p = T$.
+\item If $f, g : U \to \R^m$ are differentiable at $p$ and $c \in \R$, then $f + cg$ is differentiable at $p$ and
+$(D(f + cg))_p = (Df)_p + c\,(Dg)_p$.
+\end{enumerate}
+""", title="Derivatives of constants, linear maps, and linear combinations", proof=r"""
+(1) If $f$ is constant then $f(p+v) - f(p) - 0v = 0$, so the defining limit is $0$ with $T = 0$.
+
+(2) $T(p+v) - T(p) - Tv = 0$ by linearity, so the defining limit is $0$ with the linear map $T$ itself.
+
+(3) Write $f(p+v) = f(p) + Av + R(v)$ and $g(p+v) = g(p) + Bv + Q(v)$ with $A = (Df)_p$, $B = (Dg)_p$ and
+$R$, $Q$ sublinear. Then
+\[ (f + cg)(p+v) = (f+cg)(p) + (A + cB)v + \big( R(v) + cQ(v) \big), \]
+the map $A + cB$ is linear, and
+$\abs{R(v) + cQ(v)}/\abs{v} \le \abs{R(v)}/\abs{v} + \abs{c}\,\abs{Q(v)}/\abs{v} \to 0$.
+""", d=1, m=10, hints=[
+r"In each case write down the remainder explicitly.",
+], uses=["def-derivative"])
+
+b("thm-chain-rule", "theorem", r"""
+Let $U \subseteq \R^n$ and $V \subseteq \R^m$ be open, $f : U \to \R^m$ with $f(U) \subseteq V$, and
+$g : V \to \R^l$. If $f$ is differentiable at $p$ and $g$ is differentiable at $q = f(p)$, then $g \circ f$ is
+differentiable at $p$ and
+\[ (D(g \circ f))_p = (Dg)_q \circ (Df)_p . \]
+In matrix terms: the Jacobian of a composite is the product of the Jacobians.
+""", title="Chain rule", proof=r"""
+Let $A = (Df)_p$ and $B = (Dg)_q$, and write
+\[ f(p+v) = q + Av + R(v), \qquad g(q+w) = g(q) + Bw + Q(w), \]
+with $\abs{R(v)}/\abs{v} \to 0$ as $v \to 0$ and $\abs{Q(w)}/\abs{w} \to 0$ as $w \to 0$; note $Q(0) = 0$. For
+$p + v \in U$ put $w = w(v) = Av + R(v) = f(p+v) - q$, so that $q + w \in V$. Then
+\[ g(f(p+v)) = g(q + w) = g(q) + BAv + \big( BR(v) + Q(w) \big) . \]
+The map $BA$ is linear. We must show that $E(v) = BR(v) + Q(w(v))$ is sublinear.
+
+Let $\eps > 0$. Choose $\delta_1 > 0$ such that $\abs{Q(w)} \le \eps\abs{w}$ whenever $\abs{w} < \delta_1$ (this
+includes $w = 0$). Choose $\delta_2 > 0$ such that $\abs{R(v)} \le \eps\abs{v}$ and $\abs{R(v)} \le \abs{v}$ whenever
+$0 < \abs{v} < \delta_2$. For such $v$,
+\[ \abs{w} \le \abs{Av} + \abs{R(v)} \le (\norm{A} + 1)\abs{v} . \]
+So if $0 < \abs{v} < \delta = \min\set{\delta_2,\ \delta_1/(\norm{A}+1)}$, then $\abs{w} < \delta_1$ and
+\[ \abs{E(v)} \le \norm{B}\,\abs{R(v)} + \abs{Q(w)} \le \norm{B}\,\eps\abs{v} + \eps(\norm{A}+1)\abs{v}
+= \eps\big( \norm{A} + \norm{B} + 1 \big)\abs{v} . \]
+Since $\eps$ was arbitrary and $\norm{A} + \norm{B} + 1$ is a fixed constant, $\abs{E(v)}/\abs{v} \to 0$ as
+$v \to 0$. Hence $g \circ f$ is differentiable at $p$ with derivative $BA$.
+""", d=3, m=35, hints=[
+r"Substitute the first-order expansion of $f$ at $p$ into the first-order expansion of $g$ at $q$.",
+r"With $w = Av + R(v)$ the error is $BR(v) + Q(w)$. The first term is easy. For the second you need $\abs{w}$ bounded by a constant times $\abs{v}$.",
+], uses=["def-derivative", "prop-opnorm-bound", "prop-rn-bounded"])
+
+b("def-bilinear", "definition", r"""
+A map $\beta : \R^k \times \R^l \to \R^m$ is \emph{bilinear} if it is linear in each variable separately:
+$x \mapsto \beta(x, y)$ is linear for each fixed $y$, and $y \mapsto \beta(x,y)$ is linear for each fixed $x$.
+Examples: the product of real numbers ($k = l = m = 1$), a scalar times a vector, the dot product, the product of
+matrices, the composition of linear maps.
+""", title="Bilinear map")
+
+b("lem-bilinear-bounded", "lemma", r"""
+If $\beta : \R^k \times \R^l \to \R^m$ is bilinear, there is a constant $M \ge 0$ such that
+$\abs{\beta(x,y)} \le M\,\abs{x}\,\abs{y}$ for all $x \in \R^k$, $y \in \R^l$.
+""", title="Bilinear maps are bounded", proof=r"""
+Write $x = \sum_i x_i e_i$ and $y = \sum_j y_j e_j$. Expanding by linearity in each variable,
+$\beta(x,y) = \sum_{i=1}^k \sum_{j=1}^l x_i y_j\, \beta(e_i, e_j)$. Since $\abs{x_i} \le \abs{x}$ and
+$\abs{y_j} \le \abs{y}$, the triangle inequality gives
+\[ \abs{\beta(x,y)} \le \sum_{i,j} \abs{x_i}\,\abs{y_j}\,\abs{\beta(e_i,e_j)} \le M\abs{x}\abs{y},
+\qquad M = \sum_{i,j} \abs{\beta(e_i,e_j)} . \]
+""", d=1, m=10, hints=[
+r"Expand both arguments in the standard bases.",
+], uses=["def-bilinear"])
+
+b("thm-leibniz", "theorem", r"""
+Let $\beta : \R^k \times \R^l \to \R^m$ be bilinear, and let $f : U \to \R^k$ and $g : U \to \R^l$ be
+differentiable at $p \in U$. Then $h(x) = \beta(f(x), g(x))$ is differentiable at $p$ and
+\[ (Dh)_p(v) = \beta\big( (Df)_p v,\ g(p) \big) + \beta\big( f(p),\ (Dg)_p v \big) . \]
+In particular, for real-valued $f$ and $g$, $(D(fg))_p = g(p)(Df)_p + f(p)(Dg)_p$.
+""", title="Product (Leibniz) rule", proof=r"""
+Let $A = (Df)_p$, $B = (Dg)_p$ and write $f(p+v) = f(p) + Av + R(v)$, $g(p+v) = g(p) + Bv + Q(v)$ with $R$, $Q$
+sublinear. Expanding $\beta(f(p+v), g(p+v))$ by bilinearity, first in the first variable and then in the second,
+\begin{align*}
+h(p+v) &= \beta(f(p), g(p+v)) + \beta(Av, g(p+v)) + \beta(R(v), g(p+v)) \\
+&= h(p) + \beta(f(p), Bv) + \beta(f(p), Q(v)) + \beta(Av, g(p)) + \beta(Av, Bv) + \beta(Av, Q(v)) + \beta(R(v), g(p+v)) .
+\end{align*}
+The map $Lv = \beta(Av, g(p)) + \beta(f(p), Bv)$ is linear in $v$. The rest is
+\[ E(v) = \beta(f(p), Q(v)) + \beta(Av, Bv) + \beta(Av, Q(v)) + \beta(R(v), g(p+v)) . \]
+Let $M$ be a constant with $\abs{\beta(x,y)} \le M\abs{x}\abs{y}$. Then for $v \ne 0$,
+\[ \frac{\abs{E(v)}}{\abs{v}} \le M \Big( \abs{f(p)}\frac{\abs{Q(v)}}{\abs{v}} + \norm{A}\norm{B}\abs{v}
++ \norm{A}\abs{Q(v)} + \frac{\abs{R(v)}}{\abs{v}}\,\abs{g(p+v)} \Big) . \]
+As $v \to 0$: $\abs{Q(v)}/\abs{v} \to 0$ and $\abs{R(v)}/\abs{v} \to 0$ by sublinearity;
+$\abs{Q(v)} = \abs{v}\cdot\abs{Q(v)}/\abs{v} \to 0$; and $\abs{g(p+v)} \to \abs{g(p)}$ because $g$, being
+differentiable at $p$, is continuous there. So every term in the bracket tends to $0$, $E$ is sublinear, and
+$(Dh)_p = L$.
+
+For real-valued $f, g$ take $\beta(x,y) = xy$: $(D(fg))_p(v) = g(p)(Df)_p(v) + f(p)(Dg)_p(v)$.
+""", d=3, m=30, hints=[
+r"Expand $\beta(f(p) + Av + R(v),\ g(p) + Bv + Q(v))$ by bilinearity and separate the terms linear in $v$.",
+r"Bound each leftover term using $\abs{\beta(x,y)} \le M\abs{x}\abs{y}$; the term $\beta(Av,Bv)$ is of size $\abs{v}^2$.",
+], uses=["lem-bilinear-bounded", "def-derivative", "thm-diff-continuous", "prop-opnorm-bound"])
+
+b("der-prose-mvt", "prose", r"""
+The mean value theorem of one-variable calculus, $f(q) - f(p) = f'(\theta)(q-p)$, is false for vector-valued
+functions: the curve $t \mapsto (\cos t, \sin t)$ returns to its starting point after time $2\pi$, yet its
+derivative never vanishes. What survives, and what one actually uses, is the \emph{inequality}: the increment of
+$f$ is at most the largest stretch of the derivative times the distance travelled. For $p, q \in \R^n$ write
+$[p,q] = \set{p + t(q - p) : 0 \le t \le 1}$ for the segment between them.
+""")
+
+b("thm-mvt", "theorem", r"""
+Let $f : U \to \R^m$ be differentiable on $U$ and suppose the segment $[p,q]$ lies in $U$. If
+$\norm{(Df)_x} \le M$ for every $x \in [p,q]$, then
+\[ \abs{f(q) - f(p)} \le M\,\abs{q - p} . \]
+""", title="Mean value theorem (inequality)", proof=r"""
+If $f(q) = f(p)$ there is nothing to prove. Otherwise let $u = (f(q) - f(p))/\abs{f(q) - f(p)}$, a unit vector
+in $\R^m$, and let $\sigma(t) = p + t(q-p)$. Since $\sigma : \R \to \R^n$ is continuous and $U$ is open,
+$J = \sigma^{-1}(U)$ is an open subset of $\R$, and it contains $[0,1]$. Define
+\[ g(t) = \inner{u}{f(\sigma(t))}, \qquad t \in J . \]
+The map $\sigma$ is a constant plus the linear map $h \mapsto h(q-p)$, so $(D\sigma)_t(h) = h(q-p)$. The map
+$y \mapsto \inner{u}{y}$ is linear $\R^m \to \R$, so it is its own derivative. By the chain rule applied twice,
+$g$ is differentiable at each $t \in J$ with
+\[ (Dg)_t(h) = \inner{u}{(Df)_{\sigma(t)}(h(q-p))} = h\,\inner{u}{(Df)_{\sigma(t)}(q-p)} . \]
+By the consistency with one-variable calculus, $g$ is differentiable in the ordinary sense with
+$g'(t) = \inner{u}{(Df)_{\sigma(t)}(q-p)}$. For $t \in [0,1]$, the Cauchy--Schwarz inequality and
+$\sigma(t) \in [p,q]$ give
+\[ \abs{g'(t)} \le \abs{u}\,\norm{(Df)_{\sigma(t)}}\,\abs{q-p} \le M\abs{q-p} . \]
+By the one-variable mean value theorem there is a $\theta \in (0,1)$ with $g(1) - g(0) = g'(\theta)$. But
+\[ g(1) - g(0) = \inner{u}{f(q) - f(p)} = \abs{f(q) - f(p)} , \]
+so $\abs{f(q) - f(p)} = g'(\theta) \le M\abs{q-p}$.
+""", d=3, m=35, hints=[
+r"Reduce to a real-valued function of one real variable, where the mean value theorem is available.",
+r"Parametrize the segment by $\sigma(t) = p + t(q-p)$ and look at $g(t) = \inner{u}{f(\sigma(t))}$ for a well-chosen unit vector $u$.",
+r"Take $u$ to be the unit vector in the direction of $f(q) - f(p)$, so that $g(1) - g(0) = \abs{f(q)-f(p)}$.",
+], uses=["thm-chain-rule", "thm-linear-rules", "prop-one-variable", "prop-opnorm-bound"])
+
+b("def-c1", "definition", r"""
+A function $f : U \to \R^m$ is \emph{of class $C^1$} (continuously differentiable) if it is differentiable on $U$
+and its derivative $x \mapsto (Df)_x$ is a continuous map from $U$ to $\mathcal{L}(\R^n,\R^m)$, the latter with
+the operator norm.
+""", title="Class $C^1$")
+
+b("prop-c1-partials", "proposition", r"""
+A function $f : U \to \R^m$ is of class $C^1$ if and only if all partial derivatives
+$\frac{\partial f_i}{\partial x_j}$ exist and are continuous on $U$.
+""", title="$C^1$ means continuous partial derivatives", proof=r"""
+Suppose $f$ is $C^1$. Then the partial derivatives exist at each point and are the entries of the matrix of
+$(Df)_x$. For $x, p \in U$ the number $\frac{\partial f_i}{\partial x_j}(x) - \frac{\partial f_i}{\partial x_j}(p)$
+is an entry of the matrix of $(Df)_x - (Df)_p$, and each entry of a matrix is bounded by the operator norm, so
+\[ \abs{ \frac{\partial f_i}{\partial x_j}(x) - \frac{\partial f_i}{\partial x_j}(p) } \le \norm{(Df)_x - (Df)_p} \to 0 \quad (x \to p). \]
+
+Conversely suppose the partial derivatives exist and are continuous on $U$. Since continuous partial derivatives
+imply differentiability, $f$ is differentiable at every point of $U$, and the matrix of $(Df)_x$ is the Jacobian
+matrix. Bounding the operator norm by the entries,
+\[ \norm{(Df)_x - (Df)_p} \le \Big( \sum_{i,j} \Big( \frac{\partial f_i}{\partial x_j}(x) - \frac{\partial f_i}{\partial x_j}(p) \Big)^2 \Big)^{1/2} \to 0 \quad (x \to p), \]
+so $x \mapsto (Df)_x$ is continuous.
+""", d=2, m=15, hints=[
+r"Use the two-sided comparison between the operator norm of a matrix and its entries.",
+], uses=["def-c1", "prop-jacobian", "thm-continuous-partials", "prop-rn-bounded"])
+
+b("def-vector-integral", "definition", r"""
+For a continuous $\gamma = (\gamma_1, \dots, \gamma_m) : [a,b] \to \R^m$ define the integral componentwise:
+$\int_a^b \gamma(t)\,dt = \big( \int_a^b \gamma_1(t)\,dt, \dots, \int_a^b \gamma_m(t)\,dt \big)$. Likewise, for a
+continuous map $A : [a,b] \to \mathcal{L}(\R^n,\R^m)$ (continuous for the operator norm, equivalently with
+continuous matrix entries $a_{ij}(t)$), the integral $\int_a^b A(t)\,dt$ is the linear map whose matrix has
+entries $\int_a^b a_{ij}(t)\,dt$. It is the \emph{average} of the maps $A(t)$ when $b - a = 1$.
+""", title="Integrals of vector- and operator-valued functions")
+
+b("lem-integral-norm", "lemma", r"""
+Let $\gamma : [a,b] \to \R^m$ and $A : [a,b] \to \mathcal{L}(\R^n,\R^m)$ be continuous. Then:
+\begin{enumerate}
+\item $\abs{ \int_a^b \gamma(t)\,dt } \le \int_a^b \abs{\gamma(t)}\,dt$;
+\item $\big( \int_a^b A(t)\,dt \big) v = \int_a^b A(t)v\,dt$ for every $v \in \R^n$;
+\item $\norm{ \int_a^b A(t)\,dt } \le \int_a^b \norm{A(t)}\,dt$.
+\end{enumerate}
+""", title="Norm of an integral", proof=r"""
+(1) The function $t \mapsto \abs{\gamma(t)}$ is continuous, hence integrable. Let $I = \int_a^b \gamma(t)\,dt$.
+If $I = 0$ the claim holds. Otherwise put $u = I/\abs{I}$. By linearity of the integral of real functions,
+\[ \abs{I} = \inner{u}{I} = \sum_{i=1}^m u_i \int_a^b \gamma_i(t)\,dt = \int_a^b \inner{u}{\gamma(t)}\,dt
+\le \int_a^b \abs{\gamma(t)}\,dt , \]
+because $\inner{u}{\gamma(t)} \le \abs{u}\abs{\gamma(t)} = \abs{\gamma(t)}$ by Cauchy--Schwarz, and the integral is
+monotone.
+
+(2) The $i$-th component of the left side is $\sum_j \big( \int_a^b a_{ij}(t)\,dt \big) v_j
+= \int_a^b \sum_j a_{ij}(t)v_j\,dt$, which is the integral of the $i$-th component of $A(t)v$.
+
+(3) The functions $t \mapsto A(t)v$ and $t \mapsto \norm{A(t)}$ are continuous, since
+$\abs{A(t)v - A(s)v} \le \norm{A(t) - A(s)}\abs{v}$ and $\abs{\,\norm{A(t)} - \norm{A(s)}\,} \le \norm{A(t) - A(s)}$.
+By (2) and (1), for every $v$,
+\[ \abs{ \Big( \int_a^b A(t)\,dt \Big) v } = \abs{ \int_a^b A(t)v\,dt } \le \int_a^b \abs{A(t)v}\,dt
+\le \Big( \int_a^b \norm{A(t)}\,dt \Big) \abs{v} . \]
+Since the operator norm is the least constant of this kind, (3) follows.
+""", d=3, m=30, hints=[
+r"For (1), you cannot compare vectors, so pair the integral with a unit vector $u$ to get a real integral.",
+r"Take $u$ in the direction of the integral itself, and use Cauchy--Schwarz inside the integral.",
+], uses=["def-vector-integral", "prop-opnorm-bound", "prop-opnorm-is-norm"])
+
+b("thm-c1-mvt", "theorem", r"""
+Let $f : U \to \R^m$ be of class $C^1$ and suppose the segment $[p,q]$ lies in $U$. Then
+\[ f(q) - f(p) = T(q - p), \qquad \text{where } T = \int_0^1 (Df)_{p + t(q-p)}\,dt \]
+is the average of the derivative along the segment.
+""", title="$C^1$ mean value theorem", proof=r"""
+Let $\sigma(t) = p + t(q-p)$. As $U$ is open and $\sigma$ is continuous, $J = \sigma^{-1}(U)$ is an open subset of
+$\R$ containing $[0,1]$. Let $g = f \circ \sigma : J \to \R^m$. Since $(D\sigma)_t(h) = h(q-p)$, the chain rule
+shows that $g$ is differentiable at each $t \in J$ with $(Dg)_t(h) = h\,(Df)_{\sigma(t)}(q-p)$, and by the
+consistency with one-variable calculus each component $g_i$ has the ordinary derivative
+\[ g_i'(t) = \text{the $i$-th component of } (Df)_{\sigma(t)}(q-p) . \]
+The map $t \mapsto (Df)_{\sigma(t)}$ is continuous on $[0,1]$, being a composite of continuous maps, and
+$\abs{(Df)_{\sigma(t)}(q-p) - (Df)_{\sigma(s)}(q-p)} \le \norm{(Df)_{\sigma(t)} - (Df)_{\sigma(s)}}\abs{q-p}$, so each
+$g_i'$ is continuous on $[0,1]$. By the fundamental theorem of calculus, $g_i(1) - g_i(0) = \int_0^1 g_i'(t)\,dt$
+for each $i$; that is,
+\[ f(q) - f(p) = g(1) - g(0) = \int_0^1 (Df)_{\sigma(t)}(q-p)\,dt = \Big( \int_0^1 (Df)_{\sigma(t)}\,dt \Big)(q-p) , \]
+the last step because an operator-valued integral may be applied to a vector under the integral sign.
+""", d=3, m=30, hints=[
+r"Apply the fundamental theorem of calculus to each component of $g(t) = f(p + t(q-p))$ on $[0,1]$.",
+r"$g'(t) = (Df)_{p+t(q-p)}(q-p)$ by the chain rule; then pull the constant vector $q - p$ out of the integral.",
+], uses=["def-c1", "thm-chain-rule", "prop-one-variable", "lem-integral-norm", "def-vector-integral"])
+
+b("prop-c1-mvt-converse", "proposition", r"""
+Let $f : U \to \R^m$. Suppose there is a continuous map $T : U \times U \to \mathcal{L}(\R^n,\R^m)$ such that
+\[ f(q) - f(p) = T(p,q)(q - p) \qquad \text{for all } p, q \in U . \]
+Then $f$ is of class $C^1$ and $(Df)_p = T(p,p)$.
+""", title="A converse to the $C^1$ mean value theorem", proof=r"""
+Fix $p \in U$. For $v$ with $p + v \in U$,
+\[ f(p+v) - f(p) - T(p,p)v = \big( T(p, p+v) - T(p,p) \big) v , \]
+so for $v \ne 0$,
+\[ \frac{\abs{f(p+v) - f(p) - T(p,p)v}}{\abs{v}} \le \norm{T(p,p+v) - T(p,p)} . \]
+As $v \to 0$ the point $(p, p+v)$ tends to $(p,p)$ in $U \times U$, so the right side tends to $0$ by continuity of
+$T$. Hence $f$ is differentiable at $p$ with $(Df)_p = T(p,p)$. The map $p \mapsto T(p,p)$ is the composite of the
+continuous map $p \mapsto (p,p)$ with $T$, so it is continuous and $f$ is $C^1$.
+""", d=2, m=15, hints=[
+r"Guess the derivative: $T(p,p)$. Then the remainder is $(T(p,p+v) - T(p,p))v$.",
+], uses=["def-derivative", "def-c1", "prop-opnorm-bound"])
+
+b("der-prose-integral", "prose", r"""
+A last tool, used constantly in analysis: when a function is defined by integrating out one variable, it may be
+differentiated with respect to the other variable under the integral sign, provided the partial derivative is
+continuous.
+""")
+
+b("thm-diff-under-integral", "theorem", r"""
+Let $f : [a,b] \times (c,d) \to \R$ be continuous, and suppose $\frac{\partial f}{\partial y}(x,y)$ exists at every
+point and is continuous on $[a,b] \times (c,d)$. Then
+\[ F(y) = \int_a^b f(x,y)\,dx \]
+is of class $C^1$ on $(c,d)$, and
+\[ F'(y) = \int_a^b \frac{\partial f}{\partial y}(x,y)\,dx . \]
+""", title="Differentiating under the integral sign", proof=r"""
+Write $f_y$ for $\frac{\partial f}{\partial y}$ and $G(y) = \int_a^b f_y(x,y)\,dx$; both integrals exist because
+the integrands are continuous in $x$. Fix $y_0 \in (c,d)$ and choose $r > 0$ with
+$[y_0 - r, y_0 + r] \subseteq (c,d)$. The rectangle $K = [a,b] \times [y_0 - r, y_0 + r]$ is compact, so $f_y$ is
+uniformly continuous on $K$: given $\eps > 0$ there is a $\delta \in (0, r]$ such that
+\[ \abs{f_y(x,y) - f_y(x,y_0)} < \eps \qquad \text{whenever } x \in [a,b],\ \abs{y - y_0} < \delta . \]
+
+Let $0 < \abs{h} < \delta$. For each fixed $x \in [a,b]$, the function $y \mapsto f(x,y)$ is differentiable on
+$(c,d)$ with derivative $f_y(x,y)$, so by the mean value theorem there is an $\eta_x$ strictly between $y_0$ and
+$y_0 + h$ with $f(x,y_0+h) - f(x,y_0) = f_y(x,\eta_x)\,h$. Hence the function
+\[ \varphi_h(x) = \frac{f(x, y_0+h) - f(x,y_0)}{h} - f_y(x,y_0) = f_y(x,\eta_x) - f_y(x,y_0) \]
+satisfies $\abs{\varphi_h(x)} < \eps$ for all $x \in [a,b]$, since $\abs{\eta_x - y_0} < \delta$. By its first
+expression $\varphi_h$ is continuous in $x$, hence integrable, and by linearity of the integral
+\[ \abs{ \frac{F(y_0+h) - F(y_0)}{h} - G(y_0) } = \abs{ \int_a^b \varphi_h(x)\,dx } \le \eps(b-a) . \]
+Since $\eps$ was arbitrary, $F'(y_0)$ exists and equals $G(y_0)$.
+
+Continuity of $F' = G$ at $y_0$: for $\abs{y - y_0} < \delta$,
+\[ \abs{G(y) - G(y_0)} \le \int_a^b \abs{f_y(x,y) - f_y(x,y_0)}\,dx \le \eps(b-a) . \]
+So $F$ is $C^1$ on $(c,d)$.
+""", d=3, m=35, hints=[
+r"Compare the difference quotient of $F$ with the proposed integral; the difference is the integral of a difference quotient of $f$ minus $f_y$.",
+r"The mean value theorem in $y$ turns the difference quotient into $f_y(x,\eta_x)$. You then need $f_y(x,\eta_x)$ close to $f_y(x,y_0)$ uniformly in $x$.",
+r"Uniform continuity of $f_y$ on a compact rectangle $[a,b]\times[y_0-r,y_0+r]$ supplies the uniformity.",
+], uses=[])
+
+c("derivative", r"Define: $f : U \to \R^m$ is differentiable at $p$ with derivative $(Df)_p$.",
+  r"There is a linear $T : \R^n \to \R^m$ with $\abs{f(p+v) - f(p) - Tv}/\abs{v} \to 0$ as $v \to 0$; $T = (Df)_p$ is unique.", item="def-derivative")
+c("unique", r"How is $(Df)_p u$ computed as a limit, and what does this prove?",
+  r"$(Df)_p u = \lim_{t\to 0}(f(p+tu) - f(p))/t$. So the derivative is unique, and its matrix is the Jacobian $(\partial f_i/\partial x_j)$.", item="prop-jacobian")
+c("partials-counter", "Give a function whose partial derivatives exist at a point where it is not even continuous.",
+  r"$f(x,y) = xy/(x^2+y^2)$, $f(0,0) = 0$: zero on the axes, $\frac12$ on the diagonal.", item="ex-partials-not-enough")
+c("cont-partials", "State the sufficient condition for differentiability in terms of partial derivatives, and the proof idea.",
+  r"If the partials exist on $U$ and are continuous at $p$, $f$ is differentiable at $p$. Walk from $p$ to $p+v$ along coordinate segments and use the one-variable mean value theorem on each.", item="thm-continuous-partials")
+c("chain", "State the chain rule.",
+  r"If $f$ is differentiable at $p$ and $g$ at $q = f(p)$, then $(D(g\circ f))_p = (Dg)_q \circ (Df)_p$.", item="thm-chain-rule")
+c("leibniz", r"State the Leibniz rule for $h = \beta(f,g)$ with $\beta$ bilinear.",
+  r"$(Dh)_p v = \beta((Df)_p v, g(p)) + \beta(f(p), (Dg)_p v)$.", item="thm-leibniz")
+c("mvt", "State the multivariable mean value theorem. Why is it only an inequality?",
+  r"If $[p,q] \subseteq U$ and $\norm{(Df)_x} \le M$ on $[p,q]$ then $\abs{f(q) - f(p)} \le M\abs{q-p}$. Equality with a single intermediate point fails for vector values: $t \mapsto (\cos t, \sin t)$ on $[0,2\pi]$.", item="thm-mvt")
+c("mvt-idea", "What is the idea of the proof of the mean value inequality?",
+  r"Apply the one-variable theorem to $g(t) = \inner{u}{f(p+t(q-p))}$, with $u$ the unit vector along $f(q) - f(p)$.", item="thm-mvt")
+c("c1mvt", r"State the $C^1$ mean value theorem.",
+  r"If $f$ is $C^1$ and $[p,q] \subseteq U$, then $f(q) - f(p) = \big(\int_0^1 (Df)_{p+t(q-p)}\,dt\big)(q-p)$.", item="thm-c1-mvt")
+c("under-integral", "State the theorem on differentiating under the integral sign.",
+  r"If $f$ and $\partial f/\partial y$ are continuous on $[a,b]\times(c,d)$, then $F(y) = \int_a^b f(x,y)\,dx$ is $C^1$ with $F'(y) = \int_a^b \frac{\partial f}{\partial y}(x,y)\,dx$.", item="thm-diff-under-integral")
+S.write()

@@ -1,0 +1,397 @@
+{
+ "version": 1,
+ "id": "5e",
+ "blocks": [
+  {
+   "id": "c5-intro-commuting-operators",
+   "kind": "prose",
+   "number": "",
+   "title": "Studying two operators together",
+   "tex": "A single choice of coordinates becomes especially useful when\n    it simplifies two operators at once. We examine how commutation\n    preserves eigenspaces and use that preservation to construct\n    common eigenvectors and shared diagonal or triangular bases.",
+   "page": "175"
+  },
+  {
+   "id": "c5-def-commute",
+   "kind": "definition",
+   "number": "5.71",
+   "title": "Commuting operators and matrices",
+   "tex": "Operators $S,T\\in\\Lin(V)$ \\emph{commute} when $ST=TS$.\n    Square matrices $A,B$ of the same shape commute when\n    $AB=BA$. For operators, this says that applying $S$ and $T$\n    in either order gives the same output for every input.",
+   "page": "175"
+  },
+  {
+   "id": "c5-ex-basic-commuting-operators",
+   "kind": "example",
+   "number": "",
+   "title": "Scalar operators and polynomials in one operator",
+   "tex": "For every $A\\in\\Lin(V)$ and $\\lambda\\in\\F$, the operators\n    $\\lambda I$ and $A$ commute. For any polynomials $p,q$,\n    the operators $p(A)$ and $q(A)$ commute; in particular,\n    $A^2$ and $A^3$ commute.",
+   "page": "175",
+   "proof": "For $v\\in V$, linearity of $A$ gives\n    \\[\n    ((\\lambda I)A)v=\\lambda Av=A(\\lambda v)\n    =(A(\\lambda I))v.\n    \\]\n    Equality at every vector proves the first assertion.\n    The polynomial evaluation product theorem gives\n    \\[\n    p(A)q(A)=(pq)(A)=(qp)(A)=q(A)p(A),\n    \\]\n    because scalar polynomial multiplication is commutative.\n    Taking $p(z)=z^2$ and $q(z)=z^3$ proves the final claim.\n    These calculations remain valid on the zero space.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Evaluate the first identity on a vector; for the second use multiplication of polynomial evaluations."
+   ],
+   "uses": [
+    "c5-def-commute",
+    "c5-thm-polynomial-evaluation-product",
+    "c5-def-polynomial-operator",
+    "c3-def-linear-map",
+    "c3-def-zero-identity-maps",
+    "c3-def-map-operations",
+    "c3-def-map-composition"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-def-two-variable-polynomials",
+   "kind": "definition",
+   "number": "",
+   "title": "Polynomials in two variables with bounded total degree",
+   "tex": "For a nonnegative integer $m$, let $\\Poly_m(\\C^2,\\C)$\n    be the set of functions $p:\\C^2\\to\\C$ admitting an expression\n    \\[\n    p(w,z)=\\sum_{\\substack{j,k\\ge0\\\\j+k\\le m}}a_{j,k}w^jz^k,\n    \\qquad a_{j,k}\\in\\C.\n    \\]\n    The function $(w,z)\\mapsto w^jz^k$ is a monomial, and\n    $j+k$ is its total degree. The operations on these\n    functions are pointwise addition and scalar multiplication.\n    The next result establishes coefficient uniqueness and\n    the vector-space properties needed below.",
+   "page": "175"
+  },
+  {
+   "id": "c5-lem-two-variable-basis",
+   "kind": "lemma",
+   "number": "",
+   "title": "Unique coefficients and a monomial basis",
+   "tex": "The coefficients in a representation of an element of\n    $\\Poly_m(\\C^2,\\C)$ are unique. This set is a nonzero\n    finite-dimensional complex vector space whose monomials\n    $w^jz^k$ with $j,k\\ge0$ and $j+k\\le m$, listed in any\n    fixed order, form a basis. Its dimension is\n    \\[\n    \\frac{(m+1)(m+2)}2.\n    \\]",
+   "page": "175",
+   "proof": "Suppose\n    \\[\n    \\sum_{\\substack{j,k\\ge0\\\\j+k\\le m}}a_{j,k}w^jz^k=0\n    \\]\n    for every $w,z\\in\\C$. Fix $z$ and regard the expression\n    as a polynomial in $w$:\n    \\[\n    \\sum_{j=0}^m\n    \\left(\\sum_{k=0}^{m-j}a_{j,k}z^k\\right)w^j=0.\n    \\]\n    Univariate coefficient uniqueness gives\n    $\\sum_{k=0}^{m-j}a_{j,k}z^k=0$ for every $j$.\n    Since the fixed $z$ was arbitrary, each of these is\n    a zero polynomial function of $z$. A second application\n    of coefficient uniqueness gives $a_{j,k}=0$ for\n    every permitted pair. Subtracting two representations\n    now proves uniqueness of the coefficients.\n\n    The space of all functions from $\\C^2$ to $\\C$ is\n    a complex vector space with pointwise operations.\n    The set under consideration is exactly the span in\n    that function space of the finitely many displayed\n    monomials, so it is a subspace. The calculation above\n    proves independence of those monomials, and their\n    spanning property is the definition of the set.\n    Thus they form a basis.\n\n    For each $j$ between $0$ and $m$, there are\n    $m-j+1$ choices of $k$. The number of basis entries\n    is therefore $1+2+\\cdots+(m+1)=(m+1)(m+2)/2$.\n    This finite-sum identity follows by induction:\n    the case $m=0$ is $1=1$, and the next value adds\n    $m+2$ to $(m+1)(m+2)/2$.\n    The constant monomial $1$ is nonzero, so the space\n    is nonzero even when $m=0$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Fix one variable and apply the univariate coefficient theorem to the other.",
+    "Apply that theorem a second time to the coefficient functions."
+   ],
+   "uses": [
+    "c5-def-two-variable-polynomials",
+    "c1-thm-function-space",
+    "c2-lem-polynomial-coefficients",
+    "c2-thm-span-smallest",
+    "c2-def-basis",
+    "c2-def-dimension",
+    "c1-foundations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-def-polynomial-partial-derivatives",
+   "kind": "definition",
+   "number": "",
+   "title": "Algebraic partial differentiation",
+   "tex": "For the unique coefficient expression of\n    $p\\in\\Poly_m(\\C^2,\\C)$, define\n    \\[\n    D_wp=\n    \\sum_{\\substack{j\\ge1,\\ k\\ge0\\\\j+k\\le m}}\n    j a_{j,k}w^{j-1}z^k,\n    \\qquad\n    D_zp=\n    \\sum_{\\substack{j\\ge0,\\ k\\ge1\\\\j+k\\le m}}\n    k a_{j,k}w^jz^{k-1}.\n    \\]\n    Empty sums denote the zero function. These are the\n    polynomial partial differentiation formulas; the\n    definitions use coefficients and do not require\n    differentiation theory for general complex functions.",
+   "page": "175"
+  },
+  {
+   "id": "c5-ex-partial-derivatives-commute",
+   "kind": "example",
+   "number": "5.72",
+   "title": "Partial differentiation operators commute",
+   "tex": "The maps $D_w,D_z$ are linear operators on\n    $\\Poly_m(\\C^2,\\C)$, and they commute.",
+   "page": "175",
+   "proof": "Coefficient uniqueness makes both formulas well-defined.\n    Each monomial that occurs in either output has total\n    degree at most $m-1$, so it belongs to the original\n    space when $m\\ge1$. If $m=0$, both sums are empty\n    and give its zero vector. Thus both maps have the\n    required target.\n\n    If $p,q$ have coefficient arrays $a_{j,k},b_{j,k}$,\n    their sum has array $a_{j,k}+b_{j,k}$ and a scalar\n    multiple $cp$ has array $ca_{j,k}$. In the formula\n    for $D_w$, multiplication of each coefficient by $j$\n    therefore gives\n    $D_w(p+q)=D_wp+D_wq$ and $D_w(cp)=cD_wp$.\n    In the formula for $D_z$, multiplication by $k$\n    gives the same two identities with $D_z$.\n    Hence both maps are linear.\n\n    Applying the two formulas successively gives\n    \\[\n    D_wD_zp=\n    \\sum_{\\substack{j,k\\ge1\\\\j+k\\le m}}\n    jk a_{j,k}w^{j-1}z^{k-1}\n    =D_zD_wp.\n    \\]\n    Terms whose relevant exponent is zero disappear\n    at the corresponding differentiation step.\n    If $m=0$ or $m=1$, the displayed sum is empty\n    in both orders. Thus the outputs agree for every\n    $p$ and the operators commute.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Check linearity by following the coefficients.",
+    "Only terms involving positive powers of both variables can survive both operations."
+   ],
+   "uses": [
+    "c5-def-commute",
+    "c5-def-two-variable-polynomials",
+    "c5-lem-two-variable-basis",
+    "c5-def-polynomial-partial-derivatives",
+    "c3-def-linear-map",
+    "c3-def-map-composition",
+    "c1-thm-complex-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-matrix-commutation",
+   "kind": "theorem",
+   "number": "5.74",
+   "title": "Commutation is preserved by a matrix representation",
+   "tex": "Let $S,T\\in\\Lin(V)$, where $V$ is finite-dimensional,\n    and use the same fixed basis of $V$ for both operators.\n    Then $S,T$ commute if and only if their matrices commute.",
+   "page": "176",
+   "proof": "For the fixed basis, the composition rule gives\n    \\[\n    \\Mat(ST)=\\Mat(S)\\Mat(T),\\qquad\n    \\Mat(TS)=\\Mat(T)\\Mat(S).\n    \\]\n    If $ST=TS$, the two represented matrices are equal,\n    proving matrix commutation. Conversely, if the two\n    matrix products are equal, these formulas give\n    $\\Mat(ST)=\\Mat(TS)$. The matrix representation is\n    injective, so $ST=TS$.\n    The matrix representation theorem includes empty\n    bases, so the argument also covers $V=\\{0\\}$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the composition rule and the fact that a fixed-basis matrix determines its linear map."
+   ],
+   "uses": [
+    "c5-def-commute",
+    "c3-thm-matrix-composition",
+    "c3-thm-map-matrix-isomorphism"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-commuting-eigenspace",
+   "kind": "theorem",
+   "number": "5.75",
+   "title": "A commuting operator preserves every eigenspace",
+   "tex": "If $S,T\\in\\Lin(V)$ commute and $\\lambda\\in\\F$,\n    then the eigenspace $E(\\lambda,S)$ is invariant under $T$.\n    No finite-dimensionality assumption is needed.",
+   "page": "176",
+   "proof": "The eigenspace is a subspace. For\n    $v\\in E(\\lambda,S)$, the equation $Sv=\\lambda v$\n    and the commutation hypothesis give\n    \\[\n    S(Tv)=(ST)v=(TS)v=T(Sv)=T(\\lambda v)=\\lambda Tv.\n    \\]\n    Thus $Tv\\in E(\\lambda,S)$, which is exactly the\n    required invariance. This applies also when the\n    eigenspace consists only of zero.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply $S$ to $Tv$ and use commutation before using the eigenvalue equation."
+   ],
+   "uses": [
+    "c5-def-commute",
+    "c5-def-eigenspace",
+    "c5-lem-eigenspace-subspace",
+    "c5-def-invariant",
+    "c3-def-linear-map",
+    "c3-def-map-composition"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-simultaneous-diagonalization",
+   "kind": "theorem",
+   "number": "5.76",
+   "title": "Commuting diagonalizable operators have a shared eigenvector basis",
+   "tex": "Let $S,T$ be diagonalizable operators on the same\n    finite-dimensional vector space over $\\F$.\n    There is one basis in which both matrices are diagonal\n    if and only if $S$ and $T$ commute.",
+   "page": "176",
+   "proof": "Suppose a basis $v_1,\\ldots,v_n$ diagonalizes both\n    operators. There are scalars $\\alpha_j,\\beta_j$ with\n    $Sv_j=\\alpha_jv_j$ and $Tv_j=\\beta_jv_j$.\n    Linearity gives\n    \\[\n    STv_j=\\beta_j\\alpha_jv_j\n    =\\alpha_j\\beta_jv_j=TSv_j.\n    \\]\n    Thus $ST$ and $TS$ agree on a basis and hence are\n    equal.\n\n    Conversely, suppose $ST=TS$. If $V=\\{0\\}$, the\n    empty basis gives two empty diagonal matrices,\n    so assume $V\\ne\\{0\\}$.\n    Since $S$ is diagonalizable, its distinct eigenvalues\n    $\\lambda_1,\\ldots,\\lambda_r$ give the decomposition\n    \\[\n    V=E(\\lambda_1,S)\\oplus\\cdots\\oplus E(\\lambda_r,S)\n    \\]\n    by the diagonalizability characterization.\n    Each of these subspaces is invariant under $T$\n    by the commuting-eigenspace theorem.\n    Since $T$ is diagonalizable, its restriction to\n    each such subspace is diagonalizable.\n    Choose in each eigenspace a basis consisting of\n    eigenvectors of that restriction.\n\n    Concatenate these chosen bases. They span $V$\n    because the eigenspaces sum to $V$ and each\n    chosen list spans its eigenspace. In a zero linear\n    combination of the concatenated list, group the\n    terms coming from each eigenspace. Directness\n    makes each group sum zero, and independence of\n    each chosen basis then makes every coefficient\n    zero. Thus the concatenated list is a basis.\n\n    Each member of this basis lies in an eigenspace\n    of $S$ and is also an eigenvector of the relevant\n    restriction of $T$, hence of $T$ itself.\n    Its two images are therefore scalar multiples\n    of that same basis vector. The matrix definition\n    now gives diagonal matrices for both operators.\n    This proves the converse.",
+   "difficulty": 3,
+   "minutes": 40,
+   "hints": [
+    "Decompose the space into eigenspaces of one of the diagonalizable operators.",
+    "Restrict the other operator to each of those invariant subspaces."
+   ],
+   "uses": [
+    "c5-def-commute",
+    "c5-def-diagonalizable",
+    "c5-def-diagonal-matrix",
+    "c5-def-eigenspace",
+    "c5-thm-diagonalizable-equivalences",
+    "c5-thm-diagonalizable-restriction",
+    "c5-thm-commuting-eigenspace",
+    "c1-thm-direct-zero",
+    "c2-def-basis",
+    "c3-thm-linear-map-basis",
+    "c3-def-map-matrix",
+    "c3-def-linear-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-common-eigenvector",
+   "kind": "theorem",
+   "number": "5.78",
+   "title": "A common eigenvector for two commuting complex operators",
+   "tex": "If $V$ is a nonzero finite-dimensional complex vector\n    space and $S,T\\in\\Lin(V)$ commute, there exist a vector\n    $v\\ne0$ and scalars $\\lambda,\\mu\\in\\C$ such that\n    \\[\n    Sv=\\lambda v,\\qquad Tv=\\mu v.\n    \\]\n    The two eigenvalues are allowed to differ.",
+   "page": "177",
+   "proof": "The complex eigenvalue existence theorem gives\n    an eigenvalue $\\lambda$ of $S$. Its eigenspace\n    $E=E(\\lambda,S)$ is therefore nonzero.\n    It is a subspace of the finite-dimensional space\n    $V$, so it is finite-dimensional.\n    Commutation makes $E$ invariant under $T$,\n    and hence $T|_E$ is an operator on the nonzero\n    finite-dimensional complex space $E$.\n    Apply complex eigenvalue existence again to obtain\n    $\\mu\\in\\C$ and $v\\in E$ with $v\\ne0$ and\n    $T|_E v=\\mu v$. The restriction agrees with $T$,\n    so $Tv=\\mu v$, while membership in $E$ gives\n    $Sv=\\lambda v$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Start with a nonzero eigenspace of one operator.",
+    "Apply eigenvalue existence to the restriction of the other operator to that space."
+   ],
+   "uses": [
+    "c5-thm-complex-eigenvalue",
+    "c5-def-eigenvalue",
+    "c5-def-eigenvector",
+    "c5-def-eigenspace",
+    "c5-lem-eigenspace-subspace",
+    "c5-def-invariant",
+    "c5-thm-commuting-eigenspace",
+    "c2-thm-subspaces-finite"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-ex-partial-common-eigenvectors",
+   "kind": "example",
+   "number": "5.79",
+   "title": "The common eigenvectors of polynomial partial differentiation",
+   "tex": "For the operators $D_w,D_z$ on $\\Poly_m(\\C^2,\\C)$,\n    each operator has only the eigenvalue $0$. Their zero\n    eigenspaces are\n    \\[\n    E(0,D_w)=\n    \\left\\{\\sum_{k=0}^m a_kz^k:a_k\\in\\C\\right\\},\n    \\qquad\n    E(0,D_z)=\n    \\left\\{\\sum_{j=0}^m b_jw^j:b_j\\in\\C\\right\\}.\n    \\]\n    Their common eigenvectors are precisely the nonzero\n    constant functions.",
+   "page": "177",
+   "proof": "For a monomial $w^jz^k$, applying $D_w$ once\n    gives $j w^{j-1}z^k$ if $j\\ge1$, and zero if\n    $j=0$. Induction on $j$ therefore shows that\n    $j+1$ applications give zero. Since $j\\le m$,\n    $D_w^{m+1}$ vanishes on every monomial in the\n    basis and hence on the entire space by linearity.\n    The same argument using $k$ gives $D_z^{m+1}=0$.\n\n    If $D_wp=\\lambda p$ with $p\\ne0$, the\n    polynomial-eigenvector formula gives\n    $0=D_w^{m+1}p=\\lambda^{m+1}p$.\n    If $\\lambda\\ne0$, multiplication by the inverse\n    of $\\lambda^{m+1}$ would force $p=0$.\n    Hence $\\lambda=0$. The identical argument for\n    $D_z$ excludes its nonzero eigenvalues.\n    The constant function $1$ is nonzero and is\n    killed by both operators, so $0$ is indeed an\n    eigenvalue of each.\n\n    Write $p=\\sum_{j+k\\le m}a_{j,k}w^jz^k$.\n    The monomials in the formula\n    \\[\n    D_wp=\\sum_{\\substack{j\\ge1,\\ k\\ge0\\\\j+k\\le m}}\n    j a_{j,k}w^{j-1}z^k\n    \\]\n    have distinct exponent pairs. Coefficient uniqueness\n    makes this output zero exactly when\n    $j a_{j,k}=0$ for every $j\\ge1$.\n    Such positive integers are nonzero complex scalars,\n    so this is equivalent to $a_{j,k}=0$ whenever\n    $j\\ge1$. Thus $p$ depends only on $z$, giving\n    the first eigenspace. Applying the same reasoning\n    to $D_z$ gives the second eigenspace.\n\n    Membership in both eigenspaces leaves only the\n    coefficient $a_{0,0}$, so their intersection is\n    the space of constant functions. An eigenvector\n    must be nonzero, and therefore the common\n    eigenvectors are exactly the nonzero constants.\n    For $m=0$ the whole space already consists of\n    constants, and all these arguments and conclusions\n    still apply.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Repeated differentiation eventually kills every monomial.",
+    "Use coefficient uniqueness to describe the kernel of each partial differentiation operator."
+   ],
+   "uses": [
+    "c5-def-two-variable-polynomials",
+    "c5-lem-two-variable-basis",
+    "c5-def-polynomial-partial-derivatives",
+    "c5-ex-partial-derivatives-commute",
+    "c5-def-operator-powers",
+    "c5-lem-polynomial-eigenvector",
+    "c5-def-eigenvector",
+    "c5-def-eigenspace",
+    "c1-thm-complex-inverses",
+    "c1-lem-scalar-cancellation",
+    "c3-thm-linear-zero",
+    "c3-thm-linear-map-basis"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-lem-commuting-quotients",
+   "kind": "lemma",
+   "number": "",
+   "title": "Commuting operators descend to a common invariant quotient",
+   "tex": "Let $S,T\\in\\Lin(V)$ commute, and let $U$ be a subspace\n    invariant under both. The prescriptions\n    \\[\n    \\overline S(v+U)=Sv+U,\\qquad\n    \\overline T(v+U)=Tv+U\n    \\]\n    define commuting linear operators on $V/U$.",
+   "page": "178",
+   "proof": "If $v+U=w+U$, the coset equality criterion gives\n    $v-w\\in U$. Since $U$ is invariant under $S$,\n    $Sv-Sw=S(v-w)\\in U$, and hence $Sv+U=Sw+U$.\n    The same argument with $T$ gives $Tv+U=Tw+U$.\n    Thus both prescriptions are independent of the\n    chosen representative.\n\n    For either $A=S$ or $A=T$, the quotient operation\n    rules and linearity of $A$ give\n    \\[\n    \\begin{aligned}\n    \\overline A((v+U)+(w+U))\n      &=A(v+w)+U\\\\\n      &=(Av+U)+(Aw+U),\\\\\n    \\overline A(a(v+U))\n      &=A(av)+U=a(Av+U).\n    \\end{aligned}\n    \\]\n    Hence the induced maps are linear.\n    Finally, for every coset $v+U$,\n    \\[\n    (\\overline S\\,\\overline T)(v+U)\n    =STv+U=TSv+U\n    =(\\overline T\\,\\overline S)(v+U).\n    \\]\n    Equality on all cosets proves commutation.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the coset equality criterion to check that the prescriptions do not depend on representatives.",
+    "Evaluate both induced compositions on the same coset."
+   ],
+   "uses": [
+    "c5-def-commute",
+    "c5-def-invariant",
+    "c3-thm-coset-equality",
+    "c3-def-quotient-operations",
+    "c3-thm-quotient-vector-space",
+    "c3-def-linear-map",
+    "c3-def-map-composition"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-simultaneous-triangularization",
+   "kind": "theorem",
+   "number": "5.80",
+   "title": "Commuting complex operators have a shared triangular basis",
+   "tex": "If $S,T$ are commuting operators on a finite-dimensional\n    complex vector space $V$, then some basis of $V$ gives\n    upper-triangular matrices for both operators.",
+   "page": "178",
+   "proof": "We induct on $n=\\dim V$. For $n=0$, the empty basis\n    gives empty upper-triangular matrices.\n    Assume $n\\ge1$ and that the assertion holds for\n    all complex spaces of dimension $n-1$.\n\n    Choose a common eigenvector $v_1\\ne0$ of $S,T$,\n    using the common-eigenvector theorem. The line\n    $L=\\Span(v_1)$ has dimension one and is invariant\n    under both operators. They therefore induce\n    commuting operators $\\overline S,\\overline T$\n    on $V/L$ by the preceding lemma.\n    The quotient dimension theorem gives\n    $\\dim(V/L)=n-1$, so the induction hypothesis\n    supplies a basis $\\overline v_2,\\ldots,\\overline v_n$\n    of $V/L$ that makes both induced operators\n    upper triangular. For $n=1$, this is the empty\n    basis of the zero quotient.\n\n    Choose representatives $v_j\\in V$ with\n    $\\overline v_j=v_j+L$ for $2\\le j\\le n$.\n    To show that $v_1,\\ldots,v_n$ spans $V$, expand\n    $v+L$ in the quotient basis for an arbitrary\n    $v\\in V$. The expansion says that\n    $v-\\sum_{j=2}^n a_jv_j$ belongs to $L$,\n    so it is a multiple of $v_1$.\n    To prove independence, a zero relation among\n    $v_1,\\ldots,v_n$ gives in the quotient a zero\n    relation among $\\overline v_2,\\ldots,\\overline v_n$.\n    Thus all coefficients except possibly the first\n    are zero. The remaining coefficient is zero\n    because $v_1\\ne0$. Hence the lifted list is a\n    basis of $V$.\n\n    For $j\\ge2$, upper triangularity in the quotient\n    means that\n    \\[\n    \\overline S\\,\\overline v_j,\\quad\n    \\overline T\\,\\overline v_j\n    \\in\\Span(\\overline v_2,\\ldots,\\overline v_j).\n    \\]\n    Lifting either relation shows that the corresponding\n    image $Sv_j$ or $Tv_j$ differs from a combination\n    of $v_2,\\ldots,v_j$ by a vector in\n    $L=\\Span(v_1)$. Therefore\n    \\[\n    Sv_j,\\ Tv_j\\in\\Span(v_1,\\ldots,v_j).\n    \\]\n    For $j=1$, the same assertion follows from\n    the common eigenvector equations.\n    The triangular basis criterion now shows that\n    both matrices in the lifted basis are upper triangular,\n    completing the induction.",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "Begin with a common eigenvector and pass to the quotient by its span.",
+    "Apply induction to the two induced operators, then lift a quotient basis.",
+    "A triangular relation in the quotient may acquire only a multiple of the first basis vector when lifted."
+   ],
+   "uses": [
+    "c5-thm-common-eigenvector",
+    "c5-lem-invariant-line",
+    "c5-lem-commuting-quotients",
+    "c5-def-upper-triangular",
+    "c5-thm-triangular-invariant",
+    "c2-def-span",
+    "c2-def-basis",
+    "c2-ex-single-independent",
+    "c3-def-quotient-space",
+    "c3-def-quotient-operations",
+    "c3-thm-coset-equality",
+    "c3-thm-quotient-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-lem-triangular-sum-product",
+   "kind": "lemma",
+   "number": "",
+   "title": "Diagonals of sums and products of upper-triangular matrices",
+   "tex": "If $A,B$ are upper-triangular $n$-by-$n$ matrices,\n    then $A+B$ and $AB$ are upper triangular, and\n    \\[\n    (A+B)_{j,j}=A_{j,j}+B_{j,j},\\qquad\n    (AB)_{j,j}=A_{j,j}B_{j,j}\n    \\quad(1\\le j\\le n).\n    \\]",
+   "page": "179",
+   "proof": "For $j>k$, both $A_{j,k}$ and $B_{j,k}$ are zero,\n    so $(A+B)_{j,k}=0$. The diagonal formula for the\n    sum is the definition of matrix addition.\n\n    For a product entry with $j>k$,\n    \\[\n    (AB)_{j,k}=\\sum_{r=1}^n A_{j,r}B_{r,k}.\n    \\]\n    If $r<j$, upper triangularity gives $A_{j,r}=0$.\n    If $r\\ge j$, then $r>k$, so upper triangularity\n    gives $B_{r,k}=0$. Every summand is therefore zero,\n    proving that $AB$ is upper triangular.\n\n    For $(AB)_{j,j}$, terms with $r<j$ have\n    $A_{j,r}=0$, and terms with $r>j$ have\n    $B_{r,j}=0$. Only $r=j$ remains, giving\n    $(AB)_{j,j}=A_{j,j}B_{j,j}$.\n    If $n=0$, the matrices and their sum and product\n    have the empty square shape; triangularity holds\n    and there are no diagonal entries to check.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Determine which indices can give a nonzero summand in a product entry."
+   ],
+   "uses": [
+    "c5-def-upper-triangular",
+    "c3-def-matrix-addition",
+    "c3-def-matrix-product"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-commuting-sum-product-eigenvalues",
+   "kind": "theorem",
+   "number": "5.81",
+   "title": "Eigenvalues of sums and products of commuting operators",
+   "tex": "Let $S,T$ be commuting operators on a finite-dimensional\n    complex vector space. Every eigenvalue of $S+T$ is\n    $\\lambda+\\mu$ for some eigenvalue $\\lambda$ of $S$\n    and some eigenvalue $\\mu$ of $T$. Every eigenvalue\n    of $ST$ is $\\lambda\\mu$ for some such pair.",
+   "page": "179",
+   "proof": "If the space is zero, none of these operators has\n    an eigenvalue, because no nonzero eigenvector exists.\n    The two assertions then hold vacuously.\n\n    Otherwise choose a basis giving upper-triangular\n    matrices $A=\\Mat(S)$ and $B=\\Mat(T)$, using\n    simultaneous triangularization. The matrix rules\n    give $\\Mat(S+T)=A+B$ and $\\Mat(ST)=AB$.\n    The preceding lemma makes both matrices upper\n    triangular and identifies their diagonal entries.\n\n    Let $\\nu$ be an eigenvalue of $S+T$. The triangular\n    eigenvalue theorem gives an index $j$ with\n    \\[\n    \\nu=(A+B)_{j,j}=A_{j,j}+B_{j,j}.\n    \\]\n    The same theorem applied to $S$ and $T$ says\n    that $A_{j,j}$ is an eigenvalue of $S$ and\n    $B_{j,j}$ is an eigenvalue of $T$.\n    These two scalars provide the required sum.\n    If instead $\\nu$ is an eigenvalue of $ST$,\n    that theorem gives an index $j$ with\n    \\[\n    \\nu=(AB)_{j,j}=A_{j,j}B_{j,j}.\n    \\]\n    The two factors are again eigenvalues of the\n    original operators. This proves the product assertion.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use one basis that makes both operators upper triangular.",
+    "Read the eigenvalues from the diagonal entries of the sum and product matrices."
+   ],
+   "uses": [
+    "c5-def-eigenvalue",
+    "c5-thm-simultaneous-triangularization",
+    "c5-lem-triangular-sum-product",
+    "c5-thm-triangular-eigenvalues",
+    "c3-thm-matrix-addition",
+    "c3-thm-matrix-composition"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c5-card-commute-definition",
+   "item": "c5-def-commute",
+   "front": "What does it mean for two operators on the same space to commute?",
+   "back": "Their compositions agree in the two orders: $ST=TS$."
+  },
+  {
+   "id": "c5-card-two-variable-coefficients",
+   "item": "c5-lem-two-variable-basis",
+   "front": "How can uniqueness of coefficients for a polynomial in two variables be reduced to the univariate case?",
+   "back": "Fix one variable, apply univariate coefficient uniqueness\n    in the other variable, then apply it again to the resulting\n    coefficient polynomials."
+  },
+  {
+   "id": "c5-card-commuting-eigenspace",
+   "item": "c5-thm-commuting-eigenspace",
+   "front": "What does commutation imply about the eigenspaces of one operator?",
+   "back": "Every eigenspace of either operator is invariant under\n    the other operator."
+  },
+  {
+   "id": "c5-card-simultaneous-diagonalization",
+   "item": "c5-thm-simultaneous-diagonalization",
+   "front": "When do two diagonalizable operators have a common diagonalizing basis?",
+   "back": "Exactly when they commute."
+  },
+  {
+   "id": "c5-card-common-eigenvector-idea",
+   "item": "c5-thm-common-eigenvector",
+   "front": "How do two commuting operators on a nonzero finite-dimensional complex space acquire a common eigenvector?",
+   "back": "Choose a nonzero eigenspace of one operator and find\n    an eigenvector of the restriction of the other operator\n    to that invariant eigenspace."
+  },
+  {
+   "id": "c5-card-partial-common-eigenvectors",
+   "item": "c5-ex-partial-common-eigenvectors",
+   "front": "Which functions are common eigenvectors of the two polynomial partial differentiation operators?",
+   "back": "Exactly the nonzero constant functions. Both eigenvalues are zero."
+  },
+  {
+   "id": "c5-card-shared-triangular-basis",
+   "item": "c5-thm-simultaneous-triangularization",
+   "front": "What quotient is used in the induction proving simultaneous triangularization?",
+   "back": "The quotient by the line spanned by a common eigenvector.\n    Both operators descend to commuting operators on this\n    quotient of dimension one less."
+  },
+  {
+   "id": "c5-card-triangular-product-diagonal",
+   "item": "c5-lem-triangular-sum-product",
+   "front": "What is the $j$th diagonal entry of a product of two upper-triangular matrices?",
+   "back": "It is $A_{j,j}B_{j,j}$; every other term in the entry's\n    defining sum vanishes."
+  },
+  {
+   "id": "c5-card-commuting-sum-product-spectrum",
+   "item": "c5-thm-commuting-sum-product-eigenvalues",
+   "front": "How are the eigenvalues of the sum and product of two commuting complex operators related to those of the individual operators?",
+   "back": "Each eigenvalue of the sum is a sum of one eigenvalue\n    from each operator, and each eigenvalue of the product\n    is a product of one eigenvalue from each operator."
+  }
+ ]
+}

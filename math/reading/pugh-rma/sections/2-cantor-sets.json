@@ -1,0 +1,236 @@
+{
+ "version": 1,
+ "id": "2-cantor-sets",
+ "blocks": [
+  {
+   "id": "c2-can-intro",
+   "kind": "prose",
+   "tex": "The Cantor set is the standard example of a set that defeats naive intuition. It is what remains of $[0,1]$ after the open middle third is removed, then the open middle thirds of the two remaining pieces, and so on forever. What is left is as thin as dust (it contains no interval and has total length zero) and yet it has as many points as the whole line, none of them isolated. All the tools of this chapter are needed to see this: compactness, perfection, completeness, and connectedness."
+  },
+  {
+   "id": "c2-def-cantor-set",
+   "kind": "definition",
+   "number": "",
+   "title": "The standard Cantor set",
+   "tex": "For a closed interval $I = [a,b]$ with $a < b$, its \\emph{left third} is $[a,\\, a + \\tfrac{b-a}{3}]$ and its \\emph{right third} is $[b - \\tfrac{b-a}{3},\\, b]$; they are what is left of $I$ when the open \\emph{middle third} $(a + \\tfrac{b-a}{3},\\, b - \\tfrac{b-a}{3})$ is removed.\n\nDefine finite collections $\\mathcal{I}_0, \\mathcal{I}_1, \\mathcal{I}_2, \\dots$ of closed intervals recursively: $\\mathcal{I}_0$ consists of the single interval $[0,1]$, and $\\mathcal{I}_{n+1}$ consists of the left third and the right third of each interval in $\\mathcal{I}_n$. Let $C^n$ be the union of the intervals in $\\mathcal{I}_n$; the members of $\\mathcal{I}_n$ are called \\emph{the intervals of $C^n$}. So\n\\[ C^1 = [0,\\tfrac13] \\cup [\\tfrac23, 1], \\qquad C^2 = [0,\\tfrac19] \\cup [\\tfrac29,\\tfrac13] \\cup [\\tfrac23,\\tfrac79] \\cup [\\tfrac89,1], \\qquad \\dots \\]\nThe \\emph{standard (middle-thirds) Cantor set} is\n\\[ C = \\bigcap_{n=0}^\\infty C^n . \\]"
+  },
+  {
+   "id": "c2-lem-cantor-structure",
+   "kind": "lemma",
+   "number": "",
+   "title": "The structure of $C^n$",
+   "tex": "For every $n \\ge 0$:\n\\begin{enumerate}\n\\item the intervals of $C^n$ are $2^n$ pairwise disjoint closed intervals, each of length $3^{-n}$ (and $C^n$ is their union);\n\\item $C^{n+1} \\subset C^n$;\n\\item every endpoint of each of these $2^n$ intervals belongs to $C$.\n\\end{enumerate}",
+   "proof": "(1) By induction on $n$. $C^0 = [0,1]$ has one interval, of length $1$. Suppose the intervals of $C^n$ are $2^n$ pairwise disjoint closed intervals of length $3^{-n}$. Each such interval $I = [a,b]$ (with $a < b$, as its length is positive) contributes its two thirds to $\\mathcal{I}_{n+1}$; each third is a closed interval of length $(b-a)/3 = 3^{-(n+1)}$, the two are disjoint because $a + \\tfrac{b-a}{3} < b - \\tfrac{b-a}{3}$, and both are contained in $I$. Thirds of different intervals of $C^n$ are disjoint because those intervals are. So the intervals of $C^{n+1}$ are $2 \\cdot 2^n = 2^{n+1}$ pairwise disjoint closed intervals of length $3^{-(n+1)}$, and $C^{n+1}$ is their union.\n\n(2) Each interval of $C^{n+1}$ is a third of an interval $I$ of $C^n$ and so is contained in $I \\subset C^n$. Hence $C^{n+1} \\subset C^n$.\n\n(3) Let $e$ be an endpoint of one of the intervals $I = [a,b]$ of $C^n$. The left endpoint $a$ of $I$ is the left endpoint of the left third of $I$, and the right endpoint $b$ is the right endpoint of the right third. So $e$ is an endpoint of one of the intervals of $C^{n+1}$. By induction on $k$, $e$ is an endpoint of one of the intervals of $C^k$, and in particular $e \\in C^k$, for every $k \\ge n$. For $k < n$, part (2) applied repeatedly gives $e \\in C^n \\subset C^{n-1} \\subset \\dots \\subset C^k$. Hence $e \\in \\bigcap_k C^k = C$.",
+   "difficulty": 2,
+   "minutes": 25,
+   "hints": [
+    "Induct on $n$ for (1). For (3), ask what happens to an endpoint of an interval when its middle third is removed.",
+    "An endpoint of an interval of $C^n$ is again an endpoint of an interval of $C^{n+1}$, so it is never removed."
+   ],
+   "uses": [
+    "c2-def-cantor-set"
+   ]
+  },
+  {
+   "id": "c2-thm-cantor-compact",
+   "kind": "theorem",
+   "number": "",
+   "title": "The Cantor set is compact and nonempty",
+   "tex": "The Cantor set $C$ is a nonempty compact subset of $\\R$.",
+   "proof": "$0 \\in C$ by part (3) of the structure lemma, since $0$ is an endpoint of $C^0$. Each $C^n$ is a finite union of closed intervals and so is closed in $\\R$; hence $C$, an intersection of closed sets, is closed. $C \\subset [0,1]$ is bounded. By the Heine–Borel theorem $C$ is compact.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Closed and bounded in $\\R$."
+   ],
+   "uses": [
+    "c2-lem-cantor-structure",
+    "c2-thm-heine-borel",
+    "c2-cor-closed-sets"
+   ]
+  },
+  {
+   "id": "c2-thm-cantor-perfect",
+   "kind": "theorem",
+   "number": "",
+   "title": "The Cantor set is perfect",
+   "tex": "Every point of $C$ is a cluster point of $C$. That is, $C$, as a metric space, is perfect.",
+   "proof": "Let $x \\in C$ and $\\eps > 0$. Choose $n$ with $3^{-n} < \\eps$ (possible since $3^n \\ge n$). Since $x \\in C^n$, $x$ lies in one of the intervals $I = [a,b]$ of $C^n$, and $b - a = 3^{-n}$. Both endpoints $a$ and $b$ belong to $C$ by the structure lemma, both satisfy $\\abs{a - x} \\le 3^{-n} < \\eps$ and $\\abs{b - x} \\le 3^{-n} < \\eps$, and since $a \\ne b$ at least one of them is different from $x$. So every neighborhood of $x$ contains a point of $C$ other than $x$. By the four descriptions of a cluster point, $x$ is a cluster point of $C$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Near $x$ you need points of $C$ other than $x$. Which points of $C$ do you know explicitly?",
+    "$x$ lies in an interval of $C^n$ of length $3^{-n}$, and the endpoints of that interval are in $C$."
+   ],
+   "uses": [
+    "c2-lem-cantor-structure",
+    "c2-thm-cluster-equivalents",
+    "c2-def-perfect"
+   ]
+  },
+  {
+   "id": "c2-cor-cantor-uncountable",
+   "kind": "corollary",
+   "number": "",
+   "title": "The Cantor set is uncountable",
+   "tex": "The Cantor set $C$ is uncountable.",
+   "proof": "$C$ is nonempty and perfect. It is a closed subset of the complete space $\\R$, so it is complete. A nonempty perfect complete metric space is uncountable.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Which theorem produces uncountability from metric properties?"
+   ],
+   "uses": [
+    "c2-thm-cantor-compact",
+    "c2-thm-cantor-perfect",
+    "c2-thm-perfect-uncountable",
+    "c2-thm-closed-complete"
+   ]
+  },
+  {
+   "id": "c2-rem-cantor-endpoints",
+   "kind": "remark",
+   "number": "",
+   "tex": "The endpoints of the intervals of the sets $C^n$ are countably many, since there are $2^{n+1}$ of them at stage $n$. So most points of $C$ are not endpoints; they are harder to see, and the next section gives a way to name them all."
+  },
+  {
+   "id": "c2-thm-cantor-gaps",
+   "kind": "theorem",
+   "number": "",
+   "title": "Between two points of $C$ there is a gap",
+   "tex": "If $x, y \\in C$ and $x < y$, then there is a point $z \\notin C$ with $x < z < y$.",
+   "proof": "Choose $n$ with $3^{-n} < y - x$. Let $I$ be the interval of $C^n$ containing $x$. Since $I$ has length $3^{-n} < y - x$, $y \\notin I$.\n\nSuppose, for a contradiction, that $[x,y] \\subset C^n$. Let $J_1, \\dots, J_{2^n}$ be the intervals of $C^n$, with $J_1 = I$. Then\n\\[ [x,y] = \\bigcup_{i} \\big( [x,y] \\cap J_i \\big) , \\]\na union of pairwise disjoint sets, each closed in the subspace $[x,y]$ by the inheritance principle. The set $A = [x,y] \\cap I$ is therefore closed in $[x,y]$, and its complement in $[x,y]$ is the finite union of the closed sets $[x,y] \\cap J_i$, $i \\ge 2$, hence closed; so $A$ is also open in $[x,y]$. Moreover $x \\in A$ and $y \\notin A$. Thus $A$ is a proper clopen subset of $[x,y]$, contradicting the fact that intervals are connected.\n\nSo there is a $z \\in [x,y]$ with $z \\notin C^n$, hence $z \\notin C$. Since $x, y \\in C$, $z$ is neither $x$ nor $y$, and $x < z < y$.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Go to a stage $n$ where the intervals of $C^n$ are shorter than $y - x$, so that $x$ and $y$ are in different intervals.",
+    "If all of $[x,y]$ were in $C^n$, the interval of $C^n$ containing $x$ would cut out a proper clopen piece of $[x,y]$."
+   ],
+   "uses": [
+    "c2-lem-cantor-structure",
+    "c2-thm-intervals-connected",
+    "c2-thm-inheritance",
+    "c2-cor-closed-sets",
+    "c2-thm-open-closed-dual"
+   ]
+  },
+  {
+   "id": "c2-def-totally-disconnected",
+   "kind": "definition",
+   "number": "",
+   "title": "Totally disconnected, nowhere dense",
+   "tex": "A metric space $M$ is \\emph{totally disconnected} if every point has arbitrarily small clopen neighborhoods: for each $p \\in M$ and each $\\eps > 0$ there is a clopen set $U \\subset M$ with $p \\in U \\subset M_\\eps(p)$.\n\nA subset $S$ of a metric space $M$ is \\emph{nowhere dense} in $M$ if its closure has empty interior: $\\interior \\overline{S} = \\varnothing$."
+  },
+  {
+   "id": "c2-thm-cantor-totally-disconnected",
+   "kind": "theorem",
+   "number": "",
+   "title": "The Cantor set is totally disconnected",
+   "tex": "The Cantor set $C$, as a metric space, is totally disconnected.",
+   "proof": "Let $x \\in C$ and $\\eps > 0$. Choose $n$ with $3^{-n} < \\eps$, let $I$ be the interval of $C^n$ containing $x$, and put $U = C \\cap I$. Then $x \\in U$, and every point of $U$ is within $3^{-n} < \\eps$ of $x$, so $U \\subset C_\\eps(x)$, the $\\eps$-neighborhood of $x$ in $C$.\n\n$U$ is closed in $C$ by the inheritance principle, since $I$ is closed in $\\R$. Let $L$ be the union of the other $2^n - 1$ intervals of $C^n$; it is a finite union of closed intervals, hence closed in $\\R$, and disjoint from $I$. Since $C \\subset C^n = I \\cup L$, we have $C \\setminus U = C \\cap L$, which is closed in $C$ by the inheritance principle. So $U$ is also open in $C$. Thus $U$ is a clopen subset of $C$ with $x \\in U \\subset C_\\eps(x)$.",
+   "difficulty": 2,
+   "minutes": 25,
+   "hints": [
+    "The pieces of $C$ cut out by the intervals of $C^n$ are small. Show such a piece is clopen in $C$.",
+    "$C \\cap I$ is closed in $C$; its complement in $C$ is $C$ intersected with the other intervals of $C^n$, also closed."
+   ],
+   "uses": [
+    "c2-def-totally-disconnected",
+    "c2-lem-cantor-structure",
+    "c2-thm-inheritance",
+    "c2-cor-closed-sets",
+    "c2-thm-open-closed-dual"
+   ]
+  },
+  {
+   "id": "c2-cor-cantor-nowhere-dense",
+   "kind": "corollary",
+   "number": "",
+   "title": "The Cantor set is nowhere dense",
+   "tex": "$C$ contains no interval $(a,b)$ with $a < b$. Consequently $C$ has empty interior in $\\R$, it is nowhere dense in $\\R$, and every connected subset of $C$ has at most one point.",
+   "proof": "Suppose $(a,b) \\subset C$ with $a < b$. Pick $x < y$ in $(a,b)$. Both are in $C$, so by the theorem on gaps there is a $z \\notin C$ with $x < z < y$; but $z \\in (a,b) \\subset C$, a contradiction.\n\nIf $p$ were an interior point of $C$ in $\\R$, some neighborhood $(p - r, p + r)$ would be contained in $C$, which was just excluded. So $\\interior C = \\varnothing$. Since $C$ is closed, $\\overline{C} = C$, so $\\interior \\overline{C} = \\varnothing$: $C$ is nowhere dense.\n\nLet $S \\subset C$ be connected. A connected subset of $\\R$ is an interval. If $S$ had two points $x < y$, then every $z$ with $x < z < y$ would lie in $S \\subset C$, contradicting the theorem on gaps. So $S$ has at most one point.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Apply the theorem on gaps to two points of the supposed interval."
+   ],
+   "uses": [
+    "c2-thm-cantor-gaps",
+    "c2-def-totally-disconnected",
+    "c2-prop-interior",
+    "c2-cor-connected-subsets-of-r",
+    "c2-thm-cantor-compact",
+    "c2-prop-closure-lim"
+   ]
+  },
+  {
+   "id": "c2-def-zero-set",
+   "kind": "definition",
+   "number": "",
+   "title": "Zero set",
+   "tex": "A set $Z \\subset \\R$ is a \\emph{zero set} (it has \\emph{length zero}) if for every $\\eps > 0$ there is a countable collection of open intervals $(a_i, b_i)$ that covers $Z$ and has total length $\\sum_i (b_i - a_i) \\le \\eps$."
+  },
+  {
+   "id": "c2-thm-cantor-zero-set",
+   "kind": "theorem",
+   "number": "",
+   "title": "The Cantor set has length zero",
+   "tex": "The Cantor set $C$ is a zero set.",
+   "proof": "Let $\\eps > 0$. By Bernoulli's inequality $(3/2)^n \\ge 1 + n/2$, so we can choose $n$ with $(3/2)^n > 2/\\eps$, that is, $(2/3)^n < \\eps/2$. The set $C^n \\supset C$ is the union of $2^n$ closed intervals $[a_i, b_i]$ of length $3^{-n}$. Put $\\eta = \\eps / 2^{n+2}$ and enlarge each to the open interval $(a_i - \\eta,\\ b_i + \\eta)$. These $2^n$ open intervals cover $C^n$, hence $C$, and their total length is\n\\[ 2^n \\big( 3^{-n} + 2\\eta \\big) = \\Big(\\frac23\\Big)^n + 2^{n+1} \\eta = \\Big(\\frac23\\Big)^n + \\frac\\eps2 < \\eps . \\]\nA finite collection is countable, so $C$ is a zero set.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "$C$ is contained in $C^n$. What is the total length of $C^n$?",
+    "The total length $(2/3)^n$ tends to $0$. Fatten the closed intervals slightly to make them open, spending at most $\\eps/2$ in all."
+   ],
+   "uses": [
+    "c2-def-zero-set",
+    "c2-lem-cantor-structure"
+   ]
+  },
+  {
+   "id": "c2-rem-cantor-summary",
+   "kind": "remark",
+   "number": "",
+   "tex": "To summarize: $C$ is compact, nonempty, perfect, totally disconnected, nowhere dense, uncountable, and of length zero. The lengths of the removed middle thirds add up to $\\tfrac13 + \\tfrac29 + \\tfrac4{27} + \\dots = 1$, the whole length of $[0,1]$, and still uncountably many points remain. Smallness in the sense of length and smallness in the sense of cardinality are different things. (They can also be separated the other way: removing shorter middle pieces at each stage produces \"fat\" Cantor sets, which have all the topological properties above and positive length.)"
+  }
+ ],
+ "cards": [
+  {
+   "id": "c2-card-cantor-def",
+   "item": "c2-def-cantor-set",
+   "front": "Define the standard Cantor set.",
+   "back": "$C = \\bigcap_n C^n$, where $C^0 = [0,1]$ and $C^{n+1}$ is obtained from $C^n$ by removing the open middle third of each of its $2^n$ intervals (of length $3^{-n}$)."
+  },
+  {
+   "id": "c2-card-cantor-properties",
+   "item": "c2-thm-cantor-zero-set",
+   "front": "List the main properties of the Cantor set.",
+   "back": "Compact, nonempty, perfect, totally disconnected, nowhere dense, uncountable, length zero."
+  },
+  {
+   "id": "c2-card-cantor-perfect-idea",
+   "item": "c2-thm-cantor-perfect",
+   "front": "Why is the Cantor set perfect?",
+   "back": "A point $x \\in C$ lies in an interval of $C^n$ of length $3^{-n}$ whose two endpoints are in $C$; at least one differs from $x$ and both are within $3^{-n}$ of it."
+  },
+  {
+   "id": "c2-card-cantor-uncountable-idea",
+   "item": "c2-cor-cantor-uncountable",
+   "front": "Why is the Cantor set uncountable?",
+   "back": "It is nonempty, perfect, and complete (closed in $\\R$); such a space is uncountable."
+  },
+  {
+   "id": "c2-card-totally-disconnected",
+   "item": "c2-def-totally-disconnected",
+   "front": "Define totally disconnected and nowhere dense.",
+   "back": "Totally disconnected: each point has clopen neighborhoods of arbitrarily small radius. Nowhere dense: the closure has empty interior."
+  },
+  {
+   "id": "c2-card-zero-set",
+   "item": "c2-thm-cantor-zero-set",
+   "front": "Define zero set, and say why $C$ is one.",
+   "back": "For every $\\eps$ it can be covered by countably many open intervals of total length $\\le \\eps$. $C \\subset C^n$, which has total length $(2/3)^n \\to 0$."
+  }
+ ]
+}

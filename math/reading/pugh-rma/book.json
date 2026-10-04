@@ -1,0 +1,263 @@
+{
+ "version": 1,
+ "slug": "pugh-rma",
+ "title": "Real Mathematical Analysis",
+ "author": "after C. C. Pugh",
+ "edition": "",
+ "about": "A companion to Pugh's Real Mathematical Analysis, written fresh to the book's order: the definitions and theorems of each section, to be proved before their proofs are read.",
+ "macros": "\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\N}{\\mathbb{N}}\n\\newcommand{\\Z}{\\mathbb{Z}}\n\\newcommand{\\Q}{\\mathbb{Q}}\n\\newcommand{\\C}{\\mathbb{C}}\n\\newcommand{\\eps}{\\varepsilon}\n\\newcommand{\\abs}[1]{\\left|#1\\right|}\n\\newcommand{\\norm}[1]{\\left\\|#1\\right\\|}\n\\newcommand{\\inner}[2]{\\langle #1, #2\\rangle}\n\\newcommand{\\set}[1]{\\left\\{#1\\right\\}}\n\\DeclareMathOperator{\\diam}{diam}\n\\DeclareMathOperator{\\interior}{int}\n\\DeclareMathOperator{\\cl}{cl}\n\\DeclareMathOperator{\\lub}{l.u.b.}\n\\DeclareMathOperator{\\glb}{g.l.b.}\n\\DeclareMathOperator{\\id}{id}\n\\DeclareMathOperator{\\osc}{osc}",
+ "chapters": [
+  {
+   "id": "real-numbers",
+   "number": "1",
+   "title": "Real Numbers",
+   "about": "The real line built from cuts, its completeness, cardinality, and the first consequences for continuous functions.",
+   "requires": [],
+   "sections": [
+    {
+     "id": "1-preliminaries",
+     "number": "1.1",
+     "title": "Preliminaries"
+    },
+    {
+     "id": "1-cuts",
+     "number": "1.2",
+     "title": "Cuts"
+    },
+    {
+     "id": "1-euclidean-space",
+     "number": "1.3",
+     "title": "Euclidean space"
+    },
+    {
+     "id": "1-cardinality",
+     "number": "1.4",
+     "title": "Cardinality"
+    },
+    {
+     "id": "1-comparing-cardinalities",
+     "number": "1.5",
+     "title": "Comparing cardinalities"
+    },
+    {
+     "id": "1-skeleton-of-calculus",
+     "number": "1.6",
+     "title": "The skeleton of calculus"
+    },
+    {
+     "id": "1-exercises",
+     "number": "1.7",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "topology",
+   "number": "2",
+   "title": "A Taste of Topology",
+   "about": "Metric spaces: convergence, continuity, compactness, connectedness, coverings, and Cantor sets.",
+   "requires": [
+    "real-numbers"
+   ],
+   "sections": [
+    {
+     "id": "2-metric-space-concepts",
+     "number": "2.1",
+     "title": "Metric space concepts"
+    },
+    {
+     "id": "2-compactness",
+     "number": "2.2",
+     "title": "Compactness"
+    },
+    {
+     "id": "2-connectedness",
+     "number": "2.3",
+     "title": "Connectedness"
+    },
+    {
+     "id": "2-other-metric-space-concepts",
+     "number": "2.4",
+     "title": "Other metric space concepts"
+    },
+    {
+     "id": "2-coverings",
+     "number": "2.5",
+     "title": "Coverings"
+    },
+    {
+     "id": "2-cantor-sets",
+     "number": "2.6",
+     "title": "Cantor sets"
+    },
+    {
+     "id": "2-cantor-set-lore",
+     "number": "2.7",
+     "title": "Cantor set lore"
+    },
+    {
+     "id": "2-exercises",
+     "number": "2.8",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "real-variable",
+   "number": "3",
+   "title": "Functions of a Real Variable",
+   "about": "Differentiation, the Riemann integral, and series.",
+   "requires": [
+    "real-numbers",
+    "topology"
+   ],
+   "sections": [
+    {
+     "id": "3-differentiation",
+     "number": "3.1",
+     "title": "Differentiation"
+    },
+    {
+     "id": "3-riemann-integration",
+     "number": "3.2",
+     "title": "Riemann integration"
+    },
+    {
+     "id": "3-series",
+     "number": "3.3",
+     "title": "Series"
+    },
+    {
+     "id": "3-exercises",
+     "number": "3.4",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "function-spaces",
+   "number": "4",
+   "title": "Function Spaces",
+   "about": "Uniform convergence, power series, compactness in $C^0$, approximation, and contractions.",
+   "requires": [
+    "topology",
+    "real-variable"
+   ],
+   "sections": [
+    {
+     "id": "4-uniform-convergence",
+     "number": "4.1",
+     "title": "Uniform convergence and $C^0[a,b]$"
+    },
+    {
+     "id": "4-power-series",
+     "number": "4.2",
+     "title": "Power series"
+    },
+    {
+     "id": "4-equicontinuity",
+     "number": "4.3",
+     "title": "Compactness and equicontinuity in $C^0$"
+    },
+    {
+     "id": "4-uniform-approximation",
+     "number": "4.4",
+     "title": "Uniform approximation in $C^0$"
+    },
+    {
+     "id": "4-contractions-odes",
+     "number": "4.5",
+     "title": "Contractions and ODEs"
+    },
+    {
+     "id": "4-exercises",
+     "number": "4.6",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "multivariable",
+   "number": "5",
+   "title": "Multivariable Calculus",
+   "about": "Linear maps, derivatives in several variables, and the implicit and inverse function theorems.",
+   "requires": [
+    "function-spaces"
+   ],
+   "sections": [
+    {
+     "id": "5-linear-algebra",
+     "number": "5.1",
+     "title": "Linear algebra"
+    },
+    {
+     "id": "5-derivatives",
+     "number": "5.2",
+     "title": "Derivatives"
+    },
+    {
+     "id": "5-higher-derivatives",
+     "number": "5.3",
+     "title": "Higher derivatives"
+    },
+    {
+     "id": "5-smoothness-classes",
+     "number": "5.4",
+     "title": "Smoothness classes"
+    },
+    {
+     "id": "5-implicit-inverse",
+     "number": "5.5",
+     "title": "Implicit and inverse functions"
+    },
+    {
+     "id": "5-exercises",
+     "number": "5.6",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "lebesgue",
+   "number": "6",
+   "title": "Lebesgue Theory",
+   "about": "Outer measure, measurability, regularity, and the Lebesgue integral.",
+   "requires": [
+    "topology",
+    "real-variable"
+   ],
+   "sections": [
+    {
+     "id": "6-outer-measure",
+     "number": "6.1",
+     "title": "Outer measure"
+    },
+    {
+     "id": "6-measurability",
+     "number": "6.2",
+     "title": "Measurability"
+    },
+    {
+     "id": "6-meseomorphism",
+     "number": "6.3",
+     "title": "Meseomorphism"
+    },
+    {
+     "id": "6-regularity",
+     "number": "6.4",
+     "title": "Regularity"
+    },
+    {
+     "id": "6-lebesgue-integrals",
+     "number": "6.5",
+     "title": "Lebesgue integrals"
+    },
+    {
+     "id": "6-exercises",
+     "number": "6.6",
+     "title": "Exercises"
+    }
+   ]
+  }
+ ]
+}

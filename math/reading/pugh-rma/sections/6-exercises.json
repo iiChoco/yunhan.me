@@ -1,0 +1,467 @@
+{
+ "version": 1,
+ "id": "6-exercises",
+ "blocks": [
+  {
+   "id": "c6-exercises-intro",
+   "kind": "prose",
+   "tex": "These exercises are extra credit: none of them is a gate, and the chapter clears on its theorems alone. Take them in any order; each may use anything proved in the chapter, and a few of the later ones lean on earlier exercises, which are then named in their hints."
+  },
+  {
+   "id": "c6-ex-zero-sets-invisible",
+   "kind": "exercise",
+   "number": "",
+   "title": "Zero sets are invisible",
+   "tex": "Let $Z \\subseteq \\R^n$ be a zero set and let $A \\subseteq \\R^n$ be arbitrary. Show that\n\\[ m^*(A \\cup Z) = m^*A = m^*(A \\setminus Z), \\]\nand that $A \\cup Z$ is measurable if and only if $A$ is measurable.",
+   "proof": "By monotonicity, $m^*(A \\setminus Z) \\le m^*A \\le m^*(A \\cup Z)$. By countable subadditivity, $m^*(A \\cup Z) \\le m^*A + m^*Z = m^*A$. Also $A = (A \\setminus Z) \\cup (A \\cap Z)$ with $A \\cap Z \\subseteq Z$, so\n\\[ m^*A \\le m^*(A \\setminus Z) + m^*(A \\cap Z) \\le m^*(A \\setminus Z) + m^*Z = m^*(A \\setminus Z). \\]\nHence the three outer measures are equal.\n\nZero sets are measurable. If $A$ is measurable, then $A \\cup Z$ is the union of two measurable sets, hence measurable. Conversely suppose $A \\cup Z$ is measurable. The set $Z \\setminus A$ is a subset of the zero set $Z$, hence a zero set, hence measurable, and\n\\[ A = (A \\cup Z) \\setminus (Z \\setminus A), \\]\na difference of two measurable sets, so $A$ is measurable.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Monotonicity and subadditivity give the equalities. For measurability, write $A$ in terms of $A \\cup Z$ and a subset of $Z$."
+   ],
+   "uses": [
+    "c6-prop-outer-basic",
+    "c6-thm-countable-subadditivity",
+    "c6-prop-zero-sets",
+    "c6-prop-measurable-basic",
+    "c6-lem-two-sets"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-fat-cantor",
+   "kind": "exercise",
+   "number": "",
+   "title": "A fat Cantor set",
+   "tex": "Let $K^0 = [0,1]$. For $k \\ge 1$ obtain $K^k$ from $K^{k-1}$ by removing from each of the $2^{k-1}$ closed intervals making up $K^{k-1}$ the open interval of length $4^{-k}$ centred at its midpoint, so that $K^k$ is the union of $2^k$ pairwise disjoint closed intervals. Let $K = \\bigcap_{k \\ge 0} K^k$.\n\n(a) Show that the construction is possible (the removed interval is shorter than the interval it is removed from), that all intervals of $K^k$ have the same length $L_k \\le 2^{-k}$, and that $K$ is closed.\n\n(b) Show that $mK = \\tfrac12$.\n\n(c) Show that $K$ contains no interval of positive length.\n\nSo a closed subset of $\\R$ can have positive measure and empty interior.",
+   "proof": "(a) We show by induction on $k$ that the $2^k$ intervals of $K^k$ all have the same length $L_k = 2^{-k-1}(1 + 2^{-k})$, and that the construction of $K^k$ is possible. For $k = 0$, $L_0 = 2^{-1} \\cdot 2 = 1$. Suppose the claim holds for $k - 1$, where $k \\ge 1$. Then $L_{k-1} = 2^{-k}(1 + 2^{1-k}) > 2^{-k} > 4^{-k}$, so an open interval of length $4^{-k}$ centred at the midpoint of an interval of length $L_{k-1}$ lies strictly inside it, and removing it leaves two disjoint closed intervals of the same length\n\\[ L_k = \\frac{L_{k-1} - 4^{-k}}{2} = 2^{-k-1}\\bigl( 1 + 2^{1-k} - 2^{-k} \\bigr) = 2^{-k-1}\\bigl( 1 + 2^{-k} \\bigr). \\]\nIntervals coming from different intervals of $K^{k-1}$ are disjoint because their parents are. Since $1 + 2^{-k} \\le 2$, $L_k \\le 2^{-k}$. Each $K^k$ is a finite union of closed intervals, hence closed, and $K$ is an intersection of closed sets, hence closed.\n\n(b) Each $K^k$ is a finite union of pairwise disjoint boxes, hence measurable, and by finite additivity and the measure of a box, $mK^k = 2^k L_k = \\tfrac12 + 2^{-k-1}$. The sets $K^k$ decrease, $mK^0 = 1 < \\infty$, and $K = \\bigcap_k K^k$, so by downward measure continuity\n\\[ mK = \\lim_{k \\to \\infty} \\Bigl( \\tfrac12 + 2^{-k-1} \\Bigr) = \\tfrac12. \\]\n\n(c) Suppose $I \\subseteq K$ is an interval of positive length and pick $a < b$ in $I$. Then $[a,b] \\subseteq K \\subseteq K^k$ for every $k$. Choose $k$ with $2^{-k} < b - a$ and write $K^k = J_1 \\cup \\dots \\cup J_{2^k}$ with the $J_i$ pairwise disjoint closed intervals. Then $[a,b]$ is the union of the pairwise disjoint sets $[a,b] \\cap J_i$, each of which is closed. If two of them were nonempty, $[a,b]$ would be the union of two disjoint nonempty closed sets (one piece and the union of the remaining pieces, which is closed as a finite union of closed sets), contradicting the connectedness of the interval $[a,b]$ (Chapter 2). So $[a,b] \\subseteq J_i$ for a single $i$, which is impossible since $\\abs{J_i} = L_k \\le 2^{-k} < b - a$. Hence $K$ contains no interval of positive length.",
+   "difficulty": 3,
+   "minutes": 40,
+   "hints": [
+    "Keep track of the common length $L_k$ of the intervals of $K^k$: $L_k = (L_{k-1} - 4^{-k})/2$. Guess and verify a closed formula.",
+    "$mK^k = 2^k L_k$, and the removed lengths form a geometric series with sum $\\tfrac12$. Use downward measure continuity.",
+    "An interval inside $K$ lies inside $K^k$ for every $k$; by connectedness it lies inside a single piece of $K^k$, which is shorter than $2^{-k}$."
+   ],
+   "uses": [
+    "c6-thm-boxes-measurable",
+    "c6-lem-finite-additivity",
+    "c6-thm-measure-continuity",
+    "c6-thm-open-closed-measurable"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-borel-cantelli",
+   "kind": "exercise",
+   "number": "",
+   "title": "Fatou for sets, and the Borel–Cantelli lemma",
+   "tex": "Let $E_1, E_2, \\dots$ be measurable subsets of $\\R^n$. Put\n\\[ \\liminf_{k} E_k = \\bigcup_{k=1}^\\infty \\bigcap_{j \\ge k} E_j, \\qquad \\limsup_{k} E_k = \\bigcap_{k=1}^\\infty \\bigcup_{j \\ge k} E_j ; \\]\nthe first is the set of points lying in all but finitely many of the $E_j$, the second the set of points lying in infinitely many of them.\n\n(a) Show that both sets are measurable and that $m\\bigl( \\liminf_k E_k \\bigr) \\le \\liminf_k mE_k$.\n\n(b) Show that if $\\sum_{k} mE_k < \\infty$, then $\\limsup_k E_k$ is a zero set: almost every point of $\\R^n$ lies in only finitely many of the $E_k$.",
+   "proof": "Measurable sets form a $\\sigma$-algebra, so the sets $F_k = \\bigcap_{j \\ge k} E_j$ and $G_k = \\bigcup_{j \\ge k} E_j$ are measurable, and so are $\\liminf_k E_k = \\bigcup_k F_k$ and $\\limsup_k E_k = \\bigcap_k G_k$.\n\n(a) The sets $F_k$ increase with $k$, so by upward measure continuity $m(\\liminf_k E_k) = \\lim_k mF_k$. For every $j \\ge k$ we have $F_k \\subseteq E_j$, hence $mF_k \\le mE_j$ by monotonicity, and so $mF_k \\le \\inf_{j \\ge k} mE_j$. The right side increases with $k$ to $\\liminf_k mE_k$, and limits preserve weak inequalities, so $\\lim_k mF_k \\le \\liminf_k mE_k$.\n\n(b) For every $k$, countable subadditivity gives $mG_k \\le \\sum_{j \\ge k} mE_j$, the tail of a convergent series, which tends to $0$ as $k \\to \\infty$. Since $\\limsup_k E_k \\subseteq G_k$ for every $k$, monotonicity gives $m(\\limsup_k E_k) \\le mG_k$ for every $k$, hence $m(\\limsup_k E_k) = 0$. The set of points lying in infinitely many $E_k$ is thus a zero set, which is the statement about almost every point.",
+   "difficulty": 2,
+   "minutes": 25,
+   "hints": [
+    "The sets $\\bigcap_{j \\ge k} E_j$ increase with $k$; use upward measure continuity and compare each with the $E_j$ it sits inside.",
+    "For (b), $\\bigcup_{j \\ge k} E_j$ has measure at most the tail $\\sum_{j \\ge k} mE_j$, and the upper limit set lies inside it for every $k$."
+   ],
+   "uses": [
+    "c6-thm-sigma-algebra",
+    "c6-thm-measure-continuity",
+    "c6-prop-measure-difference",
+    "c6-thm-countable-subadditivity",
+    "c6-def-zero-set",
+    "c6-def-almost-everywhere"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-box-test-sets",
+   "kind": "exercise",
+   "number": "",
+   "title": "Boxes suffice as test sets",
+   "tex": "Show that a set $A \\subseteq \\R^n$ is measurable if and only if\n\\[ \\abs{B} = m^*(A \\cap B) + m^*(B \\setminus A) \\]\nfor every box $B \\subseteq \\R^n$.",
+   "proof": "If $A$ is measurable, the displayed equation is Carathéodory's condition with the test set $X = B$, because $m^*B = \\abs{B}$ and $B \\cap A^c = B \\setminus A$.\n\nConversely suppose the equation holds for every box. Fix a box $B$ and consider the subset $A \\cap B$ of $B$. Since $B \\setminus (A \\cap B) = B \\setminus A$, the hypothesis says exactly that $\\abs{B} = m^*(A \\cap B) + m^*(B \\setminus (A \\cap B))$, that is, $A \\cap B$ divides $B$ cleanly. By the corollary on subsets of a box, $A \\cap B$ is measurable. Taking $B = C_k = [-k,k]^n$ for $k \\in \\N$, the set $A = \\bigcup_k (A \\cap C_k)$ is a countable union of measurable sets, hence measurable.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply the corollary that a subset of a box is measurable if and only if it divides the box cleanly to the set $A \\cap B$, then exhaust $\\R^n$ by boxes."
+   ],
+   "uses": [
+    "c6-def-measurable",
+    "c6-thm-box-measure",
+    "c6-cor-clean-box",
+    "c6-thm-sigma-algebra"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-littlewood",
+   "kind": "exercise",
+   "number": "",
+   "title": "A measurable set is nearly a finite union of boxes",
+   "tex": "Let $E \\subseteq \\R^n$ with $m^*E < \\infty$. Show that $E$ is measurable if and only if for every $\\eps > 0$ there is a finite union $F$ of boxes with\n\\[ m^*(E \\,\\triangle\\, F) < \\eps, \\qquad \\text{where } E \\,\\triangle\\, F = (E \\setminus F) \\cup (F \\setminus E). \\]\n(This is the first of Littlewood's three principles: every measurable set of finite measure is nearly a finite union of boxes.)",
+   "proof": "\\emph{Measurable $\\Rightarrow$ nearly a finite union of boxes.} Let $E$ be measurable and $\\eps > 0$. By regularity there is an open set $U \\supseteq E$ with $m(U \\setminus E) < \\eps/2$, and then $mU = mE + m(U \\setminus E) < \\infty$ because $mE = m^*E < \\infty$. By the lemma on open sets, $U = \\bigcup_{k} B_k$ for open boxes $B_1, B_2, \\dots$. Let $F_N = B_1 \\cup \\dots \\cup B_N$; these are measurable sets, they increase with $N$, and their union is $U$. By upward measure continuity $mF_N \\to mU$, and since $mU < \\infty$ and $F_N \\subseteq U$, $m(U \\setminus F_N) = mU - mF_N \\to 0$. Choose $N$ with $m(U \\setminus F_N) < \\eps/2$ and put $F = F_N$. Then $E \\setminus F \\subseteq U \\setminus F$ and $F \\setminus E \\subseteq U \\setminus E$, so by subadditivity and monotonicity\n\\[ m^*(E \\,\\triangle\\, F) \\le m(U \\setminus F) + m(U \\setminus E) < \\eps. \\]\n\n\\emph{Nearly a finite union of boxes $\\Rightarrow$ measurable.} Let $X \\subseteq \\R^n$ be a test set with $m^*X < \\infty$, let $\\eps > 0$, and let $F$ be a finite union of boxes with $m^*(E \\,\\triangle\\, F) < \\eps$. The set $F$ is measurable. Every point of $X \\cap E$ lies in $X \\cap F$ or in $E \\setminus F$, and every point of $X \\cap E^c$ lies in $X \\cap F^c$ or in $F \\setminus E$:\n\\[ X \\cap E \\subseteq (X \\cap F) \\cup (E \\setminus F), \\qquad X \\cap E^c \\subseteq (X \\cap F^c) \\cup (F \\setminus E). \\]\nBy subadditivity, then the measurability of $F$ with test set $X$ and monotonicity ($E \\setminus F$ and $F \\setminus E$ are subsets of $E \\,\\triangle\\, F$),\n\\[ m^*(X \\cap E) + m^*(X \\cap E^c) \\le m^*(X \\cap F) + m^*(X \\cap F^c) + m^*(E \\setminus F) + m^*(F \\setminus E) \\le m^*X + 2\\eps. \\]\nAs $\\eps > 0$ is arbitrary, $m^*(X \\cap E) + m^*(X \\cap E^c) \\le m^*X$, which is the inequality that needs checking. Hence $E$ is measurable. (This direction did not use $m^*E < \\infty$.)",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "For a measurable $E$, regularity gives an open $U \\supseteq E$ of finite measure with $m(U \\setminus E)$ small. An open set is a countable union of open boxes, and finitely many of them already fill up most of $U$: use upward measure continuity.",
+    "For the converse, test $E$ against a set $X$ by comparing with $F$: $X \\cap E \\subseteq (X \\cap F) \\cup (E \\setminus F)$, and similarly for the complements.",
+    "Only the half-condition is needed: $m^*(X \\cap E) + m^*(X \\cap E^c) \\le m^*X + 2\\eps$ for every $\\eps > 0$."
+   ],
+   "uses": [
+    "c6-def-measurable",
+    "c6-rem-half-of-condition",
+    "c6-prop-outer-basic",
+    "c6-thm-countable-subadditivity",
+    "c6-lem-two-sets",
+    "c6-prop-measure-difference",
+    "c6-thm-measure-continuity",
+    "c6-lem-open-union-boxes",
+    "c6-thm-boxes-measurable",
+    "c6-thm-regularity"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-outer-continuity",
+   "kind": "exercise",
+   "number": "",
+   "title": "Outer measure is continuous from below",
+   "tex": "Let $A_1 \\subseteq A_2 \\subseteq \\cdots$ be subsets of $\\R^n$, measurable or not. Show that\n\\[ m^*\\Bigl( \\bigcup_{k=1}^\\infty A_k \\Bigr) = \\lim_{k \\to \\infty} m^*A_k . \\]",
+   "proof": "Let $A = \\bigcup_k A_k$. By monotonicity $m^*A_k \\le m^*A_{k+1} \\le m^*A$ for every $k$, so the limit $L = \\lim_k m^*A_k$ exists in $[0, \\infty]$ and $L \\le m^*A$.\n\nFor the reverse inequality choose for each $k$ a hull $H_k$ of $A_k$: a measurable set with $H_k \\supseteq A_k$ and $mH_k = m^*A_k$. The hulls need not increase, so put\n\\[ H_k' = \\bigcap_{j \\ge k} H_j . \\]\nEach $H_k'$ is measurable. Since $A_k \\subseteq A_j \\subseteq H_j$ for all $j \\ge k$, we have $A_k \\subseteq H_k'$; and $H_k' \\subseteq H_k$. Hence $m^*A_k \\le mH_k' \\le mH_k = m^*A_k$, so $mH_k' = m^*A_k$. The sets $H_k'$ increase with $k$ (fewer sets are intersected), and their union $H'$ contains $\\bigcup_k A_k = A$. By monotonicity and upward measure continuity,\n\\[ m^*A \\le mH' = \\lim_{k \\to \\infty} mH_k' = \\lim_{k \\to \\infty} m^*A_k = L . \\]",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Replace each $A_k$ by a measurable hull. Measure continuity needs increasing sets, and the hulls need not increase.",
+    "$\\bigcap_{j \\ge k} H_j$ is still a hull of $A_k$, and these sets do increase with $k$."
+   ],
+   "uses": [
+    "c6-prop-outer-basic",
+    "c6-def-inner-measure",
+    "c6-prop-hull-kernel",
+    "c6-thm-sigma-algebra",
+    "c6-prop-measure-difference",
+    "c6-thm-measure-continuity"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-measurable-adds",
+   "kind": "exercise",
+   "number": "",
+   "title": "A measurable set adds to both measures",
+   "tex": "Let $E \\subseteq \\R^n$ be measurable and let $A \\subseteq \\R^n$ be an arbitrary set with $A \\cap E = \\emptyset$. Show that\n\\[ m^*(A \\cup E) = m^*A + mE \\qquad \\text{and} \\qquad m_*(A \\cup E) = m_*A + mE . \\]",
+   "proof": "\\emph{Outer measure.} Carathéodory's condition for $E$ with the test set $X = A \\cup E$ reads $m^*(A \\cup E) = m^*((A \\cup E) \\cap E) + m^*((A \\cup E) \\cap E^c)$. Since $A \\cap E = \\emptyset$, the two pieces are $E$ and $A$, so $m^*(A \\cup E) = m^*E + m^*A = mE + m^*A$.\n\n\\emph{Inner measure, $\\ge$.} Let $K \\subseteq A$ and $K' \\subseteq E$ be closed. Then $K \\cup K'$ is a closed subset of $A \\cup E$, and $K$, $K'$ are disjoint measurable sets, so by the definition of inner measure and finite additivity\n\\[ m_*(A \\cup E) \\ge m(K \\cup K') = mK + mK' . \\]\nTaking the supremum over closed $K' \\subseteq E$ gives $m_*(A \\cup E) \\ge mK + m_*E = mK + mE$, because $m_*E = mE$ for measurable $E$ (if $mE = \\infty$ the right side is $\\infty$ and the inequality says $m_*(A \\cup E) = \\infty$). Taking the supremum over closed $K \\subseteq A$ gives $m_*(A \\cup E) \\ge m_*A + mE$.\n\n\\emph{Inner measure, $\\le$.} Let $K \\subseteq A \\cup E$ be closed. It is measurable, and $K = (K \\cap E) \\sqcup (K \\setminus E)$, so $mK = m(K \\cap E) + m(K \\setminus E)$. Here $m(K \\cap E) \\le mE$ by monotonicity. The set $K \\setminus E$ is measurable and, since $A \\cap E = \\emptyset$, it is contained in $A$; by the first properties of inner measure, $m(K \\setminus E) = m_*(K \\setminus E) \\le m_*A$. Thus $mK \\le mE + m_*A$ for every closed $K \\subseteq A \\cup E$, and taking the supremum, $m_*(A \\cup E) \\le m_*A + mE$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "For outer measure, $A \\cup E$ itself is a test set for $E$.",
+    "For inner measure, a closed subset of $A \\cup E$ splits along $E$ into two measurable pieces; the piece inside $A$ is measurable, so its measure equals its inner measure, which is at most $m_*A$."
+   ],
+   "uses": [
+    "c6-def-measurable",
+    "c6-def-inner-measure",
+    "c6-prop-inner-basic",
+    "c6-thm-open-closed-measurable",
+    "c6-lem-two-sets",
+    "c6-lem-finite-additivity",
+    "c6-prop-measure-difference"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-inner-compact",
+   "kind": "exercise",
+   "number": "",
+   "title": "Inner measure by compact sets",
+   "tex": "Show that for every $A \\subseteq \\R^n$,\n\\[ m_*A = \\sup \\set{ mK : K \\subseteq A, \\ K \\text{ compact} }. \\]\nDeduce that every measurable set $E$ with $mE > 0$ contains a compact set $K$ with $0 < mK < \\infty$.",
+   "proof": "Compact subsets of $\\R^n$ are closed (Chapter 2), so the supremum over compact subsets of $A$ is taken over a subfamily of the closed subsets of $A$, and is at most $m_*A$.\n\nConversely let $K \\subseteq A$ be closed and put $K_j = K \\cap [-j,j]^n$ for $j \\in \\N$. Each $K_j$ is closed and bounded, hence compact by the Heine–Borel theorem, and $K_j \\subseteq A$. The sets $K_j$ increase with $j$ and their union is $K$, so by upward measure continuity $mK = \\lim_j mK_j$, which is at most the supremum over compact subsets of $A$. Taking the supremum over closed $K \\subseteq A$ gives $m_*A \\le \\sup \\set{mK : K \\subseteq A \\text{ compact}}$.\n\nIf $E$ is measurable with $mE > 0$, then $m_*E = mE > 0$, so by what was just shown some compact $K \\subseteq E$ has $mK > 0$. A compact set is bounded, so it lies in a box, and $mK$ is at most the volume of that box, hence finite.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "A closed set is the increasing union of the compact sets $K \\cap [-j,j]^n$; use upward measure continuity."
+   ],
+   "uses": [
+    "c6-def-inner-measure",
+    "c6-prop-inner-basic",
+    "c6-thm-measure-continuity",
+    "c6-thm-open-closed-measurable",
+    "c6-lem-two-sets",
+    "c6-thm-boxes-measurable"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-positive-outer-nonmeasurable",
+   "kind": "exercise",
+   "number": "",
+   "title": "Every set of positive outer measure contains a nonmeasurable set",
+   "tex": "Let $A \\subseteq \\R$ with $m^*A > 0$. Show that $A$ has a subset that is not Lebesgue measurable. (The remark closing the section on regularity states this without proof.)",
+   "proof": "\\emph{Step 1: reduction to $A \\subseteq [0,1)$.} The sets $A_j = A \\cap [j, j+1)$, $j \\in \\Z$, are countably many and their union is $A$. If every $A_j$ were a zero set, so would be $A$; hence $m^*A_j > 0$ for some $j$. Translations are meseometries, so the set $A' = A_j - j \\subseteq [0,1)$ has $m^*A' = m^*A_j > 0$, and if $S' \\subseteq A'$ is not measurable then neither is $S = S' + j \\subseteq A_j \\subseteq A$: were $S$ measurable, $S' = S - j$ would be measurable too. So it suffices to treat $A' $, and we rename it $A$, assuming from now on $A \\subseteq [0,1)$ and $m^*A > 0$.\n\n\\emph{Step 2: a measurable subset of a translate of the Vitali set is a zero set.} Let $V \\subseteq [0,1)$ be the Vitali set, let $q_1, q_2, \\dots$ enumerate $\\Q \\cap (-1,1)$, and let $V_k = V + q_k$. Recall from the proof of Vitali's theorem that the $V_k$ are pairwise disjoint, cover $[0,1)$, and lie in $(-1, 2)$. Suppose $W \\subseteq V_k$ is measurable. Then $W' = W - q_k \\subseteq V$ is measurable with $mW' = mW$, and for every $j$ the translate $W' + q_j \\subseteq V_j$ is measurable with measure $mW'$. These translates are pairwise disjoint, being subsets of the pairwise disjoint sets $V_j$, and they all lie in $(-1, 2)$. By countable additivity and monotonicity,\n\\[ \\sum_{j=1}^\\infty mW' = m\\Bigl( \\bigsqcup_j (W' + q_j) \\Bigr) \\le m(-1,2) = 3, \\]\nwhich forces $mW' = 0$. Hence $mW = 0$.\n\n\\emph{Step 3.} Since the $V_k$ cover $[0,1) \\supseteq A$, we have $A = \\bigcup_k (A \\cap V_k)$. If every $A \\cap V_k$ were measurable, each would be a zero set by Step 2, and $A$ would be a countable union of zero sets, hence a zero set, contradicting $m^*A > 0$. Therefore some $A \\cap V_k$ is a nonmeasurable subset of $A$.",
+   "difficulty": 4,
+   "minutes": 50,
+   "hints": [
+    "Reduce to $A \\subseteq [0,1)$: some piece $A \\cap [j,j+1)$ has positive outer measure, and translation changes nothing.",
+    "Cut $A$ along the translates $V_k = V + q_k$ of the Vitali set, which partition $[0,1)$.",
+    "A measurable subset of $V_k$ has measure zero: translate it back into $V$ and rerun the disjoint-translates argument from Vitali's proof. Then $A$ would be a countable union of zero sets."
+   ],
+   "uses": [
+    "c6-thm-vitali",
+    "c6-thm-translation",
+    "c6-def-meseomorphism",
+    "c6-thm-sigma-algebra",
+    "c6-prop-zero-sets",
+    "c6-prop-measure-difference",
+    "c6-thm-boxes-measurable"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-steinhaus",
+   "kind": "exercise",
+   "number": "",
+   "title": "The difference set of a set of positive measure (Steinhaus)",
+   "tex": "Let $E \\subseteq \\R^n$ be measurable with $mE > 0$. Show that there is a $\\delta > 0$ such that every $v \\in \\R^n$ with $\\abs{v} < \\delta$ can be written as $v = x - y$ with $x, y \\in E$. In other words, the difference set $E - E = \\set{x - y : x, y \\in E}$ contains an open ball about the origin.",
+   "proof": "\\emph{Step 1: a compact piece.} By the exercise on inner measure by compact sets, there is a compact $K \\subseteq E$ with $0 < mK < \\infty$. Since $K - K \\subseteq E - E$, it suffices to prove the claim for $K$.\n\n\\emph{Step 2: a tight open neighbourhood.} Outer measure is computed by open sets and $m^*K = mK < \\infty$, so there is an open set $U \\supseteq K$ with $mU < mK + mK = 2\\,mK$.\n\n\\emph{Step 3: small translates of $K$ stay inside $U$.} We claim there is a $\\delta > 0$ such that $K + v \\subseteq U$ whenever $\\abs{v} < \\delta$. If not, then for every $j \\in \\N$ there are $v_j$ with $\\abs{v_j} < 1/j$ and $x_j \\in K$ with $x_j + v_j \\notin U$. Since $K$ is compact, a subsequence $x_{j_i}$ converges to some $x \\in K$ (Chapter 2). Then $x_{j_i} + v_{j_i} \\to x$ because $v_{j_i} \\to 0$. But $x \\in K \\subseteq U$ and $U$ is open, so $x_{j_i} + v_{j_i} \\in U$ for all large $i$, a contradiction.\n\n\\emph{Step 4: two translates must meet.} Let $\\abs{v} < \\delta$. Translations are meseometries, so $K + v$ is measurable with $m(K + v) = mK$, and $K \\cup (K + v) \\subseteq U$. If $K$ and $K + v$ were disjoint, finite additivity would give $m(K \\cup (K+v)) = 2\\,mK$, whereas monotonicity gives $m(K \\cup (K+v)) \\le mU < 2\\,mK$. So there is a point $x \\in K \\cap (K + v)$: $x \\in K$ and $x = y + v$ with $y \\in K$, whence $v = x - y \\in K - K \\subseteq E - E$.",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "Shrink $E$ to a compact $K$ with $0 < mK < \\infty$ (an earlier exercise), then enclose $K$ in an open $U$ with $mU < 2\\,mK$.",
+    "Compactness gives a $\\delta > 0$ such that $K + v \\subseteq U$ for every $\\abs{v} < \\delta$: argue by contradiction with a convergent subsequence.",
+    "Two translates of $K$, both inside $U$, have total measure $2\\,mK > mU$, so they cannot be disjoint."
+   ],
+   "uses": [
+    "c6-ex-inner-compact",
+    "c6-thm-outer-open",
+    "c6-thm-translation",
+    "c6-lem-finite-additivity",
+    "c6-prop-measure-difference",
+    "c6-thm-open-closed-measurable"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-curves-zero",
+   "kind": "exercise",
+   "number": "",
+   "title": "Curves have no area",
+   "tex": "(a) Let $\\gamma : [0,1] \\to \\R^2$ be Lipschitz with constant $L$, that is, $\\abs{\\gamma(s) - \\gamma(t)} \\le L\\abs{s - t}$ for all $s, t \\in [0,1]$. Show that $\\gamma([0,1])$ is a zero set in $\\R^2$.\n\n(b) Let $f : [a,b] \\to \\R$ be continuous. Show that its graph $\\set{ (x, f(x)) : x \\in [a,b] }$ is a zero set in $\\R^2$.",
+   "proof": "(a) Fix $N \\in \\N$ and split $[0,1]$ into the $N$ closed intervals $I_r = [t_r, t_r + 1/N]$ with $t_r = (r-1)/N$, $r = 1, \\dots, N$. For $s \\in I_r$, $\\abs{\\gamma(s) - \\gamma(t_r)} \\le L\\abs{s - t_r} \\le L/N$, so each of the two coordinates of $\\gamma(s) - \\gamma(t_r)$ has absolute value at most $L/N$. Hence $\\gamma(I_r)$ lies in the closed square $Q_r$ centred at $\\gamma(t_r)$ with side $2L/N$, whose area is $4L^2/N^2$. The $N$ squares $Q_r$ cover $\\gamma([0,1])$, and since any boxes may be used in coverings,\n\\[ m^*\\gamma([0,1]) \\le N \\cdot \\frac{4L^2}{N^2} = \\frac{4L^2}{N}. \\]\nAs $N$ is arbitrary, $m^*\\gamma([0,1]) = 0$.\n\n(b) The function $f$ is continuous on the compact interval $[a,b]$, hence uniformly continuous (Chapter 2). Let $\\eps > 0$ and choose $\\delta > 0$ such that $\\abs{f(x) - f(x')} < \\eps$ whenever $x, x' \\in [a,b]$ and $\\abs{x - x'} < \\delta$. Choose $N \\in \\N$ with $(b-a)/N < \\delta$ and split $[a,b]$ into $N$ closed intervals $I_r$ of length $(b-a)/N$, with left endpoints $x_r$. For $x \\in I_r$ we have $\\abs{x - x_r} < \\delta$, so $\\abs{f(x) - f(x_r)} < \\eps$, and the point $(x, f(x))$ lies in the box $I_r \\times [f(x_r) - \\eps, f(x_r) + \\eps]$ of area $2\\eps(b-a)/N$. These $N$ boxes cover the graph, so\n\\[ m^*\\set{(x, f(x)) : x \\in [a,b]} \\le N \\cdot \\frac{2\\eps(b-a)}{N} = 2\\eps(b-a). \\]\nAs $\\eps$ is arbitrary, the graph is a zero set.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Cut the parameter interval into $N$ equal pieces; the image of each piece fits in a small square, and the total area of the squares tends to $0$.",
+    "For a continuous $f$, uniform continuity makes the graph over a short interval fit inside a short, thin box."
+   ],
+   "uses": [
+    "c6-def-lipschitz",
+    "c6-cor-any-boxes",
+    "c6-def-zero-set"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-cube-map",
+   "kind": "exercise",
+   "number": "",
+   "title": "A meseomorphism that is not Lipschitz",
+   "tex": "(a) Let $T : \\R^n \\to \\R^n$ be continuous, and suppose $TZ$ is a zero set for every zero set $Z \\subseteq \\R^n$. Show that $TE$ is measurable for every measurable $E \\subseteq \\R^n$.\n\n(b) Show that $T(x) = x^3$ is a meseomorphism of $\\R$, although neither $T$ nor $T^{-1}$ is Lipschitz on $\\R$.",
+   "proof": "(a) Let $E$ be measurable. By the theorem on $F_\\sigma$-sets, $E = \\bigcup_j K_j \\cup Z$ with each $K_j$ closed and $Z$ a zero set. With $C_i = [-i,i]^n$, each $K_j \\cap C_i$ is closed and bounded, hence compact by the Heine–Borel theorem, and $K_j = \\bigcup_i (K_j \\cap C_i)$. Since $T$ is continuous, $T(K_j \\cap C_i)$ is compact, hence closed, hence measurable. By hypothesis $TZ$ is a zero set, hence measurable. So\n\\[ TE = \\bigcup_{i,j} T(K_j \\cap C_i) \\;\\cup\\; TZ \\]\nis a countable union of measurable sets, and is measurable.\n\n(b) The map $T(x) = x^3$ is a continuous bijection of $\\R$ whose inverse $S(y) = y^{1/3}$ (the real cube root, with $S(-y) = -S(y)$) is continuous. By (a) applied to $T$ and to $S$, it suffices to show that both send zero sets to zero sets.\n\n\\emph{$T$.} For $x, y \\in [-k,k]$, $\\abs{x^3 - y^3} = \\abs{x - y}\\,\\abs{x^2 + xy + y^2} \\le 3k^2 \\abs{x - y}$, so the restriction of $T$ to $[-k,k]$ is Lipschitz. If $Z$ is a zero set, then $Z \\cap [-k,k]$ is a zero set and, since Lipschitz maps do not inflate zero sets, $T(Z \\cap [-k,k])$ is a zero set. Hence $TZ = \\bigcup_k T(Z \\cap [-k,k])$ is a countable union of zero sets, hence a zero set.\n\n\\emph{$S$.} For $u, v \\in [1/k, k]$ put $a = S(u)$, $b = S(v)$; then $a, b \\ge k^{-1/3}$, so $a^2 + ab + b^2 \\ge 3k^{-2/3}$, and\n\\[ \\abs{S(u) - S(v)} = \\abs{a - b} = \\frac{\\abs{a^3 - b^3}}{a^2 + ab + b^2} \\le \\frac{k^{2/3}}{3}\\, \\abs{u - v} \\]\n(trivially if $a = b$). So $S$ is Lipschitz on $[1/k, k]$, and by the symmetry $S(-y) = -S(y)$ also on $[-k, -1/k]$ with the same constant. Since $\\R = \\set{0} \\cup \\bigcup_k \\bigl( [1/k, k] \\cup [-k, -1/k] \\bigr)$, for a zero set $Z$ the image $SZ$ is contained in $\\set{S(0)} \\cup \\bigcup_k \\bigl( S(Z \\cap [1/k,k]) \\cup S(Z \\cap [-k,-1/k]) \\bigr)$, a countable union of zero sets (a single point and Lipschitz images of zero sets). Hence $SZ$ is a zero set.\n\nTherefore $T$ and $T^{-1} = S$ both send measurable sets to measurable sets, and $T$ is a meseomorphism. Finally, $\\abs{T(x) - T(0)} / \\abs{x - 0} = x^2$ is unbounded, and $\\abs{S(y) - S(0)} / \\abs{y - 0} = \\abs{y}^{-2/3}$ is unbounded as $y \\to 0$, so neither map is Lipschitz on $\\R$.",
+   "difficulty": 3,
+   "minutes": 40,
+   "hints": [
+    "Reread the proof that Lipschitz maps preserve measurability: the Lipschitz condition is used only to control the zero set in $E = \\bigcup_j K_j \\cup Z$.",
+    "$x \\mapsto x^3$ is Lipschitz on each $[-k,k]$, and the cube root is Lipschitz on each $[1/k,k]$ and $[-k,-1/k]$. A zero set is the countable union of its pieces in these intervals, plus possibly the origin."
+   ],
+   "uses": [
+    "c6-thm-fsigma-gdelta",
+    "c6-thm-open-closed-measurable",
+    "c6-prop-measurable-basic",
+    "c6-thm-sigma-algebra",
+    "c6-prop-zero-sets",
+    "c6-def-lipschitz",
+    "c6-thm-lipschitz-zero",
+    "c6-cor-lipschitz-measurable",
+    "c6-def-meseomorphism"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-integral-symmetry",
+   "kind": "exercise",
+   "number": "",
+   "title": "Translating and dilating the integrand",
+   "tex": "Let $f : \\R^n \\to [0, \\infty]$ be measurable, $v \\in \\R^n$, and $\\lambda \\ne 0$. Show that the functions $x \\mapsto f(x + v)$ and $x \\mapsto f(\\lambda x)$ are measurable, with\n\\[ \\int f(x + v)\\, dx = \\int f \\qquad \\text{and} \\qquad \\int f(\\lambda x)\\, dx = \\abs{\\lambda}^{-n} \\int f . \\]",
+   "proof": "Let $g(x) = f(x + v)$. For $(x, y) \\in \\R^n \\times \\R$,\n\\[ (x, y) \\in \\mathcal{U}g \\iff 0 \\le y < f(x + v) \\iff (x + v, y) \\in \\mathcal{U}f \\iff (x, y) \\in \\tau_w(\\mathcal{U}f), \\]\nwhere $\\tau_w$ is the translation of $\\R^{n+1}$ by $w = (-v, 0)$, since $(x,y) = (x+v, y) + w$ and $\\tau_w$ is a bijection. So $\\mathcal{U}g = \\tau_w(\\mathcal{U}f)$. Translations are meseometries, so $\\mathcal{U}g$ is measurable with $m(\\mathcal{U}g) = m(\\mathcal{U}f)$; that is, $g$ is measurable and $\\int g = \\int f$.\n\nLet $h(x) = f(\\lambda x)$ and let $D : \\R^{n+1} \\to \\R^{n+1}$ be the diagonal map $D(x, y) = (\\lambda x, y)$, with factors $\\lambda$ ($n$ times) and $1$. Then\n\\[ (x, y) \\in \\mathcal{U}h \\iff 0 \\le y < f(\\lambda x) \\iff D(x, y) \\in \\mathcal{U}f \\iff (x, y) \\in D^{-1}(\\mathcal{U}f). \\]\nThe inverse $D^{-1}$ is the diagonal map with factors $1/\\lambda$ ($n$ times) and $1$; by the theorem on diagonal maps it is a meseomorphism that multiplies measure by $\\abs{1/\\lambda}^n = \\abs{\\lambda}^{-n}$. Hence $\\mathcal{U}h = D^{-1}(\\mathcal{U}f)$ is measurable and $\\int h = \\abs{\\lambda}^{-n}\\, m(\\mathcal{U}f) = \\abs{\\lambda}^{-n} \\int f$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Express the undergraph of the new function as the image of $\\mathcal{U}f$ under a translation, or under a diagonal map, of $\\R^{n+1}$."
+   ],
+   "uses": [
+    "c6-def-integral",
+    "c6-thm-translation",
+    "c6-thm-diagonal"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-truncation",
+   "kind": "exercise",
+   "number": "",
+   "title": "Truncation",
+   "tex": "Let $f : \\R^n \\to [0, \\infty]$ be measurable. For $k \\in \\N$ let $C_k = [-k,k]^n$ and define $f_k = \\min(f, k)\\, \\chi_{C_k}$, that is, $f_k(x) = \\min(f(x), k)$ for $x \\in C_k$ and $f_k(x) = 0$ otherwise. Show that each $f_k$ is measurable, that $\\int f_k \\le k (2k)^n < \\infty$, and that\n\\[ \\int f = \\lim_{k \\to \\infty} \\int f_k . \\]",
+   "proof": "For $a \\ge 0$, the superlevel set $\\set{f_k > a}$ equals $\\set{f > a} \\cap C_k$ if $a < k$ and is empty if $a \\ge k$. The set $\\set{f > a}$ is measurable by the theorem on superlevel sets and $C_k$ is a box, so $\\set{f_k > a}$ is measurable for every $a \\ge 0$, and $f_k$ is measurable by the same theorem.\n\nSince $f_k \\le k\\chi_{C_k}$, a simple function, monotonicity of the integral gives $\\int f_k \\le k\\, mC_k = k(2k)^n$.\n\nThe sequence is increasing: if $x \\notin C_{k+1}$ then $f_k(x) = f_{k+1}(x) = 0$; if $x \\in C_{k+1} \\setminus C_k$ then $f_k(x) = 0 \\le f_{k+1}(x)$; and if $x \\in C_k$ then $f_k(x) = \\min(f(x), k) \\le \\min(f(x), k+1) = f_{k+1}(x)$. It converges pointwise to $f$: given $x$, for all large $k$ we have $x \\in C_k$, and then $f_k(x) = \\min(f(x), k)$, which equals $f(x)$ once $k \\ge f(x)$ if $f(x) < \\infty$, and equals $k$, tending to $\\infty = f(x)$, if $f(x) = \\infty$. By the monotone convergence theorem, $\\int f_k \\to \\int f$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compute the superlevel sets of $f_k$, then apply monotone convergence."
+   ],
+   "uses": [
+    "c6-thm-preimage",
+    "c6-thm-boxes-measurable",
+    "c6-lem-two-sets",
+    "c6-def-simple",
+    "c6-prop-simple-integral",
+    "c6-prop-integral-monotone",
+    "c6-thm-mct"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-integral-sup-simple",
+   "kind": "exercise",
+   "number": "",
+   "title": "The integral as a supremum over simple functions",
+   "tex": "Let $f : \\R^n \\to [0, \\infty]$ be measurable. Show that\n\\[ \\int f = \\sup \\set{ \\int \\varphi : \\varphi \\text{ simple}, \\ \\varphi \\le f } . \\]\n(This is the usual textbook definition of the Lebesgue integral of a nonnegative function.)",
+   "proof": "If $\\varphi$ is simple with $\\varphi \\le f$, then $\\varphi$ is measurable by the proposition on integrals of simple functions, and $\\int \\varphi \\le \\int f$ by monotonicity of the integral. So the supremum is at most $\\int f$.\n\nConversely, the approximation lemma gives simple functions $\\varphi_1 \\le \\varphi_2 \\le \\cdots$ with $\\varphi_k(x) \\to f(x)$ for every $x$. Each $\\varphi_k \\le f$, since $\\varphi_k(x) \\le \\varphi_j(x)$ for all $j \\ge k$ and $\\varphi_j(x) \\to f(x)$. By the monotone convergence theorem $\\int \\varphi_k \\to \\int f$, so the supremum is at least $\\int f$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "One inequality is monotonicity of the integral; the other is the approximation lemma together with monotone convergence."
+   ],
+   "uses": [
+    "c6-def-simple",
+    "c6-prop-simple-integral",
+    "c6-prop-integral-monotone",
+    "c6-lem-simple-approx",
+    "c6-thm-mct"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-integral-set-function",
+   "kind": "exercise",
+   "number": "",
+   "title": "The integral over a set is countably additive",
+   "tex": "Let $f : \\R^n \\to [0, \\infty]$ be measurable, and for measurable $E \\subseteq \\R^n$ write $\\int_E f = \\int f\\chi_E$.\n\n(a) If $E_1, E_2, \\dots$ are pairwise disjoint measurable sets with union $E$, then $\\int_E f = \\sum_{k=1}^\\infty \\int_{E_k} f$.\n\n(b) If $E_1 \\subseteq E_2 \\subseteq \\cdots$ are measurable sets with union $E$, then $\\int_{E_k} f \\to \\int_E f$.\n\n(c) If $Z \\subseteq \\R^n$ is a zero set, then $\\int_Z f = 0$.",
+   "proof": "For measurable $E$ the function $f\\chi_E$ is measurable, because $\\set{f\\chi_E > a} = \\set{f > a} \\cap E$ for every $a \\ge 0$ (as noted in the definition of the integral of a function of arbitrary sign).\n\n(a) For every $x$, at most one of the numbers $\\chi_{E_k}(x)$ is $1$, and $\\chi_E(x) = \\sum_k \\chi_{E_k}(x)$. Hence $f\\chi_E = \\sum_k f\\chi_{E_k}$ pointwise: if $x \\in E_j$ both sides equal $f(x)$ (the only nonzero term is the $j$-th, also when $f(x) = \\infty$), and if $x \\notin E$ both sides are $0$. By term-by-term integration of nonnegative series, $\\int f\\chi_E = \\sum_k \\int f\\chi_{E_k}$.\n\n(b) The functions $f\\chi_{E_k}$ are measurable, increase with $k$ because the $E_k$ do, and converge pointwise to $f\\chi_E$: a point of $E$ lies in $E_k$ for all large $k$, and a point outside $E$ gives $0$ throughout. The monotone convergence theorem gives $\\int f\\chi_{E_k} \\to \\int f\\chi_E$.\n\n(c) The function $f\\chi_Z$ differs from the zero function only on $Z$, so $f\\chi_Z = 0$ almost everywhere. Zero sets do not affect integrals, so $\\int f\\chi_Z = \\int 0 = m(\\emptyset) = 0$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "$f\\chi_E = \\sum_k f\\chi_{E_k}$ pointwise; integrate term by term. For (b) use monotone convergence, and for (c) the fact that integrals ignore zero sets."
+   ],
+   "uses": [
+    "c6-def-signed-integral",
+    "c6-thm-preimage",
+    "c6-cor-series",
+    "c6-thm-mct",
+    "c6-def-almost-everywhere",
+    "c6-prop-ae-equal",
+    "c6-def-integral"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-absolute-continuity",
+   "kind": "exercise",
+   "number": "",
+   "title": "Absolute continuity of the integral",
+   "tex": "Let $f : \\R^n \\to [0, \\infty]$ be measurable with $\\int f < \\infty$. Show that for every $\\eps > 0$ there is a $\\delta > 0$ such that\n\\[ \\int_E f < \\eps \\qquad \\text{for every measurable } E \\subseteq \\R^n \\text{ with } mE < \\delta, \\]\nwhere $\\int_E f = \\int f\\chi_E$.",
+   "proof": "For $k \\in \\N$ let $g_k = \\min(f, k)$ and let $r_k$ be the excess, $r_k(x) = f(x) - k$ if $f(x) > k$ (with $\\infty - k = \\infty$) and $r_k(x) = 0$ otherwise. Both are measurable by the theorem on superlevel sets: for $a \\ge 0$, $\\set{g_k > a}$ is $\\set{f > a}$ if $a < k$ and empty if $a \\ge k$, and $\\set{r_k > a} = \\set{f > a + k}$. Moreover $f = g_k + r_k$ pointwise: if $f(x) \\le k$ the right side is $f(x) + 0$, and if $f(x) > k$ it is $k + (f(x) - k) = f(x)$, also when $f(x) = \\infty$.\n\nBy additivity, $\\int f = \\int g_k + \\int r_k$, and all three integrals are finite. The functions $g_k$ increase pointwise to $f$ (once $k \\ge f(x)$ they equal $f(x)$, and if $f(x) = \\infty$ they equal $k$), so the monotone convergence theorem gives $\\int g_k \\to \\int f$, hence $\\int r_k = \\int f - \\int g_k \\to 0$. Fix $k$ with $\\int r_k < \\eps/2$ and put $\\delta = \\eps/(2k)$.\n\nNow let $E$ be measurable with $mE < \\delta$. The functions $g_k\\chi_E$ and $r_k\\chi_E$ are measurable (their superlevel sets are those of $g_k$ and $r_k$ intersected with $E$), and $f\\chi_E = g_k\\chi_E + r_k\\chi_E$. By additivity and monotonicity of the integral, since $g_k\\chi_E \\le k\\chi_E$ and $r_k\\chi_E \\le r_k$,\n\\[ \\int_E f = \\int g_k\\chi_E + \\int r_k\\chi_E \\le \\int k\\chi_E + \\int r_k = k\\, mE + \\int r_k < k\\delta + \\frac{\\eps}{2} = \\eps . \\]",
+   "difficulty": 3,
+   "minutes": 40,
+   "hints": [
+    "Split $f$ into the bounded part $\\min(f, k)$ and the excess $f - \\min(f, k)$. The excess has small integral once $k$ is large, by monotone convergence and additivity.",
+    "On a set of measure less than $\\delta$, the bounded part contributes at most $k\\delta$."
+   ],
+   "uses": [
+    "c6-thm-preimage",
+    "c6-thm-additivity",
+    "c6-thm-mct",
+    "c6-prop-integral-monotone",
+    "c6-prop-simple-integral",
+    "c6-def-signed-integral"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-graph-zero",
+   "kind": "exercise",
+   "number": "",
+   "title": "The graph of a measurable function is a zero set",
+   "tex": "Let $f : \\R^n \\to [0, \\infty]$ be measurable. Show that its graph\n\\[ \\Gamma = \\set{ (x, f(x)) : x \\in \\R^n, \\ f(x) < \\infty } \\]\nis a zero set in $\\R^{n+1}$.",
+   "proof": "\\emph{Step 1: finite-valued functions of finite integral.} Let $g : \\R^n \\to [0, \\infty)$ be measurable with $\\int g < \\infty$, and let $\\Gamma_g = \\set{(x, g(x)) : x \\in \\R^n}$. We claim $\\Gamma_g = \\widehat{\\mathcal{U}}g \\setminus \\mathcal{U}g$. A point $(x, y)$ lies in $\\widehat{\\mathcal{U}}g$ but not in $\\mathcal{U}g$ exactly when $0 \\le y \\le g(x)$ and not $y < g(x)$, that is, when $y = g(x)$; conversely $(x, g(x))$ satisfies $0 \\le g(x) \\le g(x)$ and not $g(x) < g(x)$. By the proposition on the completed undergraph, both $\\widehat{\\mathcal{U}}g$ and $\\mathcal{U}g$ are measurable with $m(\\widehat{\\mathcal{U}}g) = \\int g = m(\\mathcal{U}g) < \\infty$, and $\\mathcal{U}g \\subseteq \\widehat{\\mathcal{U}}g$. Hence $\\Gamma_g$ is measurable and\n\\[ m\\Gamma_g = m(\\widehat{\\mathcal{U}}g) - m(\\mathcal{U}g) = 0 . \\]\n\n\\emph{Step 2: the general case.} Let $f_k = \\min(f, k)\\chi_{C_k}$ with $C_k = [-k,k]^n$ be the truncations of the exercise on truncation: each $f_k$ is measurable, takes values in $[0, k]$, and has finite integral. By Step 1 each graph $\\Gamma_{f_k}$ is a zero set. If $f(x) < \\infty$, choose $k$ so large that $x \\in C_k$ and $k \\ge f(x)$; then $f_k(x) = f(x)$, so $(x, f(x)) \\in \\Gamma_{f_k}$. Therefore $\\Gamma \\subseteq \\bigcup_k \\Gamma_{f_k}$, a countable union of zero sets, and $\\Gamma$ is a zero set.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "The graph is the difference between the completed undergraph and the undergraph, two measurable sets with the same measure.",
+    "If $\\int f = \\infty$ the subtraction is illegal: truncate $f$ first (an earlier exercise), and take a countable union of graphs."
+   ],
+   "uses": [
+    "c6-def-integral",
+    "c6-prop-completed-undergraph",
+    "c6-prop-measure-difference",
+    "c6-lem-two-sets",
+    "c6-ex-truncation",
+    "c6-prop-zero-sets"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-dct-from-fatou",
+   "kind": "exercise",
+   "number": "",
+   "title": "Dominated convergence from Fatou's lemma",
+   "tex": "Let $f_k, g : \\R^n \\to [0, \\infty]$ be measurable with $f_k \\le g$ for all $k$ and $\\int g < \\infty$.\n\n(a) Show the reverse Fatou inequality $\\displaystyle \\limsup_{k \\to \\infty} \\int f_k \\le \\int \\limsup_{k \\to \\infty} f_k$.\n\n(b) Deduce the dominated convergence theorem: if $f_k(x) \\to f(x)$ for every $x$, then $\\int f_k \\to \\int f$.",
+   "proof": "(a) \\emph{Making $g$ finite.} The set $Z = \\set{g = \\infty}$ is a zero set by Chebyshev's inequality (part (c)), and it is measurable. Put $g' = g\\chi_{Z^c}$ and $f_k' = f_k\\chi_{Z^c}$. These are measurable (their superlevel sets are $\\set{g > a} \\cap Z^c$ and $\\set{f_k > a} \\cap Z^c$), finite-valued, satisfy $f_k' \\le g'$, and agree with $g$ and $f_k$ almost everywhere, so $\\int g' = \\int g$ and $\\int f_k' = \\int f_k$ because zero sets do not affect integrals. Also $\\limsup_k f_k' = (\\limsup_k f_k)\\chi_{Z^c}$ agrees with $\\limsup_k f_k$ almost everywhere, and $\\limsup_k f_k$ is measurable, so $\\int \\limsup_k f_k' = \\int \\limsup_k f_k$. Thus it suffices to prove (a) for the primed functions, and we may assume that $g$, hence every $f_k$ and $F = \\limsup_k f_k$, takes only finite values. Note $F \\le g$ and $F$ is measurable.\n\n\\emph{Fatou for the differences.} The functions $g - f_k$ and $g - F$ take values in $[0, \\infty)$. They are measurable: as real-valued functions, $g$, $f_k$ and $F$ are measurable in the sense of the lemma on real-valued functions (their positive parts are themselves and their negative parts vanish), so $g - f_k = g + (-1) f_k$ and $g - F$ are measurable by that lemma, and being nonnegative they coincide with their positive parts. For each $x$, since $g(x)$ is finite and $0 \\le f_k(x) \\le g(x)$,\n\\[ \\liminf_{k} \\bigl( g(x) - f_k(x) \\bigr) = g(x) - \\limsup_k f_k(x) = g(x) - F(x). \\]\nFatou's lemma applied to the sequence $g - f_k$ gives\n\\[ \\int (g - F) \\le \\liminf_{k} \\int (g - f_k). \\]\nBy additivity, $\\int g = \\int (g - F) + \\int F$ and $\\int g = \\int (g - f_k) + \\int f_k$, and all these integrals are at most $\\int g < \\infty$ by monotonicity. Substituting,\n\\[ \\int g - \\int F \\le \\liminf_k \\Bigl( \\int g - \\int f_k \\Bigr) = \\int g - \\limsup_k \\int f_k, \\]\nand since $\\int g$ is finite, $\\limsup_k \\int f_k \\le \\int F = \\int \\limsup_k f_k$.\n\n(b) If $f_k \\to f$ pointwise, then $f = \\liminf_k f_k = \\limsup_k f_k$, and $f$ is measurable. Fatou's lemma gives $\\int f \\le \\liminf_k \\int f_k$, and (a) gives $\\limsup_k \\int f_k \\le \\int f$. Hence $\\liminf_k \\int f_k = \\limsup_k \\int f_k = \\int f$, that is, $\\int f_k \\to \\int f$.",
+   "difficulty": 3,
+   "minutes": 40,
+   "hints": [
+    "Fatou's lemma bounds a lower limit from below. To bound an upper limit from above, feed it a sequence that goes the other way: subtract $f_k$ from something.",
+    "Apply Fatou's lemma to the nonnegative functions $g - f_k$. First arrange that $g$ is finite everywhere: it is finite almost everywhere, and changing functions on a zero set changes no integral. Then $\\liminf_k (g - f_k) = g - \\limsup_k f_k$ pointwise, and all integrals are finite, so you may subtract."
+   ],
+   "uses": [
+    "c6-thm-fatou",
+    "c6-prop-sup-inf",
+    "c6-ex-chebyshev",
+    "c6-def-almost-everywhere",
+    "c6-prop-ae-equal",
+    "c6-thm-preimage",
+    "c6-lem-signed-measurable",
+    "c6-thm-additivity",
+    "c6-prop-integral-monotone"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c6-ex-improper-integral",
+   "kind": "exercise",
+   "number": "",
+   "title": "A convergent improper integral of a nonnegative function is a Lebesgue integral",
+   "tex": "Let $f : [0, \\infty) \\to [0, \\infty)$ be continuous and suppose that the improper Riemann integral converges: the limit\n\\[ \\lim_{b \\to \\infty} \\int_0^b f \\]\nof the Riemann integrals over $[0,b]$ exists and is finite. Extend $f$ to $\\R$ by $f(x) = 0$ for $x < 0$. Show that $f$ is Lebesgue integrable and that its Lebesgue integral equals $\\lim_{b \\to \\infty} \\int_0^b f$. (A continuous function on a closed bounded interval is Riemann integrable, by Chapter 3.)",
+   "proof": "For $k \\in \\N$ let $f_k = f\\chi_{[0,k]}$. The restriction of $f$ to $[0,k]$ is continuous, hence Riemann integrable, and $f_k$ is that restriction extended by $0$ outside $[0,k]$. By the theorem that Riemann integrable functions are Lebesgue integrable, $f_k$ is Lebesgue measurable and its Lebesgue integral equals the Riemann integral $\\int_0^k f$.\n\nSince $f \\ge 0$, the functions $f_k$ increase with $k$, and $f_k(x) \\to f(x)$ for every $x$: for $x \\ge 0$ we have $f_k(x) = f(x)$ as soon as $k \\ge x$, and for $x < 0$ everything is $0$. By the monotone convergence theorem, $f$ is Lebesgue measurable and\n\\[ \\int f = \\lim_{k \\to \\infty} \\int f_k = \\lim_{k \\to \\infty} \\int_0^k f = \\lim_{b \\to \\infty} \\int_0^b f , \\]\nthe last step because a limit as $b \\to \\infty$ that exists is also the limit along the integers $b = k$. The right side is finite, so $f$ is integrable.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Apply monotone convergence to $f\\chi_{[0,k]}$, each of which is Riemann integrable on $[0,k]$."
+   ],
+   "uses": [
+    "c6-thm-riemann-lebesgue",
+    "c6-thm-mct",
+    "c6-def-integral"
+   ],
+   "optional": true
+  }
+ ],
+ "cards": []
+}

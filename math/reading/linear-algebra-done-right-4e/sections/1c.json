@@ -1,0 +1,510 @@
+{
+ "version": 1,
+ "id": "1c",
+ "blocks": [
+  {
+   "id": "c1-intro-subspaces",
+   "kind": "prose",
+   "number": "",
+   "title": "Vector spaces inside vector spaces",
+   "tex": "A subset can inherit the vector-space operations of a larger space.\n    We develop a short test for this situation, then study how several such\n    subsets combine and when their contributions can be recovered uniquely.",
+   "page": "18"
+  },
+  {
+   "id": "c1-def-subspace",
+   "kind": "definition",
+   "number": "1.33",
+   "title": "Subspaces",
+   "tex": "Let $V$ be a vector space over $\\F$. A subset $U\\subseteq V$ is a\n    \\emph{subspace} of $V$ if, with the addition and scalar multiplication\n    inherited from $V$ and with the same zero vector, $U$ is a vector space\n    over $\\F$.",
+   "page": "18"
+  },
+  {
+   "id": "c1-thm-subspace-test",
+   "kind": "theorem",
+   "number": "1.34",
+   "title": "The three-part subspace test",
+   "tex": "A subset $U$ of a vector space $V$ is a subspace if and only if\n    \\begin{enumerate}\n    \\item $0\\in U$;\n    \\item $u+w\\in U$ whenever $u,w\\in U$;\n    \\item $au\\in U$ whenever $a\\in\\F$ and $u\\in U$.\n    \\end{enumerate}",
+   "page": "18",
+   "proof": "If $U$ is a subspace, its zero vector is the zero vector of $V$,\n    and its addition and scalar multiplication are operations with values\n    in $U$. These facts give the three conditions.\n\n    Conversely, suppose the conditions hold. The closure conditions make\n    the inherited operations well-defined on $U$. For $u\\in U$,\n    the vector $-u=(-1)u$ also belongs to $U$, so $u$ has an additive\n    inverse in $U$. The vector $0\\in U$ satisfies $u+0=u$.\n    The equations expressing commutativity and associativity of addition,\n    associativity of scalar multiplication, the scalar identity law, and\n    both distributive laws hold for elements of $U$ because these elements\n    lie in $V$ and the operations are unchanged. Thus every vector-space\n    axiom holds on $U$, with the prescribed zero vector.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Which vector-space axioms can be inherited without further work?",
+    "Obtain the additive inverse of $u$ by multiplying $u$ by a scalar."
+   ],
+   "uses": [
+    "c1-def-subspace",
+    "c1-def-vector-space",
+    "c1-thm-negative-one"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-cor-nonempty-subspace-test",
+   "kind": "corollary",
+   "number": "",
+   "title": "Replacing the zero condition by nonemptiness",
+   "tex": "A nonempty subset of $V$ that is closed under addition and scalar\n    multiplication is a subspace of $V$.",
+   "page": "18",
+   "proof": "Choose $u$ in the subset. Closure under scalar multiplication\n    places $0u$ in the subset, and $0u=0$. The three-part subspace test\n    now applies.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply the scalar zero to one element of the subset."
+   ],
+   "uses": [
+    "c1-thm-zero-scalar",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-affine-coordinate-condition",
+   "kind": "example",
+   "number": "1.35(a)",
+   "title": "When a coordinate constraint is homogeneous",
+   "tex": "Fix $b\\in\\F$, and let\n    \\[\n    U_b=\\{(x_1,x_2,x_3,x_4)\\in\\F^4:x_3=5x_4+b\\}.\n    \\]\n    Then $U_b$ is a subspace of $\\F^4$ exactly when $b=0$.",
+   "page": "19",
+   "proof": "If $U_b$ is a subspace, it contains $(0,0,0,0)$.\n    Substitution in the defining equation gives $0=b$.\n\n    Suppose now that $b=0$. The zero vector satisfies the defining equation.\n    For $x,y\\in U_0$,\n    \\[\n    (x+y)_3=x_3+y_3=5x_4+5y_4=5(x_4+y_4)=5(x+y)_4.\n    \\]\n    Thus $x+y\\in U_0$. For $a\\in\\F$ and $x\\in U_0$,\n    \\[\n    (ax)_3=ax_3=a(5x_4)=5(ax_4)=5(ax)_4,\n    \\]\n    so $ax\\in U_0$. The subspace test proves the assertion.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "First determine whether the zero vector satisfies the constraint.",
+    "When the constant term vanishes, check the equation on a sum and a scalar multiple."
+   ],
+   "uses": [
+    "c1-thm-subspace-test",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c1-thm-complex-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-analysis-notation",
+   "kind": "definition",
+   "number": "",
+   "title": "Continuity, derivatives, and convergence for the examples",
+   "tex": "For a real number $x$, $|x|$ means $x$ when $x\\ge0$ and $-x$\n    when $x<0$. A function $f:I\\to\\R$, where $I$ is an interval, is\n    \\emph{continuous at} $t\\in I$ if for every $\\varepsilon>0$ there is\n    a $\\delta>0$ such that $x\\in I$ and $|x-t|<\\delta$ imply\n    $|f(x)-f(t)|<\\varepsilon$; it is continuous on $I$ if this holds\n    at every $t\\in I$.\n\n    A real number $t$ is an accumulation point of a set $D\\subseteq\\R$ if every $\\delta>0$ admits $x\\in D$ with $0<|x-t|<\\delta$.\n    For a real-valued function $q$ defined near $t$, the notation\n    $\\lim_{x\\to t}q(x)=L$ means that for every $\\varepsilon>0$ there is\n    a $\\delta>0$ such that $0<|x-t|<\\delta$ implies\n    $|q(x)-L|<\\varepsilon$, for $x$ in the domain of $q$.\n    On an open interval $I$, $f$ is \\emph{differentiable at} $t$ if the\n    real limit\n    \\[\n    f'(t)=\\lim_{x\\to t}\\frac{f(x)-f(t)}{x-t}\n    \\]\n    exists; it is differentiable on $I$ if this holds at every point.\n\n    For a real sequence $(a_n)$, the notation $a_n\\to0$ means that for\n    every $\\varepsilon>0$ there is an integer $N$ such that\n    $|a_n|<\\varepsilon$ whenever $n\\ge N$. For a complex sequence\n    $z_n=a_n+b_ni$, define $z_n\\to0$ to mean that both $a_n\\to0$ and\n    $b_n\\to0$.",
+   "page": "19"
+  },
+  {
+   "id": "c1-thm-analysis-closure",
+   "kind": "theorem",
+   "number": "",
+   "title": "Elementary analysis facts used in the subspace examples",
+   "tex": "Real function limits, when they exist at an accumulation point\n    of the domain, are unique. The following closure facts hold.\n    \\begin{enumerate}\n    \\item The zero function on an interval is continuous. If $f,g$ are\n    continuous on the same interval and $a,b\\in\\R$, then $af+bg$ is\n    continuous there.\n    \\item The zero function on an open interval is differentiable with\n    derivative zero. If $f,g$ are differentiable on an open interval\n    and $a,b\\in\\R$, then $af+bg$ is differentiable there and\n    \\[\n    (af+bg)'(t)=af'(t)+bg'(t)\n    \\]\n    at every point of the interval.\n    \\item If complex sequences $(z_n)$ and $(w_n)$ converge to zero\n    and $a\\in\\C$, then $(z_n+w_n)$ and $(az_n)$ converge to zero.\n    The sequence whose terms are all zero converges to zero.\n    \\end{enumerate}",
+   "page": "19"
+  },
+  {
+   "id": "c1-remark-analysis-on-faith",
+   "kind": "remark",
+   "number": "",
+   "title": "Analysis prerequisites accepted here",
+   "tex": "The preceding elementary analysis theorem is taken on faith in\n    this module. It supplies precisely the continuity, differentiation,\n    and convergence facts needed for the next four examples; their\n    subspace arguments remain proof tasks.",
+   "page": "19"
+  },
+  {
+   "id": "c1-ex-continuous-subspace",
+   "kind": "example",
+   "number": "1.35(b)",
+   "title": "Continuous functions form a subspace",
+   "tex": "The set of continuous functions from $[0,1]$ to $\\R$ is a\n    subspace of the real vector space $\\R^{[0,1]}$.",
+   "page": "19",
+   "proof": "The ambient space consists of all real-valued functions on\n    $[0,1]$, with pointwise operations. Its zero vector is the zero\n    function, which is continuous by the elementary analysis theorem.\n    If $f$ and $g$ are continuous, that theorem with coefficients\n    $1,1$ shows that $f+g$ is continuous. If $a\\in\\R$ and $f$ is\n    continuous, apply it to $f$ and the zero function with coefficients\n    $a,0$ to see that $af$ is continuous. These are the three\n    subspace conditions.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the accepted continuity facts to check the three subspace conditions."
+   ],
+   "uses": [
+    "c1-def-function-space",
+    "c1-thm-function-space",
+    "c1-thm-subspace-test",
+    "c1-thm-analysis-closure"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-differentiable-subspace",
+   "kind": "example",
+   "number": "1.35(c)",
+   "title": "Differentiable functions form a subspace",
+   "tex": "The differentiable functions from $\\R$ to $\\R$ form a subspace\n    of the real vector space $\\R^\\R$.",
+   "page": "19",
+   "proof": "The zero function is differentiable. For differentiable $f,g$,\n    the elementary analysis theorem with coefficients $1,1$ makes\n    $f+g$ differentiable. For $a\\in\\R$, the same theorem applied to\n    $f$ and the zero function with coefficients $a,0$ makes $af$\n    differentiable. All operations agree with the pointwise\n    operations in $\\R^\\R$, so the subspace test applies.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check that the differentiability condition survives the inherited operations."
+   ],
+   "uses": [
+    "c1-def-function-space",
+    "c1-thm-function-space",
+    "c1-thm-subspace-test",
+    "c1-thm-analysis-closure"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-prescribed-derivative",
+   "kind": "example",
+   "number": "1.35(d)",
+   "title": "A prescribed derivative at one point",
+   "tex": "For $b\\in\\R$, let\n    \\[\n    D_b=\\{f\\in\\R^{(0,3)}:f\\text{ is differentiable on }(0,3)\n    \\text{ and }f'(2)=b\\}.\n    \\]\n    Then $D_b$ is a subspace of $\\R^{(0,3)}$ if and only if $b=0$.",
+   "page": "19",
+   "proof": "If $D_b$ is a subspace, its zero function belongs to $D_b$.\n    The derivative of that function at $2$ is zero, so membership\n    forces $b=0$.\n\n    For $b=0$, the zero function belongs to $D_0$. If $f,g\\in D_0$,\n    their sum is differentiable and\n    \\[\n    (f+g)'(2)=f'(2)+g'(2)=0.\n    \\]\n    If $a\\in\\R$ and $f\\in D_0$, then $af$ is differentiable and\n    $(af)'(2)=af'(2)=a0=0$. Thus addition and scalar multiplication\n    preserve $D_0$, and the subspace test completes the proof.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "What derivative does the zero function have at $2$?",
+    "Use linearity of differentiation for the converse."
+   ],
+   "uses": [
+    "c1-def-function-space",
+    "c1-thm-function-space",
+    "c1-thm-subspace-test",
+    "c1-thm-analysis-closure",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-null-sequence-subspace",
+   "kind": "example",
+   "number": "1.35(e)",
+   "title": "Sequences tending to zero form a subspace",
+   "tex": "The complex sequences that converge to zero form a subspace of\n    the complex sequence space $\\C^\\infty$.",
+   "page": "19",
+   "proof": "The zero sequence converges to zero. If $z=(z_n)$ and $w=(w_n)$\n    converge to zero, their vector-space sum is $(z_n+w_n)$, which\n    converges to zero by the elementary analysis theorem. If\n    $a\\in\\C$ and $z_n\\to0$, the scalar multiple of $z$ is $(az_n)$,\n    which also converges to zero by that theorem. The subspace test\n    therefore applies in $\\C^\\infty$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Identify addition and scalar multiplication of sequences before applying the limit facts."
+   ],
+   "uses": [
+    "c1-def-sequences",
+    "c1-ex-sequence-space",
+    "c1-thm-subspace-test",
+    "c1-thm-analysis-closure"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-extreme-subspaces",
+   "kind": "example",
+   "number": "",
+   "title": "The smallest and largest subspaces",
+   "tex": "For every vector space $V$, both $\\{0\\}$ and $V$ are subspaces\n    of $V$, whereas $\\varnothing$ is not. Every subspace $U$ satisfies\n    $\\{0\\}\\subseteq U\\subseteq V$.",
+   "page": "19",
+   "proof": "The set $\\{0\\}$ contains zero, and $0+0=0$ and $a0=0$\n    for every scalar $a$ show closure under both operations.\n    The whole set $V$ contains its zero vector and is closed under\n    its defining operations. The subspace test proves that both\n    sets are subspaces. The empty set fails the zero condition\n    and hence is not a subspace. For any subspace $U$, the\n    definition gives $U\\subseteq V$, and the zero condition gives\n    $\\{0\\}\\subseteq U$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply the zero condition as well as the two closure conditions."
+   ],
+   "uses": [
+    "c1-def-vector-space",
+    "c1-thm-scalar-zero",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-coordinate-lines-planes",
+   "kind": "definition",
+   "number": "",
+   "title": "Lines and planes through zero",
+   "tex": "In $\\R^n$, a line through zero is a set $\\{tu:t\\in\\R\\}$ with $u\\ne0$. A plane through zero is a set $\\{su+tv:s,t\\in\\R\\}$ where neither $u$ nor $v$ is a scalar multiple of the other.",
+   "page": "19"
+  },
+  {
+   "id": "c1-thm-geometric-subspaces-accepted",
+   "kind": "theorem",
+   "number": "",
+   "title": "Subspaces in two and three real coordinates",
+   "tex": "Every subspace of $\\R^2$ is $\\{0\\}$, a line through zero, or $\\R^2$. Every subspace of $\\R^3$ is $\\{0\\}$, a line through zero, a plane through zero, or $\\R^3$. Conversely, every set in these lists is a subspace of its ambient space.",
+   "page": "19"
+  },
+  {
+   "id": "c1-remark-geometric-subspaces",
+   "kind": "remark",
+   "number": "",
+   "title": "Classification accepted at this point",
+   "tex": "This classification is taken on faith here, as in the source's discussion. After developing bases and dimension, we will give a proof that does not rely on this accepted statement.",
+   "page": "19"
+  },
+  {
+   "id": "c1-def-subspace-sum",
+   "kind": "definition",
+   "number": "1.36",
+   "title": "Sums of subspaces",
+   "tex": "Let $V_1,\\ldots,V_m$ be subspaces of $V$, where $m\\ge1$.\n    Their \\emph{sum} is the subset\n    \\[\n    V_1+\\cdots+V_m\n    =\\{v_1+\\cdots+v_m:v_j\\in V_j\\text{ for every }j\\}.\n    \\]\n    Thus a vector belongs to this set when it can be formed by choosing\n    one vector from each listed subspace and adding the choices.",
+   "page": "19"
+  },
+  {
+   "id": "c1-ex-coordinate-axes-sum",
+   "kind": "example",
+   "number": "1.37",
+   "title": "Two coordinate axes add to a coordinate plane",
+   "tex": "Set\n    \\[\n    U=\\{(a,0,0):a\\in\\F\\},\\qquad\n    W=\\{(0,b,0):b\\in\\F\\}.\n    \\]\n    These are subspaces of $\\F^3$, and\n    \\[\n    U+W=\\{(a,b,0):a,b\\in\\F\\}.\n    \\]",
+   "page": "20",
+   "proof": "Both sets contain zero. The formulas\n    \\[\n    (a,0,0)+(c,0,0)=(a+c,0,0),\\qquad\n    t(a,0,0)=(ta,0,0)\n    \\]\n    show that $U$ is closed under both operations. For $W$, the\n    corresponding formulas are\n    \\[\n    (0,b,0)+(0,d,0)=(0,b+d,0),\\qquad\n    t(0,b,0)=(0,tb,0).\n    \\]\n    The subspace test proves the first assertion.\n\n    Every element of $U+W$ has the form\n    $(a,0,0)+(0,b,0)=(a,b,0)$, which proves one inclusion in the\n    asserted equality. Conversely, this same decomposition places\n    every vector $(a,b,0)$ in $U+W$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "For the set equality, prove both inclusions using coordinate addition."
+   ],
+   "uses": [
+    "c1-thm-subspace-test",
+    "c1-def-subspace-sum",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-repeated-coordinates-sum",
+   "kind": "example",
+   "number": "1.38",
+   "title": "Adding two spaces with repeated coordinates",
+   "tex": "Let\n    \\[\n    U=\\{(a,a,b,b):a,b\\in\\F\\},\\qquad\n    W=\\{(c,c,c,d):c,d\\in\\F\\}.\n    \\]\n    Then $U$ and $W$ are subspaces of $\\F^4$, and\n    \\[\n    U+W=\\{(x,x,y,z):x,y,z\\in\\F\\}.\n    \\]",
+   "page": "20",
+   "proof": "Each set contains the zero vector. Adding two vectors\n    $(a,a,b,b)$ and $(a',a',b',b')$ gives\n    $(a+a',a+a',b+b',b+b')$, and multiplying the first by a scalar\n    $t$ gives $(ta,ta,tb,tb)$. Both outputs belong to $U$.\n    For $W$, the sum of $(c,c,c,d)$ and $(c',c',c',d')$ is\n    $(c+c',c+c',c+c',d+d')$, and a scalar multiple is\n    $(tc,tc,tc,td)$. Both outputs belong to $W$.\n    Hence both sets are subspaces.\n\n    A sum of one vector from each set has the form\n    \\[\n    (a,a,b,b)+(c,c,c,d)=(a+c,a+c,b+c,b+d),\n    \\]\n    so its first two coordinates agree. For the reverse inclusion,\n    given $(x,x,y,z)$, use\n    \\[\n    (x,x,y,z)=(x,x,y,y)+(0,0,0,z-y).\n    \\]\n    The first summand belongs to $U$, and the second belongs to\n    $W$ by taking $c=0$ and $d=z-y$. Thus every vector in the\n    displayed target set belongs to $U+W$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Find a coordinate relation obeyed by every sum.",
+    "Then construct summands for an arbitrary vector obeying that relation."
+   ],
+   "uses": [
+    "c1-thm-subspace-test",
+    "c1-def-subspace-sum",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c1-def-scalar-inverses"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-thm-smallest-sum",
+   "kind": "theorem",
+   "number": "1.40",
+   "title": "The smallest subspace containing the summands",
+   "tex": "For subspaces $V_1,\\ldots,V_m$ of $V$, with $m\\ge1$, their sum\n    is a subspace containing every $V_j$. If $U$ is any subspace of\n    $V$ containing each $V_j$, then $V_1+\\cdots+V_m\\subseteq U$.",
+   "page": "21",
+   "proof": "Write $S=V_1+\\cdots+V_m$. Choosing zero from each summand\n    gives $0\\in S$. If $x,y\\in S$, choose representations\n    $x=\\sum_{j=1}^m x_j$ and $y=\\sum_{j=1}^m y_j$ with\n    $x_j,y_j\\in V_j$. Repeated associativity and commutativity give\n    \\[\n    x+y=\\sum_{j=1}^m(x_j+y_j).\n    \\]\n    Each $x_j+y_j$ belongs to $V_j$, so $x+y\\in S$.\n    Repeated distributivity gives\n    \\[\n    ax=\\sum_{j=1}^m ax_j,\n    \\]\n    and $ax_j\\in V_j$, so $ax\\in S$ for every scalar $a$.\n    The subspace test proves that $S$ is a subspace.\n\n    If $v\\in V_k$, choose $v$ in position $k$ and zero in every other\n    position. The resulting sum equals $v$, so $V_k\\subseteq S$.\n\n    Finally, let a subspace $U$ contain each $V_j$. If\n    $x=\\sum_{j=1}^m x_j\\in S$ with $x_j\\in V_j$, then each $x_j$\n    belongs to $U$. To verify that their sum belongs to $U$, start\n    with $x_1\\in U$ and use closure under addition successively:\n    whenever $\\sum_{j=1}^k x_j\\in U$ and $k<m$, adding\n    $x_{k+1}\\in U$ gives $\\sum_{j=1}^{k+1}x_j\\in U$.\n    Thus $x\\in U$, proving the final inclusion.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Check closure by combining the two vectors from each matching summand.",
+    "For minimality, use closure under finite sums in any containing subspace."
+   ],
+   "uses": [
+    "c1-def-vector-space",
+    "c1-thm-subspace-test",
+    "c1-def-subspace-sum"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-direct-sum",
+   "kind": "definition",
+   "number": "1.41",
+   "title": "Direct sums",
+   "tex": "For subspaces $V_1,\\ldots,V_m$ of $V$, with $m\\ge1$, the sum\n    $V_1+\\cdots+V_m$ is \\emph{direct} when each vector in that sum\n    has exactly one representation\n    \\[\n    v_1+\\cdots+v_m,\\qquad v_j\\in V_j.\n    \\]\n    Uniqueness concerns the ordered list of chosen summands.\n    For a direct sum we write $V_1\\oplus\\cdots\\oplus V_m$ for the\n    same subset of $V$, recording this additional uniqueness property.",
+   "page": "21"
+  },
+  {
+   "id": "c1-ex-plane-axis-direct",
+   "kind": "example",
+   "number": "1.42",
+   "title": "Splitting off the last coordinate",
+   "tex": "For\n    \\[\n    U=\\{(a,b,0):a,b\\in\\F\\},\\qquad\n    W=\\{(0,0,c):c\\in\\F\\},\n    \\]\n    one has $\\F^3=U\\oplus W$.",
+   "page": "21",
+   "proof": "Both sets contain zero. Adding vectors in $U$ adds their\n    first two coordinates and leaves the third zero; a scalar\n    multiple also has third coordinate zero. Adding vectors in $W$\n    or taking scalar multiples leaves the first two coordinates zero.\n    The subspace test therefore makes $U,W$ subspaces.\n\n    Every $(x,y,z)\\in\\F^3$ is the sum\n    $(x,y,0)+(0,0,z)$ with the indicated memberships, so\n    $\\F^3=U+W$. If\n    \\[\n    (x,y,z)=(a,b,0)+(0,0,c),\n    \\]\n    coordinate equality forces $a=x$, $b=y$, and $c=z$.\n    Hence its representation has unique summands, and the sum is direct.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Equality of coordinates determines the two candidate summands."
+   ],
+   "uses": [
+    "c1-thm-subspace-test",
+    "c1-def-subspace-sum",
+    "c1-def-direct-sum",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-coordinate-direct-sum",
+   "kind": "example",
+   "number": "1.43",
+   "title": "The coordinate axes give a direct sum",
+   "tex": "Let $n\\ge1$. For $1\\le j\\le n$, let $V_j\\subseteq\\F^n$\n    consist of vectors whose coordinates other than coordinate $j$\n    are zero. Then each $V_j$ is a subspace and\n    \\[\n    \\F^n=V_1\\oplus\\cdots\\oplus V_n.\n    \\]",
+   "page": "22",
+   "proof": "For each $j$, zero belongs to $V_j$. A sum of two vectors\n    in $V_j$ has every coordinate other than $j$ equal to $0+0=0$,\n    and a scalar multiple has each such coordinate equal to\n    a scalar times zero, again zero. Thus $V_j$ is a subspace.\n\n    For $x=(x_1,\\ldots,x_n)$, let $v_j$ have coordinate $j$ equal to\n    $x_j$ and all other coordinates zero. Then $v_j\\in V_j$ and\n    $\\sum_{j=1}^n v_j=x$, since the only possibly nonzero contribution\n    to coordinate $k$ is the $k$th coordinate of $v_k$.\n    This proves that the sum equals $\\F^n$.\n\n    In any representation $x=\\sum_{j=1}^n w_j$ with $w_j\\in V_j$,\n    coordinate $k$ forces the $k$th coordinate of $w_k$ to equal\n    $x_k$. Its other coordinates are zero by membership in $V_k$,\n    so $w_k=v_k$ for every $k$. This proves uniqueness, including\n    the case $n=1$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "At any fixed coordinate, only one summand can contribute."
+   ],
+   "uses": [
+    "c1-thm-subspace-test",
+    "c1-def-direct-sum",
+    "c1-def-subspace-sum",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-three-nondirect",
+   "kind": "example",
+   "number": "1.44",
+   "title": "Three summands with nonunique decompositions",
+   "tex": "In $\\F^3$, let\n    \\[\n    V_1=\\{(a,b,0):a,b\\in\\F\\},\\quad\n    V_2=\\{(0,0,c):c\\in\\F\\},\\quad\n    V_3=\\{(0,d,d):d\\in\\F\\}.\n    \\]\n    These are subspaces whose sum is $\\F^3$, but the sum is not direct.",
+   "page": "22",
+   "proof": "The first two sets are the subspaces from the plane-and-axis\n    example. The set $V_3$ contains zero, and\n    \\[\n    (0,d,d)+(0,e,e)=(0,d+e,d+e),\\qquad\n    a(0,d,d)=(0,ad,ad)\n    \\]\n    prove its closure under addition and scalar multiplication.\n    Thus $V_3$ is also a subspace.\n\n    Every $(x,y,z)$ has the representation\n    $(x,y,0)+(0,0,z)+(0,0,0)$, so the sum is $\\F^3$.\n    The zero vector has both the all-zero representation and the\n    representation\n    \\[\n    0=(0,-1,0)+(0,0,-1)+(0,1,1).\n    \\]\n    The displayed summands belong respectively to $V_1,V_2,V_3$.\n    The two ordered lists of summands differ, since $1\\ne0$ in $\\F$.\n    Thus uniqueness fails and the sum is not direct.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "The first two summands already cover the ambient space.",
+    "Look for a nonzero vector in the third summand that can be cancelled by vectors from the first two."
+   ],
+   "uses": [
+    "c1-ex-plane-axis-direct",
+    "c1-thm-subspace-test",
+    "c1-def-subspace-sum",
+    "c1-def-direct-sum",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-thm-direct-zero",
+   "kind": "theorem",
+   "number": "1.45",
+   "title": "Testing uniqueness only at zero",
+   "tex": "Let $V_1,\\ldots,V_m$ be subspaces of $V$, with $m\\ge1$.\n    Their sum is direct if and only if\n    \\[\n    v_1+\\cdots+v_m=0,\\qquad v_j\\in V_j,\n    \\]\n    forces $v_j=0$ for every $j$.",
+   "page": "23",
+   "proof": "Suppose first that the sum is direct. Each $V_j$ contains\n    zero, so the ordered list of zero vectors is a representation\n    of zero. Uniqueness in the definition of a direct sum forces\n    every other representation of zero to have these same entries.\n\n    Conversely, assume the stated property of zero, and suppose\n    a vector $x$ has two representations\n    \\[\n    x=\\sum_{j=1}^m u_j=\\sum_{j=1}^m v_j,\\qquad u_j,v_j\\in V_j.\n    \\]\n    Put $d_j=u_j-v_j$. Since $-v_j=(-1)v_j\\in V_j$ and\n    $V_j$ is closed under addition, $d_j\\in V_j$.\n    If $d=\\sum_{j=1}^m d_j$, repeated associativity and\n    commutativity give\n    \\[\n    d+x\n    =\\sum_{j=1}^m(u_j-v_j)+\\sum_{j=1}^m v_j\n    =\\sum_{j=1}^m\\bigl(u_j+(-v_j+v_j)\\bigr)\n    =\\sum_{j=1}^m u_j=x.\n    \\]\n    Comparing $d+x=x$ with $0+x=x$ and cancelling $x$ gives $d=0$.\n    The hypothesis now gives $d_j=0$ for every $j$.\n    Adding $v_j$ to $u_j-v_j=0$ yields $u_j=v_j$.\n    Thus any two representations agree in every position.\n    Existence of a representation for a vector in the sum follows\n    from the definition of that sum, so the sum is direct.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "To compare two representations, form the differences of matching summands.",
+    "Those differences lie in the same subspaces and their sum is zero."
+   ],
+   "uses": [
+    "c1-def-vector-space",
+    "c1-def-vector-subtraction",
+    "c1-thm-negative-one",
+    "c1-lem-vector-cancellation",
+    "c1-thm-subspace-test",
+    "c1-def-subspace-sum",
+    "c1-def-direct-sum"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-thm-direct-intersection",
+   "kind": "theorem",
+   "number": "1.46",
+   "title": "The intersection criterion for two summands",
+   "tex": "For subspaces $U,W$ of $V$, the sum $U+W$ is direct if and\n    only if $U\\cap W=\\{0\\}$.",
+   "page": "23",
+   "proof": "Assume first that $U+W$ is direct and take $v\\in U\\cap W$.\n    Because $W$ is closed under scalar multiplication,\n    $-v=(-1)v\\in W$. The equation $v+(-v)=0$ is a representation\n    of zero with the first summand in $U$ and the second in $W$.\n    The zero criterion for direct sums gives $v=0$. Thus\n    $U\\cap W\\subseteq\\{0\\}$; the opposite inclusion holds because\n    both subspaces contain zero.\n\n    Conversely, suppose $U\\cap W=\\{0\\}$ and take $u\\in U$, $w\\in W$\n    with $u+w=0$. Adding $-w$ gives $u=-w$. Closure of $W$ under\n    scalar multiplication places $-w$ in $W$, so $u\\in U\\cap W$.\n    Hence $u=0$, and $u+w=0$ then gives $w=0$. Every representation\n    of zero in the sum has zero summands, so the zero criterion\n    proves that $U+W$ is direct.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "A vector in the intersection can be used once in each summand with opposite signs.",
+    "For the converse, start from a representation of zero."
+   ],
+   "uses": [
+    "c1-def-vector-space",
+    "c1-thm-negative-one",
+    "c1-thm-subspace-test",
+    "c1-thm-direct-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-pairwise-zero-insufficient",
+   "kind": "example",
+   "number": "",
+   "title": "Pairwise zero intersections do not suffice for three summands",
+   "tex": "For the three subspaces $V_1,V_2,V_3$ in the earlier\n    non-direct-sum example,\n    \\[\n    V_1\\cap V_2=V_1\\cap V_3=V_2\\cap V_3=\\{0\\}.\n    \\]\n    Consequently, the two-subspace intersection criterion cannot be\n    extended to three subspaces by checking their pairwise intersections.",
+   "page": "24",
+   "proof": "A vector in $V_1\\cap V_2$ has first and second coordinates\n    zero by membership in $V_2$, and third coordinate zero by\n    membership in $V_1$. Hence it is zero.\n\n    A vector in $V_1\\cap V_3$ has the form $(0,d,d)$, and its\n    third coordinate is zero by membership in $V_1$. Therefore\n    $d=0$ and the vector is zero.\n\n    A vector in $V_2\\cap V_3$ also has the form $(0,d,d)$, and its\n    second coordinate is zero by membership in $V_2$. Again\n    $d=0$ and the vector is zero.\n\n    Each intersection contains zero because the sets are subspaces,\n    proving all three equalities. Their sum was already proved not\n    to be direct, so these equalities are insufficient to guarantee\n    directness for three summands.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "For each pair, combine the coordinate restrictions defining the two sets."
+   ],
+   "uses": [
+    "c1-ex-three-nondirect",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c1-card-subspace-definition",
+   "item": "c1-def-subspace",
+   "front": "What operations does a subspace use?",
+   "back": "It uses the ambient vector space addition and scalar multiplication,\n    over the same scalar field, and has the same zero vector."
+  },
+  {
+   "id": "c1-card-subspace-test",
+   "item": "c1-thm-subspace-test",
+   "front": "State the three-part test for a subset $U\\subseteq V$ to be a subspace.",
+   "back": "$0\\in U$; $u+w\\in U$ for $u,w\\in U$; and $au\\in U$\n    for $a\\in\\F$ and $u\\in U$."
+  },
+  {
+   "id": "c1-card-affine-obstruction",
+   "item": "c1-ex-affine-coordinate-condition",
+   "front": "What is the quickest obstruction to the subspace property for\n    $\\{x\\in\\F^4:x_3=5x_4+b\\}$ when $b\\ne0$?",
+   "back": "The zero vector does not satisfy the equation."
+  },
+  {
+   "id": "c1-card-subspace-sum",
+   "item": "c1-def-subspace-sum",
+   "front": "What does it mean for $x$ to belong to $V_1+\\cdots+V_m$?",
+   "back": "There must be $v_j\\in V_j$ such that $x=v_1+\\cdots+v_m$."
+  },
+  {
+   "id": "c1-card-smallest-sum",
+   "item": "c1-thm-smallest-sum",
+   "front": "How is $V_1+\\cdots+V_m$ characterized by containment?",
+   "back": "It is a subspace containing every $V_j$, and it is contained in\n    every subspace containing all the $V_j$."
+  },
+  {
+   "id": "c1-card-direct-sum-definition",
+   "item": "c1-def-direct-sum",
+   "front": "What additional property does the notation\n    $V_1\\oplus\\cdots\\oplus V_m$ assert?",
+   "back": "Every vector in the sum has a unique ordered list of summands,\n    with the $j$th summand in $V_j$."
+  },
+  {
+   "id": "c1-card-direct-zero",
+   "item": "c1-thm-direct-zero",
+   "front": "Why is it enough to check representations of zero when testing directness?",
+   "back": "The differences of matching terms in two representations belong\n    to the same summand subspaces and add to zero."
+  },
+  {
+   "id": "c1-card-direct-intersection",
+   "item": "c1-thm-direct-intersection",
+   "front": "When is the sum of two subspaces $U,W$ direct?",
+   "back": "Exactly when $U\\cap W=\\{0\\}$."
+  },
+  {
+   "id": "c1-card-pairwise-intersections",
+   "item": "c1-ex-pairwise-zero-insufficient",
+   "front": "Give three subspaces with pairwise intersection $\\{0\\}$ whose sum is not direct.",
+   "back": "In $\\F^3$, take $V_1=\\{(a,b,0)\\}$,\n    $V_2=\\{(0,0,c)\\}$, and $V_3=\\{(0,d,d)\\}$, with all displayed\n    parameters in $\\F$. Their pairwise intersections are $\\{0\\}$,\n    but $0=(0,-1,0)+(0,0,-1)+(0,1,1)$ is a nonzero-summand\n    representation of zero."
+  }
+ ]
+}

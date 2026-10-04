@@ -1,0 +1,2538 @@
+                                     Chapter 8
+ Operators on Complex Vector Spaces
+
+
+In this chapter we delve deeper into the structure of operators, with most of the
+attention on complex vector spaces. Some of the results in this chapter apply to
+both real and complex vector spaces; thus we do not make a standing assumption
+that 𝐅 = 𝐂 . Also, an inner product does not help with this material, so we return
+to the general setting of a finite-dimensional vector space.
+    Even on a finite-dimensional complex vector space, an operator may not have
+enough eigenvectors to form a basis of the vector space. Thus we will consider the
+closely related objects called generalized eigenvectors. We will see that for each
+operator on a finite-dimensional complex vector space, there is a basis of the vector
+space consisting of generalized eigenvectors of the operator. The generalized
+eigenspace decomposition then provides a good description of arbitrary operators
+on a finite-dimensional complex vector space.
+    Nilpotent operators, which are operators that when raised to some power
+equal 0, have an important role in these investigations. Nilpotent operators provide
+a key tool in our proof that every invertible operator on a finite-dimensional
+complex vector space has a square root and in our approach to Jordan form.
+    This chapter concludes by defining the trace and proving its key properties.
+
+    standing assumptions for this chapter
+
+ • 𝐅 denotes 𝐑 or 𝐂 .
+ • 𝑉 denotes a finite-dimensional nonzero vector space over 𝐅.
+
+
+
+
+                                                                                 David Iliff CC BY-SA
+
+
+
+
+The Long Room of the Old Library at the University of Dublin, where William Hamilton
+(1805–1865) was a student and then a faculty member. Hamilton proved a special case
+            of what we now call the Cayley–Hamilton theorem in 1853.
+                                                                                 297
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+298      Chapter 8     Operators on Complex Vector Spaces
+
+8A Generalized Eigenvectors and Nilpotent Operators
+Null Spaces of Powers of an Operator
+We begin this chapter with a study of null spaces of powers of an operator.
+
+ 8.1    sequence of increasing null spaces
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then
+
+           {0} = null 𝑇 0 ⊆ null 𝑇 1 ⊆ ⋯ ⊆ null 𝑇 𝑘 ⊆ null 𝑇 𝑘+1 ⊆ ⋯ .
+
+Proof    Suppose 𝑘 is a nonnegative integer and 𝑣 ∈ null 𝑇 𝑘. Then 𝑇 𝑘 𝑣 = 0,
+which implies that 𝑇 𝑘+1 𝑣 = 𝑇(𝑇 𝑘 𝑣) = 𝑇(0) = 0. Thus 𝑣 ∈ null 𝑇 𝑘+1. Hence
+null 𝑇 𝑘 ⊆ null 𝑇 𝑘+1, as desired.
+
+   The following result states that if two      For similar results about decreasing
+consecutive terms in the sequence of sub-       sequences of ranges, see Exercises 6,
+spaces above are equal, then all later          7, and 8.
+terms in the sequence are equal.
+
+ 8.2    equality in the sequence of null spaces
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑚 is a nonnegative integer such that
+
+                                null 𝑇 𝑚 = null 𝑇 𝑚+1.
+
+ Then
+              null 𝑇 𝑚 = null 𝑇 𝑚+1 = null 𝑇 𝑚+2 = null 𝑇 𝑚+3 = ⋯ .
+
+Proof   Let 𝑘 be a positive integer. We want to prove that
+
+                              null 𝑇 𝑚+𝑘 = null 𝑇 𝑚+𝑘+1.
+
+We already know from 8.1 that null 𝑇 𝑚+𝑘 ⊆ null 𝑇 𝑚+𝑘+1.
+  To prove the inclusion in the other direction, suppose 𝑣 ∈ null 𝑇 𝑚+𝑘+1. Then
+
+                            𝑇 𝑚+1 (𝑇 𝑘 𝑣) = 𝑇 𝑚+𝑘+1 𝑣 = 0.
+
+Hence
+                            𝑇 𝑘 𝑣 ∈ null 𝑇 𝑚+1 = null 𝑇 𝑚.
+Thus 𝑇 𝑚+𝑘 𝑣 = 𝑇 𝑚 (𝑇 𝑘 𝑣) = 0, which means that 𝑣 ∈ null 𝑇 𝑚+𝑘. This implies that
+null 𝑇 𝑚+𝑘+1 ⊆ null 𝑇 𝑚+𝑘, completing the proof.
+
+    The result above raises the question of whether there exists a nonnegative
+integer 𝑚 such that null 𝑇 𝑚 = null 𝑇 𝑚+1. The next result shows that this equality
+holds at least when 𝑚 equals the dimension of the vector space on which 𝑇
+operates.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 8A     Generalized Eigenvectors and Nilpotent Operators         299
+
+
+ 8.3     null spaces stop growing
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then
+
+                  null 𝑇 dim 𝑉 = null 𝑇 dim 𝑉 +1 = null 𝑇 dim 𝑉 +2 = ⋯ .
+
+Proof    We only need to prove that null 𝑇 dim 𝑉 = null 𝑇 dim 𝑉 +1 (by 8.2). Suppose
+this is not true. Then, by 8.1 and 8.2, we have
+
+             {0} = null 𝑇 0 ⊊ null 𝑇 1 ⊊ ⋯ ⊊ null 𝑇 dim 𝑉 ⊊ null 𝑇 dim 𝑉 +1,
+
+where the symbol ⊊ means “contained in but not equal to”. At each of the
+strict inclusions in the chain above, the dimension increases by at least 1. Thus
+dim null 𝑇 dim 𝑉 +1 ≥ dim 𝑉 + 1, a contradiction because a subspace of 𝑉 cannot
+have a larger dimension than dim 𝑉.
+
+   It is not true that 𝑉 = null 𝑇 ⊕ range 𝑇 for every 𝑇 ∈ ℒ(𝑉). However, the
+next result can be a useful substitute.
+
+ 8.4     𝑉 is the direct sum of null 𝑇 dim 𝑉 and range 𝑇 dim 𝑉
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then
+
+                            𝑉 = null 𝑇 dim 𝑉 ⊕ range 𝑇 dim 𝑉.
+
+Proof     Let 𝑛 = dim 𝑉. First we show that
+
+8.5                          (null 𝑇 𝑛 ) ∩ (range 𝑇 𝑛 ) = {0}.
+
+Suppose 𝑣 ∈ (null 𝑇 𝑛 ) ∩ (range 𝑇 𝑛 ). Then 𝑇 𝑛 𝑣 = 0, and there exists 𝑢 ∈ 𝑉
+such that 𝑣 = 𝑇 𝑛 𝑢. Applying 𝑇 𝑛 to both sides of the last equation shows that
+𝑇 𝑛 𝑣 = 𝑇 2𝑛 𝑢. Hence 𝑇 2𝑛 𝑢 = 0, which implies that 𝑇 𝑛 𝑢 = 0 (by 8.3). Thus
+𝑣 = 𝑇 𝑛 𝑢 = 0, completing the proof of 8.5.
+     Now 8.5 implies that null 𝑇 𝑛 + range 𝑇 𝑛 is a direct sum (by 1.46). Also,
+
+          dim(null 𝑇 𝑛 ⊕ range 𝑇 𝑛 ) = dim null 𝑇 𝑛 + dim range 𝑇 𝑛 = dim 𝑉,
+
+where the first equality above comes from 3.94 and the second equality comes
+from the fundamental theorem of linear maps (3.21). The equation above implies
+that null 𝑇 𝑛 ⊕ range 𝑇 𝑛 = 𝑉 (see 2.39), as desired.
+
+      For an improvement of the result above, see Exercise 19.
+
+ 8.6 example: 𝐅3 = null 𝑇 3 ⊕ range 𝑇 3 for 𝑇 ∈ ℒ(𝐅3 )
+
+      Suppose 𝑇 ∈ ℒ(𝐅3 ) is defined by
+
+                              𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (4𝑧2 , 0, 5𝑧3 ).
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+300      Chapter 8     Operators on Complex Vector Spaces
+
+Then null 𝑇 = {(𝑧1 , 0, 0) ∶ 𝑧1 ∈ 𝐅} and range 𝑇 = {(𝑧1 , 0, 𝑧3 ) ∶ 𝑧1 , 𝑧3 ∈ 𝐅}. Thus
+null 𝑇 ∩ range 𝑇 ≠ {0}. Hence null 𝑇 + range 𝑇 is not a direct sum. Also note
+that null 𝑇 + range 𝑇 ≠ 𝐅3. However, we have 𝑇 3 (𝑧1 , 𝑧2 , 𝑧3 ) = (0, 0, 125𝑧3 ). Thus
+we see that
+  null 𝑇 3 = {(𝑧1 , 𝑧2 , 0) ∶ 𝑧1 , 𝑧2 ∈ 𝐅} and    range 𝑇 3 = {(0, 0, 𝑧3 ) ∶ 𝑧3 ∈ 𝐅}.
+Hence 𝐅3 = null 𝑇 3 ⊕ range 𝑇 3, as expected by 8.4.
+
+
+Generalized Eigenvectors
+Some operators do not have enough eigenvectors to lead to good descriptions of
+their behavior. Thus in this subsection we introduce the concept of generalized
+eigenvectors, which will play a major role in our description of the structure of an
+operator.
+    To understand why we need more than eigenvectors, let’s examine the question
+of describing an operator by decomposing its domain into invariant subspaces. Fix
+𝑇 ∈ ℒ(𝑉). We seek to describe 𝑇 by finding a “nice” direct sum decomposition
+                                 𝑉 = 𝑉1 ⊕ ⋯ ⊕ 𝑉𝑛 ,
+where each 𝑉𝑘 is a subspace of 𝑉 invariant under 𝑇. The simplest possible nonzero
+invariant subspaces are one-dimensional. A decomposition as above in which
+each 𝑉𝑘 is a one-dimensional subspace of 𝑉 invariant under 𝑇 is possible if and
+only if 𝑉 has a basis consisting of eigenvectors of 𝑇 (see 5.55). This happens if
+and only if 𝑉 has an eigenspace decomposition
+8.7                       𝑉 = 𝐸(𝜆1 , 𝑇) ⊕ ⋯ ⊕ 𝐸(𝜆𝑚 , 𝑇),
+where 𝜆1 , … , 𝜆𝑚 are the distinct eigenvalues of 𝑇 (see 5.55).
+    The spectral theorem in the previous chapter shows that if 𝑉 is an inner product
+space, then a decomposition of the form 8.7 holds for every self-adjoint operator
+if 𝐅 = 𝐑 and for every normal operator if 𝐅 = 𝐂 because operators of those types
+have enough eigenvectors to form a basis of 𝑉 (see 7.29 and 7.31).
+    However, a decomposition of the form 8.7 may not hold for more general
+operators, even on a complex vector space. An example was given by the operator
+in 5.57, which does not have enough eigenvectors for 8.7 to hold. Generalized
+eigenvectors and generalized eigenspaces, which we now introduce, will remedy
+this situation.
+
+ 8.8 definition: generalized eigenvector
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 is an eigenvalue of 𝑇. A vector 𝑣 ∈ 𝑉 is called a
+ generalized eigenvector of 𝑇 corresponding to 𝜆 if 𝑣 ≠ 0 and
+
+                                   (𝑇 − 𝜆𝐼)𝑘 𝑣 = 0
+
+ for some positive integer 𝑘 .
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 8A   Generalized Eigenvectors and Nilpotent Operators                 301
+
+    A nonzero vector 𝑣 ∈ 𝑉 is a general-        Generalized eigenvalues are not de-
+ized eigenvector of 𝑇 corresponding to 𝜆        fined because doing so would not lead
+if and only if                                  to anything new. Reason: if (𝑇 − 𝜆𝐼)𝑘
+                                                is not injective for some positive inte-
+           (𝑇 − 𝜆𝐼)dim 𝑉 𝑣 = 0,
+                                                ger 𝑘 , then 𝑇 − 𝜆𝐼 is not injective, and
+as follows from applying 8.1 and 8.3 to         hence 𝜆 is an eigenvalue of 𝑇.
+the operator 𝑇 − 𝜆𝐼 .
+    As we know, an operator on a complex vector space may not have enough
+eigenvectors to form a basis of the domain. The next result shows that on a
+complex vector space there are enough generalized eigenvectors to do this.
+
+ 8.9    a basis of generalized eigenvectors
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Then there is a basis of 𝑉 consisting of
+ generalized eigenvectors of 𝑇.
+
+Proof   Let 𝑛 = dim 𝑉. We will use induction on 𝑛. To get started, note that
+the desired result holds if 𝑛 = 1 because then every nonzero vector in 𝑉 is an
+eigenvector of 𝑇.
+    Now suppose 𝑛 > 1 and the de- This step is where we use the hypothesis
+sired result holds for all smaller values that 𝐅 = 𝐂 , because if 𝐅 = 𝐑 then 𝑇
+of dim 𝑉. Let 𝜆 be an eigenvalue of 𝑇. may not have any eigenvalues.
+Applying 8.4 to 𝑇 − 𝜆𝐼 shows that
+
+                      𝑉 = null(𝑇 − 𝜆𝐼)𝑛 ⊕ range(𝑇 − 𝜆𝐼)𝑛.
+
+    If null(𝑇 − 𝜆𝐼)𝑛 = 𝑉, then every nonzero vector in 𝑉 is a generalized eigen-
+vector of 𝑇 , and thus in this case there is a basis of 𝑉 consisting of generalized
+eigenvectors of 𝑇. Hence we can assume that null(𝑇 − 𝜆𝐼)𝑛 ≠ 𝑉, which implies
+that range(𝑇 − 𝜆𝐼)𝑛 ≠ {0}.
+    Also, null(𝑇 − 𝜆𝐼)𝑛 ≠ {0}, because 𝜆 is an eigenvalue of 𝑇. Thus we have
+
+                           0 < dim range(𝑇 − 𝜆𝐼)𝑛 < 𝑛.
+
+Furthermore, range(𝑇 − 𝜆𝐼)𝑛 is invariant under 𝑇 [by 5.18 with 𝑝(𝑧) = (𝑧 − 𝜆)𝑛 ].
+Let 𝑆 ∈ ℒ(range(𝑇 − 𝜆𝐼)𝑛 ) equal 𝑇 restricted to range(𝑇 − 𝜆𝐼)𝑛. Our induction
+hypothesis applied to the operator 𝑆 implies that there is a basis of range(𝑇 − 𝜆𝐼)𝑛
+consisting of generalized eigenvectors of 𝑆, which of course are generalized
+eigenvectors of 𝑇. Adjoining that basis of range(𝑇−𝜆𝐼)𝑛 to a basis of null(𝑇−𝜆𝐼)𝑛
+gives a basis of 𝑉 consisting of generalized eigenvectors of 𝑇.
+
+   If 𝐅 = 𝐑 and dim 𝑉 > 1, then some operators on 𝑉 have the property that
+there exists a basis of 𝑉 consisting of generalized eigenvectors of the operator,
+and (unlike what happens when 𝐅 = 𝐂 ) other operators do not have this property.
+See Exercise 11 for a necessary and sufficient condition that determines whether
+an operator has this property.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+302       Chapter 8     Operators on Complex Vector Spaces
+
+
+
+ 8.10 example: generalized eigenvectors of an operator on 𝐂3
+
+      Define 𝑇 ∈ ℒ(𝐂3 ) by
+                             𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (4𝑧2 , 0, 5𝑧3 )
+for each (𝑧1 , 𝑧2 , 𝑧3 ) ∈ 𝐂3. A routine use of the definition of eigenvalue shows that
+the eigenvalues of 𝑇 are 0 and 5. Furthermore, the eigenvectors corresponding to
+the eigenvalue 0 are the nonzero vectors of the form (𝑧1 , 0, 0), and the eigenvectors
+corresponding to the eigenvalue 5 are the nonzero vectors of the form (0, 0, 𝑧3 ).
+Hence this operator does not have enough eigenvectors to span its domain 𝐂3.
+    We compute that 𝑇 3 (𝑧1 , 𝑧2 , 𝑧3 ) = (0, 0, 125𝑧3 ). Thus 8.1 and 8.3 imply that the
+generalized eigenvectors of 𝑇 corresponding to the eigenvalue 0 are the nonzero
+vectors of the form (𝑧1 , 𝑧2 , 0).
+    We also have (𝑇 − 5𝐼)3 (𝑧1 , 𝑧2 , 𝑧3 ) = (−125𝑧1 + 300𝑧2 , −125𝑧2 , 0). Thus the
+generalized eigenvectors of 𝑇 corresponding to the eigenvalue 5 are the nonzero
+vectors of the form (0, 0, 𝑧3 ).
+    The paragraphs above show that each of the standard basis vectors of 𝐂3 is a
+generalized eigenvector of 𝑇. Thus 𝐂3 indeed has a basis consisting of generalized
+eigenvectors of 𝑇, as promised by 8.9.
+
+    If 𝑣 is an eigenvector of 𝑇 ∈ ℒ(𝑉), then the corresponding eigenvalue 𝜆 is
+uniquely determined by the equation 𝑇𝑣 = 𝜆𝑣, which can be satisfied by only one
+𝜆 ∈ 𝐅 (because 𝑣 ≠ 0). However, if 𝑣 is a generalized eigenvector of 𝑇 , then it
+is not obvious that the equation (𝑇 − 𝜆𝐼)dim 𝑉 𝑣 = 0 can be satisfied by only one
+𝜆 ∈ 𝐅. Fortunately, the next result tells us that all is well on this issue.
+
+ 8.11     generalized eigenvector corresponds to a unique eigenvalue
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then each generalized eigenvector of 𝑇 corresponds to
+ only one eigenvalue of 𝑇.
+
+Proof Suppose 𝑣 ∈ 𝑉 is a generalized eigenvector of 𝑇 corresponding to eigen-
+values 𝛼 and 𝜆 of 𝑇. Let 𝑚 be the smallest positive integer such that (𝑇−𝛼𝐼)𝑚 𝑣 = 0.
+Let 𝑛 = dim 𝑉. Then
+                          0 = (𝑇 − 𝜆𝐼)𝑛 𝑣
+                                                           𝑛
+                             = ((𝑇 − 𝛼𝐼) + (𝛼 − 𝜆)𝐼) 𝑣
+                                𝑛
+                             = ∑ 𝑏𝑘 (𝛼 − 𝜆)𝑛−𝑘 (𝑇 − 𝛼𝐼)𝑘 𝑣,
+                               𝑘=0
+
+where 𝑏0 = 1 and the values of the other binomial coefficients 𝑏𝑘 do not matter.
+Apply the operator (𝑇 − 𝛼𝐼)𝑚−1 to both sides of the equation above, getting
+                             0 = (𝛼 − 𝜆)𝑛 (𝑇 − 𝛼𝐼)𝑚−1 𝑣.
+Because (𝑇 − 𝛼𝐼)𝑚−1 𝑣 ≠ 0, the equation above implies that 𝛼 = 𝜆, as desired.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 8A    Generalized Eigenvectors and Nilpotent Operators           303
+
+   We saw earlier (5.11) that eigenvectors corresponding to distinct eigenvalues
+are linearly independent. Now we prove a similar result for generalized eigen-
+vectors, with a proof that roughly follows the pattern of the proof of that earlier
+result.
+
+ 8.12    linearly independent generalized eigenvectors
+
+ Suppose that 𝑇 ∈ ℒ(𝑉). Then every list of generalized eigenvectors of 𝑇
+ corresponding to distinct eigenvalues of 𝑇 is linearly independent.
+
+Proof     Suppose the desired result is false. Then there exists a smallest positive
+integer 𝑚 such that there exists a linearly dependent list 𝑣1 , … , 𝑣𝑚 of generalized
+eigenvectors of 𝑇 corresponding to distinct eigenvalues 𝜆1 , … , 𝜆𝑚 of 𝑇 (note that
+𝑚 ≥ 2 because a generalized eigenvector is, by definition, nonzero). Thus there
+exist 𝑎1 , … , 𝑎𝑚 ∈ 𝐅, none of which are 0 (because of the minimality of 𝑚), such
+that
+                               𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 = 0.
+   Let 𝑛 = dim 𝑉. Apply (𝑇 − 𝜆𝑚 𝐼)𝑛 to both sides of the equation above, getting
+8.13            𝑎1 (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣1 + ⋯ + 𝑎𝑚−1 (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣𝑚−1 = 0.
+Suppose 𝑘 ∈ {1, … , 𝑚 − 1}. Then
+                                  (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣𝑘 ≠ 0
+because otherwise 𝑣𝑘 would be a generalized eigenvector of 𝑇 corresponding to
+the distinct eigenvalues 𝜆𝑘 and 𝜆𝑚 , which would contradict 8.11. However,
+          (𝑇 − 𝜆𝑘 𝐼)𝑛 ((𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣𝑘 ) = (𝑇 − 𝜆𝑚 𝐼)𝑛 ((𝑇 − 𝜆𝑘 𝐼)𝑛 𝑣𝑘 ) = 0.
+   Thus the last two displayed equations show that (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣𝑘 is a generalized
+eigenvector of 𝑇 corresponding to the eigenvalue 𝜆𝑘 . Hence
+                         (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣1 , … , (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣𝑚−1
+is a linearly dependent list (by 8.13) of 𝑚 − 1 generalized eigenvectors correspond-
+ing to distinct eigenvalues, contradicting the minimality of 𝑚. This contradiction
+completes the proof.
+
+
+Nilpotent Operators
+
+ 8.14 definition: nilpotent
+
+ An operator is called nilpotent if some power of it equals 0.
+
+   Thus an operator 𝑇 ∈ ℒ(𝑉) is nilpotent if and only if every nonzero vector in
+𝑉 is a generalized eigenvector of 𝑇 corresponding to the eigenvalue 0.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+304       Chapter 8     Operators on Complex Vector Spaces
+
+
+
+ 8.15 example: nilpotent operators
+
+(a) The operator 𝑇 ∈ ℒ(𝐅4 ) defined by
+
+                              𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 ) = (0, 0, 𝑧1 , 𝑧2 )
+
+      is nilpotent because 𝑇 2 = 0.
+(b) The operator on 𝐅3 whose matrix (with respect to the standard basis) is
+                                        −3       9    0
+                                      ⎛
+                                      ⎜                  ⎞
+                                      ⎜
+                                      ⎜ −7       9     6 ⎟
+                                                         ⎟
+                                                         ⎟
+                                      ⎝ 4        0    −6 ⎠
+
+      is nilpotent, as can be shown by cubing the matrix above to get the zero matrix.
+(c) The operator of differentiation on 𝒫𝑚 (𝐑) is nilpotent because the (𝑚 + 1)th
+    derivative of every polynomial of degree at most 𝑚 equals 0. Note that on
+    this space of dimension 𝑚 + 1, we need to raise the nilpotent operator to the
+    power 𝑚 + 1 to get the 0 operator.
+
+    The next result shows that when rais-            The Latin word nil means nothing or
+ing a nilpotent operator to a power, we              zero; the Latin word potens means
+never need to use a power higher than the            having power. Thus nilpotent literally
+dimension of the space. For a slightly               means having a power that is zero.
+stronger result, see Exercise 18.
+
+ 8.16     nilpotent operator raised to dimension of domain is 0
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent. Then 𝑇 dim 𝑉 = 0.
+
+Proof  Because 𝑇 is nilpotent, there exists a positive integer 𝑘 such that 𝑇 𝑘 = 0.
+Thus null 𝑇 𝑘 = 𝑉. Now 8.1 and 8.3 imply that null 𝑇 dim 𝑉 = 𝑉. Thus 𝑇 dim 𝑉 = 0.
+
+
+ 8.17     eigenvalues of nilpotent operator
+
+ Suppose 𝑇 ∈ ℒ(𝑉).
+ (a) If 𝑇 is nilpotent, then 0 is an eigenvalue of 𝑇 and 𝑇 has no other
+     eigenvalues.
+ (b) If 𝐅 = 𝐂 and 0 is the only eigenvalue of 𝑇 , then 𝑇 is nilpotent.
+
+Proof
+(a) To prove (a), suppose 𝑇 is nilpotent. Hence there is a positive integer 𝑚 such
+    that 𝑇 𝑚 = 0. This implies that 𝑇 is not injective. Thus 0 is an eigenvalue
+    of 𝑇.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 8A    Generalized Eigenvectors and Nilpotent Operators          305
+
+    To show that 𝑇 has no other eigenvalues, suppose 𝜆 is an eigenvalue of 𝑇.
+    Then there exists a nonzero vector 𝑣 ∈ 𝑉 such that
+                                          𝜆𝑣 = 𝑇𝑣.
+    Repeatedly applying 𝑇 to both sides of this equation shows that
+                                      𝜆𝑚 𝑣 = 𝑇 𝑚 𝑣 = 0.
+    Thus 𝜆 = 0, as desired.
+(b) Suppose 𝐅 = 𝐂 and 0 is the only eigenvalue of 𝑇. By 5.27(b), the minimal
+    polynomial of 𝑇 equals 𝑧𝑚 for some positive integer 𝑚. Thus 𝑇 𝑚 = 0. Hence
+    𝑇 is nilpotent.
+
+    Exercise 23 shows that the hypothesis that 𝐅 = 𝐂 cannot be deleted in (b) of
+the result above.
+    Given an operator on 𝑉, we want to find a basis of 𝑉 such that the matrix of
+the operator with respect to this basis is as simple as possible, meaning that the
+matrix contains many 0’s. The next result shows that if 𝑇 is nilpotent, then we can
+choose a basis of 𝑉 such that the matrix of 𝑇 with respect to this basis has more
+than half of its entries equal to 0. Later in this chapter we will do even better.
+
+ 8.18     minimal polynomial and upper-triangular matrix of nilpotent operator
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then the following are equivalent.
+ (a) 𝑇 is nilpotent.
+ (b) The minimal polynomial of 𝑇 is 𝑧𝑚 for some positive integer 𝑚.
+ (c) There is a basis of 𝑉 with respect to which the matrix of 𝑇 has the form
+
+                                      ⎛
+                                        0         ∗⎞
+                                      ⎜             ⎟
+                                      ⎜
+                                      ⎜      ⋱      ⎟,
+                                                    ⎟
+                                      ⎝ 0         0 ⎠
+
+        where all entries on and below the diagonal equal 0.
+
+Proof Suppose (a) holds, so 𝑇 is nilpotent. Thus there exists a positive integer
+𝑛 such that 𝑇 𝑛 = 0. Now 5.29 implies that 𝑧𝑛 is a polynomial multiple of the
+minimal polynomial of 𝑇. Thus the minimal polynomial of 𝑇 is 𝑧𝑚 for some
+positive integer 𝑚, proving that (a) implies (b).
+    Now suppose (b) holds, so the minimal polynomial of 𝑇 is 𝑧𝑚 for some positive
+integer 𝑚. This implies, by 5.27(a), that 0 (which is the only zero of 𝑧𝑚 ) is the
+only eigenvalue of 𝑇. This further implies, by 5.44, that there is a basis of 𝑉 with
+respect to which the matrix of 𝑇 is upper triangular. This also implies, by 5.41,
+that all entries on the diagonal of this matrix are 0, proving that (b) implies (c).
+    Now suppose (c) holds. Then 5.40 implies that 𝑇 dim 𝑉 = 0. Thus 𝑇 is nilpotent,
+proving that (c) implies (a).
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+306      Chapter 8     Operators on Complex Vector Spaces
+
+Exercises 8A
+
+ 1    Suppose 𝑇 ∈ ℒ(𝑉). Prove that if dim null 𝑇 4 = 8 and dim null 𝑇 6 = 9, then
+      dim null 𝑇 𝑚 = 9 for all integers 𝑚 ≥ 5.
+ 2    Suppose 𝑇 ∈ ℒ(𝑉), 𝑚 is a positive integer, 𝑣 ∈ 𝑉 , and 𝑇 𝑚−1 𝑣 ≠ 0 but
+      𝑇 𝑚 𝑣 = 0. Prove that 𝑣, 𝑇𝑣, 𝑇 2 𝑣, … , 𝑇 𝑚−1 𝑣 is linearly independent.
+         The result in this exercise is used in the proof of 8.45.
+
+ 3    Suppose 𝑇 ∈ ℒ(𝑉). Prove that
+                      𝑉 = null 𝑇 ⊕ range 𝑇 ⟺ null 𝑇 2 = null 𝑇.
+ 4    Suppose 𝑇 ∈ ℒ(𝑉), 𝜆 ∈ 𝐅, and 𝑚 is a positive integer such that the minimal
+      polynomial of 𝑇 is a polynomial multiple of (𝑧 − 𝜆)𝑚. Prove that
+                                  dim null(𝑇 − 𝜆𝐼)𝑚 ≥ 𝑚.
+ 5    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑚 is a positive integer. Prove that
+                                dim null 𝑇 𝑚 ≤ 𝑚 dim null 𝑇.
+         Hint: Exercise 21 in Section 3B may be useful.
+
+ 6    Suppose 𝑇 ∈ ℒ(𝑉). Show that
+           𝑉 = range 𝑇 0 ⊇ range 𝑇 1 ⊇ ⋯ ⊇ range 𝑇 𝑘 ⊇ range 𝑇 𝑘+1 ⊇ ⋯ .
+ 7    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑚 is a nonnegative integer such that
+                                  range 𝑇 𝑚 = range 𝑇 𝑚+1.
+      Prove that range 𝑇 𝑘 = range 𝑇 𝑚 for all 𝑘 > 𝑚.
+ 8    Suppose 𝑇 ∈ ℒ(𝑉). Prove that
+                 range 𝑇 dim 𝑉 = range 𝑇 dim 𝑉 +1 = range 𝑇 dim 𝑉 +2 = ⋯ .
+ 9    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑚 is a nonnegative integer. Prove that
+                   null 𝑇 𝑚 = null 𝑇 𝑚+1 ⟺ range 𝑇 𝑚 = range 𝑇 𝑚+1.
+10    Define 𝑇 ∈ ℒ(𝐂2 ) by 𝑇(𝑤, 𝑧) = (𝑧, 0). Find all generalized eigenvectors
+      of 𝑇.
+11    Suppose that 𝑇 ∈ ℒ(𝑉). Prove that there is a basis of 𝑉 consisting of
+      generalized eigenvectors of 𝑇 if and only if the minimal polynomial of 𝑇
+      equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some 𝜆1 , … , 𝜆𝑚 ∈ 𝐅.
+         Assume 𝐅 = 𝐑 because the case 𝐅 = 𝐂 follows from 5.27(b) and 8.9.
+         This exercise states that the condition for there to be a basis of 𝑉 consisting
+         of generalized eigenvectors of 𝑇 is the same as the condition for there to be
+         a basis with respect to which 𝑇 has an upper-triangular matrix (see 5.44).
+         Caution: If 𝑇 has an upper-triangular matrix with respect to a basis
+         𝑣1 , … , 𝑣𝑛 of 𝑉, then 𝑣1 is an eigenvector of 𝑇 but it is not necessarily
+         true that 𝑣2 , … , 𝑣𝑛 are generalized eigenvectors of 𝑇.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+     Section 8A      Generalized Eigenvectors and Nilpotent Operators                  307
+
+12   Suppose 𝑇 ∈ ℒ(𝑉) is such that every nonzero vector in 𝑉 is a generalized
+     eigenvector of 𝑇. Prove that there exists 𝜆 ∈ 𝐅 such that 𝑇 − 𝜆𝐼 is nilpotent.
+13   Suppose 𝑆, 𝑇 ∈ ℒ(𝑉) and 𝑆𝑇 is nilpotent. Prove that 𝑇𝑆 is nilpotent.
+14   Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent and 𝑇 ≠ 0. Prove 𝑇 is not diagonalizable.
+15   Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is diagonalizable if and only if
+     every generalized eigenvector of 𝑇 is an eigenvector of 𝑇.
+        For 𝐅 = 𝐂 , this exercise adds another equivalence to the list of conditions
+        for diagonalizability in 5.55.
+
+16   (a) Give an example of nilpotent operators 𝑆, 𝑇 on the same vector space
+         such that neither 𝑆 + 𝑇 nor 𝑆𝑇 is nilpotent.
+     (b) Suppose 𝑆, 𝑇 ∈ ℒ(𝑉) are nilpotent and 𝑆𝑇 = 𝑇𝑆. Prove that 𝑆 + 𝑇 and
+         𝑆𝑇 are nilpotent.
+17   Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent and 𝑚 is a positive integer such that 𝑇 𝑚 = 0.
+     (a) Prove that 𝐼 − 𝑇 is invertible and that (𝐼 − 𝑇)−1 = 𝐼 + 𝑇 + ⋯ + 𝑇 𝑚−1.
+     (b) Explain how you would guess the formula above.
+18   Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent. Prove that 𝑇 1+dim range 𝑇 = 0.
+        If dim range 𝑇 < dim 𝑉 − 1, then this exercise improves 8.16.
+
+19   Suppose 𝑇 ∈ ℒ(𝑉) is not nilpotent. Show that
+                         𝑉 = null 𝑇 dim 𝑉−1 ⊕ range 𝑇 dim 𝑉−1.
+        For operators that are not nilpotent, this exercise improves 8.4.
+
+20   Suppose 𝑉 is an inner product space and 𝑇 ∈ ℒ(𝑉) is normal and nilpotent.
+     Prove that 𝑇 = 0.
+21   Suppose 𝑇 ∈ ℒ(𝑉) is such that null 𝑇 dim 𝑉−1 ≠ null 𝑇 dim 𝑉. Prove that 𝑇 is
+     nilpotent and that dim null 𝑇 𝑘 = 𝑘 for every integer 𝑘 with 0 ≤ 𝑘 ≤ dim 𝑉.
+22   Suppose 𝑇 ∈ ℒ(𝐂5 ) is such that range 𝑇 4 ≠ range 𝑇 5. Prove that 𝑇 is
+     nilpotent.
+23   Give an example of an operator 𝑇 on a finite-dimensional real vector space
+     such that 0 is the only eigenvalue of 𝑇 but 𝑇 is not nilpotent.
+        This exercise shows that (b) in 8.17 does not hold without the hypothesis
+        that 𝐅 = 𝐂 .
+
+24   For each item in Example 8.15, find a basis of the domain vector space such
+     that the matrix of the nilpotent operator with respect to that basis has the
+     upper-triangular form promised by 8.18(c).
+25   Suppose that 𝑉 is an inner product space and 𝑇 ∈ ℒ(𝑉) is nilpotent. Show
+     that there is an orthonormal basis of 𝑉 with respect to which the matrix of
+     𝑇 has the upper-triangular form promised by 8.18(c).
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+308       Chapter 8     Operators on Complex Vector Spaces
+
+8B Generalized Eigenspace Decomposition
+Generalized Eigenspaces
+
+ 8.19 definition: generalized eigenspace, 𝐺(𝜆, 𝑇)
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 ∈ 𝐅. The generalized eigenspace of 𝑇 correspond-
+ ing to 𝜆, denoted by 𝐺(𝜆, 𝑇), is defined by
+
+         𝐺(𝜆, 𝑇) = {𝑣 ∈ 𝑉 ∶ (𝑇 − 𝜆𝐼)𝑘 𝑣 = 0 for some positive integer 𝑘}.
+
+ Thus 𝐺(𝜆, 𝑇) is the set of generalized eigenvectors of 𝑇 corresponding to 𝜆,
+ along with the 0 vector.
+
+    Because every eigenvector of 𝑇 is a generalized eigenvector of 𝑇 (take 𝑘 = 1
+in the definition of generalized eigenvector), each eigenspace is contained in the
+corresponding generalized eigenspace. In other words, if 𝑇 ∈ ℒ(𝑉) and 𝜆 ∈ 𝐅,
+then 𝐸(𝜆, 𝑇) ⊆ 𝐺(𝜆, 𝑇).
+    The next result implies that if 𝑇 ∈ ℒ(𝑉) and 𝜆 ∈ 𝐅, then the generalized
+eigenspace 𝐺(𝜆, 𝑇) is a subspace of 𝑉 (because the null space of each linear map
+on 𝑉 is a subspace of 𝑉 ).
+
+ 8.20     description of generalized eigenspaces
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 ∈ 𝐅. Then 𝐺(𝜆, 𝑇) = null(𝑇 − 𝜆𝐼)dim 𝑉.
+
+Proof Suppose 𝑣 ∈ null(𝑇 − 𝜆𝐼)dim 𝑉. The definitions imply 𝑣 ∈ 𝐺(𝜆, 𝑇). Thus
+𝐺(𝜆, 𝑇) ⊇ null(𝑇 − 𝜆𝐼)dim 𝑉.
+   Conversely, suppose 𝑣 ∈ 𝐺(𝜆, 𝑇). Thus there is a positive integer 𝑘 such
+that 𝑣 ∈ null(𝑇 − 𝜆𝐼)𝑘. From 8.1 and 8.3 (with 𝑇 − 𝜆𝐼 replacing 𝑇 ), we get
+𝑣 ∈ null(𝑇 − 𝜆𝐼)dim 𝑉. Thus 𝐺(𝜆, 𝑇) ⊆ null(𝑇 − 𝜆𝐼)dim 𝑉, completing the proof.
+
+
+ 8.21 example: generalized eigenspaces of an operator on 𝐂3
+
+      Define 𝑇 ∈ ℒ(𝐂3 ) by
+
+                             𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (4𝑧2 , 0, 5𝑧3 ).
+
+    In Example 8.10, we saw that the eigenvalues of 𝑇 are 0 and 5, and we found
+the corresponding sets of generalized eigenvectors. Taking the union of those sets
+with {0}, we have
+
+  𝐺(0, 𝑇) = {(𝑧1 , 𝑧2 , 0) ∶ 𝑧1 , 𝑧2 ∈ 𝐂}     and 𝐺(5, 𝑇) = {(0, 0, 𝑧3 ) ∶ 𝑧3 ∈ 𝐂}.
+
+      Note that 𝐂3 = 𝐺(0, 𝑇) ⊕ 𝐺(5, 𝑇).
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                   Section 8B   Generalized Eigenspace Decomposition          309
+
+   In Example 8.21, the domain space 𝐂3 is the direct sum of the generalized
+eigenspaces of the operator 𝑇 in that example. Our next result shows that this
+behavior holds in general. Specifically, the following major result shows that if
+𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉), then 𝑉 is the direct sum of the generalized eigenspaces
+of 𝑇 , each of which is invariant under 𝑇 and on which 𝑇 is a nilpotent operator
+plus a scalar multiple of the identity. Thus the next result achieves our goal of
+decomposing 𝑉 into invariant subspaces on which 𝑇 has a known behavior.
+   As we will see, the proof follows from putting together what we have learned
+about generalized eigenspaces and then using our result that for each operator
+𝑇 ∈ ℒ(𝑉), there exists a basis of 𝑉 consisting of generalized eigenvectors of 𝑇.
+
+ 8.22   generalized eigenspace decomposition
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Let 𝜆1 , … , 𝜆𝑚 be the distinct eigenvalues
+ of 𝑇. Then
+ (a) 𝐺(𝜆𝑘 , 𝑇) is invariant under 𝑇 for each 𝑘 = 1, … , 𝑚;
+ (b) (𝑇 − 𝜆𝑘 𝐼)|𝐺( 𝜆𝑘 ,𝑇) is nilpotent for each 𝑘 = 1, … , 𝑚;
+ (c) 𝑉 = 𝐺(𝜆1 , 𝑇) ⊕ ⋯ ⊕ 𝐺(𝜆𝑚 , 𝑇).
+
+Proof
+(a) Suppose 𝑘 ∈ {1, … , 𝑚}. Then 8.20 shows that
+                            𝐺(𝜆𝑘 , 𝑇) = null(𝑇 − 𝜆𝑘 𝐼)dim 𝑉.
+    Thus 5.18, with 𝑝(𝑧) = (𝑧 − 𝜆𝑘 )dim 𝑉, implies that 𝐺(𝜆𝑘 , 𝑇) is invariant
+    under 𝑇 , proving (a).
+(b) Suppose 𝑘 ∈ {1, … , 𝑚}. If 𝑣 ∈ 𝐺(𝜆𝑘 , 𝑇), then (𝑇 − 𝜆𝑘 𝐼)dim 𝑉 𝑣 = 0 (by 8.20).
+    Thus ((𝑇 − 𝜆𝑘 𝐼)|𝐺( 𝜆𝑘 ,𝑇) )dim 𝑉 = 0. Hence (𝑇 − 𝜆𝑘 𝐼)|𝐺( 𝜆𝑘 ,𝑇) is nilpotent,
+    proving (b).
+(c) To show that 𝐺(𝜆1 , 𝑇) + ⋯ + 𝐺(𝜆𝑚 , 𝑇) is a direct sum, suppose
+                                   𝑣1 + ⋯ + 𝑣𝑚 = 0,
+    where each 𝑣𝑘 is in 𝐺(𝜆𝑘 , 𝑇). Because generalized eigenvectors of 𝑇 cor-
+    responding to distinct eigenvalues are linearly independent (by 8.12), this
+    implies that each 𝑣𝑘 equals 0. Thus 𝐺(𝜆1 , 𝑇) + ⋯ + 𝐺(𝜆𝑚 , 𝑇) is a direct sum
+    (by 1.45).
+    Finally, each vector in 𝑉 can be written as a finite sum of generalized eigen-
+    vectors of 𝑇 (by 8.9). Thus
+                           𝑉 = 𝐺(𝜆1 , 𝑇) ⊕ ⋯ ⊕ 𝐺(𝜆𝑚 , 𝑇),
+    proving (c).
+
+   For the analogous result when 𝐅 = 𝐑 , see Exercise 8.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+310       Chapter 8     Operators on Complex Vector Spaces
+
+Multiplicity of an Eigenvalue
+If 𝑉 is a complex vector space and 𝑇 ∈ ℒ(𝑉), then the decomposition of 𝑉 pro-
+vided by the generalized eigenspace decomposition (8.22) can be a powerful tool.
+The dimensions of the subspaces involved in this decomposition are sufficiently
+important to get a name, which is given in the next definition.
+
+ 8.23 definition: multiplicity
+
+ • Suppose 𝑇 ∈ ℒ(𝑉). The multiplicity of an eigenvalue 𝜆 of 𝑇 is defined to
+   be the dimension of the corresponding generalized eigenspace 𝐺(𝜆, 𝑇).
+ • In other words, the multiplicity of an eigenvalue 𝜆 of 𝑇 equals
+
+                                  dim null(𝑇 − 𝜆𝐼)dim 𝑉.
+
+    The second bullet point above holds because 𝐺(𝜆, 𝑇) = null(𝑇 − 𝜆𝐼)dim 𝑉
+(see 8.20).
+
+ 8.24 example: multiplicity of each eigenvalue of an operator
+
+      Suppose 𝑇 ∈ ℒ(𝐂3 ) is defined by
+
+                  𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (6𝑧1 + 3𝑧2 + 4𝑧3 , 6𝑧2 + 2𝑧3 , 7𝑧3 ).
+
+The matrix of 𝑇 (with respect to the standard basis) is
+                                       6    3   4
+                                     ⎛
+                                     ⎜            ⎞
+                                     ⎜
+                                     ⎜ 0    6   2 ⎟
+                                                  ⎟
+                                                  ⎟.
+                                     ⎝ 0    0   7 ⎠
+
+The eigenvalues of 𝑇 are the diagonal entries 6 and 7, as follows from 5.41. You
+can verify that the generalized eigenspaces of 𝑇 are as follows:
+
+       𝐺(6, 𝑇) = span((1, 0, 0), (0, 1, 0))     and 𝐺(7, 𝑇) = span((10, 2, 1)).
+
+Thus the eigenvalue 6 has multiplicity 2 In this example, the multiplicity of each
+and the eigenvalue 7 has multiplicity 1. eigenvalue equals the number of times
+The direct sum 𝐂3 = 𝐺(6, 𝑇) ⊕ 𝐺(7, 𝑇) that eigenvalue appears on the diago-
+is the generalized eigenspace decom- nal of an upper-triangular matrix rep-
+position promised by 8.22. A basis resenting the operator. This behavior
+of 𝐂3 consisting of generalized eigen- always happens, as we will see in 8.31.
+vectors of 𝑇 , as promised by 8.9, is
+(1, 0, 0), (0, 1, 0), (10, 2, 1). There does not exist a basis of 𝐂3 consisting of eigen-
+vectors of this operator.
+
+    In the example above, the sum of the multiplicities of the eigenvalues of 𝑇
+equals 3, which is the dimension of the domain of 𝑇. The next result shows that
+this holds for all operators on finite-dimensional complex vector spaces.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                  Section 8B      Generalized Eigenspace Decomposition              311
+
+
+ 8.25    sum of the multiplicities equals dim 𝑉
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Then the sum of the multiplicities of all
+ eigenvalues of 𝑇 equals dim 𝑉.
+
+Proof The desired result follows from the generalized eigenspace decomposition
+(8.22) and the formula for the dimension of a direct sum (see 3.94).
+
+    The terms algebraic multiplicity and geometric multiplicity are used in some
+books. In case you encounter this terminology, be aware that the algebraic multi-
+plicity is the same as the multiplicity defined here and the geometric multiplicity
+is the dimension of the corresponding eigenspace. In other words, if 𝑇 ∈ ℒ(𝑉)
+and 𝜆 is an eigenvalue of 𝑇 , then
+
+        algebraic multiplicity of 𝜆 = dim null(𝑇 − 𝜆𝐼)dim 𝑉 = dim 𝐺(𝜆, 𝑇),
+
+         geometric multiplicity of 𝜆 = dim null(𝑇 − 𝜆𝐼) = dim 𝐸(𝜆, 𝑇).
+
+Note that as defined above, the algebraic multiplicity also has a geometric meaning
+as the dimension of a certain null space. The definition of multiplicity given here
+is cleaner than the traditional definition that involves determinants; 9.62 implies
+that these definitions are equivalent.
+    If 𝑉 is an inner product space, 𝑇 ∈ ℒ(𝑉) is normal, and 𝜆 is an eigenvalue
+of 𝑇 , then the algebraic multiplicity of 𝜆 equals the geometric multiplicity of 𝜆,
+as can be seen from applying Exercise 27 in Section 7A to the normal operator
+𝑇 − 𝜆𝐼 . As a special case, the singular values of 𝑆 ∈ ℒ(𝑉, 𝑊) (here 𝑉 and 𝑊 are
+both finite-dimensional inner product spaces) depend on the multiplicities (either
+algebraic or geometric) of the eigenvalues of the self-adjoint operator 𝑆∗ 𝑆.
+    The next definition associates a monic polynomial with each operator on a
+finite-dimensional complex vector space.
+
+ 8.26 definition: characteristic polynomial
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Let 𝜆1 , … , 𝜆𝑚 denote the distinct eigenvalues
+ of 𝑇 , with multiplicities 𝑑1 , … , 𝑑𝑚 . The polynomial
+
+                               (𝑧 − 𝜆1 )𝑑1 ⋯ (𝑧 − 𝜆𝑚 )𝑑𝑚
+
+ is called the characteristic polynomial of 𝑇.
+
+
+ 8.27 example: the characteristic polynomial of an operator
+
+   Suppose 𝑇 ∈ ℒ(𝐂3 ) is defined as in Example 8.24. Because the eigenvalues of
+𝑇 are 6, with multiplicity 2, and 7, with multiplicity 1, we see that the characteristic
+polynomial of 𝑇 is (𝑧 − 6)2 (𝑧 − 7).
+
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+312     Chapter 8      Operators on Complex Vector Spaces
+
+
+ 8.28   degree and zeros of characteristic polynomial
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Then
+ (a) the characteristic polynomial of 𝑇 has degree dim 𝑉 ;
+ (b) the zeros of the characteristic polynomial of 𝑇 are the eigenvalues of 𝑇.
+
+Proof    Our result about the sum of the multiplicities (8.25) implies (a). The
+definition of the characteristic polynomial implies (b).
+
+    Most texts define the characteristic polynomial using determinants (the two
+definitions are equivalent by 9.62). The approach taken here, which is considerably
+simpler, leads to the following nice proof of the Cayley–Hamilton theorem.
+
+ 8.29   Cayley–Hamilton theorem
+
+ Suppose 𝐅 = 𝐂 , 𝑇 ∈ ℒ(𝑉), and 𝑞 is the characteristic polynomial of 𝑇. Then
+ 𝑞(𝑇) = 0.
+
+Proof Let 𝜆1 , … , 𝜆𝑚 be the distinct eigenvalues of 𝑇 , and let 𝑑𝑘 = dim 𝐺(𝜆𝑘 , 𝑇).
+For each 𝑘 ∈ {1, … , 𝑚}, we know that (𝑇 − 𝜆𝑘 𝐼)|𝐺( 𝜆𝑘 ,𝑇) is nilpotent. Thus we have
+        (𝑇 − 𝜆𝑘 𝐼)𝑑𝑘 |𝐺( 𝜆𝑘 ,𝑇) = 0             Arthur Cayley (1821–1895) published
+                                                three mathematics papers before com-
+(by 8.16) for each 𝑘 ∈ {1, … , 𝑚}.              pleting his undergraduate degree.
+    The generalized eigenspace decom-
+position (8.22) states that every vector in 𝑉 is a sum of vectors in
+𝐺(𝜆1 , 𝑇), … , 𝐺(𝜆𝑚 , 𝑇). Thus to prove that 𝑞(𝑇) = 0, we only need to show
+that 𝑞(𝑇)|𝐺( 𝜆𝑘 ,𝑇) = 0 for each 𝑘 .
+    Fix 𝑘 ∈ {1, … , 𝑚}. We have
+                       𝑞(𝑇) = (𝑇 − 𝜆1 𝐼)𝑑1 ⋯ (𝑇 − 𝜆𝑚 𝐼)𝑑𝑚.
+
+The operators on the right side of the equation above all commute, so we can
+move the factor (𝑇 − 𝜆𝑘 𝐼)𝑑𝑘 to be the last term in the expression on the right.
+Because (𝑇 − 𝜆𝑘 𝐼)𝑑𝑘 |𝐺( 𝜆𝑘 ,𝑇) = 0, we have 𝑞(𝑇)|𝐺( 𝜆𝑘 ,𝑇) = 0, as desired.
+
+   The next result implies that if the minimal polynomial of an operator 𝑇 ∈ ℒ(𝑉)
+has degree dim 𝑉 (as happens almost always—see the paragraphs following 5.24),
+then the characteristic polynomial of 𝑇 equals the minimal polynomial of 𝑇.
+
+ 8.30   characteristic polynomial is a multiple of minimal polynomial
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Then the characteristic polynomial of 𝑇 is a
+ polynomial multiple of the minimal polynomial of 𝑇.
+
+Proof   The desired result follows immediately from the Cayley–Hamilton theo-
+rem (8.29) and 5.29.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                  Section 8B      Generalized Eigenspace Decomposition            313
+
+   Now we can prove that the result suggested by Example 8.24 holds for all
+operators on finite-dimensional complex vector spaces.
+
+ 8.31     multiplicity of an eigenvalue equals number of times on diagonal
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Suppose 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉 such that
+ ℳ(𝑇 , (𝑣1 , … , 𝑣𝑛 )) is upper triangular. Then the number of times that each
+ eigenvalue 𝜆 of 𝑇 appears on the diagonal of ℳ(𝑇 , (𝑣1 , … , 𝑣𝑛 )) equals the
+ multiplicity of 𝜆 as an eigenvalue of 𝑇.
+
+Proof Let 𝐴 = ℳ(𝑇 , (𝑣1 , … , 𝑣𝑛 )). Thus 𝐴 is an upper-triangular matrix. Let
+𝜆1 , … , 𝜆𝑛 denote the entries on the diagonal of 𝐴. Thus for each 𝑘 ∈ {1, … , 𝑛},
+we have
+                                   𝑇𝑣𝑘 = 𝑢𝑘 + 𝜆𝑘 𝑣𝑘
+for some 𝑢𝑘 ∈ span(𝑣1 , … , 𝑣𝑘−1 ). Hence if 𝑘 ∈ {1, … , 𝑛} and 𝜆𝑘 ≠ 0, then 𝑇𝑣𝑘 is
+not a linear combination of 𝑇𝑣1 , … , 𝑇𝑣𝑘−1 . The linear dependence lemma (2.19)
+now implies that the list of those 𝑇𝑣𝑘 such that 𝜆𝑘 ≠ 0 is linearly independent.
+    Let 𝑑 denote the number of indices 𝑘 ∈ {1, … , 𝑛} such that 𝜆𝑘 = 0. The
+conclusion of the previous paragraph implies that
+                                 dim range 𝑇 ≥ 𝑛 − 𝑑.
+Because 𝑛 = dim 𝑉 = dim null 𝑇 + dim range 𝑇 , the inequality above implies that
+8.32                                dim null 𝑇 ≤ 𝑑.
+     The matrix of the operator 𝑇 𝑛 with respect to the basis 𝑣1 , … , 𝑣𝑛 is the upper-
+triangular matrix 𝐴𝑛, which has diagonal entries 𝜆1𝑛 , … , 𝜆𝑛𝑛 [see Exercise 2(b) in
+Section 5C]. Because 𝜆𝑘𝑛 = 0 if and only if 𝜆𝑘 = 0, the number of times that 0
+appears on the diagonal of 𝐴𝑛 equals 𝑑. Thus applying 8.32 with 𝑇 replaced with
+𝑇 𝑛, we have
+
+8.33                                dim null 𝑇 𝑛 ≤ 𝑑.
+   For 𝜆 an eigenvalue of 𝑇, let 𝑚 𝜆 denote the multiplicity of 𝜆 as an eigenvalue
+of 𝑇 and let 𝑑 𝜆 denote the number of times that 𝜆 appears on the diagonal of 𝐴.
+Replacing 𝑇 in 8.33 with 𝑇 − 𝜆𝐼 , we see that
+8.34                                    𝑚𝜆 ≤ 𝑑𝜆
+
+for each eigenvalue 𝜆 of 𝑇. The sum of the multiplicities 𝑚 𝜆 over all eigenvalues
+𝜆 of 𝑇 equals 𝑛, the dimension of 𝑉 (by 8.25). The sum of the numbers 𝑑 𝜆 over
+all eigenvalues 𝜆 of 𝑇 also equals 𝑛, because the diagonal of 𝐴 has length 𝑛.
+    Thus summing both sides of 8.34 over all eigenvalues 𝜆 of 𝑇 produces an
+equality. Hence 8.34 must actually be an equality for each eigenvalue 𝜆 of 𝑇.
+Thus the multiplicity of 𝜆 as an eigenvalue of 𝑇 equals the number of times that
+𝜆 appears on the diagonal of 𝐴, as desired.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+≈ 100𝜋      Chapter 8     Operators on Complex Vector Spaces
+
+Block Diagonal Matrices
+To interpret our results in matrix form, Often we can understand a matrix
+we make the following definition, gener- better by thinking of it as composed
+alizing the notion of a diagonal matrix. of smaller matrices.
+If each matrix 𝐴𝑘 in the definition below
+is a 1-by-1 matrix, then we actually have a diagonal matrix.
+
+ 8.35 definition: block diagonal matrix
+
+ A block diagonal matrix is a square matrix of the form
+                                   𝐴1               0
+                                 ⎛
+                                 ⎜                 ⎞
+                                                   ⎟
+                                 ⎜
+                                 ⎜         ⋱       ⎟,
+                                                   ⎟
+                                 ⎝ 0            𝐴𝑚 ⎠
+
+ where 𝐴1 , … , 𝐴𝑚 are square matrices lying along the diagonal and all other
+ entries of the matrix equal 0.
+
+
+ 8.36 example: a block diagonal matrix
+
+   The 5-by-5 matrix
+                           ( 4 )         0     0               0   0
+                    ⎛
+                    ⎜                                               ⎞
+                                                                    ⎟
+                    ⎜
+                    ⎜                                               ⎟
+                                                                    ⎟
+                    ⎜
+                    ⎜        0      ⎛ 2 −3 ⎞                   0   0⎟
+                                                                    ⎟
+                    ⎜               ⎜      ⎟                        ⎟
+                                                                    ⎟
+                  𝐴=⎜
+                    ⎜
+                    ⎜        0      ⎝ 0 2 ⎠                   0 0   ⎟
+                                                                    ⎟
+                    ⎜
+                    ⎜                                               ⎟
+                                                                    ⎟
+                    ⎜
+                    ⎜        0         0 0                    1 7   ⎟
+                                                                    ⎟
+                    ⎜                                       ⎛     ⎞ ⎟
+                    ⎜                                       ⎜     ⎟ ⎟
+                    ⎝        0           0     0            ⎝ 0 1 ⎠ ⎠
+is a block diagonal matrix with
+                                      𝐴1                0
+                               ⎛
+                               ⎜                            ⎞
+                                                            ⎟
+                             𝐴=⎜
+                               ⎜
+                               ⎜               𝐴2           ⎟
+                                                            ⎟
+                                                            ⎟ ,
+                               ⎜                            ⎟
+                                   ⎝ 0                  𝐴3 ⎠
+where
+                                     2 −3 ⎞               1 7 ⎞
+            𝐴1 = ( 4 ) ,    𝐴2 = ⎛⎜         ⎟ , 𝐴3 = ⎛  ⎜       ⎟.
+                                  ⎝ 0 2 ⎠               ⎝ 0 1 ⎠
+Here the inner matrices in the 5-by-5 matrix above are blocked off to show how
+we can think of it as a block diagonal matrix.
+
+   Note that in the example above, each of 𝐴1 , 𝐴2 , 𝐴3 is an upper-triangular
+matrix whose diagonal entries are all equal. The next result shows that with
+respect to an appropriate basis, every operator on a finite-dimensional complex
+vector space has a matrix of this form. Note that this result gives us many more
+zeros in the matrix than are needed to make it upper triangular.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                   Section 8B      Generalized Eigenspace Decomposition                315
+
+
+ 8.37    block diagonal matrix with upper-triangular blocks
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Let 𝜆1 , … , 𝜆𝑚 be the distinct eigenvalues of
+ 𝑇 , with multiplicities 𝑑1 , … , 𝑑𝑚 . Then there is a basis of 𝑉 with respect to
+ which 𝑇 has a block diagonal matrix of the form
+                                    𝐴1               0
+                                  ⎛
+                                  ⎜                 ⎞
+                                                    ⎟
+                                  ⎜
+                                  ⎜         ⋱       ⎟,
+                                                    ⎟
+                                  ⎝ 0            𝐴𝑚 ⎠
+
+ where each 𝐴𝑘 is a 𝑑𝑘 -by-𝑑𝑘 upper-triangular matrix of the form
+                                       𝜆
+                                     ⎛ 𝑘
+                                                         ∗ ⎞
+                                𝐴𝑘 = ⎜
+                                     ⎜
+                                     ⎜           ⋱          ⎟
+                                                            ⎟
+                                                            ⎟.
+                                     ⎝ 0                 𝜆𝑘 ⎠
+
+Proof Each (𝑇 − 𝜆𝑘 𝐼)|𝐺( 𝜆𝑘 ,𝑇) is nilpotent (see 8.22). For each 𝑘 , choose a basis
+of 𝐺(𝜆𝑘 , 𝑇), which is a vector space of dimension 𝑑𝑘 , such that the matrix of
+(𝑇 − 𝜆𝑘 𝐼)|𝐺( 𝜆𝑘 ,𝑇) with respect to this basis is as in 8.18(c). Thus with respect to
+this basis, the matrix of 𝑇|𝐺( 𝜆𝑘 ,𝑇) , which equals (𝑇 − 𝜆𝑘 𝐼)|𝐺( 𝜆𝑘 ,𝑇) + 𝜆𝑘 𝐼|𝐺( 𝜆𝑘 ,𝑇) ,
+looks like the desired form shown above for 𝐴𝑘 .
+    The generalized eigenspace decomposition (8.22) shows that putting together
+the bases of the 𝐺(𝜆𝑘 , 𝑇)’s chosen above gives a basis of 𝑉. The matrix of 𝑇 with
+respect to this basis has the desired form.
+
+
+ 8.38 example: block diagonal matrix via generalized eigenvectors
+
+   Let 𝑇 ∈ ℒ(𝐂3 ) be defined by 𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (6𝑧1 + 3𝑧2 + 4𝑧3 , 6𝑧2 + 2𝑧3 , 7𝑧3 ).
+The matrix of 𝑇 (with respect to the standard basis) is
+                                       6     3   4
+                                     ⎛
+                                     ⎜             ⎞
+                                     ⎜
+                                     ⎜ 0     6   2 ⎟
+                                                   ⎟,
+                                                   ⎟
+                                     ⎝ 0     0   7 ⎠
+which is an upper-triangular matrix but is not of the form promised by 8.37.
+   As we saw in Example 8.24, the eigenvalues of 𝑇 are 6 and 7; also,
+     𝐺(6, 𝑇) = span((1, 0, 0), (0, 1, 0))        and 𝐺(7, 𝑇) = span((10, 2, 1)).
+We also saw that a basis of 𝐂3 consisting of generalized eigenvectors of 𝑇 is
+                              (1, 0, 0), (0, 1, 0), (10, 2, 1).
+The matrix of 𝑇 with respect to this basis is
+                                   6       3        0
+                               ⎛
+                               ⎜ (           )          ⎞
+                                                        ⎟
+                               ⎜
+                               ⎜   0       6        0   ⎟,
+                                                        ⎟
+                               ⎝   0       0      ( 7 ) ⎠
+which is a matrix of the block diagonal form promised by 8.37.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+316      Chapter 8     Operators on Complex Vector Spaces
+
+Exercises 8B
+
+ 1    Define 𝑇 ∈ ℒ(𝐂2 ) by 𝑇(𝑤, 𝑧) = (−𝑧, 𝑤). Find the generalized eigenspaces
+      corresponding to the distinct eigenvalues of 𝑇.
+ 2    Suppose 𝑇 ∈ ℒ(𝑉) is invertible. Prove that 𝐺(𝜆, 𝑇) = 𝐺( 1𝜆 , 𝑇 −1 ) for every
+      𝜆 ∈ 𝐅 with 𝜆 ≠ 0.
+
+ 3    Suppose 𝑇 ∈ ℒ(𝑉). Suppose 𝑆 ∈ ℒ(𝑉) is invertible. Prove that 𝑇 and
+      𝑆−1 𝑇𝑆 have the same eigenvalues with the same multiplicities.
+
+ 4    Suppose dim 𝑉 ≥ 2 and 𝑇 ∈ ℒ(𝑉) is such that null 𝑇 dim 𝑉−2 ≠ null 𝑇 dim 𝑉−1.
+      Prove that 𝑇 has at most two distinct eigenvalues.
+ 5    Suppose 𝑇 ∈ ℒ(𝑉) and 3 and 8 are eigenvalues of 𝑇. Let 𝑛 = dim 𝑉. Prove
+      that 𝑉 = (null 𝑇 𝑛−2 ) ⊕ (range 𝑇 𝑛−2 ).
+ 6    Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 is an eigenvalue of 𝑇. Explain why the exponent
+      of 𝑧 − 𝜆 in the factorization of the minimal polynomial of 𝑇 is the smallest
+      positive integer 𝑚 such that (𝑇 − 𝜆𝐼)𝑚 |𝐺( 𝜆,𝑇) = 0.
+ 7    Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 is an eigenvalue of 𝑇 with multiplicity 𝑑. Prove
+      that 𝐺(𝜆, 𝑇) = null(𝑇 − 𝜆𝐼)𝑑.
+         If 𝑑 < dim 𝑉, then this exercise improves 8.20.
+
+ 8    Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆1 , … , 𝜆𝑚 are the distinct eigenvalues of 𝑇. Prove
+      that
+                        𝑉 = 𝐺(𝜆1 , 𝑇) ⊕ ⋯ ⊕ 𝐺(𝜆𝑚 , 𝑇)
+      if and only if the minimal polynomial of 𝑇 equals (𝑧 − 𝜆1 )𝑘1 ⋯ (𝑧 − 𝜆𝑚 )𝑘𝑚
+      for some positive integers 𝑘1 , … , 𝑘𝑚 .
+         The case 𝐅 = 𝐂 follows immediately from 5.27(b) and the generalized
+         eigenspace decomposition (8.22); thus this exercise is interesting only when
+         𝐅 = 𝐑.
+
+ 9    Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Prove that there exist 𝐷, 𝑁 ∈ ℒ(𝑉)
+      such that 𝑇 = 𝐷 + 𝑁 , the operator 𝐷 is diagonalizable, 𝑁 is nilpotent, and
+      𝐷𝑁 = 𝑁𝐷.
+
+10    Suppose 𝑉 is a complex inner product space, 𝑒1 , … , 𝑒𝑛 is an orthonormal
+      basis of 𝑉 , and 𝑇 ∈ ℒ(𝑉). Let 𝜆1 , … , 𝜆𝑛 be the eigenvalues of 𝑇 , each
+      included as many times as its multiplicity. Prove that
+                        |𝜆1 |2 + ⋯ + |𝜆𝑛 |2 ≤ ‖𝑇𝑒1 ‖2 + ⋯ + ‖𝑇𝑒𝑛 ‖2.
+
+         See the comment after Exercise 5 in Section 7A.
+
+11    Give an example of an operator on 𝐂4 whose characteristic polynomial
+      equals (𝑧 − 7)2 (𝑧 − 8)2.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                  Section 8B       Generalized Eigenspace Decomposition                317
+
+12   Give an example of an operator on 𝐂4 whose characteristic polynomial
+     equals (𝑧 − 1)(𝑧 − 5)3 and whose minimal polynomial equals (𝑧 − 1)(𝑧 − 5)2.
+13   Give an example of an operator on 𝐂4 whose characteristic and minimal
+     polynomials both equal 𝑧(𝑧 − 1)2 (𝑧 − 3).
+14   Give an example of an operator on 𝐂4 whose characteristic polynomial equals
+     𝑧(𝑧 − 1)2 (𝑧 − 3) and whose minimal polynomial equals 𝑧(𝑧 − 1)(𝑧 − 3).
+
+15   Let 𝑇 be the operator on 𝐂4 defined by 𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 ) = (0, 𝑧1 , 𝑧2 , 𝑧3 ). Find
+     the characteristic polynomial and the minimal polynomial of 𝑇 .
+16   Let 𝑇 be the operator on 𝐂6 defined by
+                       𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 , 𝑧5 , 𝑧6 ) = (0, 𝑧1 , 𝑧2 , 0, 𝑧4 , 0).
+
+     Find the characteristic polynomial and the minimal polynomial of 𝑇 .
+17   Suppose 𝐅 = 𝐂 and 𝑃 ∈ ℒ(𝑉) is such that 𝑃2 = 𝑃. Prove that the characteris-
+     tic polynomial of 𝑃 is 𝑧𝑚 (𝑧−1)𝑛, where 𝑚 = dim null 𝑃 and 𝑛 = dim range 𝑃.
+18   Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 is an eigenvalue of 𝑇. Explain why the following
+     four numbers equal each other.
+     (a) The exponent of 𝑧 − 𝜆 in the factorization of the minimal polynomial
+         of 𝑇 .
+     (b) The smallest positive integer 𝑚 such that (𝑇 − 𝜆𝐼)𝑚 |𝐺( 𝜆,𝑇) = 0.
+     (c) The smallest positive integer 𝑚 such that
+                               null(𝑇 − 𝜆𝐼)𝑚 = null(𝑇 − 𝜆𝐼)𝑚+1.
+
+     (d) The smallest positive integer 𝑚 such that
+                             range(𝑇 − 𝜆𝐼)𝑚 = range(𝑇 − 𝜆𝐼)𝑚+1.
+
+19   Suppose 𝐅 = 𝐂 and 𝑆 ∈ ℒ(𝑉) is a unitary operator. Prove that the constant
+     term in the characteristic polynomial of 𝑆 has absolute value 1.
+20   Suppose that 𝐅 = 𝐂 and 𝑉1 , … , 𝑉𝑚 are nonzero subspaces of 𝑉 such that
+                                      𝑉 = 𝑉1 ⊕ ⋯ ⊕ 𝑉𝑚 .
+
+     Suppose 𝑇 ∈ ℒ(𝑉) and each 𝑉𝑘 is invariant under 𝑇. For each 𝑘 , let 𝑝𝑘
+     denote the characteristic polynomial of 𝑇|𝑉𝑘 . Prove that the characteristic
+     polynomial of 𝑇 equals 𝑝1 ⋯ 𝑝𝑚 .
+21   Suppose 𝑝, 𝑞 ∈ 𝒫(𝐂) are monic polynomials with the same zeros and 𝑞 is a
+     polynomial multiple of 𝑝. Prove that there exists 𝑇 ∈ ℒ(𝐂deg 𝑞 ) such that
+     the characteristic polynomial of 𝑇 is 𝑞 and the minimal polynomial of 𝑇 is 𝑝.
+        This exercise implies that every monic polynomial is the characteristic
+        polynomial of some operator.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+318      Chapter 8     Operators on Complex Vector Spaces
+
+22    Suppose 𝐴 and 𝐵 are block diagonal matrices of the form
+                      𝐴                0             𝐵               0
+                    ⎛ 1                  ⎞         ⎛ 1                 ⎞
+                  𝐴=⎜
+                    ⎜
+                    ⎜            ⋱       ⎟
+                                         ⎟,
+                                         ⎟       𝐵=⎜
+                                                   ⎜
+                                                   ⎜            ⋱      ⎟
+                                                                       ⎟,
+                                                                       ⎟
+                    ⎝ 0               𝐴𝑚 ⎠         ⎝ 0              𝐵𝑚 ⎠
+
+      where 𝐴𝑘 and 𝐵𝑘 are square matrices of the same size for each 𝑘 = 1, … , 𝑚.
+      Show that 𝐴𝐵 is a block diagonal matrix of the form
+                                        𝐴1 𝐵1           0
+                                  ⎛                        ⎞
+                             𝐴𝐵 = ⎜
+                                  ⎜
+                                  ⎜              ⋱         ⎟
+                                                           ⎟
+                                                           ⎟.
+                                  ⎝        0         𝐴𝑚 𝐵𝑚 ⎠
+
+23    Suppose 𝐅 = 𝐑 , 𝑇 ∈ ℒ(𝑉), and 𝜆 ∈ 𝐂 .
+      (a) Show that 𝑢 + 𝑖𝑣 ∈ 𝐺(𝜆, 𝑇𝐂 ) if and only if 𝑢 − 𝑖𝑣 ∈ 𝐺(𝜆, 𝑇𝐂 ).
+      (b) Show that the multiplicity of 𝜆 as an eigenvalue of 𝑇𝐂 equals the
+          multiplicity of 𝜆 as an eigenvalue of 𝑇𝐂 .
+      (c) Use (b) and the result about the sum of the multiplicities (8.25) to show
+          that if dim 𝑉 is an odd number, then 𝑇𝐂 has a real eigenvalue.
+      (d) Use (c) and the result about real eigenvalues of 𝑇𝐂 (Exercise 17 in
+          Section 5A) to show that if dim 𝑉 is an odd number, then 𝑇 has an
+          eigenvalue (thus giving an alternative proof of 5.34).
+         See Exercise 33 in Section 3B for the definition of the complexification 𝑇𝐂 .
+
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+Section 8C    Consequences of Generalized Eigenspace Decomposition                    319
+
+ 8C Consequences of Generalized Eigenspace Decomposition
+ Square Roots of Operators
+ Recall that a square root of an operator 𝑇 ∈ ℒ(𝑉) is an operator 𝑅 ∈ ℒ(𝑉) such
+ that 𝑅2 = 𝑇 (see 7.36). Every complex number has a square root, but not every
+ operator on a complex vector space has a square root. For example, the operator
+ on 𝐂3 defined by 𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (𝑧2 , 𝑧3 , 0) does not have a square root, as you are
+ asked to show in Exercise 1. The noninvertibility of that operator is no accident,
+ as we will soon see. We begin by showing that the identity plus any nilpotent
+ operator has a square root.
+
+   8.39   identity plus nilpotent has a square root
+
+   Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent. Then 𝐼 + 𝑇 has a square root.
+
+ Proof    Consider the Taylor series for the function √1 + 𝑥:
+
+ 8.40                       √1 + 𝑥 = 1 + 𝑎 𝑥 + 𝑎 𝑥2 + ⋯ .
+                                              1      2
+
+     We do not find an explicit formula for
+                                             Because 𝑎1 = 12 , the formula above
+ the coefficients or worry about whether
+                                             implies that 1 + 𝑥2 is a good estimate
+ the infinite sum converges because we
+                                             for √1 + 𝑥 when 𝑥 is small.
+ use this equation only as motivation.
+     Because 𝑇 is nilpotent, 𝑇 𝑚 = 0 for
+ some positive integer 𝑚. In 8.40, suppose we replace 𝑥 with 𝑇 and 1 with 𝐼 . Then
+ the infinite sum on the right side becomes a finite sum (because 𝑇 𝑘 = 0 for all
+ 𝑘 ≥ 𝑚). Thus we guess that there is a square root of 𝐼 + 𝑇 of the form
+
+                           𝐼 + 𝑎1 𝑇 + 𝑎2 𝑇 2 + ⋯ + 𝑎𝑚−1 𝑇 𝑚−1.
+
+ Having made this guess, we can try to choose 𝑎1 , 𝑎2 , … , 𝑎𝑚−1 such that the operator
+ above has its square equal to 𝐼 + 𝑇. Now
+                                                              2
+              (𝐼 +𝑎1 𝑇 + 𝑎2 𝑇 2 + 𝑎3 𝑇 3 + ⋯ + 𝑎𝑚−1 𝑇 𝑚−1 )
+                   = 𝐼 + 2𝑎1 𝑇 + (2𝑎2 + 𝑎12 )𝑇 2 + (2𝑎3 + 2𝑎1 𝑎2 )𝑇 3 + ⋯
+                      + (2𝑎𝑚−1 + terms involving 𝑎1 , … , 𝑎𝑚−2 )𝑇 𝑚−1.
+
+ We want the right side of the equation above to equal 𝐼 + 𝑇. Hence choose 𝑎1
+ such that 2𝑎1 = 1 (thus 𝑎1 = 1/2). Next, choose 𝑎2 such that 2𝑎2 + 𝑎12 = 0 (thus
+ 𝑎2 = −1/8). Then choose 𝑎3 such that the coefficient of 𝑇 3 on the right side of
+ the equation above equals 0 (thus 𝑎3 = 1/16). Continue in this fashion for each
+ 𝑘 = 4, … , 𝑚 − 1, at each step solving for 𝑎𝑘 so that the coefficient of 𝑇 𝑘 on the right
+ side of the equation above equals 0. Actually we do not care about the explicit
+ formula for the 𝑎𝑘 ’s. We only need to know that some choice of the 𝑎𝑘 ’s gives a
+ square root of 𝐼 + 𝑇.
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+320      Chapter 8     Operators on Complex Vector Spaces
+
+    The previous lemma is valid on real and complex vector spaces. However, the
+result below holds only on complex vector spaces. For example, the operator of
+multiplication by −1 on the one-dimensional real vector space 𝐑 has no square
+root.
+    For the proof below, we need to know that every 𝑧 ∈ 𝐂 has
+a square root in 𝐂 . To show this, write
+
+                      𝑧 = 𝑟(cos 𝜃 + 𝑖 sin 𝜃),
+
+where 𝑟 is the length of the line segment in the complex plane
+from the origin to 𝑧 and 𝜃 is the angle of that line segment with
+the positive horizontal axis. Then
+                       √
+                                                                             Representation
+                         𝑟(cos 𝜃2 + 𝑖 sin 𝜃2 )                                of a complex
+                                                                              number with
+is a square root of 𝑧, as you can verify by showing that the square               polar
+of the complex number above equals 𝑧.                                         coordinates.
+
+ 8.41   over 𝐂 , invertible operators have square roots
+
+ Suppose 𝑉 is a complex vector space and 𝑇 ∈ ℒ(𝑉) is invertible. Then 𝑇 has
+ a square root.
+
+Proof   Let 𝜆1 , … , 𝜆𝑚 be the distinct eigenvalues of 𝑇. For each 𝑘 , there exists a
+nilpotent operator 𝑇𝑘 ∈ ℒ(𝐺(𝜆𝑘 , 𝑇)) such that 𝑇|𝐺( 𝜆𝑘 ,𝑇) = 𝜆𝑘 𝐼 + 𝑇𝑘 [see 8.22(b)].
+Because 𝑇 is invertible, none of the 𝜆𝑘 ’s equals 0, so we can write
+                                                      𝑇𝑘
+                              𝑇|𝐺( 𝜆𝑘 ,𝑇) = 𝜆𝑘 (𝐼 +      )
+                                                      𝜆𝑘
+for each 𝑘 . Because 𝑇𝑘 /𝜆𝑘 is nilpotent, 𝐼 + 𝑇𝑘 /𝜆𝑘 has a square root (by 8.39).
+Multiplying a square root of the complex number 𝜆𝑘 by a square root of 𝐼 + 𝑇𝑘 /𝜆𝑘 ,
+we obtain a square root 𝑅𝑘 of 𝑇|𝐺( 𝜆𝑘 ,𝑇) .
+    By the generalized eigenspace decomposition (8.22), a typical vector 𝑣 ∈ 𝑉
+can be written uniquely in the form
+
+                                  𝑣 = 𝑢 1 + ⋯ + 𝑢𝑚 ,
+
+where each 𝑢𝑘 is in 𝐺(𝜆𝑘 , 𝑇). Using this decomposition, define an operator
+𝑅 ∈ ℒ(𝑉) by
+                          𝑅𝑣 = 𝑅1 𝑢1 + ⋯ + 𝑅𝑚 𝑢𝑚 .
+You should verify that this operator 𝑅 is a square root of 𝑇 , completing the proof.
+
+    By imitating the techniques in this subsection, you should be able to prove that
+if 𝑉 is a complex vector space and 𝑇 ∈ ℒ(𝑉) is invertible, then 𝑇 has a 𝑘 th root
+for every positive integer 𝑘 .
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+Section 8C     Consequences of Generalized Eigenspace Decomposition                     321
+
+ Jordan Form
+ We know that if 𝑉 is a complex vector space, then for every 𝑇 ∈ ℒ(𝑉) there is a
+ basis of 𝑉 with respect to which 𝑇 has a nice upper-triangular matrix (see 8.37).
+ In this subsection we will see that we can do even better—there is a basis of 𝑉
+ with respect to which the matrix of 𝑇 contains 0’s everywhere except possibly on
+ the diagonal and the line directly above the diagonal.
+     We begin by looking at two examples of nilpotent operators.
+
+  8.42 example: nilpotent operator with nice matrix
+
+     Let 𝑇 be the operator on 𝐂4 defined by
+                             𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 ) = (0, 𝑧1 , 𝑧2 , 𝑧3 ).
+ Then 𝑇 4 = 0; thus 𝑇 is nilpotent. If 𝑣 = (1, 0, 0, 0), then 𝑇 3 𝑣, 𝑇 2 𝑣, 𝑇𝑣, 𝑣 is a basis
+ of 𝐂4. The matrix of 𝑇 with respect to this basis is
+                                        0      1    0    0
+                                      ⎛
+                                      ⎜                    ⎞
+                                      ⎜
+                                      ⎜ 0      0    1    0 ⎟
+                                                           ⎟
+                                                           ⎟
+                                      ⎜
+                                      ⎜                    ⎟.
+                                      ⎜ 0      0    0    1 ⎟
+                                                           ⎟
+                                      ⎝ 0      0    0    0 ⎠
+
+     The next example of a nilpotent operator has more complicated behavior than
+ the example above.
+
+  8.43 example: nilpotent operator with slightly more complicated matrix
+
+     Let 𝑇 be the operator on 𝐂6 defined by
+                      𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 , 𝑧5 , 𝑧6 ) = (0, 𝑧1 , 𝑧2 , 0, 𝑧4 , 0).
+ Then 𝑇 3 = 0; thus 𝑇 is nilpotent. In contrast to the nice behavior of the nilpotent
+ operator of the previous example, for this nilpotent operator there does not exist
+ a vector 𝑣 ∈ 𝐂6 such that 𝑇 5 𝑣, 𝑇 4 𝑣, 𝑇 3 𝑣, 𝑇 2 𝑣, 𝑇𝑣, 𝑣 is a basis of 𝐂6. However, if
+ we take 𝑣1 = (1, 0, 0, 0, 0, 0), 𝑣2 = (0, 0, 0, 1, 0, 0), and 𝑣3 = (0, 0, 0, 0, 0, 1), then
+ 𝑇 2 𝑣1 , 𝑇𝑣1 , 𝑣1 , 𝑇𝑣2 , 𝑣2 , 𝑣3 is a basis of 𝐂6. The matrix of 𝑇 with respect to this
+ basis is
+                                  0 1 0             0 0         0
+                           ⎛
+                           ⎜   ⎛
+                               ⎜             ⎞
+                                             ⎟                      ⎞
+                           ⎜
+                           ⎜   ⎜
+                               ⎜ 0 0 1 ⎟     ⎟      0 0         0 ⎟ ⎟
+                                                                    ⎟
+                           ⎜                                        ⎟
+                           ⎜
+                           ⎜   ⎝  0 0 0 ⎠           0 0         0 ⎟ ⎟
+                           ⎜
+                           ⎜                                        ⎟
+                                                                    ⎟  .
+                           ⎜
+                           ⎜      0    0  0         0 1         0   ⎟
+                                                                    ⎟
+                                                 (       )
+                           ⎜
+                           ⎜
+                           ⎜      0 0 0             0 0         0 ⎟ ⎟
+                                                                    ⎟
+                           ⎝      0 0 0             0 0      ( 0 ) ⎠
+ Here the inner matrices are blocked off to show that we can think of the 6-by-6
+ matrix above as a block diagonal matrix consisting of a 3-by-3 block with 1’s on
+ the line above the diagonal and 0’s elsewhere, a 2-by-2 block with 1 above the
+ diagonal and 0’s elsewhere, and a 1-by-1 block containing 0.
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+322      Chapter 8     Operators on Complex Vector Spaces
+
+    Our next goal is to show that every nilpotent operator 𝑇 ∈ ℒ(𝑉) behaves
+similarly to the operator in the previous example. Specifically, there is a finite
+collection of vectors 𝑣1 , … , 𝑣𝑛 ∈ 𝑉 such that there is a basis of 𝑉 consisting of
+the vectors of the form 𝑇 𝑗 𝑣𝑘 , as 𝑘 varies from 1 to 𝑛 and 𝑗 varies (in reverse order)
+from 0 to the largest nonnegative integer 𝑚𝑘 such that 𝑇 𝑚𝑘 𝑣𝑘 ≠ 0. With respect to
+this basis, the matrix of 𝑇 looks like the matrix in the previous example. More
+specifically, 𝑇 has a block diagonal matrix with respect to this basis, with each
+block a square matrix that is 0 everywhere except on the line above the diagonal.
+    In the next definition, the diagonal of each 𝐴𝑘 is filled with some eigenvalue
+𝜆𝑘 of 𝑇 , the line directly above the diagonal of 𝐴𝑘 is filled with 1’s, and all other
+entries in 𝐴𝑘 are 0 (to understand why each 𝜆𝑘 is an eigenvalue of 𝑇 , see 5.41).
+The 𝜆𝑘 ’s need not be distinct. Also, 𝐴𝑘 may be a 1-by-1 matrix (𝜆𝑘 ) containing
+just an eigenvalue of 𝑇. If each 𝜆𝑘 is 0, then the next definition captures the
+behavior described in the paragraph above (recall that if 𝑇 is nilpotent, then 0 is
+the only eigenvalue of 𝑇 ).
+
+ 8.44 definition: Jordan basis
+
+ Suppose 𝑇 ∈ ℒ(𝑉). A basis of 𝑉 is called a Jordan basis for 𝑇 if with respect
+ to this basis 𝑇 has a block diagonal matrix
+                                    𝐴1          0
+                                  ⎛
+                                  ⎜                ⎞
+                                                   ⎟
+                                  ⎜
+                                  ⎜        ⋱       ⎟
+                                                   ⎟
+                                  ⎝ 0           𝐴𝑝 ⎠
+
+ in which each 𝐴𝑘 is an upper-triangular matrix of the form
+                                   𝜆𝑘      1          0
+                                 ⎛
+                                 ⎜                      ⎞
+                                                        ⎟
+                                 ⎜         ⋱    ⋱       ⎟
+                            𝐴𝑘 = ⎜
+                                 ⎜
+                                 ⎜
+                                                        ⎟
+                                                        ⎟.
+                                 ⎜              ⋱    1 ⎟⎟
+                                 ⎝ 0                 𝜆𝑘 ⎠
+
+    Most of the work in proving that every operator on a finite-dimensional com-
+plex vector space has a Jordan basis occurs in proving the special case below
+of nilpotent operators. This special case holds on real vector spaces as well as
+complex vector spaces.
+
+ 8.45    every nilpotent operator has a Jordan basis
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent. Then there is a basis of 𝑉 that is a Jordan
+ basis for 𝑇 .
+
+Proof   We will prove this result by induction on dim 𝑉. To get started, note that
+the desired result holds if dim 𝑉 = 1 (because in that case, the only nilpotent
+operator is the 0 operator). Now assume that dim 𝑉 > 1 and that the desired result
+holds on all vector spaces of smaller dimension.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+Section 8C    Consequences of Generalized Eigenspace Decomposition                323
+
+    Let 𝑚 be the smallest positive integer such that 𝑇 𝑚 = 0. Thus there exists
+ 𝑢 ∈ 𝑉 such that 𝑇 𝑚−1 𝑢 ≠ 0. Let
+                            𝑈 = span(𝑢, 𝑇𝑢, … , 𝑇 𝑚−1 𝑢).
+ The list 𝑢, 𝑇𝑢, … , 𝑇 𝑚−1 𝑢 is linearly independent (see Exercise 2 in Section 8A).
+ If 𝑈 = 𝑉, then writing this list in reverse order gives a Jordan basis for 𝑇 and we
+ are done. Thus we can assume that 𝑈 ≠ 𝑉.
+     Note that 𝑈 is invariant under 𝑇. By our induction hypothesis, there is a basis
+ of 𝑈 that is a Jordan basis for 𝑇|𝑈 . The strategy of our proof is that we will find a
+ subspace 𝑊 of 𝑉 such that 𝑊 is also invariant under 𝑇 and 𝑉 = 𝑈 ⊕ 𝑊. Again
+ by our induction hypothesis, there will be a basis of 𝑊 that is a Jordan basis for
+ 𝑇|𝑊 . Putting together the Jordan bases for 𝑇|𝑈 and 𝑇|𝑊 , we will have a Jordan
+ basis for 𝑇.
+     Let 𝜑 ∈ 𝑉 ′ be such that 𝜑(𝑇 𝑚−1 𝑢) ≠ 0. Let
+              𝑊 = {𝑣 ∈ 𝑉 ∶ 𝜑(𝑇 𝑘 𝑣) = 0 for each 𝑘 = 0, … , 𝑚 − 1}.
+
+ Then 𝑊 is a subspace of 𝑉 that is invariant under 𝑇 (the invariance holds because
+ if 𝑣 ∈ 𝑊 then 𝜑(𝑇 𝑘 (𝑇𝑣)) = 0 for 𝑘 = 0, … , 𝑚 − 1, where the case 𝑘 = 𝑚 − 1
+ holds because 𝑇 𝑚 = 0). We will show that 𝑉 = 𝑈 ⊕ 𝑊 , which by the previous
+ paragraph will complete the proof.
+     To show that 𝑈 + 𝑊 is a direct sum, suppose 𝑣 ∈ 𝑈 ∩ 𝑊 with 𝑣 ≠ 0. Because
+ 𝑣 ∈ 𝑈 , there exist 𝑐0 , … , 𝑐𝑚−1 ∈ 𝐅 such that
+                         𝑣 = 𝑐0 𝑢 + 𝑐1 𝑇𝑢 + ⋯ + 𝑐𝑚−1 𝑇 𝑚−1 𝑢.
+ Let 𝑗 be the smallest index such that 𝑐𝑗 ≠ 0. Apply 𝑇 𝑚−𝑗−1 to both sides of the
+ equation above, getting
+                               𝑇 𝑚−𝑗−1 𝑣 = 𝑐𝑗 𝑇 𝑚−1 𝑢,
+ where we have used the equation 𝑇 𝑚 = 0. Now apply 𝜑 to both sides of the
+ equation above, getting
+                          𝜑(𝑇 𝑚−𝑗−1 𝑣) = 𝑐𝑗 𝜑(𝑇 𝑚−1 𝑢) ≠ 0.
+ The equation above shows that 𝑣 ∉ 𝑊. Hence we have proved that 𝑈 ∩ 𝑊 = {0},
+ which implies that 𝑈 + 𝑊 is a direct sum (see 1.46).
+    To show that 𝑈 ⊕ 𝑊 = 𝑉 , define 𝑆 ∶ 𝑉 → 𝐅𝑚 by
+                        𝑆𝑣 = (𝜑(𝑣), 𝜑(𝑇𝑣), … , 𝜑(𝑇 𝑚−1 𝑣)).
+ Thus null 𝑆 = 𝑊. Hence
+             dim 𝑊 = dim null 𝑆 = dim 𝑉 − dim range 𝑆 ≥ dim 𝑉 − 𝑚,
+ where the second equality comes from the fundamental theorem of linear maps
+ (3.21). Using the inequality above, we have
+          dim(𝑈 ⊕ 𝑊) = dim 𝑈 + dim 𝑊 ≥ 𝑚 + (dim 𝑉 − 𝑚) = dim 𝑉.
+ Thus 𝑈 ⊕ 𝑊 = 𝑉 (by 2.39), completing the proof.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+324      Chapter 8      Operators on Complex Vector Spaces
+
+    Now the generalized eigenspace de- Camille Jordan (1838–1922) pub-
+composition allows us to extend the pre- lished a proof of 8.46 in 1870.
+vious result to operators that may not be
+nilpotent. Doing this requires that we deal with complex vector spaces.
+
+ 8.46    Jordan form
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Then there is a basis of 𝑉 that is a Jordan
+ basis for 𝑇.
+
+Proof Let 𝜆1 , … , 𝜆𝑚 be the distinct eigenvalues of 𝑇. The generalized eigenspace
+decomposition states that
+                           𝑉 = 𝐺(𝜆1 , 𝑇) ⊕ ⋯ ⊕ 𝐺(𝜆𝑚 , 𝑇),
+
+where each (𝑇 − 𝜆𝑘 𝐼)|𝐺( 𝜆𝑘 ,𝑇) is nilpotent (see 8.22). Thus 8.45 implies that some
+basis of each 𝐺(𝜆𝑘 , 𝑇) is a Jordan basis for (𝑇 − 𝜆𝑘 𝐼)|𝐺( 𝜆𝑘 ,𝑇) . Put these bases
+together to get a basis of 𝑉 that is a Jordan basis for 𝑇.
+
+
+Exercises 8C
+
+ 1    Suppose 𝑇 ∈ ℒ(𝐂3 ) is the operator defined by 𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (𝑧2 , 𝑧3 , 0).
+      Prove that 𝑇 does not have a square root.
+ 2    Define 𝑇 ∈ ℒ(𝐅5 ) by 𝑇(𝑥1 , 𝑥2 , 𝑥3 , 𝑥4 , 𝑥5 ) = (2𝑥2 , 3𝑥3 , −𝑥4 , 4𝑥5 , 0).
+      (a) Show that 𝑇 is nilpotent.
+      (b) Find a square root of 𝐼 + 𝑇.
+
+ 3    Suppose 𝑉 is a complex vector space. Prove that every invertible operator
+      on 𝑉 has a cube root.
+ 4    Suppose 𝑉 is a real vector space. Prove that the operator −𝐼 on 𝑉 has a
+      square root if and only if dim 𝑉 is an even number.
+ 5    Suppose 𝑇 ∈ ℒ(𝐂2 ) is the operator defined by 𝑇(𝑤, 𝑧) = (−𝑤 − 𝑧, 9𝑤 + 5𝑧).
+      Find a Jordan basis for 𝑇.
+ 6    Find a basis of 𝒫4 (𝐑) that is a Jordan basis for the differentiation operator
+      𝐷 on 𝒫4 (𝐑) defined by 𝐷𝑝 = 𝑝′.
+
+ 7    Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent and 𝑣1 , … , 𝑣𝑛 is a Jordan basis for 𝑇. Prove
+      that the minimal polynomial of 𝑇 is 𝑧𝑚+1 , where 𝑚 is the length of the longest
+      consecutive string of 1’s that appears on the line directly above the diagonal
+      in the matrix of 𝑇 with respect to 𝑣1 , … , 𝑣𝑛 .
+ 8    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉 that is a Jordan basis for 𝑇.
+      Describe the matrix of 𝑇 2 with respect to this basis.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+Section 8C    Consequences of Generalized Eigenspace Decomposition                     325
+
+  9   Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent. Explain why there exist 𝑣1 , … , 𝑣𝑛 ∈ 𝑉
+      and nonnegative integers 𝑚1 , … , 𝑚𝑛 such that (a) and (b) below both hold.
+      (a) 𝑇 𝑚1 𝑣1 , … , 𝑇𝑣1 , 𝑣1 , … , 𝑇 𝑚𝑛 𝑣𝑛 , … , 𝑇𝑣𝑛 , 𝑣𝑛 is a basis of 𝑉 .
+      (b) 𝑇 𝑚1+1 𝑣1 = ⋯ = 𝑇 𝑚𝑛+1 𝑣𝑛 = 0.
+
+ 10   Suppose 𝑇 ∈ ℒ(𝑉) and 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉 that is a Jordan basis for 𝑇.
+      Describe the matrix of 𝑇 with respect to the basis 𝑣𝑛 , … , 𝑣1 obtained by
+      reversing the order of the 𝑣’s.
+ 11   Suppose 𝑇 ∈ ℒ(𝑉). Explain why every vector in each Jordan basis for 𝑇 is
+      a generalized eigenvector of 𝑇.
+ 12   Suppose 𝑇 ∈ ℒ(𝑉) is diagonalizable. Show that ℳ(𝑇) is a diagonal matrix
+      with respect to every Jordan basis for 𝑇.
+ 13   Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent. Prove that if 𝑣1 , … , 𝑣𝑛 are vectors in 𝑉 and
+      𝑚1 , … , 𝑚𝑛 are nonnegative integers such that
+
+                 𝑇 𝑚1 𝑣1 , … , 𝑇𝑣1 , 𝑣1 , … , 𝑇 𝑚𝑛 𝑣𝑛 , … , 𝑇𝑣𝑛 , 𝑣𝑛 is a basis of 𝑉
+
+      and
+                                𝑇 𝑚1+1 𝑣1 = ⋯ = 𝑇 𝑚𝑛+1 𝑣𝑛 = 0,
+      then 𝑇 𝑚1 𝑣1 , … , 𝑇 𝑚𝑛 𝑣𝑛 is a basis of null 𝑇.
+         This exercise shows that 𝑛 = dim null 𝑇. Thus the positive integer 𝑛 that
+         appears above depends only on 𝑇 and not on the specific Jordan basis
+         chosen for 𝑇.
+
+ 14   Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Prove that there does not exist a direct sum
+      decomposition of 𝑉 into two nonzero subspaces invariant under 𝑇 if and
+      only if the minimal polynomial of 𝑇 is of the form (𝑧 − 𝜆)dim 𝑉 for some
+      𝜆 ∈ 𝐂.
+
+
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+326         Chapter 8     Operators on Complex Vector Spaces
+
+8D Trace: A Connection Between Matrices and Operators
+We begin this section by defining the trace of a square matrix. After developing
+some properties of the trace of a square matrix, we will use this concept to define
+the trace of an operator.
+
+ 8.47 definition: trace of a matrix
+
+ Suppose 𝐴 is a square matrix with entries in 𝐅. The trace of 𝐴, denoted tr 𝐴,
+ is defined to be the sum of the diagonal entries of 𝐴.
+
+
+ 8.48 example: trace of a 3-by-3 matrix
+
+      Suppose
+                                          3      −1   −2
+                                        ⎛                ⎞
+                                      𝐴=⎜
+                                        ⎜
+                                        ⎜ 5      2    −3 ⎟
+                                                         ⎟
+                                                         ⎟.
+                                        ⎝ 1      6     0 ⎠
+The diagonal entries of 𝐴, which are shown in red above, are 3, 2, and 0. Thus
+tr 𝐴 = 3 + 2 + 0 = 5.
+
+   Matrix multiplication is not commutative, but the next result shows that the
+order of matrix multiplication does not matter to the trace.
+
+ 8.49       trace of 𝐴𝐵 equals trace of 𝐵𝐴
+
+ Suppose 𝐴 is an 𝑚-by-𝑛 matrix and 𝐵 is an 𝑛-by-𝑚 matrix. Then
+
+                                       tr(𝐴𝐵) = tr(𝐵𝐴).
+
+Proof       Suppose
+                  𝐴1,1            ⋯    𝐴1,𝑛           𝐵1,1        ⋯    𝐵1,𝑚
+                ⎛
+                ⎜                           ⎞
+                                            ⎟       ⎛
+                                                    ⎜                       ⎞
+                                                                            ⎟
+                ⎜                       ⋮ ⎟         ⎜                   ⋮ ⎟
+                ⎜ ⋮
+              𝐴=⎜                           ⎟,
+                                            ⎟       ⎜ ⋮
+                                                  𝐵=⎜                       ⎟.
+                                                                            ⎟
+                ⎝ 𝐴𝑚,1            ⋯    𝐴𝑚,𝑛 ⎠       ⎝ 𝐵𝑛,1        ⋯    𝐵𝑛,𝑚 ⎠
+       th
+The 𝑗 term on the diagonal of the 𝑚-by-𝑚 matrix 𝐴𝐵 equals ∑𝑛𝑘=1 𝐴𝑗,𝑘 𝐵𝑘,𝑗 . Thus
+                         𝑚    𝑛
+             tr(𝐴𝐵) = ∑ ∑ 𝐴𝑗,𝑘 𝐵𝑘,𝑗
+                        𝑗 = 1 𝑘=1
+                         𝑛    𝑚
+                      = ∑ ∑ 𝐵𝑘,𝑗 𝐴𝑗,𝑘
+                        𝑘=1 𝑗 = 1
+                         𝑛
+                      = ∑ (𝑘 th term on diagonal of the 𝑛-by-𝑛 matrix 𝐵𝐴)
+                        𝑘=1
+
+                      = tr(𝐵𝐴),
+as desired.
+
+                  Linear Algebra Done Right, fourth edition, by Sheldon Axler
+  Section 8D     Trace: A Connection Between Matrices and Operators              327
+
+   We want to define the trace of an operator 𝑇 ∈ ℒ(𝑉) to be the trace of the
+matrix of 𝑇 with respect to some basis of 𝑉. However, this definition should not
+depend on the choice of basis. The following result will make this possible.
+
+ 8.50   trace of matrix of operator does not depend on basis
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Suppose 𝑢1 , … , 𝑢𝑛 and 𝑣1 , … , 𝑣𝑛 are bases of 𝑉. Then
+
+                  tr ℳ(𝑇 , (𝑢1 , … , 𝑢𝑛 )) = tr ℳ(𝑇 , (𝑣1 , … , 𝑣𝑛 )).
+
+Proof   Let 𝐴 = ℳ(𝑇 , (𝑢1 , … , 𝑢𝑛 )) and 𝐵 = ℳ(𝑇 , (𝑣1 , … , 𝑣𝑛 )). The change-
+of-basis formula tells us that there exists an invertible 𝑛-by-𝑛 matrix 𝐶 such that
+𝐴 = 𝐶−1 𝐵𝐶 (see 3.84). Thus
+                                tr 𝐴 = tr((𝐶−1 𝐵)𝐶)
+                                     = tr(𝐶(𝐶−1 𝐵))
+
+                                     = tr((𝐶𝐶−1 )𝐵)
+                                     = tr 𝐵,
+where the second line comes from 8.49.
+
+   Because of 8.50, the following definition now makes sense.
+
+ 8.51 definition: trace of an operator
+
+ Suppose 𝑇 ∈ ℒ(𝑉). The trace of 𝑇 , denoted tr 𝑇 , is defined by
+
+                            tr 𝑇 = tr ℳ(𝑇 , (𝑣1 , … , 𝑣𝑛 )),
+
+ where 𝑣1 , … , 𝑣𝑛 is any basis of 𝑉.
+
+    Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 is an eigenvalue of 𝑇. Recall that we defined the
+multiplicity of 𝜆 to be the dimension of the generalized eigenspace 𝐺(𝜆, 𝑇) (see
+8.23); we proved that this multiplicity equals dim null(𝑇 − 𝜆𝐼)dim 𝑉 (see 8.20).
+Recall also that if 𝑉 is a complex vector space, then the sum of the multiplicities
+of all eigenvalues of 𝑇 equals dim 𝑉 (see 8.25).
+    In the following result, the sum of the eigenvalues “with each eigenvalue
+included as many times as its multiplicity” means that if 𝜆1 , … , 𝜆𝑚 are the distinct
+eigenvalues of 𝑇 with multiplicities 𝑑1 , … , 𝑑𝑚 , then the sum is
+                                 𝑑1 𝜆1 + ⋯ + 𝑑𝑚 𝜆𝑚 .
+Or if you prefer to work with a list of not-necessarily-distinct eigenvalues, with
+each eigenvalue included as many times as its multiplicity, then the eigenvalues
+could be denoted by 𝜆1 , … , 𝜆𝑛 (where 𝑛 equals dim 𝑉 ) and the sum is
+                                    𝜆1 + ⋯ + 𝜆𝑛 .
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+328       Chapter 8      Operators on Complex Vector Spaces
+
+
+ 8.52     on complex vector spaces, trace equals sum of eigenvalues
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Then tr 𝑇 equals the sum of the eigenvalues
+ of 𝑇 , with each eigenvalue included as many times as its multiplicity.
+
+Proof    There is a basis of 𝑉 with respect to which 𝑇 has an upper-triangular
+matrix with the diagonal entries of the matrix consisting of the eigenvalues of 𝑇,
+with each eigenvalue included as many times as its multiplicity—see 8.37. Thus
+the definition of the trace of an operator along with 8.50, which allows us to use a
+basis of our choice, implies that tr 𝑇 equals the sum of the eigenvalues of 𝑇, with
+each eigenvalue included as many times as its multiplicity.
+
+
+ 8.53 example: trace of an operator on 𝐂3
+
+      Suppose 𝑇 ∈ ℒ(𝐂3 ) is defined by
+             𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (3𝑧1 − 𝑧2 − 2𝑧3 , 3𝑧1 + 2𝑧2 − 3𝑧3 , 𝑧1 + 2𝑧2 ).
+Then the matrix of 𝑇 with respect to the standard basis of 𝐂3 is
+                                     3     −1    −2
+                                   ⎛
+                                   ⎜                ⎞
+                                   ⎜
+                                   ⎜ 3     2     −3 ⎟
+                                                    ⎟
+                                                    ⎟.
+                                   ⎝ 1     2     0 ⎠
+Adding up the diagonal entries of this matrix, we see that tr 𝑇 = 5.
+   The eigenvalues of 𝑇 are 1, 2 + 3𝑖, and 2 − 3𝑖, each with multiplicity 1, as
+you can verify. The sum of these eigenvalues, each included as many times as its
+multiplicity, is 1 + (2 + 3𝑖) + (2 − 3𝑖), which equals 5, as expected by 8.52.
+
+      The trace has a close connection with the characteristic polynomial. Suppose
+𝐅 = 𝐂 , 𝑇 ∈ ℒ(𝑉), and 𝜆1 , … , 𝜆𝑛 are the eigenvalues of 𝑇 , with each eigenvalue
+included as many times as its multiplicity. Then by definition (see 8.26), the
+characteristic polynomial of 𝑇 equals
+                                  (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑛 ).
+Expanding the polynomial above, we can write the characteristic polynomial of 𝑇
+in the form
+                  𝑧𝑛 − (𝜆1 + ⋯ + 𝜆𝑛 )𝑧𝑛−1 + ⋯ + (−1)𝑛 (𝜆1 ⋯ 𝜆𝑛 ).
+   The expression above immediately leads to the next result. Also see 9.65,
+which does not require the hypothesis that 𝐅 = 𝐂 .
+
+ 8.54     trace and characteristic polynomial
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Let 𝑛 = dim 𝑉. Then tr 𝑇 equals the negative
+ of the coefficient of 𝑧𝑛−1 in the characteristic polynomial of 𝑇.
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+  Section 8D     Trace: A Connection Between Matrices and Operators           329
+
+   The next result gives a nice formula for the trace of an operator on an inner
+product space.
+
+ 8.55   trace on an inner product space
+
+ Suppose 𝑉 is an inner product space, 𝑇 ∈ ℒ(𝑉), and 𝑒1 , … , 𝑒𝑛 is an orthonor-
+ mal basis of 𝑉. Then
+
+                          tr 𝑇 = ⟨𝑇𝑒1 , 𝑒1 ⟩ + ⋯ + ⟨𝑇𝑒𝑛 , 𝑒𝑛 ⟩.
+
+Proof  The desired formula follows from the observation that the entry in row 𝑘 ,
+column 𝑘 of ℳ(𝑇 , (𝑒1 , … , 𝑒𝑛 )) equals ⟨𝑇𝑒𝑘 , 𝑒𝑘 ⟩ [use 6.30(a) with 𝑣 = 𝑇𝑒𝑘 ].
+
+    The algebraic properties of the trace as defined on square matrices translate
+to algebraic properties of the trace as defined on operators, as shown in the next
+result.
+
+ 8.56   trace is linear
+ The function tr ∶ ℒ(𝑉) → 𝐅 is a linear functional on ℒ(𝑉) such that
+
+                                   tr(𝑆𝑇) = tr(𝑇𝑆)
+
+ for all 𝑆, 𝑇 ∈ ℒ(𝑉).
+
+Proof   Choose a basis of 𝑉. All matrices of operators in this proof will be with
+respect to that basis. Suppose 𝑆, 𝑇 ∈ ℒ(𝑉).
+   If 𝜆 ∈ 𝐅, then
+           tr(𝜆𝑇) = tr ℳ(𝜆𝑇) = tr(𝜆ℳ(𝑇)) = 𝜆 tr ℳ(𝑇) = 𝜆 tr 𝑇 ,
+where the first and last equalities come from the definition of the trace of an
+operator, the second equality comes from 3.38, and the third equality follows
+from the definition of the trace of a square matrix.
+   Also,
+tr(𝑆 + 𝑇) = tr ℳ(𝑆 + 𝑇) = tr(ℳ(𝑆) + ℳ(𝑇)) = tr ℳ(𝑆) + tr ℳ(𝑇) = tr 𝑆 + tr 𝑇 ,
+where the first and last equalities come from the definition of the trace of an
+operator, the second equality comes from 3.35, and the third equality follows
+from the definition of the trace of a square matrix. The two paragraphs above
+show that tr ∶ ℒ(𝑉) → 𝐅 is a linear functional on ℒ(𝑉).
+   Furthermore,
+tr(𝑆𝑇) = tr ℳ(𝑆𝑇) = tr(ℳ(𝑆)ℳ(𝑇)) = tr(ℳ(𝑇)ℳ(𝑆)) = tr ℳ(𝑇𝑆) = tr(𝑇𝑆),
+where the second and fourth equalities come from 3.43 and the crucial third
+equality comes from 8.49.
+
+    The equations tr(𝑆𝑇) = tr(𝑇𝑆) and tr 𝐼 = dim 𝑉 uniquely characterize the
+trace among the linear functionals on ℒ(𝑉)—see Exercise 10.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+330      Chapter 8      Operators on Complex Vector Spaces
+
+    The equation tr(𝑆𝑇) = tr(𝑇𝑆) leads            The statement of the next result does
+to our next result, which does not hold on        not involve traces, but the short proof
+infinite-dimensional vector spaces (see           uses traces. When something like this
+Exercise 13). However, additional hy-             happens in mathematics, then usually
+potheses on 𝑆, 𝑇 , and 𝑉 lead to an infinite-     a good definition lurks in the back-
+dimensional generalization of the result          ground.
+below, with important applications to
+quantum theory.
+
+ 8.57    identity operator is not the difference of 𝑆𝑇 and 𝑇𝑆
+
+ There do not exist operators 𝑆, 𝑇 ∈ ℒ(𝑉) such that 𝑆𝑇 − 𝑇𝑆 = 𝐼 .
+
+Proof   Suppose 𝑆, 𝑇 ∈ ℒ(𝑉). Then
+                        tr(𝑆𝑇 − 𝑇𝑆) = tr(𝑆𝑇) − tr(𝑇𝑆) = 0,
+where both equalities come from 8.56. The trace of 𝐼 equals dim 𝑉, which is not 0.
+Because 𝑆𝑇 − 𝑇𝑆 and 𝐼 have different traces, they cannot be equal.
+
+
+Exercises 8D
+
+ 1    Suppose 𝑉 is an inner product space and 𝑣, 𝑤 ∈ 𝑉. Define an operator
+      𝑇 ∈ ℒ(𝑉) by 𝑇𝑢 = ⟨𝑢, 𝑣⟩𝑤. Find a formula for tr 𝑇.
+ 2    Suppose 𝑃 ∈ ℒ(𝑉) satisfies 𝑃2 = 𝑃. Prove that
+                                       tr 𝑃 = dim range 𝑃.
+ 3    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑇 = 𝑇. Prove that the real and imaginary parts of
+                                   5
+
+      tr 𝑇 are both integers.
+ 4    Suppose 𝑉 is an inner product space and 𝑇 ∈ ℒ(𝑉). Prove that
+                                          tr 𝑇 ∗ = tr 𝑇.
+ 5    Suppose 𝑉 is an inner product space. Suppose 𝑇 ∈ ℒ(𝑉) is a positive
+      operator and tr 𝑇 = 0. Prove that 𝑇 = 0.
+ 6    Suppose 𝑉 is an inner product space and 𝑃, 𝑄 ∈ ℒ(𝑉) are orthogonal
+      projections. Prove that tr(𝑃𝑄) ≥ 0.
+ 7    Suppose 𝑇 ∈ ℒ(𝐂3 ) is the operator whose matrix is
+                                     51     −12     −21
+                                   ⎛
+                                   ⎜                    ⎞
+                                   ⎜
+                                   ⎜ 60     −40     −28 ⎟
+                                                        ⎟
+                                                        ⎟.
+                                   ⎝ 57     −68      1 ⎠
+      Someone tells you (accurately) that −48 and 24 are eigenvalues of 𝑇. Without
+      using a computer or writing anything down, find the third eigenvalue of 𝑇.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+ Section 8D      Trace: A Connection Between Matrices and Operators                      331
+
+ 8   Prove or give a counterexample: If 𝑆, 𝑇 ∈ ℒ(𝑉), then tr(𝑆𝑇) = (tr 𝑆)(tr 𝑇).
+ 9   Suppose 𝑇 ∈ ℒ(𝑉) is such that tr(𝑆𝑇) = 0 for all 𝑆 ∈ ℒ(𝑉). Prove that
+     𝑇 = 0.
+
+10   Prove that the trace is the only linear functional 𝜏 ∶ ℒ(𝑉) → 𝐅 such that
+                                     𝜏(𝑆𝑇) = 𝜏(𝑇𝑆)
+     for all 𝑆, 𝑇 ∈ ℒ(𝑉) and 𝜏(𝐼) = dim 𝑉.
+        Hint: Suppose that 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉. For 𝑗, 𝑘 ∈ {1, … , 𝑛}, define
+        𝑃𝑗,𝑘 ∈ ℒ(𝑉) by 𝑃𝑗,𝑘 (𝑎1 𝑣1 + ⋯ + 𝑎𝑛 𝑣𝑛 ) = 𝑎𝑘 𝑣𝑗 . Prove that
+                                           {1 if 𝑗 = 𝑘 ,
+                                           ⎧
+                                𝜏(𝑃𝑗,𝑘 ) = ⎨
+                                           ⎩0 if 𝑗 ≠ 𝑘.
+                                           {
+        Then for 𝑇 ∈ ℒ(𝑉), use the equation 𝑇 = ∑𝑛𝑘=1 ∑𝑛𝑗= 1 ℳ(𝑇)𝑗,𝑘 𝑃𝑗,𝑘 to show
+        that 𝜏(𝑇) = tr 𝑇 .
+
+11   Suppose 𝑉 and 𝑊 are inner product spaces and 𝑇 ∈ ℒ(𝑉, 𝑊). Prove that if
+     𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉 and 𝑓1 , … , 𝑓𝑚 is an orthonormal basis
+     of 𝑊, then
+                                            𝑛   𝑚
+                              tr(𝑇 ∗ 𝑇) = ∑ ∑ |⟨𝑇𝑒𝑘 , 𝑓𝑗 ⟩|2.
+                                           𝑘=1 𝑗 = 1
+
+        The numbers ⟨𝑇𝑒𝑘 , 𝑓𝑗 ⟩ are the entries of the matrix of 𝑇 with respect to the
+        orthonormal bases 𝑒1 , … , 𝑒𝑛 and 𝑓1 , … , 𝑓𝑚 . These numbers depend on the
+        bases, but tr(𝑇 ∗ 𝑇) does not depend on a choice of bases. Thus this exercise
+        shows that the sum of the squares of the absolute values of the matrix entries
+        does not depend on which orthonormal bases are used.
+
+12   Suppose 𝑉 and 𝑊 are finite-dimensional inner product spaces.
+     (a) Prove that ⟨𝑆, 𝑇⟩ = tr(𝑇 ∗ 𝑆) defines an inner product on ℒ(𝑉, 𝑊).
+     (b) Suppose 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉 and 𝑓1 , … , 𝑓𝑚 is an
+         orthonormal basis of 𝑊. Show that the inner product on ℒ(𝑉, 𝑊) from
+         (a) is the same as the standard inner product on 𝐅𝑚𝑛, where we identify
+         each element of ℒ(𝑉, 𝑊) with its matrix (with respect to the bases just
+         mentioned) and then with an element of 𝐅𝑚𝑛.
+        Caution: The norm of a linear map 𝑇 ∈ ℒ(𝑉, 𝑊) as defined by 7.86 is not
+        the same as the norm that comes from the inner product in (a) above. Unless
+        explicitly stated otherwise, always assume that ‖𝑇‖ refers to the norm as
+        defined by 7.86. The norm that comes from the inner product in (a) is called
+        the Frobenius norm or the Hilbert–Schmidt norm.
+
+13   Find 𝑆, 𝑇 ∈ ℒ(𝒫(𝐅)) such that 𝑆𝑇 − 𝑇𝑆 = 𝐼 .
+        Hint: Make an appropriate modification of the operators in Example 3.9.
+        This exercise shows that additional hypotheses are needed on 𝑆 and 𝑇 to
+        extend 8.57 to the setting of infinite-dimensional vector spaces.
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                    Chapter 9
+Multilinear Algebra and Determinants
+
+
+We begin this chapter by investigating bilinear forms and quadratic forms on a
+vector space. Then we will move on to multilinear forms. We will show that the
+vector space of alternating 𝑛-linear forms has dimension one on a vector space of
+dimension 𝑛. This result will allow us to give a clean basis-free definition of the
+determinant of an operator.
+    This approach to the determinant via alternating multilinear forms leads to
+straightforward proofs of key properties of determinants. For example, we will see
+that the determinant is multiplicative, meaning that det(𝑆𝑇) = (det 𝑆)(det 𝑇) for
+all operators 𝑆 and 𝑇 on the same vector space. We will also see that 𝑇 is invertible
+if and only if det 𝑇 ≠ 0. Another important result states that the determinant of
+an operator on a complex vector space equals the product of the eigenvalues of
+the operator, with each eigenvalue included as many times as its multiplicity.
+    The chapter concludes with an introduction to tensor products.
+
+    standing assumptions for this chapter
+
+ • 𝐅 denotes 𝐑 or 𝐂 .
+ • 𝑉 and 𝑊 denote finite-dimensional nonzero vector spaces over 𝐅.
+
+
+
+
+                                                                                     Daniel Schwen CC BY-SA
+
+
+
+
+The Mathematical Institute at the University of Göttingen. This building opened in 1930,
+  when Emmy Noether (1882–1935) had already been a research mathematician and
+   faculty member at the university for 15 years (the first eight years without salary).
+      Noether was fired by the Nazi government in 1933. By then Noether and her
+ collaborators had created many of the foundations of modern algebra, including an
+    abstract algebra viewpoint that contributed to the development of linear algebra.
+
+                                                                                    332
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                     Section 9A       Bilinear Forms and Quadratic Forms         333
+
+9A Bilinear Forms and Quadratic Forms
+Bilinear Forms
+A bilinear form on 𝑉 is a function from 𝑉 × 𝑉 to 𝐅 that is linear in each slot
+separately, meaning that if we hold either slot fixed then we have a linear function
+in the other slot. Here is the formal definition.
+
+ 9.1 definition: bilinear form
+
+ A bilinear form on 𝑉 is a function 𝛽 ∶ 𝑉 × 𝑉 → 𝐅 such that
+
+                         𝑣 ↦ 𝛽(𝑣, 𝑢)      and 𝑣 ↦ 𝛽(𝑢, 𝑣)
+
+ are both linear functionals on 𝑉 for every 𝑢 ∈ 𝑉.
+
+    For example, if 𝑉 is a real inner prod- Recall that the term linear functional,
+uct space, then the function that takes an used in the definition above, means
+ordered pair (𝑢, 𝑣) ∈ 𝑉 × 𝑉 to ⟨𝑢, 𝑣⟩ is a linear function that maps into the
+a bilinear form on 𝑉. If 𝑉 is a nonzero scalar field 𝐅. Thus the term bilinear
+complex inner product space, then this functional would be more consistent
+function is not a bilinear form because terminology than bilinear form, which
+the inner product is not linear in the sec- unfortunately has become standard.
+ond slot (complex scalars come out of the
+second slot as their complex conjugates).
+    If 𝐅 = 𝐑 , then a bilinear form differs from an inner product in that an inner
+product requires symmetry [meaning that 𝛽(𝑣, 𝑤) = 𝛽(𝑤, 𝑣) for all 𝑣, 𝑤 ∈ 𝑉]
+and positive definiteness [meaning that 𝛽(𝑣, 𝑣) > 0 for all 𝑣 ∈ 𝑉\{0}], but these
+properties are not required for a bilinear form.
+
+ 9.2 example: bilinear forms
+
+• The function 𝛽 ∶ 𝐅3 × 𝐅3 → 𝐅 defined by
+
+                𝛽((𝑥1 , 𝑥2 , 𝑥3 ), (𝑦1 , 𝑦2 , 𝑦3 )) = 𝑥1 𝑦2 − 5𝑥2 𝑦3 + 2𝑥3 𝑦1
+
+  is a bilinear form on 𝐅3 .
+• Suppose 𝐴 is an 𝑛-by-𝑛 matrix with 𝐴𝑗,𝑘 ∈ 𝐅 in row 𝑗, column 𝑘 . Define a
+  bilinear form 𝛽𝐴 on 𝐅𝑛 by
+                                                         𝑛   𝑛
+                  𝛽𝐴 ((𝑥1 , … , 𝑥𝑛 ), (𝑦1 , … , 𝑦𝑛 )) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑦𝑘 .
+                                                       𝑘=1 𝑗 = 1
+
+  The first bullet point is a special case of this bullet point with 𝑛 = 3 and
+                                     0         1   0
+                                   ⎛                  ⎞
+                                 𝐴=⎜
+                                   ⎜
+                                   ⎜ 0         0   −5 ⎟
+                                                      ⎟
+                                                      ⎟.
+                                   ⎝ 2         0   0 ⎠
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+334     Chapter 9        Multilinear Algebra and Determinants
+
+• Suppose 𝑉 is a real inner product space and 𝑇 ∈ ℒ(𝑉). Then the function
+  𝛽 ∶ 𝑉 × 𝑉 → 𝐑 defined by
+                                    𝛽(𝑢, 𝑣) = ⟨𝑢, 𝑇𝑣⟩
+  is a bilinear form on 𝑉.
+• If 𝑛 is a positive integer, then the function 𝛽 ∶ 𝒫𝑛 (𝐑) × 𝒫𝑛 (𝐑) → 𝐑 defined by
+                                  𝛽(𝑝, 𝑞) = 𝑝(2) ⋅ 𝑞′ (3)
+  is a bilinear form on 𝒫𝑛 (𝐑).
+• Suppose 𝜑, 𝜏 ∈ 𝑉 ′. Then the function 𝛽 ∶ 𝑉 × 𝑉 → 𝐅 defined by
+                                 𝛽(𝑢, 𝑣) = 𝜑(𝑢) ⋅ 𝜏(𝑣)
+  is a bilinear form on 𝑉.
+• More generally, suppose that 𝜑1 , … , 𝜑𝑛 , 𝜏1 , … , 𝜏𝑛 ∈ 𝑉 ′. Then the function
+  𝛽 ∶ 𝑉 × 𝑉 → 𝐅 defined by
+                    𝛽(𝑢, 𝑣) = 𝜑1 (𝑢) ⋅ 𝜏1 (𝑣) + ⋯ + 𝜑𝑛 (𝑢) ⋅ 𝜏𝑛 (𝑣)
+  is a bilinear form on 𝑉.
+    A bilinear form on 𝑉 is a function from 𝑉 × 𝑉 to 𝐅. Because 𝑉 × 𝑉 is a vector
+space, this raises the question of whether a bilinear form can also be a linear map
+from 𝑉× 𝑉 to 𝐅. Note that none of the bilinear forms in 9.2 are linear maps except
+in some special cases in which the bilinear form is the zero map. Exercise 3 shows
+that a bilinear form 𝛽 on 𝑉 is a linear map on 𝑉 × 𝑉 only if 𝛽 = 0.
+
+ 9.3 definition: 𝑉 (2)
+
+ The set of bilinear forms on 𝑉 is denoted by 𝑉 (2).
+
+   With the usual operations of addition and scalar multiplication of functions,
+𝑉 is a vector space.
+ (2)
+
+   For 𝑇 an operator on an 𝑛-dimensional vector space 𝑉 and a basis 𝑒1 , … , 𝑒𝑛
+of 𝑉, we used an 𝑛-by-𝑛 matrix to provide information about 𝑇. We now do the
+same thing for bilinear forms on 𝑉.
+
+ 9.4 definition: matrix of a bilinear form, ℳ(𝛽)
+
+ Suppose 𝛽 is a bilinear form on 𝑉 and 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉. The matrix of
+ 𝛽 with respect to this basis is the 𝑛-by-𝑛 matrix ℳ(𝛽) whose entry ℳ(𝛽)𝑗,𝑘
+ in row 𝑗, column 𝑘 is given by
+
+                                 ℳ(𝛽)𝑗,𝑘 = 𝛽(𝑒𝑗 , 𝑒𝑘 ).
+
+ If the basis 𝑒1 , … , 𝑒𝑛 is not clear from the context, then the notation
+ ℳ(𝛽, (𝑒1 , … , 𝑒𝑛 )) is used.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                      Section 9A        Bilinear Forms and Quadratic Forms          335
+
+   Recall that 𝐅𝑛,𝑛 denotes the vector space of 𝑛-by-𝑛 matrices with entries in 𝐅
+and that dim 𝐅𝑛,𝑛 = 𝑛2 (see 3.39 and 3.40).
+
+ 9.5    dim 𝑉 (2) = (dim 𝑉)2
+
+ Suppose 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉. Then the map 𝛽 ↦ ℳ(𝛽) is an isomorphism
+ of 𝑉 (2) onto 𝐅𝑛,𝑛. Furthermore, dim 𝑉 (2) = (dim 𝑉)2.
+
+Proof   The map 𝛽 ↦ ℳ(𝛽) is clearly a linear map of 𝑉 (2) into 𝐅𝑛,𝑛. For 𝐴 ∈ 𝐅𝑛,𝑛,
+define a bilinear form 𝛽𝐴 on 𝑉 by
+                                                             𝑛    𝑛
+            𝛽𝐴 (𝑥1 𝑒1 + ⋯ + 𝑥𝑛 𝑒𝑛 , 𝑦1 𝑒1 + ⋯ + 𝑦𝑛 𝑒𝑛 ) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑦𝑘
+                                                            𝑘=1 𝑗 = 1
+for 𝑥1 , … , 𝑥𝑛 , 𝑦1 , … , 𝑦𝑛 ∈ 𝐅 (if 𝑉 = 𝐅𝑛 and 𝑒1 , … , 𝑒𝑛 is the standard basis of 𝐅𝑛,
+this 𝛽𝐴 is the same as the bilinear form 𝛽𝐴 in the second bullet point of Example
+9.2).
+     The linear map 𝛽 ↦ ℳ(𝛽) from 𝑉 (2) to 𝐅𝑛,𝑛 and the linear map 𝐴 ↦ 𝛽𝐴 from
+𝐅 to 𝑉 (2) are inverses of each other because 𝛽ℳ(𝛽) = 𝛽 for all 𝛽 ∈ 𝑉 (2) and
+  𝑛,𝑛
+
+ℳ(𝛽𝐴 ) = 𝐴 for all 𝐴 ∈ 𝐅𝑛,𝑛, as you should verify.
+     Thus both maps are isomorphisms and the two spaces that they connect have
+the same dimension. Hence dim 𝑉 (2) = dim 𝐅𝑛,𝑛 = 𝑛2 = (dim 𝑉)2.
+
+    Recall that 𝐶 t denotes the transpose of a matrix 𝐶. The matrix 𝐶 t is obtained
+by interchanging the rows and the columns of 𝐶.
+
+ 9.6    composition of a bilinear form and an operator
+
+ Suppose 𝛽 is a bilinear form on 𝑉 and 𝑇 ∈ ℒ(𝑉). Define bilinear forms 𝛼
+ and 𝜌 on 𝑉 by
+
+                  𝛼(𝑢, 𝑣) = 𝛽(𝑢, 𝑇𝑣)         and 𝜌(𝑢, 𝑣) = 𝛽(𝑇𝑢, 𝑣).
+
+ Let 𝑒1 , … , 𝑒𝑛 be a basis of 𝑉. Then
+
+              ℳ(𝛼) = ℳ(𝛽)ℳ(𝑇)                and ℳ(𝜌) = ℳ(𝑇)t ℳ(𝛽).
+
+Proof   If 𝑗, 𝑘 ∈ {1, … , 𝑛}, then
+                         ℳ(𝛼)𝑗,𝑘 = 𝛼(𝑒𝑗 , 𝑒𝑘 )
+                                     = 𝛽(𝑒𝑗 , 𝑇𝑒𝑘 )
+                                               𝑛
+                                     = 𝛽(𝑒𝑗 , ∑ ℳ(𝑇)𝑚,𝑘 𝑒𝑚 )
+                                              𝑚=1
+                                         𝑛
+                                     = ∑ 𝛽(𝑒𝑗 , 𝑒𝑚 )ℳ(𝑇)𝑚,𝑘
+                                       𝑚=1
+                                     = (ℳ(𝛽)ℳ(𝑇))𝑗,𝑘 .
+
+Thus ℳ(𝛼) = ℳ(𝛽)ℳ(𝑇). The proof that ℳ(𝜌) = ℳ(𝑇)t ℳ(𝛽) is similar.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+336        Chapter 9      Multilinear Algebra and Determinants
+
+   The result below shows how the matrix of a bilinear form changes if we change
+the basis. The formula in the result below should be compared to the change-
+of-basis formula for the matrix of an operator (see 3.84). The two formulas are
+similar, except that the transpose 𝐶 t appears in the formula below and the inverse
+𝐶−1 appears in the change-of-basis formula for the matrix of an operator.
+
+  9.7    change-of-basis formula
+
+  Suppose 𝛽 ∈ 𝑉 (2). Suppose 𝑒1 , … , 𝑒𝑛 and 𝑓1 , … , 𝑓𝑛 are bases of 𝑉. Let
+
+               𝐴 = ℳ(𝛽, (𝑒1 , … , 𝑒𝑛 ))      and 𝐵 = ℳ(𝛽, ( 𝑓1 , … , 𝑓𝑛 ))
+
+  and 𝐶 = ℳ(𝐼 , (𝑒1 , … , 𝑒𝑛 ), ( 𝑓1 , … , 𝑓𝑛 )). Then
+
+                                        𝐴 = 𝐶 t 𝐵𝐶.
+
+Proof   The linear map lemma (3.4) tells us that there exists an operator 𝑇 ∈ ℒ(𝑉)
+such that 𝑇 𝑓𝑘 = 𝑒𝑘 for each 𝑘 = 1, … , 𝑛. The definition of the matrix of an operator
+with respect to a basis implies that
+                                 ℳ(𝑇 , ( 𝑓1 , … , 𝑓𝑛 )) = 𝐶.
+
+      Define bilinear forms 𝛼, 𝜌 on 𝑉 by
+            𝛼(𝑢, 𝑣) = 𝛽(𝑢, 𝑇𝑣)       and 𝜌(𝑢, 𝑣) = 𝛼(𝑇𝑢, 𝑣) = 𝛽(𝑇𝑢, 𝑇𝑣).
+Then 𝛽(𝑒𝑗 , 𝑒𝑘 ) = 𝛽(𝑇 𝑓𝑗 , 𝑇 𝑓𝑘 ) = 𝜌( 𝑓𝑗 , 𝑓𝑘 ) for all 𝑗, 𝑘 ∈ {1, … , 𝑛}. Thus
+
+                                𝐴 = ℳ(𝜌, ( 𝑓1 , … , 𝑓𝑛 ))
+                                   = 𝐶 t ℳ(𝛼, ( 𝑓1 , … , 𝑓𝑛 ))
+                                   = 𝐶 t 𝐵𝐶,
+
+where the second and third lines each follow from 9.6.
+
+
+ 9.8 example: the matrix of a bilinear form on 𝒫2 (𝐑)
+
+      Define a bilinear form 𝛽 on 𝒫2 (𝐑) by 𝛽(𝑝, 𝑞) = 𝑝(2) ⋅ 𝑞′ (3). Let
+            𝐴 = ℳ(𝛽, (1, 𝑥 − 2, (𝑥 − 3)2 ))        and 𝐵 = ℳ(𝛽, (1, 𝑥, 𝑥2 ))
+and 𝐶 = ℳ(𝐼 , (1, 𝑥 − 2, (𝑥 − 3)2 ), (1, 𝑥, 𝑥2 )). Then
+    0         1   0                 0 1 6                            1 −2 9
+  ⎛                 ⎞             ⎛        ⎞                       ⎛        ⎞
+𝐴=⎜
+  ⎜
+  ⎜ 0         0   0 ⎟
+                    ⎟
+                    ⎟     and 𝐵 = ⎜
+                                  ⎜        ⎟
+                                  ⎜ 0 2 12 ⎟
+                                           ⎟               and 𝐶 = ⎜
+                                                                   ⎜        ⎟.
+                                                                   ⎜ 0 1 −6 ⎟
+                                                                            ⎟
+  ⎝ 0         1   0 ⎠             ⎝ 0 4 24 ⎠                       ⎝ 0 0  1 ⎠
+
+Now the change-of-basis formula 9.7 asserts that 𝐴 = 𝐶 t 𝐵𝐶, which you can verify
+with matrix multiplication using the matrices above.
+
+
+                  Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                     Section 9A       Bilinear Forms and Quadratic Forms            337
+
+Symmetric Bilinear Forms
+
+ 9.9 definition: symmetric bilinear form, 𝑉sym
+                                                (2)
+
+
+
+ A bilinear form 𝜌 ∈ 𝑉 (2) is called symmetric if
+
+                                 𝜌(𝑢, 𝑤) = 𝜌(𝑤, 𝑢)
+
+ for all 𝑢, 𝑤 ∈ 𝑉. The set of symmetric bilinear forms on 𝑉 is denoted by 𝑉sym
+                                                                           (2)
+                                                                               .
+
+
+ 9.10 example: symmetric bilinear forms
+
+• If 𝑉 is a real inner product space and 𝜌 ∈ 𝑉 (2) is defined by
+                                    𝜌(𝑢, 𝑤) = ⟨𝑢, 𝑤⟩,
+  then 𝜌 is a symmetric bilinear form on 𝑉.
+• Suppose 𝑉 is a real inner product space and 𝑇 ∈ ℒ(𝑉). Define 𝜌 ∈ 𝑉 (2) by
+                                   𝜌(𝑢, 𝑤) = ⟨𝑢, 𝑇𝑤⟩.
+  Then 𝜌 is a symmetric bilinear form on 𝑉 if and only if 𝑇 is a self-adjoint
+  operator (the previous bullet point is the special case 𝑇 = 𝐼 ).
+• Suppose 𝜌 ∶ ℒ(𝑉) × ℒ(𝑉) → 𝐅 is defined by
+                                   𝜌(𝑆, 𝑇) = tr(𝑆𝑇).
+  Then 𝜌 is a symmetric bilinear form on ℒ(𝑉) because trace is a linear functional
+  on ℒ(𝑉) and tr(𝑆𝑇) = tr(𝑇𝑆) for all 𝑆, 𝑇 ∈ ℒ(𝑉); see 8.56.
+
+ 9.11 definition: symmetric matrix
+
+ A square matrix 𝐴 is called symmetric if it equals its transpose.
+
+   An operator on 𝑉 may have a symmetric matrix with respect to some but not all
+bases of 𝑉. In contrast, the next result shows that a bilinear form on 𝑉 has a sym-
+metric matrix with respect to either all bases of 𝑉 or with respect to no bases of 𝑉.
+
+ 9.12   symmetric bilinear forms are diagonalizable
+
+ Suppose 𝜌 ∈ 𝑉 (2). Then the following are equivalent.
+ (a) 𝜌 is a symmetric bilinear form on 𝑉.
+ (b) ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 )) is a symmetric matrix for every basis 𝑒1 , … , 𝑒𝑛 of 𝑉.
+ (c) ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 )) is a symmetric matrix for some basis 𝑒1 , … , 𝑒𝑛 of 𝑉.
+ (d) ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 )) is a diagonal matrix for some basis 𝑒1 , … , 𝑒𝑛 of 𝑉.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+338      Chapter 9      Multilinear Algebra and Determinants
+
+Proof First suppose (a) holds, so 𝜌 is a symmetric bilinear form. Suppose
+𝑒1 , … , 𝑒𝑛 is a basis of 𝑉 and 𝑗, 𝑘 ∈ {1, … , 𝑛}. Then 𝜌(𝑒𝑗 , 𝑒𝑘 ) = 𝜌(𝑒𝑘 , 𝑒𝑗 ) because
+𝜌 is symmetric. Thus ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 )) is a symmetric matrix, showing that (a)
+implies (b).
+    Clearly (b) implies (c).
+    Now suppose (c) holds and 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉 such that ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 ))
+is a symmetric matrix. Suppose 𝑢, 𝑤 ∈ 𝑉. There exist 𝑎1 , … , 𝑎𝑛 , 𝑏1 , … , 𝑏𝑛 ∈ 𝐅
+such that 𝑢 = 𝑎1 𝑒1 + ⋯ + 𝑎𝑛 𝑒𝑛 and 𝑤 = 𝑏1 𝑒1 + ⋯ + 𝑏𝑛 𝑒𝑛 . Now
+                                              𝑛       𝑛
+                            𝜌(𝑢, 𝑤) = 𝜌( ∑ 𝑎𝑗 𝑒𝑗 , ∑ 𝑏𝑘 𝑒𝑘 )
+                                             𝑗=1      𝑘=1
+                                         𝑛        𝑛
+                                     = ∑ ∑ 𝑎𝑗 𝑏𝑘 𝜌(𝑒𝑗 , 𝑒𝑘 )
+                                        𝑗 = 1 𝑘=1
+                                         𝑛        𝑛
+                                     = ∑ ∑ 𝑎𝑗 𝑏𝑘 𝜌(𝑒𝑘 , 𝑒𝑗 )
+                                        𝑗 = 1 𝑘=1
+                                             𝑛         𝑛
+                                     = 𝜌( ∑ 𝑏𝑘 𝑒𝑘 , ∑ 𝑎𝑗 𝑒𝑗 )
+                                             𝑘=1      𝑗=1
+
+                                     = 𝜌(𝑤, 𝑢),
+
+where the third line holds because ℳ(𝜌) is a symmetric matrix. The equation
+above shows that 𝜌 is a symmetric bilinear form, proving that (c) implies (a).
+   At this point, we have proved that (a), (b), (c) are equivalent. Because every
+diagonal matrix is symmetric, (d) implies (c). To complete the proof, we will
+show that (a) implies (d) by induction on 𝑛 = dim 𝑉.
+   If 𝑛 = 1, then (a) implies (d) because every 1-by-1 matrix is diagonal. Now
+suppose 𝑛 > 1 and the implication (a) ⟹ (d) holds for one less dimension.
+Suppose (a) holds, so 𝜌 is a symmetric bilinear form. If 𝜌 = 0, then the matrix of
+𝜌 with respect to every basis of 𝑉 is the zero matrix, which is a diagonal matrix.
+Hence we can assume that 𝜌 ≠ 0, which means there exist 𝑢, 𝑤 ∈ 𝑉 such that
+𝜌(𝑢, 𝑤) ≠ 0. Now
+
+                 2𝜌(𝑢, 𝑤) = 𝜌(𝑢 + 𝑤, 𝑢 + 𝑤) − 𝜌(𝑢, 𝑢) − 𝜌(𝑤, 𝑤).
+
+Because the left side of the equation above is nonzero, the three terms on the right
+cannot all equal 0. Hence there exists 𝑣 ∈ 𝑉 such that 𝜌(𝑣, 𝑣) ≠ 0.
+   Let 𝑈 = {𝑢 ∈ 𝑉 ∶ 𝜌(𝑢, 𝑣) = 0}. Thus 𝑈 is the null space of the linear
+functional 𝑢 ↦ 𝜌(𝑢, 𝑣) on 𝑉. This linear functional is not the zero linear functional
+because 𝑣 ∉ 𝑈 . Thus dim 𝑈 = 𝑛 − 1. By our induction hypothesis, there is a
+basis 𝑒1 , … , 𝑒𝑛−1 of 𝑈 such that the symmetric bilinear form 𝜌|𝑈×𝑈 has a diagonal
+matrix with respect to this basis.
+   Because 𝑣 ∉ 𝑈 , the list 𝑒1 , … , 𝑒𝑛−1 , 𝑣 is a basis of 𝑉. Suppose 𝑘 ∈ {1, … , 𝑛−1}.
+Then 𝜌(𝑒𝑘 , 𝑣) = 0 by the construction of 𝑈 . Because 𝜌 is symmetric, we also
+have 𝜌(𝑣, 𝑒𝑘 ) = 0. Thus the matrix of 𝜌 with respect to 𝑒1 , … , 𝑒𝑛−1 , 𝑣 is a diagonal
+matrix, completing the proof that (a) implies (d).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                       Section 9A      Bilinear Forms and Quadratic Forms             339
+
+    The previous result states that every symmetric bilinear form has a diagonal
+matrix with respect to some basis. If our vector space happens to be a real inner
+product space, then the next result shows that every symmetric bilinear form has
+a diagonal matrix with respect to some orthonormal basis. Note that the inner
+product here is unrelated to the bilinear form.
+
+ 9.13    diagonalization of a symmetric bilinear form by an orthonormal basis
+
+ Suppose 𝑉 is a real inner product space and 𝜌 is a symmetric bilinear form on
+ 𝑉. Then 𝜌 has a diagonal matrix with respect to some orthonormal basis of 𝑉.
+
+Proof Let 𝑓1 , … , 𝑓𝑛 be an orthonormal basis of 𝑉. Let 𝐵 = ℳ(𝜌, ( 𝑓1 , … , 𝑓𝑛 )).
+Then 𝐵 is a symmetric matrix (by 9.12). Let 𝑇 ∈ ℒ(𝑉) be the operator such that
+ℳ(𝑇 , ( 𝑓1 , … , 𝑓𝑛 )) = 𝐵. Thus 𝑇 is self-adjoint.
+    The real spectral theorem (7.29) states that 𝑇 has a diagonal matrix with respect
+to some orthonormal basis 𝑒1 , … , 𝑒𝑛 of 𝑉. Let 𝐶 = ℳ(𝐼 , (𝑒1 , … , 𝑒𝑛 ), ( 𝑓1 , … , 𝑓𝑛 )).
+Thus 𝐶−1 𝐵𝐶 is the matrix of 𝑇 with respect to the basis 𝑒1 , … , 𝑒𝑛 (by 3.84). Hence
+𝐶−1 𝐵𝐶 is a diagonal matrix. Now
+                        𝑀(𝜌, (𝑒1 , … , 𝑒𝑛 )) = 𝐶 t 𝐵𝐶 = 𝐶−1 𝐵𝐶,
+where the first equality holds by 9.7 and the second equality holds because 𝐶 is a
+unitary matrix with real entries (which implies that 𝐶−1 = 𝐶 t ; see 7.57).
+
+   Now we turn our attention to alternating bilinear forms. Alternating multilinear
+forms will play a major role in our approach to determinants later in this chapter.
+
+ 9.14 definition: alternating bilinear form, 𝑉alt
+                                                     (2)
+
+
+
+ A bilinear form 𝛼 ∈ 𝑉 (2) is called alternating if
+
+                                       𝛼(𝑣, 𝑣) = 0
+
+ for all 𝑣 ∈ 𝑉. The set of alternating bilinear forms on 𝑉 is denoted by 𝑉alt
+                                                                          (2)
+                                                                              .
+
+
+ 9.15 example: alternating bilinear forms
+
+• Suppose 𝑛 ≥ 3 and 𝛼 ∶ 𝐅𝑛 × 𝐅𝑛 → 𝐅 is defined by
+              𝛼((𝑥1 , … , 𝑥𝑛 ), (𝑦1 , … , 𝑦𝑛 )) = 𝑥1 𝑦2 − 𝑥2 𝑦1 + 𝑥1 𝑦3 − 𝑥3 𝑦1 .
+  Then 𝛼 is an alternating bilinear form on 𝐅𝑛.
+• Suppose 𝜑, 𝜏 ∈ 𝑉 ′. Then the bilinear form 𝛼 on 𝑉 defined by
+                           𝛼(𝑢, 𝑤) = 𝜑(𝑢)𝜏(𝑤) − 𝜑(𝑤)𝜏(𝑢)
+   is alternating.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+340      Chapter 9      Multilinear Algebra and Determinants
+
+    The next result shows that a bilinear form is alternating if and only if switching
+the order of the two inputs multiplies the output by −1.
+
+ 9.16    characterization of alternating bilinear forms
+
+ A bilinear form 𝛼 on 𝑉 is alternating if and only if
+
+                                 𝛼(𝑢, 𝑤) = −𝛼(𝑤, 𝑢)
+
+ for all 𝑢, 𝑤 ∈ 𝑉.
+
+Proof    First suppose that 𝛼 is alternating. If 𝑢, 𝑤 ∈ 𝑉, then
+                     0 = 𝛼(𝑢 + 𝑤, 𝑢 + 𝑤)
+                       = 𝛼(𝑢, 𝑢) + 𝛼(𝑢, 𝑤) + 𝛼(𝑤, 𝑢) + 𝛼(𝑤, 𝑤)
+                       = 𝛼(𝑢, 𝑤) + 𝛼(𝑤, 𝑢).
+Thus 𝛼(𝑢, 𝑤) = −𝛼(𝑤, 𝑢), as desired.
+    To prove the implication in the other direction, suppose 𝛼(𝑢, 𝑤) = −𝛼(𝑤, 𝑢)
+for all 𝑢, 𝑤 ∈ 𝑉. Then 𝛼(𝑣, 𝑣) = −𝛼(𝑣, 𝑣) for all 𝑣 ∈ 𝑉, which implies that
+𝛼(𝑣, 𝑣) = 0 for all 𝑣 ∈ 𝑉. Thus 𝛼 is alternating.
+
+    Now we show that the vector space of bilinear forms on 𝑉 is the direct sum of
+the symmetric bilinear forms on 𝑉 and the alternating bilinear forms on 𝑉.
+
+ 9.17
+                  (2)    (2)
+         𝑉 (2) = 𝑉sym ⊕ 𝑉alt
+
+ The sets 𝑉sym
+           (2)
+               and 𝑉alt
+                    (2)
+                        are subspaces of 𝑉 (2) . Furthermore,
+                                          (2)    (2)
+                                 𝑉 (2) = 𝑉sym ⊕ 𝑉alt .
+
+Proof   The definition of symmetric bilinear form implies that the sum of any
+two symmetric bilinear forms on 𝑉 is a symmetric bilinear form on 𝑉, and every
+scalar multiple of any symmetric bilinear form on 𝑉 is a symmetric bilinear form
+on 𝑉. Also, the zero bilinear form is in 𝑉sym   (2)
+                                                    . Thus 𝑉sym(2)
+                                                                   is a subspace of 𝑉 (2).
+Similarly, the verification that 𝑉alt is a subspace of 𝑉 (2) is straightforward.
+                                  (2)
+
+   Next, we want to show that 𝑉 (2) = 𝑉sym  (2)       (2)
+                                                 + 𝑉alt   . To do this, suppose 𝛽 ∈ 𝑉 (2).
+Define 𝜌, 𝛼 ∈ 𝑉 by
+                 (2)
+
+                    𝛽(𝑢, 𝑤) + 𝛽(𝑤, 𝑢)                         𝛽(𝑢, 𝑤) − 𝛽(𝑤, 𝑢)
+        𝜌(𝑢, 𝑤) =                         and 𝛼(𝑢, 𝑤) =                         .
+                            2                                         2
+Then 𝜌 ∈ 𝑉sym(2)
+                 and 𝛼 ∈ 𝑉alt
+                           (2)
+                               , and 𝛽 = 𝜌 + 𝛼. Thus 𝑉 (2) = 𝑉sym (2)    (2)
+                                                                      + 𝑉alt .
+   Finally, to show that the intersection of the two subspaces under consideration
+equals {0}, suppose 𝛽 ∈ 𝑉sym(2)      (2)
+                                 ∩ 𝑉alt  . If 𝑢, 𝑤 ∈ 𝑉, then 9.16 implies that
+                          𝛽(𝑢, 𝑤) = −𝛽(𝑤, 𝑢) = −𝛽(𝑢, 𝑤)
+and hence 𝛽(𝑢, 𝑤) = 0. Thus 𝛽 = 0. Hence 𝑉 (2) = 𝑉sym
+                                                  (2)    (2)
+                                                      ⊕ 𝑉alt (by 1.46).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                       Section 9A      Bilinear Forms and Quadratic Forms            341
+
+Quadratic Forms
+
+ 9.18 definition: quadratic form associated with a bilinear form, 𝑞𝛽
+
+ For 𝛽 a bilinear form on 𝑉, define a function 𝑞𝛽 ∶ 𝑉 → 𝐅 by 𝑞𝛽 (𝑣) = 𝛽(𝑣, 𝑣).
+ A function 𝑞 ∶ 𝑉 → 𝐅 is called a quadratic form on 𝑉 if there exists a bilinear
+ form 𝛽 on 𝑉 such that 𝑞 = 𝑞𝛽 .
+
+   Note that if 𝛽 is a bilinear form, then 𝑞𝛽 = 0 if and only if 𝛽 is alternating.
+
+ 9.19 example: quadratic form
+
+   Suppose 𝛽 is the bilinear form on 𝐑3 defined by
+          𝛽((𝑥1 , 𝑥2 , 𝑥3 ), (𝑦1 , 𝑦2 , 𝑦3 )) = 𝑥1 𝑦1 − 4𝑥1 𝑦2 + 8𝑥1 𝑦3 − 3𝑥3 𝑦3 .
+Then 𝑞𝛽 is the quadratic form on 𝐑3 given by the formula
+                    𝑞𝛽 (𝑥1 , 𝑥2 , 𝑥3 ) = 𝑥12 − 4𝑥1 𝑥2 + 8𝑥1 𝑥3 − 3𝑥32.
+
+    The quadratic form in the example above is typical of quadratic forms on 𝐅𝑛,
+as shown in the next result.
+
+ 9.20   quadratic forms on 𝐅𝑛
+
+ Suppose 𝑛 is a positive integer and 𝑞 is a function from 𝐅𝑛 to 𝐅. Then 𝑞
+ is a quadratic form on 𝐅𝑛 if and only if there exist numbers 𝐴𝑗,𝑘 ∈ 𝐅 for
+ 𝑗, 𝑘 ∈ {1, … , 𝑛} such that
+                                               𝑛   𝑛
+                             𝑞(𝑥1 , … , 𝑥𝑛 ) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑥𝑘
+                                             𝑘=1 𝑗 = 1
+
+ for all (𝑥1 , … , 𝑥𝑛 ) ∈ 𝐅𝑛.
+
+Proof First suppose 𝑞 is a quadratic form on 𝐅𝑛. Thus there exists a bilinear form
+𝛽 on 𝐅𝑛 such that 𝑞 = 𝑞𝛽 . Let 𝐴 be the matrix of 𝛽 with respect to the standard
+basis of 𝐅𝑛. Then for all (𝑥1 , … , 𝑥𝑛 ) ∈ 𝐅𝑛, we have the desired equation
+                                                                      𝑛    𝑛
+         𝑞(𝑥1 , … , 𝑥𝑛 ) = 𝛽((𝑥1 , … , 𝑥𝑛 ), (𝑥1 , … , 𝑥𝑛 )) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑥𝑘 .
+                                                                     𝑘=1 𝑗 = 1
+
+   Conversely, suppose there exist numbers 𝐴𝑗,𝑘 ∈ 𝐅 for 𝑗, 𝑘 ∈ {1, … , 𝑛} such that
+                                               𝑛    𝑛
+                             𝑞(𝑥1 , … , 𝑥𝑛 ) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑥𝑘
+                                              𝑘=1 𝑗 = 1
+
+for all (𝑥1 , … , 𝑥𝑛 ) ∈ 𝐅 . Define a bilinear form 𝛽 on 𝐅𝑛 by
+                         𝑛
+
+                                                          𝑛    𝑛
+                   𝛽((𝑥1 , … , 𝑥𝑛 ), (𝑦1 , … , 𝑦𝑛 )) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑦𝑘 .
+                                                         𝑘=1 𝑗 = 1
+
+Then 𝑞 = 𝑞𝛽 , as desired.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+342       Chapter 9     Multilinear Algebra and Determinants
+
+    Although quadratic forms are defined in terms of an arbitrary bilinear form,
+the equivalence of (a) and (b) in the result below shows that a symmetric bilinear
+form can always be used.
+
+ 9.21     characterizations of quadratic forms
+
+ Suppose 𝑞 ∶ 𝑉 → 𝐅 is a function. The following are equivalent.
+ (a) 𝑞 is a quadratic form.
+ (b) There exists a unique symmetric bilinear form 𝜌 on 𝑉 such that 𝑞 = 𝑞𝜌 .
+ (c) 𝑞(𝜆𝑣) = 𝜆2 𝑞(𝑣) for all 𝜆 ∈ 𝐅 and all 𝑣 ∈ 𝑉, and the function
+                            (𝑢, 𝑤) ↦ 𝑞(𝑢 + 𝑤) − 𝑞(𝑢) − 𝑞(𝑤)
+
+        is a symmetric bilinear form on 𝑉.
+ (d) 𝑞(2𝑣) = 4𝑞(𝑣) for all 𝑣 ∈ 𝑉, and the function
+                            (𝑢, 𝑤) ↦ 𝑞(𝑢 + 𝑤) − 𝑞(𝑢) − 𝑞(𝑤)
+
+        is a symmetric bilinear form on 𝑉.
+
+Proof    First suppose (a) holds, so 𝑞 is a quadratic form. Hence there exists a
+bilinear form 𝛽 such that 𝑞 = 𝑞𝛽 . By 9.17, there exist a symmetric bilinear form 𝜌
+on 𝑉 and an alternating bilinear form 𝛼 on 𝑉 such that 𝛽 = 𝜌 + 𝛼. Now
+                                𝑞 = 𝑞𝛽 = 𝑞𝜌 + 𝑞𝛼 = 𝑞𝜌 .
+
+If 𝜌′ ∈ 𝑉sym
+          (2)
+               also satisfies 𝑞𝜌′ = 𝑞, then 𝑞𝜌′−𝜌 = 0; thus 𝜌′ − 𝜌 ∈ 𝑉sym
+                                                                      (2)     (2)
+                                                                          ∩ 𝑉alt  ,
+which implies that 𝜌 = 𝜌 (by 9.17). This completes the proof that (a) implies (b).
+                      ′
+
+    Now suppose (b) holds, so there exists a symmetric bilinear form 𝜌 on 𝑉 such
+that 𝑞 = 𝑞𝜌 . If 𝜆 ∈ 𝐅 and 𝑣 ∈ 𝑉 then
+              𝑞(𝜆𝑣) = 𝜌(𝜆𝑣, 𝜆𝑣) = 𝜆𝜌(𝑣, 𝜆𝑣) = 𝜆2 𝜌(𝑣, 𝑣) = 𝜆2 𝑞(𝑣),
+showing that the first part of (c) holds.
+   If 𝑢, 𝑤 ∈ 𝑉, then
+ 𝑞(𝑢 + 𝑤) − 𝑞(𝑢) − 𝑞(𝑤) = 𝜌(𝑢 + 𝑤, 𝑢 + 𝑤) − 𝜌(𝑢, 𝑢) − 𝜌(𝑤, 𝑤) = 2𝜌(𝑢, 𝑤).
+Thus the function (𝑢, 𝑤) ↦ 𝑞(𝑢 + 𝑤)−𝑞(𝑢)−𝑞(𝑤) equals 2𝜌, which is a symmetric
+bilinear form on 𝑉, completing the proof that (b) implies (c).
+    Clearly (c) implies (d).
+    Now suppose (d) holds. Let 𝜌 be the symmetric bilinear form on 𝑉 defined by
+                                  𝑞(𝑢 + 𝑤) − 𝑞(𝑢) − 𝑞(𝑤)
+                       𝜌(𝑢, 𝑤) =                          .
+                                             2
+If 𝑣 ∈ 𝑉, then
+                       𝑞(2𝑣) − 𝑞(𝑣) − 𝑞(𝑣)     4𝑞(𝑣) − 2𝑞(𝑣)
+            𝜌(𝑣, 𝑣) =                       =                 = 𝑞(𝑣).
+                                2                    2
+Thus 𝑞 = 𝑞𝜌 , completing the proof that (d) implies (a).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                        Section 9A      Bilinear Forms and Quadratic Forms             343
+
+
+
+ 9.22 example: symmetric bilinear form associated with a quadratic form
+
+   Suppose 𝑞 is the quadratic form on 𝐑3 given by the formula
+                      𝑞(𝑥1 , 𝑥2 , 𝑥3 ) = 𝑥12 − 4𝑥1 𝑥2 + 8𝑥1 𝑥3 − 3𝑥32.
+A bilinear form 𝛽 on 𝐑3 such that 𝑞 = 𝑞𝛽 is given by Example 9.19, but this
+bilinear form is not symmetric, as promised by 9.21(b). However, the bilinear
+form 𝜌 on 𝐑3 defined by
+ 𝜌((𝑥1 , 𝑥2 , 𝑥3 ), (𝑦1 , 𝑦2 , 𝑦3 )) = 𝑥1 𝑦1 − 2𝑥1 𝑦2 − 2𝑥2 𝑦1 + 4𝑥1 𝑦3 + 4𝑥3 𝑦1 − 3𝑥3 𝑦3
+is symmetric and satisfies 𝑞 = 𝑞𝜌 .
+
+    The next result states that for each quadratic form we can choose a basis such
+that the quadratic form looks like a weighted sum of squares of the coordinates,
+meaning that there are no cross terms of the form 𝑥𝑗 𝑥𝑘 with 𝑗 ≠ 𝑘 .
+
+ 9.23     diagonalization of quadratic form
+
+ Suppose 𝑞 is a quadratic form on 𝑉.
+ (a) There exist a basis 𝑒1 , … , 𝑒𝑛 of 𝑉 and 𝜆1 , … , 𝜆𝑛 ∈ 𝐅 such that
+
+                         𝑞(𝑥1 𝑒1 + ⋯ + 𝑥𝑛 𝑒𝑛 ) = 𝜆1 𝑥12 + ⋯ + 𝜆𝑛 𝑥𝑛2
+
+        for all 𝑥1 , … , 𝑥𝑛 ∈ 𝐅.
+ (b) If 𝐅 = 𝐑 and 𝑉 is an inner product space, then the basis in (a) can be
+     chosen to be an orthonormal basis of 𝑉.
+
+Proof
+(a) There exists a symmetric bilinear form 𝜌 on 𝑉 such that 𝑞 = 𝑞𝜌 (by 9.21). Now
+    there exists a basis 𝑒1 , … , 𝑒𝑛 of 𝑉 such that ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 )) is a diagonal
+    matrix (by 9.12). Let 𝜆1 , … , 𝜆𝑛 denote the entries on the diagonal of this
+    matrix. Thus
+                                              { 𝜆 if 𝑗 = 𝑘 ,
+                                              ⎧
+                                𝜌(𝑒𝑗 , 𝑒𝑘 ) = ⎨ 𝑗
+                                              ⎩0 if 𝑗 ≠ 𝑘
+                                              {
+    for all 𝑗, 𝑘 ∈ {1, … , 𝑛}. If 𝑥1 , … , 𝑥𝑛 ∈ 𝐅, then
+               𝑞(𝑥1 𝑒1 + ⋯ + 𝑥𝑛 𝑒𝑛 ) = 𝜌(𝑥1 𝑒1 + ⋯ + 𝑥𝑛 𝑒𝑛 , 𝑥1 𝑒1 + ⋯ + 𝑥𝑛 𝑒𝑛 )
+                                         𝑛    𝑛
+                                     = ∑ ∑ 𝑥𝑗 𝑥𝑘 𝜌(𝑒𝑗 , 𝑒𝑘 )
+                                        𝑘=1 𝑗 = 1
+
+                                     = 𝜆1 𝑥12 + ⋯ + 𝜆𝑛 𝑥𝑛2,
+    as desired.
+(b) Suppose 𝐅 = 𝐑 and 𝑉 is an inner product space. Then 9.13 tells us that the
+    basis in (a) can be chosen to be an orthonormal basis of 𝑉.
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+344      Chapter 9        Multilinear Algebra and Determinants
+
+Exercises 9A
+
+1     Prove that if 𝛽 is a bilinear form on 𝐅, then there exists 𝑐 ∈ 𝐅 such that
+                                        𝛽(𝑥, 𝑦) = 𝑐𝑥𝑦
+      for all 𝑥, 𝑦 ∈ 𝐅.
+2     Let 𝑛 = dim 𝑉. Suppose 𝛽 is a bilinear form on 𝑉. Prove that there exist
+      𝜑1 , … , 𝜑𝑛 , 𝜏1 , … , 𝜏𝑛 ∈ 𝑉 ′ such that
+                      𝛽(𝑢, 𝑣) = 𝜑1 (𝑢) ⋅ 𝜏1 (𝑣) + ⋯ + 𝜑𝑛 (𝑢) ⋅ 𝜏𝑛 (𝑣)
+      for all 𝑢, 𝑣 ∈ 𝑉.
+         This exercise shows that if 𝑛 = dim 𝑉, then every bilinear form on 𝑉 is of
+         the form given by the last bullet point of Example 9.2.
+
+3     Suppose 𝛽 ∶ 𝑉× 𝑉 → 𝐅 is a bilinear form on 𝑉 and also is a linear functional
+      on 𝑉 × 𝑉. Prove that 𝛽 = 0.
+4     Suppose 𝑉 is a real inner product space and 𝛽 is a bilinear form on 𝑉. Show
+      that there exists a unique operator 𝑇 ∈ ℒ(𝑉) such that
+                                      𝛽(𝑢, 𝑣) = ⟨𝑢, 𝑇𝑣⟩
+      for all 𝑢, 𝑣 ∈ 𝑉.
+         This exercise states that if 𝑉 is a real inner product space, then every
+         bilinear form on 𝑉 is of the form given by the third bullet point in 9.2.
+
+5     Suppose 𝛽 is a bilinear form on a real inner product space 𝑉 and 𝑇 is the
+      unique operator on 𝑉 such that 𝛽(𝑢, 𝑣) = ⟨𝑢, 𝑇𝑣⟩ for all 𝑢, 𝑣 ∈ 𝑉 (see
+      Exercise 4). Show that 𝛽 is an inner product on 𝑉 if and only if 𝑇 is an
+      invertible positive operator on 𝑉.
+6     Prove or give a counterexample: If 𝜌 is a symmetric bilinear form on 𝑉, then
+                                   {𝑣 ∈ 𝑉 ∶ 𝜌(𝑣, 𝑣) = 0}
+      is a subspace of 𝑉.
+7     Explain why the proof of 9.13 (diagonalization of a symmetric bilinear form
+      by an orthonormal basis on a real inner product space) fails if the hypothesis
+      that 𝐅 = 𝐑 is dropped.
+8     Find formulas for dim 𝑉sym
+                             (2)
+                                 and dim 𝑉alt
+                                          (2)
+                                              in terms of dim 𝑉.
+9     Suppose that 𝑛 is a positive integer and 𝑉 = {𝑝 ∈ 𝒫𝑛 (𝐑) ∶ 𝑝(0) = 𝑝(1)}.
+      Define 𝛼 ∶ 𝑉 × 𝑉 → 𝐑 by
+                                                    1
+                                       𝛼(𝑝, 𝑞) = ∫ 𝑝𝑞′.
+                                                   0
+
+      Show that 𝛼 is an alternating bilinear form on 𝑉.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                    Section 9A       Bilinear Forms and Quadratic Forms     345
+
+10   Suppose that 𝑛 is a positive integer and
+
+                𝑉 = {𝑝 ∈ 𝒫𝑛 (𝐑) ∶ 𝑝(0) = 𝑝(1) and 𝑝′ (0) = 𝑝′ (1)}.
+
+     Define 𝜌 ∶ 𝑉 × 𝑉 → 𝐑 by
+                                                  1
+                                     𝜌(𝑝, 𝑞) = ∫ 𝑝𝑞″.
+                                                 0
+
+     Show that 𝜌 is a symmetric bilinear form on 𝑉.
+
+
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+346       Chapter 9     Multilinear Algebra and Determinants
+
+9B Alternating Multilinear Forms
+Multilinear Forms
+
+ 9.24 definition: 𝑉 𝑚
+
+ For 𝑚 a positive integer, define 𝑉 𝑚 by
+
+                                         ⏟
+                                    𝑉𝑚 = 𝑉 × ⋯ × 𝑉.
+                                               𝑚 times
+
+
+    Now we can define 𝑚-linear forms as a generalization of the bilinear forms
+that we discussed in the previous section.
+
+ 9.25 definition: 𝑚-linear form, 𝑉 (𝑚), multilinear form
+
+ • For 𝑚 a positive integer, an 𝑚-linear form on 𝑉 is a function 𝛽 ∶ 𝑉 𝑚 → 𝐅
+      that is linear in each slot when the other slots are held fixed. This means
+      that for each 𝑘 ∈ {1, … , 𝑚} and all 𝑢1 , … , 𝑢𝑚 ∈ 𝑉, the function
+
+                            𝑣 ↦ 𝛽(𝑢1 , … , 𝑢𝑘−1 , 𝑣, 𝑢𝑘+1 , … , 𝑢𝑚 )
+
+      is a linear map from 𝑉 to 𝐅.
+ • The set of 𝑚-linear forms on 𝑉 is denoted by 𝑉 (𝑚).
+ • A function 𝛽 is called a multilinear form on 𝑉 if it is an 𝑚-linear form on
+   𝑉 for some positive integer 𝑚.
+
+   In the definition above, the expression 𝛽(𝑢1 , … , 𝑢𝑘−1 , 𝑣, 𝑢𝑘+1 , … , 𝑢𝑚 ) means
+𝛽(𝑣, 𝑢2 , … , 𝑢𝑚 ) if 𝑘 = 1 and means 𝛽(𝑢1 , … , 𝑢𝑚−1 , 𝑣) if 𝑘 = 𝑚.
+   A 1-linear form on 𝑉 is a linear functional on 𝑉. A 2-linear form on 𝑉 is
+a bilinear form on 𝑉. You can verify that with the usual addition and scalar
+multiplication of functions, 𝑉 (𝑚) is a vector space.
+
+ 9.26 example: 𝑚-linear forms
+
+• Suppose 𝛼, 𝜌 ∈ 𝑉 (2). Define a function 𝛽 ∶ 𝑉 4 → 𝐅 by
+
+                         𝛽(𝑣1 , 𝑣2 , 𝑣3 , 𝑣4 ) = 𝛼(𝑣1 , 𝑣2 ) 𝜌(𝑣3 , 𝑣4 ).
+
+  Then 𝛽 ∈ 𝑉 (4).
+• Define 𝛽 ∶ (ℒ(𝑉)) → 𝐅 by
+                        𝑚
+
+
+                               𝛽(𝑇1 , … , 𝑇𝑚 ) = tr(𝑇1 ⋯ 𝑇𝑚 ).
+
+  Then 𝛽 is an 𝑚-linear form on ℒ(𝑉).
+
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+

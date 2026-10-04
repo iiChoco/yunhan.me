@@ -1,0 +1,54 @@
+CONTENT AUDIT
+PASS
+SITE CHECKER
+  section 3-exercises is in the manifest but has no file
+  section 4-polynomials is in the manifest but has no file
+  section 4-exercises is in the manifest but has no file
+  section 5a is in the manifest but has no file
+  section 5b is in the manifest but has no file
+  section 5c is in the manifest but has no file
+  section 5d is in the manifest but has no file
+  section 5e is in the manifest but has no file
+  section 5-exercises is in the manifest but has no file
+  section 6a is in the manifest but has no file
+  section 6b is in the manifest but has no file
+  section 6c is in the manifest but has no file
+  section 6-exercises is in the manifest but has no file
+  section 7a is in the manifest but has no file
+  section 7b is in the manifest but has no file
+  section 7c is in the manifest but has no file
+  section 7d is in the manifest but has no file
+  section 7e is in the manifest but has no file
+  section 7f is in the manifest but has no file
+  section 7-exercises is in the manifest but has no file
+  section 8a is in the manifest but has no file
+  section 8b is in the manifest but has no file
+  section 8c is in the manifest but has no file
+  section 8d is in the manifest but has no file
+  section 8-exercises is in the manifest but has no file
+  section 9a is in the manifest but has no file
+  section 9b is in the manifest but has no file
+  section 9c is in the manifest but has no file
+  section 9d is in the manifest but has no file
+  section 9-exercises is in the manifest but has no file
+30 problems in /Users/choco/Projects/yunhan.me/math/reading/linear-algebra-done-right-4e
+
+SITE RENDERER
+3f: c3-thm-dual-dimension: line 2: Undefined control sequence \dimV
+3f: c3-thm-dual-dimension (proof): line 2: Undefined control sequence \dimV
+3f: c3-def-dual-basis: line 1: Undefined control sequence \inV
+3f: c3-thm-dual-basis (proof): line 7: Undefined control sequence \inV
+3f: c3-def-dual-map: line 2: Undefined control sequence \toV
+3f: c3-thm-dual-map-linear (proof): line 1: Undefined control sequence \inW
+3f: c3-thm-dual-map-linear (proof): line 1: Undefined control sequence \inV
+3f: c3-thm-dual-map-linear (proof): line 3: Undefined control sequence \inW
+3f: c3-thm-dual-map-laws (proof): line 1: Undefined control sequence \inW
+3f: c3-thm-dual-map-laws (proof): line 17: Undefined control sequence \inU
+3f: c3-def-annihilator: line 2: Undefined control sequence \inV
+3f: c3-thm-dual-null (proof): line 1: Undefined control sequence \inW
+3f: c3-thm-dual-range-dimension (proof): line 2: Undefined control sequence \dimW
+3f: c3-thm-dual-range (proof): line 1: Undefined control sequence \inW
+3f: c3-card-dual-dimension (back): line 1: Undefined control sequence \dimV
+3f: c3-card-dual-map-direction (back): line 1: Undefined control sequence \toV
+
+Renderer exit: 1

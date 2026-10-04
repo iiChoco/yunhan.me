@@ -1,0 +1,306 @@
+{
+ "version": 1,
+ "id": "7c",
+ "blocks": [
+  {
+   "id": "c7-intro-positive",
+   "kind": "prose",
+   "number": "",
+   "title": "Positivity and square roots",
+   "tex": "Throughout this section, $V$ is a finite-dimensional inner product space over $\\R$ or $\\C$. Spectral theory lets us compare positive operators with nonnegative real numbers and construct their distinguished square roots.",
+   "page": "251"
+  },
+  {
+   "id": "c7-def-positive",
+   "kind": "definition",
+   "number": "7.34",
+   "title": "Positive operators",
+   "tex": "An operator $T\\in\\Lin(V)$ is positive if it is self-adjoint and $\\ip{Tv}{v}\\ge0$ for every $v\\in V$. This inequality requires the inner-product value to be real. The term positive includes the zero operator; another name is positive semidefinite.",
+   "page": "251"
+  },
+  {
+   "id": "c7-thm-complex-positivity-test",
+   "kind": "theorem",
+   "number": "",
+   "title": "Positivity from quadratic values over the complex field",
+   "tex": "Over $\\C$, the condition $\\ip{Tv}{v}\\ge0$ for every $v$ already implies that $T$ is positive.",
+   "page": "251",
+   "proof": "All the stated quadratic values are real, so the complex quadratic-value criterion makes $T$ self-adjoint. Together with the assumed nonnegativity, this is exactly the definition of positivity.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the real-quadratic-value criterion for self-adjointness."
+   ],
+   "uses": [
+    "c7-def-positive",
+    "c7-thm-self-adjoint-quadratic"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c7-ex-positive-coordinate",
+   "kind": "example",
+   "number": "7.35(a)",
+   "title": "A positive coordinate operator",
+   "tex": "On $\\F^2$ with the standard inner product, $T(x,y)=(2x-y,-x+y)$ is positive.",
+   "page": "251",
+   "proof": "The coordinate formula defines a linear operator. Its standard matrix is real symmetric, hence equals its conjugate transpose. Because the standard basis is orthonormal, this proves self-adjointness. Direct expansion gives\n\\[\\ip{T(x,y)}{(x,y)}=2|x|^2-x\\overline y-y\\overline x+|y|^2=|x-y|^2+|x|^2\\ge0.\\]\nThe last equality follows by multiplying $(x-y)(\\overline x-\\overline y)$. Thus both conditions for positivity hold.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check self-adjointness and express the quadratic value as a sum of squared moduli."
+   ],
+   "uses": [
+    "c7-def-positive",
+    "c7-thm-self-adjoint-tests",
+    "c3-thm-coordinate-linear-maps",
+    "c6-thm-standard-inner-product",
+    "c4-thm-complex-properties"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c7-ex-positive-projection",
+   "kind": "example",
+   "number": "7.35(b)",
+   "title": "Orthogonal projections are positive",
+   "tex": "For any subspace $U\\subseteq V$, the orthogonal projection $P_U$ is positive.",
+   "page": "251",
+   "proof": "Write $v=P_Uv+v_\\perp$ and $w=P_Uw+w_\\perp$, with the remainder vectors in $U^\\perp$. Orthogonality gives\n\\[\\ip{P_Uv}{w}=\\ip{P_Uv}{P_Uw}=\\ip{v}{P_Uw}.\\]\nThe inner-product test therefore makes $P_U$ self-adjoint. Taking $w=v$ gives $\\ip{P_Uv}{v}=\\|P_Uv\\|^2\\ge0$, so it is positive. The decomposition theorem applies because $U$ is finite-dimensional as a subspace of $V$, including $U=\\{0\\}$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Decompose both inputs into their $U$ and $U^\\perp$ components."
+   ],
+   "uses": [
+    "c7-def-positive",
+    "c7-thm-self-adjoint-tests",
+    "c6-def-orthogonal-projection",
+    "c6-thm-orthogonal-direct-sum",
+    "c6-thm-inner-product-properties",
+    "c2-thm-subspaces-finite"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c7-ex-positive-quadratic",
+   "kind": "example",
+   "number": "7.35(c)",
+   "title": "Positive quadratics in a self-adjoint operator",
+   "tex": "If $T$ is self-adjoint and $b,c\\in\\R$ satisfy $b^2<4c$, then $T^2+bT+cI$ is positive. Its quadratic value is strictly positive at every nonzero vector.",
+   "page": "251",
+   "proof": "The adjoint rules show that $T^2+bT+cI$ is self-adjoint, because $T^*=T$ and the coefficients are real. Put $A=T+(b/2)I$, which is also self-adjoint. Completing the square gives\n\\[T^2+bT+cI=A^2+(c-b^2/4)I.\\]\nFor any $v$, self-adjointness of $A$ gives $\\ip{A^2v}{v}=\\ip{Av}{Av}=\\|Av\\|^2$. Thus the quadratic value of the displayed operator is $\\|Av\\|^2+(c-b^2/4)\\|v\\|^2$. Both terms are nonnegative, and for $v\\ne0$ the second is positive because $c-b^2/4>0$. This proves both conclusions.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Complete the square in the operator and move one self-adjoint factor across the inner product."
+   ],
+   "uses": [
+    "c7-def-positive",
+    "c7-thm-adjoint-properties",
+    "c7-thm-self-adjoint-tests",
+    "c6-thm-norm-properties",
+    "c3-thm-composition-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c7-def-operator-square-root",
+   "kind": "definition",
+   "number": "7.36",
+   "title": "Square roots of an operator",
+   "tex": "A square root of $T\\in\\Lin(V)$ is an operator $R\\in\\Lin(V)$ with $R^2=T$. This definition alone imposes no positivity or self-adjointness condition.",
+   "page": "251"
+  },
+  {
+   "id": "c7-ex-shift-square-root",
+   "kind": "example",
+   "number": "7.37",
+   "title": "A square root supplied by a coordinate shift",
+   "tex": "The operator $R(x,y,z)=(y,z,0)$ is a square root of $T(x,y,z)=(z,0,0)$ on $\\F^3$.",
+   "page": "251",
+   "proof": "Both formulas are linear by the coordinate characterization. Applying $R$ twice gives $R^2(x,y,z)=R(y,z,0)=(z,0,0)=T(x,y,z)$ for every input. Therefore $R^2=T$, which is the square-root condition.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compose the shift with itself."
+   ],
+   "uses": [
+    "c7-def-operator-square-root",
+    "c3-thm-coordinate-linear-maps",
+    "c3-def-map-composition"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c7-thm-positive-characterizations",
+   "kind": "theorem",
+   "number": "7.38",
+   "title": "Equivalent descriptions of a positive operator",
+   "tex": "For $T\\in\\Lin(V)$ the following are equivalent:\n\\begin{enumerate}\n\\item $T$ is positive.\n\\item $T$ is self-adjoint and all its eigenvalues are nonnegative.\n\\item Some orthonormal basis gives a diagonal matrix for $T$ with nonnegative diagonal entries.\n\\item $T$ has a positive square root.\n\\item $T$ has a self-adjoint square root.\n\\item $T=R^*R$ for some $R\\in\\Lin(V)$.\n\\end{enumerate}",
+   "page": "252",
+   "proof": "We prove a cycle of implications. Suppose first $T$ is positive. It is self-adjoint by definition. For an eigenvector $v$ with eigenvalue $\\lambda$, $0\\le\\ip{Tv}{v}=\\lambda\\|v\\|^2$, and $\\|v\\|^2>0$. Thus $\\lambda$ is nonnegative, proving the second condition.\nA self-adjoint operator has an orthonormal eigenbasis: use the real spectral theorem over $\\R$, and self-adjointness implies normality so the complex spectral theorem applies over $\\C$. Under the second condition its eigenvalues are nonnegative, so this basis gives the third condition.\nAssume the third condition, with $Te_j=\\lambda_je_j$ and $\\lambda_j\\ge0$. Prescribe $Re_j=\\sqrt{\\lambda_j}e_j$ on this basis. The basis prescription theorem gives a linear operator. Its matrix is real diagonal in an orthonormal basis, so $R$ is self-adjoint. If $v=\\sum_ja_je_j$, expansion yields $\\ip{Rv}{v}=\\sum_j\\sqrt{\\lambda_j}|a_j|^2\\ge0$. Hence $R$ is positive. Furthermore $R^2e_j=\\lambda_je_j=Te_j$ on every basis vector, so $R^2=T$. This proves the fourth condition.\nEvery positive operator is self-adjoint, so the fourth implies the fifth. If $R$ is a self-adjoint square root, then $T=R^2=R^*R$, proving the sixth. Finally suppose $T=R^*R$. The adjoint rules give $T^*=(R^*R)^*=R^*(R^*)^*=R^*R=T$. The adjoint identity gives $\\ip{Tv}{v}=\\ip{R^*Rv}{v}=\\ip{Rv}{Rv}=\\|Rv\\|^2\\ge0$, proving positivity and completing the cycle. If $V=\\{0\\}$, all bases and diagonal lists used here are empty and all operators coincide with zero, so every construction and implication still applies.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Use the spectral theorem to pass from eigenvalue information to an orthonormal diagonal matrix.",
+    "Take nonnegative scalar square roots on an eigenbasis.",
+    "For the last implication, calculate the quadratic value of $R^*R$."
+   ],
+   "uses": [
+    "c7-def-positive",
+    "c7-def-operator-square-root",
+    "c7-thm-adjoint-properties",
+    "c7-def-adjoint",
+    "c7-thm-self-adjoint-tests",
+    "c7-thm-self-adjoint-normal",
+    "c7-thm-real-spectral",
+    "c7-thm-complex-spectral",
+    "c3-thm-linear-map-basis",
+    "c6-thm-inner-product-properties",
+    "c6-thm-norm-properties",
+    "c1-foundations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c7-thm-positive-square-root-unique",
+   "kind": "theorem",
+   "number": "7.39",
+   "title": "Uniqueness of the positive square root",
+   "tex": "Every positive operator has exactly one positive square root. If $Tv=\\lambda v$, that square root satisfies $Rv=\\sqrt\\lambda v$ for every such eigenvector.",
+   "page": "253",
+   "proof": "Existence is one of the equivalent positivity conditions. Let $R$ be any positive square root, and let $v\\ne0$ satisfy $Tv=\\lambda v$. Positivity gives $\\lambda\\ge0$. The characterization applied to $R$ supplies an orthonormal eigenbasis $e_1,\\ldots,e_n$ with $Re_j=\\mu_je_j$ and $\\mu_j\\ge0$. Write $v=\\sum_ja_je_j$. The identity $R^2v=Tv=\\lambda v$ and basis independence imply $a_j(\\mu_j^2-\\lambda)=0$ for every $j$. If $a_j\\ne0$, then $\\mu_j^2=\\lambda$, and nonnegativity makes $\\mu_j=\\sqrt\\lambda$. Therefore\n\\[Rv=\\sum_ja_j\\mu_je_j=\\sqrt\\lambda\\sum_ja_je_j=\\sqrt\\lambda v.\\]\nThis proves the stated action on every eigenvector of $T$, regardless of which positive square root was chosen. Since $T$ has an eigenvector basis by the positivity characterization, any two positive square roots agree on a basis and are equal. On the zero space there is only one operator, which is its own positive square root, so uniqueness holds there as well.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Expand an eigenvector of $T$ in an orthonormal eigenbasis of a proposed positive square root.",
+    "Nonnegative scalar square roots are unique."
+   ],
+   "uses": [
+    "c7-thm-positive-characterizations",
+    "c7-def-operator-square-root",
+    "c2-thm-basis-coordinates",
+    "c3-thm-linear-map-basis",
+    "c1-foundations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c7-ex-many-square-roots",
+   "kind": "example",
+   "number": "",
+   "title": "The identity can have infinitely many square roots",
+   "tex": "If $\\dim V\\ge2$, the identity operator has infinitely many square roots, although its unique positive square root is itself.",
+   "page": "253",
+   "proof": "Choose a basis $v_1,\\ldots,v_n$ with $n\\ge2$. For each real $t$ prescribe $R_tv_1=v_1$, $R_tv_2=tv_1-v_2$, and $R_tv_j=v_j$ for $j\\ge3$. These values define a linear operator. Applying it twice gives $R_t^2v_1=v_1$, $R_t^2v_2=tv_1-(tv_1-v_2)=v_2$, and $R_t^2v_j=v_j$ at all remaining indices. Thus $R_t^2=I$. Distinct $t$ give different values on $v_2$, hence different operators, and there are infinitely many real choices. The identity is self-adjoint and has quadratic values $\\|v\\|^2\\ge0$, so it is positive and is its own square root. The positive-square-root uniqueness theorem therefore singles out $I$ among all these square roots.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Construct an involution on two basis vectors with a freely chosen scalar."
+   ],
+   "uses": [
+    "c7-def-operator-square-root",
+    "c7-def-positive",
+    "c7-thm-adjoint-properties",
+    "c7-thm-positive-square-root-unique",
+    "c2-thm-basis-existence",
+    "c3-thm-linear-map-basis"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c7-def-positive-square-root",
+   "kind": "definition",
+   "number": "7.40",
+   "title": "The positive square root notation",
+   "tex": "For a positive operator $T$, write $\\sqrt T$ for its unique positive square root.",
+   "page": "253"
+  },
+  {
+   "id": "c7-ex-positive-square-root-matrices",
+   "kind": "example",
+   "number": "7.41",
+   "title": "Two explicit positive square roots",
+   "tex": "On $\\R^2$ let $S(x,y)=(x,2y)$ and $T(x,y)=(x+y,x+y)$. Both are positive, and\n\\[\\sqrt S(x,y)=(x,\\sqrt2y),\\qquad\\sqrt T(x,y)=\\frac1{\\sqrt2}(x+y,x+y).\\]",
+   "page": "254",
+   "proof": "Both standard matrices are real symmetric, hence the operators are self-adjoint. Their quadratic values are $x^2+2y^2$ and $(x+y)^2$, respectively, which are nonnegative. Thus both are positive. The proposed square root of $S$ is real diagonal, hence self-adjoint, with nonnegative quadratic value $x^2+\\sqrt2y^2$. Its square is $S$ by direct substitution. For the second formula put $R=T/\\sqrt2$. Its matrix is real symmetric and its quadratic value is $(x+y)^2/\\sqrt2\\ge0$, so it is positive. Direct composition gives $T^2(x,y)=2(x+y,x+y)=2T(x,y)$, hence $R^2=T$. Uniqueness of positive square roots identifies both displayed operators as the designated square roots.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Check both the square and positivity of each proposed answer."
+   ],
+   "uses": [
+    "c7-def-positive",
+    "c7-def-positive-square-root",
+    "c7-thm-positive-square-root-unique",
+    "c7-thm-self-adjoint-tests",
+    "c6-thm-standard-inner-product",
+    "c3-thm-coordinate-linear-maps"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c7-thm-positive-zero",
+   "kind": "theorem",
+   "number": "7.43",
+   "title": "A zero quadratic value detects the kernel of a positive operator",
+   "tex": "For a positive operator $T$ and any $v$,\n\\[\\ip{Tv}{v}=0\\quad\\Longleftrightarrow\\quad Tv=0.\\]",
+   "page": "254",
+   "proof": "Write $R=\\sqrt T$, so $R^*=R$ and $R^2=T$. Then\n\\[\\ip{Tv}{v}=\\ip{R^2v}{v}=\\ip{Rv}{Rv}=\\|Rv\\|^2.\\]\nIf this is zero, norm definiteness gives $Rv=0$, hence $Tv=R(Rv)=R0=0$ by linearity. Conversely if $Tv=0$, its inner product with $v$ is zero by the zero inner-product identity. This proves both directions, including the zero vector.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Express the quadratic value as a squared norm involving the positive square root."
+   ],
+   "uses": [
+    "c7-def-positive-square-root",
+    "c7-thm-positive-square-root-unique",
+    "c7-def-positive",
+    "c7-thm-self-adjoint-tests",
+    "c6-thm-norm-properties",
+    "c6-thm-inner-product-properties",
+    "c3-thm-linear-zero"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c7-card-positive",
+   "item": "c7-def-positive",
+   "front": "What are the two requirements for positivity?",
+   "back": "Self-adjointness and $\\ip{Tv}{v}\\ge0$ for every vector."
+  },
+  {
+   "id": "c7-card-positive-eigenvalues",
+   "item": "c7-thm-positive-characterizations",
+   "front": "How do eigenvalues characterize positivity for a self-adjoint operator?",
+   "back": "All eigenvalues must be nonnegative."
+  },
+  {
+   "id": "c7-card-positive-factorization",
+   "item": "c7-thm-positive-characterizations",
+   "front": "What adjoint factorization characterizes positivity?",
+   "back": "$T=R^*R$ for some operator $R$."
+  },
+  {
+   "id": "c7-card-square-root-positive",
+   "item": "c7-thm-positive-square-root-unique",
+   "front": "Which square root of a positive operator is unique?",
+   "back": "Its positive square root; arbitrary square roots need not be unique."
+  },
+  {
+   "id": "c7-card-square-root-eigenvectors",
+   "item": "c7-thm-positive-square-root-unique",
+   "front": "How does $\\sqrt T$ act on an eigenvector of positive $T$ with eigenvalue $\\lambda$?",
+   "back": "It multiplies the vector by the nonnegative scalar $\\sqrt\\lambda$."
+  },
+  {
+   "id": "c7-card-positive-zero",
+   "item": "c7-thm-positive-zero",
+   "front": "For positive $T$, what does $\\ip{Tv}{v}=0$ imply?",
+   "back": "$Tv=0$."
+  }
+ ]
+}

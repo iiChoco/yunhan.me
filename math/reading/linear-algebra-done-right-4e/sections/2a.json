@@ -1,0 +1,655 @@
+{
+ "version": 1,
+ "id": "2a",
+ "blocks": [
+  {
+   "id": "c2-intro-span-independence",
+   "kind": "prose",
+   "number": "",
+   "title": "Building a space from a finite list",
+   "tex": "We now ask which vectors can be assembled from a given finite list by addition and scalar multiplication. Spanning measures whether the list reaches every vector, while linear independence measures whether its coefficients are determined uniquely. Comparing these two properties will give a bound on the size of an independent list.",
+   "page": "28"
+  },
+  {
+   "id": "c2-def-vector-list",
+   "kind": "definition",
+   "number": "2.1",
+   "title": "Notation for lists of vectors",
+   "tex": "We usually write a list of vectors as $v_1,\\ldots,v_m$, without outer parentheses. Parentheses inside such a list may still describe individual coordinate vectors. A list may be empty, in which case its length is zero.",
+   "page": "28"
+  },
+  {
+   "id": "c2-def-linear-combination",
+   "kind": "definition",
+   "number": "2.2",
+   "title": "Linear combinations",
+   "tex": "A linear combination of vectors $v_1,\\ldots,v_m\\in V$ is an expression\n\\[\\sum_{j=1}^m a_jv_j\\qquad(a_1,\\ldots,a_m\\in\\F).\\]\nIts value is an element of $V$. An empty sum of vectors means the zero vector, so the empty list has exactly one linear combination, namely $0$.",
+   "page": "28"
+  },
+  {
+   "id": "c2-ex-linear-combinations",
+   "kind": "example",
+   "number": "2.3",
+   "title": "Solving for a linear combination",
+   "tex": "In $\\R^3$, put $u=(2,1,-3)$ and $v=(1,-2,4)$. Prove that $(17,-4,2)$ is a linear combination of $u,v$, whereas $(17,-4,5)$ is not.",
+   "page": "28",
+   "proof": "Coordinate arithmetic gives $6u+5v=(12,6,-18)+(5,-10,20)=(17,-4,2)$. Suppose $au+bv=(17,-4,5)$. The first two coordinates require $2a+b=17$ and $a-2b=-4$. Substituting $b=17-2a$ into the second equation gives $5a=30$, hence $a=6$ and $b=5$. These coefficients give third coordinate $-3a+4b=2$, which is not $5$. Thus the second vector has no such representation.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Use the first two coordinates to determine the only possible coefficients."
+   ],
+   "uses": [
+    "c2-def-linear-combination",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-def-span",
+   "kind": "definition",
+   "number": "2.4",
+   "title": "Span of a list",
+   "tex": "The span $\\Span(v_1,\\ldots,v_m)$ is the set of values of all linear combinations of $v_1,\\ldots,v_m$. In particular, $\\Span()=\\{0\\}$ for the empty list.",
+   "page": "29"
+  },
+  {
+   "id": "c2-ex-span-membership",
+   "kind": "example",
+   "number": "2.5",
+   "title": "Membership and nonmembership in a span",
+   "tex": "For $u=(2,1,-3)$ and $v=(1,-2,4)$ in $\\R^3$,\n\\[(17,-4,2)\\in\\Span(u,v),\\qquad (17,-4,5)\\notin\\Span(u,v).\\]",
+   "page": "29",
+   "proof": "By definition, belonging to $\\Span(u,v)$ means being a linear combination of $u,v$. The preceding example supplies such a combination for $(17,-4,2)$ and rules out every such combination for $(17,-4,5)$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Translate each membership assertion using the definition of span."
+   ],
+   "uses": [
+    "c2-def-span",
+    "c2-ex-linear-combinations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-span-smallest",
+   "kind": "theorem",
+   "number": "2.6",
+   "title": "Span is the smallest containing subspace",
+   "tex": "For a list $v_1,\\ldots,v_m$ in $V$, its span is a subspace containing every vector in the list. Moreover, every subspace of $V$ containing those vectors contains their span.",
+   "page": "29",
+   "proof": "First suppose $m>0$. Taking every coefficient to be zero gives $0$ in the span. If $x=\\sum a_jv_j$ and $y=\\sum b_jv_j$, the vector space axioms, applied finitely many times, give\n\\[x+y=\\sum_{j=1}^m(a_j+b_j)v_j,\\qquad\ncx=\\sum_{j=1}^m(ca_j)v_j\\quad(c\\in\\F).\\]\nThus the span is closed under addition and scalar multiplication, and the subspace test makes it a subspace. To obtain $v_k$, choose coefficient $1$ at position $k$ and $0$ at every other position. Hence every listed vector is in the span. If a subspace $U$ contains every $v_j$, closure under scalar multiplication puts each $a_jv_j$ in $U$, and induction using closure under addition puts their sum in $U$. Therefore $U$ contains the span. When $m=0$, the span is $\\{0\\}$. It is a subspace because $0+0=0$ and $c0=0$; every subspace contains $0$, and there are no listed vectors to check.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Check the subspace test, then use closure of any competing subspace."
+   ],
+   "uses": [
+    "c2-def-span",
+    "c1-def-vector-space",
+    "c1-thm-zero-scalar",
+    "c1-thm-scalar-zero",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-def-spanning-list",
+   "kind": "definition",
+   "number": "2.7",
+   "title": "Spanning a vector space",
+   "tex": "A list $v_1,\\ldots,v_m$ spans $V$ if $\\Span(v_1,\\ldots,v_m)=V$. Thus every vector in $V$ must be a linear combination of the list.",
+   "page": "29"
+  },
+  {
+   "id": "c2-ex-standard-spanning",
+   "kind": "example",
+   "number": "2.8",
+   "title": "The standard coordinate list spans",
+   "tex": "For $n\\ge1$, let $e_j\\in\\F^n$ have coordinate $1$ in position $j$ and coordinate $0$ in every other position. Then $e_1,\\ldots,e_n$ spans $\\F^n$. For $n=0$, the empty list spans $\\F^0$.",
+   "page": "30",
+   "proof": "If $x=(x_1,\\ldots,x_n)$, the $k$th coordinate of $\\sum_{j=1}^n x_je_j$ is $x_k$, because all its other summands have $k$th coordinate zero. Equality of all coordinates gives $x=\\sum x_je_j$. Thus every $x\\in\\F^n$ is in the span. Conversely, each linear combination is an element of $\\F^n$, so the span equals $\\F^n$. If $n=0$, $\\F^0$ consists of its zero vector, the empty list; it therefore equals the span of the empty list.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the coordinates of the target vector as coefficients."
+   ],
+   "uses": [
+    "c2-def-spanning-list",
+    "c2-def-span",
+    "c1-def-coordinate-space",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-def-finite-dimensional",
+   "kind": "definition",
+   "number": "2.9",
+   "title": "Finite-dimensional spaces",
+   "tex": "A vector space is finite-dimensional if it has a finite spanning list. The empty list is allowed, so the zero space is finite-dimensional.",
+   "page": "30"
+  },
+  {
+   "id": "c2-def-polynomial",
+   "kind": "definition",
+   "number": "2.10",
+   "title": "Polynomial functions",
+   "tex": "A polynomial over $\\F$ is a function $p:\\F\\to\\F$ for which there are a nonnegative integer $m$ and coefficients $a_0,\\ldots,a_m\\in\\F$ such that\n\\[p(z)=\\sum_{j=0}^m a_jz^j\\quad\\text{for every }z\\in\\F.\\]\nThe set of these functions is denoted by $\\Poly(\\F)$. Addition and scalar multiplication are the operations inherited from the function space $\\F^\\F$.",
+   "page": "30"
+  },
+  {
+   "id": "c2-thm-polynomial-subspace",
+   "kind": "theorem",
+   "number": "",
+   "title": "Polynomial functions form a subspace",
+   "tex": "The set $\\Poly(\\F)$ is a subspace of $\\F^\\F$, and hence is a vector space over $\\F$.",
+   "page": "30",
+   "proof": "The zero function has the polynomial representation $p(z)=0$. If $p$ and $q$ have polynomial representations, append zero coefficients to the shorter representation so that both are indexed from $0$ to the same integer $m$. Writing their coefficients as $a_j$ and $b_j$, pointwise addition gives $(p+q)(z)=\\sum_{j=0}^m(a_j+b_j)z^j$. For $c\\in\\F$, scalar multiplication gives $(cp)(z)=\\sum_{j=0}^m(ca_j)z^j$. Thus addition and scalar multiplication preserve $\\Poly(\\F)$. The function-space theorem gives the ambient vector space, and the subspace test proves the claim.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Append zero coefficients so that two representations have the same length."
+   ],
+   "uses": [
+    "c2-def-polynomial",
+    "c1-thm-function-space",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-lem-power-difference",
+   "kind": "lemma",
+   "number": "",
+   "title": "Leading coefficient of a power difference",
+   "tex": "For every integer $j\\ge1$, the function $(z+1)^j-z^j$ has a representation\n\\[(z+1)^j-z^j=jz^{j-1}+\\sum_{k=0}^{j-2}b_kz^k\\]\nwith scalars $b_k$. When $j=1$, the sum on the right is empty and means zero.",
+   "page": "30",
+   "proof": "For $j=1$, the difference is $1$, as required. Suppose the assertion holds for some $j\\ge1$, and write $D_j(z)=(z+1)^j-z^j$. Scalar distributivity and the laws of powers give\n\\[\n\\begin{aligned}\n(z+1)^{j+1}-z^{j+1}\n&=(z+1)\\big((z+1)^j-z^j\\big)+z^j\\\\\n&=(z+1)D_j(z)+z^j.\n\\end{aligned}\n\\]\nBy the induction hypothesis, multiplying $D_j$ by $z$ contributes $jz^j$, while its remaining terms have exponents at most $j-1$. Multiplying $D_j$ by $1$ contributes only terms with exponents at most $j-1$. The final $z^j$ therefore changes the coefficient of $z^j$ to $j+1$. Collecting the finitely many lower powers produces the required representation for $j+1$. Induction proves the assertion.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Find a recurrence relating the difference for exponent $j+1$ to the difference for exponent $j$."
+   ],
+   "uses": [
+    "c2-def-polynomial",
+    "c1-foundations",
+    "c1-thm-complex-laws",
+    "c1-lem-scalar-powers"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-lem-polynomial-coefficients",
+   "kind": "lemma",
+   "number": "",
+   "title": "Uniqueness of polynomial coefficients",
+   "tex": "If\n\\[\\sum_{j=0}^m a_jz^j=0\\quad\\text{for every }z\\in\\F,\\]\nthen $a_0=\\cdots=a_m=0$. Consequently, two representations of the same polynomial have identical coefficients after trailing zero coefficients are appended to make their lengths equal.",
+   "page": "30",
+   "proof": "We prove the first assertion by induction on the nonnegative integer $m$. For $m=0$, the identity directly gives $a_0=0$. Suppose $m\\ge1$ and the assertion holds for representations indexed from $0$ to $m-1$. Subtract the assumed identity at $z$ from the same identity at $z+1$. The constant term cancels, and the power-difference lemma shows that\n\\[\\sum_{j=1}^m a_j\\big((z+1)^j-z^j\\big)=0\\]\nhas a representation using powers from $0$ through $m-1$, whose coefficient of $z^{m-1}$ is $ma_m$. By the induction hypothesis every coefficient in this representation is zero, in particular $ma_m=0$. The positive integer $m$, regarded as a real or complex scalar, is nonzero, so scalar cancellation gives $a_m=0$. The original identity now has exponents at most $m-1$, and the induction hypothesis gives all the remaining $a_j=0$. This completes the induction. For two representations of one function, append zero coefficients as needed and subtract their values at each $z$. The first assertion makes each coefficient difference zero, proving uniqueness.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Apply induction to a representation of an identically zero function.",
+    "Compare its values at $z+1$ and $z$ to lower the largest exponent."
+   ],
+   "uses": [
+    "c2-def-polynomial",
+    "c2-lem-power-difference",
+    "c1-foundations",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-def-degree",
+   "kind": "definition",
+   "number": "2.11",
+   "title": "Degree of a polynomial",
+   "tex": "For a nonzero polynomial $p$, its degree, denoted by $\\deg p$, is the largest index with a nonzero coefficient in a polynomial representation. Coefficient uniqueness makes this independent of the representation. Set $\\deg 0=-\\infty$, and use the convention that $-\\infty$ is smaller than every integer.",
+   "page": "31"
+  },
+  {
+   "id": "c2-def-polynomial-space",
+   "kind": "definition",
+   "number": "2.12",
+   "title": "Polynomials of bounded degree",
+   "tex": "For a nonnegative integer $m$, define\n\\[\\Poly_m(\\F)=\\{p\\in\\Poly(\\F):\\deg p\\le m\\}.\\]\nIn lists of polynomial functions, the symbol $z^j$ denotes the function sending a scalar $z$ to its $j$th power. In particular, $1$ denotes the constant function with value $1$.",
+   "page": "31"
+  },
+  {
+   "id": "c2-thm-bounded-polynomials",
+   "kind": "theorem",
+   "number": "",
+   "title": "Bounded-degree polynomials are finitely spanned",
+   "tex": "For every nonnegative integer $m$,\n\\[\\Poly_m(\\F)=\\Span(1,z,\\ldots,z^m).\\]\nIn particular, $\\Poly_m(\\F)$ is a finite-dimensional vector space.",
+   "page": "31",
+   "proof": "A linear combination of $1,z,\\ldots,z^m$ has a representation using only exponents at most $m$. Coefficient uniqueness and the definition of degree imply that its degree is at most $m$, including the zero polynomial. Conversely, every nonzero member of $\\Poly_m(\\F)$ has such a representation after appending zero coefficients, and the zero polynomial is obtained by taking every coefficient zero. This proves the equality. The span is a subspace of the polynomial vector space by the smallest-containing-subspace theorem. Its displayed finite spanning list then makes it finite-dimensional.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Translate the degree bound into a bound on the exponents in a representation."
+   ],
+   "uses": [
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients",
+    "c2-def-degree",
+    "c2-thm-polynomial-subspace",
+    "c2-thm-span-smallest",
+    "c2-def-finite-dimensional"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-def-infinite-dimensional",
+   "kind": "definition",
+   "number": "2.13",
+   "title": "Infinite-dimensional spaces",
+   "tex": "A vector space is infinite-dimensional if no finite list spans it.",
+   "page": "31"
+  },
+  {
+   "id": "c2-thm-polynomials-infinite",
+   "kind": "example",
+   "number": "2.14",
+   "title": "The polynomial space is infinite-dimensional",
+   "tex": "The vector space $\\Poly(\\F)$ is infinite-dimensional.",
+   "page": "31",
+   "proof": "Consider an arbitrary finite list $p_1,\\ldots,p_r$ of polynomials. If the list is empty or every listed polynomial is zero, its span is $\\{0\\}$, which does not contain the constant function $1$. Otherwise, let $m$ be the largest degree among the nonzero polynomials in the list. Every $p_j$ belongs to $\\Poly_m(\\F)$, including any zero entries. Because $\\Poly_m(\\F)$ is a subspace, the span of the list is contained in $\\Poly_m(\\F)$. The polynomial $z^{m+1}$ has degree $m+1$ by coefficient uniqueness, so it is outside this subspace and outside the span. Every finite list therefore fails to span $\\Poly(\\F)$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Look for a degree bound shared by all linear combinations of a fixed finite list."
+   ],
+   "uses": [
+    "c2-def-infinite-dimensional",
+    "c2-thm-polynomial-subspace",
+    "c2-thm-bounded-polynomials",
+    "c2-lem-polynomial-coefficients",
+    "c2-def-degree",
+    "c2-thm-span-smallest"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-def-linear-independence",
+   "kind": "definition",
+   "number": "2.15",
+   "title": "Linear independence",
+   "tex": "A list $v_1,\\ldots,v_m$ is linearly independent if\n\\[\\sum_{j=1}^m a_jv_j=0\\quad\\Longrightarrow\\quad a_1=\\cdots=a_m=0.\\]\nThe empty list is linearly independent: it has no coefficients that could be nonzero.",
+   "page": "32"
+  },
+  {
+   "id": "c2-thm-independent-coordinates",
+   "kind": "theorem",
+   "number": "",
+   "title": "Independence and uniqueness of coefficients",
+   "tex": "A list is linearly independent if and only if each vector in its span has exactly one representation as a linear combination of that list.",
+   "page": "32",
+   "proof": "Suppose the list is independent and $\\sum a_jv_j=\\sum b_jv_j$. Distributing and regrouping gives\n\\[\\sum_{j=1}^m(a_j-b_j)v_j=0.\\]\nIndeed, adding $\\sum(-b_j)v_j$ to either side cancels the sum on the right, because regrouping pairs each $b_jv_j$ with its additive inverse $(-b_j)v_j$. Independence gives $a_j-b_j=0$ for every $j$, hence $a_j=b_j$. A representation exists by the definition of span, so it is unique. Conversely, the zero vector has a representation with all coefficients zero. If representations are unique, every relation $\\sum a_jv_j=0$ must use these same coefficients, proving independence. For an empty list, its span is $\\{0\\}$ and its only coefficient list is empty, so both assertions hold.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Compare two representations by subtracting them.",
+    "For the reverse implication, consider representations of the zero vector."
+   ],
+   "uses": [
+    "c2-def-linear-independence",
+    "c2-def-span",
+    "c1-def-vector-space",
+    "c1-def-vector-subtraction",
+    "c1-thm-negative-one",
+    "c1-thm-zero-scalar"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-standard-independent",
+   "kind": "example",
+   "number": "2.16(a)",
+   "title": "Standard coordinate vectors are independent",
+   "tex": "For $0\\le r\\le n$, the list $e_1,\\ldots,e_r$ of standard coordinate vectors in $\\F^n$ is linearly independent. This includes the first three standard vectors in $\\F^4$.",
+   "page": "32",
+   "proof": "When $r=0$, this is the convention for the empty list. Otherwise, suppose $\\sum_{j=1}^r a_je_j=0$. For each $k$ with $1\\le k\\le r$, the $k$th coordinate of the left side is $a_k$, while that of the right side is zero. Thus every coefficient is zero, establishing independence.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Read a coefficient from the corresponding coordinate."
+   ],
+   "uses": [
+    "c2-def-linear-independence",
+    "c2-ex-standard-spanning",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-monomial-independent",
+   "kind": "example",
+   "number": "2.16(b)",
+   "title": "Distinct consecutive monomials are independent",
+   "tex": "For every nonnegative integer $m$, the list $1,z,\\ldots,z^m$ is linearly independent in $\\Poly(\\F)$.",
+   "page": "32",
+   "proof": "A relation $a_0+a_1z+\\cdots+a_mz^m=0$ in this function space means that its left side equals zero at every scalar argument. Coefficient uniqueness therefore gives $a_0=\\cdots=a_m=0$. This is exactly linear independence.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "A zero polynomial relation is an identity holding at every argument."
+   ],
+   "uses": [
+    "c2-def-linear-independence",
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-single-independent",
+   "kind": "example",
+   "number": "2.16(c)",
+   "title": "Independence of a one-vector list",
+   "tex": "A list consisting of one vector $v$ is linearly independent if and only if $v\\ne0$.",
+   "page": "32",
+   "proof": "If $v=0$, then $1v=0$ is a relation with nonzero coefficient, so the list is not independent. Suppose $v\\ne0$ and $av=0$. If $a\\ne0$, multiplication by $a^{-1}$ gives $v=a^{-1}(av)=a^{-1}0=0$, a contradiction. Thus $a=0$, which proves independence.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "If the coefficient in a zero relation is nonzero, multiply by its reciprocal."
+   ],
+   "uses": [
+    "c2-def-linear-independence",
+    "c1-def-vector-space",
+    "c1-def-field",
+    "c1-thm-scalar-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-pair-independent",
+   "kind": "example",
+   "number": "2.16(d)",
+   "title": "Independence of two vectors",
+   "tex": "A list $u,v$ is linearly independent if and only if neither vector is a scalar multiple of the other.",
+   "page": "32",
+   "proof": "If $u=cv$, the relation $u-cv=0$ has coefficient $1$ on $u$, so the pair is not independent. If $v=cu$, the relation $v-cu=0$ gives the same conclusion. Conversely, suppose $au+bv=0$ with at least one coefficient nonzero. If $a\\ne0$, rearranging and multiplying by $a^{-1}$ yields $u=(-b/a)v$. If $a=0$, then $b\\ne0$, and multiplication by $b^{-1}$ yields $v=0=0u$. Thus every nontrivial relation makes at least one vector a scalar multiple of the other. If neither vector is such a multiple, no nontrivial relation exists, so the pair is independent.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Distinguish whether the first coefficient in a nontrivial relation vanishes."
+   ],
+   "uses": [
+    "c2-def-linear-independence",
+    "c1-def-vector-space",
+    "c1-def-field",
+    "c1-def-vector-subtraction",
+    "c1-thm-zero-scalar",
+    "c1-thm-scalar-zero",
+    "c1-thm-negative-one"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-lem-independent-sublist",
+   "kind": "lemma",
+   "number": "",
+   "title": "Deleting vectors preserves independence",
+   "tex": "Every list obtained by deleting some entries of a linearly independent list is linearly independent.",
+   "page": "33",
+   "proof": "Take a relation equal to zero among the retained entries. Give coefficient zero to every deleted position. This extends the relation to the original list, because zero scalar multiples contribute zero. Independence of the original list makes every coefficient zero, including the coefficients of the retained entries. If none remain, the conclusion also follows from the empty-list convention.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Extend a relation on the shorter list by inserting zero coefficients."
+   ],
+   "uses": [
+    "c2-def-linear-independence",
+    "c1-thm-zero-scalar"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-def-linear-dependence",
+   "kind": "definition",
+   "number": "2.17",
+   "title": "Linear dependence",
+   "tex": "A list is linearly dependent when it is not linearly independent. Equivalently, it admits scalars, not all zero, whose linear combination of the listed vectors equals zero. In particular, the empty list is not linearly dependent.",
+   "page": "33"
+  },
+  {
+   "id": "c2-ex-dependent-parameter",
+   "kind": "example",
+   "number": "2.18",
+   "title": "A parameter controlling dependence",
+   "tex": "The list\n\\[(2,3,1),\\quad(1,-1,2),\\quad(7,3,c)\\]\nin $\\F^3$ is linearly dependent exactly when $c=8$. In that case the first vector multiplied by $2$, plus the second multiplied by $3$, equals the third.",
+   "page": "33",
+   "proof": "For a zero relation with coefficients $a,b,d$, the first two coordinates give $2a+b+7d=0$ and $3a-b+3d=0$. Adding gives $5a+10d=0$, hence $a=-2d$; substitution into the first equation gives $b=-3d$. The third coordinate is then\n\\[a+2b+cd=(c-8)d.\\]\nIf $c\\ne8$, scalar cancellation forces $d=0$, and consequently $a=b=0$. Thus the list is independent in this case. If $c=8$, coefficients $2,3,-1$ give a zero relation and are not all zero. Their relation is the stated expression for the third vector, and proves dependence.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the first two coordinates to express two coefficients in terms of the third."
+   ],
+   "uses": [
+    "c2-def-linear-dependence",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-redundant-list",
+   "kind": "theorem",
+   "number": "2.18",
+   "title": "A redundant entry forces dependence",
+   "tex": "If one entry of a nonempty list is in the span of the remaining entries, the list is linearly dependent. In particular, a list containing the zero vector is linearly dependent.",
+   "page": "33",
+   "proof": "Suppose $v_k=\\sum_{j\\ne k}b_jv_j$, where the empty sum is allowed. Subtract the right side to get a zero relation with coefficient $1$ in position $k$ and coefficient $-b_j$ in every other position. This is a nontrivial relation because $1\\ne0$. If $v_k=0$, take every $b_j=0$, obtaining the required representation even if there are no other entries. The first assertion then gives dependence.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Move a representation of one entry to one side of an equation."
+   ],
+   "uses": [
+    "c2-def-linear-dependence",
+    "c2-def-span",
+    "c1-def-vector-space",
+    "c1-thm-zero-scalar",
+    "c1-thm-negative-one"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-lem-linear-dependence",
+   "kind": "lemma",
+   "number": "2.19",
+   "title": "The linear dependence lemma",
+   "tex": "If $v_1,\\ldots,v_m$ is linearly dependent, there exists an index $k$ such that\n\\[v_k\\in\\Span(v_1,\\ldots,v_{k-1}).\\]\nFor every index $k$ satisfying this inclusion, deleting the $k$th entry leaves the span unchanged.",
+   "page": "33",
+   "proof": "Choose a nontrivial relation $\\sum_{j=1}^m a_jv_j=0$. There is a largest index $k$ for which $a_k\\ne0$. All terms beyond $k$ vanish, so scalar multiplication by $a_k^{-1}$ and rearrangement give\n\\[v_k=\\sum_{j=1}^{k-1}(-a_j/a_k)v_j.\\]\nIf $k=1$, the original relation is $a_1v_1=0$, so multiplying by $a_1^{-1}$ gives $v_1=0$; this is membership in the span of the empty list.\nFor the second assertion, let $k$ be any index with the stated inclusion, and let $W$ be the span after its deletion. The space $W$ contains every retained entry. It also contains $v_k$, because it contains all earlier entries and is a subspace. Thus the smallest-containing-subspace property puts the original span inside $W$. Conversely, the original span is a subspace containing every retained entry, so it contains $W$. The two spans are equal. This argument includes $k=1$, when the deleted vector is zero, and includes a one-entry list, when the retained span is $\\{0\\}$.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "In a nontrivial zero relation, use the last nonzero coefficient.",
+    "For the deletion statement, compare the two spans by inclusion."
+   ],
+   "uses": [
+    "c2-def-linear-dependence",
+    "c2-def-span",
+    "c2-thm-span-smallest",
+    "c1-def-vector-space",
+    "c1-def-field",
+    "c1-thm-scalar-zero",
+    "c1-thm-negative-one"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-first-redundancy",
+   "kind": "example",
+   "number": "2.21",
+   "title": "Finding the first removable entry",
+   "tex": "For the ordered list\n\\[(1,2,3),\\quad(6,5,4),\\quad(15,16,17),\\quad(8,9,7)\\]\nin $\\R^3$, the smallest index $k$ for which the $k$th vector is in the span of its predecessors is $k=3$. The list is dependent, and deleting its third entry preserves its span.",
+   "page": "34",
+   "proof": "The first vector is nonzero, so it is not in the span of the empty list. If the second were a scalar multiple of the first, its first coordinate would force the scalar to be $6$, but its second coordinate would then be $12$, not $5$. Thus $k=2$ also fails. Coordinate calculation gives\n\\[3(1,2,3)+2(6,5,4)=(15,16,17),\\]\nso $k=3$ works and is the smallest such index. This representation makes the third entry redundant, hence the list dependent. The deletion conclusion of the linear dependence lemma shows that its third entry can be removed without changing the span.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Rule out the first two indices, then solve for a combination of the first two vectors."
+   ],
+   "uses": [
+    "c2-def-span",
+    "c2-thm-redundant-list",
+    "c2-lem-linear-dependence",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-independent-length",
+   "kind": "theorem",
+   "number": "2.22",
+   "title": "An independent list is no longer than a spanning list",
+   "tex": "If $u_1,\\ldots,u_m$ is linearly independent in $V$ and $w_1,\\ldots,w_n$ spans $V$, then $m\\le n$.",
+   "page": "35",
+   "proof": "Suppose, for a contradiction, that $m>n$. Starting with the spanning list $w_1,\\ldots,w_n$, we construct for each $k$ with $0\\le k\\le n$ a spanning list of length $n$ consisting of $u_1,\\ldots,u_k$ followed by $n-k$ retained entries from the original $w$ list. The case $k=0$ is the given list.\nSuppose $k<n$ and such a list has been constructed. Insert $u_{k+1}$ immediately after $u_k$, or at the beginning if $k=0$. Because the old list spans $V$, the inserted vector is a combination of its entries, so the enlarged list is dependent. The linear dependence lemma supplies an entry in the span of its predecessors that can be deleted without changing the span. That entry cannot be among $u_1,\\ldots,u_{k+1}$: otherwise the corresponding initial portion of the independent $u$ list would have a redundant entry, making it dependent, contrary to independence of sublists. Hence an entry retained from the $w$ list is deleted. This gives the required spanning list for $k+1$.\nAfter $n$ steps, $u_1,\\ldots,u_n$ spans $V$. Since $m>n$, the vector $u_{n+1}$ exists and is in this span. The list $u_1,\\ldots,u_{n+1}$ therefore has a redundant entry and is dependent, contradicting independence of a sublist of the original $u$ list. If $n=0$, the same final argument applies immediately: the empty list spans $V=\\{0\\}$ and $u_1=0$ is redundant. The contradiction proves $m\\le n$.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Try replacing entries of a spanning list by entries of the independent list.",
+    "Order the independent entries first so that the dependence lemma can only remove an old spanning entry."
+   ],
+   "uses": [
+    "c2-def-spanning-list",
+    "c2-def-linear-independence",
+    "c2-lem-independent-sublist",
+    "c2-thm-redundant-list",
+    "c2-lem-linear-dependence"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-four-vectors-three-space",
+   "kind": "example",
+   "number": "2.23",
+   "title": "Four vectors in three coordinates are dependent",
+   "tex": "Every list of four vectors in $\\R^3$ is linearly dependent. In particular, this holds for\n\\[(1,2,3),\\quad(4,5,8),\\quad(9,6,7),\\quad(-3,2,8).\\]",
+   "page": "36",
+   "proof": "The three standard coordinate vectors span $\\R^3$. The independent-length theorem therefore bounds every independent list in $\\R^3$ by length three. A list of length four cannot be independent and hence is dependent. The displayed list has length four, so it is covered by this conclusion.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compare the length with the standard spanning list."
+   ],
+   "uses": [
+    "c2-ex-standard-spanning",
+    "c2-thm-independent-length",
+    "c2-def-linear-dependence"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-three-vectors-four-space",
+   "kind": "example",
+   "number": "2.24",
+   "title": "Three vectors cannot span four coordinates",
+   "tex": "No list of three vectors spans $\\R^4$. In particular,\n\\[(1,2,3,-5),\\quad(4,5,8,3),\\quad(9,6,7,-1)\\]\ndoes not span $\\R^4$.",
+   "page": "36",
+   "proof": "The four standard coordinate vectors in $\\R^4$ are independent. If a three-entry list spanned $\\R^4$, the independent-length theorem would give $4\\le3$, a contradiction. Therefore no such list spans, including the displayed one.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Find an independent list longer than the proposed spanning list."
+   ],
+   "uses": [
+    "c2-ex-standard-independent",
+    "c2-thm-independent-length"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-subspaces-finite",
+   "kind": "theorem",
+   "number": "2.25",
+   "title": "Subspaces of finite-dimensional spaces are finite-dimensional",
+   "tex": "If $V$ is finite-dimensional and $U$ is a subspace of $V$, then $U$ is finite-dimensional.",
+   "page": "36",
+   "proof": "Choose a spanning list of $V$ of length $n$. Begin with the empty list in $U$, whose span is $\\{0\\}$. If the current list spans $U$, stop. If not, its span is a subspace contained in $U$, so there is a vector of $U$ outside that span; append one such vector. In every list obtained this way, no entry belongs to the span of its predecessors. The linear dependence lemma implies that each such list is independent, for a dependent list would have an entry with precisely that forbidden property.\nIf this construction did not stop by length $n$, it would produce an independent list of length $n+1$ in $V$, contradicting the independent-length theorem. Hence it stops with a list of length at most $n$ spanning $U$. This proves that $U$ is finite-dimensional. If $U=\\{0\\}$, it stops at the empty list. In particular, when $n=0$, $V=\\{0\\}$ and every subspace is $\\{0\\}$, so the same conclusion holds.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Keep choosing vectors outside the span of those already chosen.",
+    "Use the length bound to show this process must stop."
+   ],
+   "uses": [
+    "c2-def-finite-dimensional",
+    "c2-def-span",
+    "c2-thm-span-smallest",
+    "c2-lem-linear-dependence",
+    "c2-thm-independent-length",
+    "c1-def-subspace"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c2-card-span",
+   "item": "c2-def-span",
+   "front": "What is the span of a list, and what is the span of the empty list?",
+   "back": "The span is the set of all linear combinations of the list. The span of the empty list is $\\{0\\}$."
+  },
+  {
+   "id": "c2-card-span-minimal",
+   "item": "c2-thm-span-smallest",
+   "front": "What does it mean that a span is the smallest subspace containing a list?",
+   "back": "The span is itself a subspace containing the listed vectors, and it is contained in every subspace that contains them."
+  },
+  {
+   "id": "c2-card-finite-dimensional",
+   "item": "c2-def-finite-dimensional",
+   "front": "What does finite-dimensional mean before dimension has been defined?",
+   "back": "The vector space has a finite spanning list."
+  },
+  {
+   "id": "c2-card-polynomial-coefficients",
+   "item": "c2-lem-polynomial-coefficients",
+   "front": "How can coefficient uniqueness be proved without a theorem about polynomial roots?",
+   "back": "Subtract the identity at $z$ from the identity at $z+1$ and use induction on the largest exponent."
+  },
+  {
+   "id": "c2-card-polynomial-infinite",
+   "item": "c2-thm-polynomials-infinite",
+   "front": "Why can no finite list span all polynomial functions?",
+   "back": "Its linear combinations have a common degree bound unless the list contains only zero polynomials; a sufficiently high power lies outside its span."
+  },
+  {
+   "id": "c2-card-independence",
+   "item": "c2-def-linear-independence",
+   "front": "What does linear independence require?",
+   "back": "Every linear combination equal to zero must have all coefficients zero. The empty list is independent."
+  },
+  {
+   "id": "c2-card-dependence-lemma",
+   "item": "c2-lem-linear-dependence",
+   "front": "State the linear dependence lemma.",
+   "back": "A dependent list has an entry in the span of its predecessors. Deleting any entry with that property preserves the span."
+  },
+  {
+   "id": "c2-card-length-bound",
+   "item": "c2-thm-independent-length",
+   "front": "How do the lengths of an independent list and a spanning list compare?",
+   "back": "In the same vector space, the independent list has length at most the spanning list."
+  },
+  {
+   "id": "c2-card-subspaces-finite",
+   "item": "c2-thm-subspaces-finite",
+   "front": "Why must repeatedly choosing vectors outside the current span eventually span a subspace of a finite-dimensional space?",
+   "back": "The chosen list stays independent, and its length is bounded by the length of a fixed spanning list of the ambient space."
+  }
+ ]
+}

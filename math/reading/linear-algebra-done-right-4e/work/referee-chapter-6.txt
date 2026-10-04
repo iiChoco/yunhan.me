@@ -1,0 +1,7 @@
+Chapter 6 referee review: complete.
+Reviewed all inner-product, equality-case, Gram-Schmidt, Riesz, projection, minimization, pseudoinverse, and 16 exercise proofs.
+Corrections and precautions: the continuous-function inner-product theorem was stated for a general compact interval, so later interval choices are justified; trigonometric prerequisites explicitly include the Pythagorean identity. Complex Riesz coefficients are conjugated because the first inner-product slot is linear.
+Orthogonal decomposition and double complement require finite-dimensional U, not finite-dimensional ambient V. Pseudoinverse proofs allow arbitrary target W with finite-dimensional domain. All zero-space cases are included.
+The sine approximation has exact coefficients and an orthogonality proof; displayed decimal coefficients are identified as rounded.
+Analytic integral, exponential, and trigonometric facts used in examples are explicitly accepted rather than hidden in proofs.
+No remaining mathematical gap identified.

@@ -1,0 +1,513 @@
+{
+ "version": 1,
+ "id": "5d",
+ "blocks": [
+  {
+   "id": "c5-intro-diagonalization",
+   "kind": "prose",
+   "number": "",
+   "title": "When eigenvectors supply all coordinates",
+   "tex": "A diagonal matrix describes an operator by independent scalar actions on basis vectors. We characterize when such a basis exists and connect the answer to the minimal polynomial. We finish with bounds that locate eigenvalues without computing them.",
+   "page": "163"
+  },
+  {
+   "id": "c5-def-diagonal-matrix",
+   "kind": "definition",
+   "number": "5.48",
+   "title": "Diagonal matrices",
+   "tex": "A square matrix $A$ is diagonal if $A_{jk}=0$ whenever $j\\ne k$. Its diagonal entries may be zero or nonzero. The empty square matrix is diagonal by this definition.",
+   "page": "163"
+  },
+  {
+   "id": "c5-ex-diagonal-matrix",
+   "kind": "example",
+   "number": "5.49",
+   "title": "A diagonal matrix with a repeated entry",
+   "tex": "The matrix $\\begin{pmatrix}8&0&0\\\\0&5&0\\\\0&0&5\\end{pmatrix}$ is diagonal. An operator with this matrix has exactly the eigenvalues $8$ and $5$.",
+   "page": "163",
+   "proof": "Every entry outside the diagonal is zero, establishing the first assertion. If the basis is $v_1,v_2,v_3$, the columns give $Tv_1=8v_1$, $Tv_2=5v_2$, and $Tv_3=5v_3$, so both scalars occur as eigenvalues. For a vector $av_1+bv_2+cv_3$ to have image $\\lambda$ times itself, independence requires $(8-\\lambda)a=(5-\\lambda)b=(5-\\lambda)c=0$. A nonzero vector has a nonzero coefficient, forcing $\\lambda=8$ or $5$. Thus no other eigenvalue occurs.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Read the images of the three basis vectors from the columns."
+   ],
+   "uses": [
+    "c5-def-diagonal-matrix",
+    "c3-def-map-matrix",
+    "c5-def-eigenvalue",
+    "c2-thm-basis-coordinates"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-def-diagonalizable",
+   "kind": "definition",
+   "number": "5.50",
+   "title": "Diagonalizable operators",
+   "tex": "An operator is diagonalizable if some basis of its space gives it a diagonal matrix. Since a basis here is a finite list, this definition concerns finite-dimensional spaces. On the zero space the empty basis supplies the empty diagonal matrix.",
+   "page": "163"
+  },
+  {
+   "id": "c5-ex-changing-basis-diagonalizes",
+   "kind": "example",
+   "number": "5.51",
+   "title": "A nondiagonal matrix can describe a diagonalizable operator",
+   "tex": "The operator $T(x,y)=(41x+7y,-20x+74y)$ on $\\R^2$ is diagonalizable. In the basis $(1,4),(7,5)$ its matrix is $\\begin{pmatrix}69&0\\\\0&46\\end{pmatrix}$, although its standard matrix is not diagonal.",
+   "page": "163",
+   "proof": "The formula is linear by the coordinate-map theorem. Calculation gives $T(1,4)=(69,276)=69(1,4)$ and $T(7,5)=(322,230)=46(7,5)$. These are nonzero eigenvectors for distinct eigenvalues, so they are independent. There are two of them in the two-dimensional space, so they form a basis. Their image formulas give the displayed diagonal matrix. In the standard basis, the columns are $(41,-20)$ and $(7,74)$; its entries $7$ and $-20$ off the diagonal are nonzero, so that matrix is not diagonal.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Compute the images of the proposed basis vectors."
+   ],
+   "uses": [
+    "c5-def-diagonalizable",
+    "c5-def-diagonal-matrix",
+    "c5-thm-distinct-eigenvectors",
+    "c3-thm-coordinate-linear-maps",
+    "c3-def-map-matrix",
+    "c2-ex-coordinate-dimension",
+    "c2-thm-full-length-independent"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-def-eigenspace",
+   "kind": "definition",
+   "number": "5.52",
+   "title": "Eigenspaces",
+   "tex": "For $T\\in\\Lin(V)$ and $\\lambda\\in\\F$, define $E(\\lambda,T)=\\Null(T-\\lambda I)=\\{v:Tv=\\lambda v\\}$. This set includes zero. When $\\lambda$ is an eigenvalue, its other members are exactly the corresponding eigenvectors.",
+   "page": "164"
+  },
+  {
+   "id": "c5-lem-eigenspace-subspace",
+   "kind": "lemma",
+   "number": "",
+   "title": "Eigenspaces are invariant subspaces",
+   "tex": "Every $E(\\lambda,T)$ is a subspace invariant under $T$. The scalar $\\lambda$ is an eigenvalue exactly when this subspace is not $\\{0\\}$, and $T$ restricts to scalar multiplication by $\\lambda$ on it.",
+   "page": "164",
+   "proof": "The map $T-\\lambda I$ is linear, so its kernel is a subspace. By the defining equation, every member $v$ satisfies $Tv=\\lambda v$, which belongs to this subspace by closure under scalar multiplication. Thus it is invariant and the restriction has the asserted action. The existence of a nonzero member is precisely the eigenvalue definition.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the kernel description and then the defining equation."
+   ],
+   "uses": [
+    "c5-def-eigenspace",
+    "c5-def-eigenvalue",
+    "c5-def-invariant",
+    "c3-thm-linear-map-space",
+    "c3-thm-null-subspace",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-ex-diagonal-eigenspaces",
+   "kind": "example",
+   "number": "5.53",
+   "title": "Computing eigenspaces of a diagonal operator",
+   "tex": "If $Tv_1=8v_1$, $Tv_2=5v_2$, $Tv_3=5v_3$ for a basis $v_1,v_2,v_3$, then $E(8,T)=\\Span(v_1)$ and $E(5,T)=\\Span(v_2,v_3)$.",
+   "page": "164",
+   "proof": "Write $v=av_1+bv_2+cv_3$. The equation $Tv=8v$ becomes $-3bv_2-3cv_3=0$, so independence gives $b=c=0$; every multiple of $v_1$ satisfies the equation. The equation $Tv=5v$ becomes $3av_1=0$, so $a=0$; conversely every combination of $v_2,v_3$ satisfies it. These two calculations prove the stated set equalities.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Write a general vector in the given basis and compare coefficients."
+   ],
+   "uses": [
+    "c5-def-eigenspace",
+    "c2-thm-basis-coordinates",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-eigenspace-direct",
+   "kind": "theorem",
+   "number": "5.54",
+   "title": "Distinct eigenspaces have a direct sum",
+   "tex": "For distinct scalars $\\lambda_1,\\ldots,\\lambda_m$ with $m\\ge1$, the sum of the subspaces $E(\\lambda_j,T)$ is direct. If $V$ is finite-dimensional, then $\\sum_j\\dim E(\\lambda_j,T)\\le\\dim V$.",
+   "page": "164",
+   "proof": "Suppose $\\sum_jv_j=0$ with $v_j\\in E(\\lambda_j,T)$. Discard from this relation every term that is zero. If any terms remain, they are nonzero eigenvectors with distinct eigenvalues and hence are independent. But their sum, with every coefficient equal to $1$, is zero, a nontrivial relation contradicting independence. Therefore every original $v_j=0$. The zero criterion for direct sums proves directness. In finite dimensions each eigenspace is finite-dimensional. The dimension of their direct sum is the sum of their dimensions; because that sum is a subspace of $V$, its dimension is at most $\\dim V$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "In a relation, discard zero vectors before applying independence of eigenvectors."
+   ],
+   "uses": [
+    "c5-def-eigenspace",
+    "c5-lem-eigenspace-subspace",
+    "c5-thm-distinct-eigenvectors",
+    "c1-thm-direct-zero",
+    "c2-thm-subspaces-finite",
+    "c3-thm-direct-sum-dimension",
+    "c2-thm-subspace-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-diagonalizable-equivalences",
+   "kind": "theorem",
+   "number": "5.55",
+   "title": "Equivalent characterizations of diagonalizability",
+   "tex": "Let $T$ act on a finite-dimensional space, with distinct eigenvalues $\\lambda_1,\\ldots,\\lambda_m$. The following are equivalent:\n\\begin{enumerate}\n\\item $T$ is diagonalizable.\n\\item There is a basis consisting of eigenvectors of $T$.\n\\item $V=E(\\lambda_1,T)\\oplus\\cdots\\oplus E(\\lambda_m,T)$.\n\\item $\\dim V=\\sum_j\\dim E(\\lambda_j,T)$.\n\\end{enumerate}\nWhen $m=0$, the sum in the third condition means $\\{0\\}$ and the dimension sum is zero.",
+   "page": "165",
+   "proof": "A matrix in basis $v_1,\\ldots,v_n$ is diagonal exactly when each column represents $Tv_j=\\mu_jv_j$ for its diagonal entry $\\mu_j$. Basis vectors are nonzero, so this is exactly an eigenvector basis. This proves equivalence of the first two conditions. An eigenvector basis spans $V$, and every basis vector belongs to an eigenspace from the complete eigenvalue list. Hence the sum of those eigenspaces is $V$; it is direct by the preceding theorem, proving the third condition. The dimension formula for direct sums then gives the fourth condition.\nConversely assume the fourth condition. Choose a basis of each eigenspace and concatenate these lists. A zero relation on the concatenated list groups into a sum of vectors, one in each eigenspace. Directness makes each group zero; independence of the chosen basis inside that group then makes all its coefficients zero. Thus the concatenation is independent. Its length equals $\\dim V$ by the assumed dimension equality, so it is a basis, entirely of eigenvectors. This proves the second condition.\nIf $m=0$, the fourth condition forces $\\dim V=0$. The empty list is then a basis and the empty matrix is diagonal. Conversely a zero space satisfies all four conventions. In a nonzero space with no eigenvalues none of the four conditions holds: an eigenvector basis cannot exist, the eigenspace sum is zero, and the dimension sum is zero. Thus the edge cases obey the same equivalence.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Interpret a diagonal column as an eigenvector equation.",
+    "Concatenate bases of the eigenspaces and group a proposed dependence relation by eigenvalue."
+   ],
+   "uses": [
+    "c5-def-diagonalizable",
+    "c5-def-diagonal-matrix",
+    "c5-def-eigenspace",
+    "c5-thm-eigenspace-direct",
+    "c3-def-map-matrix",
+    "c3-thm-direct-sum-dimension",
+    "c2-thm-basis-existence",
+    "c2-thm-full-length-independent",
+    "c2-lem-zero-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-ex-shift-not-diagonalizable",
+   "kind": "example",
+   "number": "5.57",
+   "title": "A triangular operator with too few eigenvectors",
+   "tex": "The operator $T(a,b,c)=(b,c,0)$ on $\\F^3$ is not diagonalizable. Its only eigenvalue is zero and $E(0,T)=\\Span((1,0,0))$.",
+   "page": "166",
+   "proof": "The formula is linear. If $T(a,b,c)=\\lambda(a,b,c)$ with $\\lambda\\ne0$, the third coordinate gives $c=0$, the second gives $b=0$, and the first gives $a=0$. This excludes a nonzero eigenvector for every nonzero $\\lambda$. For $\\lambda=0$, the equation is $b=c=0$, so the eigenspace is the displayed line, and it contains nonzero vectors. Its dimension is one, smaller than $\\dim\\F^3=3$, so the eigenspace dimension criterion excludes diagonalizability.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Solve the eigenvalue equation starting with its last coordinate."
+   ],
+   "uses": [
+    "c5-def-eigenspace",
+    "c5-thm-diagonalizable-equivalences",
+    "c3-thm-coordinate-linear-maps",
+    "c2-ex-coordinate-dimension",
+    "c2-ex-single-independent"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-distinct-eigenvalues-diagonalizable",
+   "kind": "theorem",
+   "number": "5.58",
+   "title": "Enough distinct eigenvalues give diagonalizability",
+   "tex": "If an operator on an $n$-dimensional space has $n$ distinct eigenvalues, it is diagonalizable.",
+   "page": "166",
+   "proof": "Choose one eigenvector for each eigenvalue. The resulting list is independent by the distinct-eigenvector theorem. Its length equals the dimension, so it is a basis. The eigenvector-basis characterization proves diagonalizability. For $n=0$, the empty basis gives the same conclusion.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Choose one vector from each eigenvalue and count the resulting independent list."
+   ],
+   "uses": [
+    "c5-thm-distinct-eigenvectors",
+    "c2-thm-full-length-independent",
+    "c5-thm-diagonalizable-equivalences"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-ex-repeated-eigenvalues-diagonalizable",
+   "kind": "example",
+   "number": "",
+   "title": "Repeated diagonal entries do not obstruct diagonalization",
+   "tex": "The operator $T(x,y,z)=(6x,6y,7z)$ on $\\F^3$ is diagonalizable although it has only two distinct eigenvalues.",
+   "page": "166",
+   "proof": "Its standard matrix is diagonal with entries $6,6,7$, so it is diagonalizable. Standard coordinate vectors exhibit both $6$ and $7$ as eigenvalues. For an eigenvector $(x,y,z)$ with eigenvalue $\\lambda$, coordinate comparison gives $(6-\\lambda)x=(6-\\lambda)y=(7-\\lambda)z=0$. Some coordinate is nonzero, so $\\lambda$ must be $6$ or $7$. Thus there are exactly two distinct eigenvalues.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Inspect the standard matrix and the coordinate eigenvalue equations."
+   ],
+   "uses": [
+    "c5-def-diagonalizable",
+    "c5-def-diagonal-matrix",
+    "c5-def-eigenvalue",
+    "c3-def-map-matrix",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-ex-high-powers-diagonalization",
+   "kind": "example",
+   "number": "5.59",
+   "title": "Computing high powers in an eigenvector basis",
+   "tex": "For $T(x,y,z)=(2x+y,5y+3z,8z)$ and every integer $k\\ge0$,\n\\[T^k(0,0,1)=\\left(\\frac{2^k-2\\cdot5^k+8^k}{6},\\ 8^k-5^k,\\ 8^k\\right).\\]\nIn particular this formula applies to $k=100$.",
+   "page": "167",
+   "proof": "The coordinate formula defines an operator. Set $u=(1,0,0)$, $v=(1,3,0)$, $w=(1,6,6)$. Substitution gives $Tu=2u$, $Tv=(5,15,0)=5v$, and $Tw=(8,48,48)=8w$. They are nonzero eigenvectors for distinct eigenvalues, so they are independent and form a basis of $\\F^3$. Direct coordinate addition gives $(0,0,1)=u/6-v/3+w/6$. The power formula on an eigenvector gives $T^ku=2^ku$, $T^kv=5^kv$, $T^kw=8^kw$. Apply the linear operator $T^k$ to the expansion and combine its three coordinates to obtain the stated formula. At $k=0$ it returns $(0,0,1)$, so that boundary case is included.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use eigenvectors $(1,0,0)$, $(1,3,0)$, and $(1,6,6)$.",
+    "Expand the input in that basis before taking powers."
+   ],
+   "uses": [
+    "c5-thm-distinct-eigenvectors",
+    "c5-lem-polynomial-eigenvector",
+    "c5-def-operator-powers",
+    "c2-thm-full-length-independent",
+    "c2-ex-coordinate-dimension",
+    "c3-thm-coordinate-linear-maps"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-lem-simple-annihilator-diagonalizable",
+   "kind": "lemma",
+   "number": "",
+   "title": "An annihilating polynomial with distinct linear factors supplies eigenvectors",
+   "tex": "Let $V$ be finite-dimensional and $T\\in\\Lin(V)$. If $q(z)=\\prod_{j=1}^m(z-\\lambda_j)$ with distinct $\\lambda_j\\in\\F$ and $q(T)=0$, then $T$ is diagonalizable. The case $m=0$ means $q=1$ and forces $V=\\{0\\}$.",
+   "page": "168",
+   "proof": "If $m=0$, $q(T)=I=0$, so every $v=Iv=0$ and the zero space is diagonalizable. Suppose $m\\ge1$. Define\n\\[L_j(z)=\\frac{\\prod_{k\\ne j}(z-\\lambda_k)}{\\prod_{k\\ne j}(\\lambda_j-\\lambda_k)}.\\]\nDenominators are nonzero by distinctness. Each $L_j$ is a polynomial of degree at most $m-1$, and $L_j(\\lambda_i)$ is $1$ if $i=j$ and $0$ otherwise. Thus $\\sum_jL_j-1$ has degree at most $m-1$ and vanishes at all $m$ distinct $\\lambda_i$. The root bound forces it to be zero. Evaluating at $T$ gives $\\sum_jL_j(T)=I$. Furthermore\n\\[(T-\\lambda_jI)L_j(T)=\\frac{q(T)}{\\prod_{k\\ne j}(\\lambda_j-\\lambda_k)}=0\\]\nby multiplicativity of polynomial evaluation. Hence $L_j(T)v\\in E(\\lambda_j,T)$ for every $v$. The identity sum expresses each $v$ as a sum of vectors from these eigenspaces. Their sum is direct, and choosing and concatenating bases gives an eigenvector basis: spanning is the decomposition just obtained, while grouping any zero relation by eigenspace and using directness proves independence. Eigenspaces equal to zero contribute empty lists. Therefore $T$ is diagonalizable.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Construct polynomials that take value one at one listed scalar and zero at all the others.",
+    "Apply these polynomials to $T$ to decompose each vector into eigenspace components."
+   ],
+   "uses": [
+    "c5-def-eigenspace",
+    "c5-thm-eigenspace-direct",
+    "c5-thm-diagonalizable-equivalences",
+    "c5-thm-polynomial-evaluation-linear",
+    "c5-thm-polynomial-evaluation-product",
+    "c4-thm-root-bound",
+    "c4-lem-polynomial-product-degree",
+    "c2-thm-basis-existence",
+    "c2-thm-subspaces-finite"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-def-formal-polynomial-derivative",
+   "kind": "definition",
+   "number": "",
+   "title": "Formal derivative over either scalar field",
+   "tex": "For $p(z)=\\sum_{j=0}^m a_jz^j$ over $\\F$, its formal derivative is $\\partial p(z)=\\sum_{j=1}^m ja_jz^{j-1}$. This definition is algebraic even when the coefficients are complex; for real polynomials it agrees with the earlier calculus derivative formula.",
+   "page": "168"
+  },
+  {
+   "id": "c5-lem-repeated-root-derivative",
+   "kind": "lemma",
+   "number": "",
+   "title": "A repeated root also vanishes in the formal derivative",
+   "tex": "Formal derivatives satisfy $\\partial(pq)=(\\partial p)q+p(\\partial q)$. Consequently, if $p(z)=(z-\\lambda)^2r(z)$, then $\\partial p(\\lambda)=0$.",
+   "page": "168",
+   "proof": "Write $p(z)=\\sum_ja_jz^j$ and $q(z)=\\sum_kb_kz^k$. For $j+k\\ge1$, differentiating the corresponding product term gives $(j+k)a_jb_kz^{j+k-1}$. In $(\\partial p)q$ the contribution is $ja_jb_kz^{j+k-1}$ when $j\\ge1$, and in $p(\\partial q)$ it is $ka_jb_kz^{j+k-1}$ when $k\\ge1$. Their sum agrees for each pair; the pair $j=k=0$ contributes zero to each derivative. Grouping the finitely many powers proves the product rule. Applying it to $(z-\\lambda)^2r$ gives $\\partial p=2(z-\\lambda)r+(z-\\lambda)^2\\partial r$, since direct differentiation of the expanded quadratic gives $2(z-\\lambda)$. Evaluation at $\\lambda$ makes both terms zero.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Prove the product rule by expanding finite coefficient sums."
+   ],
+   "uses": [
+    "c5-def-formal-polynomial-derivative",
+    "c4-lem-polynomial-product-degree",
+    "c2-lem-polynomial-coefficients"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-ex-quintic-diagonalizable",
+   "kind": "example",
+   "number": "5.60",
+   "title": "Diagonalization without explicit roots of a quintic",
+   "tex": "The operator on $\\C^5$ given by $T(z_1,z_2,z_3,z_4,z_5)=(-3z_5,z_1+6z_5,z_2,z_3,z_4)$ is diagonalizable. Its minimal polynomial is $p(z)=z^5-6z+3$, and this polynomial has five distinct complex roots.",
+   "page": "168",
+   "proof": "The coordinate formula defines a linear operator. For standard basis vectors, $Te_j=e_{j+1}$ for $1\\le j<5$, and $Te_5=-3e_1+6e_2$. Thus $p(T)e_1=0$. Polynomial operators commute with $T$, and therefore with each power of $T$ by repeated composition. Since $e_j=T^{j-1}e_1$, it follows that $p(T)e_j=T^{j-1}p(T)e_1=0$ for every $j$. Linearity makes $p(T)=0$ on the whole space. No nonzero polynomial of degree at most four can annihilate $T$, because its evaluation at $e_1$ is its coefficient combination of $e_1,\\ldots,e_5$, which can vanish only when every coefficient is zero. Hence the monic degree-five polynomial $p$ is the minimal polynomial.\nBy complex factorization, $p$ splits into five linear factors counted with repetitions. If a root $\\lambda$ were repeated, the preceding derivative lemma would give $5\\lambda^4-6=0$. Then $\\lambda^4=6/5$ and $p(\\lambda)=\\lambda(6/5)-6\\lambda+3=3-(24/5)\\lambda=0$, forcing $\\lambda=5/8$. But $(5/8)^4=625/4096\\ne6/5$, since $3125\\ne24576$. This is a contradiction. Thus all five roots are distinct. The simple-annihilator lemma now proves diagonalizability without requiring their explicit values.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Follow the orbit of the first standard vector to determine the minimal polynomial.",
+    "A repeated root would have to satisfy both $p(\\lambda)=0$ and $5\\lambda^4-6=0$."
+   ],
+   "uses": [
+    "c3-thm-coordinate-linear-maps",
+    "c5-def-minimal-polynomial",
+    "c5-thm-polynomial-evaluation-product",
+    "c5-def-operator-powers",
+    "c2-ex-standard-basis",
+    "c4-thm-complex-factorization",
+    "c5-lem-repeated-root-derivative",
+    "c5-lem-simple-annihilator-diagonalizable"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-ex-repeated-minimal-factor",
+   "kind": "example",
+   "number": "5.61",
+   "title": "A repeated factor accompanies failure of diagonalization",
+   "tex": "For $T(x,y,z)=(6x+3y+4z,6y+2z,7z)$ on $\\F^3$, the minimal polynomial is $(z-6)^2(z-7)$, and $T$ is not diagonalizable.",
+   "page": "168",
+   "proof": "The standard matrix is upper triangular with diagonal $6,6,7$. Its eigenvalues are exactly $6,7$, and the triangular diagonal-product theorem gives $(T-6I)^2(T-7I)=0$. The minimal polynomial divides this monic cubic and vanishes at both $6$ and $7$. Its degree is therefore at least two. If its degree were two, the factor-root theorem and monicity would make it $(z-6)(z-7)$. But $(T-7I)e_2=3e_1-e_2$ and $(T-6I)(3e_1-e_2)=-3e_1\\ne0$, ruling that polynomial out. Consequently its degree is three, and divisibility into the monic cubic makes it exactly that cubic.\nFor a direct diagonalization test, the equation $(T-6I)(x,y,z)=0$ gives $z=0$ and then $3y=0$, so $E(6,T)=\\Span(e_1)$. The equation $(T-7I)(x,y,z)=0$ gives $y=2z$ and $x=3y+4z=10z$, so $E(7,T)=\\Span((10,2,1))$. These are both one-dimensional, and there are no other eigenvalues. Their total dimension is two, less than three, so the eigenspace criterion proves that $T$ is not diagonalizable.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Use the triangular diagonal entries to obtain an annihilating cubic.",
+    "Test the only possible degree-two minimal polynomial on $e_2$."
+   ],
+   "uses": [
+    "c5-thm-triangular-eigenvalues",
+    "c5-thm-triangular-diagonal-product",
+    "c5-thm-annihilating-divisibility",
+    "c5-thm-minimal-roots",
+    "c5-def-minimal-polynomial",
+    "c4-thm-factor-root",
+    "c4-lem-polynomial-product-degree",
+    "c5-def-eigenspace",
+    "c5-thm-diagonalizable-equivalences",
+    "c2-ex-single-independent",
+    "c2-ex-coordinate-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-diagonalizable-minimal",
+   "kind": "theorem",
+   "number": "5.62",
+   "title": "Diagonalizability and distinct factors of the minimal polynomial",
+   "tex": "An operator on a finite-dimensional space is diagonalizable exactly when its minimal polynomial is a product of distinct monic linear factors over $\\F$. The empty product $1$ is allowed for the zero space.",
+   "page": "169",
+   "proof": "Suppose first that $T$ is diagonalizable, and list its distinct eigenvalues $\\lambda_1,\\ldots,\\lambda_m$. Put $q(z)=\\prod_j(z-\\lambda_j)$. In an eigenvector basis, the polynomial-eigenvector identity gives $q(T)v=q(\\lambda_j)v=0$ on each basis vector, and linearity gives $q(T)=0$. If $m=0$, this basis is empty and the space is zero, whose minimal polynomial is $1$.\nFor $m\\ge1$, write the minimal polynomial as $\\mu$. It vanishes at every $\\lambda_j$. Successively removing these distinct roots by the factor-root theorem proves $q$ divides $\\mu$: after removing one factor, evaluation at any other listed root still gives zero because their difference is nonzero. On the other hand, $q(T)=0$ implies $\\mu$ divides $q$ by the annihilating-divisibility theorem. Degrees therefore agree, and monicity makes both constant quotient factors equal to one. Hence $\\mu=q$, proving necessity. Conversely, if the minimal polynomial is a product of distinct monic linear factors, it is an annihilating polynomial of the form in the simple-annihilator lemma. That lemma proves diagonalizability, including the empty product case.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "An eigenvector basis shows that the product of the distinct eigenvalue factors annihilates the operator.",
+    "Compare divisibility in both directions."
+   ],
+   "uses": [
+    "c5-def-minimal-polynomial",
+    "c5-thm-minimal-roots",
+    "c5-thm-annihilating-divisibility",
+    "c5-lem-polynomial-eigenvector",
+    "c5-thm-diagonalizable-equivalences",
+    "c5-lem-simple-annihilator-diagonalizable",
+    "c4-thm-factor-root",
+    "c4-lem-polynomial-product-degree",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-thm-diagonalizable-restriction",
+   "kind": "theorem",
+   "number": "5.65",
+   "title": "Restriction preserves diagonalizability on invariant subspaces",
+   "tex": "If $T$ is diagonalizable and $U$ is invariant under $T$, then $T|_U$ is diagonalizable.",
+   "page": "170",
+   "proof": "The minimal polynomial $\\mu$ of $T$ is a product of distinct monic linear factors over $\\F$. The minimal polynomial $\\nu$ of $T|_U$ divides $\\mu$. To verify that it has the same required form, view this divisibility as an equality of complex coefficient polynomials, extending real coefficients to complex arguments if necessary. Factor $\\nu$ and its quotient into complex linear factors. Uniqueness of complex factorization and the distinct linear factors of $\\mu$ show that the roots of $\\nu$ are a subset of those of $\\mu$, with no repetitions. In particular all these roots lie in $\\F$, and monicity makes $\\nu$ their product. If $\\nu$ is constant it is $1$, the allowed empty product. The minimal-polynomial criterion now gives diagonalizability of the restriction. The subspace is finite-dimensional because it is a subspace of the finite-dimensional domain of a diagonalizable operator.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "The restricted minimal polynomial divides the original one.",
+    "A divisor cannot introduce a new root or repeat a root absent from the original factorization."
+   ],
+   "uses": [
+    "c5-def-invariant",
+    "c5-thm-restriction-minimal",
+    "c5-thm-diagonalizable-minimal",
+    "c4-thm-complex-factorization",
+    "c4-def-conjugate-polynomial",
+    "c2-thm-subspaces-finite"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c5-def-gershgorin-disks",
+   "kind": "definition",
+   "number": "5.66",
+   "title": "Gershgorin disks",
+   "tex": "For the matrix $A$ of an operator in a basis of length $n$, its $j$th Gershgorin disk is\n\\[G_j=\\left\\{z\\in\\F:|z-A_{jj}|\\le\\sum_{k\\ne j}|A_{jk}|\\right\\}\\quad(1\\le j\\le n).\\]\nFor $\\F=\\R$ these sets are closed intervals. An empty basis gives no disks.",
+   "page": "170"
+  },
+  {
+   "id": "c5-thm-gershgorin",
+   "kind": "theorem",
+   "number": "5.67",
+   "title": "Gershgorin disk theorem",
+   "tex": "Every eigenvalue of an operator on a finite-dimensional space lies in at least one of its Gershgorin disks, for any chosen basis.",
+   "page": "171",
+   "proof": "Let $Tv=\\lambda v$ with $v\\ne0$, and write its coordinates as $c_1,\\ldots,c_n$. Some coordinate is nonzero, so $n\\ge1$. Choose $j$ with $|c_j|$ maximal. Then $|c_j|>0$ and $|c_k|\\le|c_j|$ for every $k$. Matrix action and uniqueness of coordinates give $\\lambda c_j=\\sum_k A_{jk}c_k$, hence $(\\lambda-A_{jj})c_j=\\sum_{k\\ne j}A_{jk}c_k$. The triangle inequality, applied finitely many times, and multiplicativity of modulus give\n\\[|\\lambda-A_{jj}|\\,|c_j|\\le\\sum_{k\\ne j}|A_{jk}|\\,|c_k|\\le |c_j|\\sum_{k\\ne j}|A_{jk}|.\\]\nDivision by the positive real number $|c_j|$ proves $\\lambda\\in G_j$. If there are no eigenvalues, including the zero-dimensional case, the assertion has no instances to check. For $n=1$ the off-diagonal sum is empty and zero, and the same calculation gives the singleton disk conclusion.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Choose a largest-modulus coordinate of an eigenvector.",
+    "Isolate its diagonal term in the corresponding row equation."
+   ],
+   "uses": [
+    "c5-def-gershgorin-disks",
+    "c5-def-eigenvalue",
+    "c3-thm-matrix-action",
+    "c2-thm-basis-coordinates",
+    "c4-thm-complex-properties"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c5-card-diagonalizable",
+   "item": "c5-def-diagonalizable",
+   "front": "What does diagonalizable mean?",
+   "back": "Some basis gives the operator a diagonal matrix."
+  },
+  {
+   "id": "c5-card-eigenspace-zero",
+   "item": "c5-def-eigenspace",
+   "front": "How does an eigenspace differ from the set of corresponding eigenvectors?",
+   "back": "The eigenspace also contains zero; it is $\\Null(T-\\lambda I)$."
+  },
+  {
+   "id": "c5-card-eigenspace-direct",
+   "item": "c5-thm-eigenspace-direct",
+   "front": "Why are eigenspaces for distinct eigenvalues in direct sum?",
+   "back": "After discarding zero terms, a nontrivial zero sum would contradict independence of eigenvectors for distinct eigenvalues."
+  },
+  {
+   "id": "c5-card-diagonal-eigenbasis",
+   "item": "c5-thm-diagonalizable-equivalences",
+   "front": "Which basis characterizes diagonalizability?",
+   "back": "A basis consisting entirely of eigenvectors."
+  },
+  {
+   "id": "c5-card-enough-eigenvalues",
+   "item": "c5-thm-distinct-eigenvalues-diagonalizable",
+   "front": "What does having $n$ distinct eigenvalues on an $n$-dimensional space guarantee?",
+   "back": "Diagonalizability; the converse need not hold."
+  },
+  {
+   "id": "c5-card-minimal-diagonalization",
+   "item": "c5-thm-diagonalizable-minimal",
+   "front": "What minimal-polynomial condition characterizes diagonalizability?",
+   "back": "The minimal polynomial splits over the scalar field into distinct monic linear factors."
+  },
+  {
+   "id": "c5-card-diagonal-restriction",
+   "item": "c5-thm-diagonalizable-restriction",
+   "front": "What happens when a diagonalizable operator is restricted to an invariant subspace?",
+   "back": "The restriction remains diagonalizable."
+  },
+  {
+   "id": "c5-card-gershgorin-radius",
+   "item": "c5-def-gershgorin-disks",
+   "front": "What are the center and radius of the $j$th Gershgorin disk?",
+   "back": "Center $A_{jj}$ and radius $\\sum_{k\\ne j}|A_{jk}|$."
+  },
+  {
+   "id": "c5-card-gershgorin-idea",
+   "item": "c5-thm-gershgorin",
+   "front": "Which coordinate should be used to prove the Gershgorin disk theorem?",
+   "back": "A coordinate of an eigenvector having largest modulus; it is nonzero and dominates the others."
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+Chapter 1 referee pass
+All statements and proofs reread after agent integration.
+Corrections and explicit boundary handling:
+- 1A computes the initial product directly from the pair definition, without citing later field laws.
+- Complex associativity, distributivity, inverse existence/uniqueness, and scalar cancellation are fully proved.
+- Empty coordinate lists, the one-element space, and function spaces on an empty domain are handled explicitly.
+- Calculus and sequence closure facts needed by source Example 1.35 are isolated as an accepted theorem with a faith remark.
+- Restored the source geometric classification of subspaces as an accepted theorem, pending its independent dimension proof in Chapter2.
+- Corrected multiline raw-string quoting in the 1C cards.
+- Added the explicit complex-product dependency to the scalar-equation exercise.
+- All16 exercises are optional and independent of one another. The finite-union argument checks at most one excluded scalar for each subspace and uses m+1 distinct real scalars.
+- Proof metadata, local cards, source numbering/pages, source order, and required/optional dependencies checked.
+
+Final whole-book audit: classified the coordinate-plane modeling convention as prose and supplied the missing explicit membership proof for the four-complex-coordinate example.

@@ -1,0 +1,2451 @@
+                                    Chapter 5
+         Eigenvalues and Eigenvectors
+
+
+Linear maps from one vector space to another vector space were the objects of
+study in Chapter 3. Now we begin our investigation of operators, which are linear
+maps from a vector space to itself. Their study constitutes the most important
+part of linear algebra.
+    To learn about an operator, we might try restricting it to a smaller subspace.
+Asking for that restriction to be an operator will lead us to the notion of invariant
+subspaces. Each one-dimensional invariant subspace arises from a vector that
+the operator maps into a scalar multiple of the vector. This path will lead us to
+eigenvectors and eigenvalues.
+    We will then prove one of the most important results in linear algebra: every
+operator on a finite-dimensional nonzero complex vector space has an eigenvalue.
+This result will allow us to show that for each operator on a finite-dimensional
+complex vector space, there is a basis of the vector space with respect to which
+the matrix of the operator has at least almost half its entries equal to 0.
+
+    standing assumptions for this chapter
+
+ • 𝐅 denotes 𝐑 or 𝐂 .
+ • 𝑉 denotes a vector space over 𝐅.
+
+
+
+
+                                                                 Hans-Peter Postel CC BY
+
+
+
+
+Statue of Leonardo of Pisa (1170–1250, approximate dates), also known as Fibonacci.
+        Exercise 21 in Section 5D shows how linear algebra can be used to find
+       the explicit formula for the Fibonacci sequence shown on the front cover.
+
+                                                                                           132
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                        Section 5A       Invariant Subspaces     133
+
+5A Invariant Subspaces
+Eigenvalues
+
+ 5.1 definition: operator
+
+ A linear map from a vector space to itself is called an operator.
+
+   Suppose 𝑇 ∈ ℒ(𝑉). If 𝑚 ≥ 2 and               Recall that we defined the notation
+          𝑉 = 𝑉1 ⊕ ⋯ ⊕ 𝑉𝑚 ,                     ℒ(𝑉) to mean ℒ(𝑉, 𝑉).
+where each 𝑉𝑘 is a nonzero subspace of 𝑉, then to understand the behavior of
+𝑇 we only need to understand the behavior of each 𝑇|𝑉𝑘 ; here 𝑇|𝑉𝑘 denotes the
+restriction of 𝑇 to the smaller domain 𝑉𝑘 . Dealing with 𝑇|𝑉𝑘 should be easier than
+dealing with 𝑇 because 𝑉𝑘 is a smaller vector space than 𝑉.
+    However, if we intend to apply tools useful in the study of operators (such
+as taking powers), then we have a problem: 𝑇|𝑉𝑘 may not map 𝑉𝑘 into itself; in
+other words, 𝑇|𝑉𝑘 may not be an operator on 𝑉𝑘 . Thus we are led to consider only
+decompositions of 𝑉 of the form above in which 𝑇 maps each 𝑉𝑘 into itself. Hence
+we now give a name to subspaces of 𝑉 that get mapped into themselves by 𝑇.
+
+ 5.2 definition: invariant subspace
+
+ Suppose 𝑇 ∈ ℒ(𝑉). A subspace 𝑈 of 𝑉 is called invariant under 𝑇 if 𝑇𝑢 ∈ 𝑈
+ for every 𝑢 ∈ 𝑈 .
+
+   Thus 𝑈 is invariant under 𝑇 if 𝑇|𝑈 is an operator on 𝑈 .
+
+ 5.3 example: subspace invariant under differentiation operator
+
+   Suppose that 𝑇 ∈ ℒ(𝒫(𝐑)) is defined by 𝑇𝑝 = 𝑝′. Then 𝒫4 (𝐑), which is a
+subspace of 𝒫(𝐑), is invariant under 𝑇 because if 𝑝 ∈ 𝒫(𝐑) has degree at most 4,
+then 𝑝′ also has degree at most 4.
+
+
+ 5.4 example: four invariant subspaces, not necessarily all different
+
+    If 𝑇 ∈ ℒ(𝑉), then the following subspaces of 𝑉 are all invariant under 𝑇.
+      {0} The subspace {0} is invariant under 𝑇 because if 𝑢 ∈ {0}, then 𝑢 = 0
+            and hence 𝑇𝑢 = 0 ∈ {0}.
+       𝑉    The subspace 𝑉 is invariant under 𝑇 because if 𝑢 ∈ 𝑉, then 𝑇𝑢 ∈ 𝑉.
+    null 𝑇 The subspace null 𝑇 is invariant under 𝑇 because if 𝑢 ∈ null 𝑇 , then
+            𝑇𝑢 = 0, and hence 𝑇𝑢 ∈ null 𝑇.
+   range 𝑇 The subspace range 𝑇 is invariant under 𝑇 because if 𝑢 ∈ range 𝑇 ,
+            then 𝑇𝑢 ∈ range 𝑇.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+134       Chapter 5     Eigenvalues and Eigenvectors
+
+    Must an operator 𝑇 ∈ ℒ(𝑉) have any invariant subspaces other than {0}
+and 𝑉 ? Later we will see that this question has an affirmative answer if 𝑉 is
+finite-dimensional and dim 𝑉 > 1 (for 𝐅 = 𝐂 ) or dim 𝑉 > 2 (for 𝐅 = 𝐑); see
+5.19 and Exercise 29 in Section 5B.
+    The previous example noted that null 𝑇 and range 𝑇 are invariant under 𝑇 .
+However, these subspaces do not necessarily provide easy answers to the question
+above about the existence of invariant subspaces other than {0} and 𝑉, because
+null 𝑇 may equal {0} and range 𝑇 may equal 𝑉 (this happens when 𝑇 is invertible).
+    We will return later to a deeper study of invariant subspaces. Now we turn to
+an investigation of the simplest possible nontrivial invariant subspaces—invariant
+subspaces of dimension one.
+    Take any 𝑣 ∈ 𝑉 with 𝑣 ≠ 0 and let 𝑈 equal the set of all scalar multiples of 𝑣:
+                            𝑈 = {𝜆𝑣 ∶ 𝜆 ∈ 𝐅} = span(𝑣).
+
+Then 𝑈 is a one-dimensional subspace of 𝑉 (and every one-dimensional subspace
+of 𝑉 is of this form for an appropriate choice of 𝑣). If 𝑈 is invariant under an
+operator 𝑇 ∈ ℒ(𝑉), then 𝑇𝑣 ∈ 𝑈 , and hence there is a scalar 𝜆 ∈ 𝐅 such that
+                                        𝑇𝑣 = 𝜆𝑣.
+
+Conversely, if 𝑇𝑣 = 𝜆𝑣 for some 𝜆 ∈ 𝐅, then span(𝑣) is a one-dimensional
+subspace of 𝑉 invariant under 𝑇.
+   The equation 𝑇𝑣 = 𝜆𝑣, which we have just seen is intimately connected with
+one-dimensional invariant subspaces, is important enough that the scalars 𝜆 and
+vectors 𝑣 satisfying it are given special names.
+
+ 5.5 definition: eigenvalue
+
+ Suppose 𝑇 ∈ ℒ(𝑉). A number 𝜆 ∈ 𝐅 is called an eigenvalue of 𝑇 if there
+ exists 𝑣 ∈ 𝑉 such that 𝑣 ≠ 0 and 𝑇𝑣 = 𝜆𝑣.
+
+    In the definition above, we require The word eigenvalue is half-German,
+that 𝑣 ≠ 0 because every scalar 𝜆 ∈ 𝐅 half-English. The German prefix eigen
+satisfies 𝑇0 = 𝜆0.                          means “own” in the sense of charac-
+    The comments above show that 𝑉 terizing an intrinsic property.
+has a one-dimensional subspace invariant
+under 𝑇 if and only if 𝑇 has an eigenvalue.
+
+ 5.6 example: eigenvalue
+
+      Define an operator 𝑇 ∈ ℒ(𝐅3 ) by
+                      𝑇(𝑥, 𝑦, 𝑧) = (7𝑥 + 3𝑧, 3𝑥 + 6𝑦 + 9𝑧, −6𝑦)
+
+for (𝑥, 𝑦, 𝑧) ∈ 𝐅3. Then 𝑇(3, 1, −1) = (18, 6, −6) = 6(3, 1, −1). Thus 6 is an
+eigenvalue of 𝑇.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                        Section 5A       Invariant Subspaces      135
+
+   The equivalences in the next result, along with many deep results in linear
+algebra, are valid only in the context of finite-dimensional vector spaces.
+
+ 5.7    equivalent conditions to be an eigenvalue
+
+ Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝜆 ∈ 𝐅. Then the following
+ are equivalent.
+ (a) 𝜆 is an eigenvalue of 𝑇.
+ (b) 𝑇 − 𝜆𝐼 is not injective.                  Reminder: 𝐼 ∈ ℒ(𝑉) is the identity
+                                               operator. Thus 𝐼𝑣 = 𝑣 for all 𝑣 ∈ 𝑉.
+ (c) 𝑇 − 𝜆𝐼 is not surjective.
+ (d) 𝑇 − 𝜆𝐼 is not invertible.
+
+Proof   Conditions (a) and (b) are equivalent because the equation 𝑇𝑣 = 𝜆𝑣
+is equivalent to the equation (𝑇 − 𝜆𝐼)𝑣 = 0. Conditions (b), (c), and (d) are
+equivalent by 3.65.
+
+
+ 5.8 definition: eigenvector
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 ∈ 𝐅 is an eigenvalue of 𝑇. A vector 𝑣 ∈ 𝑉 is called
+ an eigenvector of 𝑇 corresponding to 𝜆 if 𝑣 ≠ 0 and 𝑇𝑣 = 𝜆𝑣.
+
+    In other words, a nonzero vector 𝑣 ∈ 𝑉 is an eigenvector of an operator
+𝑇 ∈ ℒ(𝑉) if and only if 𝑇𝑣 is a scalar multiple of 𝑣. Because 𝑇𝑣 = 𝜆𝑣 if and only
+if (𝑇 − 𝜆𝐼)𝑣 = 0, a vector 𝑣 ∈ 𝑉 with 𝑣 ≠ 0 is an eigenvector of 𝑇 corresponding
+to 𝜆 if and only if 𝑣 ∈ null(𝑇 − 𝜆𝐼).
+
+ 5.9 example: eigenvalues and eigenvectors
+
+   Suppose 𝑇 ∈ ℒ(𝐅2 ) is defined by 𝑇(𝑤, 𝑧) = (−𝑧, 𝑤).
+(a) First consider the case 𝐅 = 𝐑 . Then 𝑇 is a counterclockwise rotation by 90∘
+    about the origin in 𝐑2. An operator has an eigenvalue if and only if there
+    exists a nonzero vector in its domain that gets sent by the operator to a scalar
+    multiple of itself. A 90∘ counterclockwise rotation of a nonzero vector in 𝐑2
+    cannot equal a scalar multiple of itself. Conclusion: if 𝐅 = 𝐑 , then 𝑇 has no
+    eigenvalues (and thus has no eigenvectors).
+(b) Now consider the case 𝐅 = 𝐂 . To find eigenvalues of 𝑇 , we must find the
+    scalars 𝜆 such that 𝑇(𝑤, 𝑧) = 𝜆(𝑤, 𝑧) has some solution other than 𝑤 = 𝑧 = 0.
+    The equation 𝑇(𝑤, 𝑧) = 𝜆(𝑤, 𝑧) is equivalent to the simultaneous equations
+    5.10                          −𝑧 = 𝜆𝑤,       𝑤 = 𝜆𝑧.
+    Substituting the value for 𝑤 given by the second equation into the first equation
+    gives
+                                       −𝑧 = 𝜆2 𝑧.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+136       Chapter 5     Eigenvalues and Eigenvectors
+
+      Now 𝑧 cannot equal 0 [otherwise 5.10 implies that 𝑤 = 0; we are looking for
+      solutions to 5.10 such that (𝑤, 𝑧) is not the 0 vector], so the equation above
+      leads to the equation
+                                        −1 = 𝜆2.
+      The solutions to this equation are 𝜆 = 𝑖 and 𝜆 = −𝑖.
+      You can verify that 𝑖 and −𝑖 are eigenvalues of 𝑇. Indeed, the eigenvectors
+      corresponding to the eigenvalue 𝑖 are the vectors of the form (𝑤, −𝑤𝑖), with
+      𝑤 ∈ 𝐂 and 𝑤 ≠ 0. Furthermore, the eigenvectors corresponding to the
+      eigenvalue −𝑖 are the vectors of the form (𝑤, 𝑤𝑖), with 𝑤 ∈ 𝐂 and 𝑤 ≠ 0.
+      In the next proof, we again use the equivalence
+                            𝑇𝑣 = 𝜆𝑣 ⟺ (𝑇 − 𝜆𝐼)𝑣 = 0.
+
+ 5.11     linearly independent eigenvectors
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then every list of eigenvectors of 𝑇 corresponding to
+ distinct eigenvalues of 𝑇 is linearly independent.
+
+Proof   Suppose the desired result is false. Then there exists a smallest positive
+integer 𝑚 such that there exists a linearly dependent list 𝑣1 , … , 𝑣𝑚 of eigenvectors
+of 𝑇 corresponding to distinct eigenvalues 𝜆1 , … , 𝜆𝑚 of 𝑇 (note that 𝑚 ≥ 2
+because an eigenvector is, by definition, nonzero). Thus there exist 𝑎1 , … , 𝑎𝑚 ∈ 𝐅,
+none of which are 0 (because of the minimality of 𝑚), such that
+                                𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 = 0.
+Apply 𝑇 − 𝜆𝑚 𝐼 to both sides of the equation above, getting
+                 𝑎1 (𝜆1 − 𝜆𝑚 )𝑣1 + ⋯ + 𝑎𝑚−1 (𝜆𝑚−1 − 𝜆𝑚 )𝑣𝑚−1 = 0.
+Because the eigenvalues 𝜆1 , … , 𝜆𝑚 are distinct, none of the coefficients above
+equal 0. Thus 𝑣1 , … , 𝑣𝑚−1 is a linearly dependent list of 𝑚 − 1 eigenvectors of 𝑇
+corresponding to distinct eigenvalues, contradicting the minimality of 𝑚. This
+contradiction completes the proof.
+
+   The result above leads to a short proof of the result below, which puts an upper
+bound on the number of distinct eigenvalues that an operator can have.
+
+ 5.12     operator cannot have more eigenvalues than dimension of vector space
+
+ Suppose 𝑉 is finite-dimensional. Then each operator on 𝑉 has at most dim 𝑉
+ distinct eigenvalues.
+
+Proof Let 𝑇 ∈ ℒ(𝑉). Suppose 𝜆1 , … , 𝜆𝑚 are distinct eigenvalues of 𝑇. Let
+𝑣1 , … , 𝑣𝑚 be corresponding eigenvectors. Then 5.11 implies that the list 𝑣1 , … , 𝑣𝑚
+is linearly independent. Thus 𝑚 ≤ dim 𝑉 (see 2.22), as desired.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                         Section 5A      Invariant Subspaces    137
+
+Polynomials Applied to Operators
+The main reason that a richer theory exists for operators (which map a vector
+space into itself) than for more general linear maps is that operators can be raised
+to powers. In this subsection we define that notion and the concept of applying a
+polynomial to an operator. This concept will be the key tool that we use in the
+next section when we prove that every operator on a nonzero finite-dimensional
+complex vector space has an eigenvalue.
+    If 𝑇 is an operator, then 𝑇𝑇 makes sense (see 3.7) and is also an operator on
+the same vector space as 𝑇. We usually write 𝑇 2 instead of 𝑇𝑇. More generally,
+we have the following definition of 𝑇 𝑚.
+
+ 5.13 notation: 𝑇 𝑚
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑚 is a positive integer.
+ • 𝑇 𝑚 ∈ ℒ(𝑉) is defined by 𝑇 𝑚 = 𝑇
+                                  ⏟ ⋯ 𝑇.
+                                         𝑚 times
+
+ • 𝑇 0 is defined to be the identity operator 𝐼 on 𝑉.
+
+ • If 𝑇 is invertible with inverse 𝑇 −1, then 𝑇 −𝑚 ∈ ℒ(𝑉) is defined by
+                                                    𝑚
+                                    𝑇 −𝑚 = (𝑇 −1 ) .
+
+   You should verify that if 𝑇 is an operator, then
+
+                       𝑇 𝑚 𝑇 𝑛 = 𝑇 𝑚+𝑛    and (𝑇 𝑚 )𝑛 = 𝑇 𝑚𝑛,
+
+where 𝑚 and 𝑛 are arbitrary integers if 𝑇 is invertible and are nonnegative integers
+if 𝑇 is not invertible.
+    Having defined powers of an operator, we can now define what it means to
+apply a polynomial to an operator.
+
+ 5.14 notation: 𝑝(𝑇)
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑝 ∈ 𝒫(𝐅) is a polynomial given by
+
+                       𝑝(𝑧) = 𝑎0 + 𝑎1 𝑧 + 𝑎2 𝑧2 + ⋯ + 𝑎𝑚 𝑧𝑚
+
+ for all 𝑧 ∈ 𝐅. Then 𝑝(𝑇) is the operator on 𝑉 defined by
+
+                      𝑝(𝑇) = 𝑎0 𝐼 + 𝑎1 𝑇 + 𝑎2 𝑇 2 + ⋯ + 𝑎𝑚 𝑇 𝑚.
+
+    This is a new use of the symbol 𝑝 because we are applying 𝑝 to operators, not
+just elements of 𝐅. The idea here is that to evaluate 𝑝(𝑇), we simply replace 𝑧 with
+𝑇 in the expression defining 𝑝. Note that the constant term 𝑎0 in 𝑝(𝑧) becomes the
+operator 𝑎0 𝐼 (which is a reasonable choice because 𝑎0 = 𝑎0 𝑧0 and thus we should
+replace 𝑎0 with 𝑎0 𝑇 0, which equals 𝑎0 𝐼).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+138      Chapter 5     Eigenvalues and Eigenvectors
+
+
+
+ 5.15 example: a polynomial applied to the differentiation operator
+
+    Suppose 𝐷 ∈ ℒ(𝒫(𝐑)) is the differentiation operator defined by 𝐷𝑞 = 𝑞′ and
+𝑝 is the polynomial defined by 𝑝(𝑥) = 7 − 3𝑥 + 5𝑥2. Then 𝑝(𝐷) = 7𝐼 − 3𝐷 + 5𝐷2.
+Thus
+                            (𝑝(𝐷))𝑞 = 7𝑞 − 3𝑞′ + 5𝑞″
+for every 𝑞 ∈ 𝒫(𝐑).
+
+   If we fix an operator 𝑇 ∈ ℒ(𝑉), then the function from 𝒫(𝐅) to ℒ(𝑉) given
+by 𝑝 ↦ 𝑝(𝑇) is linear, as you should verify.
+
+ 5.16 definition: product of polynomials
+
+ If 𝑝, 𝑞 ∈ 𝒫(𝐅), then 𝑝𝑞 ∈ 𝒫(𝐅) is the polynomial defined by
+
+                                 (𝑝𝑞)(𝑧) = 𝑝(𝑧)𝑞(𝑧)
+
+ for all 𝑧 ∈ 𝐅.
+
+   The order does not matter in taking products of polynomials of a single
+operator, as shown by (b) in the next result.
+
+ 5.17    multiplicative properties
+
+ Suppose 𝑝, 𝑞 ∈ 𝒫(𝐅) and 𝑇 ∈ ℒ(𝑉).
+                                                 Informal proof: When a product of
+ Then
+                                                 polynomials is expanded using the dis-
+ (a) (𝑝𝑞)(𝑇) = 𝑝(𝑇)𝑞(𝑇);                         tributive property, it does not matter
+ (b) 𝑝(𝑇)𝑞(𝑇) = 𝑞(𝑇)𝑝(𝑇).                        whether the symbol is 𝑧 or 𝑇.
+
+Proof
+                       𝑚                         𝑛
+(a) Suppose 𝑝(𝑧) = ∑ 𝑎𝑗 𝑧𝑗 and 𝑞(𝑧) = ∑ 𝑏𝑘 𝑧𝑘 for all 𝑧 ∈ 𝐅. Then
+                      𝑗=0                     𝑘=0
+
+                                                 𝑚   𝑛
+                                (𝑝𝑞)(𝑧) = ∑ ∑ 𝑎𝑗 𝑏𝑘 𝑧𝑗+𝑘.
+                                             𝑗 = 0 𝑘=0
+
+      Thus
+                                         𝑚       𝑛
+                            (𝑝𝑞)(𝑇) = ∑ ∑ 𝑎𝑗 𝑏𝑘 𝑇 𝑗+𝑘
+                                        𝑗 = 0 𝑘=0
+                                             𝑚           𝑛
+                                     = ( ∑ 𝑎𝑗 𝑇 𝑗 )( ∑ 𝑏𝑘 𝑇 𝑘 )
+                                          𝑗=0            𝑘=0
+
+                                     = 𝑝(𝑇)𝑞(𝑇).
+
+(b) Using (a) twice, we have 𝑝(𝑇)𝑞(𝑇) = (𝑝𝑞)(𝑇) = (𝑞𝑝)(𝑇) = 𝑞(𝑇)𝑝(𝑇).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                       Section 5A       Invariant Subspaces       139
+
+    We observed earlier that if 𝑇 ∈ ℒ(𝑉), then the subspaces null 𝑇 and range 𝑇
+are invariant under 𝑇 (see 5.4). Now we show that the null space and the range of
+every polynomial of 𝑇 are also invariant under 𝑇.
+
+ 5.18   null space and range of 𝑝(𝑇) are invariant under 𝑇
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑝 ∈ 𝒫(𝐅). Then null 𝑝(𝑇) and range 𝑝(𝑇) are
+ invariant under 𝑇.
+
+Proof   Suppose 𝑢 ∈ null 𝑝(𝑇). Then 𝑝(𝑇)𝑢 = 0. Thus
+     (𝑝(𝑇))(𝑇𝑢) = (𝑝(𝑇) 𝑇)(𝑢) = (𝑇 𝑝(𝑇))(𝑢) = 𝑇(𝑝(𝑇)𝑢) = 𝑇(0) = 0.
+
+Hence 𝑇𝑢 ∈ null 𝑝(𝑇). Thus null 𝑝(𝑇) is invariant under 𝑇 , as desired.
+  Suppose 𝑢 ∈ range 𝑝(𝑇). Then there exists 𝑣 ∈ 𝑉 such that 𝑢 = 𝑝(𝑇)𝑣. Thus
+                          𝑇𝑢 = 𝑇(𝑝(𝑇)𝑣) = 𝑝(𝑇)(𝑇𝑣).
+
+Hence 𝑇𝑢 ∈ range 𝑝(𝑇). Thus range 𝑝(𝑇) is invariant under 𝑇 , as desired.
+
+
+
+Exercises 5A
+
+ 1   Suppose 𝑇 ∈ ℒ(𝑉) and 𝑈 is a subspace of 𝑉.
+     (a) Prove that if 𝑈 ⊆ null 𝑇 , then 𝑈 is invariant under 𝑇.
+     (b) Prove that if range 𝑇 ⊆ 𝑈 , then 𝑈 is invariant under 𝑇.
+
+ 2   Suppose that 𝑇 ∈ ℒ(𝑉) and 𝑉1 , … , 𝑉𝑚 are subspaces of 𝑉 invariant under 𝑇.
+     Prove that 𝑉1 + ⋯ + 𝑉𝑚 is invariant under 𝑇.
+ 3   Suppose 𝑇 ∈ ℒ(𝑉). Prove that the intersection of every collection of
+     subspaces of 𝑉 invariant under 𝑇 is invariant under 𝑇.
+ 4   Prove or give a counterexample: If 𝑉 is finite-dimensional and 𝑈 is a sub-
+     space of 𝑉 that is invariant under every operator on 𝑉, then 𝑈 = {0} or
+     𝑈 = 𝑉.
+
+ 5   Suppose 𝑇 ∈ ℒ(𝐑2 ) is defined by 𝑇(𝑥, 𝑦) = (−3𝑦, 𝑥). Find the eigenvalues
+     of 𝑇.
+ 6   Define 𝑇 ∈ ℒ(𝐅2 ) by 𝑇(𝑤, 𝑧) = (𝑧, 𝑤). Find all eigenvalues and eigenvec-
+     tors of 𝑇.
+ 7   Define 𝑇 ∈ ℒ(𝐅3 ) by 𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (2𝑧2 , 0, 5𝑧3 ). Find all eigenvalues and
+     eigenvectors of 𝑇.
+ 8   Suppose 𝑃 ∈ ℒ(𝑉) is such that 𝑃2 = 𝑃. Prove that if 𝜆 is an eigenvalue of 𝑃,
+     then 𝜆 = 0 or 𝜆 = 1.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+140      Chapter 5     Eigenvalues and Eigenvectors
+
+ 9    Define 𝑇 ∶ 𝒫(𝐑) → 𝒫(𝐑) by 𝑇𝑝 = 𝑝′. Find all eigenvalues and eigenvectors
+      of 𝑇.
+10    Define 𝑇 ∈ ℒ(𝒫4 (𝐑)) by (𝑇𝑝)(𝑥) = 𝑥𝑝′(𝑥) for all 𝑥 ∈ 𝐑 . Find all eigenval-
+      ues and eigenvectors of 𝑇.
+11    Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝛼 ∈ 𝐅. Prove that there ex-
+      ists 𝛿 > 0 such that 𝑇− 𝜆𝐼 is invertible for all 𝜆 ∈ 𝐅 such that 0 < |𝛼 − 𝜆| < 𝛿.
+12    Suppose 𝑉 = 𝑈 ⊕ 𝑊, where 𝑈 and 𝑊 are nonzero subspaces of 𝑉. Define
+      𝑃 ∈ ℒ(𝑉) by 𝑃(𝑢 + 𝑤) = 𝑢 for each 𝑢 ∈ 𝑈 and each 𝑤 ∈ 𝑊. Find all
+      eigenvalues and eigenvectors of 𝑃.
+13    Suppose 𝑇 ∈ ℒ(𝑉). Suppose 𝑆 ∈ ℒ(𝑉) is invertible.
+      (a) Prove that 𝑇 and 𝑆−1 𝑇𝑆 have the same eigenvalues.
+      (b) What is the relationship between the eigenvectors of 𝑇 and the eigen-
+          vectors of 𝑆−1 𝑇𝑆?
+14    Give an example of an operator on 𝐑4 that has no (real) eigenvalues.
+15    Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝜆 ∈ 𝐅. Show that 𝜆 is
+      an eigenvalue of 𝑇 if and only if 𝜆 is an eigenvalue of the dual operator
+      𝑇 ′ ∈ ℒ(𝑉 ′ ).
+16    Suppose 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉 and 𝑇 ∈ ℒ(𝑉). Prove that if 𝜆 is an
+      eigenvalue of 𝑇 , then
+                         |𝜆| ≤ 𝑛 max{∣ℳ(𝑇)𝑗,𝑘 ∣ ∶ 1 ≤ 𝑗, 𝑘 ≤ 𝑛},
+      where ℳ(𝑇)𝑗,𝑘 denotes the entry in row 𝑗, column 𝑘 of the matrix of 𝑇 with
+      respect to the basis 𝑣1 , … , 𝑣𝑛 .
+         See Exercise 19 in Section 6A for a different bound on |𝜆|.
+
+17    Suppose 𝐅 = 𝐑 , 𝑇 ∈ ℒ(𝑉), and 𝜆 ∈ 𝐑 . Prove that 𝜆 is an eigenvalue of 𝑇
+      if and only if 𝜆 is an eigenvalue of the complexification 𝑇𝐂 .
+         See Exercise 33 in Section 3B for the definition of 𝑇𝐂 .
+
+18    Suppose 𝐅 = 𝐑 , 𝑇 ∈ ℒ(𝑉), and 𝜆 ∈ 𝐂 . Prove that 𝜆 is an eigenvalue of
+      the complexification 𝑇𝐂 if and only if 𝜆 is an eigenvalue of 𝑇𝐂 .
+19    Show that the forward shift operator 𝑇 ∈ ℒ(𝐅∞ ) defined by
+                               𝑇(𝑧1 , 𝑧2 , … ) = (0, 𝑧1 , 𝑧2 , … )
+      has no eigenvalues.
+20    Define the backward shift operator 𝑆 ∈ ℒ(𝐅∞ ) by
+                              𝑆(𝑧1 , 𝑧2 , 𝑧3 , … ) = (𝑧2 , 𝑧3 , … ).
+      (a) Show that every element of 𝐅 is an eigenvalue of 𝑆.
+      (b) Find all eigenvectors of 𝑆.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                 Section 5A       Invariant Subspaces       ≈ 100√2
+
+21   Suppose 𝑇 ∈ ℒ(𝑉) is invertible.
+     (a) Suppose 𝜆 ∈ 𝐅 with 𝜆 ≠ 0. Prove that 𝜆 is an eigenvalue of 𝑇 if and
+         only if 1𝜆 is an eigenvalue of 𝑇 −1.
+     (b) Prove that 𝑇 and 𝑇 −1 have the same eigenvectors.
+
+22   Suppose 𝑇 ∈ ℒ(𝑉) and there exist nonzero vectors 𝑢 and 𝑤 in 𝑉 such that
+                              𝑇𝑢 = 3𝑤       and 𝑇𝑤 = 3𝑢.
+     Prove that 3 or −3 is an eigenvalue of 𝑇.
+23   Suppose 𝑉 is finite-dimensional and 𝑆, 𝑇 ∈ ℒ(𝑉). Prove that 𝑆𝑇 and 𝑇𝑆
+     have the same eigenvalues.
+24   Suppose 𝐴 is an 𝑛-by-𝑛 matrix with entries in 𝐅. Define 𝑇 ∈ ℒ(𝐅𝑛 ) by
+     𝑇𝑥 = 𝐴𝑥, where elements of 𝐅𝑛 are thought of as 𝑛-by-1 column vectors.
+     (a) Suppose the sum of the entries in each row of 𝐴 equals 1. Prove that 1
+         is an eigenvalue of 𝑇.
+     (b) Suppose the sum of the entries in each column of 𝐴 equals 1. Prove that
+         1 is an eigenvalue of 𝑇.
+
+25   Suppose 𝑇 ∈ ℒ(𝑉) and 𝑢, 𝑤 are eigenvectors of 𝑇 such that 𝑢 + 𝑤 is also
+     an eigenvector of 𝑇. Prove that 𝑢 and 𝑤 are eigenvectors of 𝑇 corresponding
+     to the same eigenvalue.
+26   Suppose 𝑇 ∈ ℒ(𝑉) is such that every nonzero vector in 𝑉 is an eigenvector
+     of 𝑇. Prove that 𝑇 is a scalar multiple of the identity operator.
+27   Suppose that 𝑉 is finite-dimensional and 𝑘 ∈ {1, … , dim 𝑉 − 1}. Suppose
+     𝑇 ∈ ℒ(𝑉) is such that every subspace of 𝑉 of dimension 𝑘 is invariant
+     under 𝑇. Prove that 𝑇 is a scalar multiple of the identity operator.
+28   Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 has at most
+     1 + dim range 𝑇 distinct eigenvalues.
+
+29   Suppose 𝑇 ∈ ℒ(𝐑3 ) and −4, 5, and √7 are eigenvalues of 𝑇. Prove that
+     there exists 𝑥 ∈ 𝐑3 such that 𝑇𝑥 − 9𝑥 = (−4, 5, √7).
+30   Suppose 𝑇 ∈ ℒ(𝑉) and (𝑇 − 2𝐼)(𝑇 − 3𝐼)(𝑇 − 4𝐼) = 0. Suppose 𝜆 is an
+     eigenvalue of 𝑇. Prove that 𝜆 = 2 or 𝜆 = 3 or 𝜆 = 4.
+31   Give an example of 𝑇 ∈ ℒ(𝐑2 ) such that 𝑇 4 = −𝐼 .
+32   Suppose 𝑇 ∈ ℒ(𝑉) has no eigenvalues and 𝑇 4 = 𝐼 . Prove that 𝑇 2 = −𝐼 .
+33   Suppose 𝑇 ∈ ℒ(𝑉) and 𝑚 is a positive integer.
+     (a) Prove that 𝑇 is injective if and only if 𝑇 𝑚 is injective.
+     (b) Prove that 𝑇 is surjective if and only if 𝑇 𝑚 is surjective.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+142      Chapter 5      Eigenvalues and Eigenvectors
+
+34    Suppose 𝑉 is finite-dimensional and 𝑣1 , … , 𝑣𝑚 ∈ 𝑉. Prove that the list
+      𝑣1 , … , 𝑣𝑚 is linearly independent if and only if there exists 𝑇 ∈ ℒ(𝑉) such
+      that 𝑣1 , … , 𝑣𝑚 are eigenvectors of 𝑇 corresponding to distinct eigenvalues.
+35    Suppose that 𝜆1 , … , 𝜆𝑛 is a list of distinct real numbers. Prove that the
+      list 𝑒 𝜆1𝑥 , … , 𝑒 𝜆𝑛𝑥 is linearly independent in the vector space of real-valued
+      functions on 𝐑 .
+         Hint: Let 𝑉 = span(𝑒 𝜆1𝑥 , … , 𝑒 𝜆𝑛𝑥 ), and define an operator 𝐷 ∈ ℒ(𝑉) by
+         𝐷 𝑓 = 𝑓 ′. Find eigenvalues and eigenvectors of 𝐷.
+
+36    Suppose that 𝜆1 , … , 𝜆𝑛 is a list of distinct positive numbers. Prove that the
+      list cos(𝜆1 𝑥), … , cos(𝜆𝑛 𝑥) is linearly independent in the vector space of
+      real-valued functions on 𝐑 .
+37    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Define 𝒜 ∈ ℒ(ℒ(𝑉)) by
+                                          𝒜(𝑆) = 𝑇𝑆
+      for each 𝑆 ∈ ℒ(𝑉). Prove that the set of eigenvalues of 𝑇 equals the set of
+      eigenvalues of 𝒜.
+38    Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑈 is a subspace of 𝑉
+      invariant under 𝑇. The quotient operator 𝑇/𝑈 ∈ ℒ(𝑉/𝑈) is defined by
+                                  (𝑇/𝑈)(𝑣 + 𝑈) = 𝑇𝑣 + 𝑈
+      for each 𝑣 ∈ 𝑉.
+      (a) Show that the definition of 𝑇/𝑈 makes sense (which requires using the
+          condition that 𝑈 is invariant under 𝑇 ) and show that 𝑇/𝑈 is an operator
+          on 𝑉/𝑈 .
+      (b) Show that each eigenvalue of 𝑇/𝑈 is an eigenvalue of 𝑇.
+39    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 has an eigen-
+      value if and only if there exists a subspace of 𝑉 of dimension dim 𝑉 − 1 that
+      is invariant under 𝑇.
+40    Suppose 𝑆, 𝑇 ∈ ℒ(𝑉) and 𝑆 is invertible. Suppose 𝑝 ∈ 𝒫(𝐅) is a polynomial.
+      Prove that
+                             𝑝(𝑆𝑇𝑆−1 ) = 𝑆𝑝(𝑇)𝑆−1.
+41    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑈 is a subspace of 𝑉 invariant under 𝑇. Prove that
+      𝑈 is invariant under 𝑝(𝑇) for every polynomial 𝑝 ∈ 𝒫(𝐅).
+42    Define 𝑇 ∈ ℒ(𝐅𝑛 ) by 𝑇(𝑥1 , 𝑥2 , 𝑥3 , … , 𝑥𝑛 ) = (𝑥1 , 2𝑥2 , 3𝑥3 , … , 𝑛𝑥𝑛 ).
+      (a) Find all eigenvalues and eigenvectors of 𝑇.
+      (b) Find all subspaces of 𝐅𝑛 that are invariant under 𝑇.
+43    Suppose that 𝑉 is finite-dimensional, dim 𝑉 > 1, and 𝑇 ∈ ℒ(𝑉). Prove that
+      {𝑝(𝑇) ∶ 𝑝 ∈ 𝒫(𝐅)} ≠ ℒ(𝑉).
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                   Section 5B       The Minimal Polynomial    143
+
+5B The Minimal Polynomial
+Existence of Eigenvalues on Complex Vector Spaces
+Now we come to one of the central results about operators on finite-dimensional
+complex vector spaces.
+
+ 5.19   existence of eigenvalues
+
+ Every operator on a finite-dimensional nonzero complex vector space has an
+ eigenvalue.
+
+Proof Suppose 𝑉 is a finite-dimensional complex vector space of dimension
+𝑛 > 0 and 𝑇 ∈ ℒ(𝑉). Choose 𝑣 ∈ 𝑉 with 𝑣 ≠ 0. Then
+                                𝑣, 𝑇𝑣, 𝑇 2 𝑣, … , 𝑇 𝑛 𝑣
+is not linearly independent, because 𝑉 has dimension 𝑛 and this list has length
+𝑛 + 1. Hence some linear combination (with not all the coefficients equal to 0)
+of the vectors above equals 0. Thus there exists a nonconstant polynomial 𝑝 of
+smallest degree such that
+                                  𝑝(𝑇)𝑣 = 0.
+    By the first version of the fundamental theorem of algebra (see 4.12), there
+exists 𝜆 ∈ 𝐂 such that 𝑝(𝜆) = 0. Hence there exists a polynomial 𝑞 ∈ 𝒫(𝐂) such
+that
+                                𝑝(𝑧) = (𝑧 − 𝜆)𝑞(𝑧)
+for every 𝑧 ∈ 𝐂 (see 4.6). This implies (using 5.17) that
+                         0 = 𝑝(𝑇)𝑣 = (𝑇 − 𝜆𝐼)(𝑞(𝑇)𝑣).
+Because 𝑞 has smaller degree than 𝑝, we know that 𝑞(𝑇)𝑣 ≠ 0. Thus the equation
+above implies that 𝜆 is an eigenvalue of 𝑇 with eigenvector 𝑞(𝑇)𝑣.
+
+    The proof above makes crucial use of the fundamental theorem of algebra.
+The comment following Exercise 16 helps explain why the fundamental theorem
+of algebra is so tightly connected to the result above.
+    The hypothesis in the result above that 𝐅 = 𝐂 cannot be replaced with the
+hypothesis that 𝐅 = 𝐑 , as shown by Example 5.9. The next example shows that
+the finite-dimensional hypothesis in the result above also cannot be deleted.
+
+ 5.20 example: an operator on a complex vector space with no eigenvalues
+
+   Define 𝑇 ∈ ℒ(𝒫(𝐂)) by (𝑇𝑝)(𝑧) = 𝑧𝑝(𝑧). If 𝑝 ∈ 𝒫(𝐂) is a nonzero poly-
+nomial, then the degree of 𝑇𝑝 is one more than the degree of 𝑝, and thus 𝑇𝑝 cannot
+equal a scalar multiple of 𝑝. Hence 𝑇 has no eigenvalues.
+   Because 𝒫(𝐂) is infinite-dimensional, this example does not contradict the
+result above.
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+144       Chapter 5     Eigenvalues and Eigenvectors
+
+Eigenvalues and the Minimal Polynomial
+In this subsection we introduce an important polynomial associated with each
+operator. We begin with the following definition.
+
+ 5.21 definition: monic polynomial
+
+ A monic polynomial is a polynomial whose highest-degree coefficient equals 1.
+
+      For example, the polynomial 2 + 9𝑧2 + 𝑧7 is a monic polynomial of degree 7.
+
+ 5.22     existence, uniqueness, and degree of minimal polynomial
+
+ Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Then there is a unique monic
+ polynomial 𝑝 ∈ 𝒫(𝐅) of smallest degree such that 𝑝(𝑇) = 0. Furthermore,
+ deg 𝑝 ≤ dim 𝑉.
+
+Proof   If dim 𝑉 = 0, then 𝐼 is the zero operator on 𝑉 and thus we take 𝑝 to be
+the constant polynomial 1.
+    Now use induction on dim 𝑉. Thus assume that dim 𝑉 > 0 and that the
+desired result is true for all operators on all vector spaces of smaller dimension.
+Let 𝑢 ∈ 𝑉 be such that 𝑢 ≠ 0. The list 𝑢, 𝑇𝑢, … , 𝑇 dim 𝑉 𝑢 has length 1 + dim 𝑉
+and thus is linearly dependent. By the linear dependence lemma (2.19), there is
+a smallest positive integer 𝑚 ≤ dim 𝑉 such that 𝑇 𝑚 𝑢 is a linear combination of
+𝑢, 𝑇𝑢, … , 𝑇 𝑚−1 𝑢. Thus there exist scalars 𝑐0 , 𝑐1 , 𝑐2 , … , 𝑐𝑚−1 ∈ 𝐅 such that
+5.23                  𝑐0 𝑢 + 𝑐1 𝑇𝑢 + ⋯ + 𝑐𝑚−1 𝑇 𝑚−1 𝑢 + 𝑇 𝑚 𝑢 = 0.
+Define a monic polynomial 𝑞 ∈ 𝒫𝑚 (𝐅) by
+                        𝑞(𝑧) = 𝑐0 + 𝑐1 𝑧 + ⋯ + 𝑐𝑚−1 𝑧𝑚−1 + 𝑧𝑚.
+Then 5.23 implies that 𝑞(𝑇)𝑢 = 0.
+   If 𝑘 is a nonnegative integer, then
+                       𝑞(𝑇)(𝑇 𝑘 𝑢) = 𝑇 𝑘 (𝑞(𝑇)𝑢) = 𝑇 𝑘 (0) = 0.
+The linear dependence lemma (2.19) shows that 𝑢, 𝑇𝑢, … , 𝑇 𝑚−1 𝑢 is linearly inde-
+pendent. Thus the equation above implies that dim null 𝑞(𝑇) ≥ 𝑚. Hence
+              dim range 𝑞(𝑇) = dim 𝑉 − dim null 𝑞(𝑇) ≤ dim 𝑉 − 𝑚.
+Because range 𝑞(𝑇) is invariant under 𝑇 (by 5.18), we can apply our induction
+hypothesis to the operator 𝑇|range 𝑞(𝑇) on the vector space range 𝑞(𝑇). Thus there
+is a monic polynomial 𝑠 ∈ 𝒫(𝐅) with
+                   deg 𝑠 ≤ dim 𝑉 − 𝑚        and 𝑠(𝑇|range 𝑞(𝑇) ) = 0.
+Hence for all 𝑣 ∈ 𝑉 we have
+                          ((𝑠𝑞)(𝑇))(𝑣) = 𝑠(𝑇)(𝑞(𝑇)𝑣) = 0
+because 𝑞(𝑇)𝑣 ∈ range 𝑞(𝑇) and 𝑠(𝑇)|range 𝑞(𝑇) = 𝑠(𝑇|range 𝑞(𝑇) ) = 0. Thus 𝑠𝑞 is a
+monic polynomial such that deg 𝑠𝑞 ≤ dim 𝑉 and (𝑠𝑞)(𝑇) = 0.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                    Section 5B      The Minimal Polynomial         145
+
+    The paragraph above shows that there is a monic polynomial of degree at
+most dim 𝑉 that when applied to 𝑇 gives the 0 operator. Thus there is a monic
+polynomial of smallest degree with this property, completing the existence part
+of this result.
+    Let 𝑝 ∈ 𝒫(𝐅) be a monic polynomial of smallest degree such that 𝑝(𝑇) = 0.
+To prove the uniqueness part of the result, suppose 𝑟 ∈ 𝒫(𝐅) is a monic poly-
+nomial of the same degree as 𝑝 and 𝑟(𝑇) = 0. Then (𝑝 − 𝑟)(𝑇) = 0 and also
+deg(𝑝 − 𝑟) < deg 𝑝. If 𝑝 − 𝑟 were not equal to 0, then we could divide 𝑝 − 𝑟 by
+the coefficient of the highest-order term in 𝑝 − 𝑟 to get a monic polynomial (of
+smaller degree than 𝑝) that when applied to 𝑇 gives the 0 operator. Thus 𝑝 − 𝑟 = 0,
+as desired.
+
+   The previous result justifies the following definition.
+
+ 5.24 definition: minimal polynomial
+
+ Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Then the minimal polynomial
+ of 𝑇 is the unique monic polynomial 𝑝 ∈ 𝒫(𝐅) of smallest degree such that
+ 𝑝(𝑇) = 0.
+
+    To compute the minimal polynomial of an operator 𝑇 ∈ ℒ(𝑉), we need to
+find the smallest positive integer 𝑚 such that the equation
+                        𝑐0 𝐼 + 𝑐1 𝑇 + ⋯ + 𝑐𝑚−1 𝑇 𝑚−1 = −𝑇 𝑚
+has a solution 𝑐0 , 𝑐1 , … , 𝑐𝑚−1 ∈ 𝐅. If we pick a basis of 𝑉 and replace 𝑇 in the
+equation above with the matrix of 𝑇 , then the equation above can be thought of
+as a system of (dim 𝑉)2 linear equations in the 𝑚 unknowns 𝑐0 , 𝑐1 , … , 𝑐𝑚−1 ∈ 𝐅.
+Gaussian elimination or another fast method of solving systems of linear equations
+can tell us whether a solution exists, testing successive values 𝑚 = 1, 2, … until
+a solution exists. By 5.22, a solution exists for some smallest positive integer
+𝑚 ≤ dim 𝑉. The minimal polynomial of 𝑇 is then 𝑐0 + 𝑐1 𝑧 + ⋯ + 𝑐𝑚−1 𝑧𝑚−1 + 𝑧𝑚.
+    Even faster (usually), pick 𝑣 ∈ 𝑉 with 𝑣 ≠ 0 and consider the equation
+5.25            𝑐0 𝑣 + 𝑐1 𝑇𝑣 + ⋯ + 𝑐dim 𝑉−1 𝑇 dim 𝑉−1 𝑣 = −𝑇 dim 𝑉 𝑣.
+Use a basis of 𝑉 to convert the equation above to a system of dim 𝑉 linear
+equations in dim 𝑉 unknowns 𝑐0 , 𝑐1 , … , 𝑐dim 𝑉−1 . If this system of equations has a
+unique solution 𝑐0 , 𝑐1 , … , 𝑐dim 𝑉−1 (as happens most of the time), then the scalars
+𝑐0 , 𝑐1 , … , 𝑐dim 𝑉−1 , 1 are the coefficients of the minimal polynomial of 𝑇 (because
+5.22 states that the degree of the minimal polynomial is at most dim 𝑉 ).
+     Consider operators on 𝐑4 (thought These estimates are based on testing
+of as 4-by-4 matrices with respect to the millions of random matrices.
+standard basis), and take 𝑣 = (1, 0, 0, 0)
+in the paragraph above. The faster method described above works on over 99.8%
+of the 4-by-4 matrices with integer entries in the interval [−10, 10] and on over
+99.999% of the 4-by-4 matrices with integer entries in [−100, 100].
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+146        Chapter 5       Eigenvalues and Eigenvectors
+
+      The next example illustrates the faster procedure discussed above.
+
+ 5.26 example: minimal polynomial of an operator on 𝐅5
+
+      Suppose 𝑇 ∈ ℒ(𝐅5 ) and
+                                      0         0   0   0   −3
+                                    ⎛                          ⎞
+                                    ⎜
+                                    ⎜
+                                    ⎜ 1         0   0   0   6 ⎟⎟
+                                                               ⎟
+                                    ⎜                          ⎟
+                             ℳ(𝑇) = ⎜
+                                    ⎜
+                                    ⎜ 0         1   0   0   0 ⎟⎟
+                                                               ⎟
+                                    ⎜
+                                    ⎜
+                                    ⎜ 0         0   1   0   0 ⎟⎟
+                                                               ⎟
+                                    ⎝ 0         0   0   1   0 ⎠
+
+with respect to the standard basis 𝑒1 , 𝑒2 , 𝑒3 , 𝑒4 , 𝑒5 . Taking 𝑣 = 𝑒1 for 5.25, we have
+
+      𝑇𝑒1 = 𝑒2 ,                               𝑇 4 𝑒1 = 𝑇(𝑇 3 𝑒1 ) = 𝑇𝑒4 = 𝑒5 ,
+   𝑇 2 𝑒1 = 𝑇(𝑇𝑒1 ) = 𝑇𝑒2 = 𝑒3 ,               𝑇 5 𝑒1 = 𝑇(𝑇 4 𝑒1 ) = 𝑇𝑒5 = −3𝑒1 + 6𝑒2 .
+   𝑇 3 𝑒1 = 𝑇(𝑇 2 𝑒1 ) = 𝑇𝑒3 = 𝑒4 ,
+
+Thus 3𝑒1 − 6𝑇𝑒1 = −𝑇 5 𝑒1 . The list 𝑒1 , 𝑇𝑒1 , 𝑇 2 𝑒1 , 𝑇 3 𝑒1 , 𝑇 4 𝑒1 , which equals the list
+𝑒1 , 𝑒2 , 𝑒3 , 𝑒4 , 𝑒5 , is linearly independent, so no other linear combination of this list
+equals −𝑇 5 𝑒1 . Hence the minimal polynomial of 𝑇 is 3 − 6𝑧 + 𝑧5.
+
+   Recall that by definition, eigenvalues of operators on 𝑉 and zeros of polyno-
+mials in 𝒫(𝐅) must be elements of 𝐅. In particular, if 𝐅 = 𝐑 , then eigenvalues
+and zeros must be real numbers.
+
+  5.27     eigenvalues are the zeros of the minimal polynomial
+
+  Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉).
+  (a) The zeros of the minimal polynomial of 𝑇 are the eigenvalues of 𝑇.
+  (b) If 𝑉 is a complex vector space, then the minimal polynomial of 𝑇 has the
+      form
+                                (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ),
+         where 𝜆1 , … , 𝜆𝑚 is a list of all eigenvalues of 𝑇 , possibly with repetitions.
+
+Proof   Let 𝑝 be the minimal polynomial of 𝑇.
+(a) First suppose 𝜆 ∈ 𝐅 is a zero of 𝑝. Then 𝑝 can be written in the form
+
+                                       𝑝(𝑧) = (𝑧 − 𝜆)𝑞(𝑧),
+
+      where 𝑞 is a monic polynomial with coefficients in 𝐅 (see 4.6). Because
+      𝑝(𝑇) = 0, we have
+                               0 = (𝑇 − 𝜆𝐼)(𝑞(𝑇)𝑣)
+      for all 𝑣 ∈ 𝑉. Because deg 𝑞 = (deg 𝑝) − 1 and 𝑝 is the minimal polynomial
+      of 𝑇 , there exists at least one vector 𝑣 ∈ 𝑉 such that 𝑞(𝑇)𝑣 ≠ 0. The equation
+      above thus implies that 𝜆 is an eigenvalue of 𝑇 , as desired.
+
+                   Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                      Section 5B         The Minimal Polynomial   147
+
+    To prove that every eigenvalue of 𝑇 is a zero of 𝑝, now suppose 𝜆 ∈ 𝐅 is
+    an eigenvalue of 𝑇. Thus there exists 𝑣 ∈ 𝑉 with 𝑣 ≠ 0 such that 𝑇𝑣 = 𝜆𝑣.
+    Repeated applications of 𝑇 to both sides of this equation show that 𝑇 𝑘 𝑣 = 𝜆𝑘 𝑣
+    for every nonnegative integer 𝑘 . Thus
+
+                                         𝑝(𝑇)𝑣 = 𝑝(𝜆)𝑣.
+
+    Because 𝑝 is the minimal polynomial of 𝑇 , we have 𝑝(𝑇)𝑣 = 0. Hence the
+    equation above implies that 𝑝(𝜆) = 0. Thus 𝜆 is a zero of 𝑝, as desired.
+(b) To get the desired result, use (a) and the second version of the fundamental
+    theorem of algebra (see 4.13).
+
+    A nonzero polynomial has at most as many distinct zeros as its degree (see 4.8).
+Thus (a) of the previous result, along with the result that the minimal polynomial
+of an operator on 𝑉 has degree at most dim 𝑉, gives an alternative proof of 5.12,
+which states that an operator on 𝑉 has at most dim 𝑉 distinct eigenvalues.
+    Every monic polynomial is the minimal polynomial of some operator, as
+shown by Exercise 16, which generalizes Example 5.26. Thus 5.27(a) shows that
+finding exact expressions for the eigenvalues of an operator is equivalent to the
+problem of finding exact expressions for the zeros of a polynomial (and thus is
+not possible for some operators).
+
+ 5.28 example: An operator whose eigenvalues cannot be found exactly
+
+   Let 𝑇 ∈ ℒ(𝐂5 ) be the operator defined by
+
+                𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 , 𝑧5 ) = (−3𝑧5 , 𝑧1 + 6𝑧5 , 𝑧2 , 𝑧3 , 𝑧4 ).
+
+The matrix of 𝑇 with respect to the standard basis of 𝐂5 is the 5-by-5 matrix in
+Example 5.26. As we showed in that example, the minimal polynomial of 𝑇 is
+the polynomial
+                                  3 − 6𝑧 + 𝑧5.
+    No zero of the polynomial above can be expressed using rational numbers,
+roots of rational numbers, and the usual rules of arithmetic (a proof of this would
+take us considerably beyond linear algebra). Because the zeros of the polynomial
+above are the eigenvalues of 𝑇 [by 5.27(a)], we cannot find an exact expression
+for any eigenvalue of 𝑇 in any familiar form.
+    Numerical techniques, which we will not discuss here, show that the zeros
+of the polynomial above, and thus the eigenvalues of 𝑇 , are approximately the
+following five complex numbers:
+
+            −1.67,    0.51,      1.40,     −0.12 + 1.59𝑖,        −0.12 − 1.59𝑖.
+
+Note that the two nonreal zeros of this polynomial are complex conjugates of
+each other, as we expect for a polynomial with real coefficients (see 4.14).
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+148        Chapter 5     Eigenvalues and Eigenvectors
+
+   The next result completely characterizes the polynomials that when applied to
+an operator give the 0 operator.
+
+ 5.29     𝑞(𝑇) = 0 ⟺ 𝑞 is a polynomial multiple of the minimal polynomial
+
+ Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑞 ∈ 𝒫(𝐅). Then 𝑞(𝑇) = 0
+ if and only if 𝑞 is a polynomial multiple of the minimal polynomial of 𝑇.
+
+Proof    Let 𝑝 denote the minimal polynomial of 𝑇.
+    First suppose 𝑞(𝑇) = 0. By the division algorithm for polynomials (4.9), there
+exist polynomials 𝑠, 𝑟 ∈ 𝒫(𝐅) such that
+5.30                                    𝑞 = 𝑝𝑠 + 𝑟
+and deg 𝑟 < deg 𝑝. We have
+                        0 = 𝑞(𝑇) = 𝑝(𝑇)𝑠(𝑇) + 𝑟(𝑇) = 𝑟(𝑇).
+The equation above implies that 𝑟 = 0 (otherwise, dividing 𝑟 by its highest-degree
+coefficient would produce a monic polynomial that when applied to 𝑇 gives 0;
+this polynomial would have a smaller degree than the minimal polynomial, which
+would be a contradiction). Thus 5.30 becomes the equation 𝑞 = 𝑝𝑠. Hence 𝑞 is a
+polynomial multiple of 𝑝, as desired.
+    To prove the other direction, now suppose 𝑞 is a polynomial multiple of 𝑝.
+Thus there exists a polynomial 𝑠 ∈ 𝒫(𝐅) such that 𝑞 = 𝑝𝑠. We have
+                            𝑞(𝑇) = 𝑝(𝑇)𝑠(𝑇) = 0 𝑠(𝑇) = 0,
+as desired.
+
+      The next result is a nice consequence of the result above.
+
+ 5.31     minimal polynomial of a restriction operator
+
+ Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑈 is a subspace of 𝑉 that is
+ invariant under 𝑇. Then the minimal polynomial of 𝑇 is a polynomial multiple
+ of the minimal polynomial of 𝑇|𝑈 .
+
+Proof   Suppose 𝑝 is the minimal polynomial of 𝑇. Thus 𝑝(𝑇)𝑣 = 0 for all 𝑣 ∈ 𝑉.
+In particular,
+                           𝑝(𝑇)𝑢 = 0 for all 𝑢 ∈ 𝑈.
+Thus 𝑝(𝑇|𝑈 ) = 0. Now 5.29, applied to the operator 𝑇|𝑈 in place of 𝑇, implies
+that 𝑝 is a polynomial multiple of the minimal polynomial of 𝑇|𝑈 .
+
+   See Exercise 25 for a result about quotient operators that is analogous to the
+result above.
+   The next result shows that the constant term of the minimal polynomial of an
+operator determines whether the operator is invertible.
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                    Section 5B      The Minimal Polynomial       149
+
+
+ 5.32   𝑇 not invertible ⟺ constant term of minimal polynomial of 𝑇 is 0
+
+ Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Then 𝑇 is not invertible if
+ and only if the constant term of the minimal polynomial of 𝑇 is 0.
+
+Proof   Suppose 𝑇 ∈ ℒ(𝑉) and 𝑝 is the minimal polynomial of 𝑇. Then
+               𝑇 is not invertible ⟺ 0 is an eigenvalue of 𝑇
+                                     ⟺ 0 is a zero of 𝑝
+                                     ⟺ the constant term of 𝑝 is 0,
+where the first equivalence holds by 5.7, the second equivalence holds by 5.27(a),
+and the last equivalence holds because the constant term of 𝑝 equals 𝑝(0).
+
+
+Eigenvalues on Odd-Dimensional Real Vector Spaces
+The next result will be the key tool that we use to show that every operator on an
+odd-dimensional real vector space has an eigenvalue.
+
+ 5.33   even-dimensional null space
+
+ Suppose 𝐅 = 𝐑 and 𝑉 is finite-dimensional. Suppose also that 𝑇 ∈ ℒ(𝑉)
+ and 𝑏, 𝑐 ∈ 𝐑 with 𝑏2 < 4𝑐. Then dim null(𝑇 2 + 𝑏𝑇 + 𝑐𝐼) is an even number.
+
+Proof Recall that null(𝑇 2 + 𝑏𝑇 + 𝑐𝐼) is invariant under 𝑇 (by 5.18). By replacing
+𝑉 with null(𝑇 2 + 𝑏𝑇 + 𝑐𝐼) and replacing 𝑇 with 𝑇 restricted to null(𝑇 2 + 𝑏𝑇 + 𝑐𝐼),
+we can assume that 𝑇 2 + 𝑏𝑇 + 𝑐𝐼 = 0; we now need to prove that dim 𝑉 is even.
+   Suppose 𝜆 ∈ 𝐑 and 𝑣 ∈ 𝑉 are such that 𝑇𝑣 = 𝜆𝑣. Then
+                                                                  2          2
+        0 = (𝑇 2 + 𝑏𝑇 + 𝑐𝐼)𝑣 = (𝜆2 + 𝑏𝜆 + 𝑐)𝑣 = ((𝜆 + 2𝑏 ) + 𝑐 − 𝑏4 )𝑣.
+
+The term in large parentheses above is a positive number. Thus the equation above
+implies that 𝑣 = 0. Hence we have shown that 𝑇 has no eigenvectors.
+   Let 𝑈 be a subspace of 𝑉 that is invariant under 𝑇 and has the largest dimension
+among all subspaces of 𝑉 that are invariant under 𝑇 and have even dimension. If
+𝑈 = 𝑉, then we are done; otherwise assume there exists 𝑤 ∈ 𝑉 such that 𝑤 ∉ 𝑈 .
+   Let 𝑊 = span(𝑤, 𝑇𝑤). Then 𝑊 is invariant under 𝑇 because 𝑇(𝑇𝑤) =
+−𝑏𝑇𝑤 − 𝑐𝑤. Furthermore, dim 𝑊 = 2 because otherwise 𝑤 would be an eigen-
+vector of 𝑇. Now
+         dim(𝑈 + 𝑊) = dim 𝑈 + dim 𝑊 − dim(𝑈 ∩ 𝑊) = dim 𝑈 + 2,
+where 𝑈 ∩ 𝑊 = {0} because otherwise 𝑈 ∩ 𝑊 would be a one-dimensional
+subspace of 𝑉 that is invariant under 𝑇 (impossible because 𝑇 has no eigenvectors).
+    Because 𝑈 + 𝑊 is invariant under 𝑇, the equation above shows that there exists
+a subspace of 𝑉 invariant under 𝑇 of even dimension larger than dim 𝑈 . Thus the
+assumption that 𝑈 ≠ 𝑉 was incorrect. Hence 𝑉 has even dimension.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+150      Chapter 5     Eigenvalues and Eigenvectors
+
+   The next result states that on odd-dimensional vector spaces, every operator
+has an eigenvalue. We already know this result for finite-dimensional complex
+vector spaces (without the odd hypothesis). Thus in the proof below, we will
+assume that 𝐅 = 𝐑 .
+
+ 5.34   operators on odd-dimensional vector spaces have eigenvalues
+
+ Every operator on an odd-dimensional vector space has an eigenvalue.
+
+Proof Suppose 𝐅 = 𝐑 and 𝑉 is finite-dimensional. Let 𝑛 = dim 𝑉, and suppose
+𝑛 is an odd number. Let 𝑇 ∈ ℒ(𝑉). We will use induction on 𝑛 in steps of size
+two to show that 𝑇 has an eigenvalue. To get started, note that the desired result
+holds if dim 𝑉 = 1 because then every nonzero vector in 𝑉 is an eigenvector of 𝑇.
+    Now suppose that 𝑛 ≥ 3 and the desired result holds for all operators on all
+odd-dimensional vector spaces of dimension less than 𝑛. Let 𝑝 denote the minimal
+polynomial of 𝑇. If 𝑝 is a polynomial multiple of 𝑥 − 𝜆 for some 𝜆 ∈ 𝐑 , then 𝜆 is
+an eigenvalue of 𝑇 [by 5.27(a)] and we are done. Thus we can assume that there
+exist 𝑏, 𝑐 ∈ 𝐑 such that 𝑏2 < 4𝑐 and 𝑝 is a polynomial multiple of 𝑥2 + 𝑏𝑥 + 𝑐 (see
+4.16).
+    There exists a monic polynomial 𝑞 ∈ 𝒫(𝐑) such that 𝑝(𝑥) = 𝑞(𝑥)(𝑥2 + 𝑏𝑥 + 𝑐)
+for all 𝑥 ∈ 𝐑 . Now
+                        0 = 𝑝(𝑇) = (𝑞(𝑇))(𝑇 2 + 𝑏𝑇 + 𝑐𝐼),
+which means that 𝑞(𝑇) equals 0 on range(𝑇 2 + 𝑏𝑇 + 𝑐𝐼). Because deg 𝑞 < deg 𝑝
+and 𝑝 is the minimal polynomial of 𝑇, this implies that range(𝑇 2 + 𝑏𝑇 + 𝑐𝐼) ≠ 𝑉.
+   The fundamental theorem of linear maps (3.21) tells us that
+          dim 𝑉 = dim null(𝑇 2 + 𝑏𝑇 + 𝑐𝐼) + dim range(𝑇 2 + 𝑏𝑇 + 𝑐𝐼).
+Because dim 𝑉 is odd (by hypothesis) and dim null(𝑇 2 + 𝑏𝑇 + 𝑐𝐼) is even (by
+5.33), the equation above shows that dim range(𝑇 2 + 𝑏𝑇 + 𝑐𝐼) is odd.
+    Hence range(𝑇 2 + 𝑏𝑇 + 𝑐𝐼) is a subspace of 𝑉 that is invariant under 𝑇 (by
+5.18) and that has odd dimension less than dim 𝑉 . Our induction hypothesis now
+implies that 𝑇 restricted to range(𝑇 2 + 𝑏𝑇 + 𝑐𝐼) has an eigenvalue, which means
+that 𝑇 has an eigenvalue.
+
+   See Exercise 23 in Section 8B and Exercise 10 in Section 9C for alternative
+proofs of the result above.
+
+Exercises 5B
+
+ 1    Suppose 𝑇 ∈ ℒ(𝑉). Prove that 9 is an eigenvalue of 𝑇 2 if and only if 3 or
+      −3 is an eigenvalue of 𝑇.
+ 2    Suppose 𝑉 is a complex vector space and 𝑇 ∈ ℒ(𝑉) has no eigenvalues.
+      Prove that every subspace of 𝑉 invariant under 𝑇 is either {0} or infinite-
+      dimensional.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                   Section 5B      The Minimal Polynomial           151
+
+ 3   Suppose 𝑛 is an integer with 𝑛 > 1 and 𝑇 ∈ ℒ(𝐅𝑛 ) is defined by
+                   𝑇(𝑥1 , … , 𝑥𝑛 ) = (𝑥1 + ⋯ + 𝑥𝑛 , … , 𝑥1 + ⋯ + 𝑥𝑛 ).
+     (a) Find all eigenvalues and eigenvectors of 𝑇.
+     (b) Find the minimal polynomial of 𝑇.
+        The matrix of 𝑇 with respect to the standard basis of 𝐅𝑛 consists of all 1’s.
+
+ 4   Suppose 𝐅 = 𝐂 , 𝑇 ∈ ℒ(𝑉), 𝑝 ∈ 𝒫(𝐂) is a nonconstant polynomial, and
+     𝛼 ∈ 𝐂 . Prove that 𝛼 is an eigenvalue of 𝑝(𝑇) if and only if 𝛼 = 𝑝(𝜆) for
+     some eigenvalue 𝜆 of 𝑇.
+ 5   Give an example of an operator on 𝐑2 that shows the result in Exercise 4
+     does not hold if 𝐂 is replaced with 𝐑 .
+ 6   Suppose 𝑇 ∈ ℒ(𝐅2 ) is defined by 𝑇(𝑤, 𝑧) = (−𝑧, 𝑤). Find the minimal
+     polynomial of 𝑇.
+ 7   (a) Give an example of 𝑆, 𝑇 ∈ ℒ(𝐅2 ) such that the minimal polynomial of
+         𝑆𝑇 does not equal the minimal polynomial of 𝑇𝑆.
+     (b) Suppose 𝑉 is finite-dimensional and 𝑆, 𝑇 ∈ ℒ(𝑉). Prove that if at least
+         one of 𝑆, 𝑇 is invertible, then the minimal polynomial of 𝑆𝑇 equals the
+         minimal polynomial of 𝑇𝑆.
+        Hint: Show that if 𝑆 is invertible and 𝑝 ∈ 𝒫(𝐅), then 𝑝(𝑇𝑆) = 𝑆−1 𝑝(𝑆𝑇)𝑆.
+
+ 8   Suppose 𝑇 ∈ ℒ(𝐑2 ) is the operator of counterclockwise rotation by 1∘ . Find
+     the minimal polynomial of 𝑇.
+        Because dim 𝐑2 = 2, the degree of the minimal polynomial of 𝑇 is at most 2.
+        Thus the minimal polynomial of 𝑇 is not the tempting polynomial 𝑥180 + 1,
+        even though 𝑇 180 = −𝐼 .
+
+ 9   Suppose 𝑇 ∈ ℒ(𝑉) is such that with respect to some basis of 𝑉, all entries
+     of the matrix of 𝑇 are rational numbers. Explain why all coefficients of the
+     minimal polynomial of 𝑇 are rational numbers.
+10   Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑣 ∈ 𝑉. Prove that
+                  span(𝑣, 𝑇𝑣, … , 𝑇 𝑚 𝑣) = span(𝑣, 𝑇𝑣, … , 𝑇 dim 𝑉−1 𝑣)
+     for all integers 𝑚 ≥ dim 𝑉 − 1.
+11   Suppose 𝑉 is a two-dimensional vector space, 𝑇 ∈ ℒ(𝑉), and the matrix of
+                                            𝑎 𝑐
+     𝑇 with respect to some basis of 𝑉 is (      ).
+                                            𝑏 𝑑
+     (a) Show that 𝑇 2 − (𝑎 + 𝑑)𝑇 + (𝑎𝑑 − 𝑏𝑐)𝐼 = 0.
+     (b) Show that the minimal polynomial of 𝑇 equals
+                   ⎧
+                   {𝑧 − 𝑎                           if 𝑏 = 𝑐 = 0 and 𝑎 = 𝑑,
+                   ⎨ 2
+                                                    otherwise.
+                   ⎩𝑧 − (𝑎 + 𝑑)𝑧 + (𝑎𝑑 − 𝑏𝑐)
+                   {
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+152      Chapter 5      Eigenvalues and Eigenvectors
+
+12    Define 𝑇 ∈ ℒ(𝐅𝑛 ) by 𝑇(𝑥1 , 𝑥2 , 𝑥3 , … , 𝑥𝑛 ) = (𝑥1 , 2𝑥2 , 3𝑥3 , … , 𝑛𝑥𝑛 ). Find
+      the minimal polynomial of 𝑇.
+13    Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑝 ∈ 𝒫(𝐅). Prove that
+      there exists a unique 𝑟 ∈ 𝒫(𝐅) such that 𝑝(𝑇) = 𝑟(𝑇) and deg 𝑟 is less than
+      the degree of the minimal polynomial of 𝑇.
+14    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉) has minimal polynomial
+      4 + 5𝑧 − 6𝑧2 − 7𝑧3 + 2𝑧4 + 𝑧5. Find the minimal polynomial of 𝑇 −1.
+
+15    Suppose 𝑉 is a finite-dimensional complex vector space with dim 𝑉 > 0
+      and 𝑇 ∈ ℒ(𝑉). Define 𝑓 ∶ 𝐂 → 𝐑 by
+
+                                   𝑓 (𝜆) = dim range(𝑇 − 𝜆𝐼).
+
+      Prove that 𝑓 is not a continuous function.
+16    Suppose 𝑎0 , … , 𝑎𝑛−1 ∈ 𝐅. Let 𝑇 be the operator on 𝐅𝑛 whose matrix (with
+      respect to the standard basis) is
+                                 0                     −𝑎0
+                               ⎛
+                               ⎜                            ⎞
+                               ⎜
+                               ⎜ 1     0               −𝑎1 ⎟⎟
+                                                            ⎟
+                               ⎜
+                               ⎜                            ⎟
+                               ⎜       1   ⋱           −𝑎2 ⎟⎟
+                               ⎜
+                               ⎜                            ⎟
+                                                            ⎟ .
+                               ⎜
+                               ⎜           ⋱            ⋮   ⎟
+                                                            ⎟
+                               ⎜
+                               ⎜                            ⎟
+                               ⎜                  0   −𝑎𝑛−2 ⎟
+                                                            ⎟
+                               ⎝                  1   −𝑎𝑛−1 ⎠
+
+      Here all entries of the matrix are 0 except for all 1’s on the line under the
+      diagonal and the entries in the last column (some of which might also be 0).
+      Show that the minimal polynomial of 𝑇 is the polynomial
+
+                               𝑎0 + 𝑎1 𝑧 + ⋯ + 𝑎𝑛−1 𝑧𝑛−1 + 𝑧𝑛.
+
+         The matrix above is called the companion matrix of the polynomial above.
+         This exercise shows that every monic polynomial is the minimal polynomial
+         of some operator. Hence a formula or an algorithm that could produce
+         exact eigenvalues for each operator on each 𝐅𝑛 could then produce exact
+         zeros for each polynomial [by 5.27(a)]. Thus there is no such formula or
+         algorithm. However, efficient numerical methods exist for obtaining very
+         good approximations for the eigenvalues of an operator.
+
+17    Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑝 is the minimal polynomial
+      of 𝑇. Suppose 𝜆 ∈ 𝐅. Show that the minimal polynomial of 𝑇 − 𝜆𝐼 is the
+      polynomial 𝑞 defined by 𝑞(𝑧) = 𝑝(𝑧 + 𝜆).
+18    Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑝 is the minimal polynomial
+      of 𝑇. Suppose 𝜆 ∈ 𝐅\{0}. Show that the minimal polynomial of 𝜆𝑇 is the
+                                              𝑧
+      polynomial 𝑞 defined by 𝑞(𝑧) = 𝜆deg 𝑝 𝑝( ).
+                                              𝜆
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                   Section 5B      The Minimal Polynomial           153
+
+19   Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Let ℰ be the subspace of
+     ℒ(𝑉) defined by
+                             ℰ = {𝑞(𝑇) ∶ 𝑞 ∈ 𝒫(𝐅)}.
+     Prove that dim ℰ equals the degree of the minimal polynomial of 𝑇.
+20   Suppose 𝑇 ∈ ℒ(𝐅4 ) is such that the eigenvalues of 𝑇 are 3, 5, 8. Prove that
+     (𝑇 − 3𝐼)2 (𝑇 − 5𝐼)2 (𝑇 − 8𝐼)2 = 0.
+21   Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Prove that the minimal
+     polynomial of 𝑇 has degree at most 1 + dim range 𝑇.
+        If dim range 𝑇 < dim 𝑉 − 1, then this exercise gives a better upper bound
+        than 5.22 for the degree of the minimal polynomial of 𝑇.
+22   Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is invertible if
+     and only if 𝐼 ∈ span(𝑇 , 𝑇 2, … , 𝑇 dim 𝑉 ).
+23   Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Let 𝑛 = dim 𝑉. Prove that
+     if 𝑣 ∈ 𝑉, then span(𝑣, 𝑇𝑣, … , 𝑇 𝑛−1 𝑣) is invariant under 𝑇.
+24   Suppose 𝑉 is a finite-dimensional complex vector space. Suppose 𝑇 ∈ ℒ(𝑉)
+     is such that 5 and 6 are eigenvalues of 𝑇 and that 𝑇 has no other eigenvalues.
+     Prove that (𝑇 − 5𝐼)dim 𝑉−1 (𝑇 − 6𝐼)dim 𝑉−1 = 0.
+25   Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑈 is a subspace of 𝑉 that
+     is invariant under 𝑇.
+     (a) Prove that the minimal polynomial of 𝑇 is a polynomial multiple of the
+          minimal polynomial of the quotient operator 𝑇/𝑈 .
+     (b) Prove that
+             (minimal polynomial of 𝑇|𝑈 ) × (minimal polynomial of 𝑇/𝑈 )
+         is a polynomial multiple of the minimal polynomial of 𝑇.
+        The quotient operator 𝑇/𝑈 was defined in Exercise 38 in Section 5A.
+26   Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑈 is a subspace of 𝑉 that
+     is invariant under 𝑇. Prove that the set of eigenvalues of 𝑇 equals the union
+     of the set of eigenvalues of 𝑇|𝑈 and the set of eigenvalues of 𝑇/𝑈 .
+27   Suppose 𝐅 = 𝐑 , 𝑉 is finite-dimensional, and 𝑇 ∈ ℒ(𝑉). Prove that the
+     minimal polynomial of 𝑇𝐂 equals the minimal polynomial of 𝑇.
+        The complexification 𝑇𝐂 was defined in Exercise 33 of Section 3B.
+28   Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Prove that the minimal
+     polynomial of 𝑇 ′ ∈ ℒ(𝑉 ′ ) equals the minimal polynomial of 𝑇.
+        The dual map 𝑇 ′ was defined in Section 3F.
+29   Show that every operator on a finite-dimensional vector space of dimension
+     at least two has an invariant subspace of dimension two.
+        Exercise 6 in Section 5C will give an improvement of this result when 𝐅 = 𝐂 .
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+154      Chapter 5      Eigenvalues and Eigenvectors
+
+5C Upper-Triangular Matrices
+In Chapter 3 we defined the matrix of a linear map from a finite-dimensional vector
+space to another finite-dimensional vector space. That matrix depends on a choice
+of basis of each of the two vector spaces. Now that we are studying operators,
+which map a vector space to itself, the emphasis is on using only one basis.
+
+ 5.35 definition: matrix of an operator, ℳ(𝑇)
+
+ Suppose 𝑇 ∈ ℒ(𝑉). The matrix of 𝑇 with respect to a basis 𝑣1 , … , 𝑣𝑛 of 𝑉 is
+ the 𝑛-by-𝑛 matrix
+                                 𝐴     ⋯ 𝐴1,𝑛
+                              ⎛ 1,1               ⎞
+                    ℳ(𝑇) = ⎜  ⎜
+                              ⎜    ⋮         ⋮ ⎟  ⎟
+                                                  ⎟
+                              ⎝ 𝐴𝑛,1 ⋯ 𝐴𝑛,𝑛 ⎠
+ whose entries 𝐴𝑗,𝑘 are defined by
+
+                            𝑇𝑣𝑘 = 𝐴1,𝑘 𝑣1 + ⋯ + 𝐴𝑛,𝑘 𝑣𝑛 .
+
+ The notation ℳ(𝑇 , (𝑣1 , … , 𝑣𝑛 )) is used if the basis is not clear from the
+ context.
+
+     Operators have square matrices (meaning that the number of rows equals the
+number of columns), rather than the more general rectangular matrices that we
+considered earlier for linear maps.
+     If 𝑇 is an operator on 𝐅𝑛 and no ba-
+                                              The 𝑘 th column of the matrix ℳ(𝑇) is
+sis is specified, assume that the basis in formed from the coefficients used to
+question is the standard one (where the write 𝑇𝑣 as a linear combination of
+𝑘 th basis vector is 1 in the 𝑘 th slot and 0
+                                                        𝑘
+                                              the basis 𝑣1 , … , 𝑣𝑛 .
+in all other slots). You can then think of
+the 𝑘 th column of ℳ(𝑇) as 𝑇 applied to the 𝑘 th basis vector, where we identify
+𝑛-by-1 column vectors with elements of 𝐅𝑛.
+
+ 5.36 example: matrix of an operator with respect to standard basis
+
+   Define 𝑇 ∈ ℒ(𝐅3 ) by 𝑇(𝑥, 𝑦, 𝑧) = (2𝑥 + 𝑦, 5𝑦 + 3𝑧, 8𝑧). Then the matrix of 𝑇
+with respect to the standard basis of 𝐅3 is
+                                       2 1 0
+                                     ⎛       ⎞
+                              ℳ(𝑇) = ⎜
+                                     ⎜       ⎟,
+                                     ⎜ 0 5 3 ⎟
+                                             ⎟
+                                     ⎝ 0 0 8 ⎠
+as you should verify.
+
+    A central goal of linear algebra is to show that given an operator 𝑇 on a finite-
+dimensional vector space 𝑉, there exists a basis of 𝑉 with respect to which 𝑇 has
+a reasonably simple matrix. To make this vague formulation a bit more precise,
+we might try to choose a basis of 𝑉 such that ℳ(𝑇) has many 0’s.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                  Section 5C      Upper-Triangular Matrices    155
+
+   If 𝑉 is a finite-dimensional complex vector space, then we already know
+enough to show that there is a basis of 𝑉 with respect to which the matrix of 𝑇
+has 0’s everywhere in the first column, except possibly the first entry. In other
+words, there is a basis of 𝑉 with respect to which the matrix of 𝑇 looks like
+                                   𝜆
+                                 ⎛
+                                 ⎜                  ⎞
+                                                    ⎟
+                                 ⎜
+                                 ⎜ 0       ∗        ⎟
+                                                    ⎟
+                                 ⎜
+                                 ⎜                  ⎟
+                                                    ⎟ ;
+                                 ⎜ ⋮                ⎟
+                                 ⎝ 0                ⎠
+here ∗ denotes the entries in all columns other than the first column. To prove
+this, let 𝜆 be an eigenvalue of 𝑇 (one exists by 5.19) and let 𝑣 be a corresponding
+eigenvector. Extend 𝑣 to a basis of 𝑉. Then the matrix of 𝑇 with respect to this
+basis has the form above. Soon we will see that we can choose a basis of 𝑉 with
+respect to which the matrix of 𝑇 has even more 0’s.
+
+ 5.37 definition: diagonal of a matrix
+
+ The diagonal of a square matrix consists of the entries on the line from the
+ upper left corner to the bottom right corner.
+
+   For example, the diagonal of the matrix
+                                       2 1 0
+                                     ⎛       ⎞
+                              ℳ(𝑇) = ⎜
+                                     ⎜       ⎟
+                                     ⎜ 0 5 3 ⎟
+                                             ⎟
+                                     ⎝ 0 0 8 ⎠
+from Example 5.36 consists of the entries 2, 5, 8, which are shown in red in the
+matrix above.
+
+ 5.38 definition: upper-triangular matrix
+
+ A square matrix is called upper triangular if all entries below the diagonal
+ are 0.
+
+   For example, the 3-by-3 matrix above is upper triangular.
+   Typically we represent an upper-triangular matrix in the form
+
+                                 ⎛
+                                   𝜆1           ∗ ⎞
+                                 ⎜                ⎟
+                                 ⎜
+                                 ⎜        ⋱       ⎟;
+                                                  ⎟
+                                 ⎝ 0           𝜆𝑛 ⎠
+
+the 0 in the matrix above indicates that We often use ∗ to denote matrix entries
+all entries below the diagonal in this that we do not know or that are irrele-
+𝑛-by-𝑛 matrix equal 0. Upper-triangular vant to the questions being discussed.
+matrices can be considered reasonably
+simple—if 𝑛 is large, then at least almost half the entries in an 𝑛-by-𝑛 upper-
+triangular matrix are 0.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+156      Chapter 5     Eigenvalues and Eigenvectors
+
+   The next result provides a useful connection between upper-triangular matrices
+and invariant subspaces.
+
+ 5.39   conditions for upper-triangular matrix
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉. Then the following are
+ equivalent.
+ (a) The matrix of 𝑇 with respect to 𝑣1 , … , 𝑣𝑛 is upper triangular.
+ (b) span(𝑣1 , … , 𝑣𝑘 ) is invariant under 𝑇 for each 𝑘 = 1, … , 𝑛.
+ (c) 𝑇𝑣𝑘 ∈ span(𝑣1 , … , 𝑣𝑘 ) for each 𝑘 = 1, … , 𝑛.
+
+Proof First suppose (a) holds. To prove that (b) holds, suppose 𝑘 ∈ {1, … , 𝑛}.
+If 𝑗 ∈ {1, … , 𝑛}, then
+                           𝑇𝑣𝑗 ∈ span(𝑣1 , … , 𝑣𝑗 )
+because the matrix of 𝑇 with respect to 𝑣1 , … , 𝑣𝑛 is upper triangular. Because
+span(𝑣1 , … , 𝑣𝑗 ) ⊆ span(𝑣1 , … , 𝑣𝑘 ) if 𝑗 ≤ 𝑘 , we see that
+                               𝑇𝑣𝑗 ∈ span(𝑣1 , … , 𝑣𝑘 )
+for each 𝑗 ∈ {1, … , 𝑘}. Thus span(𝑣1 , … , 𝑣𝑘 ) is invariant under 𝑇 , completing the
+proof that (a) implies (b).
+     Now suppose (b) holds, so span(𝑣1 , … , 𝑣𝑘 ) is invariant under 𝑇 for each
+𝑘 = 1, … , 𝑛. In particular, 𝑇𝑣𝑘 ∈ span(𝑣1 , … , 𝑣𝑘 ) for each 𝑘 = 1, … , 𝑛. Thus
+(b) implies (c).
+     Now suppose (c) holds, so 𝑇𝑣𝑘 ∈ span(𝑣1 , … , 𝑣𝑘 ) for each 𝑘 = 1, … , 𝑛. This
+means that when writing each 𝑇𝑣𝑘 as a linear combination of the basis vectors
+𝑣1 , … , 𝑣𝑛 , we need to use only the vectors 𝑣1 , … , 𝑣𝑘 . Hence all entries under the
+diagonal of ℳ(𝑇) are 0. Thus ℳ(𝑇) is an upper-triangular matrix, completing
+the proof that (c) implies (a).
+     We have shown that (a) ⟹ (b) ⟹ (c) ⟹ (a), which shows that (a), (b),
+and (c) are equivalent.
+
+   The next result tells us that if 𝑇 ∈ ℒ(𝑉) and with respect to some basis of 𝑉
+we have
+                                        𝜆
+                                      ⎛ 1
+                                                ∗ ⎞
+                           ℳ(𝑇) = ⎜   ⎜
+                                      ⎜     ⋱       ⎟
+                                                    ⎟,
+                                                    ⎟
+                                      ⎝ 0       𝜆𝑛 ⎠
+then 𝑇 satisfies a simple equation depending on 𝜆1 , … , 𝜆𝑛 .
+
+ 5.40   equation satisfied by operator with upper-triangular matrix
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑉 has a basis with respect to which 𝑇 has an upper-
+ triangular matrix with diagonal entries 𝜆1 , … , 𝜆𝑛 . Then
+
+                            (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑛 𝐼) = 0.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                  Section 5C      Upper-Triangular Matrices       157
+
+Proof    Let 𝑣1 , … , 𝑣𝑛 denote a basis of 𝑉 with respect to which 𝑇 has an upper-
+triangular matrix with diagonal entries 𝜆1 , … , 𝜆𝑛 . Then 𝑇𝑣1 = 𝜆1 𝑣1 , which
+means that (𝑇 − 𝜆1 𝐼)𝑣1 = 0, which implies that (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚 𝐼)𝑣1 = 0
+for 𝑚 = 1, … , 𝑛 (using the commutativity of each 𝑇 − 𝜆𝑗 𝐼 with each 𝑇 − 𝜆𝑘 𝐼 ).
+    Note that (𝑇 − 𝜆2 𝐼)𝑣2 ∈ span(𝑣1 ). Thus (𝑇 − 𝜆1 𝐼)(𝑇 − 𝜆2 𝐼)𝑣2 = 0 (by
+the previous paragraph), which implies that (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚 𝐼)𝑣2 = 0 for
+𝑚 = 2, … , 𝑛 (using the commutativity of each 𝑇 − 𝜆𝑗 𝐼 with each 𝑇 − 𝜆𝑘 𝐼 ).
+    Note that (𝑇 − 𝜆3 𝐼)𝑣3 ∈ span(𝑣1 , 𝑣2 ). Thus by the previous paragraph,
+(𝑇 − 𝜆1 𝐼)(𝑇 − 𝜆2 𝐼)(𝑇 − 𝜆3 𝐼)𝑣3 = 0, which implies that (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚 𝐼)𝑣3 =
+0 for 𝑚 = 3, … , 𝑛 (using the commutativity of each 𝑇 − 𝜆𝑗 𝐼 with each 𝑇 − 𝜆𝑘 𝐼 ).
+    Continuing this pattern, we see that (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑛 𝐼)𝑣𝑘 = 0 for each
+𝑘 = 1, … , 𝑛. Thus (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑛 𝐼) is the 0 operator because it is 0 on each
+vector in a basis of 𝑉.
+
+    Unfortunately no method exists for exactly computing the eigenvalues of an
+operator from its matrix. However, if we are fortunate enough to find a basis with
+respect to which the matrix of the operator is upper triangular, then the problem
+of computing the eigenvalues becomes trivial, as the next result shows.
+
+ 5.41   determination of eigenvalues from upper-triangular matrix
+
+ Suppose 𝑇 ∈ ℒ(𝑉) has an upper-triangular matrix with respect to some basis
+ of 𝑉. Then the eigenvalues of 𝑇 are precisely the entries on the diagonal of
+ that upper-triangular matrix.
+
+Proof   Suppose 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉 with respect to which 𝑇 has an upper-
+triangular matrix
+                                       ⎛ 1
+                                          𝜆         ∗ ⎞
+                            ℳ(𝑇) = ⎜   ⎜
+                                       ⎜       ⋱       ⎟
+                                                       ⎟
+                                                       ⎟.
+                                       ⎝ 0          𝜆𝑛 ⎠
+    Because 𝑇𝑣1 = 𝜆1 𝑣1 , we see that 𝜆1 is an eigenvalue of 𝑇.
+    Suppose 𝑘 ∈ {2, … , 𝑛}. Then (𝑇 − 𝜆𝑘 𝐼)𝑣𝑘 ∈ span(𝑣1 , … , 𝑣𝑘−1 ). Thus 𝑇 − 𝜆𝑘 𝐼
+maps span(𝑣1 , … , 𝑣𝑘 ) into span(𝑣1 , … , 𝑣𝑘−1 ). Because
+        dim span(𝑣1 , … , 𝑣𝑘 ) = 𝑘    and    dim span(𝑣1 , … , 𝑣𝑘−1 ) = 𝑘 − 1,
+this implies that 𝑇 − 𝜆𝑘 𝐼 restricted to span(𝑣1 , … , 𝑣𝑘 ) is not injective (by 3.22).
+Thus there exists 𝑣 ∈ span(𝑣1 , … , 𝑣𝑘 ) such that 𝑣 ≠ 0 and (𝑇 − 𝜆𝑘 𝐼)𝑣 = 0. Thus
+𝜆𝑘 is an eigenvalue of 𝑇. Hence we have shown that every entry on the diagonal
+of ℳ(𝑇) is an eigenvalue of 𝑇.
+    To prove 𝑇 has no other eigenvalues, let 𝑞 be the polynomial defined by
+𝑞(𝑧) = (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑛 ). Then 𝑞(𝑇) = 0 (by 5.40). Hence 𝑞 is a polynomial
+multiple of the minimal polynomial of 𝑇 (by 5.29). Thus every zero of the minimal
+polynomial of 𝑇 is a zero of 𝑞. Because the zeros of the minimal polynomial of
+𝑇 are the eigenvalues of 𝑇 (by 5.27), this implies that every eigenvalue of 𝑇 is a
+zero of 𝑞. Hence the eigenvalues of 𝑇 are all contained in the list 𝜆1 , … , 𝜆𝑛 .
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+158        Chapter 5     Eigenvalues and Eigenvectors
+
+
+
+ 5.42 example: eigenvalues via an upper-triangular matrix
+
+   Define 𝑇 ∈ ℒ(𝐅3 ) by 𝑇(𝑥, 𝑦, 𝑧) = (2𝑥 + 𝑦, 5𝑦 + 3𝑧, 8𝑧). The matrix of 𝑇 with
+respect to the standard basis is
+                                       2 1 0
+                                    ⎛             ⎞
+                           ℳ(𝑇) = ⎜ ⎜ 0 5 3 ⎟
+                                    ⎜             ⎟.
+                                                  ⎟
+                                    ⎝ 0 0 8 ⎠
+Now 5.41 implies that the eigenvalues of 𝑇 are 2, 5, and 8.
+
+    The next example illustrates 5.44: an operator has an upper-triangular matrix
+with respect to some basis if and only if the minimal polynomial of the operator
+is the product of polynomials of degree 1.
+
+ 5.43 example: whether 𝑇 has an upper-triangular matrix can depend on 𝐅
+
+      Define 𝑇 ∈ ℒ(𝐅4 ) by
+                  𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 ) = (−𝑧2 , 𝑧1 , 2𝑧1 + 3𝑧3 , 𝑧3 + 3𝑧4 ).
+Thus with respect to the standard basis of 𝐅4 , the matrix of 𝑇 is
+                                    0     −1     0   0
+                                  ⎛                    ⎞
+                                  ⎜
+                                  ⎜
+                                  ⎜ 1     0      0   0 ⎟
+                                                       ⎟
+                                                       ⎟
+                                  ⎜                    ⎟.
+                                  ⎜
+                                  ⎜ 2     0      3   0 ⎟
+                                                       ⎟
+                                  ⎝ 0     0      1   3 ⎠
+You can ask a computer to verify that the minimal polynomial of 𝑇 is the polyno-
+mial 𝑝 defined by
+                      𝑝(𝑧) = 9 − 6𝑧 + 10𝑧2 − 6𝑧3 + 𝑧4.
+      First consider the case 𝐅 = 𝐑 . Then the polynomial 𝑝 factors as
+                            𝑝(𝑧) = (𝑧2 + 1)(𝑧 − 3)(𝑧 − 3),
+with no further factorization of 𝑧2 + 1 as the product of two polynomials of degree
+1 with real coefficients. Thus 5.44 states that there does not exist a basis of 𝐑4
+with respect to which 𝑇 has an upper-triangular matrix.
+   Now consider the case 𝐅 = 𝐂 . Then the polynomial 𝑝 factors as
+                         𝑝(𝑧) = (𝑧 − 𝑖)(𝑧 + 𝑖)(𝑧 − 3)(𝑧 − 3),
+where all factors above have the form 𝑧− 𝜆𝑘 . Thus 5.44 states that there is a basis of
+𝐂4 with respect to which 𝑇 has an upper-triangular matrix. Indeed, you can verify
+that with respect to the basis (4 − 3𝑖, −3 − 4𝑖, −3 + 𝑖, 1), (4 + 3𝑖, −3 + 4𝑖, −3 − 𝑖, 1),
+(0, 0, 0, 1), (0, 0, 1, 0) of 𝐂4 , the operator 𝑇 has the upper-triangular matrix
+                                     𝑖     0     0   0
+                                   ⎛
+                                   ⎜                   ⎞
+                                   ⎜
+                                   ⎜ 0     −𝑖    0   0 ⎟
+                                                       ⎟
+                                                       ⎟
+                                   ⎜
+                                   ⎜                   ⎟.
+                                   ⎜ 0     0     3   1 ⎟
+                                                       ⎟
+                                   ⎝ 0     0     0   3 ⎠
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                  Section 5C      Upper-Triangular Matrices         159
+
+
+ 5.44   necessary and sufficient condition to have an upper-triangular matrix
+
+ Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Then 𝑇 has an upper-
+ triangular matrix with respect to some basis of 𝑉 if and only if the minimal
+ polynomial of 𝑇 equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some 𝜆1 , … , 𝜆𝑚 ∈ 𝐅.
+
+Proof First suppose 𝑇 has an upper-triangular matrix with respect to some basis
+of 𝑉. Let 𝛼1 , … , 𝛼𝑛 denote the diagonal entries of that matrix. Define a polynomial
+𝑞 ∈ 𝒫(𝐅) by
+                             𝑞(𝑧) = (𝑧 − 𝛼1 ) ⋯ (𝑧 − 𝛼𝑛 ).
+Then 𝑞(𝑇) = 0, by 5.40. Hence 𝑞 is a polynomial multiple of the minimal polyno-
+mial of 𝑇 , by 5.29. Thus the minimal polynomial of 𝑇 equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 )
+for some 𝜆1 , … , 𝜆𝑚 ∈ 𝐅 with {𝜆1 , … , 𝜆𝑚 } ⊆ {𝛼1 , … , 𝛼𝑛 }.
+    To prove the implication in the other direction, now suppose the minimal
+polynomial of 𝑇 equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some 𝜆1 , … , 𝜆𝑚 ∈ 𝐅. We will use
+induction on 𝑚. To get started, if 𝑚 = 1 then 𝑧 − 𝜆1 is the minimal polynomial of
+𝑇 , which implies that 𝑇 = 𝜆1 𝐼 , which implies that the matrix of 𝑇 (with respect
+to any basis of 𝑉 ) is upper triangular.
+    Now suppose 𝑚 > 1 and the desired result holds for all smaller positive
+integers. Let
+                                𝑈 = range(𝑇 − 𝜆𝑚 𝐼).
+Then 𝑈 is invariant under 𝑇 [this is a special case of 5.18 with 𝑝(𝑧) = 𝑧 − 𝜆𝑚 ].
+Thus 𝑇|𝑈 is an operator on 𝑈 .
+   If 𝑢 ∈ 𝑈 , then 𝑢 = (𝑇 − 𝜆𝑚 𝐼)𝑣 for some 𝑣 ∈ 𝑉 and
+          (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚−1 𝐼)𝑢 = (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚 𝐼)𝑣 = 0.
+
+Hence (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚−1 ) is a polynomial multiple of the minimal polynomial
+of 𝑇|𝑈 , by 5.29. Thus the minimal polynomial of 𝑇|𝑈 is the product of at most
+𝑚 − 1 terms of the form 𝑧 − 𝜆𝑘 .
+    By our induction hypothesis, there is a basis 𝑢1 , … , 𝑢𝑀 of 𝑈 with respect to
+which 𝑇|𝑈 has an upper-triangular matrix. Thus for each 𝑘 ∈ {1, … , 𝑀}, we have
+(using 5.39)
+5.45                   𝑇𝑢𝑘 = (𝑇|𝑈 )(𝑢𝑘 ) ∈ span(𝑢1 , … , 𝑢𝑘 ).
+
+   Extend 𝑢1 , … , 𝑢𝑀 to a basis 𝑢1 , … , 𝑢𝑀 , 𝑣1 , … , 𝑣𝑁 of 𝑉. If 𝑘 ∈ {1, … , 𝑁}, then
+                            𝑇𝑣𝑘 = (𝑇 − 𝜆𝑚 𝐼)𝑣𝑘 + 𝜆𝑚 𝑣𝑘 .
+
+The definition of 𝑈 shows that (𝑇 − 𝜆𝑚 𝐼)𝑣𝑘 ∈ 𝑈 = span(𝑢1 , … , 𝑢𝑀 ). Thus the
+equation above shows that
+5.46                    𝑇𝑣𝑘 ∈ span(𝑢1 , … , 𝑢𝑀 , 𝑣1 , … , 𝑣𝑘 ).
+
+   From 5.45 and 5.46, we conclude (using 5.39) that 𝑇 has an upper-triangular
+matrix with respect to the basis 𝑢1 , … , 𝑢𝑀 , 𝑣1 , … , 𝑣𝑁 of 𝑉, as desired.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+160        Chapter 5     Eigenvalues and Eigenvectors
+
+    The set of numbers {𝜆1 , … , 𝜆𝑚 } from the previous result equals the set of
+eigenvalues of 𝑇 (because the set of zeros of the minimal polynomial of 𝑇 equals
+the set of eigenvalues of 𝑇 , by 5.27), although the list 𝜆1 , … , 𝜆𝑚 in the previous
+result may contain repetitions.
+    In Chapter 8 we will improve even the wonderful result below; see 8.37 and
+8.46.
+
+ 5.47     if 𝐅 = 𝐂 , then every operator on 𝑉 has an upper-triangular matrix
+
+ Suppose 𝑉 is a finite-dimensional complex vector space and 𝑇 ∈ ℒ(𝑉). Then
+ 𝑇 has an upper-triangular matrix with respect to some basis of 𝑉.
+
+Proof    The desired result follows immediately from 5.44 and the second version
+of the fundamental theorem of algebra (see 4.13).
+
+      For an extension of the result above to two operators 𝑆 and 𝑇 such that
+
+                                        𝑆𝑇 = 𝑇𝑆,
+
+see 5.80. Also, for an extension to more than two operators, see Exercise 9(b) in
+Section 5E.
+    Caution: If an operator 𝑇 ∈ ℒ(𝑉) has an upper-triangular matrix with respect
+to some basis 𝑣1 , … , 𝑣𝑛 of 𝑉, then the eigenvalues of 𝑇 are exactly the entries on
+the diagonal of ℳ(𝑇), as shown by 5.41, and furthermore 𝑣1 is an eigenvector of
+𝑇. However, 𝑣2 , … , 𝑣𝑛 need not be eigenvectors of 𝑇. Indeed, a basis vector 𝑣𝑘 is
+an eigenvector of 𝑇 if and only if all entries in the 𝑘 th column of the matrix of 𝑇
+are 0, except possibly the 𝑘 th entry.
+    You may recall from a previous The row echelon form of the matrix
+course that every matrix of numbers can of an operator does not give us a list
+be changed to a matrix in what is called of the eigenvalues of the operator. In
+row echelon form. If one begins with a contrast, an upper-triangular matrix
+square matrix, the matrix in row echelon with respect to some basis gives us a
+form will be an upper-triangular matrix. list of all the eigenvalues of the op-
+Do not confuse this upper-triangular ma- erator. However, there is no method
+trix with the upper-triangular matrix of for computing exactly such an upper-
+an operator with respect to some basis triangular matrix, even though 5.47
+whose existence is proclaimed by 5.47 (if guarantees its existence if 𝐅 = 𝐂 .
+𝐅 = 𝐂 )—there is no connection between
+these upper-triangular matrices.
+
+Exercises 5C
+
+ 1     Prove or give a counterexample: If 𝑇 ∈ ℒ(𝑉) and 𝑇 2 has an upper-triangular
+       matrix with respect to some basis of 𝑉, then 𝑇 has an upper-triangular matrix
+       with respect to some basis of 𝑉.
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                Section 5C       Upper-Triangular Matrices         161
+
+2   Suppose 𝐴 and 𝐵 are upper-triangular matrices of the same size, with
+    𝛼1 , … , 𝛼𝑛 on the diagonal of 𝐴 and 𝛽1 , … , 𝛽𝑛 on the diagonal of 𝐵.
+    (a) Show that 𝐴 + 𝐵 is an upper-triangular matrix with 𝛼1 + 𝛽1 , … , 𝛼𝑛 + 𝛽𝑛
+        on the diagonal.
+    (b) Show that 𝐴𝐵 is an upper-triangular matrix with 𝛼1 𝛽1 , … , 𝛼𝑛 𝛽𝑛 on the
+        diagonal.
+       The results in this exercise are used in the proof of 5.81.
+
+3   Suppose 𝑇 ∈ ℒ(𝑉) is invertible and 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉 with respect
+    to which the matrix of 𝑇 is upper triangular, with 𝜆1 , … , 𝜆𝑛 on the diagonal.
+    Show that the matrix of 𝑇 −1 is also upper triangular with respect to the basis
+    𝑣1 , … , 𝑣𝑛 , with
+                                       1      1
+                                         ,…,
+                                      𝜆1      𝜆𝑛
+    on the diagonal.
+4   Give an example of an operator whose matrix with respect to some basis
+    contains only 0’s on the diagonal, but the operator is invertible.
+       This exercise and the exercise below show that 5.41 fails without the hypoth-
+       esis that an upper-triangular matrix is under consideration.
+
+5   Give an example of an operator whose matrix with respect to some basis
+    contains only nonzero numbers on the diagonal, but the operator is not
+    invertible.
+6   Suppose 𝐅 = 𝐂 , 𝑉 is finite-dimensional, and 𝑇 ∈ ℒ(𝑉). Prove that if
+    𝑘 ∈ {1, … , dim 𝑉}, then 𝑉 has a 𝑘 -dimensional subspace invariant under 𝑇.
+
+7   Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑣 ∈ 𝑉.
+    (a) Prove that there exists a unique monic polynomial 𝑝𝑣 of smallest degree
+        such that 𝑝𝑣 (𝑇)𝑣 = 0.
+    (b) Prove that the minimal polynomial of 𝑇 is a polynomial multiple of 𝑝𝑣 .
+
+8   Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and there exists a nonzero
+    vector 𝑣 ∈ 𝑉 such that 𝑇 2 𝑣 + 2𝑇𝑣 = −2𝑣.
+    (a) Prove that if 𝐅 = 𝐑 , then there does not exist a basis of 𝑉 with respect
+        to which 𝑇 has an upper-triangular matrix.
+    (b) Prove that if 𝐅 = 𝐂 and 𝐴 is an upper-triangular matrix that equals
+        the matrix of 𝑇 with respect to some basis of 𝑉, then −1 + 𝑖 or −1 − 𝑖
+        appears on the diagonal of 𝐴.
+
+9   Suppose 𝐵 is a square matrix with complex entries. Prove that there exists
+    an invertible square matrix 𝐴 with complex entries such that 𝐴−1 𝐵𝐴 is an
+    upper-triangular matrix.
+
+
+             Linear Algebra Done Right, fourth edition, by Sheldon Axler
+162      Chapter 5     Eigenvalues and Eigenvectors
+
+10    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉. Show that the following
+      are equivalent.
+      (a) The matrix of 𝑇 with respect to 𝑣1 , … , 𝑣𝑛 is lower triangular.
+      (b) span(𝑣𝑘 , … , 𝑣𝑛 ) is invariant under 𝑇 for each 𝑘 = 1, … , 𝑛.
+      (c) 𝑇𝑣𝑘 ∈ span(𝑣𝑘 , … , 𝑣𝑛 ) for each 𝑘 = 1, … , 𝑛.
+         A square matrix is called lower triangular if all entries above the diagonal
+         are 0.
+
+11    Suppose 𝐅 = 𝐂 and 𝑉 is finite-dimensional. Prove that if 𝑇 ∈ ℒ(𝑉), then
+      there exists a basis of 𝑉 with respect to which 𝑇 has a lower-triangular
+      matrix.
+12    Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉) has an upper-triangular matrix
+      with respect to some basis of 𝑉, and 𝑈 is a subspace of 𝑉 that is invariant
+      under 𝑇.
+      (a) Prove that 𝑇|𝑈 has an upper-triangular matrix with respect to some basis
+          of 𝑈 .
+      (b) Prove that the quotient operator 𝑇/𝑈 has an upper-triangular matrix
+          with respect to some basis of 𝑉/𝑈 .
+         The quotient operator 𝑇/𝑈 was defined in Exercise 38 in Section 5A.
+
+13    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Suppose there exists
+      a subspace 𝑈 of 𝑉 that is invariant under 𝑇 such that 𝑇|𝑈 has an upper-
+      triangular matrix with respect to some basis of 𝑈 and also 𝑇/𝑈 has an
+      upper-triangular matrix with respect to some basis of 𝑉/𝑈 . Prove that 𝑇 has
+      an upper-triangular matrix with respect to some basis of 𝑉.
+14    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 has an upper-
+      triangular matrix with respect to some basis of 𝑉 if and only if the dual
+      operator 𝑇 ′ has an upper-triangular matrix with respect to some basis of the
+      dual space 𝑉 ′.
+
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                 Section 5D         Diagonalizable Operators        163
+
+5D Diagonalizable Operators
+Diagonal Matrices
+
+ 5.48 definition: diagonal matrix
+
+ A diagonal matrix is a square matrix that is 0 everywhere except possibly on
+ the diagonal.
+
+
+ 5.49 example: diagonal matrix
+
+                                     8       0    0
+                                   ⎛                ⎞
+                                   ⎜
+                                   ⎜
+                                   ⎜ 0       5    0 ⎟
+                                                    ⎟
+                                                    ⎟
+                                   ⎝ 0       0    5 ⎠
+is a diagonal matrix.
+
+    If an operator has a diagonal matrix          Every diagonal matrix is upper tri-
+with respect to some basis, then the en-          angular. Diagonal matrices typically
+tries on the diagonal are precisely the           have many more 0’s than most upper-
+eigenvalues of the operator; this follows         triangular matrices of the same size.
+from 5.41 (or find an easier direct proof
+for diagonal matrices).
+
+ 5.50 definition: diagonalizable
+
+ An operator on 𝑉 is called diagonalizable if the operator has a diagonal matrix
+ with respect to some basis of 𝑉.
+
+
+ 5.51 example: diagonalization may require a different basis
+
+   Define 𝑇 ∈ ℒ(𝐑2 ) by
+                        𝑇(𝑥, 𝑦) = (41𝑥 + 7𝑦, −20𝑥 + 74𝑦).
+The matrix of 𝑇 with respect to the standard basis of 𝐑2 is
+                                      41         7
+                                  (                 ),
+                                      −20        74
+which is not a diagonal matrix. However, 𝑇 is diagonalizable. Specifically, the
+matrix of 𝑇 with respect to the basis (1, 4), (7, 5) is
+                                        69        0
+                                    (               )
+                                        0        46
+because 𝑇(1, 4) = (69, 276) = 69(1, 4) and 𝑇(7, 5) = (322, 230) = 46(7, 5).
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+164      Chapter 5     Eigenvalues and Eigenvectors
+
+    For 𝜆 ∈ 𝐅, we will find it convenient to have a name and a notation for the set
+of vectors that an operator 𝑇 maps to 𝜆 times the vector.
+
+ 5.52 definition: eigenspace, 𝐸(𝜆, 𝑇)
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 ∈ 𝐅. The eigenspace of 𝑇 corresponding to 𝜆 is
+ the subspace 𝐸(𝜆, 𝑇) of 𝑉 defined by
+
+                 𝐸(𝜆, 𝑇) = null(𝑇 − 𝜆𝐼) = {𝑣 ∈ 𝑉 ∶ 𝑇𝑣 = 𝜆𝑣}.
+
+ Hence 𝐸(𝜆, 𝑇) is the set of all eigenvectors of 𝑇 corresponding to 𝜆, along
+ with the 0 vector.
+
+   For 𝑇 ∈ ℒ(𝑉) and 𝜆 ∈ 𝐅, the set 𝐸(𝜆, 𝑇) is a subspace of 𝑉 because the null
+space of each linear map on 𝑉 is a subspace of 𝑉. The definitions imply that 𝜆 is
+an eigenvalue of 𝑇 if and only if 𝐸(𝜆, 𝑇) ≠ {0}.
+
+ 5.53 example: eigenspaces of an operator
+
+   Suppose the matrix of an operator 𝑇 ∈ ℒ(𝑉) with respect to a basis 𝑣1 , 𝑣2 , 𝑣3
+of 𝑉 is the matrix in Example 5.49. Then
+                 𝐸(8, 𝑇) = span(𝑣1 ),       𝐸(5, 𝑇) = span(𝑣2 , 𝑣3 ).
+
+    If 𝜆 is an eigenvalue of an operator 𝑇 ∈ ℒ(𝑉), then 𝑇 restricted to 𝐸(𝜆, 𝑇) is
+just the operator of multiplication by 𝜆.
+
+ 5.54   sum of eigenspaces is a direct sum
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆1 , … , 𝜆𝑚 are distinct eigenvalues of 𝑇. Then
+
+                             𝐸(𝜆1 , 𝑇) + ⋯ + 𝐸(𝜆𝑚 , 𝑇)
+
+ is a direct sum. Furthermore, if 𝑉 is finite-dimensional, then
+
+                  dim 𝐸(𝜆1 , 𝑇) + ⋯ + dim 𝐸(𝜆𝑚 , 𝑇) ≤ dim 𝑉.
+
+Proof   To show that 𝐸(𝜆1 , 𝑇) + ⋯ + 𝐸(𝜆𝑚 , 𝑇) is a direct sum, suppose
+                                  𝑣1 + ⋯ + 𝑣𝑚 = 0,
+where each 𝑣𝑘 is in 𝐸(𝜆𝑘 , 𝑇). Because eigenvectors corresponding to distinct
+eigenvalues are linearly independent (by 5.11), this implies that each 𝑣𝑘 equals 0.
+Thus 𝐸(𝜆1 , 𝑇) + ⋯ + 𝐸(𝜆𝑚 , 𝑇) is a direct sum (by 1.45), as desired.
+   Now suppose 𝑉 is finite-dimensional. Then
+      dim 𝐸(𝜆1 , 𝑇) + ⋯ + dim 𝐸(𝜆𝑚 , 𝑇) = dim(𝐸(𝜆1 , 𝑇) ⊕ ⋯ ⊕ 𝐸(𝜆𝑚 , 𝑇))
+                                            ≤ dim 𝑉,
+where the first line follows from 3.94 and the second line follows from 2.37.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                   Section 5D         Diagonalizable Operators       165
+
+Conditions for Diagonalizability
+The following characterizations of diagonalizable operators will be useful.
+
+ 5.55    conditions equivalent to diagonalizability
+
+ Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Let 𝜆1 , … , 𝜆𝑚 denote the
+ distinct eigenvalues of 𝑇. Then the following are equivalent.
+ (a) 𝑇 is diagonalizable.
+ (b) 𝑉 has a basis consisting of eigenvectors of 𝑇.
+ (c) 𝑉 = 𝐸(𝜆1 , 𝑇) ⊕ ⋯ ⊕ 𝐸(𝜆𝑚 , 𝑇).
+ (d) dim 𝑉 = dim 𝐸(𝜆1 , 𝑇) + ⋯ + dim 𝐸(𝜆𝑚 , 𝑇).
+
+Proof   An operator 𝑇 ∈ ℒ(𝑉) has a diagonal matrix
+                                     𝜆1           0
+                                   ⎛
+                                   ⎜                ⎞
+                                                    ⎟
+                                   ⎜
+                                   ⎜        ⋱       ⎟
+                                                    ⎟
+                                   ⎝ 0           𝜆𝑛 ⎠
+with respect to a basis 𝑣1 , … , 𝑣𝑛 of 𝑉 if and only if 𝑇𝑣𝑘 = 𝜆𝑘 𝑣𝑘 for each 𝑘 . Thus
+(a) and (b) are equivalent.
+    Suppose (b) holds; thus 𝑉 has a basis consisting of eigenvectors of 𝑇. Hence
+every vector in 𝑉 is a linear combination of eigenvectors of 𝑇 , which implies that
+                           𝑉 = 𝐸(𝜆1 , 𝑇) + ⋯ + 𝐸(𝜆𝑚 , 𝑇).
+Now 5.54 shows that (c) holds, proving that (b) implies (c).
+  That (c) implies (d) follows immediately from 3.94.
+  Finally, suppose (d) holds; thus
+5.56               dim 𝑉 = dim 𝐸(𝜆1 , 𝑇) + ⋯ + dim 𝐸(𝜆𝑚 , 𝑇).
+Choose a basis of each 𝐸(𝜆𝑘 , 𝑇); put all these bases together to form a list 𝑣1 , … , 𝑣𝑛
+of eigenvectors of 𝑇 , where 𝑛 = dim 𝑉 (by 5.56). To show that this list is linearly
+independent, suppose
+                               𝑎1 𝑣1 + ⋯ + 𝑎𝑛 𝑣𝑛 = 0,
+where 𝑎1 , … , 𝑎𝑛 ∈ 𝐅. For each 𝑘 = 1, … , 𝑚, let 𝑢𝑘 denote the sum of all the terms
+𝑎𝑗 𝑣𝑗 such that 𝑣𝑗 ∈ 𝐸(𝜆𝑘 , 𝑇). Thus each 𝑢𝑘 is in 𝐸(𝜆𝑘 , 𝑇), and
+                                   𝑢1 + ⋯ + 𝑢𝑚 = 0.
+Because eigenvectors corresponding to distinct eigenvalues are linearly indepen-
+dent (see 5.11), this implies that each 𝑢𝑘 equals 0. Because each 𝑢𝑘 is a sum of
+terms 𝑎𝑗 𝑣𝑗 , where the 𝑣𝑗 ’s were chosen to be a basis of 𝐸(𝜆𝑘 , 𝑇), this implies that
+all 𝑎𝑗 ’s equal 0. Thus 𝑣1 , … , 𝑣𝑛 is linearly independent and hence is a basis of 𝑉
+(by 2.38). Thus (d) implies (b), completing the proof.
+
+   For additional conditions equivalent to diagonalizability, see 5.62, Exercises 5
+and 15 in this section, Exercise 24 in Section 7B, and Exercise 15 in Section 8A.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+166      Chapter 5     Eigenvalues and Eigenvectors
+
+    As we know, every operator on a nonzero finite-dimensional complex vector
+space has an eigenvalue. However, not every operator on a nonzero finite-
+dimensional complex vector space has enough eigenvectors to be diagonalizable,
+as shown by the next example.
+
+ 5.57 example: an operator that is not diagonalizable
+
+   Define an operator 𝑇 ∈ ℒ(𝐅3 ) by 𝑇(𝑎, 𝑏, 𝑐) = (𝑏, 𝑐, 0). The matrix of 𝑇 with
+respect to the standard basis of 𝐅3 is
+                                     0     1   0
+                                   ⎛
+                                   ⎜             ⎞
+                                   ⎜
+                                   ⎜ 0     0   1 ⎟
+                                                 ⎟,
+                                                 ⎟
+                                   ⎝ 0     0   0 ⎠
+
+which is an upper-triangular matrix but is not a diagonal matrix.
+   As you should verify, 0 is the only eigenvalue of 𝑇 and furthermore
+
+                        𝐸(0, 𝑇) = {(𝑎, 0, 0) ∈ 𝐅3 ∶ 𝑎 ∈ 𝐅}.
+
+Hence conditions (b), (c), and (d) of 5.55 fail (of course, because these conditions
+are equivalent, it is sufficient to check that only one of them fails). Thus condition
+(a) of 5.55 also fails. Hence 𝑇 is not diagonalizable, regardless of whether 𝐅 = 𝐑
+or 𝐅 = 𝐂 .
+
+    The next result shows that if an operator has as many distinct eigenvalues as
+the dimension of its domain, then the operator is diagonalizable.
+
+ 5.58   enough eigenvalues implies diagonalizability
+
+ Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉) has dim 𝑉 distinct eigenvalues.
+ Then 𝑇 is diagonalizable.
+
+Proof     Suppose 𝑇 has distinct eigenvalues 𝜆1 , … , 𝜆dim 𝑉 . For each 𝑘 , let 𝑣𝑘 ∈ 𝑉
+be an eigenvector corresponding to the eigenvalue 𝜆𝑘 . Because eigenvectors corre-
+sponding to distinct eigenvalues are linearly independent (see 5.11), 𝑣1 , … , 𝑣dim 𝑉
+is linearly independent.
+     A linearly independent list of dim 𝑉 vectors in 𝑉 is a basis of 𝑉 (see 2.38); thus
+𝑣1 , … , 𝑣dim 𝑉 is a basis of 𝑉. With respect to this basis consisting of eigenvectors,
+𝑇 has a diagonal matrix.
+
+   In later chapters we will find additional conditions that imply that certain
+operators are diagonalizable. For example, see the real spectral theorem (7.29)
+and the complex spectral theorem (7.31).
+   The result above gives a sufficient condition for an operator to be diagonal-
+izable. However, this condition is not necessary. For example, the operator 𝑇
+on 𝐅3 defined by 𝑇(𝑥, 𝑦, 𝑧) = (6𝑥, 6𝑦, 7𝑧) has only two eigenvalues (6 and 7) and
+dim 𝐅3 = 3, but 𝑇 is diagonalizable (by the standard basis of 𝐅3 ).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                    Section 5D        Diagonalizable Operators              167
+
+    The next example illustrates the im-            For a spectacular application of these
+portance of diagonalization, which can              techniques, see Exercise 21, which
+be used to compute high powers of an                shows how to use diagonalization to
+operator, taking advantage of the equa-             find an exact formula for the 𝑛th term
+tion 𝑇 𝑘 𝑣 = 𝜆𝑘 𝑣 if 𝑣 is an eigenvector of         of the Fibonacci sequence.
+𝑇 with eigenvalue 𝜆.
+
+ 5.59 example: using diagonalization to compute 𝑇 100
+
+    Define 𝑇 ∈ ℒ(𝐅3 ) by 𝑇(𝑥, 𝑦, 𝑧) = (2𝑥 + 𝑦, 5𝑦 + 3𝑧, 8𝑧). With respect to the
+standard basis, the matrix of 𝑇 is
+                                        2     1   0
+                                      ⎛
+                                      ⎜             ⎞
+                                      ⎜
+                                      ⎜ 0     5   3 ⎟
+                                                    ⎟
+                                                    ⎟.
+                                      ⎝ 0     0   8 ⎠
+
+The matrix above is an upper-triangular matrix but it is not a diagonal matrix. By
+5.41, the eigenvalues of 𝑇 are 2, 5, and 8. Because 𝑇 is an operator on a vector
+space of dimension three and 𝑇 has three distinct eigenvalues, 5.58 assures us
+that there exists a basis of 𝐅3 with respect to which 𝑇 has a diagonal matrix.
+    To find this basis, we only have to find an eigenvector for each eigenvalue. In
+other words, we have to find a nonzero solution to the equation
+
+                                  𝑇(𝑥, 𝑦, 𝑧) = 𝜆(𝑥, 𝑦, 𝑧)
+
+for 𝜆 = 2, then for 𝜆 = 5, and then for 𝜆 = 8. Solving these simple equations
+shows that for 𝜆 = 2 we have an eigenvector (1, 0, 0), for 𝜆 = 5 we have an
+eigenvector (1, 3, 0), and for 𝜆 = 8 we have an eigenvector (1, 6, 6).
+    Thus (1, 0, 0), (1, 3, 0), (1, 6, 6) is a basis of 𝐅3 consisting of eigenvectors of 𝑇 ,
+and with respect to this basis the matrix of 𝑇 is the diagonal matrix
+                                        2     0   0
+                                      ⎛
+                                      ⎜             ⎞
+                                      ⎜
+                                      ⎜ 0     5   0 ⎟
+                                                    ⎟
+                                                    ⎟.
+                                      ⎝ 0     0   8 ⎠
+
+    To compute 𝑇 100 (0, 0, 1), for example, write (0, 0, 1) as a linear combination
+of our basis of eigenvectors:
+
+                    (0, 0, 1) = 16 (1, 0, 0) − 13 (1, 3, 0) + 16 (1, 6, 6).
+
+Now apply 𝑇 100 to both sides of the equation above, getting
+
+     𝑇 100 (0, 0, 1) = 61 (𝑇 100 (1, 0, 0)) − 13 (𝑇 100 (1, 3, 0)) + 16 (𝑇 100 (1, 6, 6))
+
+                    = 16 (2100 (1, 0, 0) − 2 ⋅ 5100 (1, 3, 0) + 8100 (1, 6, 6))
+
+                    = 16 (2100 − 2 ⋅ 5100 + 8100 , 6 ⋅ 8100 − 6 ⋅ 5100 , 6 ⋅ 8100 ).
+
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+168       Chapter 5     Eigenvalues and Eigenvectors
+
+    We saw earlier that an operator 𝑇 on a finite-dimensional vector space 𝑉 has an
+upper-triangular matrix with respect to some basis of 𝑉 if and only if the minimal
+polynomial of 𝑇 equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some 𝜆1 , … , 𝜆𝑚 ∈ 𝐅 (see 5.44).
+As we previously noted (see 5.47), this condition is always satisfied if 𝐅 = 𝐂 .
+    Our next result 5.62 states that an operator 𝑇 ∈ ℒ(𝑉) has a diagonal matrix
+with respect to some basis of 𝑉 if and only if the minimal polynomial of 𝑇 equals
+(𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some distinct 𝜆1 , … , 𝜆𝑚 ∈ 𝐅. Before formally stating
+this result, we give two examples of using it.
+
+ 5.60 example: diagonalizable, but with no known exact eigenvalues
+
+      Define 𝑇 ∈ ℒ(𝐂5 ) by
+                 𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 , 𝑧5 ) = (−3𝑧5 , 𝑧1 + 6𝑧5 , 𝑧2 , 𝑧3 , 𝑧4 ).
+The matrix of 𝑇 is shown in Example 5.26, where we showed that the minimal
+polynomial of 𝑇 is 3 − 6𝑧 + 𝑧5.
+    As mentioned in Example 5.28, no exact expression is known for any of the
+zeros of this polynomial, but numerical techniques show that the zeros of this
+polynomial are approximately −1.67, 0.51, 1.40, −0.12 + 1.59𝑖, −0.12 − 1.59𝑖.
+    The software that produces these approximations is accurate to more than
+three digits. Thus these approximations are good enough to show that the five
+numbers above are distinct. The minimal polynomial of 𝑇 equals the fifth degree
+monic polynomial with these zeros. Now 5.62 shows that 𝑇 is diagonalizable.
+
+
+ 5.61 example: showing that an operator is not diagonalizable
+
+      Define 𝑇 ∈ ℒ(𝐅3 ) by
+                 𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (6𝑧1 + 3𝑧2 + 4𝑧3 , 6𝑧2 + 2𝑧3 , 7𝑧3 ).
+The matrix of 𝑇 with respect to the standard basis of 𝐅3 is
+                                        6      3   4
+                                      ⎛
+                                      ⎜              ⎞
+                                      ⎜
+                                      ⎜ 0      6   2 ⎟
+                                                     ⎟
+                                                     ⎟.
+                                      ⎝ 0      0   7 ⎠
+The matrix above is an upper-triangular matrix but is not a diagonal matrix. Might
+𝑇 have a diagonal matrix with respect to some other basis of 𝐅3 ?
+    To answer this question, we will find the minimal polynomial of 𝑇. First note
+that the eigenvalues of 𝑇 are the diagonal entries of the matrix above (by 5.41).
+Thus the zeros of the minimal polynomial of 𝑇 are 6, 7 [by 5.27(a)]. The diagonal
+of the matrix above tells us that (𝑇 − 6𝐼)2 (𝑇 − 7𝐼) = 0 (by 5.40). The minimal
+polynomial of 𝑇 has degree at most 3 (by 5.22). Putting all this together, we see
+that the minimal polynomial of 𝑇 is either (𝑧 − 6)(𝑧 − 7) or (𝑧 − 6)2 (𝑧 − 7).
+    A simple computation shows that (𝑇 − 6𝐼)(𝑇 − 7𝐼) ≠ 0. Thus the minimal
+polynomial of 𝑇 is (𝑧 − 6)2 (𝑧 − 7).
+    Now 5.62 shows that 𝑇 is not diagonalizable.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                 Section 5D       Diagonalizable Operators    169
+
+
+ 5.62   necessary and sufficient condition for diagonalizability
+
+ Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Then 𝑇 is diagonalizable if
+ and only if the minimal polynomial of 𝑇 equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some
+ list of distinct numbers 𝜆1 , … , 𝜆𝑚 ∈ 𝐅.
+
+Proof   First suppose 𝑇 is diagonalizable. Thus there is a basis 𝑣1 , … , 𝑣𝑛 of 𝑉
+consisting of eigenvectors of 𝑇. Let 𝜆1 , … , 𝜆𝑚 be the distinct eigenvalues of 𝑇.
+Then for each 𝑣𝑗 , there exists 𝜆𝑘 with (𝑇 − 𝜆𝑘 𝐼)𝑣𝑗 = 0. Thus
+                         (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚 𝐼)𝑣𝑗 = 0,
+which implies that the minimal polynomial of 𝑇 equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ).
+     To prove the implication in the other direction, now suppose the minimal
+polynomial of 𝑇 equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some list of distinct numbers
+𝜆1 , … , 𝜆𝑚 ∈ 𝐅. Thus
+5.63                       (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚 𝐼) = 0.
+   We will prove that 𝑇 is diagonalizable by induction on 𝑚. To get started,
+suppose 𝑚 = 1. Then 𝑇 − 𝜆1 𝐼 = 0, which means that 𝑇 is a scalar multiple of the
+identity operator, which implies that 𝑇 is diagonalizable.
+   Now suppose that 𝑚 > 1 and the desired result holds for all smaller values of
+𝑚. The subspace range(𝑇 − 𝜆𝑚 𝐼) is invariant under 𝑇 [this is a special case of
+5.18 with 𝑝(𝑧) = 𝑧 − 𝜆𝑚 ]. Thus 𝑇 restricted to range(𝑇 − 𝜆𝑚 𝐼) is an operator on
+range(𝑇 − 𝜆𝑚 𝐼).
+   If 𝑢 ∈ range(𝑇 − 𝜆𝑚 𝐼), then 𝑢 = (𝑇 − 𝜆𝑚 𝐼)𝑣 for some 𝑣 ∈ 𝑉, and 5.63 implies
+5.64      (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚−1 𝐼)𝑢 = (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚 𝐼)𝑣 = 0.
+Hence (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚−1 ) is a polynomial multiple of the minimal polynomial
+of 𝑇 restricted to range(𝑇 − 𝜆𝑚 𝐼) [by 5.29]. Thus by our induction hypothesis,
+there is a basis of range(𝑇 − 𝜆𝑚 𝐼) consisting of eigenvectors of 𝑇.
+   Suppose that 𝑢 ∈ range(𝑇 − 𝜆𝑚 𝐼) ∩ null(𝑇 − 𝜆𝑚 𝐼). Then 𝑇𝑢 = 𝜆𝑚 𝑢. Now
+5.64 implies that
+                        0 = (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚−1 𝐼)𝑢
+                          = (𝜆𝑚 − 𝜆1 ) ⋯ (𝜆𝑚 − 𝜆𝑚−1 )𝑢.
+Because 𝜆1 , … , 𝜆𝑚 are distinct, the equation above implies that 𝑢 = 0. Hence
+range(𝑇 − 𝜆𝑚 𝐼) ∩ null(𝑇 − 𝜆𝑚 𝐼) = {0}.
+    Thus range(𝑇− 𝜆𝑚 𝐼)+null(𝑇− 𝜆𝑚 𝐼) is a direct sum (by 1.46) whose dimension
+is dim 𝑉 (by 3.94 and 3.21). Hence range(𝑇 − 𝜆𝑚 𝐼) ⊕ null(𝑇 − 𝜆𝑚 𝐼) = 𝑉. Every
+nonzero vector in null(𝑇 − 𝜆𝑚 𝐼) is an eigenvector of 𝑇 with eigenvalue 𝜆𝑚 .
+Earlier in this proof we saw that there is a basis of range(𝑇 − 𝜆𝑚 𝐼) consisting of
+eigenvectors of 𝑇. Adjoining to that basis a basis of null(𝑇 − 𝜆𝑚 𝐼) gives a basis
+of 𝑉 consisting of eigenvectors of 𝑇. The matrix of 𝑇 with respect to this basis is
+a diagonal matrix, as desired.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+170      Chapter 5     Eigenvalues and Eigenvectors
+
+    No formula exists for the zeros of polynomials of degree 5 or greater. However,
+the previous result can be used to determine whether an operator on a complex
+vector space is diagonalizable without even finding approximations of the zeros
+of the minimal polynomial—see Exercise 15.
+    The next result will be a key tool when we prove a result about the simultaneous
+diagonalization of two operators; see 5.76. Note how the use of a characterization
+of diagonalizable operators in terms of the minimal polynomial (see 5.62) leads
+to a short proof of the next result.
+
+ 5.65   restriction of diagonalizable operator to invariant subspace
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is diagonalizable and 𝑈 is a subspace of 𝑉 that is invariant
+ under 𝑇. Then 𝑇|𝑈 is a diagonalizable operator on 𝑈 .
+
+Proof   Because the operator 𝑇 is diagonalizable, the minimal polynomial of 𝑇
+equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some list of distinct numbers 𝜆1 , … , 𝜆𝑚 ∈ 𝐅 (by
+5.62). The minimal polynomial of 𝑇 is a polynomial multiple of the minimal
+polynomial of 𝑇|𝑈 (by 5.31). Hence the minimal polynomial of 𝑇|𝑈 has the form
+required by 5.62, which shows that 𝑇|𝑈 is diagonalizable.
+
+
+
+Gershgorin Disk Theorem
+
+ 5.66 definition: Gershgorin disks
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉. Let 𝐴 denote the matrix of
+ 𝑇 with respect to this basis. A Gershgorin disk of 𝑇 with respect to the basis
+ 𝑣1 , … , 𝑣𝑛 is a set of the form
+                                                   𝑛
+                          {𝑧 ∈ 𝐅 ∶ |𝑧 − 𝐴𝑗,𝑗 | ≤ ∑ |𝐴𝑗,𝑘 |},
+                                                  𝑘=1
+                                                  𝑘≠𝑗
+ where 𝑗 ∈ {1, … , 𝑛}.
+
+    Because there are 𝑛 choices for 𝑗 in the definition above, 𝑇 has 𝑛 Gershgorin
+disks. If 𝐅 = 𝐂 , then for each 𝑗 ∈ {1, … , 𝑛}, the corresponding Gershgorin disk
+is a closed disk in 𝐂 centered at 𝐴𝑗,𝑗 , which is the 𝑗th entry on the diagonal of 𝐴.
+The radius of this closed disk is the sum of the absolute values of the entries in
+row 𝑗 of 𝐴, excluding the diagonal entry. If 𝐅 = 𝐑 , then the Gershgorin disks are
+closed intervals in 𝐑 .
+    In the special case that the square matrix 𝐴 above is a diagonal matrix, each
+Gershgorin disk consists of a single point that is a diagonal entry of 𝐴 (and
+each eigenvalue of 𝑇 is one of those points, as required by the next result). One
+consequence of our next result is that if the nondiagonal entries of 𝐴 are small,
+then each eigenvalue of 𝑇 is near a diagonal entry of 𝐴.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                  Section 5D              Diagonalizable Operators   171
+
+
+ 5.67   Gershgorin disk theorem
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉 . Then each eigenvalue of 𝑇
+ is contained in some Gershgorin disk of 𝑇 with respect to the basis 𝑣1 , … , 𝑣𝑛 .
+
+Proof  Suppose 𝜆 ∈ 𝐅 is an eigenvalue of 𝑇 . Let 𝑤 ∈ 𝑉 be a corresponding
+eigenvector. There exist 𝑐1 , … , 𝑐𝑛 ∈ 𝐅 such that
+5.68                           𝑤 = 𝑐1 𝑣1 + ⋯ + 𝑐𝑛 𝑣𝑛 .
+
+    Let 𝐴 denote the matrix of 𝑇 with respect to the basis 𝑣1 , … , 𝑣𝑛 . Applying 𝑇
+to both sides of the equation above gives
+                                      𝑛
+5.69                          𝜆𝑤 = ∑ 𝑐𝑘 𝑇𝑣𝑘
+                                     𝑘=1
+                                      𝑛             𝑛
+                                  = ∑ 𝑐𝑘 ∑ 𝐴𝑗,𝑘 𝑣𝑗
+                                     𝑘=1     𝑗=1
+                                       𝑛        𝑛
+5.70                              = ∑ ( ∑ 𝐴𝑗,𝑘 𝑐𝑘 )𝑣𝑗 .
+                                     𝑗 = 1 𝑘=1
+
+   Let 𝑗 ∈ {1, … , 𝑛} be such that
+                              |𝑐𝑗 | = max{|𝑐1 |, … , |𝑐𝑛 |}.
+
+Using 5.68, we see that the coefficient of 𝑣𝑗 on the left side of 5.69 equals 𝜆𝑐𝑗 ,
+which must equal the coefficient of 𝑣𝑗 on the right side of 5.70. In other words,
+                                            𝑛
+                                   𝜆𝑐𝑗 = ∑ 𝐴𝑗,𝑘 𝑐𝑘 .
+                                           𝑘=1
+
+Subtract 𝐴𝑗,𝑗 𝑐𝑗 from each side of the equation above and then divide both sides
+by 𝑐𝑗 to get
+                                              𝑛    𝑐𝑘
+                             |𝜆 − 𝐴𝑗,𝑗 | = ∣ ∑ 𝐴𝑗,𝑘 ∣
+                                             𝑘=1   𝑐𝑗
+                                                    𝑘≠𝑗
+
+                                                    𝑛
+                                           ≤ ∑ |𝐴𝑗,𝑘 |.
+                                                𝑘=1
+                                                𝑘≠𝑗
+
+Thus 𝜆 is in the 𝑗th Gershgorin disk with respect to the basis 𝑣1 , … , 𝑣𝑛 .
+
+    Exercise 22 gives a nice application The Gershgorin disk theorem is named
+of the Gershgorin disk theorem.              for Semyon Aronovich Gershgorin,
+    Exercise 23 states that the radius of who published this result in 1931.
+each Gershgorin disk could be changed
+to the sum of the absolute values of corresponding column entries (instead of row
+entries), excluding the diagonal entry, and the theorem above would still hold.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+172      Chapter 5     Eigenvalues and Eigenvectors
+
+Exercises 5D
+
+ 1    Suppose 𝑉 is a finite-dimensional complex vector space and 𝑇 ∈ ℒ(𝑉).
+      (a) Prove that if 𝑇 4 = 𝐼 , then 𝑇 is diagonalizable.
+      (b) Prove that if 𝑇 4 = 𝑇 , then 𝑇 is diagonalizable.
+      (c) Give an example of an operator 𝑇 ∈ ℒ(𝐂2 ) such that 𝑇 4 = 𝑇 2 and 𝑇 is
+          not diagonalizable.
+
+ 2    Suppose 𝑇 ∈ ℒ(𝑉) has a diagonal matrix 𝐴 with respect to some basis
+      of 𝑉. Prove that if 𝜆 ∈ 𝐅, then 𝜆 appears on the diagonal of 𝐴 precisely
+      dim 𝐸(𝜆, 𝑇) times.
+ 3    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Prove that if the operator
+      𝑇 is diagonalizable, then 𝑉 = null 𝑇 ⊕ range 𝑇.
+
+ 4    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Prove that the following
+      are equivalent.
+      (a) 𝑉 = null 𝑇 ⊕ range 𝑇.
+      (b) 𝑉 = null 𝑇 + range 𝑇.
+      (c) null 𝑇 ∩ range 𝑇 = {0}.
+
+ 5    Suppose 𝑉 is a finite-dimensional complex vector space and 𝑇 ∈ ℒ(𝑉).
+      Prove that 𝑇 is diagonalizable if and only if
+
+                           𝑉 = null(𝑇 − 𝜆𝐼) ⊕ range(𝑇 − 𝜆𝐼)
+
+      for every 𝜆 ∈ 𝐂 .
+ 6    Suppose 𝑇 ∈ ℒ(𝐅5 ) and dim 𝐸(8, 𝑇) = 4. Prove that 𝑇 − 2𝐼 or 𝑇 − 6𝐼 is
+      invertible.
+ 7    Suppose 𝑇 ∈ ℒ(𝑉) is invertible. Prove that
+
+                                   𝐸(𝜆, 𝑇) = 𝐸( 1𝜆 , 𝑇 −1 )
+
+      for every 𝜆 ∈ 𝐅 with 𝜆 ≠ 0.
+ 8    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Let 𝜆1 , … , 𝜆𝑚 denote the
+      distinct nonzero eigenvalues of 𝑇. Prove that
+
+                  dim 𝐸(𝜆1 , 𝑇) + ⋯ + dim 𝐸(𝜆𝑚 , 𝑇) ≤ dim range 𝑇.
+
+ 9    Suppose 𝑅, 𝑇 ∈ ℒ(𝐅3 ) each have 2, 6, 7 as eigenvalues. Prove that there
+      exists an invertible operator 𝑆 ∈ ℒ(𝐅3 ) such that 𝑅 = 𝑆−1 𝑇𝑆.
+10    Find 𝑅, 𝑇 ∈ ℒ(𝐅4 ) such that 𝑅 and 𝑇 each have 2, 6, 7 as eigenvalues, 𝑅 and
+      𝑇 have no other eigenvalues, and there does not exist an invertible operator
+      𝑆 ∈ ℒ(𝐅4 ) such that 𝑅 = 𝑆−1 𝑇𝑆.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                 Section 5D       Diagonalizable Operators        173
+
+11   Find 𝑇 ∈ ℒ(𝐂3 ) such that 6 and 7 are eigenvalues of 𝑇 and such that 𝑇 does
+     not have a diagonal matrix with respect to any basis of 𝐂3.
+12   Suppose 𝑇 ∈ ℒ(𝐂3 ) is such that 6 and 7 are eigenvalues of 𝑇. Furthermore,
+     suppose 𝑇 does not have a diagonal matrix with respect to any basis of 𝐂3.
+     Prove that there exists (𝑧1 , 𝑧2 , 𝑧3 ) ∈ 𝐂3 such that
+
+                     𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (6 + 8𝑧1 , 7 + 8𝑧2 , 13 + 8𝑧3 ).
+
+13   Suppose 𝐴 is a diagonal matrix with distinct entries on the diagonal and 𝐵
+     is a matrix of the same size as 𝐴. Show that 𝐴𝐵 = 𝐵𝐴 if and only if 𝐵 is a
+     diagonal matrix.
+14   (a) Give an example of a finite-dimensional complex vector space and an
+         operator 𝑇 on that vector space such that 𝑇 2 is diagonalizable but 𝑇 is
+         not diagonalizable.
+     (b) Suppose 𝐅 = 𝐂 , 𝑘 is a positive integer, and 𝑇 ∈ ℒ(𝑉) is invertible.
+         Prove that 𝑇 is diagonalizable if and only if 𝑇 𝑘 is diagonalizable.
+15   Suppose 𝑉 is a finite-dimensional complex vector space, 𝑇 ∈ ℒ(𝑉), and 𝑝
+     is the minimal polynomial of 𝑇. Prove that the following are equivalent.
+     (a) 𝑇 is diagonalizable.
+     (b) There does not exist 𝜆 ∈ 𝐂 such that 𝑝 is a polynomial multiple of
+          (𝑧 − 𝜆)2.
+     (c) 𝑝 and its derivative 𝑝′ have no zeros in common.
+     (d) The greatest common divisor of 𝑝 and 𝑝′ is the constant polynomial 1.
+        The greatest common divisor of 𝑝 and 𝑝′ is the monic polynomial 𝑞 of
+        largest degree such that 𝑝 and 𝑝′ are both polynomial multiples of 𝑞. The
+        Euclidean algorithm for polynomials (look it up) can quickly determine
+        the greatest common divisor of two polynomials, without requiring any
+        information about the zeros of the polynomials. Thus the equivalence of (a)
+        and (d) above shows that we can determine whether 𝑇 is diagonalizable
+        without knowing anything about the zeros of 𝑝.
+
+16   Suppose that 𝑇 ∈ ℒ(𝑉) is diagonalizable. Let 𝜆1 , … , 𝜆𝑚 denote the distinct
+     eigenvalues of 𝑇. Prove that a subspace 𝑈 of 𝑉 is invariant under 𝑇 if and
+     only if there exist subspaces 𝑈1 , … , 𝑈𝑚 of 𝑉 such that 𝑈𝑘 ⊆ 𝐸(𝜆𝑘 , 𝑇) for
+     each 𝑘 and 𝑈 = 𝑈1 ⊕ ⋯ ⊕ 𝑈𝑚 .
+17   Suppose 𝑉 is finite-dimensional. Prove that ℒ(𝑉) has a basis consisting of
+     diagonalizable operators.
+18   Suppose that 𝑇 ∈ ℒ(𝑉) is diagonalizable and 𝑈 is a subspace of 𝑉 that is
+     invariant under 𝑇. Prove that the quotient operator 𝑇/𝑈 is a diagonalizable
+     operator on 𝑉/𝑈 .
+        The quotient operator 𝑇/𝑈 was defined in Exercise 38 in Section 5A.
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+174      Chapter 5     Eigenvalues and Eigenvectors
+
+19    Prove or give a counterexample: If 𝑇 ∈ ℒ(𝑉) and there exists a subspace 𝑈
+      of 𝑉 that is invariant under 𝑇 such that 𝑇|𝑈 and 𝑇/𝑈 are both diagonalizable,
+      then 𝑇 is diagonalizable.
+         See Exercise 13 in Section 5C for an analogous statement about upper-
+         triangular matrices.
+
+20    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is diagonaliz-
+      able if and only if the dual operator 𝑇 ′ is diagonalizable.
+21    The Fibonacci sequence 𝐹0 , 𝐹1 , 𝐹2 , … is defined by
+                   𝐹0 = 0, 𝐹1 = 1, and 𝐹𝑛 = 𝐹𝑛−2 + 𝐹𝑛−1 for 𝑛 ≥ 2.
+      Define 𝑇 ∈ ℒ(𝐑2 ) by 𝑇(𝑥, 𝑦) = (𝑦, 𝑥 + 𝑦).
+      (a) Show that 𝑇 𝑛 (0, 1) = (𝐹𝑛 , 𝐹𝑛+1 ) for each nonnegative integer 𝑛.
+      (b) Find the eigenvalues of 𝑇.
+      (c) Find a basis of 𝐑2 consisting of eigenvectors of 𝑇.
+      (d) Use the solution to (c) to compute 𝑇 𝑛 (0, 1). Conclude that
+                                                               𝑛       𝑛
+                                       1        1 + √5      1 − √5
+                            𝐹𝑛 =           [(          ) −(        )]
+                                   √5              2           2
+          for each nonnegative integer 𝑛.
+      (e) Use (d) to conclude that if 𝑛 is a nonnegative integer, then the Fibonacci
+          number 𝐹𝑛 is the integer that is closest to
+                                                                   𝑛
+                                                1 + √5
+                                                1
+                                                     ( ).
+                                          √5       2
+         Each 𝐹𝑛 is a nonnegative integer, even though the right side of the formula
+         in (d) does not look like an integer. The number
+                                                    1 + √5
+                                                       2
+         is called the golden ratio.
+
+22    Suppose 𝑇 ∈ ℒ(𝑉) and 𝐴 is an 𝑛-by-𝑛 matrix that is the matrix of 𝑇 with
+      respect to some basis of 𝑉 . Prove that if
+                                                         𝑛
+                                           |𝐴𝑗,𝑗 | > ∑ |𝐴𝑗,𝑘 |
+                                                         𝑘=1
+                                                         𝑘≠𝑗
+
+      for each 𝑗 ∈ {1, … , 𝑛}, then 𝑇 is invertible.
+         This exercise states that if the diagonal entries of the matrix of 𝑇 are large
+         compared to the nondiagonal entries, then 𝑇 is invertible.
+
+23    Suppose the definition of the Gershgorin disks is changed so that the radius of
+      the 𝑘 th disk is the sum of the absolute values of the entries in column (instead
+      of row) 𝑘 of 𝐴, excluding the diagonal entry. Show that the Gershgorin disk
+      theorem (5.67) still holds with this changed definition.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                        Section 5E       Commuting Operators            175
+
+5E Commuting Operators
+
+ 5.71 definition: commute
+
+ • Two operators 𝑆 and 𝑇 on the same vector space commute if 𝑆𝑇 = 𝑇𝑆.
+ • Two square matrices 𝐴 and 𝐵 of the same size commute if 𝐴𝐵 = 𝐵𝐴.
+
+   For example, if 𝐼 is the identity operator on 𝑉 and 𝜆 ∈ 𝐅, then 𝜆𝐼 commutes
+with every operator on 𝑉.
+   As another example, if 𝑇 is an operator then 𝑇 2 and 𝑇 3 commute. More
+generally, if 𝑝, 𝑞 ∈ 𝒫(𝐅), then 𝑝(𝑇) and 𝑞(𝑇) commute [see 5.17(b)].
+
+ 5.72 example: partial differentiation operators commute
+
+    Suppose 𝑚 is a nonnegative integer. Let 𝒫𝑚(𝐂2, 𝐂) denote the complex vector
+space of polynomials (with coefficients in 𝐂 ) in two variables and of degree at
+most 𝑚, with the usual operations of addition and scalar multiplication of 𝐂 -
+valued functions. Thus the elements of 𝒫𝑚(𝐂2, 𝐂) are functions 𝑝 from 𝐂2 to 𝐂
+of the form
+
+5.73                            𝑝(𝑤, 𝑧) = ∑ 𝑎𝑗,𝑘 𝑤𝑗 𝑧𝑘,
+                                            𝑗+𝑘≤𝑚
+
+where the indices 𝑗 and 𝑘 take on all nonnegative integer values such that 𝑗 + 𝑘 ≤ 𝑚,
+each 𝑎𝑗,𝑘 is in 𝐂 , and 𝑤𝑗 𝑧𝑘 denotes the function on 𝐂2 defined by (𝑤, 𝑧) ↦ 𝑤𝑗 𝑧𝑘.
+   Define operators 𝐷𝑤 , 𝐷𝑧 ∈ ℒ(𝒫𝑚(𝐂2, 𝐂)) by
+                𝜕𝑝                                           𝜕𝑝
+       𝐷𝑤 𝑝 =      = ∑ 𝑗𝑎 𝑤𝑗−1 𝑧𝑘           and 𝐷𝑧 𝑝 =          = ∑ 𝑘𝑎 𝑤𝑗 𝑧𝑘−1,
+                𝜕𝑤 𝑗+𝑘≤𝑚 𝑗,𝑘                                 𝜕𝑧 𝑗+𝑘≤𝑚 𝑗,𝑘
+
+where 𝑝 is as in 5.73. The operators 𝐷𝑤 and 𝐷𝑧 are called partial differentiation
+operators because each of these operators differentiates with respect to one of the
+variables while pretending that the other variable is a constant.
+   The operators 𝐷𝑤 and 𝐷𝑧 commute because if 𝑝 is as in 5.73, then
+
+                    (𝐷𝑤 𝐷𝑧 )𝑝 = ∑ 𝑗𝑘𝑎𝑗,𝑘 𝑤𝑗−1 𝑧𝑘−1 = (𝐷𝑧 𝐷𝑤 )𝑝.
+                                  𝑗+𝑘≤𝑚
+
+    The equation 𝐷𝑤 𝐷𝑧 = 𝐷𝑧 𝐷𝑤 on 𝒫𝑚(𝐂2, 𝐂) illustrates a more general result
+that the order of partial differentiation does not matter for nice functions.
+
+    Commuting matrices are unusual.                 All 214,358,881 (which equals 118 ) or-
+For example, there are 214,358,881 or-              dered pairs of the 2-by-2 matrices un-
+dered pairs of 2-by-2 matrices all of               der consideration were checked by a
+whose entries are integers in the inter-            computer to discover that only 674,609
+val [−5, 5]. Only about 0.3% of these               of these ordered pairs of matrices
+ordered pairs of matrices commute.                  commute.
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+176     Chapter 5     Eigenvalues and Eigenvectors
+
+   The next result shows that two operators commute if and only if their matrices
+(with respect to the same basis) commute.
+
+ 5.74   commuting operators correspond to commuting matrices
+
+ Suppose 𝑆, 𝑇 ∈ ℒ(𝑉) and 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉. Then 𝑆 and 𝑇 commute
+ if and only if ℳ(𝑆, (𝑣1 , … , 𝑣𝑛 )) and ℳ(𝑇 , (𝑣1 , … , 𝑣𝑛 )) commute.
+
+Proof   We have
+              𝑆 and 𝑇 commute ⟺ 𝑆𝑇 = 𝑇𝑆
+                                   ⟺ ℳ(𝑆𝑇) = ℳ(𝑇𝑆)
+                                   ⟺ ℳ(𝑆)ℳ(𝑇) = ℳ(𝑇)ℳ(𝑆)
+                                   ⟺ ℳ(𝑆) and ℳ(𝑇) commute,
+
+as desired.
+
+    The next result shows that if two operators commute, then every eigenspace
+for one operator is invariant under the other operator. This result, which we will
+use several times, is one of the main reasons why a pair of commuting operators
+behaves better than a pair of operators that does not commute.
+
+ 5.75   eigenspace is invariant under commuting operator
+
+ Suppose 𝑆, 𝑇 ∈ ℒ(𝑉) commute and 𝜆 ∈ 𝐅. Then 𝐸(𝜆, 𝑆) is invariant under 𝑇.
+
+Proof   Suppose 𝑣 ∈ 𝐸(𝜆, 𝑆). Then
+              𝑆(𝑇𝑣) = (𝑆𝑇)𝑣 = (𝑇𝑆)𝑣 = 𝑇(𝑆𝑣) = 𝑇(𝜆𝑣) = 𝜆𝑇𝑣.
+
+The equation above shows that 𝑇𝑣 ∈ 𝐸(𝜆, 𝑆). Thus 𝐸(𝜆, 𝑆) is invariant under 𝑇.
+
+    Suppose we have two operators, each of which is diagonalizable. If we want
+to do computations involving both operators (for example, involving their sum),
+then we want the two operators to be diagonalizable by the same basis, which
+according to the next result is possible when the two operators commute.
+
+ 5.76   simultaneous diagonalizability ⟺ commutativity
+
+ Two diagonalizable operators on the same vector space have diagonal matrices
+ with respect to the same basis if and only if the two operators commute.
+
+Proof   First suppose 𝑆, 𝑇 ∈ ℒ(𝑉) have diagonal matrices with respect to the
+same basis. The product of two diagonal matrices of the same size is the diagonal
+matrix obtained by multiplying the corresponding elements of the two diagonals.
+Thus any two diagonal matrices of the same size commute. Thus 𝑆 and 𝑇 commute,
+by 5.74.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                     Section 5E      Commuting Operators      177
+
+   To prove the implication in the other direction, now suppose that 𝑆, 𝑇 ∈ ℒ(𝑉)
+are diagonalizable operators that commute. Let 𝜆1 , … , 𝜆𝑚 denote the distinct
+eigenvalues of 𝑆. Because 𝑆 is diagonalizable, 5.55(c) shows that
+5.77                     𝑉 = 𝐸(𝜆1 , 𝑆) ⊕ ⋯ ⊕ 𝐸(𝜆𝑚 , 𝑆).
+   For each 𝑘 = 1, … , 𝑚, the subspace 𝐸(𝜆𝑘 , 𝑆) is invariant under 𝑇 (by 5.75).
+Because 𝑇 is diagonalizable, 5.65 implies that 𝑇|𝐸( 𝜆𝑘 ,𝑆) is diagonalizable for
+each 𝑘 . Hence for each 𝑘 = 1, … , 𝑚, there is a basis of 𝐸(𝜆𝑘 , 𝑆) consisting of
+eigenvectors of 𝑇. Putting these bases together gives a basis of 𝑉 (because of
+5.77), with each vector in this basis being an eigenvector of both 𝑆 and 𝑇. Thus 𝑆
+and 𝑇 both have diagonal matrices with respect to this basis, as desired.
+
+   See Exercise 2 for an extension of the result above to more than two operators.
+   Suppose 𝑉 is a finite-dimensional nonzero complex vector space. Then every
+operator on 𝑉 has an eigenvector (see 5.19). The next result shows that if two
+operators on 𝑉 commute, then there is a vector in 𝑉 that is an eigenvector for both
+operators (but the two commuting operators might not have a common eigenvalue).
+For an extension of the next result to more than two operators, see Exercise 9(a).
+
+ 5.78   common eigenvector for commuting operators
+
+ Every pair of commuting operators on a finite-dimensional nonzero complex
+ vector space has a common eigenvector.
+
+Proof Suppose 𝑉 is a finite-dimensional nonzero complex vector space and
+𝑆, 𝑇 ∈ ℒ(𝑉) commute. Let 𝜆 be an eigenvalue of 𝑆 (5.19 tells us that 𝑆 does
+indeed have an eigenvalue). Thus 𝐸(𝜆, 𝑆) ≠ {0}. Also, 𝐸(𝜆, 𝑆) is invariant
+under 𝑇 (by 5.75).
+    Thus 𝑇|𝐸( 𝜆,𝑆) has an eigenvector (again using 5.19), which is an eigenvector
+for both 𝑆 and 𝑇 , completing the proof.
+
+
+ 5.79 example: common eigenvector for partial differentiation operators
+
+    Let 𝒫𝑚(𝐂2, 𝐂) be as in Example 5.72 and let 𝐷𝑤 , 𝐷𝑧 ∈ ℒ(𝒫𝑚(𝐂2, 𝐂)) be the
+commuting partial differentiation operators in that example. As you can verify, 0
+is the only eigenvalue of each of these operators. Also
+                                     𝑚
+                    𝐸(0, 𝐷𝑤 ) = { ∑ 𝑎𝑘 𝑧𝑘 ∶ 𝑎0 , … , 𝑎𝑚 ∈ 𝐂},
+                                    𝑘=0
+                                     𝑚
+                     𝐸(0, 𝐷𝑧 ) = {∑ 𝑐𝑗 𝑤𝑗 ∶ 𝑐0 , … , 𝑐𝑚 ∈ 𝐂}.
+                                    𝑗=0
+
+The intersection of these two eigenspaces is the set of common eigenvectors of
+the two operators. Because 𝐸(0, 𝐷𝑤 ) ∩ 𝐸(0, 𝐷𝑧 ) is the set of constant functions,
+we see that 𝐷𝑤 and 𝐷𝑧 indeed have a common eigenvector, as promised by 5.78.
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+178       Chapter 5        Eigenvalues and Eigenvectors
+
+    The next result extends 5.47 (the existence of a basis that gives an upper-
+triangular matrix) to two commuting operators.
+
+ 5.80     commuting operators are simultaneously upper triangularizable
+
+ Suppose 𝑉 is a finite-dimensional complex vector space and 𝑆, 𝑇 are
+ commuting operators on 𝑉. Then there is a basis of 𝑉 with respect to which
+ both 𝑆 and 𝑇 have upper-triangular matrices.
+
+Proof Let 𝑛 = dim 𝑉. We will use induction on 𝑛. The desired result holds if
+𝑛 = 1 because all 1-by-1 matrices are upper triangular. Now suppose 𝑛 > 1 and
+the desired result holds for all complex vector spaces whose dimension is 𝑛 − 1.
+    Let 𝑣1 be any common eigenvector of 𝑆 and 𝑇 (using 5.78). Hence 𝑆𝑣1 ∈
+span(𝑣1 ) and 𝑇𝑣1 ∈ span(𝑣1 ). Let 𝑊 be a subspace of 𝑉 such that
+                                    𝑉 = span(𝑣1 ) ⊕ 𝑊 ;
+see 2.33 for the existence of 𝑊. Define a linear map 𝑃 ∶ 𝑉 → 𝑊 by
+                                     𝑃(𝑎𝑣1 + 𝑤) = 𝑤
+for each 𝑎 ∈ 𝐂 and each 𝑤 ∈ 𝑊. Define 𝑆̂, 𝑇
+                                          ̂ ∈ ℒ(𝑊) by
+                       ̂ = 𝑃(𝑆𝑤) and 𝑇𝑤
+                      𝑆𝑤                   ̂ = 𝑃(𝑇𝑤)
+
+for each 𝑤 ∈ 𝑊. To apply our induction hypothesis to 𝑆̂ and 𝑇̂, we must first
+show that these two operators on 𝑊 commute. To do this, suppose 𝑤 ∈ 𝑊. Then
+there exists 𝑎 ∈ 𝐂 such that
+     (𝑆̂𝑇)𝑤
+        ̂ = 𝑆(𝑃(𝑇𝑤))
+                 ̂            ̂
+                          = 𝑆(𝑇𝑤  − 𝑎𝑣 ) = 𝑃(𝑆(𝑇𝑤 − 𝑎𝑣 )) = 𝑃((𝑆𝑇)𝑤),
+                                            1                     1
+
+where the last equality holds because 𝑣1 is an eigenvector of 𝑆 and 𝑃𝑣1 = 0.
+Similarly,
+                              ̂𝑆)𝑤
+                             (𝑇 ̂  = 𝑃((𝑇𝑆)𝑤).
+Because the operators 𝑆 and 𝑇 commute, the last two displayed equations show
+that (𝑆̂𝑇)𝑤
+         ̂ = (𝑇  ̂𝑆)𝑤̂ . Hence 𝑆̂ and 𝑇   ̂ commute.
+     Thus we can use our induction hypothesis to state that there exists a basis
+𝑣2 , … , 𝑣𝑛 of 𝑊 such that 𝑆̂ and 𝑇̂ both have upper-triangular matrices with respect
+to this basis. The list 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉.
+     If 𝑘 ∈ {2, … , 𝑛}, then there exist 𝑎𝑘 , 𝑏𝑘 ∈ 𝐂 such that
+                     𝑆𝑣 = 𝑎 𝑣 + 𝑆𝑣
+                       𝑘      𝑘 1
+                                      ̂
+                                       𝑘   and 𝑇𝑣 = 𝑏 𝑣 + 𝑇𝑣
+                                                     𝑘     𝑘 1
+                                                               ̂ .
+                                                                      𝑘
+
+Because 𝑆̂ and 𝑇
+               ̂ have upper-triangular matrices with respect to 𝑣 , … , 𝑣 , we know
+                                                                 2       𝑛
+that 𝑆𝑣𝑘 ∈ span(𝑣2 , … , 𝑣𝑘 ) and 𝑇𝑣
+      ̂                           ̂ ∈ span(𝑣 , … , 𝑣 ). Hence the equations
+                                     𝑘           2      𝑘
+above imply that
+               𝑆𝑣𝑘 ∈ span(𝑣1 , … , 𝑣𝑘 )    and    𝑇𝑣𝑘 ∈ span(𝑣1 , … , 𝑣𝑘 ).
+Thus 𝑆 and 𝑇 have upper-triangular matrices with respect to 𝑣1 , … , 𝑣𝑛 , as desired.
+
+      Exercise 9(b) extends the result above to more than two operators.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                      Section 5E      Commuting Operators          179
+
+    In general, it is not possible to determine the eigenvalues of the sum or product
+of two operators from the eigenvalues of the two operators. However, the next
+result shows that something nice happens when the two operators commute.
+
+ 5.81   eigenvalues of sum and product of commuting operators
+
+ Suppose 𝑉 is a finite-dimensional complex vector space and 𝑆, 𝑇 are commut-
+ ing operators on 𝑉. Then
+ • every eigenvalue of 𝑆 + 𝑇 is an eigenvalue of 𝑆 plus an eigenvalue of 𝑇 ,
+ • every eigenvalue of 𝑆𝑇 is an eigenvalue of 𝑆 times an eigenvalue of 𝑇.
+
+Proof   There is a basis of 𝑉 with respect to which both 𝑆 and 𝑇 have upper-
+triangular matrices (by 5.80). With respect to that basis,
+         ℳ(𝑆 + 𝑇) = ℳ(𝑆) + ℳ(𝑇)              and ℳ(𝑆𝑇) = ℳ(𝑆)ℳ(𝑇),
+as stated in 3.35 and 3.43.
+    The definition of matrix addition shows that each entry on the diagonal of
+ℳ(𝑆 + 𝑇) equals the sum of the corresponding entries on the diagonals of ℳ(𝑆)
+and ℳ(𝑇). Similarly, because ℳ(𝑆) and ℳ(𝑇) are upper-triangular matrices,
+the definition of matrix multiplication shows that each entry on the diagonal of
+ℳ(𝑆𝑇) equals the product of the corresponding entries on the diagonals of ℳ(𝑆)
+and ℳ(𝑇). Furthermore, ℳ(𝑆 + 𝑇) and ℳ(𝑆𝑇) are upper-triangular matrices
+(see Exercise 2 in Section 5C).
+    Every entry on the diagonal of ℳ(𝑆) is an eigenvalue of 𝑆, and every entry
+on the diagonal of ℳ(𝑇) is an eigenvalue of 𝑇 (by 5.41). Every eigenvalue
+of 𝑆 + 𝑇 is on the diagonal of ℳ(𝑆 + 𝑇), and every eigenvalue of 𝑆𝑇 is on
+the diagonal of ℳ(𝑆𝑇) (these assertions follow from 5.41). Putting all this
+together, we conclude that every eigenvalue of 𝑆 + 𝑇 is an eigenvalue of 𝑆 plus
+an eigenvalue of 𝑇 , and every eigenvalue of 𝑆𝑇 is an eigenvalue of 𝑆 times an
+eigenvalue of 𝑇.
+
+
+Exercises 5E
+
+ 1   Give an example of two commuting operators 𝑆, 𝑇 on 𝐅4 such that there
+     is a subspace of 𝐅4 that is invariant under 𝑆 but not under 𝑇 and there is a
+     subspace of 𝐅4 that is invariant under 𝑇 but not under 𝑆.
+ 2   Suppose ℰ is a subset of ℒ(𝑉) and every element of ℰ is diagonalizable.
+     Prove that there exists a basis of 𝑉 with respect to which every element of ℰ
+     has a diagonal matrix if and only if every pair of elements of ℰ commutes.
+         This exercise extends 5.76, which considers the case in which ℰ contains
+         only two elements. For this exercise, ℰ may contain any number of elements,
+         and ℰ may even be an infinite set.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+180      Chapter 5     Eigenvalues and Eigenvectors
+
+ 3    Suppose 𝑆, 𝑇 ∈ ℒ(𝑉) are such that 𝑆𝑇 = 𝑇𝑆. Suppose 𝑝 ∈ 𝒫(𝐅).
+      (a) Prove that null 𝑝(𝑆) is invariant under 𝑇 .
+      (b) Prove that range 𝑝(𝑆) is invariant under 𝑇 .
+         See 5.18 for the special case 𝑆 = 𝑇 .
+
+ 4    Prove or give a counterexample: If 𝐴 is a diagonal matrix and 𝐵 is an
+      upper-triangular matrix of the same size as 𝐴, then 𝐴 and 𝐵 commute.
+ 5    Prove that a pair of operators on a finite-dimensional vector space commute
+      if and only if their dual operators commute.
+         See 3.118 for the definition of the dual of an operator.
+
+ 6    Suppose that 𝑉 is a nonzero finite-dimensional complex vector space and
+      𝑆, 𝑇 ∈ ℒ(𝑉) commute. Prove that there exist 𝛼, 𝜆 ∈ 𝐂 such that
+
+                          range(𝑆 − 𝛼𝐼) + range(𝑇 − 𝜆𝐼) ≠ 𝑉.
+
+ 7    Suppose 𝑉 is a complex vector space, 𝑆 ∈ ℒ(𝑉) is diagonalizable, and
+      𝑇 ∈ ℒ(𝑉) commutes with 𝑆. Prove that there is a basis of 𝑉 such that 𝑆 has
+      a diagonal matrix with respect to this basis and 𝑇 has an upper-triangular
+      matrix with respect to this basis.
+ 8    Suppose 𝑚 = 3 in Example 5.72 and 𝐷𝑤 , 𝐷𝑧 are the commuting partial
+      differentiation operators on 𝒫3(𝐂2 , 𝐂) from that example. Find a basis of
+      𝒫3(𝐂2 , 𝐂) with respect to which 𝐷𝑤 and 𝐷𝑧 each have an upper-triangular
+      matrix.
+ 9    Suppose 𝑉 is a finite-dimensional nonzero complex vector space. Suppose
+      that ℰ ⊆ ℒ(𝑉) is such that 𝑆 and 𝑇 commute for all 𝑆, 𝑇 ∈ ℰ.
+      (a) Prove that there is a vector in 𝑉 that is an eigenvector for every element
+          of ℰ.
+      (b) Prove that there is a basis of 𝑉 with respect to which every element of
+          ℰ has an upper-triangular matrix.
+         This exercise extends 5.78 and 5.80, which consider the case in which ℰ
+         contains only two elements. For this exercise, ℰ may contain any number of
+         elements, and ℰ may even be an infinite set.
+
+10    Give an example of two commuting operators 𝑆, 𝑇 on a finite-dimensional
+      real vector space such that 𝑆 + 𝑇 has an eigenvalue that does not equal an
+      eigenvalue of 𝑆 plus an eigenvalue of 𝑇 and 𝑆𝑇 has an eigenvalue that does
+      not equal an eigenvalue of 𝑆 times an eigenvalue of 𝑇.
+         This exercise shows that 5.81 does not hold on real vector spaces.
+
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+

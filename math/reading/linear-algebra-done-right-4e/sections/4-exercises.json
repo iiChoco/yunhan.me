@@ -1,0 +1,449 @@
+{
+ "version": 1,
+ "id": "4-exercises",
+ "blocks": [
+  {
+   "id": "c4-exercises-intro",
+   "kind": "prose",
+   "number": "",
+   "title": "Optional practice with scalars and polynomials",
+   "tex": "These optional exercises develop complex arithmetic, polynomial\n    division, interpolation, and factorization. Each exercise can be\n    solved using the chapter's results and Chapters 1 and 2, without\n    relying on another exercise in this section.",
+   "page": "129"
+  },
+  {
+   "id": "c4-ex-parallelogram-modulus",
+   "kind": "exercise",
+   "number": "",
+   "title": "A quadratic identity for complex moduli",
+   "tex": "For $z,w\\in\\C$, prove\n    \\[\n    |z+w|^2+|z-w|^2=2|z|^2+2|w|^2.\n    \\]",
+   "page": "129",
+   "proof": "The conjugation identities and the formula\n    $|u|^2=u\\overline u$ give\n    \\[\n    |z+w|^2=(z+w)(\\overline z+\\overline w)\n    =z\\overline z+z\\overline w+w\\overline z+w\\overline w\n    \\]\n    and\n    \\[\n    |z-w|^2=(z-w)(\\overline z-\\overline w)\n    =z\\overline z-z\\overline w-w\\overline z+w\\overline w.\n    \\]\n    Adding cancels the two mixed terms and yields\n    $2z\\overline z+2w\\overline w=2|z|^2+2|w|^2$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Replace each squared modulus by a number times its conjugate."
+   ],
+   "uses": [
+    "c4-def-conjugate-modulus",
+    "c4-thm-complex-properties"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-stability-of-distance",
+   "kind": "exercise",
+   "number": "",
+   "title": "Moving a point changes its distance by at most the movement",
+   "tex": "For $a,z,w\\in\\C$, prove\n    \\[\n    \\bigl||z-a|-|w-a|\\bigr|\\le |z-w|.\n    \\]",
+   "page": "129",
+   "proof": "Using $z-a=(z-w)+(w-a)$, the triangle inequality gives\n    $|z-a|\\le |z-w|+|w-a|$. Therefore\n    $|z-a|-|w-a|\\le |z-w|$.\n    Interchanging $z$ and $w$ gives\n    $|w-a|-|z-a|\\le |w-z|=|z-w|$.\n    The real number $|z-a|-|w-a|$ thus lies between\n    $-|z-w|$ and $|z-w|$, which is exactly the asserted\n    absolute-value bound.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Apply the triangle inequality once with each point playing the role of the endpoint."
+   ],
+   "uses": [
+    "c4-def-conjugate-modulus",
+    "c4-thm-complex-properties",
+    "c1-foundations"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-unit-circle-quotient",
+   "kind": "exercise",
+   "number": "",
+   "title": "Recognizing real numbers through a quotient",
+   "tex": "For $z\\in\\C$ with $z\\ne-i$, prove\n    \\[\n    \\left|\\frac{z-i}{z+i}\\right|=1\n    \\quad\\Longleftrightarrow\\quad z\\in\\R.\n    \\]",
+   "page": "129",
+   "proof": "For any nonzero complex number $u$, multiplicativity\n    of modulus applied to $uu^{-1}=1$ gives\n    $|u||u^{-1}|=1$. Hence $|u^{-1}|=1/|u|$.\n    The hypothesis $z\\ne-i$ therefore gives\n    \\[\n    \\left|\\frac{z-i}{z+i}\\right|\n    =\\frac{|z-i|}{|z+i|}.\n    \\]\n    Since the denominator is positive, this equals $1$\n    exactly when $|z-i|=|z+i|$.\n\n    Write $z=a+bi$ with real $a,b$. Squaring the two\n    nonnegative moduli shows that their equality is equivalent to\n    \\[\n    a^2+(b-1)^2=a^2+(b+1)^2.\n    \\]\n    Expanding and cancelling gives $4b=0$, and hence $b=0$.\n    Conversely, $b=0$ makes the two squared moduli, and therefore\n    the two moduli, equal. Finally $b=0$ means exactly that\n    $z$ is real.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "First turn the modulus of the quotient into a quotient of moduli.",
+    "Write $z=a+bi$ and compare the squares of the two moduli."
+   ],
+   "uses": [
+    "c4-def-real-imaginary",
+    "c4-def-conjugate-modulus",
+    "c4-thm-complex-properties",
+    "c1-thm-complex-inverses",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-polynomial-cancellation",
+   "kind": "exercise",
+   "number": "",
+   "title": "Cancellation and equality of polynomial squares",
+   "tex": "Let $p,q,r\\in\\Poly(\\F)$ with $p\\ne0$. Prove that\n    $pq=pr$ implies $q=r$. Deduce that, for arbitrary\n    $f,g\\in\\Poly(\\F)$, the identity $f^2=g^2$ implies\n    $f=g$ or $f=-g$.",
+   "page": "130",
+   "proof": "From $pq=pr$, distributivity gives $p(q-r)=0$.\n    If $q-r$ were nonzero, the product-degree theorem would\n    make $p(q-r)$ a nonzero polynomial of degree\n    $\\deg p+\\deg(q-r)$. This contradicts its being zero.\n    Thus $q-r=0$, so $q=r$.\n\n    Now suppose $f^2=g^2$. The polynomial identity\n    $(f-g)(f+g)=f^2-g^2$ gives $(f-g)(f+g)=0$.\n    If $f-g=0$, then $f=g$. Otherwise the first part,\n    with nonzero factor $f-g$, cancels that factor from\n    $(f-g)(f+g)=(f-g)0$ and gives $f+g=0$.\n    Thus $f=-g$ in the remaining case.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "A product of two nonzero polynomials cannot be the zero polynomial."
+   ],
+   "uses": [
+    "c4-lem-polynomial-product-degree",
+    "c2-def-polynomial",
+    "c1-thm-complex-laws"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-even-polynomials",
+   "kind": "exercise",
+   "number": "",
+   "title": "Even functions and even degrees are different conditions",
+   "tex": "For a nonnegative integer $m$, let\n    \\[\n    E_m=\\{p\\in\\Poly_{2m}(\\F):p(-x)=p(x)\\text{ for all }x\\in\\F\\}.\n    \\]\n    Prove that $E_m$ is a subspace with basis\n    $1,x^2,\\ldots,x^{2m}$ and dimension $m+1$.\n    In contrast, prove that the set consisting of zero and all\n    nonzero polynomials of even degree is not a subspace of\n    $\\Poly(\\F)$.",
+   "page": "130",
+   "proof": "Write $p(x)=\\sum_{j=0}^{2m}a_jx^j$. Then\n    \\[\n    p(-x)-p(x)=\\sum_{j=0}^{2m}\\bigl((-1)^j-1\\bigr)a_jx^j.\n    \\]\n    Coefficient uniqueness says that this polynomial is zero\n    exactly when every displayed coefficient is zero.\n    For even $j$ there is no restriction. For odd $j$ the\n    condition is $-2a_j=0$, which is equivalent to $a_j=0$\n    because $2\\ne0$ in $\\F$.\n    Hence $E_m$ is precisely the span of $1,x^2,\\ldots,x^{2m}$,\n    and is a subspace. Coefficient uniqueness also shows that\n    this list is independent. It is therefore a basis with\n    $m+1$ entries. The argument includes $m=0$, when the\n    list consists just of $1$.\n\n    For the contrasting set, both $x^2+x$ and $-x^2$ have\n    even degree $2$, whereas their sum is the nonzero\n    polynomial $x$, of odd degree $1$. The set is not closed\n    under addition and thus is not a subspace.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Compare coefficients in $p(-x)=p(x)$.",
+    "For the second assertion, arrange for the leading even-degree terms to cancel."
+   ],
+   "uses": [
+    "c2-def-polynomial",
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients",
+    "c2-thm-span-smallest",
+    "c2-def-basis",
+    "c2-def-dimension",
+    "c1-thm-subspace-test",
+    "c1-lem-scalar-cancellation",
+    "c1-lem-scalar-powers"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-two-point-remainder",
+   "kind": "exercise",
+   "number": "",
+   "title": "A remainder determined by two values",
+   "tex": "Let $a,b\\in\\F$ be distinct and $p\\in\\Poly(\\F)$.\n    Prove that the remainder after division of $p(x)$ by\n    $(x-a)(x-b)$ is\n    \\[\n    r(x)=p(a)\\frac{x-b}{a-b}+p(b)\\frac{x-a}{b-a}.\n    \\]",
+   "page": "130",
+   "proof": "Polynomial division gives\n    $p(x)=(x-a)(x-b)q(x)+u(x)$, where $u=0$ or\n    $\\deg u<2$. Thus $u\\in\\Poly_1(\\F)$, and evaluating\n    at $a$ and $b$ gives $u(a)=p(a)$ and $u(b)=p(b)$.\n\n    The displayed candidate $r$ is well-defined because\n    $a-b$ and $b-a$ are nonzero. It belongs to\n    $\\Poly_1(\\F)$ and satisfies $r(a)=p(a)$ and $r(b)=p(b)$.\n    Therefore $u-r$ belongs to $\\Poly_1(\\F)$ and vanishes\n    at the two distinct points $a,b$. If $u-r$ were nonzero,\n    the root bound would allow at most one distinct root.\n    Hence $u-r=0$, so the division remainder is $r$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Evaluate the division identity at the two roots of the divisor.",
+    "A polynomial of degree at most one is determined by its values at two distinct points."
+   ],
+   "uses": [
+    "c4-thm-polynomial-division",
+    "c4-thm-root-bound",
+    "c2-def-polynomial-space",
+    "c1-thm-complex-inverses"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-imaginary-values-real-inputs",
+   "kind": "exercise",
+   "number": "",
+   "title": "Imaginary values force imaginary coefficients",
+   "tex": "Let $p\\in\\Poly_n(\\C)$, where $n\\ge0$. Suppose there are\n    $n+1$ distinct real numbers $t_0,\\ldots,t_n$ for which\n    $p(t_j)\\in i\\R$. Prove that $p=iq$ for some\n    $q\\in\\Poly_n(\\R)$.",
+   "page": "131",
+   "proof": "Write $p(z)=\\sum_{k=0}^n a_kz^k$, and define the real\n    polynomial\n    \\[\n    u(x)=\\sum_{k=0}^n\\operatorname{Re}(a_k)x^k.\n    \\]\n    Because $x$ is real, the real part of $p(x)$ equals\n    $u(x)$. Thus $u(t_j)=0$ for all $j$, by the hypothesis\n    on the values of $p$. A nonzero polynomial of degree\n    at most $n$ cannot have $n+1$ distinct roots, so\n    $u=0$. Coefficient uniqueness gives\n    $\\operatorname{Re}(a_k)=0$ for every $k$.\n\n    Write $a_k=ib_k$ with $b_k\\in\\R$. Then\n    $q(x)=\\sum_{k=0}^n b_kx^k$ belongs to $\\Poly_n(\\R)$\n    and $p=iq$. This also covers the zero polynomial and\n    the case $n=0$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Form a real polynomial from the real parts of the coefficients.",
+    "Use the number of prescribed zeros of that real polynomial."
+   ],
+   "uses": [
+    "c4-def-real-imaginary",
+    "c4-thm-complex-properties",
+    "c4-thm-root-bound",
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-real-polynomial-prescribed-root-set",
+   "kind": "exercise",
+   "number": "",
+   "title": "Which finite sets are root sets of real polynomials?",
+   "tex": "Let $S$ be a finite subset of $\\C$. Prove that there is a\n    nonzero polynomial with real coefficients whose complex root\n    set is exactly $S$ if and only if $S$ is closed under\n    complex conjugation. When this condition holds, prove that\n    there is exactly one such polynomial of degree $|S|$\n    whose leading coefficient is $1$.",
+   "page": "130",
+   "proof": "If a polynomial has real coefficients, the conjugate-root\n    theorem shows that conjugation preserves its root set.\n    This proves necessity.\n\n    Conversely, suppose $S$ is closed under conjugation.\n    For $S\\ne\\varnothing$, define\n    \\[\n    P(z)=\\prod_{\\lambda\\in S}(z-\\lambda).\n    \\]\n    Each real member of $S$ supplies a factor with real\n    coefficients. The nonreal members can be partitioned\n    into disjoint pairs $\\lambda,\\overline\\lambda$, and\n    each pair supplies\n    \\[\n    (z-\\lambda)(z-\\overline\\lambda)\n    =z^2-2\\operatorname{Re}(\\lambda)z+|\\lambda|^2,\n    \\]\n    also with real coefficients. Hence $P$ has real\n    coefficients. Its leading coefficient is $1$ and its\n    degree is $|S|$ by the product-degree theorem.\n    At a member of $S$ one factor is zero. Outside $S$\n    every factor is nonzero, and their product is nonzero\n    by repeated scalar cancellation. Its root set is\n    therefore exactly $S$.\n    If $S=\\varnothing$, take the constant polynomial $P=1$.\n\n    For uniqueness when $r=|S|\\ge1$, let $Q$ be another\n    polynomial of degree $r$ with leading coefficient $1$\n    that vanishes at every member of $S$. The leading\n    terms cancel in $P-Q$, so this difference is zero or\n    has degree at most $r-1$. It vanishes at the $r$\n    distinct elements of $S$, and the root bound forces\n    it to be zero. When $r=0$, the only degree-zero\n    polynomial with leading coefficient $1$ is $1$.\n    Thus uniqueness holds in every case.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Pair each nonreal prescribed root with its conjugate.",
+    "For uniqueness, subtract two candidates so their leading terms cancel."
+   ],
+   "uses": [
+    "c4-thm-conjugate-roots",
+    "c4-thm-complex-properties",
+    "c4-lem-polynomial-product-degree",
+    "c4-thm-root-bound",
+    "c2-def-polynomial",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-polynomial-conjugate-product",
+   "kind": "exercise",
+   "number": "",
+   "title": "A polynomial encoding a squared modulus",
+   "tex": "For $p(z)=\\sum_{j=0}^n a_jz^j\\in\\Poly(\\C)$, define\n    \\[\n    p^*(z)=\\sum_{j=0}^n\\overline{a_j}z^j.\n    \\]\n    Prove that $p(z)p^*(z)$ has real coefficients and that,\n    for real $x$,\n    \\[\n    p(x)p^*(x)=|p(x)|^2.\n    \\]\n    If $p\\ne0$ has degree $n$, determine the degree and\n    leading coefficient of $pp^*$.",
+   "page": "130",
+   "proof": "The coefficient of $z^k$ in $pp^*$ is\n    \\[\n    c_k=\\sum_{\\substack{0\\le j,\\ell\\le n\\\\j+\\ell=k}}\n    a_j\\overline{a_\\ell}.\n    \\]\n    Conjugating gives\n    \\[\n    \\overline{c_k}\n    =\\sum_{j+\\ell=k}\\overline{a_j}a_\\ell\n    =\\sum_{j+\\ell=k}a_j\\overline{a_\\ell}=c_k,\n    \\]\n    where the middle equality exchanges the two finite\n    summation indices. A complex number equal to its\n    conjugate has zero imaginary part, so each $c_k$ is real.\n\n    For real $x$, conjugation fixes every $x^j$.\n    Therefore $p^*(x)=\\overline{p(x)}$, and\n    $p(x)p^*(x)=p(x)\\overline{p(x)}=|p(x)|^2$.\n\n    If $p$ has degree $n$, then $a_n\\ne0$, and\n    $\\overline{a_n}\\ne0$ by involution of conjugation.\n    Thus $p^*$ also has degree $n$. The product-degree\n    theorem gives degree $2n$, and the leading coefficient\n    is $a_n\\overline{a_n}=|a_n|^2>0$.\n    The first two assertions also hold when $p=0$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Compare each coefficient of the product with its own conjugate.",
+    "At real inputs, coefficientwise conjugation agrees with conjugation of the polynomial value."
+   ],
+   "uses": [
+    "c4-def-conjugate-modulus",
+    "c4-thm-complex-properties",
+    "c4-lem-polynomial-product-degree",
+    "c2-def-polynomial"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-dimension-vanishing-constraints",
+   "kind": "exercise",
+   "number": "",
+   "title": "Counting independent root constraints",
+   "tex": "Let $n\\ge0$, let $0\\le r\\le n+1$, and let\n    $a_1,\\ldots,a_r$ be distinct elements of $\\F$. Set\n    \\[\n    U=\\{p\\in\\Poly_n(\\F):p(a_j)=0\\text{ for }1\\le j\\le r\\},\n    \\qquad Q(x)=\\prod_{j=1}^r(x-a_j),\n    \\]\n    with empty product $Q=1$. Prove that $U$ is a subspace\n    of dimension $n+1-r$. For $r\\le n$, prove that\n    $Q,xQ,\\ldots,x^{n-r}Q$ is a basis; for $r=n+1$,\n    identify the basis.",
+   "page": "130",
+   "proof": "First suppose $r\\le n$. We show that the members of\n    $U$ are exactly the polynomials $Qh$ with\n    $h\\in\\Poly_{n-r}(\\F)$.\n    Such products belong to $\\Poly_n(\\F)$ by the product-degree\n    formula when $h\\ne0$, and the zero case also belongs.\n    They vanish at every prescribed point.\n\n    For the converse, take nonzero $p\\in U$. Factor off\n    $(x-a_1)$ using the factor-root theorem. More generally,\n    if\n    \\[\n    p(x)=\\prod_{j=1}^{k-1}(x-a_j)h(x),\n    \\]\n    evaluation at $a_k$ shows $h(a_k)=0$, because all\n    factors $a_k-a_j$ are nonzero. Factor off $(x-a_k)$.\n    Continuing through all $r$ points gives $p=Qh$.\n    The product-degree theorem gives\n    $\\deg h=\\deg p-r\\le n-r$. For $p=0$ take $h=0$.\n    If $r=0$, the same conclusion is simply $p=1p$.\n\n    Expanding $h$ in powers of $x$ now proves that\n    $U=\\Span(Q,xQ,\\ldots,x^{n-r}Q)$, so $U$ is a subspace.\n    If a combination of this list is zero, it has the\n    form $Qg=0$, where\n    $g=\\sum_{k=0}^{n-r}b_kx^k$. The polynomial $Q$ is\n    nonzero. If $g$ were nonzero, the product-degree\n    theorem would make $Qg$ nonzero. Thus $g=0$,\n    and coefficient uniqueness gives all $b_k=0$.\n    The list is therefore a basis with $n+1-r$ entries.\n\n    If $r=n+1$, the root bound forces every $p\\in U$\n    to be zero. Hence $U=\\{0\\}$, its basis is the\n    empty list, and its dimension is $0=n+1-r$.",
+   "difficulty": 3,
+   "minutes": 40,
+   "hints": [
+    "Factor out the product of the prescribed linear factors.",
+    "After removing those factors, identify the remaining degree bound."
+   ],
+   "uses": [
+    "c4-thm-factor-root",
+    "c4-thm-root-bound",
+    "c4-lem-polynomial-product-degree",
+    "c1-lem-scalar-cancellation",
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients",
+    "c2-thm-span-smallest",
+    "c2-def-basis",
+    "c2-def-dimension",
+    "c2-lem-zero-dimension"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-lagrange-basis",
+   "kind": "exercise",
+   "number": "",
+   "title": "Interpolation and identities from a nodal basis",
+   "tex": "Let $a_0,\\ldots,a_n$ be distinct elements of $\\F$,\n    where $n\\ge0$, and define\n    \\[\n    L_j(x)=\\prod_{\\substack{0\\le k\\le n\\\\k\\ne j}}\n    \\frac{x-a_k}{a_j-a_k}.\n    \\]\n    Prove that $L_0,\\ldots,L_n$ is a basis of $\\Poly_n(\\F)$\n    and that\n    \\[\n    p(x)=\\sum_{j=0}^n p(a_j)L_j(x)\n    \\qquad(p\\in\\Poly_n(\\F)).\n    \\]\n    When $n\\ge1$, deduce\n    \\[\n    \\sum_{j=0}^n\\frac{1}{\\prod_{k\\ne j}(a_j-a_k)}=0,\n    \\qquad\n    \\sum_{j=0}^n\\frac{a_j^n}{\\prod_{k\\ne j}(a_j-a_k)}=1.\n    \\]",
+   "page": "130",
+   "proof": "The denominators are nonzero because the nodes are\n    distinct. Each $L_j$ has degree at most $n$, and direct\n    substitution gives $L_j(a_i)=0$ for $i\\ne j$ and\n    $L_j(a_j)=1$.\n    Therefore a relation $\\sum_j c_jL_j=0$, evaluated at\n    $a_i$, gives $c_i=0$. The list is independent.\n    It has $n+1=\\dim\\Poly_n(\\F)$ entries, so it is a basis.\n\n    For a given $p$, subtract the proposed interpolation\n    expression from $p$. The difference belongs to\n    $\\Poly_n(\\F)$ and is zero at every $a_i$. The root\n    bound makes the difference zero, proving the formula.\n    When $n=0$, the empty product gives $L_0=1$, and\n    the argument states that a constant polynomial is\n    its constant value.\n\n    For $n\\ge1$, apply the interpolation formula first\n    to $p=1$ and then to $p=x^n$. The coefficient of\n    $x^n$ in $L_j$ is\n    $1/\\prod_{k\\ne j}(a_j-a_k)$. Comparing the coefficients\n    of $x^n$ in the two identities gives respectively\n    the claimed sums $0$ and $1$.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Compute the values of each $L_j$ at every node.",
+    "For the final identities, compare the leading coefficients in the interpolation formulas for two simple polynomials."
+   ],
+   "uses": [
+    "c4-thm-root-bound",
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients",
+    "c2-ex-polynomial-dimension",
+    "c2-thm-full-length-independent",
+    "c2-def-basis"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-no-real-roots-sign",
+   "kind": "exercise",
+   "number": "",
+   "title": "A real polynomial without real roots",
+   "tex": "Suppose a nonzero real polynomial $p$ has no real roots.\n    Prove that its degree is even and that $p(x)$ has the\n    same sign for every real $x$, namely the sign of its\n    leading coefficient. Deduce that every real polynomial\n    of odd degree has a real root.",
+   "page": "130",
+   "proof": "A nonzero constant polynomial has degree zero and\n    already satisfies the assertions. For a nonconstant\n    $p$, its real factorization cannot contain a real\n    linear factor, because such a factor would give a\n    real root. Thus\n    \\[\n    p(x)=c\\prod_{j=1}^M(x^2+b_jx+d_j),\n    \\qquad b_j^2<4d_j,\n    \\]\n    with nonzero real $c$. Each quadratic satisfies\n    \\[\n    x^2+b_jx+d_j\n    =\\left(x+\\frac{b_j}{2}\\right)^2+\n    d_j-\\frac{b_j^2}{4}>0\n    \\]\n    for every real $x$. Hence the product has sign equal\n    to the sign of $c$ at every real input.\n    Its degree is $2M$, and $c$ is its leading coefficient.\n    This proves both assertions.\n\n    A polynomial of odd degree is nonzero and has degree\n    that is not even. It therefore cannot satisfy the\n    no-real-root hypothesis just analyzed. It must have\n    a real root.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the real factorization theorem and determine which factors are permitted.",
+    "Complete the square in each irreducible quadratic factor."
+   ],
+   "uses": [
+    "c4-thm-real-factorization",
+    "c4-thm-real-quadratic",
+    "c4-lem-polynomial-product-degree",
+    "c1-foundations"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-imaginary-roots-parity",
+   "kind": "exercise",
+   "number": "",
+   "title": "Purely imaginary roots force a parity pattern",
+   "tex": "Let $p$ be a nonzero real polynomial of degree $n$.\n    Suppose every complex root of $p$ is purely imaginary,\n    where zero is allowed. Prove\n    \\[\n    p(-x)=(-1)^n p(x).\n    \\]\n    Deduce that the coefficients whose indices have parity\n    opposite to $n$ are zero.",
+   "page": "130",
+   "proof": "A constant polynomial has $n=0$ and satisfies the\n    conclusion. For a nonconstant polynomial, use its real\n    factorization. A real root that is also purely imaginary\n    must be zero, so every real linear factor is $x$.\n    Consider an irreducible quadratic factor\n    $x^2+bx+d$, where $b^2<4d$. The complex number\n    \\[\n    \\lambda=-\\frac b2+i\\sqrt{d-\\frac{b^2}{4}}\n    \\]\n    is a root, because substituting it into\n    $(x+b/2)^2+d-b^2/4$ gives zero. It is therefore a\n    root of $p$. The hypothesis gives\n    $\\operatorname{Re}\\lambda=-b/2=0$, so $b=0$.\n\n    Consequently the factorization has the form\n    \\[\n    p(x)=c x^r\\prod_{j=1}^M(x^2+d_j),\n    \\qquad d_j>0,\n    \\]\n    with $n=r+2M$. Replacing $x$ by $-x$ multiplies this\n    expression by $(-1)^r=(-1)^n$, proving the identity.\n\n    Write $p(x)=\\sum_{k=0}^n a_kx^k$. Coefficient uniqueness\n    in $p(-x)=(-1)^n p(x)$ gives\n    $\\bigl((-1)^k-(-1)^n\\bigr)a_k=0$ for every $k$.\n    When $k$ has parity opposite to $n$, the first factor\n    is $2$ or $-2$, so $a_k=0$.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Inspect the real linear and irreducible quadratic factors separately.",
+    "A root of $x^2+bx+d$ with negative discriminant has real part $-b/2$."
+   ],
+   "uses": [
+    "c4-def-real-imaginary",
+    "c4-thm-real-factorization",
+    "c4-thm-real-quadratic",
+    "c4-lem-polynomial-product-degree",
+    "c1-def-complex",
+    "c1-foundations",
+    "c1-lem-scalar-cancellation",
+    "c2-lem-polynomial-coefficients"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-degree-bounded-bezout",
+   "kind": "exercise",
+   "number": "",
+   "title": "A degree-bounded Bezout identity without linear maps",
+   "tex": "Let $p,q\\in\\Poly(\\C)$ be nonconstant and have no common\n    root. Put $m=\\deg p$ and $n=\\deg q$.\n    Prove that there exist $a\\in\\Poly_{n-1}(\\C)$ and\n    $b\\in\\Poly_{m-1}(\\C)$ such that\n    \\[\n    ap+bq=1.\n    \\]",
+   "page": "131",
+   "proof": "Consider all nonzero polynomials of the form $Ap+Bq$,\n    where $A,B\\in\\Poly(\\C)$. This collection is nonempty\n    because it contains $p$. Choose one, say\n    $h=A_0p+B_0q$, with the smallest possible degree.\n\n    Divide $p$ by $h$ to obtain $p=th+r$, where either\n    $r=0$ or $\\deg r<\\deg h$. The remainder also has\n    the form\n    \\[\n    r=(1-tA_0)p+(-tB_0)q.\n    \\]\n    If $r\\ne0$, this contradicts the minimal degree of\n    $h$. Thus $h$ divides $p$. Dividing $q$ by $h$\n    in the same way shows that its remainder is zero:\n    that remainder would be $(-tA_0)p+(1-tB_0)q$\n    for the relevant quotient $t$. Hence $h$ divides $q$.\n\n    If $h$ were nonconstant, the fundamental theorem of\n    algebra would provide a root $\\lambda$ of $h$.\n    Since $h$ divides both $p$ and $q$, evaluation would\n    give $p(\\lambda)=q(\\lambda)=0$, contrary to the\n    hypothesis. Therefore $h$ is a nonzero constant $c$.\n    Dividing its representation by $c$ yields\n    $Ap+Bq=1$ for some polynomials $A,B$.\n\n    Divide $A$ by $q$, writing $A=tq+a$, where\n    $a\\in\\Poly_{n-1}(\\C)$. Then\n    \\[\n    1=ap+(B+tp)q.\n    \\]\n    Put $b=B+tp$. If $b=0$, its required degree bound\n    already holds. If $b\\ne0$, then $bq=1-ap$ is\n    nonzero. The right side has degree at most\n    $m+n-1$, because $a$ has degree at most $n-1$\n    when nonzero, and the zero case gives the same bound.\n    The product-degree theorem now gives\n    \\[\n    \\deg b+n=\\deg(bq)\\le m+n-1,\n    \\]\n    so $\\deg b\\le m-1$. Thus both coefficients have\n    the stated bounds.",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "Among nonzero polynomial combinations of $p$ and $q$, choose one of least degree.",
+    "Divide $p$ and $q$ by that combination; use the absence of a common root to determine its degree.",
+    "After obtaining an identity, reduce one coefficient by polynomial division to obtain the degree bounds."
+   ],
+   "uses": [
+    "c4-thm-polynomial-division",
+    "c4-thm-fundamental-algebra",
+    "c4-lem-polynomial-product-degree",
+    "c2-def-polynomial",
+    "c2-def-polynomial-space",
+    "c1-foundations"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-hermite-interpolation",
+   "kind": "exercise",
+   "number": "",
+   "title": "Prescribing values and first derivatives",
+   "tex": "Let $a_1,\\ldots,a_s$ be distinct real numbers, where\n    $s\\ge1$. For arbitrary real numbers\n    $u_1,\\ldots,u_s,v_1,\\ldots,v_s$, prove that there is\n    exactly one $p\\in\\Poly_{2s-1}(\\R)$ satisfying\n    \\[\n    p(a_j)=u_j,\\qquad p'(a_j)=v_j\n    \\quad(1\\le j\\le s).\n    \\]",
+   "page": "130",
+   "proof": "We first justify a derivative rule needed below.\n    If $f(x)=\\sum_r c_rx^r$ and $g(x)=\\sum_t d_tx^t$,\n    expand their product and differentiate each term.\n    The constant term differentiates to zero, and the\n    remaining terms give\n    \\[\n    (fg)'(x)=\n    \\sum_{r+t\\ge1}(r+t)c_rd_tx^{r+t-1}\n    =f'(x)g(x)+f(x)g'(x).\n    \\]\n    The last equality separates the coefficient $r+t$\n    into $r$ and $t$, with the zero-index terms contributing\n    zero. Thus the product rule follows from the accepted\n    polynomial differentiation rule.\n\n    Define\n    \\[\n    L_j(x)=\\prod_{\\substack{1\\le k\\le s\\\\k\\ne j}}\n    \\frac{x-a_k}{a_j-a_k},\n    \\qquad d_j=L_j'(a_j).\n    \\]\n    The empty product is $1$ if $s=1$.\n    These polynomials satisfy $L_j(a_k)=0$ for $k\\ne j$\n    and $L_j(a_j)=1$. Set\n    \\[\n    H_j(x)=\\bigl(1-2d_j(x-a_j)\\bigr)L_j(x)^2,\n    \\qquad K_j(x)=(x-a_j)L_j(x)^2.\n    \\]\n    Their degrees are at most $2s-1$.\n    The product rule gives\n    \\[\n    H_j'=-2d_jL_j^2+\n    2\\bigl(1-2d_j(x-a_j)\\bigr)L_jL_j',\n    \\qquad\n    K_j'=L_j^2+2(x-a_j)L_jL_j'.\n    \\]\n    At $a_j$, these formulas give\n    $H_j(a_j)=1$, $H_j'(a_j)=-2d_j+2d_j=0$,\n    $K_j(a_j)=0$, and $K_j'(a_j)=1$.\n    At any other node, the factor $L_j$ makes all four\n    corresponding values zero. Hence\n    \\[\n    p=\\sum_{j=1}^s\\bigl(u_jH_j+v_jK_j\\bigr)\n    \\]\n    has the desired values and derivatives, and belongs\n    to $\\Poly_{2s-1}(\\R)$.\n\n    For uniqueness, let $f$ be the difference of two\n    candidates. Then $f(a_j)=f'(a_j)=0$ at every node.\n    If $f\\ne0$, we show successively that\n    $\\prod_{j=1}^s(x-a_j)^2$ divides $f$.\n    Suppose the factors for earlier nodes have been\n    extracted, so $f=Qh$, where\n    $Q=\\prod_{k<j}(x-a_k)^2$.\n    Because the nodes are distinct, $Q(a_j)\\ne0$.\n    The equality $f(a_j)=0$ therefore gives $h(a_j)=0$.\n    The product rule and $f'(a_j)=0$ then give\n    $0=Q(a_j)h'(a_j)$, so $h'(a_j)=0$.\n    By the factor-root theorem, write $h=(x-a_j)t$.\n    Differentiation gives $h'(a_j)=t(a_j)$, so\n    $t(a_j)=0$ and a second application of the\n    factor-root theorem extracts another $(x-a_j)$.\n    This proves the inductive step.\n\n    The resulting divisor has degree $2s$. Since $f$\n    was assumed nonzero, the product-degree theorem\n    would force $\\deg f\\ge2s$, contradicting\n    $f\\in\\Poly_{2s-1}(\\R)$. Thus $f=0$ and the\n    interpolating polynomial is unique.",
+   "difficulty": 4,
+   "minutes": 90,
+   "hints": [
+    "Begin with a polynomial that is $1$ at one node and $0$ at all the other nodes.",
+    "Squaring produces double zeros at the other nodes; then adjust the value and derivative at the chosen node.",
+    "For uniqueness, show that a zero value and zero derivative force a squared linear factor."
+   ],
+   "uses": [
+    "c4-thm-factor-root",
+    "c4-lem-polynomial-product-degree",
+    "c2-thm-polynomial-differentiation",
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c4-ex-nonnegative-two-squares",
+   "kind": "exercise",
+   "number": "",
+   "title": "A nonnegative real polynomial is a sum of two squares",
+   "tex": "Let $p$ be a nonzero real polynomial satisfying\n    $p(x)\\ge0$ for every real $x$. Prove that $\\deg p=2d$\n    for some nonnegative integer $d$, and that there are\n    $A,B\\in\\Poly_d(\\R)$ such that\n    \\[\n    p=A^2+B^2.\n    \\]",
+   "page": "131",
+   "proof": "If $p$ is constant, it is a positive constant $c$.\n    Take $d=0$, $A=\\sqrt c$, and $B=0$.\n    Now suppose $p$ is nonconstant, and use its real\n    factorization. Group repeated real linear factors,\n    writing\n    \\[\n    p(x)=c\\prod_{\\ell=1}^r(x-t_\\ell)^{e_\\ell}\n    \\prod_{j=1}^M(x^2+b_jx+c_j),\n    \\]\n    where the $t_\\ell$ are distinct, each $e_\\ell\\ge1$,\n    $c\\ne0$, and $b_j^2<4c_j$.\n\n    We show that every $e_\\ell$ is even. Fix a real\n    root $t=t_\\ell$, put $e=e_\\ell$, and write\n    $p(x)=(x-t)^e q(x)$. All remaining linear factors\n    are nonzero at $t$, and every irreducible quadratic\n    is positive there by completing the square.\n    Thus $q(t)\\ne0$.\n\n    Expanding $q(t+h)$ as a polynomial in $h$ gives\n    \\[\n    q(t+h)=q(t)+\\sum_{k=1}^N\\beta_kh^k.\n    \\]\n    Put $L=\\sum_{k=1}^N|\\beta_k|$. If $L=0$, the\n    value is constantly $q(t)$. If $L>0$, choose\n    \\[\n    0<\\delta\\le\\min\\left\\{1,\\frac{|q(t)|}{2L}\\right\\}.\n    \\]\n    For $|h|<\\delta$,\n    \\[\n    |q(t+h)-q(t)|\n    \\le\\sum_{k=1}^N|\\beta_k||h|^k\n    \\le L|h|<\\frac{|q(t)|}{2}.\n    \\]\n    Hence for sufficiently small positive $h$, both\n    $q(t+h)$ and $q(t-h)$ have the same nonzero sign\n    as $q(t)$. If $e$ were odd, the quantities\n    $h^e q(t+h)$ and $(-h)^e q(t-h)$ would have\n    opposite signs. One of $p(t+h),p(t-h)$ would\n    be negative, contradicting the hypothesis.\n    Therefore all exponents are even; write\n    $e_\\ell=2f_\\ell$.\n\n    Every quadratic factor is positive on $\\R$.\n    Choose a real input different from all the\n    finitely many $t_\\ell$, for example\n    $1+\\sum_{\\ell=1}^r|t_\\ell|$.\n    At that input all factors other than $c$ are\n    positive, and $p$ is nonzero and nonnegative.\n    Thus $c>0$. The degree is\n    $2\\sum_\\ell f_\\ell+2M=2d$, where\n    $d=\\sum_\\ell f_\\ell+M$.\n\n    For each quadratic, let\n    \\[\n    \\lambda_j=-\\frac{b_j}{2}\n       +i\\sqrt{c_j-\\frac{b_j^2}{4}}.\n    \\]\n    Direct multiplication gives\n    $(x-\\lambda_j)(x-\\overline{\\lambda_j})\n    =x^2+b_jx+c_j$. Define the complex polynomial\n    \\[\n    h(x)=\\sqrt c\\,\n    \\prod_{\\ell=1}^r(x-t_\\ell)^{f_\\ell}\n    \\prod_{j=1}^M(x-\\lambda_j).\n    \\]\n    Its degree is $d$. Split each coefficient into\n    real and imaginary parts to write $h=A+iB$\n    with $A,B\\in\\Poly_d(\\R)$.\n    For real $x$, conjugation of the finite product\n    gives\n    \\[\n    h(x)\\overline{h(x)}\n    =c\\prod_\\ell(x-t_\\ell)^{2f_\\ell}\n       \\prod_j(x-\\lambda_j)(x-\\overline{\\lambda_j})\n    =p(x).\n    \\]\n    The left side is also\n    $(A(x)+iB(x))(A(x)-iB(x))=A(x)^2+B(x)^2$.\n    Equality at every real input proves the stated\n    identity of real polynomial functions.",
+   "difficulty": 4,
+   "minutes": 90,
+   "hints": [
+    "Start with real linear factors and irreducible real quadratic factors.",
+    "Nonnegativity prevents a sign change at a real root, constraining how often its factor occurs.",
+    "Choose one factor from each nonreal conjugate pair and consider the modulus square of their product."
+   ],
+   "uses": [
+    "c4-thm-real-factorization",
+    "c4-thm-real-quadratic",
+    "c4-def-real-imaginary",
+    "c4-def-conjugate-modulus",
+    "c4-thm-complex-properties",
+    "c4-lem-polynomial-product-degree",
+    "c2-def-polynomial",
+    "c2-def-polynomial-space",
+    "c1-foundations",
+    "c1-lem-scalar-powers"
+   ],
+   "optional": true
+  }
+ ],
+ "cards": [
+  {
+   "id": "c4-card-exercise-modulus-expansion",
+   "item": "c4-ex-parallelogram-modulus",
+   "front": "What substitution is useful when expanding squared complex moduli?",
+   "back": "Use $|z|^2=z\\overline z$ and the algebraic rules for conjugation."
+  },
+  {
+   "id": "c4-card-exercise-even-polynomial",
+   "item": "c4-ex-even-polynomials",
+   "front": "How can an even polynomial function be recognized from its coefficients?",
+   "back": "All coefficients of odd powers are zero. Having even degree\n    alone does not imply that the polynomial function is even."
+  },
+  {
+   "id": "c4-card-exercise-remainder-two-values",
+   "item": "c4-ex-two-point-remainder",
+   "front": "Which two values determine the remainder modulo\n    $(x-a)(x-b)$ when $a\\ne b$?",
+   "back": "The values $p(a)$ and $p(b)$ determine the remainder,\n    which has degree at most one."
+  },
+  {
+   "id": "c4-card-exercise-vanishing-dimension",
+   "item": "c4-ex-dimension-vanishing-constraints",
+   "front": "What is the dimension of the polynomials in $\\Poly_n(\\F)$\n    vanishing at $r$ distinct prescribed points, for $r\\le n+1$?",
+   "back": "It is $n+1-r$. For $r\\le n$, factor out the product of\n    the $r$ prescribed linear factors; for $r=n+1$, only zero remains."
+  },
+  {
+   "id": "c4-card-exercise-lagrange-values",
+   "item": "c4-ex-lagrange-basis",
+   "front": "What property characterizes the values of a Lagrange basis\n    polynomial $L_j$ at the interpolation nodes?",
+   "back": "It equals $1$ at its own node and $0$ at every other node."
+  },
+  {
+   "id": "c4-card-exercise-no-real-root",
+   "item": "c4-ex-no-real-roots-sign",
+   "front": "Why must a real polynomial without real roots have even degree?",
+   "back": "Its real factorization has only quadratic factors and a\n    nonzero constant factor, so the total degree is even."
+  },
+  {
+   "id": "c4-card-exercise-bezout-idea",
+   "item": "c4-ex-degree-bounded-bezout",
+   "front": "What is the key minimality argument for a polynomial Bezout identity?",
+   "back": "A nonzero combination of least degree divides both input\n    polynomials, because any nonzero division remainder would be\n    a combination of smaller degree."
+  },
+  {
+   "id": "c4-card-exercise-hermite-uniqueness",
+   "item": "c4-ex-hermite-interpolation",
+   "front": "Why do zero value and zero first derivative at a point\n    impose a squared linear factor?",
+   "back": "Write $f=(x-a)g$ from $f(a)=0$; the product rule gives\n    $f'(a)=g(a)$, so $f'(a)=0$ supplies another factor $(x-a)$."
+  },
+  {
+   "id": "c4-card-exercise-two-squares",
+   "item": "c4-ex-nonnegative-two-squares",
+   "front": "How does a complex polynomial produce a sum of two real\n    polynomial squares?",
+   "back": "Write its real and imaginary coefficient parts as $h=A+iB$.\n    At real inputs, $h\\overline h=A^2+B^2$."
+  }
+ ]
+}

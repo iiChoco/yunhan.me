@@ -1,0 +1,620 @@
+{
+ "version": 1,
+ "id": "6a",
+ "blocks": [
+  {
+   "id": "c6-intro-inner-products",
+   "kind": "prose",
+   "number": "",
+   "title": "Adding geometry to vector spaces",
+   "tex": "Vector-space operations describe combinations of vectors but do not by themselves assign lengths or orthogonality. An inner product supplies this additional structure, beginning with the familiar coordinate dot product.",
+   "page": "182"
+  },
+  {
+   "id": "c6-def-dot-product",
+   "kind": "definition",
+   "number": "6.1",
+   "title": "Real coordinate dot product",
+   "tex": "For $x,y\\in\\R^n$, define\n\\[\nx\\cdot y=\\sum_{j=1}^{n}x_jy_j.\n\\]\nThe output is a real scalar. For $n=0$, the sum is empty and equals zero.",
+   "page": "182"
+  },
+  {
+   "id": "c6-thm-dot-product-properties",
+   "kind": "theorem",
+   "number": "",
+   "title": "Positivity, linearity, and symmetry of the dot product",
+   "tex": "The real dot product satisfies\n\\[\nx\\cdot x\\ge0,\\qquad\nx\\cdot x=0\\Longleftrightarrow x=0,\\qquad\nx\\cdot y=y\\cdot x.\n\\]\nFor each fixed $y$, the function $x\\mapsto x\\cdot y$ is linear.",
+   "page": "182",
+   "proof": "The expression $x\\cdot x=\\sum_jx_j^2$ is a sum of nonnegative real numbers. If that sum is zero, none of its terms can be positive, so every $x_j^2=0$ and hence every $x_j=0$. Conversely, the zero vector gives a sum of zero terms. If $n=0$, there is only the zero vector and the same assertion holds.\n\nScalar commutativity gives $x_jy_j=y_jx_j$ for every index, so summing proves symmetry. For $x,u,y\\in\\R^n$ and $a\\in\\R$, distributivity gives\n\\[\n(x+u)\\cdot y\n=\\sum_j(x_j+u_j)y_j=x\\cdot y+u\\cdot y,\n\\qquad\n(ax)\\cdot y=\\sum_jax_jy_j=a(x\\cdot y).\n\\]\nThese are precisely additivity and homogeneity for the function with fixed second input.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use real scalar arithmetic in each coordinate."
+   ],
+   "uses": [
+    "c6-def-dot-product",
+    "c1-foundations",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c3-def-linear-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-def-inner-product",
+   "kind": "definition",
+   "number": "6.2",
+   "title": "Inner product",
+   "tex": "An \\emph{inner product} on a vector space $V$ over $\\F$ assigns a scalar $\\ip{u}{v}\\in\\F$ to each ordered pair of vectors, with the following properties:\n\\begin{enumerate}\n\\item $\\ip{v}{v}$ is real and nonnegative for every $v$.\n\\item $\\ip{v}{v}=0$ if and only if $v=0$.\n\\item $\\ip{u+v}{w}=\\ip{u}{w}+\\ip{v}{w}$.\n\\item $\\ip{au}{v}=a\\ip{u}{v}$ for every $a\\in\\F$.\n\\item $\\ip{u}{v}=\\overline{\\ip{v}{u}}$.\n\\end{enumerate}\nOur convention is linearity in the first variable. Over $\\R$, conjugation fixes every scalar, so the last property is ordinary symmetry.",
+   "page": "183"
+  },
+  {
+   "id": "c6-thm-standard-inner-product",
+   "kind": "example",
+   "number": "6.3(a)",
+   "title": "The Euclidean inner product",
+   "tex": "The formula\n\\[\n\\ip{u}{v}=\\sum_{j=1}^{n}u_j\\overline{v_j}\n\\]\ndefines an inner product on $\\F^n$, called its \\emph{Euclidean inner product}. It also defines an inner product when $n=0$.",
+   "page": "184",
+   "proof": "For $u\\in\\F^n$,\n\\[\n\\ip{u}{u}=\\sum_ju_j\\overline{u_j}=\\sum_j|u_j|^2,\n\\]\nwhich is real and nonnegative. The sum vanishes exactly when every nonnegative term vanishes. The scalar modulus is zero exactly at zero, so this is equivalent to every coordinate of $u$ being zero. The zero vector conversely gives zero.\n\nFor $u,v,w\\in\\F^n$ and $a\\in\\F$,\n\\[\n\\ip{u+v}{w}\n=\\sum_j(u_j+v_j)\\overline{w_j}\n=\\ip{u}{w}+\\ip{v}{w},\n\\]\nand\n$\\ip{au}{v}=\\sum_jau_j\\overline{v_j}=a\\ip{u}{v}$.\nFinally, the conjugation rules give\n\\[\n\\overline{\\ip{v}{u}}\n=\\overline{\\sum_jv_j\\overline{u_j}}\n=\\sum_j\\overline{v_j}u_j\n=\\ip{u}{v}.\n\\]\nThese are all the inner-product axioms. For $n=0$, every sum is zero and the coordinate space has only its zero vector, so all the axioms remain valid.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use $z\\overline z=|z|^2$ for positivity and the conjugation rules for symmetry."
+   ],
+   "uses": [
+    "c6-def-inner-product",
+    "c4-thm-complex-properties",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c1-def-coordinate-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-weighted-inner-product",
+   "kind": "example",
+   "number": "6.3(b)",
+   "title": "Positive coordinate weights",
+   "tex": "For positive real numbers $c_1,\\ldots,c_n$, the formula\n\\[\n\\ip{u}{v}_c=\\sum_{j=1}^{n}c_ju_j\\overline{v_j}\n\\]\ndefines an inner product on $\\F^n$.",
+   "page": "184",
+   "proof": "Its value on $(u,u)$ is $\\sum_jc_j|u_j|^2$, a sum of nonnegative real terms. If the sum is zero, each term is zero. Because $c_j>0$, this implies $|u_j|=0$ and hence $u_j=0$ for every index. Conversely, $u=0$ gives zero.\n\nFor fixed $w$, distributing in\n$\\sum_jc_j(u_j+v_j)\\overline{w_j}$\nproves additivity in the first variable, and factoring a scalar from\n$\\sum_jc_j(au_j)\\overline{v_j}$\nproves homogeneity there. Because every $c_j$ is real,\n\\[\n\\overline{\\ip{v}{u}_c}\n=\\sum_jc_j\\overline{v_j}u_j\n=\\ip{u}{v}_c.\n\\]\nThus conjugate symmetry holds as well, proving all the axioms. If $n=0$, the formula is the already verified zero-dimensional Euclidean inner product.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Positivity of every weight is needed when recovering a coordinate from a zero squared value."
+   ],
+   "uses": [
+    "c6-def-inner-product",
+    "c6-thm-standard-inner-product",
+    "c4-thm-complex-properties",
+    "c1-foundations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-def-integral-notation",
+   "kind": "definition",
+   "number": "",
+   "title": "Integral notation for the function examples",
+   "tex": "Write $C([a,b],\\R)$ for the real-valued continuous functions on $[a,b]$, where $a<b$. The notation $\\int_a^b h(x)\\,dx$ denotes the Riemann integral: a real number $I$ such that, for every $\\varepsilon>0$, sufficiently fine tagged partitions\n\\[\na=t_0<t_1<\\cdots<t_m=b,\\qquad\n\\xi_j\\in[t_{j-1},t_j],\n\\]\nsatisfy\n\\[\n\\left|\\sum_{j=1}^{m}h(\\xi_j)(t_j-t_{j-1})-I\\right|<\\varepsilon.\n\\]\nHere sufficiently fine means that $\\max_j(t_j-t_{j-1})<\\delta$ for some $\\delta>0$ depending only on $\\varepsilon$.\n\nThe improper integral $\\int_0^\\infty h(x)\\,dx$ denotes the finite limit of $\\int_0^b h(x)\\,dx$ as $b\\to\\infty$, when it exists. A limit $L$ here means that for every $\\varepsilon>0$ there is $M$ such that $b>M$ implies $\\left|\\int_0^b h-L\\right|<\\varepsilon$.",
+   "page": "184"
+  },
+  {
+   "id": "c6-thm-continuous-integral-facts",
+   "kind": "theorem",
+   "number": "",
+   "title": "Analysis facts used by the integral examples",
+   "tex": "The following elementary analysis facts are available for the examples in this chapter.\n\\begin{enumerate}\n\\item Real polynomials are continuous, and products of continuous real functions are continuous.\n\\item Every continuous real function on a compact interval $[a,b]$ has a unique Riemann integral. Integration is linear:\n\\[\n\\int_a^b(\\alpha f+\\beta g)\n=\\alpha\\int_a^b f+\\beta\\int_a^b g.\n\\]\nIf $h$ is continuous and nonnegative, its integral is nonnegative. If in addition $h(t)>0$ for at least one $t\\in[a,b]$, then $\\int_a^b h>0$.\n\\item For every integer $k\\ge0$,\n\\[\n\\int_a^b x^k\\,dx\n=\\frac{b^{k+1}-a^{k+1}}{k+1}.\n\\]\nIn particular, integration of polynomials on $[0,1]$ agrees with the earlier coefficient definition.\n\\item The real exponential function $x\\mapsto e^x$ is continuous and strictly positive. For every real polynomial $r$, the improper integral\n\\[\n\\int_0^\\infty |r(x)|e^{-x}\\,dx\n\\]\nis finite. The resulting integrals of $r(x)e^{-x}$ are linear in $r$.\n\\item If a continuous nonnegative function $h$ on $[0,\\infty)$ has a finite improper integral, that integral is nonnegative. It is strictly positive if $h$ is positive at at least one point of $[0,\\infty)$.\n\\end{enumerate}",
+   "page": "184"
+  },
+  {
+   "id": "c6-remark-integral-facts-faith",
+   "kind": "remark",
+   "number": "",
+   "title": "Analysis prerequisites taken on faith",
+   "tex": "The preceding analysis theorem is taken on faith. It supplies the continuity, integration, and exponential-decay facts needed below; the verification of each inner product remains a proof task.",
+   "page": "184"
+  },
+  {
+   "id": "c6-ex-continuous-integral-inner-product",
+   "kind": "example",
+   "number": "6.3(c)",
+   "title": "An inner product on continuous functions",
+   "tex": "For real $a<b$, the set $C([a,b],\\R)$ is a real vector space with pointwise operations, and\n\\[\n\\ip{f}{g}=\\int_a^bf(x)g(x)\\,dx\n\\]\ndefines an inner product on it. In particular this applies to $[-1,1]$.",
+   "page": "184",
+   "proof": "The zero function is continuous, and sums and real scalar multiples of continuous functions are continuous by the earlier analysis closure theorem. Thus this set is a subspace of the vector space of all real-valued functions on $[a,b]$, and hence is a real vector space.\n\nThe product $fg$ is continuous, so the displayed integral exists and is real. Since $f^2\\ge0$, positivity of integration gives $\\ip{f}{f}\\ge0$. If $f$ is not the zero function, there is a point $t\\in[a,b]$ with $f(t)\\ne0$. Then $f(t)^2>0$, so strict positivity of the integral of the continuous nonnegative function $f^2$ gives $\\ip{f}{f}>0$. Conversely, the zero function gives zero integral.\n\nLinearity of integration and pointwise multiplication give\n\\[\n\\ip{f+g}{h}=\\int_a^b(fh+gh)=\\ip{f}{h}+\\ip{g}{h},\n\\qquad\n\\ip{af}{g}=\\int_a^bafg=a\\ip{f}{g}.\n\\]\nFinally $fg=gf$ pointwise, so $\\ip{f}{g}=\\ip{g}{f}$. The scalar field is real, making this the required conjugate symmetry. All inner-product axioms are established.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "For definiteness, use a point where a nonzero function has a nonzero value.",
+    "Apply the strict positivity clause of the accepted integration theorem to its square."
+   ],
+   "uses": [
+    "c6-def-inner-product",
+    "c6-def-integral-notation",
+    "c6-thm-continuous-integral-facts",
+    "c1-thm-analysis-closure",
+    "c1-def-function-space",
+    "c1-thm-function-space",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-polynomial-integral-inner-product",
+   "kind": "theorem",
+   "number": "",
+   "title": "The unweighted polynomial integral inner product",
+   "tex": "On $\\Poly(\\R)$ the formula\n\\[\n\\ip{p}{q}=\\int_{-1}^{1}p(x)q(x)\\,dx\n\\]\nis an inner product. Restricting the same formula to any bounded-degree polynomial space $\\Poly_m(\\R)$ also gives an inner product.",
+   "page": "184",
+   "proof": "Real polynomials restrict to continuous functions on $[-1,1]$. Thus the preceding continuous-function example supplies positivity, first-variable additivity and homogeneity, and symmetry for the displayed formula on polynomials.\n\nFor definiteness, suppose $\\int_{-1}^{1}p(x)^2\\,dx=0$. The continuous-function definiteness result implies that $p$ vanishes at every point of $[-1,1]$. This interval contains infinitely many distinct real numbers. A nonzero polynomial has only finitely many roots by the polynomial root bound, so $p$ must be the zero polynomial. Conversely, the zero polynomial has zero integral. Therefore the formula satisfies all the inner-product axioms on $\\Poly(\\R)$.\n\nEvery $\\Poly_m(\\R)$ is a vector subspace of $\\Poly(\\R)$. The same identities continue to hold for its elements, and a member with zero squared value is still the zero polynomial. Hence the restricted formula is an inner product there as well.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "First use the continuous-function example on the restrictions of the polynomials.",
+    "Explain why vanishing throughout an interval forces a polynomial to be the zero polynomial."
+   ],
+   "uses": [
+    "c6-def-inner-product",
+    "c6-ex-continuous-integral-inner-product",
+    "c6-thm-continuous-integral-facts",
+    "c4-thm-root-bound",
+    "c2-thm-bounded-polynomials"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-derivative-integral-inner-product",
+   "kind": "example",
+   "number": "6.3(d)",
+   "title": "An inner product combining a value and a derivative",
+   "tex": "The formula\n\\[\n\\ip{p}{q}\n=p(0)q(0)+\\int_{-1}^{1}p'(x)q'(x)\\,dx\n\\]\ndefines an inner product on $\\Poly(\\R)$.",
+   "page": "184",
+   "proof": "Derivatives of real polynomials are polynomials, so the integral exists. At $q=p$, both terms\n$p(0)^2$ and $\\int_{-1}^{1}(p')^2$\nare nonnegative. If their sum is zero, each term is zero. The polynomial integral inner-product result applied to $p'$ gives $p'=0$ as a polynomial.\n\nWrite $p(x)=\\sum_{j=0}^{m}a_jx^j$. The coefficient formula\n$p'(x)=\\sum_{j=1}^{m}ja_jx^{j-1}$ and uniqueness of polynomial coefficients imply $ja_j=0$ for every $j\\ge1$. Thus all these $a_j$ vanish, and $p$ is constant. The other zero term gives $p(0)^2=0$, so this constant is zero. Conversely, the zero polynomial makes both terms zero. This proves definiteness.\n\nEvaluation at zero is linear, differentiation is linear, and integration is linear. Consequently, for polynomials $p,q,r$,\n\\[\n\\begin{aligned}\n\\ip{p+q}{r}\n&=(p(0)+q(0))r(0)+\\int_{-1}^{1}(p'+q')r'\\\\\n&=\\ip{p}{r}+\\ip{q}{r},\n\\end{aligned}\n\\]\nand, for real $a$,\n\\[\n\\ip{ap}{q}=ap(0)q(0)+\\int_{-1}^{1}ap'q'=a\\ip{p}{q}.\n\\]\nBoth products in the defining formula are symmetric in $p,q$, so $\\ip{p}{q}=\\ip{q}{p}$. These observations complete the axioms.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "If the squared value is zero, both nonnegative summands must vanish.",
+    "A polynomial with zero derivative is constant; the value at zero determines that constant."
+   ],
+   "uses": [
+    "c6-def-inner-product",
+    "c6-thm-polynomial-integral-inner-product",
+    "c6-thm-continuous-integral-facts",
+    "c3-ex-polynomial-differentiation",
+    "c2-thm-polynomial-differentiation",
+    "c2-lem-polynomial-coefficients"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-exponential-polynomial-inner-product",
+   "kind": "example",
+   "number": "6.3(e)",
+   "title": "An inner product with exponential weight",
+   "tex": "The formula\n\\[\n\\ip{p}{q}=\\int_0^\\infty p(x)q(x)e^{-x}\\,dx\n\\]\ndefines an inner product on $\\Poly(\\R)$.",
+   "page": "184",
+   "proof": "The product $pq$ is a polynomial. The accepted exponential-integrability statement therefore makes the displayed improper integral finite. For $p=q$, its integrand $p(x)^2e^{-x}$ is continuous and nonnegative, so the integral is nonnegative.\n\nIf $p$ is not the zero polynomial, the polynomial root bound ensures that it cannot vanish at every point of $[0,\\infty)$, which contains infinitely many distinct points. Choose $t\\ge0$ with $p(t)\\ne0$. Strict positivity of the exponential gives $p(t)^2e^{-t}>0$. The strict positivity assertion for convergent improper integrals now gives $\\ip{p}{p}>0$. The zero polynomial conversely gives zero integral, proving definiteness.\n\nThe accepted linearity for polynomial-times-exponential integrals yields\n\\[\n\\ip{p+q}{r}\n=\\int_0^\\infty (pr+qr)e^{-x}\n=\\ip{p}{r}+\\ip{q}{r},\n\\]\nand $\\ip{ap}{q}=a\\ip{p}{q}$ for every real scalar $a$. Pointwise commutativity $pq=qp$ proves symmetry. Since the field is real, this is conjugate symmetry, and all axioms follow.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the accepted convergence statement with the polynomial $pq$.",
+    "For definiteness, find a nonnegative point that is not a root of a nonzero polynomial."
+   ],
+   "uses": [
+    "c6-def-inner-product",
+    "c6-def-integral-notation",
+    "c6-thm-continuous-integral-facts",
+    "c4-lem-polynomial-product-degree",
+    "c4-thm-root-bound"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-def-inner-product-space",
+   "kind": "definition",
+   "number": "6.4",
+   "title": "Inner product spaces",
+   "tex": "An \\emph{inner product space} is a vector space together with a specified inner product. Unless another choice is stated, $\\F^n$ as an inner product space uses the Euclidean inner product.",
+   "page": "184"
+  },
+  {
+   "id": "c6-lem-inherited-inner-product",
+   "kind": "lemma",
+   "number": "",
+   "title": "Subspaces inherit inner products",
+   "tex": "If $U$ is a vector subspace of an inner product space $V$, then restricting the inner product to pairs of vectors in $U$ makes $U$ an inner product space.",
+   "page": "184",
+   "proof": "Because $U$ is a subspace, its vector operations and zero are those inherited from $V$. Positivity and definiteness hold on its vectors because they hold on all vectors of $V$. For vectors in $U$, sums and scalar multiples remain in $U$, and the first-variable additivity and homogeneity equations are the same equations already valid in $V$. Conjugate symmetry also remains valid for every pair in $U$. Thus the restricted function satisfies all inner-product axioms on the vector space $U$, with no finiteness assumption.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check which axioms change when the allowed vectors are restricted to a subspace."
+   ],
+   "uses": [
+    "c6-def-inner-product",
+    "c6-def-inner-product-space",
+    "c1-def-subspace"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-convention-inner-product-spaces",
+   "kind": "definition",
+   "number": "6.5",
+   "title": "Standing inner product convention",
+   "tex": "Throughout this chapter and the next, $V$ and $W$ denote inner product spaces over $\\F$, where $\\F$ is $\\R$ or $\\C$, unless a different setting is explicitly stated. They need not be finite-dimensional unless a result requires that hypothesis.",
+   "page": "185"
+  },
+  {
+   "id": "c6-thm-inner-product-properties",
+   "kind": "theorem",
+   "number": "6.6",
+   "title": "Zero values and conjugate linearity in the second variable",
+   "tex": "In an inner product space:\n\\begin{enumerate}\n\\item For fixed $v$, the function $u\\mapsto\\ip{u}{v}$ is a linear functional.\n\\item $\\ip{0}{v}=\\ip{v}{0}=0$.\n\\item $\\ip{u}{v+w}=\\ip{u}{v}+\\ip{u}{w}$.\n\\item $\\ip{u}{av}=\\overline a\\,\\ip{u}{v}$.\n\\end{enumerate}\nIn particular, $\\ip{au}{bv}=a\\overline b\\,\\ip{u}{v}$ for all scalars $a,b$.",
+   "page": "185",
+   "proof": "First-variable additivity and homogeneity are axioms, and the output belongs to $\\F$. Thus for fixed $v$ the stated function is a linear functional. It sends zero to zero, giving $\\ip{0}{v}=0$. Conjugate symmetry then gives\n$\\ip{v}{0}=\\overline{\\ip{0}{v}}=\\overline0=0$.\n\nUsing conjugate symmetry followed by first-variable additivity,\n\\[\n\\begin{aligned}\n\\ip{u}{v+w}\n&=\\overline{\\ip{v+w}{u}}\\\\\n&=\\overline{\\ip{v}{u}+\\ip{w}{u}}\\\\\n&=\\overline{\\ip{v}{u}}+\\overline{\\ip{w}{u}}\\\\\n&=\\ip{u}{v}+\\ip{u}{w}.\n\\end{aligned}\n\\]\nFor a scalar $a$, first-variable homogeneity instead gives\n\\[\n\\ip{u}{av}\n=\\overline{\\ip{av}{u}}\n=\\overline{a\\ip{v}{u}}\n=\\overline a\\,\\overline{\\ip{v}{u}}\n=\\overline a\\,\\ip{u}{v}.\n\\]\nApplying first-variable homogeneity and then this last formula yields\n$\\ip{au}{bv}=a\\ip{u}{bv}=a\\overline b\\,\\ip{u}{v}$, proving the final identity.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use conjugate symmetry to move a calculation in the second variable into the first.",
+    "Conjugating a scalar factor changes it to its complex conjugate."
+   ],
+   "uses": [
+    "c6-def-inner-product",
+    "c3-def-linear-functional",
+    "c3-thm-linear-zero",
+    "c4-thm-complex-properties"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-def-norm",
+   "kind": "definition",
+   "number": "6.7",
+   "title": "Norm determined by an inner product",
+   "tex": "For a vector $v$ in an inner product space, define its \\emph{norm} by\n\\[\n\\norm{v}=\\sqrt{\\ip{v}{v}},\n\\]\nusing the nonnegative real square root. The inner-product positivity axiom ensures that this square root is defined.",
+   "page": "186"
+  },
+  {
+   "id": "c6-ex-coordinate-norm",
+   "kind": "example",
+   "number": "6.8(a)",
+   "title": "The Euclidean coordinate norm",
+   "tex": "In $\\F^n$ with the Euclidean inner product,\n\\[\n\\norm{(z_1,\\ldots,z_n)}\n=\\sqrt{\\sum_{j=1}^{n}|z_j|^2}.\n\\]",
+   "page": "186",
+   "proof": "The Euclidean inner product gives\n$\\ip{z}{z}=\\sum_jz_j\\overline{z_j}=\\sum_j|z_j|^2$.\nTaking the nonnegative square root, as required by the norm definition, gives the formula. If $n=0$, the sum is zero and the only vector has norm zero.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Put the same vector into both positions of the inner product."
+   ],
+   "uses": [
+    "c6-def-norm",
+    "c6-thm-standard-inner-product",
+    "c4-thm-complex-properties"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-continuous-integral-norm",
+   "kind": "example",
+   "number": "6.8(b)",
+   "title": "The integral norm of a continuous function",
+   "tex": "For the integral inner product on $C([-1,1],\\R)$,\n\\[\n\\norm{f}=\\sqrt{\\int_{-1}^{1}f(x)^2\\,dx}.\n\\]",
+   "page": "186",
+   "proof": "By the defining formula for this inner product,\n$\\ip{f}{f}=\\int_{-1}^{1}f(x)f(x)\\,dx=\\int_{-1}^{1}f(x)^2\\,dx$.\nThe integral is nonnegative, as established in the verification of that inner product. Substitution into the definition of norm gives the asserted formula.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Substitute the integral inner product into the norm definition."
+   ],
+   "uses": [
+    "c6-def-norm",
+    "c6-ex-continuous-integral-inner-product"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-norm-properties",
+   "kind": "theorem",
+   "number": "6.9",
+   "title": "Definiteness and absolute homogeneity of the norm",
+   "tex": "For every vector $v$ and scalar $a$,\n\\[\n\\norm{v}\\ge0,\\qquad\n\\norm{v}=0\\Longleftrightarrow v=0,\\qquad\n\\norm{av}=|a|\\norm{v}.\n\\]",
+   "page": "186",
+   "proof": "The norm is nonnegative by its square-root definition. It vanishes exactly when its square $\\ip{v}{v}$ vanishes, which by inner-product definiteness happens exactly when $v=0$.\n\nFor absolute homogeneity, the inner-product scalar rules give\n\\[\n\\norm{av}^2\n=\\ip{av}{av}\n=a\\overline a\\,\\ip{v}{v}\n=|a|^2\\norm{v}^2.\n\\]\nBoth $\\norm{av}$ and $|a|\\norm{v}$ are nonnegative real numbers. They have equal squares, so they are equal. This proof also applies when $a=0$ or $v=0$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Prove the scaling identity after squaring both sides."
+   ],
+   "uses": [
+    "c6-def-norm",
+    "c6-def-inner-product",
+    "c6-thm-inner-product-properties",
+    "c4-thm-complex-properties"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-norm-not-linear",
+   "kind": "example",
+   "number": "",
+   "title": "A norm on a nonzero space is not linear",
+   "tex": "If $V\\ne\\{0\\}$ is an inner product space, the function $v\\mapsto\\norm{v}$, viewed as taking values in $\\F$, is not linear.",
+   "page": "186",
+   "proof": "Choose $v\\ne0$. Then $\\norm{v}>0$ by norm definiteness and nonnegativity. Absolute homogeneity gives\n$\\norm{-v}=|-1|\\norm{v}=\\norm{v}$.\nIf the norm function were linear, homogeneity with scalar $-1$ would instead give $\\norm{-v}=-\\norm{v}$. These equations imply $2\\norm{v}=0$, contradicting $\\norm{v}>0$. Thus linearity fails.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compare the required linearity rule at $-v$ with absolute homogeneity."
+   ],
+   "uses": [
+    "c6-thm-norm-properties",
+    "c3-def-linear-map",
+    "c1-foundations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-def-orthogonal",
+   "kind": "definition",
+   "number": "6.10",
+   "title": "Orthogonal vectors",
+   "tex": "Vectors $u,v$ are \\emph{orthogonal} if $\\ip{u}{v}=0$. We write $u\\perp v$ for this condition.",
+   "page": "187"
+  },
+  {
+   "id": "c6-thm-zero-orthogonality",
+   "kind": "theorem",
+   "number": "6.11",
+   "title": "Symmetry of orthogonality and the role of zero",
+   "tex": "Orthogonality is symmetric. The zero vector is orthogonal to every vector, and a vector is orthogonal to itself exactly when it is zero.",
+   "page": "187",
+   "proof": "If $\\ip{u}{v}=0$, conjugate symmetry gives\n$\\ip{v}{u}=\\overline{\\ip{u}{v}}=\\overline0=0$.\nInterchanging the vectors proves the converse, so orthogonality is symmetric.\n\nThe earlier zero identities give $\\ip{0}{v}=\\ip{v}{0}=0$, establishing that zero is orthogonal to every vector. Finally, self-orthogonality means $\\ip{v}{v}=0$, which is equivalent to $v=0$ by the definiteness axiom.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply conjugate symmetry and definiteness."
+   ],
+   "uses": [
+    "c6-def-orthogonal",
+    "c6-def-inner-product",
+    "c6-thm-inner-product-properties"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-lem-squared-norm-expansion",
+   "kind": "lemma",
+   "number": "",
+   "title": "Expanding the squared norm of a sum or difference",
+   "tex": "For all $u,v$ in an inner product space,\n\\[\n\\norm{u+v}^2\n=\\norm{u}^2+\\norm{v}^2+2\\operatorname{Re}\\ip{u}{v},\n\\]\nand\n\\[\n\\norm{u-v}^2\n=\\norm{u}^2+\\norm{v}^2-2\\operatorname{Re}\\ip{u}{v}.\n\\]",
+   "page": "187",
+   "proof": "Expanding in both inner-product variables gives\n\\[\n\\begin{aligned}\n\\norm{u+v}^2\n&=\\ip{u+v}{u+v}\\\\\n&=\\ip{u}{u}+\\ip{u}{v}+\\ip{v}{u}+\\ip{v}{v}\\\\\n&=\\norm{u}^2+\\norm{v}^2+\\ip{u}{v}+\\overline{\\ip{u}{v}}.\n\\end{aligned}\n\\]\nFor any scalar $z$, $z+\\overline z=2\\operatorname{Re}z$, so this is the first identity.\n\nApply that identity to $u,-v$. Norm homogeneity gives $\\norm{-v}=\\norm{v}$, and conjugate linearity in the second variable gives\n$\\ip{u}{-v}=-\\ip{u}{v}$ because $-1$ is real. The real part of $-z$ is the negative of the real part of $z$, directly from real and imaginary coordinates. Substitution gives the second identity.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Expand before simplifying the two mixed terms."
+   ],
+   "uses": [
+    "c6-def-norm",
+    "c6-thm-inner-product-properties",
+    "c6-def-inner-product",
+    "c6-thm-norm-properties",
+    "c4-thm-complex-properties",
+    "c4-def-real-imaginary"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-pythagorean",
+   "kind": "theorem",
+   "number": "6.12",
+   "title": "Pythagorean theorem",
+   "tex": "If $u\\perp v$, then\n\\[\n\\norm{u+v}^2=\\norm{u}^2+\\norm{v}^2.\n\\]",
+   "page": "187",
+   "proof": "Orthogonality gives $\\ip{u}{v}=0$, whose real part is zero. Substituting into the squared-norm expansion yields\n\\[\n\\norm{u+v}^2\n=\\norm{u}^2+\\norm{v}^2+2\\operatorname{Re}0\n=\\norm{u}^2+\\norm{v}^2.\n\\]\nThe calculation allows either vector to be zero.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Expand the squared norm and use the vanishing mixed inner product."
+   ],
+   "uses": [
+    "c6-def-orthogonal",
+    "c6-lem-squared-norm-expansion"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-orthogonal-decomposition",
+   "kind": "theorem",
+   "number": "6.13",
+   "title": "Separating a component along one vector",
+   "tex": "Let $v\\ne0$ and $u\\in V$. There is a unique expression\n\\[\nu=cv+w,\\qquad c\\in\\F,\\quad w\\perp v.\n\\]\nIt is given by\n\\[\nc=\\frac{\\ip{u}{v}}{\\norm{v}^2},\n\\qquad\nw=u-\\frac{\\ip{u}{v}}{\\norm{v}^2}v.\n\\]",
+   "page": "188",
+   "proof": "Because $v\\ne0$, norm definiteness gives $\\norm{v}^2>0$, so the displayed coefficient is defined. Set $c$ and $w$ by those formulas. Then $cv+w=u$ by the definition of $w$. First-variable linearity gives\n\\[\n\\ip{w}{v}\n=\\ip{u-cv}{v}\n=\\ip{u}{v}-c\\ip{v}{v}\n=\\ip{u}{v}-\\frac{\\ip{u}{v}}{\\norm{v}^2}\\norm{v}^2\n=0.\n\\]\nThus $w\\perp v$, proving existence.\n\nFor uniqueness, suppose also $u=dv+y$ with $y\\perp v$. Taking the inner product with $v$ in the second position gives\n\\[\n\\ip{u}{v}=d\\ip{v}{v}+\\ip{y}{v}=d\\norm{v}^2.\n\\]\nDivision by the positive number $\\norm{v}^2$ forces $d=c$, and then $y=u-dv=u-cv=w$. Hence both components are unique.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Write $u=cv+(u-cv)$ and solve the condition $\\ip{u-cv}{v}=0$.",
+    "For uniqueness, take the inner product of any proposed decomposition with $v$."
+   ],
+   "uses": [
+    "c6-thm-norm-properties",
+    "c6-def-norm",
+    "c6-def-orthogonal",
+    "c6-def-inner-product",
+    "c6-thm-inner-product-properties",
+    "c1-def-vector-subtraction"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-cauchy-schwarz",
+   "kind": "theorem",
+   "number": "6.14",
+   "title": "Cauchy-Schwarz inequality and its equality case",
+   "tex": "For all $u,v$ in an inner product space,\n\\[\n|\\ip{u}{v}|\\le\\norm{u}\\norm{v}.\n\\]\nEquality holds exactly when one of the two vectors is a scalar multiple of the other.",
+   "page": "189",
+   "proof": "If $v=0$, the inner product is zero and the product of norms is zero. Equality holds, and $v=0u$ is a scalar multiple of $u$. We may therefore assume $v\\ne0$.\n\nUse the orthogonal decomposition $u=cv+w$, where\n$c=\\ip{u}{v}/\\norm{v}^2$ and $\\ip{w}{v}=0$.\nConjugate symmetry gives $\\ip{v}{w}=0$, and first-variable homogeneity gives $\\ip{cv}{w}=0$. Thus the Pythagorean theorem and norm homogeneity imply\n\\[\n\\norm{u}^2\n=|c|^2\\norm{v}^2+\\norm{w}^2\n=\\frac{|\\ip{u}{v}|^2}{\\norm{v}^2}+\\norm{w}^2.\n\\]\nThe denominator is positive real, so the modulus of division by it is division of the modulus by that same number. Multiplying by $\\norm{v}^2$ yields\n\\[\n\\norm{u}^2\\norm{v}^2\n=|\\ip{u}{v}|^2+\\norm{v}^2\\norm{w}^2\n\\ge|\\ip{u}{v}|^2.\n\\]\nComparison of nonnegative square roots proves the inequality.\n\nAll operations leading to it preserve equality, and $\\norm{v}^2>0$. Hence equality holds exactly when $\\norm{w}^2=0$, or equivalently $w=0$. This condition says $u=cv$. Conversely, if $u=av$, then\n$\\ip{u}{v}=a\\norm{v}^2$, so the decomposition coefficient is $c=a$ and $w=0$, giving equality.\n\nWhen $v\\ne0$, the assertion that either vector is a scalar multiple of the other is equivalent to $u$ being a scalar multiple of $v$: if $v=au$, then $a\\ne0$ and $u=a^{-1}v$. Together with the already treated case $v=0$, this proves the stated equality characterization in all cases.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Decompose $u$ into a multiple of $v$ and a vector orthogonal to $v$.",
+    "Apply the Pythagorean theorem and keep track of the nonnegative remainder.",
+    "Equality occurs exactly when that orthogonal remainder vanishes."
+   ],
+   "uses": [
+    "c6-thm-orthogonal-decomposition",
+    "c6-thm-pythagorean",
+    "c6-thm-norm-properties",
+    "c6-thm-inner-product-properties",
+    "c6-thm-zero-orthogonality",
+    "c4-thm-complex-properties",
+    "c1-foundations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-coordinate-cauchy-schwarz",
+   "kind": "example",
+   "number": "6.16(a)",
+   "title": "Cauchy-Schwarz for finite real sums",
+   "tex": "For real numbers $x_1,\\ldots,x_n,y_1,\\ldots,y_n$,\n\\[\n\\left(\\sum_{j=1}^{n}x_jy_j\\right)^2\n\\le\n\\left(\\sum_{j=1}^{n}x_j^2\\right)\n\\left(\\sum_{j=1}^{n}y_j^2\\right).\n\\]\nEquality holds exactly when one of the coordinate vectors is a real scalar multiple of the other.",
+   "page": "189",
+   "proof": "Apply Cauchy-Schwarz in the Euclidean inner product space $\\R^n$ to $x=(x_j)$ and $y=(y_j)$. Its inner product is $\\sum_jx_jy_j$, and the squared norms are the two sums of squares on the right. Squaring the nonnegative inequality therefore gives the displayed formula, because the square of the absolute value of a real number equals its ordinary square.\n\nSquaring preserves equality between nonnegative quantities. Thus the equality condition is exactly the scalar-multiple condition in Cauchy-Schwarz over the real field, including either vector being zero.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply the vector inequality in the standard real coordinate space and square it."
+   ],
+   "uses": [
+    "c6-thm-cauchy-schwarz",
+    "c6-thm-standard-inner-product",
+    "c6-ex-coordinate-norm"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-integral-cauchy-schwarz",
+   "kind": "example",
+   "number": "6.16(b)",
+   "title": "Cauchy-Schwarz for continuous-function integrals",
+   "tex": "For $f,g\\in C([-1,1],\\R)$,\n\\[\n\\left|\\int_{-1}^{1}f(x)g(x)\\,dx\\right|^2\n\\le\n\\left(\\int_{-1}^{1}f(x)^2\\,dx\\right)\n\\left(\\int_{-1}^{1}g(x)^2\\,dx\\right).\n\\]\nEquality holds exactly when one function is a real scalar multiple of the other on the entire interval.",
+   "page": "190",
+   "proof": "The continuous-function integral formula is an inner product by its earlier verification. Apply Cauchy-Schwarz in that space. The inner product on the left is the integral of $fg$, while the squared norms are the integrals of $f^2$ and $g^2$. Squaring the inequality gives the displayed statement.\n\nBoth sides before squaring are nonnegative, so equality is preserved by squaring. The equality characterization in the vector-space theorem says that one vector is a scalar multiple of the other. In this function space, that means equality of the corresponding functions at every point of $[-1,1]$, as asserted.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the integral inner product on continuous functions."
+   ],
+   "uses": [
+    "c6-thm-cauchy-schwarz",
+    "c6-ex-continuous-integral-inner-product",
+    "c6-ex-continuous-integral-norm"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-triangle-inequality",
+   "kind": "theorem",
+   "number": "6.17",
+   "title": "Triangle inequality and its equality case",
+   "tex": "For all $u,v$ in an inner product space,\n\\[\n\\norm{u+v}\\le\\norm{u}+\\norm{v}.\n\\]\nEquality holds exactly when one of $u,v$ is a nonnegative real multiple of the other, even when the scalar field is $\\C$.",
+   "page": "190",
+   "proof": "Write $\\alpha=\\ip{u}{v}$. The squared-norm expansion, the scalar real-part bound, and Cauchy-Schwarz give\n\\[\n\\begin{aligned}\n\\norm{u+v}^2\n&=\\norm{u}^2+\\norm{v}^2+2\\operatorname{Re}\\alpha\\\\\n&\\le\\norm{u}^2+\\norm{v}^2+2|\\alpha|\\\\\n&\\le\\norm{u}^2+\\norm{v}^2+2\\norm{u}\\norm{v}\\\\\n&=(\\norm{u}+\\norm{v})^2.\n\\end{aligned}\n\\]\nBoth norms and their sum are nonnegative. Taking nonnegative square roots proves the inequality.\n\nIf either vector is zero, equality holds, and that zero vector is zero times the other vector, satisfying the stated condition. Now suppose both vectors are nonzero and equality holds. The first and last quantities in the chain of inequalities are equal, so each intervening inequality is an equality. Thus\n\\[\n\\operatorname{Re}\\alpha=|\\alpha|=\\norm{u}\\norm{v}>0.\n\\]\nTo see that this forces $\\alpha$ to be real, write $\\alpha=a+bi$. Then $a=|\\alpha|\\ge0$, and squaring gives\n$a^2=a^2+b^2$, so $b=0$. Consequently $\\alpha=\\norm{u}\\norm{v}$ is positive real.\n\nEquality in Cauchy-Schwarz makes the two nonzero vectors scalar multiples. Because $v\\ne0$, write $u=cv$. Then\n\\[\nc=\\frac{\\ip{u}{v}}{\\norm{v}^2}\n=\\frac{\\norm{u}\\norm{v}}{\\norm{v}^2}>0,\n\\]\nso the scalar is positive real.\n\nConversely, if $u=tv$ with real $t\\ge0$, norm homogeneity gives\n\\[\n\\norm{u+v}=\\norm{(t+1)v}\n=(t+1)\\norm{v}\n=t\\norm{v}+\\norm{v}\n=\\norm{u}+\\norm{v}.\n\\]\nIf instead $v=tu$ with $t\\ge0$, the same computation with the two vectors exchanged proves equality. This includes $t=0$ and completes all cases.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Expand the squared norm and bound the real part of the mixed inner product.",
+    "For equality, both the real-part bound and Cauchy-Schwarz must be equalities.",
+    "A complex number whose real part equals its modulus is nonnegative real."
+   ],
+   "uses": [
+    "c6-lem-squared-norm-expansion",
+    "c6-thm-cauchy-schwarz",
+    "c6-thm-norm-properties",
+    "c6-thm-inner-product-properties",
+    "c4-thm-complex-properties",
+    "c4-def-real-imaginary",
+    "c4-def-conjugate-modulus"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-parallelogram",
+   "kind": "theorem",
+   "number": "6.21",
+   "title": "Parallelogram identity",
+   "tex": "For all $u,v$ in an inner product space,\n\\[\n\\norm{u+v}^2+\\norm{u-v}^2\n=2\\bigl(\\norm{u}^2+\\norm{v}^2\\bigr).\n\\]",
+   "page": "191",
+   "proof": "The squared-norm expansion gives\n\\[\n\\norm{u+v}^2\n=\\norm{u}^2+\\norm{v}^2+2\\operatorname{Re}\\ip{u}{v}\n\\]\nand\n\\[\n\\norm{u-v}^2\n=\\norm{u}^2+\\norm{v}^2-2\\operatorname{Re}\\ip{u}{v}.\n\\]\nAdding these equations cancels the mixed terms and leaves\n$2\\norm{u}^2+2\\norm{v}^2$, which is the asserted right side. No nonzero-vector hypothesis is used.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Add the two squared-norm expansions so the mixed terms cancel."
+   ],
+   "uses": [
+    "c6-lem-squared-norm-expansion"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c6-card-inner-product-convention",
+   "item": "c6-def-inner-product",
+   "front": "Which variable of the inner product is linear in this module?",
+   "back": "The first variable: $\\ip{au+bv}{w}=a\\ip{u}{w}+b\\ip{v}{w}$."
+  },
+  {
+   "id": "c6-card-inner-product-second-scalar",
+   "item": "c6-thm-inner-product-properties",
+   "front": "What happens when a scalar is moved out of the second variable?",
+   "back": "It is conjugated: $\\ip{u}{av}=\\overline a\\,\\ip{u}{v}$."
+  },
+  {
+   "id": "c6-card-euclidean-inner-product",
+   "item": "c6-thm-standard-inner-product",
+   "front": "What is the Euclidean inner product on $\\F^n$?",
+   "back": "$\\ip{u}{v}=\\sum_{j=1}^{n}u_j\\overline{v_j}$."
+  },
+  {
+   "id": "c6-card-norm-homogeneity",
+   "item": "c6-thm-norm-properties",
+   "front": "How does the norm change under scalar multiplication?",
+   "back": "$\\norm{av}=|a|\\norm{v}$."
+  },
+  {
+   "id": "c6-card-self-orthogonality",
+   "item": "c6-thm-zero-orthogonality",
+   "front": "Which vectors can be orthogonal to themselves?",
+   "back": "Only the zero vector, because $\\ip{v}{v}=0$ forces $v=0$."
+  },
+  {
+   "id": "c6-card-one-vector-orthogonal-decomposition",
+   "item": "c6-thm-orthogonal-decomposition",
+   "front": "For $v\\ne0$, what is the component of $u$ along $v$ in its orthogonal decomposition?",
+   "back": "It is $\\dfrac{\\ip{u}{v}}{\\norm{v}^2}v$; subtracting it from $u$ gives a vector orthogonal to $v$."
+  },
+  {
+   "id": "c6-card-cauchy-schwarz-equality",
+   "item": "c6-thm-cauchy-schwarz",
+   "front": "State Cauchy-Schwarz and its equality condition.",
+   "back": "$|\\ip{u}{v}|\\le\\norm{u}\\norm{v}$, with equality exactly when one vector is a scalar multiple of the other, including zero-vector cases."
+  },
+  {
+   "id": "c6-card-triangle-equality",
+   "item": "c6-thm-triangle-inequality",
+   "front": "When does equality hold in the triangle inequality, including over complex scalars?",
+   "back": "Exactly when one vector is a nonnegative real multiple of the other."
+  },
+  {
+   "id": "c6-card-parallelogram",
+   "item": "c6-thm-parallelogram",
+   "front": "State the parallelogram identity.",
+   "back": "$\\norm{u+v}^2+\\norm{u-v}^2=2(\\norm{u}^2+\\norm{v}^2)$."
+  }
+ ]
+}

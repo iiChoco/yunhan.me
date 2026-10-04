@@ -1,0 +1,375 @@
+{
+ "version": 1,
+ "id": "1a",
+ "blocks": [
+  {
+   "id": "c1-intro-coordinates",
+   "kind": "prose",
+   "number": "",
+   "title": "Scalars and coordinates",
+   "tex": "We begin with numbers and finite ordered lists. Coordinate calculations will supply the model for the abstract vector-space axioms in the next section.",
+   "page": "2"
+  },
+  {
+   "id": "c1-foundations",
+   "kind": "remark",
+   "number": "",
+   "title": "Foundational conventions",
+   "tex": "We assume elementary set and function notation, equality, finite sums and products, induction on nonnegative integers, and the ordered-field laws of $\\R$. In particular, real addition and multiplication are associative and commutative, multiplication distributes over addition, $0\\ne1$, additive inverses exist, and every nonzero real number has an inverse; squares are nonnegative and the square of a nonzero real number is positive. We use $\\N=\\{1,2,\\ldots\\}$, the usual real order, and the existence of a nonnegative square root of each nonnegative real number. These are foundational assumptions, taken on faith rather than proof tasks in this linear algebra module.",
+   "page": "2"
+  },
+  {
+   "id": "c1-def-complex",
+   "kind": "definition",
+   "number": "1.1",
+   "title": "Complex numbers and their operations",
+   "tex": "A complex number is a pair $(a,b)$ of real numbers, written $a+bi$. Equality means equality of both coordinates. Define\n\\[(a+bi)+(c+di)=(a+c)+(b+d)i,\\qquad (a+bi)(c+di)=(ac-bd)+(ad+bc)i.\\]\nThe set of such pairs is $\\C$; identify $a+0i$ with $a\\in\\R$ and write $i=0+1i$.",
+   "page": "2"
+  },
+  {
+   "id": "c1-ex-complex-product",
+   "kind": "example",
+   "number": "1.2",
+   "title": "Computing a complex product",
+   "tex": "Using the defining operations, prove $i^2=-1$ and $(2+3i)(4+5i)=-7+22i$.",
+   "page": "2",
+   "proof": "For $i^2$, the real coordinate is $0\\cdot0-1\\cdot1=-1$ and the imaginary coordinate is $0\\cdot1+1\\cdot0=0$. For the second product the real coordinate is $2\\cdot4-3\\cdot5=-7$, and the imaginary coordinate is $2\\cdot5+3\\cdot4=22$. Equality of pairs gives both assertions.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the formula defining multiplication, without assuming distributivity on $\\C$."
+   ],
+   "uses": [
+    "c1-foundations",
+    "c1-def-complex"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-thm-complex-laws",
+   "kind": "theorem",
+   "number": "1.3",
+   "title": "Associativity, commutativity, identities, and distributivity",
+   "tex": "Complex addition and multiplication are commutative and associative, $z+0=z$ and $z1=z$, and $z(w+u)=zw+zu$ for all $z,w,u\\in\\C$.",
+   "page": "3",
+   "proof": "Write $z=a+bi$, $w=c+di$, and $u=e+fi$, with real coordinates. The coordinates of $z+w$ are $(a+c,b+d)$, unchanged when the two pairs are exchanged. Those of $zw$ are $(ac-bd,ad+bc)$, which equal $(ca-db,cb+da)$ by the real field laws. Addition of three pairs gives $(a+c+e,b+d+f)$ under either grouping.\nFor multiplication, the coordinates of $(zw)u$ are\n\\[((ac-bd)e-(ad+bc)f,\\ (ac-bd)f+(ad+bc)e).\\]\nAfter real distributivity these are\n\\[(ace-bde-adf-bcf,\\ acf-bdf+ade+bce).\\]\nThe coordinates of $z(wu)$ are $(a(ce-df)-b(cf+de),a(cf+de)+b(ce-df))$, whose expansions have exactly the same real terms. Thus multiplication is associative. Substituting $(0,0)$ in the addition formula and $(1,0)$ in the multiplication formula gives the identity laws. Finally, the coordinates of $z(w+u)$ are $(a(c+e)-b(d+f),a(d+f)+b(c+e))$; real distributivity rewrites this pair as $(ac-bd,ad+bc)+(ae-bf,af+be)$, the pair for $zw+zu$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Compare the two real coordinates of each expression.",
+    "For multiplication of three numbers, expand both groupings using real arithmetic."
+   ],
+   "uses": [
+    "c1-foundations",
+    "c1-def-complex"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-thm-complex-inverses",
+   "kind": "theorem",
+   "number": "1.3",
+   "title": "Existence and uniqueness of scalar inverses",
+   "tex": "Every $z=a+bi\\in\\C$ has a unique additive inverse. Every nonzero $z$ has a unique multiplicative inverse; the respective pairs are $(-a)+(-b)i$ and\n\\[\\frac{a}{a^2+b^2}+\\frac{-b}{a^2+b^2}i.\\]",
+   "page": "3",
+   "proof": "Adding $(-a)+(-b)i$ to $a+bi$ gives the zero pair. If $z+(c+di)=0$, coordinate equality gives $a+c=0$ and $b+d=0$, so $c=-a$ and $d=-b$. This proves existence and uniqueness of the additive inverse.\nIf $z\\ne0$, at least one of $a,b$ is nonzero, so $D=a^2+b^2>0$. The displayed candidate $t=a/D-(b/D)i$ is defined, and the multiplication formula gives $zt=(a^2+b^2)/D+0i=1$. If $zw=1$ also, associativity and commutativity give $w=1w=(tz)w=t(zw)=t1=t$. Thus the multiplicative inverse is unique.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Solve the two coordinate equations for an additive inverse.",
+    "For a multiplicative inverse, use the positive real denominator $a^2+b^2$."
+   ],
+   "uses": [
+    "c1-foundations",
+    "c1-def-complex",
+    "c1-thm-complex-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-remark-commutative-product",
+   "kind": "remark",
+   "number": "",
+   "title": "How to check a scalar identity",
+   "tex": "The comparison of coordinates in the arithmetic-laws proof also supplies the book's worked verification of commutativity of multiplication (Example 1.4). Equal complex numbers need not have separate real and imaginary parts equal to zero; what matters is that the corresponding parts agree.",
+   "page": "3"
+  },
+  {
+   "id": "c1-def-scalar-inverses",
+   "kind": "definition",
+   "number": "1.5",
+   "title": "Subtraction and division",
+   "tex": "Write $-z$ for the additive inverse of $z$, and define $w-z=w+(-z)$. For $z\\ne0$, write $z^{-1}=1/z$ for its multiplicative inverse and define $w/z=wz^{-1}$.",
+   "page": "4"
+  },
+  {
+   "id": "c1-def-scalars",
+   "kind": "definition",
+   "number": "1.6",
+   "title": "The scalar field and powers",
+   "tex": "Throughout the module $\\F$ is either $\\R$ or $\\C$; its elements are called scalars. For a scalar $a$, put $a^0=1$ and define $a^{m+1}=a^ma$ for every nonnegative integer $m$.",
+   "page": "4"
+  },
+  {
+   "id": "c1-lem-scalar-cancellation",
+   "kind": "theorem",
+   "number": "",
+   "title": "Scalar cancellation and zero products",
+   "tex": "For $a,b,c\\in\\F$, $a+b=a+c$ implies $b=c$. If $a\\ne0$, then $ab=ac$ implies $b=c$. Moreover $a0=0$ and $ab=0$ implies $a=0$ or $b=0$.",
+   "proof": "Add the additive inverse of $a$ to the first equation and use associativity to obtain $b=c$. Since $a0=a(0+0)=a0+a0$, additive cancellation in $a0+0=a0+a0$ gives $a0=0$. If $a\\ne0$, multiply $ab=ac$ by $a^{-1}$ and use associativity and $a^{-1}a=1$ to obtain $b=c$. In particular, if $ab=0$ and $a\\ne0$, then $ab=a0$, so $b=0$. When $a=0$ the stated alternative already holds.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Use additive and multiplicative inverses; handle a zero factor separately."
+   ],
+   "uses": [
+    "c1-foundations",
+    "c1-thm-complex-laws",
+    "c1-thm-complex-inverses",
+    "c1-def-scalar-inverses",
+    "c1-def-scalars"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-lem-scalar-powers",
+   "kind": "theorem",
+   "number": "",
+   "title": "Laws of nonnegative integer powers",
+   "tex": "For $a,b\\in\\F$ and nonnegative integers $m,n$, one has $a^{m+n}=a^ma^n$, $(a^m)^n=a^{mn}$, and $(ab)^m=a^mb^m$.",
+   "proof": "For fixed $m$, induction on $n$ gives the first formula: at $n=0$ both sides equal $a^m$, and the induction step is $a^{m+n+1}=a^{m+n}a=(a^ma^n)a=a^ma^{n+1}$. For the second formula, the case $n=0$ is $1=1$, and the step is $(a^m)^{n+1}=(a^m)^na^m=a^{mn}a^m=a^{m(n+1)}$, using the first formula. For the third, the case $m=0$ is $1=1$. Commutativity and associativity give $(ab)^{m+1}=a^mb^mab=a^{m+1}b^{m+1}$ from the induction hypothesis.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Prove the addition rule for exponents first; then use induction for the other two."
+   ],
+   "uses": [
+    "c1-foundations",
+    "c1-thm-complex-laws",
+    "c1-def-scalars"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-plane-space",
+   "kind": "prose",
+   "number": "1.7",
+   "title": "Pairs and triples",
+   "tex": "The plane is modeled by real ordered pairs, and ordinary coordinate space by real ordered triples. Their coordinate sets are denoted by $\\R^2$ and $\\R^3$.",
+   "page": "5"
+  },
+  {
+   "id": "c1-def-list",
+   "kind": "definition",
+   "number": "1.8",
+   "title": "Finite ordered lists",
+   "tex": "A list of length $n\\ge0$ has $n$ entries in a specified order. Two lists agree precisely when their lengths agree and each corresponding entry agrees. Repetition is allowed, and the length-zero list is the empty list $()$.",
+   "page": "5"
+  },
+  {
+   "id": "c1-ex-list-set",
+   "kind": "example",
+   "number": "1.9",
+   "title": "Order and repetition distinguish lists",
+   "tex": "The lists $(2,7)$ and $(7,2)$ are different although their sets of entries agree. The lists $(2)$ and $(2,2)$ are different although their sets of entries agree.",
+   "page": "5",
+   "proof": "The first two lists have unequal first entries, since $2\\ne7$, so they are unequal. Each corresponding set consists of the same two elements, $2$ and $7$. The last two lists have different lengths, so they are unequal; both sets of entries consist only of $2$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "List equality checks positions and length; set equality checks membership."
+   ],
+   "uses": [
+    "c1-foundations",
+    "c1-def-list"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-coordinate-space",
+   "kind": "definition",
+   "number": "1.11",
+   "title": "Coordinate spaces",
+   "tex": "For a positive integer $n$, define $\\F^n$ to be the set of length-$n$ lists of scalars. If $x=(x_1,\\ldots,x_n)$, then $x_j$ is its $j$th coordinate. We also allow $n=0$ when explicitly stated; $\\F^0$ then consists of the single empty list.",
+   "page": "6"
+  },
+  {
+   "id": "c1-ex-complex-four",
+   "kind": "example",
+   "number": "1.12",
+   "title": "Four complex coordinates",
+   "tex": "An element of $\\C^4$ is a list $(z_1,z_2,z_3,z_4)$ with each $z_j\\in\\C$; in particular $(i,2,1-i,0)$ belongs to this set.",
+   "page": "6",
+   "proof": "The definition of a coordinate space makes its members precisely the length-four lists of complex numbers. The displayed entries are the complex pairs $0+1i$, $2+0i$, $1+(-1)i$, and $0+0i$, respectively. Each pair has real coordinates, so each is complex. Their ordered list has four entries and therefore belongs to $\\C^4$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check the type of each entry and the length of the list."
+   ],
+   "uses": [
+    "c1-def-coordinate-space",
+    "c1-def-complex"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-coordinate-addition",
+   "kind": "definition",
+   "number": "1.13",
+   "title": "Coordinate addition",
+   "tex": "For $x,y\\in\\F^n$, define $x+y=(x_1+y_1,\\ldots,x_n+y_n)$.",
+   "page": "6"
+  },
+  {
+   "id": "c1-thm-coordinate-commutativity",
+   "kind": "theorem",
+   "number": "1.14",
+   "title": "Commutativity of coordinate addition",
+   "tex": "For $x,y\\in\\F^n$, $x+y=y+x$.",
+   "page": "7",
+   "proof": "For each index $j$ from $1$ to $n$, the $j$th coordinates are $x_j+y_j$ and $y_j+x_j$, which agree by scalar commutativity. Equality of lists proves the result. If $n=0$, both sides are the empty list.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compare coordinates."
+   ],
+   "uses": [
+    "c1-thm-complex-laws",
+    "c1-def-scalars",
+    "c1-def-list",
+    "c1-def-coordinate-addition"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-coordinate-zero",
+   "kind": "definition",
+   "number": "1.15",
+   "title": "Zero vector",
+   "tex": "The symbol $0\\in\\F^n$ denotes the list with every coordinate equal to the scalar zero.",
+   "page": "7"
+  },
+  {
+   "id": "c1-ex-coordinate-identity",
+   "kind": "example",
+   "number": "1.16",
+   "title": "The zero list is an additive identity",
+   "tex": "Every $x\\in\\F^n$ satisfies $x+0=x$.",
+   "page": "7",
+   "proof": "The $j$th coordinate of $x+0$ is $x_j+0=x_j$ by the scalar identity law. Hence the lists agree, with the empty-list case automatic from the definition.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "The scalar zero and zero list have different types; use the coordinate definition."
+   ],
+   "uses": [
+    "c1-thm-complex-laws",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-coordinate-negative",
+   "kind": "definition",
+   "number": "1.17",
+   "title": "Coordinate negatives",
+   "tex": "For $x=(x_1,\\ldots,x_n)$, put $-x=(-x_1,\\ldots,-x_n)$ and $y-x=y+(-x)$.",
+   "page": "9"
+  },
+  {
+   "id": "c1-lem-coordinate-inverse",
+   "kind": "theorem",
+   "number": "",
+   "title": "Uniqueness of the negative list",
+   "tex": "For $x\\in\\F^n$, the only $y\\in\\F^n$ satisfying $x+y=0$ is $y=-x$.",
+   "proof": "The equation is equivalent to $x_j+y_j=0$ for every coordinate $j$. Uniqueness of scalar additive inverses gives $y_j=-x_j$ for each $j$; these choices also satisfy the equations. If $n=0$ there is only one list to choose.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Reduce the equation to one scalar equation at a time."
+   ],
+   "uses": [
+    "c1-thm-complex-inverses",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-zero",
+    "c1-def-coordinate-negative"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-coordinate-scaling",
+   "kind": "definition",
+   "number": "1.18",
+   "title": "Scalar multiplication of a list",
+   "tex": "For $a\\in\\F$ and $x\\in\\F^n$, define $ax=(ax_1,\\ldots,ax_n)$.",
+   "page": "9"
+  },
+  {
+   "id": "c1-lem-coordinate-laws",
+   "kind": "theorem",
+   "number": "",
+   "title": "The remaining coordinate identities",
+   "tex": "For $x,y,z\\in\\F^n$ and $a,b\\in\\F$,\n\\[(x+y)+z=x+(y+z),\\quad (ab)x=a(bx),\\quad 1x=x,\\]\n\\[a(x+y)=ax+ay,\\qquad (a+b)x=ax+bx.\\]",
+   "proof": "For each coordinate $j$, scalar arithmetic gives $(x_j+y_j)+z_j=x_j+(y_j+z_j)$, $(ab)x_j=a(bx_j)$, $1x_j=x_j$, $a(x_j+y_j)=ax_j+ay_j$, and $(a+b)x_j=ax_j+bx_j$. The last equality follows from scalar distributivity and commutativity. By the definitions, these are exactly the coordinate equalities for the five asserted list equalities. When $n=0$ all expressions are the empty list.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Each vector identity is a scalar identity at every coordinate."
+   ],
+   "uses": [
+    "c1-thm-complex-laws",
+    "c1-def-scalars",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-field",
+   "kind": "definition",
+   "number": "",
+   "title": "Fields",
+   "tex": "A field is a set with distinct elements $0$ and $1$, addition and multiplication that are associative and commutative, identities $0$ and $1$, additive inverses for all elements, multiplicative inverses for nonzero elements, and distributivity of multiplication over addition. The preceding results show that $\\C$ is a field; $\\R$ is a field by our foundational assumptions. In this module $\\F$ continues to mean only $\\R$ or $\\C$.",
+   "page": "10"
+  }
+ ],
+ "cards": [
+  {
+   "id": "c1-card-complex",
+   "item": "c1-def-complex",
+   "front": "How is multiplication of complex pairs defined?",
+   "back": "$(a+bi)(c+di)=(ac-bd)+(ad+bc)i$."
+  },
+  {
+   "id": "c1-card-scalar-inverse",
+   "item": "c1-thm-complex-inverses",
+   "front": "What is the reciprocal of $a+bi\\ne0$?",
+   "back": "$a/(a^2+b^2)-[b/(a^2+b^2)]i$; the denominator is positive."
+  },
+  {
+   "id": "c1-card-list",
+   "item": "c1-def-list",
+   "front": "What two features distinguish a finite list from a set?",
+   "back": "Order and repetitions matter for lists; equality also requires equal lengths."
+  },
+  {
+   "id": "c1-card-coordinate-space",
+   "item": "c1-def-coordinate-space",
+   "front": "What is $\\F^n$?",
+   "back": "The set of length-$n$ lists of elements of $\\F$, where $\\F$ is $\\R$ or $\\C$."
+  },
+  {
+   "id": "c1-card-coordinate-proof",
+   "item": "c1-lem-coordinate-laws",
+   "front": "How do you prove an identity of coordinate vectors?",
+   "back": "Check that the two scalar expressions in each coordinate agree."
+  },
+  {
+   "id": "c1-card-field",
+   "item": "c1-def-field",
+   "front": "Which elements of a field must have multiplicative inverses?",
+   "back": "Every element except $0$."
+  }
+ ]
+}

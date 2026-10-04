@@ -1,0 +1,280 @@
+{
+ "version": 1,
+ "id": "1-comparing-cardinalities",
+ "blocks": [
+  {
+   "id": "c1-comp-intro",
+   "kind": "prose",
+   "tex": "To show that two sets have equal cardinality one must produce a bijection, and explicit bijections can be awkward: try writing one down between $[0, 1]$ and $(0, 1)$. Injections are far easier to find. The Schroeder–Bernstein theorem says that injections in both directions are enough. With it, cardinalities can be compared like numbers, and the cardinality of $\\R$ can be pinned down exactly."
+  },
+  {
+   "id": "c1-def-card-le",
+   "kind": "definition",
+   "number": "",
+   "title": "Comparing cardinalities",
+   "tex": "For sets $A$ and $B$ we write $A \\preceq B$, and say that $A$ has \\emph{cardinality less than or equal to} that of $B$, if there is an injection $A \\to B$. We write $A \\prec B$ if $A \\preceq B$ and there is no bijection $A \\to B$."
+  },
+  {
+   "id": "c1-prop-card-le-basic",
+   "kind": "proposition",
+   "number": "",
+   "title": "First properties of the comparison",
+   "tex": "For all sets $A$, $B$, $C$:\n\\begin{enumerate}\n\\item if $A \\subset B$ then $A \\preceq B$; in particular $A \\preceq A$;\n\\item if $A \\sim B$ then $A \\preceq B$ and $B \\preceq A$;\n\\item if $A \\preceq B$ and $B \\preceq C$ then $A \\preceq C$.\n\\end{enumerate}",
+   "proof": "(1) The inclusion map $A \\to B$, $a \\mapsto a$, is an injection.\n\n(2) A bijection $f \\colon A \\to B$ is an injection $A \\to B$, and its inverse is a bijection, hence an injection, $B \\to A$.\n\n(3) If $f \\colon A \\to B$ and $g \\colon B \\to C$ are injections, then $g \\circ f \\colon A \\to C$ is an injection, since a composite of injections is an injection.",
+   "difficulty": 1,
+   "minutes": 5,
+   "hints": [
+    "Name the injection in each case: an inclusion, a bijection or its inverse, a composite."
+   ],
+   "uses": [
+    "c1-def-card-le",
+    "c1-prop-composition"
+   ]
+  },
+  {
+   "id": "c1-thm-schroeder-bernstein",
+   "kind": "theorem",
+   "number": "",
+   "title": "Schroeder–Bernstein theorem",
+   "tex": "If there are injections $f \\colon A \\to B$ and $g \\colon B \\to A$, then there is a bijection $A \\to B$. In symbols: if $A \\preceq B$ and $B \\preceq A$, then $A \\sim B$.",
+   "proof": "Define subsets $C_0, C_1, C_2, \\dots$ of $A$ by\n\\[ C_0 = A \\setminus g(B), \\qquad C_{n+1} = g(f(C_n)) \\quad (n \\ge 0), \\]\nand let $C = \\bigcup_{n \\ge 0} C_n$. If $a \\in A \\setminus C$ then $a \\notin C_0$, so $a \\in g(B)$; since $g$ is injective there is exactly one $b \\in B$ with $g(b) = a$, which we denote $g^{-1}(a)$. Define\n\\[ h \\colon A \\to B, \\qquad h(a) = \\begin{cases} f(a) & \\text{if } a \\in C, \\\\ g^{-1}(a) & \\text{if } a \\in A \\setminus C. \\end{cases} \\]\n\n\\emph{$h$ is injective.} Let $a, a' \\in A$ with $h(a) = h(a')$. If both are in $C$, then $f(a) = f(a')$ and $a = a'$ because $f$ is injective. If both are outside $C$, then $g^{-1}(a) = g^{-1}(a')$, and applying $g$ gives $a = a'$. The remaining case, $a \\in C$ and $a' \\notin C$ (or the reverse), cannot occur: we would have $f(a) = g^{-1}(a')$, so $a' = g(f(a))$; but $a \\in C_n$ for some $n$, so $a' \\in g(f(C_n)) = C_{n+1} \\subset C$, contrary to $a' \\notin C$.\n\n\\emph{$h$ is surjective.} Let $b \\in B$ and consider $g(b) \\in A$. If $g(b) \\notin C$, then $h(g(b)) = g^{-1}(g(b)) = b$. If $g(b) \\in C$, then $g(b) \\in C_n$ for some $n$, and $n \\ne 0$ because $C_0$ contains no point of $g(B)$. So $g(b) \\in C_n = g(f(C_{n-1}))$, that is, $g(b) = g(f(a))$ for some $a \\in C_{n-1}$. Since $g$ is injective, $b = f(a)$, and since $a \\in C$, $h(a) = f(a) = b$.\n\nThus $h$ is a bijection from $A$ to $B$.",
+   "difficulty": 4,
+   "minutes": 75,
+   "hints": [
+    "The bijection will use $f$ on part of $A$ and the inverse of $g$ on the rest. The inverse of $g$ is only available on $g(B)$, so the points of $A \\setminus g(B)$ must be sent by $f$.",
+    "Once $C_0 = A \\setminus g(B)$ is sent by $f$, the points $g(f(C_0))$ can no longer be sent by $g^{-1}$ without a collision, so they must go by $f$ too; and so on. Let $C_{n+1} = g(f(C_n))$ and $C = \\bigcup_n C_n$.",
+    "Define $h = f$ on $C$ and $h = g^{-1}$ on $A \\setminus C$. For injectivity the mixed case leads to $a' = g(f(a)) \\in C$. For surjectivity, split according to whether $g(b) \\in C$."
+   ],
+   "uses": [
+    "c1-def-card-le",
+    "c1-def-injection"
+   ]
+  },
+  {
+   "id": "c1-rem-ancestors",
+   "kind": "remark",
+   "tex": "There is a picture behind the set $C$. Call $b$ the \\emph{parent} of $g(b)$ and $a$ the parent of $f(a)$, and trace the ancestry of a point of $A$ backwards as far as it goes. The set $C$ consists of the points of $A$ whose ancestry stops, after finitely many steps, at a point of $A$ with no parent. Those points are matched by $f$; all the others (ancestry stopping in $B$, or never stopping) are matched by $g^{-1}$."
+  },
+  {
+   "id": "c1-cor-sandwich",
+   "kind": "corollary",
+   "number": "",
+   "title": "Sandwich principle",
+   "tex": "If $A \\subset B \\subset C$ and $A \\sim C$, then $B \\sim C$ (and hence also $A \\sim B$).",
+   "proof": "The inclusion $B \\to C$ is an injection. Let $\\varphi \\colon C \\to A$ be a bijection. Since $A \\subset B$, we may regard $\\varphi$ as a map $C \\to B$, and it is still an injection. By the Schroeder–Bernstein theorem, $B \\sim C$. Since $A \\sim C$ and $C \\sim B$, also $A \\sim B$.",
+   "difficulty": 2,
+   "minutes": 10,
+   "hints": [
+    "Find injections $B \\to C$ and $C \\to B$ and apply the Schroeder–Bernstein theorem."
+   ],
+   "uses": [
+    "c1-thm-schroeder-bernstein",
+    "c1-prop-cardinality-equivalence"
+   ]
+  },
+  {
+   "id": "c1-ex-open-interval-r",
+   "kind": "exercise",
+   "number": "",
+   "title": "An open interval has the cardinality of the line",
+   "tex": "Let $a < b$ be real numbers. Prove that $(a, b) \\sim \\R$ by exhibiting bijections $(a, b) \\to (-1, 1)$ and $(-1, 1) \\to \\R$.",
+   "proof": "\\emph{$(a, b) \\sim (-1, 1)$.} Let $\\alpha(x) = \\dfrac{2(x - a)}{b - a} - 1$. If $a < x < b$ then $0 < \\dfrac{x - a}{b - a} < 1$, so $-1 < \\alpha(x) < 1$. The map $\\beta(u) = a + \\dfrac{(u + 1)(b - a)}{2}$ sends $(-1, 1)$ into $(a, b)$, because $0 < (u + 1)/2 < 1$ for $-1 < u < 1$, and a direct substitution gives $\\beta(\\alpha(x)) = x$ and $\\alpha(\\beta(u)) = u$. So $\\alpha \\colon (a, b) \\to (-1, 1)$ has an inverse and is a bijection.\n\n\\emph{$(-1, 1) \\sim \\R$.} Define\n\\[ g \\colon (-1, 1) \\to \\R, \\quad g(x) = \\frac{x}{1 - \\abs{x}}, \\qquad\\qquad h \\colon \\R \\to (-1, 1), \\quad h(y) = \\frac{y}{1 + \\abs{y}}. \\]\n$g$ is defined because $1 - \\abs{x} > 0$ for $\\abs{x} < 1$, and $h$ takes values in $(-1, 1)$ because $\\abs{h(y)} = \\dfrac{\\abs{y}}{1 + \\abs{y}} < 1$.\n\nFor $x \\in (-1, 1)$: $\\abs{g(x)} = \\dfrac{\\abs{x}}{1 - \\abs{x}}$, so $1 + \\abs{g(x)} = \\dfrac{1}{1 - \\abs{x}}$ and\n\\[ h(g(x)) = \\frac{x}{1 - \\abs{x}} \\cdot (1 - \\abs{x}) = x. \\]\nFor $y \\in \\R$: $\\abs{h(y)} = \\dfrac{\\abs{y}}{1 + \\abs{y}}$, so $1 - \\abs{h(y)} = \\dfrac{1}{1 + \\abs{y}}$ and\n\\[ g(h(y)) = \\frac{y}{1 + \\abs{y}} \\cdot (1 + \\abs{y}) = y. \\]\nSo $h$ is an inverse of $g$, and $g$ is a bijection.\n\nThe composite $g \\circ \\alpha \\colon (a, b) \\to \\R$ is a bijection.",
+   "difficulty": 2,
+   "minutes": 25,
+   "hints": [
+    "An affine map $x \\mapsto cx + d$ carries any open interval onto $(-1, 1)$. Then you need a bijection from $(-1, 1)$ onto $\\R$ that can be written with the field operations and the absolute value.",
+    "Try $g(x) = x/(1 - \\abs{x})$, and prove it is a bijection by checking that $y \\mapsto y/(1 + \\abs{y})$ is its inverse."
+   ],
+   "uses": [
+    "c1-prop-composition",
+    "c1-def-equal-cardinality",
+    "c1-def-abs",
+    "c1-def-interval"
+   ]
+  },
+  {
+   "id": "c1-cor-intervals",
+   "kind": "corollary",
+   "number": "",
+   "title": "All intervals have the cardinality of the line",
+   "tex": "Let $a < b$. Each of the intervals $(a, b)$, $[a, b)$, $(a, b]$, $[a, b]$ has the same cardinality as $\\R$.",
+   "proof": "We know $(a, b) \\sim \\R$. Let $J$ be any of $[a, b)$, $(a, b]$, $[a, b]$. Then $(a, b) \\subset J \\subset \\R$, and the sandwich principle (with $A = (a, b)$, $B = J$, $C = \\R$) gives $J \\sim \\R$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Each of these intervals lies between $(a, b)$ and $\\R$. Use the sandwich principle."
+   ],
+   "uses": [
+    "c1-cor-sandwich",
+    "c1-ex-open-interval-r"
+   ]
+  },
+  {
+   "id": "c1-prop-surjection-injection",
+   "kind": "proposition",
+   "number": "",
+   "title": "Surjections reverse to injections",
+   "tex": "Let $A$ and $B$ be sets with $B \\ne \\varnothing$. There is a surjection $A \\to B$ if and only if there is an injection $B \\to A$. Consequently, if there are surjections $A \\to B$ and $B \\to A$, then $A \\sim B$.",
+   "proof": "Suppose $f \\colon A \\to B$ is a surjection. For each $b \\in B$ the set $f^{-1}(\\set{b})$ is nonempty; choose an element $g(b)$ in it (this uses the axiom of choice). Then $f(g(b)) = b$ for all $b \\in B$, so $g(b) = g(b')$ implies $b = f(g(b)) = f(g(b')) = b'$. Thus $g \\colon B \\to A$ is an injection.\n\nSuppose $g \\colon B \\to A$ is an injection, and fix $b_0 \\in B$. Define $f \\colon A \\to B$ as follows: if $a \\in g(B)$, let $f(a)$ be the unique $b \\in B$ with $g(b) = a$; if $a \\notin g(B)$, let $f(a) = b_0$. Then $f(g(b)) = b$ for every $b \\in B$, so $f$ is a surjection.\n\nFor the consequence, suppose there are surjections $A \\to B$ and $B \\to A$. Since $B \\ne \\varnothing$ and some map from $A$ is onto $B$, also $A \\ne \\varnothing$. The first paragraph, applied to the surjection $A \\to B$, gives an injection $B \\to A$; applied to the surjection $B \\to A$ (with the roles of the two sets exchanged), it gives an injection $A \\to B$. The Schroeder–Bernstein theorem gives $A \\sim B$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "From a surjection $f$, choose one point in each set $f^{-1}(\\set{b})$. From an injection $g$, undo $g$ on its range and send everything else to a fixed point."
+   ],
+   "uses": [
+    "c1-thm-schroeder-bernstein",
+    "c1-def-injection"
+   ]
+  },
+  {
+   "id": "c1-def-power-set",
+   "kind": "definition",
+   "number": "",
+   "title": "Power set",
+   "tex": "The \\emph{power set} of a set $S$ is the class $\\mathcal{P}(S)$ of all subsets of $S$, including $\\varnothing$ and $S$ itself."
+  },
+  {
+   "id": "c1-thm-cantor",
+   "kind": "theorem",
+   "number": "",
+   "title": "Cantor's theorem",
+   "tex": "For every set $S$ there is no surjection $S \\to \\mathcal{P}(S)$. Consequently $S \\prec \\mathcal{P}(S)$.",
+   "proof": "Let $f \\colon S \\to \\mathcal{P}(S)$ be any function, and let\n\\[ T = \\set{s \\in S : s \\notin f(s)}. \\]\nThen $T \\in \\mathcal{P}(S)$. Suppose $T = f(t)$ for some $t \\in S$. If $t \\in T$, then by the definition of $T$, $t \\notin f(t) = T$, a contradiction. If $t \\notin T$, then $t \\notin f(t)$, so $t$ satisfies the condition defining $T$ and $t \\in T$, again a contradiction. Hence $T$ is not in the range of $f$, and $f$ is not a surjection.\n\nThe map $s \\mapsto \\set{s}$ is an injection $S \\to \\mathcal{P}(S)$, so $S \\preceq \\mathcal{P}(S)$. A bijection $S \\to \\mathcal{P}(S)$ would be a surjection, and there is none; hence $S \\prec \\mathcal{P}(S)$.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "This is the diagonal argument in general form. Given $f \\colon S \\to \\mathcal{P}(S)$, build a subset of $S$ that differs from each $f(s)$ in how it treats the point $s$ itself.",
+    "Let $T = \\set{s \\in S : s \\notin f(s)}$ and ask whether $t \\in T$ when $f(t) = T$."
+   ],
+   "uses": [
+    "c1-def-power-set",
+    "c1-def-card-le"
+   ]
+  },
+  {
+   "id": "c1-rem-no-largest",
+   "kind": "remark",
+   "tex": "So there is no largest cardinality: $\\N \\prec \\mathcal{P}(\\N) \\prec \\mathcal{P}(\\mathcal{P}(\\N)) \\prec \\cdots$. The remaining results of this section locate $\\R$ in this hierarchy: it sits exactly at $\\mathcal{P}(\\N)$."
+  },
+  {
+   "id": "c1-ex-power-set-sequences",
+   "kind": "exercise",
+   "number": "",
+   "title": "Subsets are binary sequences",
+   "tex": "Let $\\Sigma$ be the set of all sequences $\\sigma \\colon \\N \\to \\set{0, 1}$. Prove that $\\mathcal{P}(\\N) \\sim \\Sigma$, and that $\\mathcal{P}(\\Q) \\sim \\mathcal{P}(\\N)$.",
+   "proof": "\\emph{$\\mathcal{P}(\\N) \\sim \\Sigma$.} For $T \\subset \\N$ define $\\chi_T \\in \\Sigma$ by $\\chi_T(n) = 1$ if $n \\in T$ and $\\chi_T(n) = 0$ if $n \\notin T$. For $\\sigma \\in \\Sigma$ define $Z(\\sigma) = \\set{n \\in \\N : \\sigma(n) = 1}$. Then $Z(\\chi_T) = \\set{n : n \\in T} = T$, and $\\chi_{Z(\\sigma)}(n) = 1$ exactly when $\\sigma(n) = 1$, so $\\chi_{Z(\\sigma)} = \\sigma$ because both sequences take only the values $0$ and $1$. Thus $T \\mapsto \\chi_T$ has the inverse $Z$ and is a bijection.\n\n\\emph{$\\mathcal{P}(\\Q) \\sim \\mathcal{P}(\\N)$.} Since $\\Q$ is denumerable there is a bijection $\\varphi \\colon \\Q \\to \\N$. Define $\\Phi \\colon \\mathcal{P}(\\Q) \\to \\mathcal{P}(\\N)$ by $\\Phi(T) = \\varphi(T)$ and $\\Psi \\colon \\mathcal{P}(\\N) \\to \\mathcal{P}(\\Q)$ by $\\Psi(U) = \\varphi^{-1}(U)$. Because $\\varphi$ is injective, $\\varphi^{-1}(\\varphi(T)) = T$; because $\\varphi$ is surjective, $\\varphi(\\varphi^{-1}(U)) = U$. So $\\Psi$ is an inverse of $\\Phi$, and $\\Phi$ is a bijection.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "A subset of $\\N$ is described by answering, for each $n$, the question ``is $n$ in it?''.",
+    "For the second part, a bijection $\\varphi \\colon \\Q \\to \\N$ carries subsets to subsets; check that $T \\mapsto \\varphi(T)$ and $U \\mapsto \\varphi^{-1}(U)$ are inverse to each other."
+   ],
+   "uses": [
+    "c1-def-power-set",
+    "c1-cor-q-denumerable",
+    "c1-prop-composition"
+   ]
+  },
+  {
+   "id": "c1-ex-r-into-power-set",
+   "kind": "exercise",
+   "number": "",
+   "title": "The line injects into the power set of the rationals",
+   "tex": "Prove that $x \\mapsto \\set{r \\in \\Q : r < x}$ is an injection $\\R \\to \\mathcal{P}(\\Q)$. Conclude that $\\R \\preceq \\mathcal{P}(\\N)$.",
+   "proof": "Write $L(x) = \\set{r \\in \\Q : r < x}$. Let $x \\ne y$ be real numbers; by trichotomy we may assume $x < y$. By density of the rationals there is $r \\in \\Q$ with $x < r < y$. Then $r \\in L(y)$ and $r \\notin L(x)$, so $L(x) \\ne L(y)$. Hence $L$ is an injection $\\R \\to \\mathcal{P}(\\Q)$.\n\nComposing $L$ with a bijection $\\mathcal{P}(\\Q) \\to \\mathcal{P}(\\N)$, which exists by the previous exercise, gives an injection $\\R \\to \\mathcal{P}(\\N)$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "If $x < y$, you need a rational that belongs to one of the two sets and not the other. Which theorem supplies it?"
+   ],
+   "uses": [
+    "c1-thm-density-rationals",
+    "c1-ex-power-set-sequences",
+    "c1-def-card-le"
+   ]
+  },
+  {
+   "id": "c1-ex-sequences-into-r",
+   "kind": "exercise",
+   "number": "",
+   "title": "Binary sequences inject into the line",
+   "tex": "Let $\\Sigma$ be the set of sequences $\\sigma \\colon \\N \\to \\set{0, 1}$. For $\\sigma \\in \\Sigma$ and $k \\ge 0$ put\n\\[ s_k(\\sigma) = \\sum_{j=1}^{k} \\frac{2\\sigma(j)}{3^j} \\quad (s_0(\\sigma) = 0), \\qquad \\Phi(\\sigma) = \\lub \\set{s_k(\\sigma) : k \\ge 0}. \\]\nProve that $\\Phi(\\sigma)$ is a well-defined real number and that $\\Phi \\colon \\Sigma \\to \\R$ is an injection. You may use the finite geometric sum $\\sum_{j=n+1}^{k} \\dfrac{2}{3^j} = \\dfrac{1}{3^n} - \\dfrac{1}{3^k}$ for $0 \\le n \\le k$.",
+   "proof": "\\emph{Well defined.} Each term $2\\sigma(j)/3^j$ is $\\ge 0$ and $\\le 2/3^j$. So $s_k(\\sigma)$ is nondecreasing in $k$, and by the geometric sum with $n = 0$, $s_k(\\sigma) \\le 1 - 3^{-k} < 1$. The set $\\set{s_k(\\sigma) : k \\ge 0}$ is nonempty and bounded above, so its least upper bound exists.\n\n\\emph{Injective.} Let $\\sigma \\ne \\tau$ in $\\Sigma$, and let $n$ be the least index with $\\sigma(n) \\ne \\tau(n)$; exchanging names if necessary, $\\sigma(n) = 0$ and $\\tau(n) = 1$. Since $\\sigma(j) = \\tau(j)$ for $j < n$, the number $c = s_{n-1}(\\sigma) = s_{n-1}(\\tau)$ is common to both.\n\nFor $k \\ge n$, using $\\sigma(n) = 0$ and the geometric sum,\n\\[ s_k(\\sigma) = c + \\sum_{j=n+1}^{k} \\frac{2\\sigma(j)}{3^j} \\le c + \\frac{1}{3^n} - \\frac{1}{3^k} \\le c + \\frac{1}{3^n}, \\]\nand for $k < n$, $s_k(\\sigma) \\le s_{n-1}(\\sigma) = c$ because the partial sums are nondecreasing. So $c + 3^{-n}$ is an upper bound for $\\set{s_k(\\sigma)}$, and $\\Phi(\\sigma) \\le c + 3^{-n}$.\n\nOn the other hand, using $\\tau(n) = 1$,\n\\[ \\Phi(\\tau) \\ge s_n(\\tau) = c + \\frac{2}{3^n} > c + \\frac{1}{3^n} \\ge \\Phi(\\sigma). \\]\nHence $\\Phi(\\sigma) \\ne \\Phi(\\tau)$.",
+   "difficulty": 4,
+   "minutes": 45,
+   "hints": [
+    "The digits $0$ and $2$ in base $3$ are used so that two different sequences cannot produce the same number (as $0.0111\\dots = 0.1000\\dots$ would in base $2$).",
+    "Look at the first index $n$ where $\\sigma$ and $\\tau$ differ, say $\\sigma(n) = 0$, $\\tau(n) = 1$. Bound $\\Phi(\\sigma)$ from above and $\\Phi(\\tau)$ from below in terms of the common partial sum $c = s_{n-1}$.",
+    "Everything after place $n$ contributes at most $\\sum_{j > n} 2/3^j \\le 3^{-n}$ to $\\sigma$, while place $n$ alone contributes $2/3^n$ to $\\tau$."
+   ],
+   "uses": [
+    "c1-thm-lub",
+    "c1-def-upper-bound"
+   ]
+  },
+  {
+   "id": "c1-thm-continuum",
+   "kind": "theorem",
+   "number": "",
+   "title": "The cardinality of the continuum",
+   "tex": "$\\R \\sim \\mathcal{P}(\\N)$. Hence also $\\R \\sim \\Sigma$, the set of sequences of $0$'s and $1$'s, and $\\N \\prec \\R$.",
+   "proof": "By the exercise on the injection $x \\mapsto \\set{r \\in \\Q : r < x}$, $\\R \\preceq \\mathcal{P}(\\N)$. In the other direction, $\\mathcal{P}(\\N) \\sim \\Sigma$, and $\\Sigma \\preceq \\R$ by the previous exercise; composing a bijection $\\mathcal{P}(\\N) \\to \\Sigma$ with an injection $\\Sigma \\to \\R$ gives $\\mathcal{P}(\\N) \\preceq \\R$. By the Schroeder–Bernstein theorem, $\\R \\sim \\mathcal{P}(\\N)$. Since $\\mathcal{P}(\\N) \\sim \\Sigma$, also $\\R \\sim \\Sigma$.\n\nFinally, $\\N \\subset \\R$ gives $\\N \\preceq \\R$. If there were a bijection $\\N \\to \\R$, composing it with a bijection $\\R \\to \\mathcal{P}(\\N)$ would give a bijection, in particular a surjection, $\\N \\to \\mathcal{P}(\\N)$, contradicting Cantor's theorem. So $\\N \\prec \\R$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "You have injections in both directions between $\\R$ and $\\mathcal{P}(\\N)$ from the preceding exercises. Which theorem finishes?"
+   ],
+   "uses": [
+    "c1-thm-schroeder-bernstein",
+    "c1-ex-r-into-power-set",
+    "c1-ex-sequences-into-r",
+    "c1-ex-power-set-sequences",
+    "c1-thm-cantor",
+    "c1-prop-card-le-basic"
+   ]
+  },
+  {
+   "id": "c1-rem-continuum-hypothesis",
+   "kind": "remark",
+   "tex": "This gives a second proof that $\\R$ is uncountable, independent of the nested-interval argument. Whether some set $S$ satisfies $\\N \\prec S \\prec \\R$ is the subject of the \\emph{continuum hypothesis}, which asserts that there is none; it can be neither proved nor refuted from the usual axioms of set theory. Nothing in analysis depends on it."
+  }
+ ],
+ "cards": [
+  {
+   "id": "c1-card-card-le",
+   "item": "c1-def-card-le",
+   "front": "What does $A \\preceq B$ mean?",
+   "back": "There is an injection $A \\to B$. (For $B \\ne \\varnothing$, equivalently a surjection $B \\to A$.)"
+  },
+  {
+   "id": "c1-card-schroeder-bernstein",
+   "item": "c1-thm-schroeder-bernstein",
+   "front": "State the Schroeder–Bernstein theorem.",
+   "back": "If there are injections $f \\colon A \\to B$ and $g \\colon B \\to A$, then there is a bijection $A \\to B$."
+  },
+  {
+   "id": "c1-card-sb-idea",
+   "item": "c1-thm-schroeder-bernstein",
+   "front": "How is the bijection in the Schroeder–Bernstein theorem built?",
+   "back": "Let $C_0 = A \\setminus g(B)$, $C_{n+1} = g(f(C_n))$, $C = \\bigcup C_n$. Use $f$ on $C$ and $g^{-1}$ on $A \\setminus C$."
+  },
+  {
+   "id": "c1-card-intervals",
+   "item": "c1-cor-intervals",
+   "front": "Why does $[a, b]$ have the same cardinality as $\\R$?",
+   "back": "$(a, b) \\sim \\R$ by an explicit bijection such as $x \\mapsto x/(1 - \\abs{x})$ on $(-1, 1)$, and $(a, b) \\subset [a, b] \\subset \\R$; the sandwich principle (from Schroeder–Bernstein) does the rest."
+  },
+  {
+   "id": "c1-card-cantor",
+   "item": "c1-thm-cantor",
+   "front": "State Cantor's theorem and the set used in its proof.",
+   "back": "There is no surjection $S \\to \\mathcal{P}(S)$. Given $f$, the set $T = \\set{s \\in S : s \\notin f(s)}$ is not in its range."
+  },
+  {
+   "id": "c1-card-continuum",
+   "item": "c1-thm-continuum",
+   "front": "What is the cardinality of $\\R$ in terms of $\\N$?",
+   "back": "$\\R \\sim \\mathcal{P}(\\N)$: $x \\mapsto \\set{r \\in \\Q : r < x}$ injects $\\R$ into $\\mathcal{P}(\\Q) \\sim \\mathcal{P}(\\N)$, binary sequences inject into $\\R$ via $\\sum 2\\sigma(j)/3^j$, and Schroeder–Bernstein combines them."
+  }
+ ]
+}

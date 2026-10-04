@@ -1,0 +1,1089 @@
+                                     Chapter 2
+     Finite-Dimensional Vector Spaces
+
+
+In the last chapter we learned about vector spaces. Linear algebra focuses not
+on arbitrary vector spaces, but on finite-dimensional vector spaces, which we
+introduce in this chapter.
+    We begin this chapter by considering linear combinations of lists of vectors.
+This leads us to the crucial concept of linear independence. The linear dependence
+lemma will become one of our most useful tools.
+    A list of vectors in a vector space that is small enough to be linearly independent
+and big enough so the linear combinations of the list fill up the vector space is
+called a basis of the vector space. We will see that every basis of a vector space
+has the same length, which will allow us to define the dimension of a vector space.
+    This chapter ends with a formula for the dimension of the sum of two subspaces.
+
+    standing assumptions for this chapter
+
+ • 𝐅 denotes 𝐑 or 𝐂 .
+ • 𝑉 denotes a vector space over 𝐅.
+
+
+
+
+   The main building of the Institute for Advanced Study, in Princeton, New Jersey.
+Paul Halmos (1916–2006) wrote the first modern linear algebra book in this building.
+Halmos’s linear algebra book was published in 1942 (second edition published in 1958).
+          The title of Halmos’s book was the same as the title of this chapter.
+
+                                                                                    27
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+28       Chapter 2     Finite-Dimensional Vector Spaces
+
+2A Span and Linear Independence
+We have been writing lists of numbers surrounded by parentheses, and we will
+continue to do so for elements of 𝐅𝑛 ; for example, (2, −7, 8) ∈ 𝐅3. However, now
+we need to consider lists of vectors (which may be elements of 𝐅𝑛 or of other
+vector spaces). To avoid confusion, we will usually write lists of vectors without
+surrounding parentheses. For example, (4, 1, 6), (9, 5, 7) is a list of length two of
+vectors in 𝐑3.
+
+ 2.1 notation: list of vectors
+
+ We will usually write lists of vectors without surrounding parentheses.
+
+
+Linear Combinations and Span
+A sum of scalar multiples of the vectors in a list is called a linear combination of
+the list. Here is the formal definition.
+
+ 2.2 definition: linear combination
+
+ A linear combination of a list 𝑣1 , … , 𝑣𝑚 of vectors in 𝑉 is a vector of the form
+
+                                   𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 ,
+
+ where 𝑎1 , … , 𝑎𝑚 ∈ 𝐅.
+
+
+ 2.3 example: linear combinations in 𝐑3
+
+• (17, −4, 2) is a linear combination of (2, 1, −3), (1, −2, 4), which is a list of
+  length two of vectors in 𝐑3, because
+
+                         (17, −4, 2) = 6(2, 1, −3) + 5(1, −2, 4).
+
+• (17, −4, 5) is not a linear combination of (2, 1, −3), (1, −2, 4), which is a list
+  of length two of vectors in 𝐑3, because there do not exist numbers 𝑎1 , 𝑎2 ∈ 𝐑
+     such that
+                        (17, −4, 5) = 𝑎1 (2, 1, −3) + 𝑎2 (1, −2, 4).
+     In other words, the system of equations
+
+                                      17 = 2𝑎1 + 𝑎2
+                                     −4 = 𝑎1 − 2𝑎2
+                                        5 = −3𝑎1 + 4𝑎2
+
+     has no solutions (as you should verify).
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                            Section 2A       Span and Linear Independence         29
+
+
+ 2.4 definition: span
+
+ The set of all linear combinations of a list of vectors 𝑣1 , … , 𝑣𝑚 in 𝑉 is called
+ the span of 𝑣1 , … , 𝑣𝑚 , denoted by span(𝑣1 , … , 𝑣𝑚 ). In other words,
+
+            span(𝑣1 , … , 𝑣𝑚 ) = {𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 ∶ 𝑎1 , … , 𝑎𝑚 ∈ 𝐅}.
+
+ The span of the empty list ( ) is defined to be {0}.
+
+
+ 2.5 example: span
+
+   The previous example shows that in 𝐑3 ,
+• (17, −4, 2) ∈ span((2, 1, −3), (1, −2, 4));
+• (17, −4, 5) ∉ span((2, 1, −3), (1, −2, 4)).
+
+
+ 2.6    span is the smallest containing subspace
+
+ The span of a list of vectors in 𝑉 is the smallest subspace of 𝑉 containing all
+ vectors in the list.
+
+Proof    Suppose 𝑣1 , … , 𝑣𝑚 is a list of vectors in 𝑉.
+    First we show that span(𝑣1 , … , 𝑣𝑚 ) is Some mathematicians use the terminol-
+a subspace of 𝑉. The additive identity is ogy linear span, which means the same
+in span(𝑣1 , … , 𝑣𝑚 ) because                   as span.
+           0 = 0𝑣1 + ⋯ + 0𝑣𝑚 .
+Also, span(𝑣1 , … , 𝑣𝑚 ) is closed under addition because
+ (𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 ) + (𝑐1 𝑣1 + ⋯ + 𝑐𝑚 𝑣𝑚 ) = (𝑎1 + 𝑐1 )𝑣1 + ⋯ + (𝑎𝑚 + 𝑐𝑚 )𝑣𝑚 .
+Furthermore, span(𝑣1 , … , 𝑣𝑚 ) is closed under scalar multiplication because
+                  𝜆(𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 ) = 𝜆𝑎1 𝑣1 + ⋯ + 𝜆𝑎𝑚 𝑣𝑚 .
+Thus span(𝑣1 , … , 𝑣𝑚 ) is a subspace of 𝑉 (by 1.34).
+    Each 𝑣𝑘 is a linear combination of 𝑣1 , … , 𝑣𝑚 (to show this, set 𝑎𝑘 = 1 and let
+the other 𝑎’s in 2.2 equal 0). Thus span(𝑣1 , … , 𝑣𝑚 ) contains each 𝑣𝑘 . Conversely,
+because subspaces are closed under scalar multiplication and addition, every sub-
+space of 𝑉 that contains each 𝑣𝑘 contains span(𝑣1 , … , 𝑣𝑚 ). Thus span(𝑣1 , … , 𝑣𝑚 )
+is the smallest subspace of 𝑉 containing all the vectors 𝑣1 , … , 𝑣𝑚 .
+
+
+ 2.7 definition: spans
+
+ If span(𝑣1 , … , 𝑣𝑚 ) equals 𝑉, we say that the list 𝑣1 , … , 𝑣𝑚 spans 𝑉.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+30      Chapter 2      Finite-Dimensional Vector Spaces
+
+
+
+ 2.8 example: a list that spans 𝐅𝑛
+
+     Suppose 𝑛 is a positive integer. We want to show that
+
+                      (1, 0, … , 0), (0, 1, 0, … , 0), … , (0, … , 0, 1)
+
+spans 𝐅𝑛. Here the 𝑘 th vector in the list above has 1 in the 𝑘 th slot and 0 in all other
+slots.
+    Suppose (𝑥1 , … , 𝑥𝑛 ) ∈ 𝐅𝑛. Then
+
+       (𝑥1 , … , 𝑥𝑛 ) = 𝑥1 (1, 0, … , 0) + 𝑥2 (0, 1, 0, … , 0) + ⋯ + 𝑥𝑛 (0, … , 0, 1).
+
+Thus (𝑥1 , … , 𝑥𝑛 ) ∈ span((1, 0, … , 0), (0, 1, 0, … , 0), … , (0, … , 0, 1)), as desired.
+
+     Now we can make one of the key definitions in linear algebra.
+
+ 2.9 definition: finite-dimensional vector space
+
+ A vector space is called finite-dimensional if some list of vectors in it spans
+ the space.
+
+    Example 2.8 above shows that 𝐅𝑛 is a Recall that by definition every list has
+finite-dimensional vector space for every finite length.
+positive integer 𝑛.
+    The definition of a polynomial is no doubt already familiar to you.
+
+ 2.10 definition: polynomial, 𝒫(𝐅)
+
+ • A function 𝑝 ∶ 𝐅 → 𝐅 is called a polynomial with coefficients in 𝐅 if there
+   exist 𝑎0 , … , 𝑎𝑚 ∈ 𝐅 such that
+
+                           𝑝(𝑧) = 𝑎0 + 𝑎1 𝑧 + 𝑎2 𝑧2 + ⋯ + 𝑎𝑚 𝑧𝑚
+
+     for all 𝑧 ∈ 𝐅.
+ • 𝒫(𝐅) is the set of all polynomials with coefficients in 𝐅.
+
+    With the usual operations of addition and scalar multiplication, 𝒫(𝐅) is a
+vector space over 𝐅, as you should verify. Hence 𝒫(𝐅) is a subspace of 𝐅𝐅, the
+vector space of functions from 𝐅 to 𝐅.
+    If a polynomial (thought of as a function from 𝐅 to 𝐅 ) is represented by two
+sets of coefficients, then subtracting one representation of the polynomial from
+the other produces a polynomial that is identically zero as a function on 𝐅 and
+hence has all zero coefficients (if you are unfamiliar with this fact, just believe
+it for now; we will prove it later—see 4.8). Conclusion: the coefficients of a
+polynomial are uniquely determined by the polynomial. Thus the next definition
+uniquely defines the degree of a polynomial.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                            Section 2A       Span and Linear Independence         31
+
+
+ 2.11 definition: degree of a polynomial, deg 𝑝
+
+ • A polynomial 𝑝 ∈ 𝒫(𝐅) is said to have degree 𝑚 if there exist scalars
+   𝑎0 , 𝑎1 , … , 𝑎𝑚 ∈ 𝐅 with 𝑎𝑚 ≠ 0 such that for every 𝑧 ∈ 𝐅, we have
+
+                             𝑝(𝑧) = 𝑎0 + 𝑎1 𝑧 + ⋯ + 𝑎𝑚 𝑧𝑚.
+
+ • The polynomial that is identically 0 is said to have degree −∞.
+ • The degree of a polynomial 𝑝 is denoted by deg 𝑝.
+
+    In the next definition, we use the convention that −∞ < 𝑚, which means that
+the polynomial 0 is in 𝒫𝑚 (𝐅).
+
+ 2.12 notation: 𝒫𝑚 (𝐅)
+
+ For 𝑚 a nonnegative integer, 𝒫𝑚 (𝐅) denotes the set of all polynomials with
+ coefficients in 𝐅 and degree at most 𝑚.
+
+   If 𝑚 is a nonnegative integer, then 𝒫𝑚 (𝐅) = span(1, 𝑧, … , 𝑧𝑚 ) [here we slightly
+abuse notation by letting 𝑧𝑘 denote a function]. Thus 𝒫𝑚 (𝐅) is a finite-dimensional
+vector space for each nonnegative integer 𝑚.
+
+ 2.13 definition: infinite-dimensional vector space
+
+ A vector space is called infinite-dimensional if it is not finite-dimensional.
+
+
+ 2.14 example: 𝒫(𝐅) is infinite-dimensional
+
+   Consider any list of elements of 𝒫(𝐅). Let 𝑚 denote the highest degree of
+the polynomials in this list. Then every polynomial in the span of this list has
+degree at most 𝑚. Thus 𝑧𝑚+1 is not in the span of our list. Hence no list spans
+𝒫(𝐅). Thus 𝒫(𝐅) is infinite-dimensional.
+
+
+Linear Independence
+Suppose 𝑣1 , … , 𝑣𝑚 ∈ 𝑉 and 𝑣 ∈ span(𝑣1 , … , 𝑣𝑚 ). By the definition of span,
+there exist 𝑎1 , … , 𝑎𝑚 ∈ 𝐅 such that
+                               𝑣 = 𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 .
+Consider the question of whether the choice of scalars in the equation above is
+unique. Suppose 𝑐1 , … , 𝑐𝑚 is another set of scalars such that
+                               𝑣 = 𝑐1 𝑣1 + ⋯ + 𝑐𝑚 𝑣𝑚 .
+Subtracting the last two equations, we have
+                        0 = (𝑎1 − 𝑐1 )𝑣1 + ⋯ + (𝑎𝑚 − 𝑐𝑚 )𝑣𝑚 .
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+32      Chapter 2      Finite-Dimensional Vector Spaces
+
+Thus we have written 0 as a linear combination of (𝑣1 , … , 𝑣𝑚 ). If the only way
+to do this is by using 0 for all the scalars in the linear combination, then each
+𝑎𝑘 − 𝑐𝑘 equals 0, which means that each 𝑎𝑘 equals 𝑐𝑘 (and thus the choice of
+scalars was indeed unique). This situation is so important that we give it a special
+name—linear independence—which we now define.
+
+ 2.15 definition: linearly independent
+
+ • A list 𝑣1 , … , 𝑣𝑚 of vectors in 𝑉 is called linearly independent if the only
+   choice of 𝑎1 , … , 𝑎𝑚 ∈ 𝐅 that makes
+
+                                   𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 = 0
+
+     is 𝑎1 = ⋯ = 𝑎𝑚 = 0.
+ • The empty list ( ) is also declared to be linearly independent.
+
+    The reasoning above shows that 𝑣1 , … , 𝑣𝑚 is linearly independent if and only if
+each vector in span(𝑣1 , … , 𝑣𝑚 ) has only one representation as a linear combination
+of 𝑣1 , … , 𝑣𝑚 .
+
+ 2.16 example: linearly independent lists
+
+(a) To see that the list (1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0) is linearly independent in
+    𝐅4, suppose 𝑎1 , 𝑎2 , 𝑎3 ∈ 𝐅 and
+                𝑎1 (1, 0, 0, 0) + 𝑎2 (0, 1, 0, 0) + 𝑎3 (0, 0, 1, 0) = (0, 0, 0, 0).
+     Thus
+                                 (𝑎1 , 𝑎2 , 𝑎3 , 0) = (0, 0, 0, 0).
+     Hence 𝑎1 = 𝑎2 = 𝑎3 = 0. Thus the list (1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0) is
+     linearly independent in 𝐅4.
+(b) Suppose 𝑚 is a nonnegative integer. To see that the list 1, 𝑧, … , 𝑧𝑚 is linearly
+    independent in 𝒫(𝐅), suppose 𝑎0 , 𝑎1 , … , 𝑎𝑚 ∈ 𝐅 and
+                                 𝑎0 + 𝑎1 𝑧 + ⋯ + 𝑎𝑚 𝑧𝑚 = 0,
+     where we think of both sides as elements of 𝒫(𝐅). Then
+                                  𝑎0 + 𝑎1 𝑧 + ⋯ + 𝑎𝑚 𝑧𝑚 = 0
+     for all 𝑧 ∈ 𝐅. As discussed earlier (and as follows from 4.8), this implies that
+     𝑎0 = 𝑎1 = ⋯ = 𝑎𝑚 = 0. Thus 1, 𝑧, … , 𝑧𝑚 is a linearly independent list in
+     𝒫(𝐅).
+(c) A list of length one in a vector space is linearly independent if and only if the
+    vector in the list is not 0.
+(d) A list of length two in a vector space is linearly independent if and only if
+    neither of the two vectors in the list is a scalar multiple of the other.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                            Section 2A       Span and Linear Independence          33
+
+     If some vectors are removed from a linearly independent list, the remaining
+list is also linearly independent, as you should verify.
+
+ 2.17 definition: linearly dependent
+
+ • A list of vectors in 𝑉 is called linearly dependent if it is not linearly inde-
+    pendent.
+ • In other words, a list 𝑣1 , … , 𝑣𝑚 of vectors in 𝑉 is linearly dependent if there
+   exist 𝑎1 , … , 𝑎𝑚 ∈ 𝐅, not all 0, such that 𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 = 0.
+
+
+ 2.18 example: linearly dependent lists
+
+• (2, 3, 1), (1, −1, 2), (7, 3, 8) is linearly dependent in 𝐅3 because
+                 2(2, 3, 1) + 3(1, −1, 2) + (−1)(7, 3, 8) = (0, 0, 0).
+• The list (2, 3, 1), (1, −1, 2), (7, 3, 𝑐) is linearly dependent in 𝐅3 if and only if
+  𝑐 = 8, as you should verify.
+• If some vector in a list of vectors in 𝑉 is a linear combination of the other
+  vectors, then the list is linearly dependent. (Proof: After writing one vector in
+  the list as equal to a linear combination of the other vectors, move that vector
+  to the other side of the equation, where it will be multiplied by −1.)
+• Every list of vectors in 𝑉 containing the 0 vector is linearly dependent. (This
+  is a special case of the previous bullet point.)
+    The next lemma is a terrific tool. It states that given a linearly dependent list
+of vectors, one of the vectors is in the span of the previous ones. Furthermore, we
+can throw out that vector without changing the span of the original list.
+
+ 2.19   linear dependence lemma
+
+ Suppose 𝑣1 , … , 𝑣𝑚 is a linearly dependent list in 𝑉. Then there exists
+ 𝑘 ∈ {1, 2, … , 𝑚} such that
+                              𝑣𝑘 ∈ span(𝑣1 , … , 𝑣𝑘−1 ).
+ Furthermore, if 𝑘 satisfies the condition above and the 𝑘 th term is removed
+ from 𝑣1 , … , 𝑣𝑚 , then the span of the remaining list equals span(𝑣1 , … , 𝑣𝑚 ).
+
+Proof Because the list 𝑣1 , … , 𝑣𝑚 is linearly dependent, there exist numbers
+𝑎1 , … , 𝑎𝑚 ∈ 𝐅, not all 0, such that
+                               𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 = 0.
+Let 𝑘 be the largest element of {1, … , 𝑚} such that 𝑎𝑘 ≠ 0. Then
+                                  𝑎1            𝑎𝑘−1
+                         𝑣𝑘 = − 𝑣1 − ⋯ −             𝑣 ,
+                                  𝑎𝑘             𝑎𝑘 𝑘−1
+which proves that 𝑣𝑘 ∈ span(𝑣1 , … , 𝑣𝑘−1 ), as desired.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+34         Chapter 2     Finite-Dimensional Vector Spaces
+
+   Now suppose 𝑘 is any element of {1, … , 𝑚} such that 𝑣𝑘 ∈ span(𝑣1 , … , 𝑣𝑘−1 ).
+Let 𝑏1 , … , 𝑏𝑘−1 ∈ 𝐅 be such that
+2.20                           𝑣𝑘 = 𝑏1 𝑣1 + ⋯ + 𝑏𝑘−1 𝑣𝑘−1 .
+Suppose 𝑢 ∈ span(𝑣1 , … , 𝑣𝑚 ). Then there exist 𝑐1 , … , 𝑐𝑚 ∈ 𝐅 such that
+                                  𝑢 = 𝑐1 𝑣1 + ⋯ + 𝑐𝑚 𝑣𝑚 .
+In the equation above, we can replace 𝑣𝑘 with the right side of 2.20, which shows
+that 𝑢 is in the span of the list obtained by removing the 𝑘 th term from 𝑣1 , … , 𝑣𝑚 .
+Thus removing the 𝑘 th term of the list 𝑣1 , … , 𝑣𝑚 does not change the span of the
+list.
+
+    If 𝑘 = 1 in the linear dependence lemma, then 𝑣𝑘 ∈ span(𝑣1 , … , 𝑣𝑘−1 ) means
+that 𝑣1 = 0, because span( ) = {0}. Note also that parts of the proof of the linear
+dependence lemma need to be modified if 𝑘 = 1. In general, the proofs in the
+rest of the book will not call attention to special cases that must be considered
+involving lists of length 0, the subspace {0}, or other trivial cases for which the
+result is true but needs a slightly different proof. Be sure to check these special
+cases yourself.
+
+ 2.21 example: smallest 𝑘 in linear dependence lemma
+
+     Consider the list
+                         (1, 2, 3), (6, 5, 4), (15, 16, 17), (8, 9, 7)
+in 𝐑 . This list of length four is linearly dependent, as we will soon see. Thus the
+       3
+
+linear dependence lemma implies that there exists 𝑘 ∈ {1, 2, 3, 4} such that the 𝑘 th
+vector in this list is a linear combination of the previous vectors in the list. Let’s
+see how to find the smallest value of 𝑘 that works.
+    Taking 𝑘 = 1 in the linear dependence lemma works if and only if the first
+vector in the list equals 0. Because (1, 2, 3) is not the 0 vector, we cannot take
+𝑘 = 1 for this list.
+    Taking 𝑘 = 2 in the linear dependence lemma works if and only if the second
+vector in the list is a scalar multiple of the first vector. However, there does not
+exist 𝑐 ∈ 𝐑 such that (6, 5, 4) = 𝑐(1, 2, 3). Thus we cannot take 𝑘 = 2 for this list.
+    Taking 𝑘 = 3 in the linear dependence lemma works if and only if the third
+vector in the list is a linear combination of the first two vectors. Thus for the list
+in this example, we want to know whether there exist 𝑎, 𝑏 ∈ 𝐑 such that
+                          (15, 16, 17) = 𝑎(1, 2, 3) + 𝑏(6, 5, 4).
+The equation above is equivalent to a system of three linear equations in the two
+unknowns 𝑎, 𝑏. Using Gaussian elimination or appropriate software, we find that
+𝑎 = 3, 𝑏 = 2 is a solution of the equation above, as you can verify. Thus for the
+list in this example, taking 𝑘 = 3 is the smallest value of 𝑘 that works in the linear
+dependence lemma.
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                            Section 2A       Span and Linear Independence           35
+
+   Now we come to a key result. It says that no linearly independent list in 𝑉 is
+longer than a spanning list in 𝑉.
+
+ 2.22   length of linearly independent list ≤ length of spanning list
+
+ In a finite-dimensional vector space, the length of every linearly independent
+ list of vectors is less than or equal to the length of every spanning list of
+ vectors.
+
+Proof Suppose that 𝑢1 , … , 𝑢𝑚 is linearly independent in 𝑉. Suppose also that
+𝑤1 , … , 𝑤𝑛 spans 𝑉. We need to prove that 𝑚 ≤ 𝑛. We do so through the process
+described below with 𝑚 steps; note that in each step we add one of the 𝑢’s and
+remove one of the 𝑤’s.
+
+Step 1
+  Let 𝐵 be the list 𝑤1 , … , 𝑤𝑛 , which spans 𝑉. Adjoining 𝑢1 at the beginning of
+  this list produces a linearly dependent list (because 𝑢1 can be written as a linear
+  combination of 𝑤1 , … , 𝑤𝑛 ). In other words, the list
+
+                                      𝑢1 , 𝑤1 , … , 𝑤𝑛
+
+  is linearly dependent.
+  Thus by the linear dependence lemma (2.19), one of the vectors in the list above
+  is a linear combination of the previous vectors in the list. We know that 𝑢1 ≠ 0
+  because the list 𝑢1 , … , 𝑢𝑚 is linearly independent. Thus 𝑢1 is not in the span
+  of the previous vectors in the list above (because 𝑢1 is not in {0}, which is the
+  span of the empty list). Hence the linear dependence lemma implies that we
+  can remove one of the 𝑤’s so that the new list 𝐵 (of length 𝑛) consisting of 𝑢1
+  and the remaining 𝑤’s spans 𝑉.
+Step k, for k = 2, …, m
+  The list 𝐵 (of length 𝑛) from step 𝑘 − 1 spans 𝑉. In particular, 𝑢𝑘 is in the span of
+  the list 𝐵. Thus the list of length (𝑛 + 1) obtained by adjoining 𝑢𝑘 to 𝐵, placing
+  it just after 𝑢1 , … , 𝑢𝑘−1 , is linearly dependent. By the linear dependence lemma
+  (2.19), one of the vectors in this list is in the span of the previous ones, and
+  because 𝑢1 , … , 𝑢𝑘 is linearly independent, this vector cannot be one of the 𝑢’s.
+  Hence there still must be at least one remaining 𝑤 at this step. We can remove
+  from our new list (after adjoining 𝑢𝑘 in the proper place) a 𝑤 that is a linear
+  combination of the previous vectors in the list, so that the new list 𝐵 (of length
+  𝑛) consisting of 𝑢1 , … , 𝑢𝑘 and the remaining 𝑤’s spans 𝑉.
+
+   After step 𝑚, we have added all the 𝑢’s and the process stops. At each step
+as we add a 𝑢 to 𝐵, the linear dependence lemma implies that there is some 𝑤 to
+remove. Thus there are at least as many 𝑤’s as 𝑢’s.
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+36      Chapter 2      Finite-Dimensional Vector Spaces
+
+    The next two examples show how the result above can be used to show, without
+any computations, that certain lists are not linearly independent and that certain
+lists do not span a given vector space.
+
+ 2.23 example: no list of length 4 is linearly independent in 𝐑3
+
+     The list (1, 0, 0), (0, 1, 0), (0, 0, 1), which has length three, spans 𝐑3. Thus no
+list of length larger than three is linearly independent in 𝐑3.
+     For example, we now know that (1, 2, 3), (4, 5, 8), (9, 6, 7), (−3, 2, 8), which
+is a list of length four, is not linearly independent in 𝐑3.
+
+
+ 2.24 example: no list of length 3 spans 𝐑4
+
+    The list (1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0), (0, 0, 0, 1), which has length four, is
+linearly independent in 𝐑4. Thus no list of length less than four spans 𝐑4.
+    For example, we now know that (1, 2, 3, −5), (4, 5, 8, 3), (9, 6, 7, −1), which
+is a list of length three, does not span 𝐑4.
+
+   Our intuition suggests that every subspace of a finite-dimensional vector space
+should also be finite-dimensional. We now prove that this intuition is correct.
+
+ 2.25    finite-dimensional subspaces
+
+ Every subspace of a finite-dimensional vector space is finite-dimensional.
+
+Proof   Suppose 𝑉 is finite-dimensional and 𝑈 is a subspace of 𝑉. We need to
+prove that 𝑈 is finite-dimensional. We do this through the following multistep
+construction.
+
+Step 1
+  If 𝑈 = {0}, then 𝑈 is finite-dimensional and we are done. If 𝑈 ≠ {0}, then
+  choose a nonzero vector 𝑢1 ∈ 𝑈 .
+Step k
+  If 𝑈 = span(𝑢1 , … , 𝑢𝑘−1 ), then 𝑈 is finite-dimensional and we are done. If
+  𝑈 ≠ span(𝑢1 , … , 𝑢𝑘−1 ), then choose a vector 𝑢𝑘 ∈ 𝑈 such that
+
+                                  𝑢𝑘 ∉ span(𝑢1 , … , 𝑢𝑘−1 ).
+
+    After each step, as long as the process continues, we have constructed a list
+of vectors such that no vector in this list is in the span of the previous vectors.
+Thus after each step we have constructed a linearly independent list, by the linear
+dependence lemma (2.19). This linearly independent list cannot be longer than
+any spanning list of 𝑉 (by 2.22). Thus the process eventually terminates, which
+means that 𝑈 is finite-dimensional.
+
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                           Section 2A       Span and Linear Independence           37
+
+Exercises 2A
+
+1   Find a list of four distinct vectors in 𝐅3 whose span equals
+
+                            {(𝑥, 𝑦, 𝑧) ∈ 𝐅3 ∶ 𝑥 + 𝑦 + 𝑧 = 0}.
+
+2   Prove or give a counterexample: If 𝑣1 , 𝑣2 , 𝑣3 , 𝑣4 spans 𝑉, then the list
+
+                               𝑣1 − 𝑣2 , 𝑣2 − 𝑣3 , 𝑣3 − 𝑣4 , 𝑣4
+
+    also spans 𝑉.
+3   Suppose 𝑣1 , … , 𝑣𝑚 is a list of vectors in 𝑉. For 𝑘 ∈ {1, … , 𝑚}, let
+
+                                    𝑤𝑘 = 𝑣1 + ⋯ + 𝑣𝑘 .
+
+    Show that span(𝑣1 , … , 𝑣𝑚 ) = span(𝑤1 , … , 𝑤𝑚 ).
+4   (a) Show that a list of length one in a vector space is linearly independent
+        if and only if the vector in the list is not 0.
+    (b) Show that a list of length two in a vector space is linearly independent
+        if and only if neither of the two vectors in the list is a scalar multiple of
+        the other.
+5   Find a number 𝑡 such that
+
+                               (3, 1, 4), (2, −3, 5), (5, 9, 𝑡)
+
+    is not linearly independent in 𝐑3.
+6   Show that the list (2, 3, 1), (1, −1, 2), (7, 3, 𝑐) is linearly dependent in 𝐅3 if
+    and only if 𝑐 = 8.
+7   (a) Show that if we think of 𝐂 as a vector space over 𝐑 , then the list
+        1 + 𝑖, 1 − 𝑖 is linearly independent.
+    (b) Show that if we think of 𝐂 as a vector space over 𝐂 , then the list
+        1 + 𝑖, 1 − 𝑖 is linearly dependent.
+
+8   Suppose 𝑣1 , 𝑣2 , 𝑣3 , 𝑣4 is linearly independent in 𝑉. Prove that the list
+
+                               𝑣1 − 𝑣2 , 𝑣2 − 𝑣3 , 𝑣3 − 𝑣4 , 𝑣4
+
+    is also linearly independent.
+9   Prove or give a counterexample: If 𝑣1 , 𝑣2 , … , 𝑣𝑚 is a linearly independent
+    list of vectors in 𝑉, then
+
+                                 5𝑣1 − 4𝑣2 , 𝑣2 , 𝑣3 , … , 𝑣𝑚
+
+    is linearly independent.
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+38     Chapter 2     Finite-Dimensional Vector Spaces
+
+10   Prove or give a counterexample: If 𝑣1 , 𝑣2 , … , 𝑣𝑚 is a linearly independent
+     list of vectors in 𝑉 and 𝜆 ∈ 𝐅 with 𝜆 ≠ 0, then 𝜆𝑣1 , 𝜆𝑣2 , … , 𝜆𝑣𝑚 is linearly
+     independent.
+11   Prove or give a counterexample: If 𝑣1 , … , 𝑣𝑚 and 𝑤1 , … , 𝑤𝑚 are linearly
+     independent lists of vectors in 𝑉, then the list 𝑣1 + 𝑤1 , … , 𝑣𝑚 + 𝑤𝑚 is linearly
+     independent.
+12   Suppose 𝑣1 , … , 𝑣𝑚 is linearly independent in 𝑉 and 𝑤 ∈ 𝑉. Prove that if
+     𝑣1 + 𝑤, … , 𝑣𝑚 + 𝑤 is linearly dependent, then 𝑤 ∈ span(𝑣1 , … , 𝑣𝑚 ).
+
+13   Suppose 𝑣1 , … , 𝑣𝑚 is linearly independent in 𝑉 and 𝑤 ∈ 𝑉. Show that
+
+           𝑣1 , … , 𝑣𝑚 , 𝑤 is linearly independent ⟺ 𝑤 ∉ span(𝑣1 , … , 𝑣𝑚 ).
+
+14   Suppose 𝑣1 , … , 𝑣𝑚 is a list of vectors in 𝑉. For 𝑘 ∈ {1, … , 𝑚}, let
+
+                                    𝑤𝑘 = 𝑣1 + ⋯ + 𝑣𝑘 .
+
+     Show that the list 𝑣1 , … , 𝑣𝑚 is linearly independent if and only if the list
+     𝑤1 , … , 𝑤𝑚 is linearly independent.
+
+15   Explain why there does not exist a list of six polynomials that is linearly
+     independent in 𝒫4 (𝐅).
+16   Explain why no list of four polynomials spans 𝒫4 (𝐅).
+17   Prove that 𝑉 is infinite-dimensional if and only if there is a sequence 𝑣1 , 𝑣2 , …
+     of vectors in 𝑉 such that 𝑣1 , … , 𝑣𝑚 is linearly independent for every positive
+     integer 𝑚.
+18   Prove that 𝐅∞ is infinite-dimensional.
+19   Prove that the real vector space of all continuous real-valued functions on
+     the interval [0, 1] is infinite-dimensional.
+20   Suppose 𝑝0 , 𝑝1 , … , 𝑝𝑚 are polynomials in 𝒫𝑚 (𝐅) such that 𝑝𝑘 (2) = 0 for
+     each 𝑘 ∈ {0, … , 𝑚}. Prove that 𝑝0 , 𝑝1 , … , 𝑝𝑚 is not linearly independent in
+     𝒫𝑚 (𝐅).
+
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                           Section 2B         Bases      39
+
+2B Bases
+In the previous section, we discussed linearly independent lists and we also
+discussed spanning lists. Now we bring these concepts together by considering
+lists that have both properties.
+
+ 2.26 definition: basis
+
+ A basis of 𝑉 is a list of vectors in 𝑉 that is linearly independent and spans 𝑉.
+
+
+ 2.27 example: bases
+
+(a) The list (1, 0, … , 0), (0, 1, 0, … , 0), … , (0, … , 0, 1) is a basis of 𝐅𝑛, called the
+    standard basis of 𝐅𝑛.
+(b) The list (1, 2), (3, 5) is a basis of 𝐅2. Note that this list has length two, which
+    is the same as the length of the standard basis of 𝐅2. In the next section, we
+    will see that this is not a coincidence.
+(c) The list (1, 2, −4), (7, −5, 6) is linearly independent in 𝐅3 but is not a basis
+    of 𝐅3 because it does not span 𝐅3.
+(d) The list (1, 2), (3, 5), (4, 13) spans 𝐅2 but is not a basis of 𝐅2 because it is not
+    linearly independent.
+(e) The list (1, 1, 0), (0, 0, 1) is a basis of {(𝑥, 𝑥, 𝑦) ∈ 𝐅3 ∶ 𝑥, 𝑦 ∈ 𝐅}.
+(f) The list (1, −1, 0), (1, 0, −1) is a basis of
+                               {(𝑥, 𝑦, 𝑧) ∈ 𝐅3 ∶ 𝑥 + 𝑦 + 𝑧 = 0}.
+
+(g) The list 1, 𝑧, … , 𝑧𝑚 is a basis of 𝒫𝑚 (𝐅), called the standard basis of 𝒫𝑚 (𝐅).
+
+   In addition to the standard basis, 𝐅𝑛 has many other bases. For example,
+                          (7, 5), (−4, 9)   and (1, 2), (3, 5)
+are both bases of 𝐅2.
+    The next result helps explain why bases are useful. Recall that “uniquely”
+means “in only one way”.
+
+ 2.28    criterion for basis
+
+ A list 𝑣1 , … , 𝑣𝑛 of vectors in 𝑉 is a basis of 𝑉 if and only if every 𝑣 ∈ 𝑉 can
+ be written uniquely in the form
+
+ 2.29                            𝑣 = 𝑎1 𝑣1 + ⋯ + 𝑎𝑛 𝑣𝑛 ,
+
+ where 𝑎1 , … , 𝑎𝑛 ∈ 𝐅.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+40      Chapter 2     Finite-Dimensional Vector Spaces
+
+Proof    First suppose that 𝑣1 , … , 𝑣𝑛 is a This proof is essentially a repetition of
+basis of 𝑉. Let 𝑣 ∈ 𝑉. Because 𝑣1 , … , 𝑣𝑛 the ideas that led us to the definition of
+spans 𝑉, there exist 𝑎1 , … , 𝑎𝑛 ∈ 𝐅 such linear independence.
+that 2.29 holds. To show that the repre-
+sentation in 2.29 is unique, suppose 𝑐1 , … , 𝑐𝑛 are scalars such that we also have
+                                𝑣 = 𝑐1 𝑣1 + ⋯ + 𝑐𝑛 𝑣𝑛 .
+Subtracting the last equation from 2.29, we get
+                        0 = (𝑎1 − 𝑐1 )𝑣1 + ⋯ + (𝑎𝑛 − 𝑐𝑛 )𝑣𝑛 .
+This implies that each 𝑎𝑘 − 𝑐𝑘 equals 0 (because 𝑣1 , … , 𝑣𝑛 is linearly independent).
+Hence 𝑎1 = 𝑐1 , … , 𝑎𝑛 = 𝑐𝑛 . We have the desired uniqueness, completing the
+proof in one direction.
+     For the other direction, suppose every 𝑣 ∈ 𝑉 can be written uniquely in the
+form given by 2.29. This implies that the list 𝑣1 , … , 𝑣𝑛 spans 𝑉. To show that
+𝑣1 , … , 𝑣𝑛 is linearly independent, suppose 𝑎1 , … , 𝑎𝑛 ∈ 𝐅 are such that
+                                0 = 𝑎1 𝑣1 + ⋯ + 𝑎𝑛 𝑣𝑛 .
+The uniqueness of the representation 2.29 (taking 𝑣 = 0) now implies that
+𝑎1 = ⋯ = 𝑎𝑛 = 0. Thus 𝑣1 , … , 𝑣𝑛 is linearly independent and hence is a basis
+of 𝑉.
+
+   A spanning list in a vector space may not be a basis because it is not linearly
+independent. Our next result says that given any spanning list, some (possibly
+none) of the vectors in it can be discarded so that the remaining list is linearly
+independent and still spans the vector space.
+   As an example in the vector space 𝐅2, if the procedure in the proof below is
+applied to the list (1, 2), (3, 6), (4, 7), (5, 9), then the second and fourth vectors
+will be removed. This leaves (1, 2), (4, 7), which is a basis of 𝐅2.
+
+ 2.30    every spanning list contains a basis
+
+ Every spanning list in a vector space can be reduced to a basis of the vector
+ space.
+
+Proof Suppose 𝑣1 , … , 𝑣𝑛 spans 𝑉. We want to remove some of the vectors from
+𝑣1 , … , 𝑣𝑛 so that the remaining vectors form a basis of 𝑉. We do this through the
+multistep process described below.
+  Start with 𝐵 equal to the list 𝑣1 , … , 𝑣𝑛 .
+Step 1
+  If 𝑣1 = 0, then delete 𝑣1 from 𝐵. If 𝑣1 ≠ 0, then leave 𝐵 unchanged.
+Step k
+  If 𝑣𝑘 is in span(𝑣1 , … , 𝑣𝑘−1 ), then delete 𝑣𝑘 from the list 𝐵. If 𝑣𝑘 is not in
+  span(𝑣1 , … , 𝑣𝑘−1 ), then leave 𝐵 unchanged.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                             Section 2B       Bases     41
+
+    Stop the process after step 𝑛, getting a list 𝐵. This list 𝐵 spans 𝑉 because
+our original list spanned 𝑉 and we have discarded only vectors that were already
+in the span of the previous vectors. The process ensures that no vector in 𝐵 is
+in the span of the previous ones. Thus 𝐵 is linearly independent, by the linear
+dependence lemma (2.19). Hence 𝐵 is a basis of 𝑉.
+
+    We now come to an important corollary of the previous result.
+
+ 2.31    basis of finite-dimensional vector space
+
+ Every finite-dimensional vector space has a basis.
+
+Proof  By definition, a finite-dimensional vector space has a spanning list. The
+previous result tells us that each spanning list can be reduced to a basis.
+
+     Our next result is in some sense a dual of 2.30, which said that every spanning
+list can be reduced to a basis. Now we show that given any linearly independent list,
+we can adjoin some additional vectors (this includes the possibility of adjoining
+no additional vectors) so that the extended list is still linearly independent but
+also spans the space.
+
+ 2.32    every linearly independent list extends to a basis
+
+ Every linearly independent list of vectors in a finite-dimensional vector space
+ can be extended to a basis of the vector space.
+
+Proof  Suppose 𝑢1 , … , 𝑢𝑚 is linearly independent in a finite-dimensional vector
+space 𝑉. Let 𝑤1 , … , 𝑤𝑛 be a list of vectors in 𝑉 that spans 𝑉. Thus the list
+                                 𝑢1 , … , 𝑢𝑚 , 𝑤1 , … , 𝑤𝑛
+spans 𝑉. Applying the procedure of the proof of 2.30 to reduce this list to a
+basis of 𝑉 produces a basis consisting of the vectors 𝑢1 , … , 𝑢𝑚 and some of the
+𝑤’s (none of the 𝑢’s get deleted in this procedure because 𝑢1 , … , 𝑢𝑚 is linearly
+independent).
+
+    As an example in 𝐅3, suppose we start with the linearly independent list
+(2, 3, 4), (9, 6, 8). If we take 𝑤1 , 𝑤2 , 𝑤3 to be the standard basis of 𝐅3, then applying
+the procedure in the proof above produces the list
+                              (2, 3, 4), (9, 6, 8), (0, 1, 0),
+which is a basis of 𝐅 .3
+
+    As an application of the result above,        Using the same ideas but more ad-
+we now show that every subspace of a              vanced tools, the next result can be
+finite-dimensional vector space can be            proved without the hypothesis that 𝑉
+paired with another subspace to form a            is finite-dimensional.
+direct sum of the whole space.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+42       Chapter 2    Finite-Dimensional Vector Spaces
+
+
+ 2.33     every subspace of 𝑉 is part of a direct sum equal to 𝑉
+
+ Suppose 𝑉 is finite-dimensional and 𝑈 is a subspace of 𝑉. Then there is a
+ subspace 𝑊 of 𝑉 such that 𝑉 = 𝑈 ⊕ 𝑊.
+
+Proof Because 𝑉 is finite-dimensional, so is 𝑈 (see 2.25). Thus there is a basis
+𝑢1 , … , 𝑢𝑚 of 𝑈 (by 2.31). Of course 𝑢1 , … , 𝑢𝑚 is a linearly independent list of
+vectors in 𝑉. Hence this list can be extended to a basis 𝑢1 , … , 𝑢𝑚 , 𝑤1 , … , 𝑤𝑛 of 𝑉
+(by 2.32). Let 𝑊 = span(𝑤1 , … , 𝑤𝑛 ).
+     To prove that 𝑉 = 𝑈 ⊕ 𝑊, by 1.46 we only need to show that
+
+                         𝑉 =𝑈+𝑊           and 𝑈 ∩ 𝑊 = {0}.
+
+     To prove the first equation above, suppose 𝑣 ∈ 𝑉. Then, because the list
+𝑢1 , … , 𝑢𝑚 , 𝑤1 , … , 𝑤𝑛 spans 𝑉, there exist 𝑎1 , … , 𝑎𝑚 , 𝑏1 , … , 𝑏𝑛 ∈ 𝐅 such that
+                     𝑣 = 𝑎⏟
+                          1𝑢
+                           ⏟ +⋯
+                            1⏟⏟ +⏟
+                                 𝑎𝑚 𝑚+𝑏
+                                  ⏟𝑢⏟ ⏟ ⏟1⏟+ ⋯
+                                       1𝑤  ⏟+⏟𝑏⏟
+                                               𝑛𝑤
+                                                ⏟𝑛 .
+                                   𝑢                      𝑤
+
+We have 𝑣 = 𝑢 + 𝑤, where 𝑢 ∈ 𝑈 and 𝑤 ∈ 𝑊 are defined as above. Thus
+𝑣 ∈ 𝑈 + 𝑊, completing the proof that 𝑉 = 𝑈 + 𝑊.
+     To show that 𝑈 ∩ 𝑊 = {0}, suppose 𝑣 ∈ 𝑈 ∩ 𝑊. Then there exist scalars
+𝑎1 , … , 𝑎𝑚 , 𝑏1 , … , 𝑏𝑛 ∈ 𝐅 such that
+
+                     𝑣 = 𝑎1 𝑢1 + ⋯ + 𝑎𝑚 𝑢𝑚 = 𝑏1 𝑤1 + ⋯ + 𝑏𝑛 𝑤𝑛 .
+
+Thus
+                     𝑎1 𝑢1 + ⋯ + 𝑎𝑚 𝑢𝑚 − 𝑏1 𝑤1 − ⋯ − 𝑏𝑛 𝑤𝑛 = 0.
+Because 𝑢1 , … , 𝑢𝑚 , 𝑤1 , … , 𝑤𝑛 is linearly independent, this implies that
+
+                         𝑎1 = ⋯ = 𝑎𝑚 = 𝑏1 = ⋯ = 𝑏𝑛 = 0.
+
+Thus 𝑣 = 0, completing the proof that 𝑈 ∩ 𝑊 = {0}.
+
+
+
+Exercises 2B
+
+ 1     Find all vector spaces that have exactly one basis.
+ 2     Verify all assertions in Example 2.27.
+ 3     (a) Let 𝑈 be the subspace of 𝐑5 defined by
+
+                  𝑈 = {(𝑥1 , 𝑥2 , 𝑥3 , 𝑥4 , 𝑥5 ) ∈ 𝐑5 ∶ 𝑥1 = 3𝑥2 and 𝑥3 = 7𝑥4 }.
+
+           Find a basis of 𝑈 .
+       (b) Extend the basis in (a) to a basis of 𝐑5.
+       (c) Find a subspace 𝑊 of 𝐑5 such that 𝐑5 = 𝑈 ⊕ 𝑊.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                           Section 2B        Bases     43
+
+ 4   (a) Let 𝑈 be the subspace of 𝐂5 defined by
+
+            𝑈 = {(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 , 𝑧5 ) ∈ 𝐂5 ∶ 6𝑧1 = 𝑧2 and 𝑧3 + 2𝑧4 + 3𝑧5 = 0}.
+
+         Find a basis of 𝑈 .
+     (b) Extend the basis in (a) to a basis of 𝐂5.
+     (c) Find a subspace 𝑊 of 𝐂5 such that 𝐂5 = 𝑈 ⊕ 𝑊.
+ 5   Suppose 𝑉 is finite-dimensional and 𝑈 , 𝑊 are subspaces of 𝑉 such that
+     𝑉 = 𝑈 + 𝑊. Prove that there exists a basis of 𝑉 consisting of vectors in
+     𝑈 ∪ 𝑊.
+
+ 6   Prove or give a counterexample: If 𝑝0 , 𝑝1 , 𝑝2 , 𝑝3 is a list in 𝒫3 (𝐅) such that
+     none of the polynomials 𝑝0 , 𝑝1 , 𝑝2 , 𝑝3 has degree 2, then 𝑝0 , 𝑝1 , 𝑝2 , 𝑝3 is not
+     a basis of 𝒫3 (𝐅).
+ 7   Suppose 𝑣1 , 𝑣2 , 𝑣3 , 𝑣4 is a basis of 𝑉. Prove that
+
+                                𝑣1 + 𝑣2 , 𝑣2 + 𝑣3 , 𝑣3 + 𝑣4 , 𝑣4
+
+     is also a basis of 𝑉.
+ 8   Prove or give a counterexample: If 𝑣1 , 𝑣2 , 𝑣3 , 𝑣4 is a basis of 𝑉 and 𝑈 is a
+     subspace of 𝑉 such that 𝑣1 , 𝑣2 ∈ 𝑈 and 𝑣3 ∉ 𝑈 and 𝑣4 ∉ 𝑈 , then 𝑣1 , 𝑣2 is a
+     basis of 𝑈 .
+ 9   Suppose 𝑣1 , … , 𝑣𝑚 is a list of vectors in 𝑉. For 𝑘 ∈ {1, … , 𝑚}, let
+
+                                     𝑤𝑘 = 𝑣1 + ⋯ + 𝑣𝑘 .
+
+     Show that 𝑣1 , … , 𝑣𝑚 is a basis of 𝑉 if and only if 𝑤1 , … , 𝑤𝑚 is a basis of 𝑉.
+10   Suppose 𝑈 and 𝑊 are subspaces of 𝑉 such that 𝑉 = 𝑈 ⊕ 𝑊. Suppose also
+     that 𝑢1 , … , 𝑢𝑚 is a basis of 𝑈 and 𝑤1 , … , 𝑤𝑛 is a basis of 𝑊. Prove that
+
+                                   𝑢1 , … , 𝑢𝑚 , 𝑤1 , … , 𝑤𝑛
+
+     is a basis of 𝑉.
+11   Suppose 𝑉 is a real vector space. Show that if 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉 (as a
+     real vector space), then 𝑣1 , … , 𝑣𝑛 is also a basis of the complexification 𝑉𝐂
+     (as a complex vector space).
+        See Exercise 8 in Section 1B for the definition of the complexification 𝑉𝐂 .
+
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+44      Chapter 2    Finite-Dimensional Vector Spaces
+
+2C Dimension
+Although we have been discussing finite-dimensional vector spaces, we have not
+yet defined the dimension of such an object. How should dimension be defined?
+A reasonable definition should force the dimension of 𝐅𝑛 to equal 𝑛. Notice that
+the standard basis
+
+                    (1, 0, … , 0), (0, 1, 0, … , 0), … , (0, … , 0, 1)
+
+of 𝐅𝑛 has length 𝑛. Thus we are tempted to define the dimension as the length of
+a basis. However, a finite-dimensional vector space in general has many different
+bases, and our attempted definition makes sense only if all bases in a given vector
+space have the same length. Fortunately that turns out to be the case, as we now
+show.
+
+ 2.34    basis length does not depend on basis
+
+ Any two bases of a finite-dimensional vector space have the same length.
+
+Proof Suppose 𝑉 is finite-dimensional. Let 𝐵1 and 𝐵2 be two bases of 𝑉. Then
+𝐵1 is linearly independent in 𝑉 and 𝐵2 spans 𝑉, so the length of 𝐵1 is at most the
+length of 𝐵2 (by 2.22). Interchanging the roles of 𝐵1 and 𝐵2 , we also see that the
+length of 𝐵2 is at most the length of 𝐵1 . Thus the length of 𝐵1 equals the length
+of 𝐵2 , as desired.
+
+   Now that we know that any two bases of a finite-dimensional vector space
+have the same length, we can formally define the dimension of such spaces.
+
+ 2.35 definition: dimension, dim 𝑉
+
+ • The dimension of a finite-dimensional vector space is the length of any
+     basis of the vector space.
+ • The dimension of a finite-dimensional vector space 𝑉 is denoted by dim 𝑉.
+
+
+ 2.36 example: dimensions
+
+• dim 𝐅𝑛 = 𝑛 because the standard basis of 𝐅𝑛 has length 𝑛.
+• dim 𝒫𝑚 (𝐅) = 𝑚 + 1 because the standard basis 1, 𝑧, … , 𝑧𝑚 of 𝒫𝑚 (𝐅) has length
+  𝑚 + 1.
+• If 𝑈 = {(𝑥, 𝑥, 𝑦) ∈ 𝐅3 ∶ 𝑥, 𝑦 ∈ 𝐅}, then dim 𝑈 = 2 because (1, 1, 0), (0, 0, 1)
+  is a basis of 𝑈 .
+• If 𝑈 = {(𝑥, 𝑦, 𝑧) ∈ 𝐅3 ∶ 𝑥 + 𝑦 + 𝑧 = 0}, then dim 𝑈 = 2 because the list
+  (1, −1, 0), (1, 0, −1) is a basis of 𝑈 .
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                     Section 2C      Dimension      45
+
+   Every subspace of a finite-dimensional vector space is finite-dimensional
+(by 2.25) and so has a dimension. The next result gives the expected inequality
+about the dimension of a subspace.
+
+ 2.37   dimension of a subspace
+
+ If 𝑉 is finite-dimensional and 𝑈 is a subspace of 𝑉, then dim 𝑈 ≤ dim 𝑉.
+
+Proof Suppose 𝑉 is finite-dimensional and 𝑈 is a subspace of 𝑉. Think of
+a basis of 𝑈 as a linearly independent list in 𝑉, and think of a basis of 𝑉 as a
+spanning list in 𝑉. Now use 2.22 to conclude that dim 𝑈 ≤ dim 𝑉.
+
+    To check that a list of vectors in 𝑉        The real vector space 𝐑2 has dimen-
+is a basis of 𝑉, we must, according to          sion two; the complex vector space 𝐂
+the definition, show that the list in ques-     has dimension one. As sets, 𝐑2 can
+tion satisfies two properties: it must be       be identified with 𝐂 (and addition is
+linearly independent and it must span 𝑉.        the same on both spaces, as is scalar
+The next two results show that if the list      multiplication by real numbers). Thus
+in question has the right length, then we       when we talk about the dimension of
+only need to check that it satisfies one        a vector space, the role played by the
+of the two required properties. First we        choice of 𝐅 cannot be neglected.
+prove that every linearly independent list
+of the right length is a basis.
+
+ 2.38   linearly independent list of the right length is a basis
+
+ Suppose 𝑉 is finite-dimensional. Then every linearly independent list of
+ vectors in 𝑉 of length dim 𝑉 is a basis of 𝑉.
+
+Proof Suppose dim 𝑉 = 𝑛 and 𝑣1 , … , 𝑣𝑛 is linearly independent in 𝑉. The list
+𝑣1 , … , 𝑣𝑛 can be extended to a basis of 𝑉 (by 2.32). However, every basis of 𝑉 has
+length 𝑛, so in this case the extension is the trivial one, meaning that no elements
+are adjoined to 𝑣1 , … , 𝑣𝑛 . Thus 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉, as desired.
+
+   The next result is a useful consequence of the previous result.
+
+ 2.39   subspace of full dimension equals the whole space
+
+ Suppose that 𝑉 is finite-dimensional and 𝑈 is a subspace of 𝑉 such that
+ dim 𝑈 = dim 𝑉. Then 𝑈 = 𝑉.
+
+Proof   Let 𝑢1 , … , 𝑢𝑛 be a basis of 𝑈 . Thus 𝑛 = dim 𝑈 , and by hypothesis we
+also have 𝑛 = dim 𝑉. Thus 𝑢1 , … , 𝑢𝑛 is a linearly independent list of vectors in 𝑉
+(because it is a basis of 𝑈 ) of length dim 𝑉. From 2.38, we see that 𝑢1 , … , 𝑢𝑛 is a
+basis of 𝑉. In particular every vector in 𝑉 is a linear combination of 𝑢1 , … , 𝑢𝑛 .
+Thus 𝑈 = 𝑉.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+46      Chapter 2     Finite-Dimensional Vector Spaces
+
+
+
+ 2.40 example: a basis of 𝐅2
+
+    Consider the list (5, 7), (4, 3) of vectors in 𝐅2. This list of length two is linearly
+independent in 𝐅2 (because neither vector is a scalar multiple of the other). Note
+that 𝐅2 has dimension two. Thus 2.38 implies that the linearly independent list
+(5, 7), (4, 3) of length two is a basis of 𝐅2 (we do not need to bother checking that
+it spans 𝐅2 ).
+
+
+ 2.41 example: a basis of a subspace of 𝒫3 (𝐑)
+
+     Let 𝑈 be the subspace of 𝒫3 (𝐑) defined by
+
+                            𝑈 = {𝑝 ∈ 𝒫3 (𝐑) ∶ 𝑝′(5) = 0}.
+
+To find a basis of 𝑈 , first note that each of the polynomials 1, (𝑥 − 5)2, and (𝑥 − 5)3
+is in 𝑈 .
+    Suppose 𝑎, 𝑏, 𝑐 ∈ 𝐑 and
+
+                            𝑎 + 𝑏(𝑥 − 5)2 + 𝑐(𝑥 − 5)3 = 0
+
+for every 𝑥 ∈ 𝐑 . Without explicitly expanding the left side of the equation above,
+we can see that the left side has a 𝑐𝑥3 term. Because the right side has no 𝑥3
+term, this implies that 𝑐 = 0. Because 𝑐 = 0, we see that the left side has a 𝑏𝑥2
+term, which implies that 𝑏 = 0. Because 𝑏 = 𝑐 = 0, we can also conclude that
+𝑎 = 0. Thus the equation above implies that 𝑎 = 𝑏 = 𝑐 = 0. Hence the list
+1, (𝑥 − 5)2, (𝑥 − 5)3 is linearly independent in 𝑈 . Thus 3 ≤ dim 𝑈 . Hence
+
+                            3 ≤ dim 𝑈 ≤ dim 𝒫3 (𝐑) = 4,
+
+where we have used 2.37.
+    The polynomial 𝑥 is not in 𝑈 because its derivative is the constant function 1.
+Thus 𝑈 ≠ 𝒫3 (𝐑). Hence dim 𝑈 ≠ 4 (by 2.39). The inequality above now implies
+that dim 𝑈 = 3. Thus the linearly independent list 1, (𝑥 − 5)2, (𝑥 − 5)3 in 𝑈 has
+length dim 𝑈 and hence is a basis of 𝑈 (by 2.38).
+
+     Now we prove that a spanning list of the right length is a basis.
+
+ 2.42    spanning list of the right length is a basis
+
+ Suppose 𝑉 is finite-dimensional. Then every list of vectors in 𝑉 that spans 𝑉
+ and has length dim 𝑉 is a basis of 𝑉.
+
+Proof    Suppose dim 𝑉 = 𝑛 and 𝑣1 , … , 𝑣𝑛 spans 𝑉. The list 𝑣1 , … , 𝑣𝑛 can be
+reduced to a basis of 𝑉 (by 2.30). However, every basis of 𝑉 has length 𝑛, so in
+this case the reduction is the trivial one, meaning that no elements are deleted
+from 𝑣1 , … , 𝑣𝑛 . Thus 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉, as desired.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                        Section 2C    Dimension       47
+
+    The next result gives a formula for the dimension of the sum of two subspaces
+of a finite-dimensional vector space. This formula is analogous to a familiar
+counting formula: the number of elements in the union of two finite sets equals
+the number of elements in the first set, plus the number of elements in the second
+set, minus the number of elements in the intersection of the two sets.
+
+ 2.43    dimension of a sum
+
+ If 𝑉1 and 𝑉2 are subspaces of a finite-dimensional vector space, then
+
+               dim(𝑉1 + 𝑉2 ) = dim 𝑉1 + dim 𝑉2 − dim(𝑉1 ∩ 𝑉2 ).
+
+Proof Let 𝑣1 , … , 𝑣𝑚 be a basis of 𝑉1 ∩ 𝑉2 ; thus dim(𝑉1 ∩ 𝑉2 ) = 𝑚. Because
+𝑣1 , … , 𝑣𝑚 is a basis of 𝑉1 ∩ 𝑉2 , it is linearly independent in 𝑉1 . Hence this list can
+be extended to a basis 𝑣1 , … , 𝑣𝑚 , 𝑢1 , … , 𝑢𝑗 of 𝑉1 (by 2.32). Thus dim 𝑉1 = 𝑚 + 𝑗.
+Also extend 𝑣1 , … , 𝑣𝑚 to a basis 𝑣1 , … , 𝑣𝑚 , 𝑤1 , … , 𝑤𝑘 of 𝑉2 ; thus dim 𝑉2 = 𝑚 + 𝑘 .
+   We will show that
+2.44                       𝑣1 , … , 𝑣𝑚 , 𝑢1 , … , 𝑢𝑗 , 𝑤1 , … , 𝑤𝑘
+is a basis of 𝑉1 + 𝑉2 . This will complete the proof, because then we will have
+                dim(𝑉1 + 𝑉2 ) = 𝑚 + 𝑗 + 𝑘
+                              = (𝑚 + 𝑗) + (𝑚 + 𝑘) − 𝑚
+                              = dim 𝑉1 + dim 𝑉2 − dim(𝑉1 ∩ 𝑉2 ).
+    The list 2.44 is contained in 𝑉1 ∪ 𝑉2 and thus is contained in 𝑉1 + 𝑉2 . The
+span of this list contains 𝑉1 and contains 𝑉2 and hence is equal to 𝑉1 + 𝑉2 . Thus
+to show that 2.44 is a basis of 𝑉1 + 𝑉2 we only need to show that it is linearly
+independent.
+    To prove that 2.44 is linearly independent, suppose
+          𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 + 𝑏1 𝑢1 + ⋯ + 𝑏𝑗 𝑢𝑗 + 𝑐1 𝑤1 + ⋯ + 𝑐𝑘 𝑤𝑘 = 0,
+where all the 𝑎’s, 𝑏’s, and 𝑐’s are scalars. We need to prove that all the 𝑎’s, 𝑏’s,
+and 𝑐’s equal 0. The equation above can be rewritten as
+2.45       𝑐1 𝑤1 + ⋯ + 𝑐𝑘 𝑤𝑘 = −𝑎1 𝑣1 − ⋯ − 𝑎𝑚 𝑣𝑚 − 𝑏1 𝑢1 − ⋯ − 𝑏𝑗 𝑢𝑗 ,
+which shows that 𝑐1 𝑤1 + ⋯ + 𝑐𝑘 𝑤𝑘 ∈ 𝑉1 . All the 𝑤’s are in 𝑉2 , so this implies
+that 𝑐1 𝑤1 + ⋯ + 𝑐𝑘 𝑤𝑘 ∈ 𝑉1 ∩ 𝑉2 . Because 𝑣1 , … , 𝑣𝑚 is a basis of 𝑉1 ∩ 𝑉2 , we
+have
+                     𝑐1 𝑤1 + ⋯ + 𝑐𝑘 𝑤𝑘 = 𝑑1 𝑣1 + ⋯ + 𝑑𝑚 𝑣𝑚
+for some scalars 𝑑1 , … , 𝑑𝑚 . But 𝑣1 , … , 𝑣𝑚 , 𝑤1 , … , 𝑤𝑘 is linearly independent, so
+the last equation implies that all the 𝑐’s (and 𝑑’s) equal 0. Thus 2.45 becomes the
+equation
+                    𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 + 𝑏1 𝑢1 + ⋯ + 𝑏𝑗 𝑢𝑗 = 0.
+Because the list 𝑣1 , … , 𝑣𝑚 , 𝑢1 , … , 𝑢𝑗 is linearly independent, this equation implies
+that all the 𝑎’s and 𝑏’s are 0, completing the proof.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+48      Chapter 2      Finite-Dimensional Vector Spaces
+
+   For 𝑆 a finite set, let #𝑆 denote the number of elements of 𝑆. The table below
+compares finite sets with finite-dimensional vector spaces, showing the analogy
+between #𝑆 (for sets) and dim 𝑉 (for vector spaces), as well as the analogy between
+unions of subsets (in the context of sets) and sums of subspaces (in the context of
+vector spaces).
+                     sets                                     vector spaces
+ 𝑆 is a finite set                              𝑉 is a finite-dimensional vector space
+ #𝑆                                             dim 𝑉
+ for subsets 𝑆1 , 𝑆2 of 𝑆, the union 𝑆1 ∪ 𝑆2    for subspaces 𝑉1 , 𝑉2 of 𝑉, the sum 𝑉1 +𝑉2
+ is the smallest subset of 𝑆 containing 𝑆1      is the smallest subspace of 𝑉 containing
+ and 𝑆2                                         𝑉1 and 𝑉2
+ #(𝑆1 ∪ 𝑆2 )                                    dim(𝑉1 + 𝑉2 )
+ = #𝑆1 + #𝑆2 − #(𝑆1 ∩ 𝑆2 )                      = dim 𝑉1 + dim 𝑉2 − dim(𝑉1 ∩ 𝑉2 )
+ #(𝑆1 ∪ 𝑆2 ) = #𝑆1 + #𝑆2                        dim(𝑉1 + 𝑉2 ) = dim 𝑉1 + dim 𝑉2
+  ⟺ 𝑆1 ∩ 𝑆2 = ∅                                 ⟺ 𝑉1 ∩ 𝑉2 = {0}
+ 𝑆1 ∪ ⋯ ∪ 𝑆𝑚 is a disjoint union ⟺              𝑉1 + ⋯ + 𝑉𝑚 is a direct sum         ⟺
+ #(𝑆1 ∪ ⋯ ∪ 𝑆𝑚 ) = #𝑆1 + ⋯ + #𝑆𝑚                dim(𝑉1 + ⋯ + 𝑉𝑚 )
+                                                = dim 𝑉1 + ⋯ + dim 𝑉𝑚
+
+    The last row above focuses on the analogy between disjoint unions (for sets)
+and direct sums (for vector spaces). The proof of the result in the last box above
+will be given in 3.94.
+    You should be able to find results about sets that correspond, via analogy, to
+the results about vector spaces in Exercises 12 through 18.
+
+Exercises 2C
+
+ 1    Show that the subspaces of 𝐑2 are precisely {0}, all lines in 𝐑2 containing
+      the origin, and 𝐑2.
+ 2    Show that the subspaces of 𝐑3 are precisely {0}, all lines in 𝐑3 containing
+      the origin, all planes in 𝐑3 containing the origin, and 𝐑3.
+ 3    (a) Let 𝑈 = {𝑝 ∈ 𝒫4 (𝐅) ∶ 𝑝(6) = 0}. Find a basis of 𝑈 .
+      (b) Extend the basis in (a) to a basis of 𝒫4 (𝐅).
+      (c) Find a subspace 𝑊 of 𝒫4 (𝐅) such that 𝒫4 (𝐅) = 𝑈 ⊕ 𝑊.
+ 4    (a) Let 𝑈 = {𝑝 ∈ 𝒫4 (𝐑) ∶ 𝑝″(6) = 0}. Find a basis of 𝑈 .
+      (b) Extend the basis in (a) to a basis of 𝒫4 (𝐑).
+      (c) Find a subspace 𝑊 of 𝒫4 (𝐑) such that 𝒫4 (𝐑) = 𝑈 ⊕ 𝑊.
+ 5    (a) Let 𝑈 = {𝑝 ∈ 𝒫4 (𝐅) ∶ 𝑝(2) = 𝑝(5)}. Find a basis of 𝑈 .
+      (b) Extend the basis in (a) to a basis of 𝒫4 (𝐅).
+      (c) Find a subspace 𝑊 of 𝒫4 (𝐅) such that 𝒫4 (𝐅) = 𝑈 ⊕ 𝑊.
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                    Section 2C      Dimension        49
+
+ 6   (a) Let 𝑈 = {𝑝 ∈ 𝒫4 (𝐅) ∶ 𝑝(2) = 𝑝(5) = 𝑝(6)}. Find a basis of 𝑈 .
+     (b) Extend the basis in (a) to a basis of 𝒫4 (𝐅).
+     (c) Find a subspace 𝑊 of 𝒫4 (𝐅) such that 𝒫4 (𝐅) = 𝑈 ⊕ 𝑊.
+ 7   (a) Let 𝑈 = {𝑝 ∈ 𝒫4 (𝐑) ∶ ∫−1 1
+                                      𝑝 = 0}. Find a basis of 𝑈 .
+     (b) Extend the basis in (a) to a basis of 𝒫4 (𝐑).
+     (c) Find a subspace 𝑊 of 𝒫4 (𝐑) such that 𝒫4 (𝐑) = 𝑈 ⊕ 𝑊.
+ 8   Suppose 𝑣1 , … , 𝑣𝑚 is linearly independent in 𝑉 and 𝑤 ∈ 𝑉. Prove that
+                       dim span(𝑣1 + 𝑤, … , 𝑣𝑚 + 𝑤) ≥ 𝑚 − 1.
+ 9   Suppose 𝑚 is a positive integer and 𝑝0 , 𝑝1 , … , 𝑝𝑚 ∈ 𝒫(𝐅) are such that each
+     𝑝𝑘 has degree 𝑘 . Prove that 𝑝0 , 𝑝1 , … , 𝑝𝑚 is a basis of 𝒫𝑚 (𝐅).
+
+10   Suppose 𝑚 is a positive integer. For 0 ≤ 𝑘 ≤ 𝑚, let
+                                 𝑝𝑘 (𝑥) = 𝑥𝑘 (1 − 𝑥)𝑚−𝑘 .
+     Show that 𝑝0 , … , 𝑝𝑚 is a basis of 𝒫𝑚 (𝐅).
+        The basis in this exercise leads to what are called Bernstein polynomials.
+        You can do a web search to learn how Bernstein polynomials are used to
+        approximate continuous functions on [0, 1].
+
+11   Suppose 𝑈 and 𝑊 are both four-dimensional subspaces of 𝐂6. Prove that
+     there exist two vectors in 𝑈 ∩ 𝑊 such that neither of these vectors is a scalar
+     multiple of the other.
+12   Suppose that 𝑈 and 𝑊 are subspaces of 𝐑8 such that dim 𝑈 = 3, dim 𝑊 = 5,
+     and 𝑈 + 𝑊 = 𝐑8. Prove that 𝐑8 = 𝑈 ⊕ 𝑊.
+13   Suppose 𝑈 and 𝑊 are both five-dimensional subspaces of 𝐑9. Prove that
+     𝑈 ∩ 𝑊 ≠ {0}.
+
+14   Suppose 𝑉 is a ten-dimensional vector space and 𝑉1 , 𝑉2 , 𝑉3 are subspaces
+     of 𝑉 with dim 𝑉1 = dim 𝑉2 = dim 𝑉3 = 7. Prove that 𝑉1 ∩ 𝑉2 ∩ 𝑉3 ≠ {0}.
+15   Suppose 𝑉 is finite-dimensional and 𝑉1 , 𝑉2 , 𝑉3 are subspaces of 𝑉 with
+     dim 𝑉1 + dim 𝑉2 + dim 𝑉3 > 2 dim 𝑉. Prove that 𝑉1 ∩ 𝑉2 ∩ 𝑉3 ≠ {0}.
+16   Suppose 𝑉 is finite-dimensional and 𝑈 is a subspace of 𝑉 with 𝑈 ≠ 𝑉. Let
+     𝑛 = dim 𝑉 and 𝑚 = dim 𝑈 . Prove that there exist 𝑛 − 𝑚 subspaces of 𝑉,
+     each of dimension 𝑛 − 1, whose intersection equals 𝑈 .
+17   Suppose that 𝑉1 , … , 𝑉𝑚 are finite-dimensional subspaces of 𝑉. Prove that
+     𝑉1 + ⋯ + 𝑉𝑚 is finite-dimensional and
+                    dim(𝑉1 + ⋯ + 𝑉𝑚 ) ≤ dim 𝑉1 + ⋯ + dim 𝑉𝑚 .
+
+        The inequality above is an equality if and only if 𝑉1 + ⋯ + 𝑉𝑚 is a direct
+        sum, as will be shown in 3.94.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+

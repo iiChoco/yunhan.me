@@ -1,0 +1,587 @@
+{
+ "version": 1,
+ "id": "6c",
+ "blocks": [
+  {
+   "id": "c6-intro-orthogonal-complements",
+   "kind": "prose",
+   "number": "",
+   "title": "Decomposition, nearest points, and approximate solutions",
+   "tex": "Orthogonality supplies a natural way to separate a vector into\n    a component in a subspace and a component perpendicular to it.\n    We use this separation to solve distance-minimization problems\n    and then construct a pseudoinverse for linear equations.\n    Subspaces carry the restricted inner product, and the ambient\n    inner product space need not be finite-dimensional unless this\n    is stated explicitly.",
+   "page": "211"
+  },
+  {
+   "id": "c6-def-orthogonal-complement",
+   "kind": "definition",
+   "number": "6.46",
+   "title": "Orthogonal complements",
+   "tex": "For a subset $U$ of an inner product space $V$, define\n    \\[\n    U^\\perp=\\{v\\in V:\\ip{u}{v}=0\\text{ for every }u\\in U\\}.\n    \\]\n    This orthogonal complement is taken inside the specified ambient\n    space $V$. By conjugate symmetry, the same condition can be\n    written as $\\ip{v}{u}=0$ for every $u\\in U$.",
+   "page": "211"
+  },
+  {
+   "id": "c6-ex-normal-vector-complements",
+   "kind": "example",
+   "number": "6.47",
+   "title": "A normal vector and its perpendicular plane",
+   "tex": "In $\\R^3$ with its standard inner product, put\n    \\[\n    a=(2,3,5),\\qquad\n    H=\\{(x,y,z):2x+3y+5z=0\\}.\n    \\]\n    Prove that $\\{a\\}^\\perp=H$ and\n    $H^\\perp=\\{ta:t\\in\\R\\}$.",
+   "page": "211",
+   "proof": "For $v=(x,y,z)$, the equality $\\ip{a}{v}=0$ is exactly\n    $2x+3y+5z=0$. This proves $\\{a\\}^\\perp=H$.\n\n    If $v=(x,y,z)\\in H^\\perp$, test orthogonality against\n    $(3,-2,0)$ and $(5,0,-2)$, both of which belong to $H$.\n    The resulting equations are $3x-2y=0$ and $5x-2z=0$.\n    Hence $y=3x/2$ and $z=5x/2$, so\n    $v=(x/2)(2,3,5)$.\n    Conversely, if $v=ta$ and $h\\in H$, then\n    $\\ip{h}{v}=t\\ip{h}{a}=0$ by the defining equation of $H$.\n    Thus every such multiple belongs to $H^\\perp$, proving\n    the second equality.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "For the second equality, test against two convenient vectors in the plane."
+   ],
+   "uses": [
+    "c6-def-orthogonal-complement",
+    "c6-thm-standard-inner-product"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-lines-planes-complements",
+   "kind": "example",
+   "number": "6.47",
+   "title": "Lines and planes exchange under orthogonal complementation",
+   "tex": "In $\\R^3$, the orthogonal complement of a plane through\n    the origin is a line through the origin, and the orthogonal\n    complement of a line through the origin is a plane through\n    the origin. In each case every vector of either subspace\n    is orthogonal to every vector of the other.",
+   "page": "211",
+   "proof": "For a plane $U$, choose an orthonormal basis $e_1,e_2$\n    of $U$ and extend it to an orthonormal basis $e_1,e_2,e_3$\n    of $\\R^3$. If $v=c_1e_1+c_2e_2+c_3e_3$, orthonormality\n    gives $\\ip{v}{e_1}=c_1$ and $\\ip{v}{e_2}=c_2$.\n    Orthogonality to every vector in $U$ is therefore equivalent\n    to $c_1=c_2=0$: necessity follows by testing the basis\n    vectors, and sufficiency follows by taking inner products\n    with their arbitrary linear combinations.\n    Thus $U^\\perp=\\Span(e_3)$, a line.\n\n    For a line $L$, choose its orthonormal basis $e_1$ and\n    extend it to an orthonormal basis $e_1,e_2,e_3$ of\n    $\\R^3$. The same coefficient calculation shows that\n    $L^\\perp=\\Span(e_2,e_3)$, a plane.\n    The final orthogonality statement is the definition\n    of an orthogonal complement, together with symmetry\n    of orthogonality.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Choose an orthonormal basis of the given subspace and extend it to one of the ambient space."
+   ],
+   "uses": [
+    "c6-def-orthogonal-complement",
+    "c6-thm-orthonormal-basis-existence",
+    "c6-thm-orthonormal-extension",
+    "c6-thm-orthonormal-coordinates",
+    "c6-thm-inner-product-properties",
+    "c2-thm-low-dimensional-subspaces"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-coordinate-orthogonal-complement",
+   "kind": "example",
+   "number": "6.47",
+   "title": "Complementary coordinate positions",
+   "tex": "In $\\F^5$ with the standard inner product, let\n    \\[\n    U=\\{(a,b,0,0,0):a,b\\in\\F\\}.\n    \\]\n    Then\n    \\[\n    U^\\perp=\\{(0,0,x,y,z):x,y,z\\in\\F\\}.\n    \\]",
+   "page": "211",
+   "proof": "If $v\\in U^\\perp$, then $\\ip{v}{e_1}=0$ and\n    $\\ip{v}{e_2}=0$, where $e_1,e_2$ are the first\n    two standard coordinate vectors. These inner\n    products are the first two coordinates of $v$,\n    so both coordinates vanish.\n    Conversely, if the first two coordinates of $v$\n    vanish, the standard inner product of $v$ with\n    every vector $(a,b,0,0,0)$ is zero. Thus $v$ lies\n    in $U^\\perp$, proving both inclusions.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Test orthogonality against the first two standard basis vectors."
+   ],
+   "uses": [
+    "c6-def-orthogonal-complement",
+    "c6-thm-standard-inner-product"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-orthonormal-block-complement",
+   "kind": "example",
+   "number": "6.47",
+   "title": "Splitting an orthonormal basis into two groups",
+   "tex": "If $e_1,\\ldots,e_m,f_1,\\ldots,f_n$ is an orthonormal\n    basis of $V$, where either group may be empty, then\n    \\[\n    \\Span(e_1,\\ldots,e_m)^\\perp=\\Span(f_1,\\ldots,f_n).\n    \\]",
+   "page": "211",
+   "proof": "Expand an arbitrary $v\\in V$ in the given orthonormal\n    basis:\n    \\[\n    v=\\sum_{j=1}^m\\ip{v}{e_j}e_j+\n      \\sum_{k=1}^n\\ip{v}{f_k}f_k.\n    \\]\n    Orthogonality to the span of the $e_j$ implies\n    $\\ip{v}{e_j}=0$ for every $j$, so the expansion\n    places $v$ in the span of the $f_k$.\n    Conversely, every $f_k$ is orthogonal to every\n    $e_j$, and the inner product identities extend\n    these equalities to arbitrary linear combinations\n    in the two spans. Thus the second span is contained\n    in the stated orthogonal complement.\n    Empty sums and empty spans give the same conclusions\n    when one or both groups are empty.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Expand a vector in the full orthonormal basis and identify the coefficients forced to vanish."
+   ],
+   "uses": [
+    "c6-def-orthogonal-complement",
+    "c6-thm-orthonormal-coordinates",
+    "c6-thm-inner-product-properties",
+    "c2-def-span"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-orthogonal-complement-subspace",
+   "kind": "theorem",
+   "number": "6.48(a)",
+   "title": "An orthogonal complement is always a subspace",
+   "tex": "For every subset $U$ of an inner product space $V$,\n    the set $U^\\perp$ is a subspace of $V$.",
+   "page": "211",
+   "proof": "For every $u\\in U$, $\\ip{u}{0}=0$, so\n    $0\\in U^\\perp$. If $v,w\\in U^\\perp$, then for\n    every $u\\in U$,\n    \\[\n    \\ip{u}{v+w}=\\ip{u}{v}+\\ip{u}{w}=0.\n    \\]\n    Hence $v+w\\in U^\\perp$. If $a\\in\\F$ and\n    $v\\in U^\\perp$, then\n    \\[\n    \\ip{u}{av}=\\overline a\\,\\ip{u}{v}=0\n    \\]\n    for every $u\\in U$, so $av\\in U^\\perp$.\n    The subspace test proves the assertion.\n    If $U$ is empty, the universal conditions are\n    vacuous, and the same proof gives $U^\\perp=V$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use additivity and conjugate homogeneity in the second argument."
+   ],
+   "uses": [
+    "c6-def-orthogonal-complement",
+    "c6-thm-inner-product-properties",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-orthogonal-complement-properties",
+   "kind": "theorem",
+   "number": "6.48(b-e)",
+   "title": "Basic containment properties of orthogonal complements",
+   "tex": "For subsets $U,G,H$ of an inner product space $V$,\n    \\[\n    \\{0\\}^\\perp=V,\\qquad V^\\perp=\\{0\\},\\qquad\n    U\\cap U^\\perp\\subseteq\\{0\\}.\n    \\]\n    If $G\\subseteq H$, then $H^\\perp\\subseteq G^\\perp$.\n    When $U$ is a subspace, $U\\cap U^\\perp=\\{0\\}$.",
+   "page": "211",
+   "proof": "Every vector is orthogonal to zero, so\n    $\\{0\\}^\\perp=V$. If $v\\in V^\\perp$, then\n    $v\\in V$ allows us to test against $v$ itself:\n    $\\ip{v}{v}=0$, which forces $v=0$.\n    The zero vector belongs to $V^\\perp$, establishing\n    the second equality.\n\n    If $u\\in U\\cap U^\\perp$, its membership in $U$\n    lets us test its orthogonality against itself.\n    Again $\\ip{u}{u}=0$ implies $u=0$.\n    If $U$ is a subspace, zero belongs to both sets,\n    turning this inclusion into equality.\n\n    Finally, a vector orthogonal to every member of\n    $H$ is orthogonal to every member of its subset\n    $G$. Thus $H^\\perp\\subseteq G^\\perp$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "For an intersection with an orthogonal complement, test a vector against itself."
+   ],
+   "uses": [
+    "c6-def-orthogonal-complement",
+    "c6-def-inner-product",
+    "c6-thm-inner-product-properties",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-orthogonal-direct-sum",
+   "kind": "theorem",
+   "number": "6.49",
+   "title": "A finite-dimensional subspace gives an orthogonal decomposition",
+   "tex": "If $U$ is a finite-dimensional subspace of an inner\n    product space $V$, then\n    \\[\n    V=U\\oplus U^\\perp.\n    \\]\n    The ambient space $V$ may be infinite-dimensional.",
+   "page": "212",
+   "proof": "Choose an orthonormal basis $e_1,\\ldots,e_m$\n    of $U$. For $v\\in V$, define\n    \\[\n    u=\\sum_{j=1}^m\\ip{v}{e_j}e_j,\\qquad w=v-u.\n    \\]\n    The vector $u$ belongs to $U$. For each $k$,\n    orthonormality gives\n    \\[\n    \\ip{w}{e_k}\n    =\\ip{v}{e_k}-\\sum_{j=1}^m\n       \\ip{v}{e_j}\\ip{e_j}{e_k}=0.\n    \\]\n    If $y=\\sum_k a_ke_k\\in U$, conjugate linearity\n    in the second argument gives\n    $\\ip{w}{y}=\\sum_k\\overline{a_k}\\ip{w}{e_k}=0$.\n    By conjugate symmetry, $w\\in U^\\perp$.\n    Thus every $v$ belongs to $U+U^\\perp$.\n\n    Both summands are subspaces, and their intersection\n    is $\\{0\\}$ by the preceding result. The two-subspace\n    direct-sum criterion therefore makes the representation\n    unique. If $U=\\{0\\}$, its orthonormal basis is empty;\n    the construction gives $u=0$ and $w=v$, so this\n    case is included.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Subtract the sum of the components along an orthonormal basis of $U$.",
+    "Check that the remainder is orthogonal to every basis vector and then to their entire span."
+   ],
+   "uses": [
+    "c6-thm-orthonormal-basis-existence",
+    "c6-def-orthonormal",
+    "c6-thm-inner-product-properties",
+    "c6-def-orthogonal-complement",
+    "c6-thm-orthogonal-complement-subspace",
+    "c6-thm-orthogonal-complement-properties",
+    "c1-thm-direct-intersection",
+    "c2-def-basis"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-orthogonal-dimension",
+   "kind": "theorem",
+   "number": "6.51",
+   "title": "Dimension of an orthogonal complement",
+   "tex": "If $V$ is finite-dimensional and $U$ is a subspace,\n    then\n    \\[\n    \\dim U^\\perp=\\dim V-\\dim U.\n    \\]",
+   "page": "213",
+   "proof": "Both $U$ and $U^\\perp$ are finite-dimensional\n    subspaces of $V$. The orthogonal decomposition\n    theorem gives $V=U\\oplus U^\\perp$.\n    Dimension addition for a direct sum yields\n    $\\dim V=\\dim U+\\dim U^\\perp$.\n    Subtracting $\\dim U$ gives the claimed formula,\n    including the zero-space and whole-space cases.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply dimension addition to the orthogonal direct sum."
+   ],
+   "uses": [
+    "c6-thm-orthogonal-complement-subspace",
+    "c6-thm-orthogonal-direct-sum",
+    "c2-thm-subspaces-finite",
+    "c2-thm-direct-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-double-orthogonal",
+   "kind": "theorem",
+   "number": "6.52",
+   "title": "Taking the orthogonal complement twice",
+   "tex": "If $U$ is a finite-dimensional subspace of an inner\n    product space $V$, then\n    \\[\n    (U^\\perp)^\\perp=U.\n    \\]\n    This conclusion does not require $V$ to be finite-dimensional.",
+   "page": "213",
+   "proof": "If $u\\in U$ and $w\\in U^\\perp$, then\n    $\\ip{u}{w}=0$, and conjugate symmetry gives\n    $\\ip{w}{u}=0$. Hence $u\\in(U^\\perp)^\\perp$,\n    proving one inclusion.\n\n    Now let $v\\in(U^\\perp)^\\perp$. Decompose it as\n    $v=u+w$ with $u\\in U$ and $w\\in U^\\perp$.\n    Since $v$ is orthogonal to $w$ and $u$ is also\n    orthogonal to $w$, we have\n    \\[\n    \\ip{w}{w}=\\ip{w}{v-u}\n    =\\ip{w}{v}-\\ip{w}{u}=0.\n    \\]\n    Positive definiteness gives $w=0$, so $v=u\\in U$.\n    This proves the reverse inclusion without applying\n    any finite-dimensionality assumption to $U^\\perp$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "One inclusion follows from symmetry of orthogonality.",
+    "For the other, decompose a vector using the finite-dimensional subspace $U$."
+   ],
+   "uses": [
+    "c6-def-orthogonal-complement",
+    "c6-thm-orthogonal-direct-sum",
+    "c6-thm-inner-product-properties",
+    "c6-def-inner-product"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-trivial-orthogonal-complement",
+   "kind": "theorem",
+   "number": "6.54",
+   "title": "When the orthogonal complement vanishes",
+   "tex": "For a finite-dimensional subspace $U$ of an inner\n    product space $V$,\n    \\[\n    U^\\perp=\\{0\\}\\quad\\Longleftrightarrow\\quad U=V.\n    \\]",
+   "page": "214",
+   "proof": "If $U^\\perp=\\{0\\}$, the decomposition\n    $V=U\\oplus U^\\perp$ says that every vector of\n    $V$ lies in $U$, so $U=V$.\n    Conversely, if $U=V$, then\n    $U^\\perp=V^\\perp=\\{0\\}$ by the basic complement\n    properties.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the decomposition of every ambient vector."
+   ],
+   "uses": [
+    "c6-thm-orthogonal-direct-sum",
+    "c6-thm-orthogonal-complement-properties"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-def-orthogonal-projection",
+   "kind": "definition",
+   "number": "6.55",
+   "title": "Orthogonal projection",
+   "tex": "Let $U$ be a finite-dimensional subspace of $V$.\n    For the unique decomposition $v=u+w$ with\n    $u\\in U$ and $w\\in U^\\perp$, define\n    \\[\n    P_Uv=u.\n    \\]\n    Thus $P_U:V\\to V$ is a well-defined function whose\n    values lie in $U$. It is called the orthogonal\n    projection onto $U$; its linearity is proved below.",
+   "page": "214"
+  },
+  {
+   "id": "c6-ex-projection-line",
+   "kind": "example",
+   "number": "6.56",
+   "title": "Projection onto a line",
+   "tex": "If $u\\ne0$ and $U=\\Span(u)$, then for every $v\\in V$,\n    \\[\n    P_Uv=\\frac{\\ip{v}{u}}{\\norm{u}^2}u.\n    \\]",
+   "page": "214",
+   "proof": "Positive definiteness gives $\\norm{u}^2>0$.\n    Put $a=\\ip{v}{u}/\\norm{u}^2$.\n    The vector $au$ belongs to $U$, and\n    \\[\n    \\ip{v-au}{u}\n    =\\ip{v}{u}-a\\ip{u}{u}=0.\n    \\]\n    Conjugate homogeneity then makes $v-au$\n    orthogonal to every scalar multiple of $u$,\n    so $v-au\\in U^\\perp$.\n    Thus $v=au+(v-au)$ is the defining orthogonal\n    decomposition, and uniqueness gives $P_Uv=au$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Choose the multiple of $u$ that makes the remainder orthogonal to $u$."
+   ],
+   "uses": [
+    "c6-def-orthogonal-projection",
+    "c6-def-orthogonal-complement",
+    "c6-thm-inner-product-properties",
+    "c6-def-norm",
+    "c6-thm-norm-properties",
+    "c2-def-span"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-projection-properties",
+   "kind": "theorem",
+   "number": "6.57",
+   "title": "Algebra and geometry of orthogonal projection",
+   "tex": "For a finite-dimensional subspace $U$ of $V$,\n    $P_U$ is a linear operator satisfying\n    \\[\n    P_Uu=u\\ (u\\in U),\\qquad\n    P_Uw=0\\ (w\\in U^\\perp),\n    \\]\n    \\[\n    \\Range P_U=U,\\qquad \\Null P_U=U^\\perp,\\qquad\n    v-P_Uv\\in U^\\perp,\n    \\]\n    \\[\n    P_U^2=P_U,\\qquad \\norm{P_Uv}\\le\\norm v.\n    \\]\n    If $e_1,\\ldots,e_m$ is an orthonormal basis of $U$, then\n    \\[\n    P_Uv=\\sum_{j=1}^m\\ip{v}{e_j}e_j.\n    \\]",
+   "page": "215",
+   "proof": "Write $v_i=u_i+w_i$ with $u_i\\in U$ and\n    $w_i\\in U^\\perp$ for $i=1,2$.\n    Since both components lie in subspaces,\n    \\[\n    v_1+v_2=(u_1+u_2)+(w_1+w_2)\n    \\]\n    is its orthogonal decomposition. Uniqueness gives\n    $P_U(v_1+v_2)=u_1+u_2=P_Uv_1+P_Uv_2$.\n    For a scalar $a$, the decomposition\n    $av_1=au_1+aw_1$ similarly gives\n    $P_U(av_1)=aP_Uv_1$. Thus $P_U$ is linear.\n\n    The decompositions $u=u+0$ and $w=0+w$\n    prove that $P_U$ fixes $U$ and kills $U^\\perp$.\n    Every projection value lies in $U$, and every\n    $u\\in U$ is its own projection value, so\n    $\\Range P_U=U$.\n    If $v=u+w$ is the orthogonal decomposition,\n    $P_Uv=0$ exactly when $u=0$, or equivalently\n    when $v\\in U^\\perp$. This proves the kernel\n    formula. The same decomposition gives\n    $v-P_Uv=w\\in U^\\perp$.\n    Since $P_Uv\\in U$ and $P_U$ fixes $U$,\n    applying $P_U$ again changes nothing:\n    $P_U^2v=P_Uv$.\n\n    The two components are orthogonal, so Pythagoras gives\n    \\[\n    \\norm v^2=\\norm{P_Uv}^2+\\norm{v-P_Uv}^2\n    \\ge\\norm{P_Uv}^2.\n    \\]\n    Both norms are nonnegative, proving the norm bound.\n\n    Finally, expand $P_Uv$ in the orthonormal basis of $U$.\n    The residual is orthogonal to each $e_j$, so\n    $\\ip{P_Uv}{e_j}=\\ip{v}{e_j}$.\n    The orthonormal coordinate formula yields the asserted\n    projection formula. If $U=\\{0\\}$, this is an empty\n    sum and all the preceding statements give the zero\n    projection, as required.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use uniqueness of orthogonal decomposition to prove linearity.",
+    "Apply Pythagoras to the two components of $v$."
+   ],
+   "uses": [
+    "c6-def-orthogonal-projection",
+    "c6-thm-orthogonal-direct-sum",
+    "c6-thm-orthogonal-complement-subspace",
+    "c6-thm-pythagorean",
+    "c6-thm-norm-properties",
+    "c6-thm-orthonormal-coordinates",
+    "c6-thm-inner-product-properties",
+    "c3-def-linear-map",
+    "c3-def-range",
+    "c3-def-null-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-riesz-complement-proof",
+   "kind": "theorem",
+   "number": "6.58",
+   "title": "Riesz representation through an orthogonal complement",
+   "tex": "Let $V$ be a finite-dimensional inner product space.\n    For each $v\\in V$, define the functional\n    $\\varphi_v(u)=\\ip{u}{v}$.\n    The correspondence $v\\mapsto\\varphi_v$ is a bijection\n    from $V$ to its dual space $V'$.\n    Moreover,\n    \\[\n    \\varphi_{v+w}=\\varphi_v+\\varphi_w,\\qquad\n    \\varphi_{av}=\\overline a\\,\\varphi_v.\n    \\]",
+   "page": "216",
+   "proof": "Linearity of the inner product in its first argument\n    makes every $\\varphi_v$ a linear functional.\n    If $\\varphi_v=\\varphi_w$, then\n    $\\ip{u}{v-w}=0$ for every $u\\in V$.\n    Taking $u=v-w$ gives $\\norm{v-w}^2=0$ and\n    hence $v=w$. Thus the correspondence is injective.\n\n    To prove surjectivity using complements, let\n    $\\varphi\\in V'$. If $\\varphi=0$, take $v=0$.\n    Otherwise $N=\\Null\\varphi$ is a proper\n    finite-dimensional subspace. The trivial-complement\n    criterion gives $N^\\perp\\ne\\{0\\}$.\n    Choose $w\\in N^\\perp$ with $w\\ne0$.\n    Since $N\\cap N^\\perp=\\{0\\}$, we have $w\\notin N$\n    and therefore $\\varphi(w)\\ne0$. Put\n    \\[\n    v=\\frac{\\overline{\\varphi(w)}}{\\norm w^2}w.\n    \\]\n    For any $u\\in V$, the vector\n    \\[\n    u-\\frac{\\varphi(u)}{\\varphi(w)}w\n    \\]\n    belongs to $N$, so it is orthogonal to $w$.\n    Taking the inner product with $w$ gives\n    \\[\n    \\ip{u}{w}\n    =\\frac{\\varphi(u)}{\\varphi(w)}\\norm w^2.\n    \\]\n    Conjugate homogeneity in the second argument now yields\n    \\[\n    \\ip{u}{v}\n    =\\frac{\\varphi(w)}{\\norm w^2}\\ip{u}{w}\n    =\\varphi(u).\n    \\]\n    Thus $\\varphi=\\varphi_v$, proving surjectivity.\n    The zero-dimensional case is included in the\n    zero-functional case.\n\n    The two displayed algebraic identities follow by\n    evaluating at an arbitrary $u$ and using additivity\n    and conjugate homogeneity in the second inner-product\n    argument. Over $\\R$ this makes the correspondence\n    linear; over $\\C$ the scalar rule is conjugate linear.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "For a nonzero functional, choose a nonzero vector perpendicular to its kernel.",
+    "Subtract a suitable multiple of that vector from an arbitrary input to obtain a kernel vector.",
+    "The scalar multiplying the representing vector must account for conjugate linearity in the second argument."
+   ],
+   "uses": [
+    "c6-thm-inner-product-properties",
+    "c6-thm-norm-properties",
+    "c6-thm-trivial-orthogonal-complement",
+    "c6-thm-orthogonal-complement-properties",
+    "c2-thm-subspaces-finite",
+    "c3-def-linear-functional",
+    "c3-def-dual-space",
+    "c3-thm-null-subspace",
+    "c3-def-null-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-minimization",
+   "kind": "theorem",
+   "number": "6.61",
+   "title": "The unique nearest point in a finite-dimensional subspace",
+   "tex": "Let $U$ be a finite-dimensional subspace of $V$.\n    For $v\\in V$ and $u\\in U$,\n    \\[\n    \\norm{v-u}^2\n    =\\norm{v-P_Uv}^2+\\norm{P_Uv-u}^2.\n    \\]\n    Consequently,\n    \\[\n    \\norm{v-P_Uv}\\le\\norm{v-u},\n    \\]\n    with equality exactly when $u=P_Uv$.",
+   "page": "217",
+   "proof": "Decompose\n    \\[\n    v-u=(v-P_Uv)+(P_Uv-u).\n    \\]\n    The first summand belongs to $U^\\perp$ by the\n    projection properties. The second belongs to $U$,\n    because both $P_Uv$ and $u$ do. They are orthogonal,\n    so Pythagoras gives the asserted squared-norm identity.\n\n    The second term on its right is nonnegative, which\n    gives the squared inequality and then the norm\n    inequality. Equality of the norms is equivalent\n    to $\\norm{P_Uv-u}^2=0$. Positive definiteness\n    makes this equivalent to $u=P_Uv$.\n    If $U=\\{0\\}$, its only candidate is zero and\n    the same identities apply.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Split the error into the orthogonal residual and the difference between two points of $U$."
+   ],
+   "uses": [
+    "c6-thm-projection-properties",
+    "c6-def-orthogonal-complement",
+    "c6-thm-pythagorean",
+    "c6-thm-norm-properties",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-def-sine-approximation-setting",
+   "kind": "definition",
+   "number": "",
+   "title": "The function space for the sine approximation",
+   "tex": "For the following example, $\\pi$ is the usual positive\n    circle constant and $\\sin$ is the real sine function.\n    Write $C[-\\pi,\\pi]$ for the continuous real-valued functions\n    on $[-\\pi,\\pi]$, with pointwise operations.\n    We use the integral pairing\n    \\[\n    \\ip{f}{g}=\\int_{-\\pi}^{\\pi}f(x)g(x)\\,dx.\n    \\]\n    The analytic properties needed for this example are\n    recorded explicitly in the next theorem.",
+   "page": "218"
+  },
+  {
+   "id": "c6-thm-sine-integral-data",
+   "kind": "theorem",
+   "number": "",
+   "title": "Analytic input for the sine approximation",
+   "tex": "The integral pairing just specified is an inner product\n    on $C[-\\pi,\\pi]$. Polynomial restrictions and the function\n    $x\\mapsto\\sin x$ belong to this space.\n    An odd continuous function has integral zero over\n    $[-\\pi,\\pi]$, and $\\sin$ is odd.\n    For nonnegative integers $r$,\n    \\[\n    \\int_{-\\pi}^{\\pi}x^{2r}\\,dx\n    =\\frac{2\\pi^{2r+1}}{2r+1},\n    \\qquad\n    \\int_{-\\pi}^{\\pi}x^{2r+1}\\,dx=0.\n    \\]\n    The following additional integrals hold:\n    \\[\n    \\int_{-\\pi}^{\\pi}x\\sin x\\,dx=2\\pi,\n    \\]\n    \\[\n    \\int_{-\\pi}^{\\pi}x^3\\sin x\\,dx=2\\pi^3-12\\pi,\n    \\]\n    \\[\n    \\int_{-\\pi}^{\\pi}x^5\\sin x\\,dx\n    =2\\pi^5-40\\pi^3+240\\pi.\n    \\]",
+   "page": "218"
+  },
+  {
+   "id": "c6-remark-sine-integral-faith",
+   "kind": "remark",
+   "number": "",
+   "title": "Explicit analytic prerequisites",
+   "tex": "The preceding facts about continuous functions, sine,\n    and integration are taken on faith as calculus background.\n    The approximation below is derived from these exact\n    identities and the proved projection theorem.",
+   "page": "218"
+  },
+  {
+   "id": "c6-ex-best-sine-polynomial",
+   "kind": "example",
+   "number": "6.63",
+   "title": "The exact best polynomial approximation to sine in degree five",
+   "tex": "For $t=x/\\pi$, define\n    \\[\n    L_1(x)=t,\\qquad\n    L_3(x)=\\frac{5t^3-3t}{2},\\qquad\n    L_5(x)=\\frac{63t^5-70t^3+15t}{8}.\n    \\]\n    Among all real polynomials of degree at most $5$,\n    the unique minimizer of\n    \\[\n    \\int_{-\\pi}^{\\pi}|\\sin x-p(x)|^2\\,dx\n    \\]\n    is\n    \\[\n    \\begin{aligned}\n    u(x)={}&\\frac3\\pi L_1(x)\n    +\\left(\\frac7\\pi-\\frac{105}{\\pi^3}\\right)L_3(x)\\\\\n    &+\\left(\\frac{11}\\pi-\\frac{1155}{\\pi^3}\n           +\\frac{10395}{\\pi^5}\\right)L_5(x).\n    \\end{aligned}\n    \\]\n    In particular, its integrated squared error is no larger\n    than that of $x-x^3/6+x^5/120$.",
+   "page": "218",
+   "proof": "Let $U$ be the span of the restrictions of\n    $1,x,\\ldots,x^5$ in $C[-\\pi,\\pi]$.\n    It is a finite-dimensional subspace consisting of\n    exactly the indicated polynomial restrictions.\n    Distinct polynomials of degree at most $5$ have\n    distinct restrictions: a nonzero difference cannot\n    vanish at the infinitely many points of this interval,\n    by the polynomial root bound.\n\n    The moment formulas give the following inner products:\n    \\[\n    \\norm{L_1}^2=\\frac{2\\pi}{3},\n    \\qquad\n    \\ip{L_1}{L_3}\n    =\\pi\\left(\\frac55-\\frac33\\right)=0,\n    \\]\n    \\[\n    \\ip{L_1}{L_5}\n    =\\frac\\pi4\\left(\\frac{63}7-\\frac{70}5+\\frac{15}3\\right)=0,\n    \\]\n    \\[\n    \\norm{L_3}^2\n    =\\frac\\pi2\\left(\\frac{25}7-\\frac{30}5+\\frac93\\right)\n    =\\frac{2\\pi}{7},\n    \\]\n    \\[\n    \\ip{L_3}{L_5}\n    =\\frac\\pi8\\left(\\frac{315}9-\\frac{539}7\n                   +\\frac{285}5-\\frac{45}3\\right)=0,\n    \\]\n    \\[\n    \\norm{L_5}^2\n    =\\frac\\pi{32}\\left(\\frac{3969}{11}-\\frac{8820}9\n        +\\frac{6790}7-\\frac{2100}5+\\frac{225}3\\right)\n    =\\frac{2\\pi}{11}.\n    \\]\n    Each expression follows by multiplying the displayed\n    polynomials in $t$ and using\n    $\\int_{-\\pi}^{\\pi}t^{2r}\\,dx=2\\pi/(2r+1)$.\n\n    Put $s(x)=\\sin x$ and denote the three accepted\n    sine moments by $M_1,M_3,M_5$ in increasing order.\n    Substitution into the definitions gives\n    \\[\n    \\ip{s}{L_1}=\\frac{M_1}{\\pi}=2,\n    \\]\n    \\[\n    \\ip{s}{L_3}\n    =\\frac{5M_3}{2\\pi^3}-\\frac{3M_1}{2\\pi}\n    =2-\\frac{30}{\\pi^2},\n    \\]\n    \\[\n    \\ip{s}{L_5}\n    =\\frac{63M_5}{8\\pi^5}-\\frac{70M_3}{8\\pi^3}\n       +\\frac{15M_1}{8\\pi}\n    =2-\\frac{210}{\\pi^2}+\\frac{1890}{\\pi^4}.\n    \\]\n    The coefficient of each $L_j$ in the stated $u$\n    is exactly $\\ip{s}{L_j}/\\norm{L_j}^2$.\n    Pairwise orthogonality therefore gives\n    $\\ip{s-u}{L_j}=0$ for $j=1,3,5$.\n\n    Both $s$ and $u$ are odd. Their difference is\n    orthogonal to $1,t^2,t^4$, because its product\n    with each of these even functions is odd and\n    has integral zero. Moreover the six functions\n    $1,t^2,t^4,L_1,L_3,L_5$ span $U$:\n    \\[\n    t=L_1,\\qquad\n    t^3=\\frac{2L_3+3t}{5},\\qquad\n    t^5=\\frac{8L_5+70t^3-15t}{63},\n    \\]\n    and powers of $x$ are nonzero scalar multiples\n    of the corresponding powers of $t$.\n    Thus $s-u$ is orthogonal to all of $U$.\n\n    Since $u\\in U$ and $s-u\\in U^\\perp$, uniqueness\n    of orthogonal decomposition identifies $u=P_Us$.\n    The minimization theorem makes it the unique\n    closest element of $U$ to $s$. The square of\n    the distance is precisely the displayed integral.\n    Injectivity of polynomial restriction transfers\n    uniqueness to the polynomials themselves.\n    Finally $x-x^3/6+x^5/120$ belongs to $U$,\n    so inserting it as a competitor gives the final inequality.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Use the three displayed odd polynomials as an orthogonal basis for the odd part of the approximation space.",
+    "Show that the proposed residual is orthogonal to those three polynomials and to the even powers."
+   ],
+   "uses": [
+    "c6-def-sine-approximation-setting",
+    "c6-thm-sine-integral-data",
+    "c6-thm-minimization",
+    "c6-thm-orthogonal-direct-sum",
+    "c6-def-orthogonal-projection",
+    "c6-def-orthogonal-complement",
+    "c6-thm-inner-product-properties",
+    "c2-thm-span-smallest",
+    "c2-def-finite-dimensional",
+    "c4-thm-root-bound"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-remark-sine-rounded-coefficients",
+   "kind": "remark",
+   "number": "",
+   "title": "Reading the approximation numerically",
+   "tex": "Expanding the exact expression gives approximately\n    \\[\n    u(x)=0.9878621356x-0.1552714106x^3+0.0056431180x^5.\n    \\]\n    These decimal coefficients are rounded. The preceding\n    exact formula specifies the unique minimizer.",
+   "page": "219"
+  },
+  {
+   "id": "c6-thm-kernel-complement-restriction",
+   "kind": "theorem",
+   "number": "6.67",
+   "title": "Removing the kernel produces an invertible restriction",
+   "tex": "Let $V,W$ be inner product spaces, with $V$\n    finite-dimensional, and let $T\\in\\Lin(V,W)$.\n    Put $N=\\Null T$ and $R=\\Range T$.\n    The map\n    \\[\n    A:N^\\perp\\to R,\\qquad Ax=Tx,\n    \\]\n    is an invertible linear map. The spaces $N$, $N^\\perp$,\n    and $R$ are finite-dimensional, even if $W$ is not.",
+   "page": "220",
+   "proof": "The kernel and range are subspaces. The subspaces\n    $N$ and $N^\\perp$ of the finite-dimensional space\n    $V$ are finite-dimensional; the range is\n    finite-dimensional by the finite-dimensional\n    range conclusion of rank-nullity.\n    The restriction has its stated target by the\n    definition of range, and is linear because\n    it uses the same formula as $T$.\n\n    If $Ax=0$ for $x\\in N^\\perp$, then also $x\\in N$.\n    The intersection $N\\cap N^\\perp=\\{0\\}$ gives $x=0$.\n    Thus $A$ has zero kernel and is injective.\n    For $y\\in R$, choose $v\\in V$ with $Tv=y$.\n    Decompose $v=n+x$ with $n\\in N$ and $x\\in N^\\perp$.\n    Then $Ax=Tx=Tv-Tn=y$, so $A$ is surjective.\n    The bijective invertibility theorem makes $A$\n    invertible with a linear inverse from $R$ to $N^\\perp$.\n\n    If $T=0$, both $N^\\perp$ and $R$ are the zero\n    space, and the argument gives their unique\n    invertible map. Thus the degenerate case is included.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Injectivity follows from the intersection of the kernel and its orthogonal complement.",
+    "For surjectivity, decompose any preimage into its kernel and perpendicular components."
+   ],
+   "uses": [
+    "c6-thm-orthogonal-complement-subspace",
+    "c6-thm-orthogonal-complement-properties",
+    "c6-thm-orthogonal-direct-sum",
+    "c2-thm-subspaces-finite",
+    "c3-thm-null-subspace",
+    "c3-thm-range-subspace",
+    "c3-thm-rank-nullity",
+    "c3-thm-injective-null",
+    "c3-thm-invertible-bijective",
+    "c3-def-null-space",
+    "c3-def-range"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-def-pseudoinverse",
+   "kind": "definition",
+   "number": "6.68",
+   "title": "Pseudoinverse",
+   "tex": "Let $V,W$ be inner product spaces, with $V$\n    finite-dimensional, and let $T\\in\\Lin(V,W)$.\n    Put $N=\\Null T$, $R=\\Range T$, and regard\n    $A=T|_{N^\\perp}$ as the invertible map\n    $A:N^\\perp\\to R$ just constructed.\n    Define the pseudoinverse $T^\\dagger:W\\to V$ by\n    \\[\n    T^\\dagger w=A^{-1}(P_Rw).\n    \\]\n    Here $P_R$ is the orthogonal projection in $W$\n    onto the finite-dimensional subspace $R$.\n    Its value lies in the domain $R$ of $A^{-1}$,\n    and the resulting value of $T^\\dagger$ lies\n    in $N^\\perp\\subseteq V$.",
+   "page": "221"
+  },
+  {
+   "id": "c6-thm-pseudoinverse-properties",
+   "kind": "theorem",
+   "number": "6.69",
+   "title": "The two projection identities for the pseudoinverse",
+   "tex": "Under the hypotheses defining $T^\\dagger$, it is\n    a linear map from $W$ to $V$ and satisfies\n    \\[\n    TT^\\dagger=P_{\\Range T},\\qquad\n    T^\\dagger T=P_{(\\Null T)^\\perp}.\n    \\]\n    If $T$ is invertible, then $T^\\dagger=T^{-1}$.\n    In particular, surjectivity gives $TT^\\dagger=I_W$,\n    and injectivity gives $T^\\dagger T=I_V$.\n    Also, $T^\\dagger$ vanishes on $(\\Range T)^\\perp$;\n    for $w\\in\\Range T$, it returns the unique\n    $x\\in(\\Null T)^\\perp$ satisfying $Tx=w$.",
+   "page": "221",
+   "proof": "Use the notation $N,R,A$ from the definition.\n    The projection $P_R$, regarded as a map into $R$,\n    is linear, and $A^{-1}:R\\to N^\\perp$ is linear.\n    Their composition, with values regarded as elements\n    of $V$, is therefore linear.\n\n    For every $w\\in W$, the vector $P_Rw$ lies in $R$,\n    and $T$ agrees with $A$ on the image of $A^{-1}$.\n    Hence\n    \\[\n    TT^\\dagger w=A(A^{-1}(P_Rw))=P_Rw,\n    \\]\n    proving the first projection identity.\n\n    For $v\\in V$, write $v=n+x$ with\n    $n\\in N$ and $x\\in N^\\perp$.\n    Then $Tv=Tx\\in R$, so\n    \\[\n    T^\\dagger Tv=A^{-1}(P_RTx)=A^{-1}(Ax)=x.\n    \\]\n    The vector $n$ is orthogonal to all of $N^\\perp$,\n    so the same decomposition identifies\n    $x=P_{N^\\perp}v$. This proves the second identity.\n\n    If $T$ is invertible, its kernel is zero and its\n    range is $W$. Thus $N^\\perp=V$, $A=T$, and\n    $P_R=I_W$, giving $T^\\dagger=T^{-1}$.\n    If $T$ is merely surjective, $R=W$ still gives\n    $TT^\\dagger=I_W$. If it is merely injective,\n    $N=\\{0\\}$ gives $T^\\dagger T=I_V$.\n\n    Finally, if $w\\in R^\\perp$, then $P_Rw=0$,\n    and linearity of $A^{-1}$ gives $T^\\dagger w=0$.\n    If $w\\in R$, then $P_Rw=w$ and $T^\\dagger w=A^{-1}w$.\n    The definition of this inverse gives exactly the\n    stated existence and uniqueness in $N^\\perp$.\n    All identities include zero spaces and the zero map.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the inverse identities for the restricted map onto the range.",
+    "To compute $T^\\dagger Tv$, decompose $v$ into a kernel component and an orthogonal component."
+   ],
+   "uses": [
+    "c6-def-pseudoinverse",
+    "c6-thm-kernel-complement-restriction",
+    "c6-thm-projection-properties",
+    "c6-thm-orthogonal-direct-sum",
+    "c6-thm-orthogonal-complement-properties",
+    "c3-def-map-inverse",
+    "c3-thm-invertible-bijective",
+    "c3-thm-injective-null",
+    "c3-lem-composition-linear",
+    "c3-thm-linear-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-thm-pseudoinverse-minimum",
+   "kind": "theorem",
+   "number": "6.70",
+   "title": "The least residual and the least norm",
+   "tex": "Let $V,W$ be inner product spaces with $V$\n    finite-dimensional, let $T\\in\\Lin(V,W)$, and let $w\\in W$.\n    Then for every $v\\in V$,\n    \\[\n    \\norm{T(T^\\dagger w)-w}\\le\\norm{Tv-w},\n    \\]\n    with equality exactly when\n    $v\\in T^\\dagger w+\\Null T$.\n    Among those minimizing vectors,\n    \\[\n    \\norm{T^\\dagger w}\\le\\norm v,\n    \\]\n    with equality exactly when $v=T^\\dagger w$.",
+   "page": "222",
+   "proof": "Put $x=T^\\dagger w$ and $R=\\Range T$.\n    The pseudoinverse identity gives $Tx=P_Rw$.\n    Decompose the residual as\n    \\[\n    Tv-w=(Tv-Tx)+(Tx-w).\n    \\]\n    The first term belongs to $R$, and the second\n    belongs to $R^\\perp$, because $Tx=P_Rw$ and\n    $w-P_Rw\\in R^\\perp$.\n    Pythagoras gives the exact identity\n    \\[\n    \\norm{Tv-w}^2\n    =\\norm{Tv-Tx}^2+\\norm{Tx-w}^2.\n    \\]\n    Nonnegativity proves the first inequality.\n    Equality holds exactly when $Tv-Tx=0$,\n    equivalently when $v-x\\in\\Null T$, which is\n    the stated translate condition.\n\n    For such a vector write $v=x+n$ with\n    $n\\in\\Null T$. By definition of the pseudoinverse,\n    $x\\in(\\Null T)^\\perp$. A second use of Pythagoras\n    gives\n    \\[\n    \\norm v^2=\\norm x^2+\\norm n^2.\n    \\]\n    Thus $\\norm x\\le\\norm v$, with equality\n    exactly when $n=0$, or $v=x$.\n    These identities also cover the zero map and\n    zero-dimensional domain or target, without\n    requiring a separate existence assumption for\n    the equation $Tv=w$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Separate the residual into its range component and its orthogonal component.",
+    "Within the set of residual minimizers, separate a vector into its pseudoinverse value and a kernel vector."
+   ],
+   "uses": [
+    "c6-def-pseudoinverse",
+    "c6-thm-pseudoinverse-properties",
+    "c6-thm-projection-properties",
+    "c6-thm-pythagorean",
+    "c6-thm-norm-properties",
+    "c6-def-orthogonal-complement",
+    "c3-def-null-space",
+    "c3-def-range",
+    "c3-def-vector-set-sum",
+    "c3-def-linear-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c6-ex-coordinate-pseudoinverse",
+   "kind": "example",
+   "number": "6.71",
+   "title": "Computing a pseudoinverse from the kernel and range",
+   "tex": "Give $\\F^4$ and $\\F^3$ their standard inner products,\n    and define\n    \\[\n    T(a,b,c,d)=(a+b+c,2c+d,0).\n    \\]\n    Prove that $T$ is neither injective nor surjective,\n    and that\n    \\[\n    T^\\dagger(x,y,z)=\\frac1{11}\n    (5x-2y,\\ 5x-2y,\\ x+4y,\\ -2x+3y).\n    \\]",
+   "page": "223",
+   "proof": "The coordinate formula is linear.\n    Every output has third coordinate zero, and\n    $T(x,0,0,y)=(x,y,0)$. Hence\n    \\[\n    R=\\Range T=\\{(x,y,0):x,y\\in\\F\\}.\n    \\]\n    This is a proper subspace of $\\F^3$, so $T$\n    is not surjective.\n    The kernel equations give\n    \\[\n    N=\\Null T\n    =\\{(-b-c,b,c,-2c):b,c\\in\\F\\}.\n    \\]\n    Thus $N$ is spanned by\n    $n_1=(-1,1,0,0)$ and $n_2=(-1,0,1,-2)$.\n    A zero combination of these vectors has its\n    second and third coordinates equal to the\n    two coefficients, so both coefficients are zero.\n    They are a basis of $N$, and $n_1\\ne0$\n    proves that $T$ is not injective.\n\n    The decomposition\n    $(x,y,z)=(x,y,0)+(0,0,z)$ is orthogonal between\n    $R$ and $R^\\perp$, so $P_R(x,y,z)=(x,y,0)$.\n    By the pseudoinverse characterization,\n    $T^\\dagger(x,y,z)$ is the unique\n    $(a,b,c,d)\\in N^\\perp$ with\n    $T(a,b,c,d)=(x,y,0)$.\n    Orthogonality to the displayed kernel basis,\n    using symmetry of orthogonality, is equivalent to\n    $-a+b=0$ and $-a+c-2d=0$.\n    Therefore the four required scalar equations are\n    \\[\n    a+b+c=x,\\qquad 2c+d=y,\\qquad\n    b=a,\\qquad a=c-2d.\n    \\]\n    Substitute $b=a$ to obtain $c=x-2a$,\n    then $d=y-2c=y-2x+4a$.\n    The last equation now becomes\n    \\[\n    a=(x-2a)-2(y-2x+4a)=5x-2y-10a.\n    \\]\n    Thus\n    \\[\n    a=b=\\frac{5x-2y}{11},\\qquad\n    c=\\frac{x+4y}{11},\\qquad\n    d=\\frac{-2x+3y}{11}.\n    \\]\n    Substituting these values into the four equations\n    verifies both the required image and orthogonality,\n    so uniqueness proves the formula.\n    In particular, applying $T$ to this vector gives\n    $(x,y,0)$, as required by $TT^\\dagger=P_R$.\n    All equations are valid over either $\\R$ or $\\C$.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Find the range and a basis of the kernel first.",
+    "Solve $Tv=P_{\\Range T}w$ together with the equations making $v$ perpendicular to the kernel."
+   ],
+   "uses": [
+    "c6-def-pseudoinverse",
+    "c6-thm-pseudoinverse-properties",
+    "c6-def-orthogonal-projection",
+    "c6-def-orthogonal-complement",
+    "c6-thm-standard-inner-product",
+    "c6-thm-inner-product-properties",
+    "c3-thm-coordinate-linear-maps",
+    "c3-def-null-space",
+    "c3-def-range",
+    "c3-thm-injective-null",
+    "c2-def-basis",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c6-card-orthogonal-complement",
+   "item": "c6-def-orthogonal-complement",
+   "front": "What is the orthogonal complement of a subset $U\\subseteq V$?",
+   "back": "It is the set of vectors of $V$ orthogonal to every\n    member of $U$. The ambient inner product space is part\n    of the definition."
+  },
+  {
+   "id": "c6-card-orthogonal-dimension",
+   "item": "c6-thm-orthogonal-dimension",
+   "front": "What is $\\dim U^\\perp$ for a subspace of a finite-dimensional inner product space $V$?",
+   "back": "$\\dim U^\\perp=\\dim V-\\dim U$."
+  },
+  {
+   "id": "c6-card-projection-formula",
+   "item": "c6-thm-projection-properties",
+   "front": "How is projection onto $U$ computed from an orthonormal basis $e_1,\\ldots,e_m$ of $U$?",
+   "back": "$P_Uv=\\sum_{j=1}^m\\ip{v}{e_j}e_j$."
+  },
+  {
+   "id": "c6-card-projection-kernel-range",
+   "item": "c6-thm-projection-properties",
+   "front": "What are the range and kernel of the orthogonal projection onto $U$?",
+   "back": "$\\Range P_U=U$ and $\\Null P_U=U^\\perp$.\n    Also $P_U^2=P_U$."
+  },
+  {
+   "id": "c6-card-nearest-point-identity",
+   "item": "c6-thm-minimization",
+   "front": "Which identity proves both optimality and uniqueness of the nearest point in $U$?",
+   "back": "For $u\\in U$,\n    $\\norm{v-u}^2=\\norm{v-P_Uv}^2+\\norm{P_Uv-u}^2$."
+  },
+  {
+   "id": "c6-card-riesz-scalar-conjugation",
+   "item": "c6-thm-riesz-complement-proof",
+   "front": "Under the convention that the inner product is linear in its first argument, how does the representing functional change when its representing vector is multiplied by $a$?",
+   "back": "$\\varphi_{av}=\\overline a\\,\\varphi_v$."
+  },
+  {
+   "id": "c6-card-pseudoinverse-definition",
+   "item": "c6-def-pseudoinverse",
+   "front": "How is $T^\\dagger w$ constructed when the domain of $T$ is finite-dimensional?",
+   "back": "Project $w$ onto $\\Range T$, then invert the restriction\n    $T:(\\Null T)^\\perp\\to\\Range T$ on that projected vector."
+  },
+  {
+   "id": "c6-card-pseudoinverse-projections",
+   "item": "c6-thm-pseudoinverse-properties",
+   "front": "What are $TT^\\dagger$ and $T^\\dagger T$?",
+   "back": "They are $P_{\\Range T}$ and $P_{(\\Null T)^\\perp}$,\n    respectively."
+  },
+  {
+   "id": "c6-card-pseudoinverse-minimizer-set",
+   "item": "c6-thm-pseudoinverse-minimum",
+   "front": "Which vectors minimize $\\norm{Tv-w}$?",
+   "back": "Exactly the vectors in $T^\\dagger w+\\Null T$."
+  },
+  {
+   "id": "c6-card-pseudoinverse-least-norm",
+   "item": "c6-thm-pseudoinverse-minimum",
+   "front": "Which residual-minimizing vector has the smallest norm?",
+   "back": "The unique one is $T^\\dagger w$. Adding a kernel vector\n    increases its squared norm by the squared norm of that\n    kernel vector."
+  }
+ ]
+}

@@ -1,0 +1,3940 @@
+                                      Chapter 7
+   Operators on Inner Product Spaces
+
+
+The deepest results related to inner product spaces deal with the subject to which
+we now turn—linear maps and operators on inner product spaces. As we will see,
+good theorems can be proved by exploiting properties of the adjoint.
+    The hugely important spectral theorem will provide a complete description
+of self-adjoint operators on real inner product spaces and of normal operators
+on complex inner product spaces. We will then use the spectral theorem to help
+understand positive operators and unitary operators, which will lead to unitary
+matrices and matrix factorizations. The spectral theorem will also lead to the
+popular singular value decomposition, which will lead to the polar decomposition.
+    The most important results in the rest of this book are valid only in finite
+dimensions. Thus from now on we assume that 𝑉 and 𝑊 are finite-dimensional.
+
+    standing assumptions for this chapter
+
+ • 𝐅 denotes 𝐑 or 𝐂 .
+ • 𝑉 and 𝑊 are nonzero finite-dimensional inner product spaces over 𝐅.
+
+
+
+
+                                                                                 Petar Milošević CC BY-SA
+
+
+
+
+    Market square in Lviv, a city that has had several names and has been in several
+countries because of changing international borders. From 1772 until 1918, the city was
+in Austria and was called Lemberg. Between World War I and World War II, the city was
+in Poland and was called Lwów. During this time, mathematicians in Lwów, particularly
+ Stefan Banach (1892–1945) and his colleagues, developed the basic results of modern
+ functional analysis, using tools of analysis to study infinite-dimensional vector spaces.
+     Since the end of World War II, Lviv has been in Ukraine, which was part of the
+          Soviet Union until Ukraine became an independent country in 1991.
+
+                                                                                                            227
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+228       Chapter 7     Operators on Inner Product Spaces
+
+7A Self-Adjoint and Normal Operators
+Adjoints
+
+ 7.1 definition: adjoint, 𝑇 ∗
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). The adjoint of 𝑇 is the function 𝑇 ∗ ∶ 𝑊 → 𝑉 such
+ that
+                         ⟨𝑇𝑣, 𝑤⟩ = ⟨𝑣, 𝑇 ∗ 𝑤⟩
+ for every 𝑣 ∈ 𝑉 and every 𝑤 ∈ 𝑊.
+
+   To see why the definition above                  The word adjoint has another meaning
+makes sense, suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Fix               in linear algebra. In case you en-
+𝑤 ∈ 𝑊. Consider the linear functional               counter the second meaning elsewhere,
+                                                    be warned that the two meanings for
+               𝑣 ↦ ⟨𝑇𝑣, 𝑤⟩
+                                                    adjoint are unrelated to each other.
+on 𝑉 that maps 𝑣 ∈ 𝑉 to ⟨𝑇𝑣, 𝑤⟩; this
+linear functional depends on 𝑇 and 𝑤. By the Riesz representation theorem (6.42),
+there exists a unique vector in 𝑉 such that this linear functional is given by taking
+the inner product with it. We call this unique vector 𝑇 ∗ 𝑤. In other words, 𝑇 ∗ 𝑤 is
+the unique vector in 𝑉 such that
+
+                                   ⟨𝑇𝑣, 𝑤⟩ = ⟨𝑣, 𝑇 ∗ 𝑤⟩
+
+for every 𝑣 ∈ 𝑉.
+     In the equation above, the inner product on the left takes place in 𝑊 and the
+inner product on the right takes place in 𝑉 . However, we use the same notation
+⟨⋅, ⋅⟩ for both inner products.
+
+ 7.2 example: adjoint of a linear map from 𝐑3 to 𝐑2
+
+      Define 𝑇 ∶ 𝐑3 → 𝐑2 by
+
+                            𝑇(𝑥1 , 𝑥2 , 𝑥3 ) = (𝑥2 + 3𝑥3 , 2𝑥1 ).
+
+To compute 𝑇 ∗, suppose (𝑥1 , 𝑥2 , 𝑥3 ) ∈ 𝐑3 and (𝑦1 , 𝑦2 ) ∈ 𝐑2. Then
+
+              ⟨𝑇(𝑥1 , 𝑥2 , 𝑥3 ), (𝑦1 , 𝑦2 )⟩ = ⟨(𝑥2 + 3𝑥3 , 2𝑥1 ), (𝑦1 , 𝑦2 )⟩
+                                           = 𝑥2 𝑦1 + 3𝑥3 𝑦1 + 2𝑥1 𝑦2
+                                           = ⟨(𝑥1 , 𝑥2 , 𝑥3 ), (2𝑦2 , 𝑦1 , 3𝑦1 )⟩.
+
+The equation above and the definition of the adjoint imply that
+
+                              𝑇 ∗ (𝑦1 , 𝑦2 ) = (2𝑦2 , 𝑦1 , 3𝑦1 ).
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                        Section 7A      Self-Adjoint and Normal Operators              229
+
+
+
+ 7.3 example: adjoint of a linear map with range of dimension at most 1
+
+   Fix 𝑢 ∈ 𝑉 and 𝑥 ∈ 𝑊. Define 𝑇 ∈ ℒ(𝑉, 𝑊) by
+                                     𝑇𝑣 = ⟨𝑣, 𝑢⟩𝑥
+for each 𝑣 ∈ 𝑉. To compute 𝑇 ∗, suppose 𝑣 ∈ 𝑉 and 𝑤 ∈ 𝑊. Then
+                               ⟨𝑇𝑣, 𝑤⟩ = ⟨⟨𝑣, 𝑢⟩𝑥, 𝑤⟩
+                                        = ⟨𝑣, 𝑢⟩⟨𝑥, 𝑤⟩
+                                        = ⟨𝑣, ⟨𝑤, 𝑥⟩𝑢⟩.
+Thus
+                                   𝑇 ∗ 𝑤 = ⟨𝑤, 𝑥⟩𝑢.
+
+    In the two examples above, 𝑇 ∗ turned       The two examples above and the proof
+out to be not just a function from 𝑊 to         below use a common technique for
+𝑉 but a linear map from 𝑊 to 𝑉. This            computing 𝑇 ∗ : start with a formula
+behavior is true in general, as shown by        for ⟨𝑇𝑣, 𝑤⟩ then manipulate it to get
+the next result.                                just 𝑣 in the first slot; the entry in the
+                                                second slot will then be 𝑇 ∗ 𝑤.
+
+ 7.4    adjoint of a linear map is a linear map
+
+ If 𝑇 ∈ ℒ(𝑉, 𝑊), then 𝑇 ∗ ∈ ℒ(𝑊, 𝑉).
+
+Proof   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). If 𝑣 ∈ 𝑉 and 𝑤1 , 𝑤2 ∈ 𝑊, then
+                     ⟨𝑇𝑣, 𝑤1 + 𝑤2 ⟩ = ⟨𝑇𝑣, 𝑤1 ⟩ + ⟨𝑇𝑣, 𝑤2 ⟩
+                                      = ⟨𝑣, 𝑇 ∗ 𝑤1 ⟩ + ⟨𝑣, 𝑇 ∗ 𝑤2 ⟩
+                                      = ⟨𝑣, 𝑇 ∗ 𝑤1 + 𝑇 ∗ 𝑤2 ⟩.
+The equation above shows that
+                          𝑇 ∗ (𝑤1 + 𝑤2 ) = 𝑇 ∗ 𝑤1 + 𝑇 ∗ 𝑤2 .
+   If 𝑣 ∈ 𝑉, 𝜆 ∈ 𝐅, and 𝑤 ∈ 𝑊 , then
+                               ⟨𝑇𝑣, 𝜆𝑤⟩ = 𝜆⟨𝑇𝑣, 𝑤⟩
+                                          = 𝜆⟨𝑣, 𝑇 ∗ 𝑤⟩
+                                          = ⟨𝑣, 𝜆𝑇 ∗ 𝑤⟩.
+The equation above shows that
+                                  𝑇 ∗ (𝜆𝑤) = 𝜆𝑇 ∗ 𝑤.
+   Thus 𝑇 ∗ is a linear map, as desired.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+230       Chapter 7     Operators on Inner Product Spaces
+
+
+ 7.5    properties of the adjoint
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Then
+ (a) (𝑆 + 𝑇)∗ = 𝑆∗ + 𝑇 ∗ for all 𝑆 ∈ ℒ(𝑉, 𝑊);
+ (b) (𝜆𝑇)∗ = 𝜆𝑇 ∗ for all 𝜆 ∈ 𝐅 ;
+ (c) (𝑇 ∗ )∗ = 𝑇 ;
+ (d) (𝑆𝑇)∗ = 𝑇 ∗ 𝑆∗ for all 𝑆 ∈ ℒ(𝑊, 𝑈) (here 𝑈 is a finite-dimensional inner
+     product space over 𝐅 );
+ (e) 𝐼 ∗ = 𝐼 , where 𝐼 is the identity operator on 𝑉 ;
+ (f) if 𝑇 is invertible, then 𝑇 ∗ is invertible and (𝑇 ∗ )−1 = (𝑇 −1 )∗.
+
+Proof   Suppose 𝑣 ∈ 𝑉 and 𝑤 ∈ 𝑊.
+(a) If 𝑆 ∈ ℒ(𝑉, 𝑊), then
+                          ⟨(𝑆 + 𝑇)𝑣, 𝑤⟩ = ⟨𝑆𝑣, 𝑤⟩ + ⟨𝑇𝑣, 𝑤⟩
+                                           = ⟨𝑣, 𝑆∗ 𝑤⟩ + ⟨𝑣, 𝑇 ∗ 𝑤⟩
+                                           = ⟨𝑣, 𝑆∗ 𝑤 + 𝑇 ∗ 𝑤⟩.
+      Thus (𝑆 + 𝑇)∗ 𝑤 = 𝑆∗ 𝑤 + 𝑇 ∗ 𝑤, as desired.
+(b) If 𝜆 ∈ 𝐅, then
+                    ⟨(𝜆𝑇)𝑣, 𝑤⟩ = 𝜆⟨𝑇𝑣, 𝑤⟩ = 𝜆⟨𝑣, 𝑇 ∗ 𝑤⟩ = ⟨𝑣, 𝜆𝑇 ∗ 𝑤⟩.
+      Thus (𝜆𝑇)∗ 𝑤 = 𝜆𝑇 ∗ 𝑤, as desired.
+(c) We have
+                        ⟨𝑇 ∗ 𝑤, 𝑣⟩ = ⟨𝑣, 𝑇 ∗ 𝑤⟩ = ⟨𝑇𝑣, 𝑤⟩ = ⟨𝑤, 𝑇𝑣⟩.
+              ∗ ∗
+      Thus (𝑇 ) 𝑣 = 𝑇𝑣, as desired.
+(d) Suppose 𝑆 ∈ ℒ(𝑊, 𝑈) and 𝑢 ∈ 𝑈 . Then
+                 ⟨(𝑆𝑇)𝑣, 𝑢⟩ = ⟨𝑆(𝑇𝑣), 𝑢⟩ = ⟨𝑇𝑣, 𝑆∗ 𝑢⟩ = ⟨𝑣, 𝑇 ∗ (𝑆∗ 𝑢)⟩.
+      Thus (𝑆𝑇)∗ 𝑢 = 𝑇 ∗ (𝑆∗ 𝑢), as desired.
+(e) Suppose 𝑢 ∈ 𝑉. Then
+                                      ⟨𝐼𝑢, 𝑣⟩ = ⟨𝑢, 𝑣⟩.
+      Thus 𝐼 ∗ 𝑣 = 𝑣, as desired.
+(f) Suppose 𝑇 is invertible. Take adjoints of both sides of the equation 𝑇 −1 𝑇 = 𝐼 ,
+    then use (d) and (e) to show that 𝑇 ∗ (𝑇 −1 )∗ = 𝐼 . Similarly, the equation
+                               ∗                        ∗
+    𝑇𝑇 −1 = 𝐼 implies (𝑇 −1 ) 𝑇 ∗ = 𝐼 . Thus (𝑇 −1 ) is the inverse of 𝑇 ∗, as
+    desired.
+
+    If 𝐅 = 𝐑 , then the map 𝑇 ↦ 𝑇 ∗ is a linear map from ℒ(𝑉 , 𝑊) to ℒ(𝑊 , 𝑉),
+as follows from (a) and (b) of the result above. However, if 𝐅 = 𝐂 , then this map
+is not linear because of the complex conjugate that appears in (b).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                        Section 7A      Self-Adjoint and Normal Operators        231
+
+    The next result shows the relationship between the null space and the range of
+a linear map and its adjoint.
+
+ 7.6    null space and range of 𝑇 ∗
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Then
+ (a) null 𝑇 ∗ = (range 𝑇)⟂ ;
+ (b) range 𝑇 ∗ = (null 𝑇)⟂ ;
+ (c) null 𝑇 = (range 𝑇 ∗ )⟂ ;
+ (d) range 𝑇 = (null 𝑇 ∗ )⟂ .
+
+Proof   We begin by proving (a). Let 𝑤 ∈ 𝑊. Then
+                  𝑤 ∈ null 𝑇 ∗ ⟺ 𝑇 ∗ 𝑤 = 0
+                                  ⟺ ⟨𝑣, 𝑇 ∗ 𝑤⟩ = 0 for all 𝑣 ∈ 𝑉
+                                  ⟺ ⟨𝑇𝑣, 𝑤⟩ = 0 for all 𝑣 ∈ 𝑉
+                                  ⟺ 𝑤 ∈ (range 𝑇)⟂ .
+Thus null 𝑇 ∗ = (range 𝑇)⟂ , proving (a).
+   If we take the orthogonal complement of both sides of (a), we get (d), where
+we have used 6.52. Replacing 𝑇 with 𝑇 ∗ in (a) gives (c), where we have used
+7.5(c). Finally, replacing 𝑇 with 𝑇 ∗ in (d) gives (b).
+
+    As we will soon see, the next definition is intimately connected to the matrix
+of the adjoint of a linear map.
+
+ 7.7 definition: conjugate transpose, 𝐴∗
+
+ The conjugate transpose of an 𝑚-by-𝑛 matrix 𝐴 is the 𝑛-by-𝑚 matrix 𝐴∗
+ obtained by interchanging the rows and columns and then taking the complex
+ conjugate of each entry. In other words, if 𝑗 ∈ {1, … , 𝑛} and 𝑘 ∈ {1, … , 𝑚},
+ then
+                                (𝐴∗ )𝑗,𝑘 = 𝐴𝑘,𝑗 .
+
+
+ 7.8 example: conjugate transpose of a 2-by-3 matrix
+
+   The conjugate transpose of the 2-by-3        If a matrix 𝐴 has only real entries,
+         2 3 + 4𝑖 7                             then 𝐴∗ = 𝐴t, where 𝐴t denotes the
+matrix (                ) is the 3-by-2
+         6     5     8𝑖                         transpose of 𝐴 (the matrix obtained
+matrix                                          by interchanging the rows and the
+               2      6                         columns).
+         ⎛
+         ⎜                ⎞
+         ⎜
+         ⎜  3 −  4𝑖   5 ⎟ ⎟
+                          ⎟.
+         ⎝     7     −8𝑖  ⎠
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+232        Chapter 7     Operators on Inner Product Spaces
+
+    The next result shows how to compute           The adjoint of a linear map does not
+the matrix of 𝑇 ∗ from the matrix of 𝑇.            depend on a choice of basis. Thus
+Caution: With respect to nonorthonor-              we frequently emphasize adjoints of
+mal bases, the matrix of 𝑇 ∗ does not nec-         linear maps instead of transposes or
+essarily equal the conjugate transpose of          conjugate transposes of matrices.
+the matrix of 𝑇.
+
+ 7.9     matrix of 𝑇 ∗ equals conjugate transpose of matrix of 𝑇
+
+ Let 𝑇 ∈ ℒ(𝑉, 𝑊). Suppose 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉 and
+ 𝑓1 , … , 𝑓𝑚 is an orthonormal basis of 𝑊. Then ℳ(𝑇 ∗, ( 𝑓1 , … , 𝑓𝑚 ), (𝑒1 , … , 𝑒𝑛 ))
+ is the conjugate transpose of ℳ(𝑇 , (𝑒1 , … , 𝑒𝑛 ), ( 𝑓1 , … , 𝑓𝑚 )). In other words,
+                                                         ∗
+                                  ℳ(𝑇 ∗ ) = (ℳ(𝑇)) .
+
+Proof     In this proof, we will write ℳ(𝑇) and ℳ(𝑇 ∗ ) instead of the longer
+expressions ℳ(𝑇 , (𝑒1 , … , 𝑒𝑛 ), ( 𝑓1 , … , 𝑓𝑚 )) and ℳ(𝑇 ∗, ( 𝑓1 , … , 𝑓𝑚 ), (𝑒1 , … , 𝑒𝑛 )).
+   Recall that we obtain the 𝑘 th column of ℳ(𝑇) by writing 𝑇𝑒𝑘 as a linear
+combination of the 𝑓𝑗 ’s; the scalars used in this linear combination then become
+the 𝑘 th column of ℳ(𝑇). Because 𝑓1 , … , 𝑓𝑚 is an orthonormal basis of 𝑊, we
+know how to write 𝑇𝑒𝑘 as a linear combination of the 𝑓𝑗 ’s [see 6.30(a)]:
+                         𝑇𝑒𝑘 = ⟨𝑇𝑒𝑘 , 𝑓1 ⟩ 𝑓1 + ⋯ + ⟨𝑇𝑒𝑘 , 𝑓𝑚 ⟩ 𝑓𝑚 .
+Thus
+                  the entry in row 𝑗, column 𝑘 , of ℳ(𝑇) is ⟨𝑇𝑒𝑘 , 𝑓𝑗 ⟩.
+     In the statement above, replace 𝑇 with 𝑇 ∗ and interchange 𝑒1 , … , 𝑒𝑛 and
+𝑓1 , … , 𝑓𝑚 . This shows that the entry in row 𝑗, column 𝑘 , of ℳ(𝑇 ∗ ) is ⟨𝑇 ∗ 𝑓𝑘 , 𝑒𝑗 ⟩,
+which equals ⟨ 𝑓𝑘 , 𝑇𝑒𝑗 ⟩, which equals ⟨𝑇𝑒𝑗 , 𝑓𝑘 ⟩, which equals the complex conjugate
+of the entry in row 𝑘 , column 𝑗, of ℳ(𝑇). Thus ℳ(𝑇 ∗ ) = (ℳ(𝑇))∗.
+
+      The Riesz representation theorem as stated in 6.58 provides an identification of
+𝑉 with its dual space 𝑉 ′ defined in 3.110. Under this identification, the orthogonal
+complement 𝑈 ⟂ of a subset 𝑈 ⊆ 𝑉 corresponds to the annihilator 𝑈 0 of 𝑈 . If 𝑈
+is a subspace of 𝑉, then the formulas for the dimensions of 𝑈 ⟂ and 𝑈 0 become
+identical under this identification—see 3.125 and 6.51.
+    Suppose 𝑇 ∶ 𝑉 → 𝑊 is a linear map. Because orthogonal complements and
+Under the identification of 𝑉 with 𝑉 ′ and adjoints are easier to deal with than
+the identification of 𝑊 with 𝑊 ′, the ad- annihilators and dual maps, there is
+joint map 𝑇 ∗ ∶ 𝑊 → 𝑉 corresponds to no need to work with annihilators
+the dual map 𝑇 ′ ∶ 𝑊 ′ → 𝑉 ′ defined in and dual maps in the context of inner
+3.118, as Exercise 32 asks you to verify. product spaces.
+Under this identification, the formulas for
+null 𝑇 ∗ and range 𝑇 ∗ [7.6(a) and (b)] then become identical to the formulas for
+null 𝑇 ′ and range 𝑇 ′ [3.128(a) and 3.130(b)]. Furthermore, the theorem about the
+matrix of 𝑇 ∗ (7.9) is analogous to the theorem about the matrix of 𝑇 ′ (3.132).
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                        Section 7A      Self-Adjoint and Normal Operators       233
+
+Self-Adjoint Operators
+Now we switch our attention to operators on inner product spaces. Instead of
+considering linear maps from 𝑉 to 𝑊, we will focus on linear maps from 𝑉 to 𝑉 ;
+recall that such linear maps are called operators.
+
+ 7.10 definition: self-adjoint
+
+ An operator 𝑇 ∈ ℒ(𝑉) is called self-adjoint if 𝑇 = 𝑇 ∗.
+
+    If 𝑇 ∈ ℒ(𝑉) and 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉, then 𝑇 is self-adjoint
+if and only if ℳ(𝑇 , (𝑒1 , … , 𝑒𝑛 )) = ℳ(𝑇 , (𝑒1 , … , 𝑒𝑛 ))∗, as follows from 7.9.
+
+ 7.11 example: determining whether 𝑇 is self-adjoint from its matrix
+
+    Suppose 𝑐 ∈ 𝐅 and 𝑇 is the operator on 𝐅2 whose matrix (with respect to the
+standard basis) is
+                                         2 𝑐
+                             ℳ(𝑇) = (          ).
+                                         3 7
+The matrix of 𝑇 ∗ (with respect to the standard basis) is
+                                               2   3
+                               ℳ(𝑇 ∗ ) = (           ).
+                                               𝑐   7
+Thus ℳ(𝑇) = ℳ(𝑇 ∗ ) if and only if 𝑐 = 3. Hence the operator 𝑇 is self-adjoint
+if and only if 𝑐 = 3.
+
+    A good analogy to keep in mind is that the adjoint on ℒ(𝑉) plays a role similar
+to that of the complex conjugate on 𝐂 . A complex number 𝑧 is real if and only if
+𝑧 = 𝑧; thus a self-adjoint operator (𝑇 = 𝑇 ∗ ) is analogous to a real number.
+    We will see that the analogy discussed An operator 𝑇 ∈ ℒ(𝑉) is self-adjoint
+above is reflected in some important prop- if and only if
+erties of self-adjoint operators, beginning
+with eigenvalues in the next result.                    ⟨𝑇𝑣, 𝑤⟩ = ⟨𝑣, 𝑇𝑤⟩
+    If 𝐅 = 𝐑 , then by definition every for all 𝑣, 𝑤 ∈ 𝑉.
+eigenvalue is real, so the next result is
+interesting only when 𝐅 = 𝐂 .
+
+ 7.12   eigenvalues of self-adjoint operators
+
+ Every eigenvalue of a self-adjoint operator is real.
+
+Proof    Suppose 𝑇 is a self-adjoint operator on 𝑉. Let 𝜆 be an eigenvalue of 𝑇 ,
+and let 𝑣 be a nonzero vector in 𝑉 such that 𝑇𝑣 = 𝜆𝑣. Then
+             𝜆‖𝑣‖2 = ⟨𝜆𝑣, 𝑣⟩ = ⟨𝑇𝑣, 𝑣⟩ = ⟨𝑣, 𝑇𝑣⟩ = ⟨𝑣, 𝜆𝑣⟩ = 𝜆‖𝑣‖2.
+Thus 𝜆 = 𝜆, which means that 𝜆 is real, as desired.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+234      Chapter 7     Operators on Inner Product Spaces
+
+    The next result is false for real inner product spaces. As an example, consider
+the operator 𝑇 ∈ ℒ(𝐑2 ) that is a counterclockwise rotation of 90∘ around the
+origin; thus 𝑇(𝑥, 𝑦) = (−𝑦, 𝑥). Notice that 𝑇𝑣 is orthogonal to 𝑣 for every 𝑣 ∈ 𝐑2,
+even though 𝑇 ≠ 0.
+
+ 7.13   𝑇𝑣 is orthogonal to 𝑣 for all 𝑣 ⟺ 𝑇 = 0 (assuming 𝐅 = 𝐂 )
+
+ Suppose 𝑉 is a complex inner product space and 𝑇 ∈ ℒ(𝑉). Then
+
+                     ⟨𝑇𝑣, 𝑣⟩ = 0 for every 𝑣 ∈ 𝑉 ⟺ 𝑇 = 0.
+
+Proof   If 𝑢, 𝑤 ∈ 𝑉, then
+                       ⟨𝑇(𝑢 + 𝑤), 𝑢 + 𝑤⟩ − ⟨𝑇(𝑢 − 𝑤), 𝑢 − 𝑤⟩
+           ⟨𝑇𝑢, 𝑤⟩ =
+                                         4
+                         ⟨𝑇(𝑢 + 𝑖𝑤), 𝑢 + 𝑖𝑤⟩ − ⟨𝑇(𝑢 − 𝑖𝑤), 𝑢 − 𝑖𝑤⟩
+                       +                                           𝑖,
+                                             4
+as can be verified by computing the right side. Note that each term on the right
+side is of the form ⟨𝑇𝑣, 𝑣⟩ for appropriate 𝑣 ∈ 𝑉.
+    Now suppose ⟨𝑇𝑣, 𝑣⟩ = 0 for every 𝑣 ∈ 𝑉. Then the equation above implies
+that ⟨𝑇𝑢, 𝑤⟩ = 0 for all 𝑢, 𝑤 ∈ 𝑉, which then implies that 𝑇𝑢 = 0 for every 𝑢 ∈ 𝑉
+(take 𝑤 = 𝑇𝑢). Hence 𝑇 = 0, as desired.
+
+    The next result is false for real inner      The next result provides another good
+product spaces, as shown by considering          example of how self-adjoint operators
+any operator on a real inner product space       behave like real numbers.
+that is not self-adjoint.
+
+ 7.14   ⟨𝑇𝑣, 𝑣⟩ is real for all 𝑣 ⟺ 𝑇 is self-adjoint (assuming 𝐅 = 𝐂 )
+
+ Suppose 𝑉 is a complex inner product space and 𝑇 ∈ ℒ(𝑉). Then
+
+               𝑇 is self-adjoint ⟺ ⟨𝑇𝑣, 𝑣⟩ ∈ 𝐑 for every 𝑣 ∈ 𝑉.
+
+Proof   If 𝑣 ∈ 𝑉, then
+7.15                        ⟨𝑇 ∗ 𝑣, 𝑣⟩ = ⟨𝑣, 𝑇 ∗ 𝑣⟩ = ⟨𝑇𝑣, 𝑣⟩.
+Now
+          𝑇 is self-adjoint ⟺ 𝑇 − 𝑇 ∗ = 0
+                              ⟺ ⟨(𝑇 − 𝑇 ∗ )𝑣, 𝑣⟩ = 0 for every 𝑣 ∈ 𝑉
+                              ⟺ ⟨𝑇𝑣, 𝑣⟩ − ⟨𝑇𝑣, 𝑣⟩ = 0 for every 𝑣 ∈ 𝑉
+                              ⟺ ⟨𝑇𝑣, 𝑣⟩ ∈ 𝐑 for every 𝑣 ∈ 𝑉,
+where the second equivalence follows from 7.13 as applied to 𝑇 − 𝑇 ∗ and the
+third equivalence follows from 7.15.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                           Section 7A      Self-Adjoint and Normal Operators    235
+
+    On a real inner product space 𝑉, a nonzero operator 𝑇 might satisfy ⟨𝑇𝑣, 𝑣⟩ = 0
+for all 𝑣 ∈ 𝑉. However, the next result shows that this cannot happen for a self-
+adjoint operator.
+
+ 7.16      𝑇 self-adjoint and ⟨𝑇𝑣, 𝑣⟩ = 0 for all 𝑣 ⟺ 𝑇 = 0
+
+ Suppose 𝑇 is a self-adjoint operator on 𝑉. Then
+
+                       ⟨𝑇𝑣, 𝑣⟩ = 0 for every 𝑣 ∈ 𝑉 ⟺ 𝑇 = 0.
+
+Proof We have already proved this (without the hypothesis that 𝑇 is self-adjoint)
+when 𝑉 is a complex inner product space (see 7.13). Thus we can assume that 𝑉
+is a real inner product space. If 𝑢, 𝑤 ∈ 𝑉, then
+                              ⟨𝑇(𝑢 + 𝑤), 𝑢 + 𝑤⟩ − ⟨𝑇(𝑢 − 𝑤), 𝑢 − 𝑤⟩
+7.17              ⟨𝑇𝑢, 𝑤⟩ =                                         ,
+                                                4
+as can be proved by computing the right side using the equation
+                              ⟨𝑇𝑤, 𝑢⟩ = ⟨𝑤, 𝑇𝑢⟩ = ⟨𝑇𝑢, 𝑤⟩,
+
+where the first equality holds because 𝑇 is self-adjoint and the second equality
+holds because we are working in a real inner product space.
+    Now suppose ⟨𝑇𝑣, 𝑣⟩ = 0 for every 𝑣 ∈ 𝑉. Because each term on the right
+side of 7.17 is of the form ⟨𝑇𝑣, 𝑣⟩ for appropriate 𝑣, this implies that ⟨𝑇𝑢, 𝑤⟩ = 0
+for all 𝑢, 𝑤 ∈ 𝑉. This implies that 𝑇𝑢 = 0 for every 𝑢 ∈ 𝑉 (take 𝑤 = 𝑇𝑢). Hence
+𝑇 = 0, as desired.
+
+
+
+Normal Operators
+
+ 7.18 definition: normal
+
+     • An operator on an inner product space is called normal if it commutes with
+       its adjoint.
+     • In other words, 𝑇 ∈ ℒ(𝑉) is normal if 𝑇𝑇 ∗ = 𝑇 ∗ 𝑇.
+
+   Every self-adjoint operator is normal, because if 𝑇 is self-adjoint then 𝑇 ∗ = 𝑇
+and hence 𝑇 commutes with 𝑇 ∗.
+
+ 7.19 example: an operator that is normal but not self-adjoint
+
+      Let 𝑇 be the operator on 𝐅2 whose matrix (with respect to the standard basis)
+is
+                                           2   −3
+                                       (          ).
+                                           3   2
+Thus 𝑇(𝑤, 𝑧) = (2𝑤 − 3𝑧, 3𝑤 + 2𝑧).
+
+                  Linear Algebra Done Right, fourth edition, by Sheldon Axler
+236     Chapter 7        Operators on Inner Product Spaces
+
+   This operator 𝑇 is not self-adjoint because the entry in row 2, column 1 (which
+equals 3) does not equal the complex conjugate of the entry in row 1, column 2
+(which equals −3).
+   The matrix of 𝑇𝑇 ∗ equals
+                  2    −3     2       3                    13          0
+             (            )(            ) , which equals (                ).
+                  3    2     −3       2                     0          13
+
+Similarly, the matrix of 𝑇 ∗ 𝑇 equals
+                  2     3    2      −3                    13           0
+             (            )(           ) , which equals (                 ).
+                  −3    2    3      2                      0           13
+
+Because 𝑇𝑇 ∗ and 𝑇 ∗ 𝑇 have the same matrix, we see that 𝑇𝑇 ∗ = 𝑇 ∗ 𝑇. Thus 𝑇 is
+normal.
+
+    In the next section we will see why normal operators are worthy of special
+attention. The next result provides a useful characterization of normal operators.
+
+ 7.20   𝑇 is normal if and only if 𝑇𝑣 and 𝑇 ∗ 𝑣 have the same norm
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then
+
+                  𝑇 is normal ⟺ ‖𝑇𝑣‖ = ‖𝑇 ∗ 𝑣‖ for every 𝑣 ∈ 𝑉.
+
+Proof   We have
+
+           𝑇 is normal ⟺ 𝑇 ∗ 𝑇 − 𝑇𝑇 ∗ = 0
+                            ⟺ ⟨(𝑇 ∗ 𝑇 − 𝑇𝑇 ∗ )𝑣, 𝑣⟩ = 0 for every 𝑣 ∈ 𝑉
+                            ⟺ ⟨𝑇 ∗ 𝑇𝑣, 𝑣⟩ = ⟨𝑇𝑇 ∗ 𝑣, 𝑣⟩ for every 𝑣 ∈ 𝑉
+                            ⟺ ⟨𝑇𝑣, 𝑇𝑣⟩ = ⟨𝑇 ∗ 𝑣, 𝑇 ∗ 𝑣⟩ for every 𝑣 ∈ 𝑉
+
+                            ⟺ ‖𝑇𝑣‖2 = ∥𝑇 ∗ 𝑣∥ for every 𝑣 ∈ 𝑉
+                                                  2
+
+
+                            ⟺ ‖𝑇𝑣‖ = ∥𝑇 ∗ 𝑣∥ for every 𝑣 ∈ 𝑉,
+
+where we used 7.16 to establish the second equivalence (note that the operator
+𝑇 ∗ 𝑇 − 𝑇𝑇 ∗ is self-adjoint).
+
+    The next result presents several consequences of the result above. Compare
+(e) of the next result to Exercise 3. That exercise states that the eigenvalues of
+the adjoint of each operator are equal (as a set) to the complex conjugates of
+the eigenvalues of the operator. The exercise says nothing about eigenvectors,
+because an operator and its adjoint may have different eigenvectors. However,
+(e) of the next result implies that a normal operator and its adjoint have the same
+eigenvectors.
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                       Section 7A      Self-Adjoint and Normal Operators     237
+
+
+ 7.21   range, null space, and eigenvectors of a normal operator
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is normal. Then
+ (a) null 𝑇 = null 𝑇 ∗ ;
+ (b) range 𝑇 = range 𝑇 ∗ ;
+ (c) 𝑉 = null 𝑇 ⊕ range 𝑇 ;
+ (d) 𝑇 − 𝜆𝐼 is normal for every 𝜆 ∈ 𝐅 ;
+ (e) if 𝑣 ∈ 𝑉 and 𝜆 ∈ 𝐅 , then 𝑇𝑣 = 𝜆𝑣 if and only if 𝑇 ∗ 𝑣 = 𝜆𝑣.
+
+Proof
+(a) Suppose 𝑣 ∈ 𝑉. Then
+
+           𝑣 ∈ null 𝑇 ⟺ ‖𝑇𝑣‖ = 0 ⟺ ∥𝑇 ∗ 𝑣∥ = 0 ⟺ 𝑣 ∈ null 𝑇 ∗,
+
+   where the middle equivalence above follows from 7.20. Thus null 𝑇 = null 𝑇 ∗.
+(b) We have
+                   range 𝑇 = (null 𝑇 ∗ )⟂ = (null 𝑇)⟂ = range 𝑇 ∗,
+   where the first equality comes from 7.6(d), the second equality comes from
+   (a) in this result, and the third equality comes from 7.6(b).
+(c) We have
+
+        𝑉 = (null 𝑇) ⊕ (null 𝑇)⟂ = null 𝑇 ⊕ range 𝑇 ∗ = null 𝑇 ⊕ range 𝑇 ,
+
+   where the first equality comes from 6.49, the second equality comes from
+   7.6(b), and the third equality comes from (b) in this result.
+(d) Suppose 𝜆 ∈ 𝐅. Then
+
+                  (𝑇 − 𝜆𝐼)(𝑇 − 𝜆𝐼)∗ = (𝑇 − 𝜆𝐼)(𝑇 ∗ − 𝜆𝐼)
+
+                                         = 𝑇𝑇 ∗ − 𝜆𝑇 − 𝜆𝑇 ∗ + |𝜆|2 𝐼
+
+                                         = 𝑇 ∗ 𝑇 − 𝜆𝑇 − 𝜆𝑇 ∗ + |𝜆|2 𝐼
+
+                                         = (𝑇 ∗ − 𝜆𝐼)(𝑇 − 𝜆𝐼)
+
+                                         = (𝑇 − 𝜆𝐼)∗ (𝑇 − 𝜆𝐼).
+
+   Thus 𝑇 − 𝜆𝐼 commutes with its adjoint. Hence 𝑇 − 𝜆𝐼 is normal.
+(e) Suppose 𝑣 ∈ 𝑉 and 𝜆 ∈ 𝐅. Then (d) and 7.20 imply that
+
+                   ‖(𝑇 − 𝜆𝐼)𝑣‖ = ∥(𝑇 − 𝜆𝐼)∗ 𝑣∥ = ∥(𝑇 ∗ − 𝜆𝐼)𝑣∥.
+
+   Thus ‖(𝑇 − 𝜆𝐼)𝑣‖ = 0 if and only if ∥(𝑇 ∗ − 𝜆𝐼)𝑣∥ = 0. Hence 𝑇𝑣 = 𝜆𝑣 if
+   and only if 𝑇 ∗ 𝑣 = 𝜆𝑣.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+238     Chapter 7      Operators on Inner Product Spaces
+
+   Because every self-adjoint operator is normal, the next result applies in partic-
+ular to self-adjoint operators.
+
+ 7.22   orthogonal eigenvectors for normal operators
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is normal. Then eigenvectors of 𝑇 corresponding to
+ distinct eigenvalues are orthogonal.
+
+Proof Suppose 𝛼, 𝛽 are distinct eigenvalues of 𝑇 , with corresponding eigen-
+vectors 𝑢, 𝑣. Thus 𝑇𝑢 = 𝛼𝑢 and 𝑇𝑣 = 𝛽𝑣. From 7.21(e) we have 𝑇 ∗ 𝑣 = 𝛽𝑣.
+Thus
+                        (𝛼 − 𝛽)⟨𝑢, 𝑣⟩ = ⟨𝛼𝑢, 𝑣⟩ − ⟨𝑢, 𝛽𝑣⟩
+                                        = ⟨𝑇𝑢, 𝑣⟩ − ⟨𝑢, 𝑇 ∗ 𝑣⟩
+                                        = 0.
+Because 𝛼 ≠ 𝛽, the equation above implies that ⟨𝑢, 𝑣⟩ = 0. Thus 𝑢 and 𝑣 are
+orthogonal, as desired.
+
+     As stated here, the next result makes sense only when 𝐅 = 𝐂 . However, see
+Exercise 12 for a version that makes sense when 𝐅 = 𝐂 and when 𝐅 = 𝐑 .
+     Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Under the analogy between ℒ(𝑉) and 𝐂 ,
+with the adjoint on ℒ(𝑉) playing a similar role to that of the complex conjugate on
+𝐂 , the operators 𝐴 and 𝐵 as defined by 7.24 correspond to the real and imaginary
+parts of 𝑇. Thus the informal title of the result below should make sense.
+
+ 7.23   𝑇 is normal ⟺ the real and imaginary parts of 𝑇 commute
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Then 𝑇 is normal if and only if there exist
+ commuting self-adjoint operators 𝐴 and 𝐵 such that 𝑇 = 𝐴 + 𝑖𝐵.
+
+Proof   First suppose 𝑇 is normal. Let
+                           𝑇 + 𝑇∗              𝑇 − 𝑇∗
+7.24                    𝐴=           and 𝐵 =           .
+                               2                  2𝑖
+Then 𝐴 and 𝐵 are self-adjoint and 𝑇 = 𝐴 + 𝑖𝐵. A quick computation shows that
+                                            𝑇 ∗ 𝑇 − 𝑇𝑇 ∗
+7.25                         𝐴𝐵 − 𝐵𝐴 =                   .
+                                                  2𝑖
+Because 𝑇 is normal, the right side of the equation above equals 0. Thus the
+operators 𝐴 and 𝐵 commute, as desired.
+    To prove the implication in the other direction, now suppose there exist com-
+muting self-adjoint operators 𝐴 and 𝐵 such that 𝑇 = 𝐴 + 𝑖𝐵. Then 𝑇 ∗ = 𝐴 − 𝑖𝐵.
+Adding the last two equations and then dividing by 2 produces the equation for 𝐴
+in 7.24. Subtracting the last two equations and then dividing by 2𝑖 produces the
+equation for 𝐵 in 7.24. Now 7.24 implies 7.25. Because 𝐵 and 𝐴 commute, 7.25
+implies that 𝑇 is normal, as desired.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                         Section 7A      Self-Adjoint and Normal Operators          239
+
+Exercises 7A
+
+ 1   Suppose 𝑛 is a positive integer. Define 𝑇 ∈ ℒ(𝐅𝑛 ) by
+                              𝑇(𝑧1 , … , 𝑧𝑛 ) = (0, 𝑧1 , … , 𝑧𝑛−1 ).
+
+     Find a formula for 𝑇 ∗ (𝑧1 , … , 𝑧𝑛 ).
+ 2   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Prove that
+                   𝑇 = 0 ⟺ 𝑇 ∗ = 0 ⟺ 𝑇 ∗ 𝑇 = 0 ⟺ 𝑇𝑇 ∗ = 0.
+
+ 3   Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 ∈ 𝐅. Prove that
+                 𝜆 is an eigenvalue of 𝑇 ⟺ 𝜆 is an eigenvalue of 𝑇 ∗.
+
+ 4   Suppose 𝑇 ∈ ℒ(𝑉) and 𝑈 is a subspace of 𝑉. Prove that
+                 𝑈 is invariant under 𝑇 ⟺ 𝑈 ⟂ is invariant under 𝑇 ∗.
+
+ 5   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Suppose 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉 and
+     𝑓1 , … , 𝑓𝑚 is an orthonormal basis of 𝑊. Prove that
+
+                      ‖𝑇𝑒1 ‖2 + ⋯ + ‖𝑇𝑒𝑛 ‖2 = ∥𝑇 ∗ 𝑓1 ∥ + ⋯ + ∥𝑇 ∗ 𝑓𝑚 ∥ .
+                                                        2               2
+
+
+        The numbers ‖𝑇𝑒1 ‖2, … , ‖𝑇𝑒𝑛 ‖2 in the equation above depend on the ortho-
+        normal basis 𝑒1 , … , 𝑒𝑛 , but the right side of the equation does not depend
+        on 𝑒1 , … , 𝑒𝑛 . Thus the equation above shows that the sum on the left side
+        does not depend on which orthonormal basis 𝑒1 , … , 𝑒𝑛 is used.
+
+ 6   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Prove that
+     (a) 𝑇 is injective ⟺ 𝑇 ∗ is surjective;
+     (b) 𝑇 is surjective ⟺ 𝑇 ∗ is injective.
+
+ 7   Prove that if 𝑇 ∈ ℒ(𝑉, 𝑊), then
+     (a) dim null 𝑇 ∗ = dim null 𝑇 + dim 𝑊 − dim 𝑉 ;
+     (b) dim range 𝑇 ∗ = dim range 𝑇.
+
+ 8   Suppose 𝐴 is an 𝑚-by-𝑛 matrix with entries in 𝐅. Use (b) in Exercise 7 to
+     prove that the row rank of 𝐴 equals the column rank of 𝐴.
+        This exercise asks for yet another alternative proof of a result that was
+        previously proved in 3.57 and 3.133.
+
+ 9   Prove that the product of two self-adjoint operators on 𝑉 is self-adjoint if
+     and only if the two operators commute.
+10   Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is self-adjoint if and only if
+                                      ⟨𝑇𝑣, 𝑣⟩ = ⟨𝑇 ∗ 𝑣, 𝑣⟩
+
+     for all 𝑣 ∈ 𝑉.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+240      Chapter 7     Operators on Inner Product Spaces
+
+11    Define an operator 𝑆 ∶ 𝐅2 → 𝐅2 by 𝑆(𝑤, 𝑧) = (−𝑧, 𝑤).
+      (a) Find a formula for 𝑆∗.
+      (b) Show that 𝑆 is normal but not self-adjoint.
+      (c) Find all eigenvalues of 𝑆.
+         If 𝐅 = 𝐑 , then 𝑆 is the operator on 𝐑2 of counterclockwise rotation by 90∘ .
+
+12    An operator 𝐵 ∈ ℒ(𝑉) is called skew if
+
+                                         𝐵∗ = −𝐵.
+
+      Suppose that 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is normal if and only if there exist
+      commuting operators 𝐴 and 𝐵 such that 𝐴 is self-adjoint, 𝐵 is a skew operator,
+      and 𝑇 = 𝐴 + 𝐵.
+13    Suppose 𝐅 = 𝐑 . Define 𝒜 ∈ ℒ(ℒ(𝑉)) by 𝒜𝑇 = 𝑇 ∗ for all 𝑇 ∈ ℒ(𝑉).
+      (a) Find all eigenvalues of 𝒜.
+      (b) Find the minimal polynomial of 𝒜.
+
+14    Define an inner product on 𝒫2 (𝐑) by ⟨𝑝, 𝑞⟩ = ∫01 𝑝𝑞. Define an operator
+      𝑇 ∈ ℒ(𝒫2 (𝐑)) by
+                               𝑇(𝑎𝑥2 + 𝑏𝑥 + 𝑐) = 𝑏𝑥.
+      (a) Show that with this inner product, the operator 𝑇 is not self-adjoint.
+      (b) The matrix of 𝑇 with respect to the basis 1, 𝑥, 𝑥2 is
+                                           0    0   0
+                                         ⎛
+                                         ⎜            ⎞
+                                         ⎜
+                                         ⎜ 0    1   0 ⎟
+                                                      ⎟
+                                                      ⎟.
+                                         ⎝ 0    0   0 ⎠
+
+          This matrix equals its conjugate transpose, even though 𝑇 is not self-
+          adjoint. Explain why this is not a contradiction.
+
+15    Suppose 𝑇 ∈ ℒ(𝑉) is invertible. Prove that
+      (a) 𝑇 is self-adjoint ⟺ 𝑇 −1 is self-adjoint;
+      (b) 𝑇 is normal ⟺ 𝑇 −1 is normal.
+
+16    Suppose 𝐅 = 𝐑 .
+      (a) Show that the set of self-adjoint operators on 𝑉 is a subspace of ℒ(𝑉).
+      (b) What is the dimension of the subspace of ℒ(𝑉) in (a) [in terms of
+          dim 𝑉 ]?
+
+17    Suppose 𝐅 = 𝐂 . Show that the set of self-adjoint operators on 𝑉 is not a
+      subspace of ℒ(𝑉).
+18    Suppose dim 𝑉 ≥ 2. Show that the set of normal operators on 𝑉 is not a
+      subspace of ℒ(𝑉).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                        Section 7A       Self-Adjoint and Normal Operators          241
+
+19   Suppose 𝑇 ∈ ℒ(𝑉) and ∥𝑇 ∗ 𝑣∥ ≤ ‖𝑇𝑣‖ for every 𝑣 ∈ 𝑉. Prove that 𝑇 is
+     normal.
+        This exercise fails on infinite-dimensional inner product spaces, leading to
+        what are called hyponormal operators, which have a well-developed theory.
+
+20   Suppose 𝑃 ∈ ℒ(𝑉) is such that 𝑃2 = 𝑃. Prove that the following are
+     equivalent.
+     (a) 𝑃 is self-adjoint.
+     (b) 𝑃 is normal.
+     (c) There is a subspace 𝑈 of 𝑉 such that 𝑃 = 𝑃𝑈 .
+
+21   Suppose 𝐷 ∶ 𝒫8 (𝐑) → 𝒫8 (𝐑) is the differentiation operator defined by
+     𝐷𝑝 = 𝑝′. Prove that there does not exist an inner product on 𝒫8 (𝐑) that
+     makes 𝐷 a normal operator.
+22   Give an example of an operator 𝑇 ∈ ℒ(𝐑3 ) such that 𝑇 is normal but not
+     self-adjoint.
+23   Suppose 𝑇 is a normal operator on 𝑉. Suppose also that 𝑣, 𝑤 ∈ 𝑉 satisfy the
+     equations
+                      ‖𝑣‖ = ‖𝑤‖ = 2, 𝑇𝑣 = 3𝑣, 𝑇𝑤 = 4𝑤.
+     Show that ‖𝑇(𝑣 + 𝑤)‖ = 10.
+24   Suppose 𝑇 ∈ ℒ(𝑉) and
+                         𝑎0 + 𝑎1 𝑧 + 𝑎2 𝑧2 + ⋯ + 𝑎𝑚−1 𝑧𝑚−1 + 𝑧𝑚
+
+     is the minimal polynomial of 𝑇. Prove that the minimal polynomial of 𝑇 ∗ is
+                        𝑎0 + 𝑎1 𝑧 + 𝑎2 𝑧2 + ⋯ + 𝑎𝑚−1 𝑧𝑚−1 + 𝑧𝑚.
+        This exercise shows that the minimal polynomial of 𝑇 ∗ equals the minimal
+        polynomial of 𝑇 if 𝐅 = 𝐑 .
+
+25   Suppose 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is diagonalizable if and only if 𝑇 ∗ is
+     diagonalizable.
+26   Fix 𝑢, 𝑥 ∈ 𝑉. Define 𝑇 ∈ ℒ(𝑉) by 𝑇𝑣 = ⟨𝑣, 𝑢⟩𝑥 for every 𝑣 ∈ 𝑉.
+     (a) Prove that if 𝑉 is a real vector space, then 𝑇 is self-adjoint if and only if
+         the list 𝑢, 𝑥 is linearly dependent.
+     (b) Prove that 𝑇 is normal if and only if the list 𝑢, 𝑥 is linearly dependent.
+
+27   Suppose 𝑇 ∈ ℒ(𝑉) is normal. Prove that
+                     null 𝑇 𝑘 = null 𝑇     and    range 𝑇 𝑘 = range 𝑇
+     for every positive integer 𝑘 .
+28   Suppose 𝑇 ∈ ℒ(𝑉) is normal. Prove that if 𝜆 ∈ 𝐅, then the minimal
+     polynomial of 𝑇 is not a polynomial multiple of (𝑥 − 𝜆)2.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+242      Chapter 7      Operators on Inner Product Spaces
+
+29    Prove or give a counterexample: If 𝑇 ∈ ℒ(𝑉) and there is an orthonormal
+      basis 𝑒1 , … , 𝑒𝑛 of 𝑉 such that ‖𝑇𝑒𝑘 ‖ = ∥𝑇 ∗ 𝑒𝑘 ∥ for each 𝑘 = 1, … , 𝑛, then 𝑇 is
+      normal.
+30    Suppose that 𝑇 ∈ ℒ(𝐅3 ) is normal and 𝑇(1, 1, 1) = (2, 2, 2). Suppose
+      (𝑧1 , 𝑧2 , 𝑧3 ) ∈ null 𝑇. Prove that 𝑧1 + 𝑧2 + 𝑧3 = 0.
+
+31    Fix a positive integer 𝑛. In the inner product space of continuous real-valued
+      functions on [−𝜋 , 𝜋] with inner product ⟨ 𝑓 , 𝑔⟩ = ∫−𝜋𝜋
+                                                                𝑓 𝑔, let
+
+             𝑉 = span(1, cos 𝑥, cos 2𝑥, … , cos 𝑛𝑥, sin 𝑥, sin 2𝑥, … , sin 𝑛𝑥).
+
+      (a) Define 𝐷 ∈ ℒ(𝑉) by 𝐷 𝑓 = 𝑓 ′. Show that 𝐷∗ = −𝐷. Conclude that 𝐷
+          is normal but not self-adjoint.
+      (b) Define 𝑇 ∈ ℒ(𝑉) by 𝑇 𝑓 = 𝑓 ″. Show that 𝑇 is self-adjoint.
+
+32    Suppose 𝑇 ∶ 𝑉 → 𝑊 is a linear map. Show that under the standard identifica-
+      tion of 𝑉 with 𝑉 ′ (see 6.58) and the corresponding identification of 𝑊 with
+      𝑊 ′, the adjoint map 𝑇 ∗ ∶ 𝑊 → 𝑉 corresponds to the dual map 𝑇 ′ ∶ 𝑊 ′ → 𝑉 ′ .
+      More precisely, show that
+
+                                       𝑇 ′(𝜑𝑤 ) = 𝜑𝑇 ∗𝑤
+
+      for all 𝑤 ∈ 𝑊, where 𝜑𝑤 and 𝜑𝑇∗𝑤 are defined as in 6.58.
+
+
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                           Section 7B      Spectral Theorem       243
+
+7B Spectral Theorem
+Recall that a diagonal matrix is a square matrix that is 0 everywhere except
+possibly on the diagonal. Recall that an operator on 𝑉 is called diagonalizable if
+the operator has a diagonal matrix with respect to some basis of 𝑉. Recall also
+that this happens if and only if there is a basis of 𝑉 consisting of eigenvectors of
+the operator (see 5.55).
+    The nicest operators on 𝑉 are those for which there is an orthonormal basis
+of 𝑉 with respect to which the operator has a diagonal matrix. These are precisely
+the operators 𝑇 ∈ ℒ(𝑉) such that there is an orthonormal basis of 𝑉 consisting
+of eigenvectors of 𝑇. Our goal in this section is to prove the spectral theorem,
+which characterizes these operators as the self-adjoint operators when 𝐅 = 𝐑 and
+as the normal operators when 𝐅 = 𝐂 .
+    The spectral theorem is probably the most useful tool in the study of operators
+on inner product spaces. Its extension to certain infinite-dimensional inner product
+spaces (see, for example, Section 10D of the author’s book Measure, Integration
+& Real Analysis) plays a key role in functional analysis.
+    Because the conclusion of the spectral theorem depends on 𝐅, we will break
+the spectral theorem into two pieces, called the real spectral theorem and the
+complex spectral theorem.
+
+Real Spectral Theorem
+To prove the real spectral theorem, we will need two preliminary results. These
+preliminary results hold on both real and complex inner product spaces, but they
+are not needed for the proof of the complex spectral theorem.
+    You could guess that the next result is This completing-the-square technique
+true and even discover its proof by think- can be used to derive the quadratic
+ing about quadratic polynomials with formula.
+real coefficients. Specifically, suppose
+𝑏, 𝑐 ∈ 𝐑 and 𝑏2 < 4𝑐. Let 𝑥 be a real number. Then
+                                      𝑏 2      𝑏2
+                    𝑥2 + 𝑏𝑥 + 𝑐 = (𝑥 + ) + (𝑐 − ) > 0.
+                                      2        4
+In particular, 𝑥2 + 𝑏𝑥 + 𝑐 is an invertible real number (a convoluted way of saying
+that it is not 0). Replacing the real number 𝑥 with a self-adjoint operator (recall the
+analogy between real numbers and self-adjoint operators) leads to the next result.
+
+ 7.26   invertible quadratic expressions
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is self-adjoint and 𝑏, 𝑐 ∈ 𝐑 are such that 𝑏2 < 4𝑐. Then
+
+                                    𝑇 2 + 𝑏𝑇 + 𝑐𝐼
+
+ is an invertible operator.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+244        Chapter 7     Operators on Inner Product Spaces
+
+Proof     Let 𝑣 be a nonzero vector in 𝑉. Then
+             ⟨(𝑇 2 + 𝑏𝑇 + 𝑐𝐼)𝑣, 𝑣⟩ = ⟨𝑇 2 𝑣, 𝑣⟩ + 𝑏⟨𝑇𝑣, 𝑣⟩ + 𝑐⟨𝑣, 𝑣⟩
+
+                                     = ⟨𝑇𝑣, 𝑇𝑣⟩ + 𝑏⟨𝑇𝑣, 𝑣⟩ + 𝑐‖𝑣‖2
+
+                                     ≥ ‖𝑇𝑣‖2 − |𝑏| ‖𝑇𝑣‖ ‖𝑣‖ + 𝑐‖𝑣‖2
+
+                                                   |𝑏| ‖𝑣‖ 2      𝑏2
+                                     = (‖𝑇𝑣‖ −            ) + (𝑐 − )‖𝑣‖2
+                                                      2           4
+                                     > 0,
+where the third line above holds by the Cauchy–Schwarz inequality (6.14). The
+last inequality implies that (𝑇 2 + 𝑏𝑇 + 𝑐𝐼)𝑣 ≠ 0. Thus 𝑇 2 + 𝑏𝑇 + 𝑐𝐼 is injective,
+which implies that it is invertible (see 3.65).
+
+      The next result will be a key tool in our proof of the real spectral theorem.
+
+ 7.27     minimal polynomial of self-adjoint operator
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is self-adjoint. Then the minimal polynomial of 𝑇 equals
+ (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some 𝜆1 , … , 𝜆𝑚 ∈ 𝐑 .
+
+Proof   First suppose 𝐅 = 𝐂 . The zeros of the minimal polynomial of 𝑇 are the
+eigenvalues of 𝑇 [by 5.27(a)]. All eigenvalues of 𝑇 are real (by 7.12). Thus the
+second version of the fundamental theorem of algebra (see 4.13) tells us that the
+minimal polynomial of 𝑇 has the desired form.
+    Now suppose 𝐅 = 𝐑 . By the factorization of a polynomial over 𝐑 (see 4.16)
+there exist 𝜆1 , … , 𝜆𝑚 ∈ 𝐑 and 𝑏1 , … , 𝑏𝑁 , 𝑐1 , … , 𝑐𝑁 ∈ 𝐑 with 𝑏𝑘2 < 4𝑐𝑘 for each
+𝑘 such that the minimal polynomial of 𝑇 equals
+7.28           (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 )(𝑧2 + 𝑏1 𝑧 + 𝑐1 ) ⋯ (𝑧2 + 𝑏𝑁 𝑧 + 𝑐𝑁 );
+here either 𝑚 or 𝑁 might equal 0, meaning that there are no terms of the corre-
+sponding form. Now
+         (𝑇 − 𝜆1 𝐼) ⋯ (𝑇 − 𝜆𝑚 𝐼)(𝑇 2 + 𝑏1 𝑇 + 𝑐1 𝐼) ⋯ (𝑇 2 + 𝑏𝑁 𝑇 + 𝑐𝑁 𝐼) = 0.
+If 𝑁 > 0, then we could multiply both sides of the equation above on the right
+by the inverse of 𝑇 2 + 𝑏𝑁 𝑇 + 𝑐𝑁 𝐼 (which is an invertible operator by 7.26) to
+obtain a polynomial expression of 𝑇 that equals 0. The corresponding polynomial
+would have degree two less than the degree of 7.28, violating the minimality of
+the degree of the polynomial with this property. Thus we must have 𝑁 = 0, which
+means that the minimal polynomial in 7.28 has the form (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ), as
+desired.
+
+   The result above along with 5.27(a) implies that every self-adjoint operator
+has an eigenvalue. In fact, as we will see in the next result, self-adjoint operators
+have enough eigenvectors to form a basis.
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                           Section 7B      Spectral Theorem     245
+
+   The next result, which gives a complete description of the self-adjoint operators
+on a real inner product space, is one of the major theorems in linear algebra.
+
+ 7.29   real spectral theorem
+
+ Suppose 𝐅 = 𝐑 and 𝑇 ∈ ℒ(𝑉). Then the following are equivalent.
+ (a) 𝑇 is self-adjoint.
+ (b) 𝑇 has a diagonal matrix with respect to some orthonormal basis of 𝑉.
+ (c) 𝑉 has an orthonormal basis consisting of eigenvectors of 𝑇.
+
+Proof    First suppose (a) holds, so 𝑇 is self-adjoint. Our results on minimal poly-
+nomials, specifically 6.37 and 7.27, imply that 𝑇 has an upper-triangular matrix
+with respect to some orthonormal basis of 𝑉. With respect to this orthonormal
+basis, the matrix of 𝑇 ∗ is the transpose of the matrix of 𝑇. However, 𝑇 ∗ = 𝑇.
+Thus the transpose of the matrix of 𝑇 equals the matrix of 𝑇. Because the matrix
+of 𝑇 is upper-triangular, this means that all entries of the matrix above and below
+the diagonal are 0. Hence the matrix of 𝑇 is a diagonal matrix with respect to the
+orthonormal basis. Thus (a) implies (b).
+    Conversely, now suppose (b) holds, so 𝑇 has a diagonal matrix with respect to
+some orthonormal basis of 𝑉. That diagonal matrix equals its transpose. Thus
+with respect to that basis, the matrix of 𝑇 ∗ equals the matrix of 𝑇. Hence 𝑇 ∗ = 𝑇 ,
+proving that (b) implies (a).
+    The equivalence of (b) and (c) follows from the definitions [or see the proof
+that (a) and (b) are equivalent in 5.55].
+
+
+ 7.30 example: an orthonormal basis of eigenvectors for an operator
+
+    Consider the operator 𝑇 on 𝐑3 whose matrix (with respect to the standard
+basis) is
+                                   14 −13 8
+                               ⎛
+                               ⎜                    ⎞
+                               ⎜
+                               ⎜  −13    14      8 ⎟⎟
+                                                    ⎟.
+                               ⎝ 8        8     −7 ⎠
+This matrix with real entries equals its transpose; thus 𝑇 is self-adjoint. As you
+can verify,
+                           (1, −1, 0) (1, 1, 1) (1, 1, −2)
+                                     ,         ,
+                               √2       √3          √6
+is an orthonormal basis of 𝐑 consisting of eigenvectors of 𝑇 . With respect to
+                                3
+
+this basis, the matrix of 𝑇 is the diagonal matrix
+                                   27     0    0
+                                 ⎛
+                                 ⎜                ⎞
+                                 ⎜
+                                 ⎜ 0      9    0 ⎟⎟
+                                                  ⎟.
+                                 ⎝ 0      0   −15 ⎠
+
+   See Exercise 17 for a version of the real spectral theorem that applies simulta-
+neously to more than one operator.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+246      Chapter 7     Operators on Inner Product Spaces
+
+Complex Spectral Theorem
+The next result gives a complete description of the normal operators on a complex
+inner product space.
+
+ 7.31   complex spectral theorem
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Then the following are equivalent.
+ (a) 𝑇 is normal.
+ (b) 𝑇 has a diagonal matrix with respect to some orthonormal basis of 𝑉.
+ (c) 𝑉 has an orthonormal basis consisting of eigenvectors of 𝑇.
+
+Proof   First suppose (a) holds, so 𝑇 is normal. By Schur’s theorem (6.38), there
+is an orthonormal basis 𝑒1 , … , 𝑒𝑛 of 𝑉 with respect to which 𝑇 has an upper-
+triangular matrix. Thus we can write
+                                               𝑎1,1      ⋯     𝑎1,𝑛
+                                             ⎛
+                                             ⎜                      ⎞
+7.32                 ℳ(𝑇 , (𝑒1 , … , 𝑒𝑛 )) = ⎜
+                                             ⎜           ⋱      ⋮ ⎟ ⎟
+                                                                    ⎟.
+                                             ⎝ 0               𝑎𝑛,𝑛 ⎠
+We will show that this matrix is actually a diagonal matrix.
+  We see from the matrix above that
+                        ‖𝑇𝑒1 ‖2 = |𝑎1,1 |2,
+                       ∥𝑇 ∗ 𝑒1 ∥ = |𝑎1,1 |2 + |𝑎1,2 |2 + ⋯ + |𝑎1,𝑛 |2.
+                              2
+
+
+   Because 𝑇 is normal, ‖𝑇𝑒1 ‖ = ∥𝑇 ∗ 𝑒1 ∥ (see 7.20). Thus the two equations above
+imply that all entries in the first row of the matrix in 7.32, except possibly the first
+entry 𝑎1,1 , equal 0.
+   Now 7.32 implies
+                                     ‖𝑇𝑒2 ‖2 = |𝑎2,2 |2
+(because 𝑎1,2 = 0, as we showed in the paragraph above) and
+                       ∥𝑇 ∗ 𝑒2 ∥ = |𝑎2,2 |2 + |𝑎2,3 |2 + ⋯ + |𝑎2,𝑛 |2.
+                              2
+
+
+Because 𝑇 is normal, ‖𝑇𝑒2 ‖ = ∥𝑇 ∗ 𝑒2 ∥. Thus the two equations above imply that
+all entries in the second row of the matrix in 7.32, except possibly the diagonal
+entry 𝑎2,2 , equal 0.
+    Continuing in this fashion, we see that all nondiagonal entries in the matrix
+7.32 equal 0. Thus (b) holds, completing the proof that (a) implies (b).
+    Now suppose (b) holds, so 𝑇 has a diagonal matrix with respect to some
+orthonormal basis of 𝑉. The matrix of 𝑇 ∗ (with respect to the same basis) is
+obtained by taking the conjugate transpose of the matrix of 𝑇 ; hence 𝑇 ∗ also has a
+diagonal matrix. Any two diagonal matrices commute; thus 𝑇 commutes with 𝑇 ∗,
+which means that 𝑇 is normal. In other words, (a) holds, completing the proof
+that (b) implies (a).
+    The equivalence of (b) and (c) follows from the definitions (also see 5.55).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                  Section 7B   Spectral Theorem    247
+
+   See Exercises 13 and 20 for alternative proofs that (a) implies (b) in the
+previous result.
+   Exercises 14 and 15 interpret the real spectral theorem and the complex
+spectral theorem by expressing the domain space as an orthogonal direct sum of
+eigenspaces.
+   See Exercise 16 for a version of the complex spectral theorem that applies
+simultaneously to more than one operator.
+   The main conclusion of the complex spectral theorem is that every normal
+operator on a complex finite-dimensional inner product space is diagonalizable
+by an orthonormal basis, as illustrated by the next example.
+
+ 7.33 example: an orthonormal basis of eigenvectors for an operator
+
+   Consider the operator 𝑇 ∈ ℒ(𝐂2 ) defined by 𝑇(𝑤, 𝑧) = (2𝑤 − 3𝑧, 3𝑤 + 2𝑧).
+The matrix of 𝑇 (with respect to the standard basis) is
+                                              2   −3
+                                          (          ).
+                                              3   2
+
+As we saw in Example 7.19, 𝑇 is a normal operator.
+   As you can verify,
+                              1
+                             √
+                                (𝑖, 1), √1 (−𝑖, 1)
+                                      2            2
+
+is an orthonormal basis of 𝐂 consisting of eigenvectors of 𝑇 , and with respect to
+                              2
+
+this basis the matrix of 𝑇 is the diagonal matrix
+                                      2 + 3𝑖         0
+                                  (                       ).
+                                        0          2 − 3𝑖
+
+
+
+Exercises 7B
+
+ 1   Prove that a normal operator on a complex inner product space is self-adjoint
+     if and only if all its eigenvalues are real.
+        This exercise strengthens the analogy (for normal operators) between self-
+        adjoint operators and real numbers.
+
+ 2   Suppose 𝐅 = 𝐂 . Suppose 𝑇 ∈ ℒ(𝑉) is normal and has only one eigenvalue.
+     Prove that 𝑇 is a scalar multiple of the identity operator.
+ 3   Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉) is normal. Prove that the set of eigenvalues
+     of 𝑇 is contained in {0, 1} if and only if there is a subspace 𝑈 of 𝑉 such that
+     𝑇 = 𝑃𝑈 .
+
+ 4   Prove that a normal operator on a complex inner product space is skew
+     (meaning it equals the negative of its adjoint) if and only if all its eigenvalues
+     are purely imaginary (meaning that they have real part equal to 0).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+248      Chapter 7     Operators on Inner Product Spaces
+
+ 5    Prove or give a counterexample: If 𝑇 ∈ ℒ(𝐂3 ) is a diagonalizable operator,
+      then 𝑇 is normal (with respect to the usual inner product).
+ 6    Suppose 𝑉 is a complex inner product space and 𝑇 ∈ ℒ(𝑉) is a normal
+      operator such that 𝑇 9 = 𝑇 8. Prove that 𝑇 is self-adjoint and 𝑇 2 = 𝑇.
+ 7    Give an example of an operator 𝑇 on a complex vector space such that
+      𝑇 9 = 𝑇 8 but 𝑇 2 ≠ 𝑇.
+
+ 8    Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is normal if and only if every
+      eigenvector of 𝑇 is also an eigenvector of 𝑇 ∗.
+ 9    Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is normal if and only if there
+      exists a polynomial 𝑝 ∈ 𝒫(𝐂) such that 𝑇 ∗ = 𝑝(𝑇).
+10    Suppose 𝑉 is a complex inner product space. Prove that every normal
+      operator on 𝑉 has a square root.
+         An operator 𝑆 ∈ ℒ(𝑉) is called a square root of 𝑇 ∈ ℒ(𝑉) if 𝑆2 = 𝑇. We
+         will discuss more about square roots of operators in Sections 7C and 8C.
+
+11    Prove that every self-adjoint operator on 𝑉 has a cube root.
+         An operator 𝑆 ∈ ℒ(𝑉) is called a cube root of 𝑇 ∈ ℒ(𝑉) if 𝑆3 = 𝑇.
+
+12    Suppose 𝑉 is a complex vector space and 𝑇 ∈ ℒ(𝑉) is normal. Prove that
+      if 𝑆 is an operator on 𝑉 that commutes with 𝑇 , then 𝑆 commutes with 𝑇 ∗.
+         The result in this exercise is called Fuglede’s theorem.
+
+13    Without using the complex spectral theorem, use the version of Schur’s
+      theorem that applies to two commuting operators (take ℰ = {𝑇 , 𝑇 ∗ } in
+      Exercise 20 in Section 6B) to give a different proof that if 𝐅 = 𝐂 and
+      𝑇 ∈ ℒ(𝑉) is normal, then 𝑇 has a diagonal matrix with respect to some
+      orthonormal basis of 𝑉.
+14    Suppose 𝐅 = 𝐑 and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is self-adjoint if and only
+      if all pairs of eigenvectors corresponding to distinct eigenvalues of 𝑇 are
+      orthogonal and 𝑉 = 𝐸(𝜆1 , 𝑇) ⊕ ⋯ ⊕ 𝐸(𝜆𝑚 , 𝑇), where 𝜆1 , … , 𝜆𝑚 denote the
+      distinct eigenvalues of 𝑇.
+15    Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is normal if and only if all pairs
+      of eigenvectors corresponding to distinct eigenvalues of 𝑇 are orthogonal
+      and 𝑉 = 𝐸(𝜆1 , 𝑇) ⊕ ⋯ ⊕ 𝐸(𝜆𝑚 , 𝑇), where 𝜆1 , … , 𝜆𝑚 denote the distinct
+      eigenvalues of 𝑇.
+16    Suppose 𝐅 = 𝐂 and ℰ ⊆ ℒ(𝑉). Prove that there is an orthonormal basis
+      of 𝑉 with respect to which every element of ℰ has a diagonal matrix if and
+      only if 𝑆 and 𝑇 are commuting normal operators for all 𝑆, 𝑇 ∈ ℰ.
+         This exercise extends the complex spectral theorem to the context of a
+         collection of commuting normal operators.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                           Section 7B      Spectral Theorem              249
+
+17   Suppose 𝐅 = 𝐑 and ℰ ⊆ ℒ(𝑉). Prove that there is an orthonormal basis
+     of 𝑉 with respect to which every element of ℰ has a diagonal matrix if and
+     only if 𝑆 and 𝑇 are commuting self-adjoint operators for all 𝑆, 𝑇 ∈ ℰ.
+        This exercise extends the real spectral theorem to the context of a collection
+        of commuting self-adjoint operators.
+
+18   Give an example of a real inner product space 𝑉 , an operator 𝑇 ∈ ℒ(𝑉),
+     and real numbers 𝑏, 𝑐 with 𝑏2 < 4𝑐 such that
+                                        𝑇 2 + 𝑏𝑇 + 𝑐𝐼
+
+     is not invertible.
+        This exercise shows that the hypothesis that 𝑇 is self-adjoint cannot be
+        deleted in 7.26, even for real vector spaces.
+
+19   Suppose 𝑇 ∈ ℒ(𝑉) is self-adjoint and 𝑈 is a subspace of 𝑉 that is invariant
+     under 𝑇.
+     (a) Prove that 𝑈 ⟂ is invariant under 𝑇.
+     (b) Prove that 𝑇|𝑈 ∈ ℒ(𝑈) is self-adjoint.
+     (c) Prove that 𝑇|𝑈⟂ ∈ ℒ(𝑈 ⟂ ) is self-adjoint.
+
+20   Suppose 𝑇 ∈ ℒ(𝑉) is normal and 𝑈 is a subspace of 𝑉 that is invariant
+     under 𝑇.
+     (a) Prove that 𝑈 ⟂ is invariant under 𝑇.
+     (b) Prove that 𝑈 is invariant under 𝑇 ∗.
+     (c) Prove that (𝑇|𝑈 )∗ = (𝑇 ∗ )|𝑈 .
+     (d) Prove that 𝑇|𝑈 ∈ ℒ(𝑈) and 𝑇|𝑈⟂ ∈ ℒ(𝑈 ⟂ ) are normal operators.
+        This exercise can be used to give yet another proof of the complex spectral
+        theorem (use induction on dim 𝑉 and the result that 𝑇 has an eigenvector).
+
+21   Suppose that 𝑇 is a self-adjoint operator on a finite-dimensional inner product
+     space and that 2 and 3 are the only eigenvalues of 𝑇. Prove that
+                                     𝑇 2 − 5𝑇 + 6𝐼 = 0.
+
+22   Give an example of an operator 𝑇 ∈ ℒ(𝐂3 ) such that 2 and 3 are the only
+     eigenvalues of 𝑇 and 𝑇 2 − 5𝑇 + 6𝐼 ≠ 0.
+23   Suppose 𝑇 ∈ ℒ(𝑉) is self-adjoint, 𝜆 ∈ 𝐅, and 𝜖 > 0. Suppose there exists
+     𝑣 ∈ 𝑉 such that ‖𝑣‖ = 1 and
+
+                                      ‖𝑇𝑣 − 𝜆𝑣‖ < 𝜖.
+
+     Prove that 𝑇 has an eigenvalue 𝜆′ such that ∣𝜆 − 𝜆′ ∣ < 𝜖.
+        This exercise shows that for a self-adjoint operator, a number that is close
+        to satisfying an equation that would make it an eigenvalue is close to an
+        eigenvalue.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+250      Chapter 7     Operators on Inner Product Spaces
+
+24    Suppose 𝑈 is a finite-dimensional vector space and 𝑇 ∈ ℒ(𝑈).
+      (a) Suppose 𝐅 = 𝐑 . Prove that 𝑇 is diagonalizable if and only if there is a
+          basis of 𝑈 such that the matrix of 𝑇 with respect to this basis equals its
+          transpose.
+      (b) Suppose 𝐅 = 𝐂 . Prove that 𝑇 is diagonalizable if and only if there is a
+          basis of 𝑈 such that the matrix of 𝑇 with respect to this basis commutes
+          with its conjugate transpose.
+         This exercise adds another equivalence to the list of conditions equivalent
+         to diagonalizability in 5.55.
+
+25    Suppose that 𝑇 ∈ ℒ(𝑉) and there is an orthonormal basis 𝑒1 , … , 𝑒𝑛 of 𝑉
+      consisting of eigenvectors of 𝑇 , with corresponding eigenvalues 𝜆1 , … , 𝜆𝑛 .
+      Show that if 𝑘 ∈ {1, … , 𝑛}, then the pseudoinverse 𝑇 † satisfies the equation
+                                          ⎧1𝑒
+                                          { 𝜆𝑘 𝑘   if 𝜆𝑘 ≠ 0,
+                                𝑇†𝑒   𝑘 = ⎨
+                                          {0
+                                          ⎩        if 𝜆𝑘 = 0.
+
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                          Section 7C       Positive Operators   251
+
+7C Positive Operators
+
+ 7.34 definition: positive operator
+
+ An operator 𝑇 ∈ ℒ(𝑉) is called positive if 𝑇 is self-adjoint and
+                                     ⟨𝑇𝑣, 𝑣⟩ ≥ 0
+
+  for all 𝑣 ∈ 𝑉.
+
+   If 𝑉 is a complex vector space, then the requirement that 𝑇 be self-adjoint can
+be dropped from the definition above (by 7.14).
+
+ 7.35 example: positive operators
+(a) Let 𝑇 ∈ ℒ(𝐅2 ) be the operator whose matrix (using the standard basis) is
+      2 −1 ). Then 𝑇 is self-adjoint and ⟨𝑇(𝑤, 𝑧), (𝑤, 𝑧)⟩ = 2|𝑤|2 −2 Re(𝑤𝑧) + |𝑧|2
+    ( −1 1
+    = |𝑤 − 𝑧|2 + |𝑤|2 ≥ 0 for all (𝑤, 𝑧) ∈ 𝐅2 . Thus 𝑇 is a positive operator.
+(b) If 𝑈 is a subspace of 𝑉, then the orthogonal projection 𝑃𝑈 is a positive
+    operator, as you should verify.
+(c) If 𝑇 ∈ ℒ(𝑉) is self-adjoint and 𝑏, 𝑐 ∈ 𝐑 are such that 𝑏2 < 4𝑐, then
+    𝑇 2 + 𝑏𝑇 + 𝑐𝐼 is a positive operator, as shown by the proof of 7.26.
+
+
+ 7.36 definition: square root
+
+ An operator 𝑅 is called a square root of an operator 𝑇 if 𝑅2 = 𝑇.
+
+
+ 7.37 example: square root of an operator
+
+   If 𝑇 ∈ ℒ(𝐅3 ) is defined by 𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (𝑧3 , 0, 0), then the operator
+𝑅 ∈ ℒ(𝐅3 ) defined by 𝑅(𝑧1 , 𝑧2 , 𝑧3 ) = (𝑧2 , 𝑧3 , 0) is a square root of 𝑇 because
+𝑅2 = 𝑇 , as you can verify.
+
+     The characterizations of the positive Because positive operators correspond
+operators in the next result correspond to nonnegative numbers, better termi-
+to characterizations of the nonnegative nology would use the term nonnegative
+numbers among 𝐂 . Specifically, a num- operators. However, operator theorists
+ber 𝑧 ∈ 𝐂 is nonnegative if and only consistently call these positive opera-
+if it has a nonnegative square root, cor- tors, so we follow that custom. Some
+responding to condition (d). Also, 𝑧 is mathematicians use the term positive
+nonnegative if and only if it has a real semidefinite operator, which means
+square root, corresponding to condition the same as positive operator.
+(e). Finally, 𝑧 is nonnegative if and only
+if there exists 𝑤 ∈ 𝐂 such that 𝑧 = 𝑤𝑤, corresponding to condition (f). See
+Exercise 20 for another condition that is equivalent to being a positive operator.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+252      Chapter 7     Operators on Inner Product Spaces
+
+
+ 7.38    characterizations of positive operators
+
+ Let 𝑇 ∈ ℒ(𝑉). Then the following are equivalent.
+ (a) 𝑇 is a positive operator.
+ (b) 𝑇 is self-adjoint and all eigenvalues of 𝑇 are nonnegative.
+ (c) With respect to some orthonormal basis of 𝑉, the matrix of 𝑇 is a diagonal
+     matrix with only nonnegative numbers on the diagonal.
+ (d) 𝑇 has a positive square root.
+ (e) 𝑇 has a self-adjoint square root.
+ (f) 𝑇 = 𝑅∗ 𝑅 for some 𝑅 ∈ ℒ(𝑉).
+
+Proof    We will prove that (a) ⇒ (b) ⇒ (c) ⇒ (d) ⇒ (e) ⇒ (f) ⇒ (a).
+    First suppose (a) holds, so that 𝑇 is positive, which implies that 𝑇 is self-adjoint
+(by definition of positive operator). To prove the other condition in (b), suppose
+𝜆 is an eigenvalue of 𝑇. Let 𝑣 be an eigenvector of 𝑇 corresponding to 𝜆. Then
+                          0 ≤ ⟨𝑇𝑣, 𝑣⟩ = ⟨𝜆𝑣, 𝑣⟩ = 𝜆⟨𝑣, 𝑣⟩.
+Thus 𝜆 is a nonnegative number. Hence (b) holds, showing that (a) implies (b).
+    Now suppose (b) holds, so that 𝑇 is self-adjoint and all eigenvalues of 𝑇 are
+nonnegative. By the spectral theorem (7.29 and 7.31), there is an orthonormal
+basis 𝑒1 , … , 𝑒𝑛 of 𝑉 consisting of eigenvectors of 𝑇. Let 𝜆1 , … , 𝜆𝑛 be the eigen-
+values of 𝑇 corresponding to 𝑒1 , … , 𝑒𝑛 ; thus each 𝜆𝑘 is a nonnegative number.
+The matrix of 𝑇 with respect to 𝑒1 , … , 𝑒𝑛 is the diagonal matrix with 𝜆1 , … , 𝜆𝑛
+on the diagonal, which shows that (b) implies (c).
+    Now suppose (c) holds. Suppose 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉 such
+that the matrix of 𝑇 with respect to this basis is a diagonal matrix with nonnegative
+numbers 𝜆1 , … , 𝜆𝑛 on the diagonal. The linear map lemma (3.4) implies that
+there exists 𝑅 ∈ ℒ(𝑉) such that
+                                    𝑅𝑒𝑘 = √ 𝜆𝑘 𝑒𝑘
+for each 𝑘 = 1, … , 𝑛. As you should verify, 𝑅 is a positive operator. Furthermore,
+𝑅2 𝑒𝑘 = 𝜆𝑘 𝑒𝑘 = 𝑇𝑒𝑘 for each 𝑘 , which implies that 𝑅2 = 𝑇. Thus 𝑅 is a positive
+square root of 𝑇. Hence (d) holds, which shows that (c) implies (d).
+    Every positive operator is self-adjoint (by definition of positive operator).
+Thus (d) implies (e).
+    Now suppose (e) holds, meaning that there exists a self-adjoint operator 𝑅 on
+𝑉 such that 𝑇 = 𝑅2. Then 𝑇 = 𝑅∗ 𝑅 (because 𝑅∗ = 𝑅). Hence (e) implies (f).
+    Finally, suppose (f) holds. Let 𝑅 ∈ ℒ(𝑉) be such that 𝑇 = 𝑅∗ 𝑅. Then
+             ∗            ∗
+𝑇 = (𝑅∗ 𝑅) = 𝑅∗ (𝑅∗ ) = 𝑅∗ 𝑅 = 𝑇. Hence 𝑇 is self-adjoint. To complete the
+  ∗
+proof that (a) holds, note that
+                        ⟨𝑇𝑣, 𝑣⟩ = ⟨𝑅∗ 𝑅𝑣, 𝑣⟩ = ⟨𝑅𝑣, 𝑅𝑣⟩ ≥ 0
+for every 𝑣 ∈ 𝑉. Thus 𝑇 is positive, showing that (f) implies (a).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                Section 7C       Positive Operators   253
+
+   Every nonnegative number has a unique nonnegative square root. The next
+result shows that positive operators enjoy a similar property.
+
+ 7.39    each positive operator has only one positive square root
+
+ Every positive operator on 𝑉 has a unique positive square root.
+
+Proof    Suppose 𝑇 ∈ ℒ(𝑉) is positive. A positive operator can have infinitely
+Suppose 𝑣 ∈ 𝑉 is an eigenvector of 𝑇. many square roots (although only one
+Hence there exists a real number 𝜆 ≥ 0 of them can be positive). For example,
+such that 𝑇𝑣 = 𝜆𝑣.                             the identity operator on 𝑉 has infinitely
+   Let 𝑅 be a positive square root of 𝑇. many square roots if dim 𝑉 > 1.
+We will prove that 𝑅𝑣 = √ 𝜆𝑣. This will
+imply that the behavior of 𝑅 on the eigenvectors of 𝑇 is uniquely determined.
+Because there is a basis of 𝑉 consisting of eigenvectors of 𝑇 (by the spectral
+theorem), this will imply that 𝑅 is uniquely determined.
+   To prove that 𝑅𝑣 = √ 𝜆𝑣, note that the spectral theorem asserts that there is an
+orthonormal basis 𝑒1 , … , 𝑒𝑛 of 𝑉 consisting of eigenvectors of 𝑅. Because 𝑅 is a
+positive operator, all its eigenvalues are nonnegative. Thus there exist nonnegative
+numbers 𝜆1 , … , 𝜆𝑛 such that 𝑅𝑒𝑘 = √ 𝜆𝑘 𝑒𝑘 for each 𝑘 = 1, … , 𝑛.
+   Because 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉, we can write
+                                𝑣 = 𝑎1 𝑒1 + ⋯ + 𝑎𝑛 𝑒𝑛
+for some numbers 𝑎1 , … , 𝑎𝑛 ∈ 𝐅. Thus
+                          𝑅𝑣 = 𝑎1 √ 𝜆1 𝑒1 + ⋯ + 𝑎𝑛 √ 𝜆𝑛 𝑒𝑛 .
+Hence
+                     𝜆𝑣 = 𝑇𝑣 = 𝑅2 𝑣 = 𝑎1 𝜆1 𝑒1 + ⋯ + 𝑎𝑛 𝜆𝑛 𝑒𝑛 .
+The equation above implies that
+                   𝑎1 𝜆𝑒1 + ⋯ + 𝑎𝑛 𝜆𝑒𝑛 = 𝑎1 𝜆1 𝑒1 + ⋯ + 𝑎𝑛 𝜆𝑛 𝑒𝑛 .
+   Thus 𝑎𝑘 (𝜆 − 𝜆𝑘 ) = 0 for each 𝑘 = 1, … , 𝑛. Hence
+                                  𝑣=        ∑          𝑎𝑘 𝑒𝑘 .
+                                         {𝑘∶ 𝜆𝑘 = 𝜆}
+
+Thus
+                           𝑅𝑣 =      ∑          𝑎𝑘 √ 𝜆𝑒𝑘 = √ 𝜆𝑣,
+                                  {𝑘∶ 𝜆𝑘 = 𝜆}
+
+as desired.
+
+   The notation defined below makes sense thanks to the result above.
+
+ 7.40 notation: √𝑇
+
+ For 𝑇 a positive operator, √𝑇 denotes the unique positive square root of 𝑇.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+254       Chapter 7     Operators on Inner Product Spaces
+
+
+
+ 7.41 example: square root of positive operators
+
+      Define operators 𝑆, 𝑇 on 𝐑2 (with the usual Euclidean inner product) by
+                 𝑆(𝑥, 𝑦) = (𝑥, 2𝑦)       and 𝑇(𝑥, 𝑦) = (𝑥 + 𝑦, 𝑥 + 𝑦).
+Then with respect to the standard basis of 𝐑2 we have
+                              1    0                               1   1
+7.42             ℳ(𝑆) = (            )        and       ℳ(𝑇) = (         ).
+                              0    2                               1   1
+Each of these matrices equals its transpose; thus 𝑆 and 𝑇 are self-adjoint.
+   If (𝑥, 𝑦) ∈ 𝐑2 , then
+                           ⟨𝑆(𝑥, 𝑦), (𝑥, 𝑦)⟩ = 𝑥2 + 2𝑦2 ≥ 0
+and
+                 ⟨𝑇(𝑥, 𝑦), (𝑥, 𝑦)⟩ = 𝑥2 + 2𝑥𝑦 + 𝑦2 = (𝑥 + 𝑦)2 ≥ 0.
+Thus 𝑆 and 𝑇 are positive operators.
+   The standard basis of 𝐑2 is an orthonormal basis consisting of eigenvectors of
+𝑆. Note that
+                             ( √1 , √1 ), ( √1 , − √1 )
+                                     2    2         2      2
+is an orthonormal basis of eigenvectors of 𝑇 , with eigenvalue 2 for the first
+eigenvector and eigenvalue 0 for the second eigenvector. Thus √𝑇 has the same
+eigenvectors, with eigenvalues √2 and 0.
+    You can verify that
+                                                                       1   1
+                       1          0 ⎞                            ⎛ √2      √2 ⎞
+            ℳ(√𝑆 ) = ⎛
+                     ⎜               ⎟        and       ℳ(√𝑇 ) = ⎜
+                                                                 ⎜
+                                                                 ⎜
+                                                                 ⎜ 1
+                                                                              ⎟
+                                                                              ⎟
+                                                                              ⎟
+                                  √2                                        1 ⎟
+                     ⎝ 0             ⎠
+                                                                 ⎝ √2      √2 ⎠
+
+with respect to the standard basis by showing that the squares of the matrices
+above are the matrices in 7.42 and that each matrix above is the matrix of a positive
+operator.
+
+   The statement of the next result does not involve a square root, but the clean
+proof makes nice use of the square root of a positive operator.
+
+ 7.43     𝑇 positive and ⟨𝑇𝑣, 𝑣⟩ = 0 ⟹ 𝑇𝑣 = 0
+
+ Suppose 𝑇 is a positive operator on 𝑉 and 𝑣 ∈ 𝑉 is such that ⟨𝑇𝑣, 𝑣⟩ = 0.
+ Then 𝑇𝑣 = 0.
+
+Proof     We have
+                                                                               2
+               0 = ⟨𝑇𝑣, 𝑣⟩ = ⟨√𝑇 √𝑇𝑣, 𝑣⟩ = ⟨√𝑇𝑣, √𝑇𝑣⟩ = ∥√𝑇𝑣∥ .
+
+Hence √𝑇𝑣 = 0. Thus 𝑇𝑣 = √𝑇(√𝑇𝑣) = 0, as desired.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                         Section 7C       Positive Operators      255
+
+Exercises 7C
+
+ 1   Suppose 𝑇 ∈ ℒ(𝑉). Prove that if both 𝑇 and −𝑇 are positive operators,
+     then 𝑇 = 0.
+ 2   Suppose 𝑇 ∈ ℒ(𝐅4 ) is the operator whose matrix (with respect to the
+     standard basis) is
+                             2 −1 0         0
+                          ⎛
+                          ⎜                    ⎞
+                          ⎜
+                          ⎜  −1   2    −1   0 ⎟⎟
+                                               ⎟
+                          ⎜
+                          ⎜                    ⎟
+                                               ⎟ .
+                          ⎜  0   −1     2  −1  ⎟
+                          ⎝ 0     0 −1 2 ⎠
+     Show that 𝑇 is an invertible positive operator.
+ 3   Suppose 𝑛 is a positive integer and 𝑇 ∈ ℒ(𝐅𝑛 ) is the operator whose matrix
+     (with respect to the standard basis) consists of all 1’s. Show that 𝑇 is a
+     positive operator.
+ 4   Suppose 𝑛 is an integer with 𝑛 > 1. Show that there exists an 𝑛-by-𝑛 matrix
+     𝐴 such that all of the entries of 𝐴 are positive numbers and 𝐴 = 𝐴∗, but the
+     operator on 𝐅𝑛 whose matrix (with respect to the standard basis) equals 𝐴 is
+     not a positive operator.
+ 5   Suppose 𝑇 ∈ ℒ(𝑉) is self-adjoint. Prove that 𝑇 is a positive operator if and
+     only if for every orthonormal basis 𝑒1 , … , 𝑒𝑛 of 𝑉, all entries on the diagonal
+     of ℳ(𝑇 , (𝑒1 , … , 𝑒𝑛 )) are nonnegative numbers.
+ 6   Prove that the sum of two positive operators on 𝑉 is a positive operator.
+ 7   Suppose 𝑆 ∈ ℒ(𝑉) is an invertible positive operator and 𝑇 ∈ ℒ(𝑉) is a
+     positive operator. Prove that 𝑆 + 𝑇 is invertible.
+ 8   Suppose 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is a positive operator if and only if the
+     pseudoinverse 𝑇 † is a positive operator.
+ 9   Suppose 𝑇 ∈ ℒ(𝑉) is a positive operator and 𝑆 ∈ ℒ(𝑊, 𝑉). Prove that
+     𝑆∗ 𝑇𝑆 is a positive operator on 𝑊.
+
+10   Suppose 𝑇 is a positive operator on 𝑉. Suppose 𝑣, 𝑤 ∈ 𝑉 are such that
+
+                                𝑇𝑣 = 𝑤      and 𝑇𝑤 = 𝑣.
+
+     Prove that 𝑣 = 𝑤.
+11   Suppose 𝑇 is a positive operator on 𝑉 and 𝑈 is a subspace of 𝑉 invariant
+     under 𝑇. Prove that 𝑇|𝑈 ∈ ℒ(𝑈) is a positive operator on 𝑈 .
+12   Suppose 𝑇 ∈ ℒ(𝑉) is a positive operator. Prove that 𝑇 𝑘 is a positive operator
+     for every positive integer 𝑘 .
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+256      Chapter 7      Operators on Inner Product Spaces
+
+13    Suppose 𝑇 ∈ ℒ(𝑉) is self-adjoint and 𝛼 ∈ 𝐑 .
+      (a) Prove that 𝑇 − 𝛼𝐼 is a positive operator if and only if 𝛼 is less than or
+          equal to every eigenvalue of 𝑇.
+      (b) Prove that 𝛼𝐼 − 𝑇 is a positive operator if and only if 𝛼 is greater than or
+          equal to every eigenvalue of 𝑇.
+
+14    Suppose 𝑇 is a positive operator on 𝑉 and 𝑣1 , … , 𝑣𝑚 ∈ 𝑉. Prove that
+                                      𝑚       𝑚
+                                     ∑ ∑ ⟨𝑇𝑣𝑘 , 𝑣𝑗 ⟩ ≥ 0.
+                                     𝑗 = 1 𝑘=1
+
+15    Suppose 𝑇 ∈ ℒ(𝑉) is self-adjoint. Prove that there exist positive operators
+      𝐴, 𝐵 ∈ ℒ(𝑉) such that
+               𝑇 =𝐴−𝐵            and √𝑇 ∗ 𝑇 = 𝐴 + 𝐵 and 𝐴𝐵 = 𝐵𝐴 = 0.
+16    Suppose 𝑇 is a positive operator on 𝑉. Prove that
+
+                      null √𝑇 = null 𝑇            and       range √𝑇 = range 𝑇.
+17    Suppose that 𝑇 ∈ ℒ(𝑉) is a positive operator. Prove that there exists a
+      polynomial 𝑝 with real coefficients such that √𝑇 = 𝑝(𝑇).
+18    Suppose 𝑆 and 𝑇 are positive operators on 𝑉. Prove that 𝑆𝑇 is a positive
+      operator if and only if 𝑆 and 𝑇 commute.
+19    Show that the identity operator on 𝐅2 has infinitely many self-adjoint square
+      roots.
+20    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉. Prove that
+      𝑇 is a positive operator if and only if there exist 𝑣1 , … , 𝑣𝑛 ∈ 𝑉 such that
+                                      ⟨𝑇𝑒𝑘 , 𝑒𝑗 ⟩ = ⟨𝑣𝑘 , 𝑣𝑗 ⟩
+      for all 𝑗, 𝑘 = 1, … , 𝑛.
+         The numbers {⟨𝑇𝑒𝑘 , 𝑒𝑗 ⟩}𝑗, 𝑘=1,…,𝑛 are the entries in the matrix of 𝑇 with
+         respect to the orthonormal basis 𝑒1 , … , 𝑒𝑛 .
+
+21    Suppose 𝑛 is a positive integer. The 𝑛-by-𝑛 Hilbert matrix is the 𝑛-by-𝑛
+      matrix whose entry in row 𝑗, column 𝑘 is 𝑗+𝑘−1
+                                                   1
+                                                       . Suppose 𝑇 ∈ ℒ(𝑉) is an
+      operator whose matrix with respect to some orthonormal basis of 𝑉 is the
+      𝑛-by-𝑛 Hilbert matrix. Prove that 𝑇 is a positive invertible operator.
+          Example: The 4-by-4 Hilbert matrix is
+                                                  1     1    1
+                                       1
+                                     ⎛
+                                     ⎜            2     3    4 ⎞
+                                                               ⎟
+                                     ⎜
+                                     ⎜ 1          1     1    1 ⎟
+                                                               ⎟
+                                     ⎜
+                                     ⎜                         ⎟
+                                                               ⎟
+                                     ⎜
+                                     ⎜
+                                       2          3     4    5 ⎟
+                                                               ⎟.
+                                     ⎜
+                                     ⎜ 1          1     1    1 ⎟
+                                                               ⎟
+                                     ⎜
+                                     ⎜ 3          4     5
+                                                               ⎟
+                                                             6 ⎟
+                                     ⎜
+                                     ⎜                         ⎟
+                                                               ⎟
+                                          1       1     1    1
+                                     ⎝ 4          5     6    7   ⎠
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                         Section 7C       Positive Operators   257
+
+22   Suppose 𝑇 ∈ ℒ(𝑉) is a positive operator and 𝑢 ∈ 𝑉 is such that ‖𝑢‖ = 1
+     and ‖𝑇𝑢‖ ≥ ‖𝑇𝑣‖ for all 𝑣 ∈ 𝑉 with ‖𝑣‖ = 1. Show that 𝑢 is an eigenvector
+     of 𝑇 corresponding to the largest eigenvalue of 𝑇.
+23   For 𝑇 ∈ ℒ(𝑉) and 𝑢, 𝑣 ∈ 𝑉, define ⟨𝑢, 𝑣⟩𝑇 by ⟨𝑢, 𝑣⟩𝑇 = ⟨𝑇𝑢, 𝑣⟩.
+     (a) Suppose 𝑇 ∈ ℒ(𝑉). Prove that ⟨⋅, ⋅⟩𝑇 is an inner product on 𝑉 if and
+         only if 𝑇 is an invertible positive operator (with respect to the original
+         inner product ⟨⋅, ⋅⟩).
+     (b) Prove that every inner product on 𝑉 is of the form ⟨⋅, ⋅⟩𝑇 for some
+         positive invertible operator 𝑇 ∈ ℒ(𝑉).
+
+24   Suppose 𝑆 and 𝑇 are positive operators on 𝑉. Prove that
+
+                             null(𝑆 + 𝑇) = null 𝑆 ∩ null 𝑇.
+
+25   Let 𝑇 be the second derivative operator in Exercise 31(b) in Section 7A.
+     Show that −𝑇 is a positive operator.
+
+
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+258      Chapter 7     Operators on Inner Product Spaces
+
+7D Isometries, Unitary Operators, and Matrix Factorization
+Isometries
+Linear maps that preserve norms are sufficiently important to deserve a name.
+
+ 7.44 definition: isometry
+
+ A linear map 𝑆 ∈ ℒ(𝑉, 𝑊) is called an isometry if
+
+                                      ‖𝑆𝑣‖ = ‖𝑣‖
+
+ for every 𝑣 ∈ 𝑉. In other words, a linear map is an isometry if it preserves
+ norms.
+
+   If 𝑆 ∈ ℒ(𝑉, 𝑊) is an isometry and            The Greek word isos means equal; the
+𝑣 ∈ 𝑉 is such that 𝑆𝑣 = 0, then                 Greek word metron means measure.
+         ‖𝑣‖ = ‖𝑆𝑣‖ = ‖0‖ = 0,                  Thus isometry literally means equal
+                                                measure.
+which implies that 𝑣 = 0. Thus every
+isometry is injective.
+
+ 7.45 example: orthonormal basis maps to orthonormal list ⟹ isometry
+
+    Suppose 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉 and 𝑔1 , … , 𝑔𝑛 is an orthonormal
+list in 𝑊. Let 𝑆 ∈ ℒ(𝑉, 𝑊) be the linear map such that 𝑆𝑒𝑘 = 𝑔𝑘 for each
+𝑘 = 1, … , 𝑛. To show that 𝑆 is an isometry, suppose 𝑣 ∈ 𝑉. Then
+7.46                        𝑣 = ⟨𝑣, 𝑒1 ⟩𝑒1 + ⋯ + ⟨𝑣, 𝑒𝑛 ⟩𝑒𝑛
+and
+                                          2                   2
+7.47                      ‖𝑣‖2 = ∣⟨𝑣, 𝑒1 ⟩∣ + ⋯ + ∣⟨𝑣, 𝑒𝑛 ⟩∣ ,
+where we have used 6.30(b). Applying 𝑆 to both sides of 7.46 gives
+          𝑆𝑣 = ⟨𝑣, 𝑒1 ⟩𝑆𝑒1 + ⋯ + ⟨𝑣, 𝑒𝑛 ⟩𝑆𝑒𝑛 = ⟨𝑣, 𝑒1 ⟩𝑔1 + ⋯ + ⟨𝑣, 𝑒𝑛 ⟩𝑔𝑛 .
+Thus
+                                           2
+7.48                     ‖𝑆𝑣‖2 = ∣⟨𝑣, 𝑒1 ⟩∣ + ⋯ + |⟨𝑣, 𝑒𝑛 ⟩|2.
+Comparing 7.47 and 7.48 shows that ‖𝑣‖ = ‖𝑆𝑣‖. Thus 𝑆 is an isometry.
+
+     The next result gives conditions equivalent to being an isometry. The equiv-
+alence of (a) and (c) shows that a linear map is an isometry if and only if it
+preserves inner products. The equivalence of (a) and (d) shows that a linear map
+is an isometry if and only if it maps some orthonormal basis to an orthonormal list.
+Thus the isometries given by Example 7.45 include all isometries. Furthermore,
+a linear map is an isometry if and only if it maps every orthonormal basis to an
+orthonormal list [because whether or not (a) holds does not depend on the basis
+𝑒1 , … , 𝑒𝑛 ].
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+ Section 7D       Isometries, Unitary Operators, and Matrix Factorization             259
+
+   The equivalence of (a) and (e) in the next result shows that a linear map is an
+isometry if and only if the columns of its matrix (with respect to any orthonormal
+bases) form an orthonormal list. Here we are identifying the columns of an 𝑚-by-𝑛
+matrix with elements of 𝐅𝑚 and then using the Euclidean inner product on 𝐅𝑚.
+
+ 7.49   characterizations of isometries
+
+ Suppose 𝑆 ∈ ℒ(𝑉, 𝑊). Suppose 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉 and
+ 𝑓1 , … , 𝑓𝑚 is an orthonormal basis of 𝑊. Then the following are equivalent.
+ (a) 𝑆 is an isometry.
+ (b) 𝑆∗ 𝑆 = 𝐼 .
+ (c) ⟨𝑆𝑢, 𝑆𝑣⟩ = ⟨𝑢, 𝑣⟩ for all 𝑢, 𝑣 ∈ 𝑉.
+ (d) 𝑆𝑒1 , … , 𝑆𝑒𝑛 is an orthonormal list in 𝑊.
+ (e) The columns of ℳ(𝑆, (𝑒1 , … , 𝑒𝑛 ), ( 𝑓1 , … , 𝑓𝑚 )) form an orthonormal list
+     in 𝐅𝑚 with respect to the Euclidean inner product.
+
+Proof   First suppose (a) holds, so 𝑆 is an isometry. If 𝑣 ∈ 𝑉 then
+  ⟨(𝐼 − 𝑆∗ 𝑆)𝑣, 𝑣⟩ = ⟨𝑣, 𝑣⟩ − ⟨𝑆∗ 𝑆𝑣, 𝑣⟩ = ‖𝑣‖2 − ⟨𝑆𝑣, 𝑆𝑣⟩ = ‖𝑣‖2 − ‖𝑆𝑣‖2 = 0.
+Hence the self-adjoint operator 𝐼 − 𝑆∗ 𝑆 equals 0 (by 7.16). Thus 𝑆∗ 𝑆 = 𝐼 , proving
+that (a) implies (b).
+    Now suppose (b) holds, so 𝑆∗ 𝑆 = 𝐼 . If 𝑢, 𝑣 ∈ 𝑉 then
+                      ⟨𝑆𝑢, 𝑆𝑣⟩ = ⟨𝑆∗ 𝑆𝑢, 𝑣⟩ = ⟨𝐼𝑢, 𝑣⟩ = ⟨𝑢, 𝑣⟩,
+proving that (b) implies (c).
+     Now suppose that (c) holds, so ⟨𝑆𝑢, 𝑆𝑣⟩ = ⟨𝑢, 𝑣⟩ for all 𝑢, 𝑣 ∈ 𝑉. Thus if
+𝑗, 𝑘 ∈ {1, … , 𝑛}, then
+                              ⟨𝑆𝑒𝑗 , 𝑆𝑒𝑘 ⟩ = ⟨𝑒𝑗 , 𝑒𝑘 ⟩.
+Hence 𝑆𝑒1 , … , 𝑆𝑒𝑛 is an orthonormal list in 𝑊, proving that (c) implies (d).
+   Now suppose that (d) holds, so 𝑆𝑒1 , … , 𝑆𝑒𝑛 is an orthonormal list in 𝑊. Let
+𝐴 = ℳ(𝑆, (𝑒1 , … , 𝑒𝑛 ), ( 𝑓1 , … , 𝑓𝑚 )). If 𝑘 , 𝑟 ∈ {1, … , 𝑛}, then
+           𝑚                 𝑚          𝑚                            ⎧
+                                                                     {1   if 𝑘 = 𝑟,
+7.50      ∑ 𝐴𝑗,𝑘 𝐴𝑗,𝑟 = ⟨∑ 𝐴𝑗,𝑘 𝑓𝑗 , ∑ 𝐴𝑗,𝑟 𝑓𝑗 ⟩ = ⟨𝑆𝑒𝑘 , 𝑆𝑒𝑟 ⟩ = ⎨
+          𝑗=1               𝑗=1        𝑗=1                           {
+                                                                     ⎩0   if 𝑘 ≠ 𝑟.
+The left side of 7.50 is the inner product in 𝐅𝑚 of columns 𝑘 and 𝑟 of 𝐴. Thus the
+columns of 𝐴 form an orthonormal list in 𝐅𝑚, proving that (d) implies (e).
+     Now suppose (e) holds, so the columns of the matrix 𝐴 defined in the paragraph
+above form an orthonormal list in 𝐅𝑚. Then 7.50 shows that 𝑆𝑒1 , … , 𝑆𝑒𝑛 is an
+orthonormal list in 𝑊. Thus Example 7.45, with 𝑆𝑒1 , … , 𝑆𝑒𝑛 playing the role of
+𝑔1 , … , 𝑔𝑛 , shows that 𝑆 is an isometry, proving that (e) implies (a).
+
+    See Exercises 1 and 11 for additional conditions that are equivalent to being
+an isometry.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+260     Chapter 7      Operators on Inner Product Spaces
+
+Unitary Operators
+In this subsection, we confine our attention to linear maps from a vector space to
+itself. In other words, we will be working with operators.
+
+ 7.51 definition: unitary operator
+
+ An operator 𝑆 ∈ ℒ(𝑉) is called unitary if 𝑆 is an invertible isometry.
+
+    As previously noted, every isometry Although the words “unitary” and
+is injective. Every injective operator on “isometry” mean the same thing for
+a finite-dimensional vector space is in- operators on finite-dimensional inner
+vertible (see 3.65). A standing assump- product spaces, remember that a uni-
+tion for this chapter is that 𝑉 is a finite- tary operator maps a vector space to
+dimensional inner product space. Thus itself, while an isometry maps a vector
+we could delete the word “invertible” space to another (possibly different)
+from the definition above without chang- vector space.
+ing the meaning. The unnecessary word
+“invertible” has been retained in the definition above for consistency with the
+definition readers may encounter when learning about inner product spaces that
+are not necessarily finite-dimensional.
+
+ 7.52 example: rotation of 𝐑2
+
+    Suppose 𝜃 ∈ 𝐑 and 𝑆 is the operator on 𝐅2 whose matrix with respect to the
+standard basis of 𝐅2 is
+                               cos 𝜃 − sin 𝜃
+                             (                ).
+                                sin 𝜃 cos 𝜃
+The two columns of this matrix form an orthonormal list in 𝐅2 ; hence 𝑆 is an
+isometry [by the equivalence of (a) and (e) in 7.49]. Thus 𝑆 is a unitary operator.
+    If 𝐅 = 𝐑 , then 𝑆 is the operator of counterclockwise rotation by 𝜃 radians
+around the origin of 𝐑2 . This observation gives us another way to think about why
+𝑆 is an isometry, because each rotation around the origin of 𝐑2 preserves norms.
+
+    The next result (7.53) lists several conditions that are equivalent to being a
+unitary operator. All the conditions equivalent to being an isometry in 7.49 should
+be added to this list. The extra conditions in 7.53 arise because of limiting the
+context to linear maps from a vector space to itself. For example, 7.49 shows that
+a linear map 𝑆 ∈ ℒ(𝑉, 𝑊) is an isometry if and only if 𝑆∗ 𝑆 = 𝐼 , while 7.53 shows
+that an operator 𝑆 ∈ ℒ(𝑉) is a unitary operator if and only if 𝑆∗ 𝑆 = 𝑆𝑆∗ = 𝐼 .
+    Another difference is that 7.49(d) mentions an orthonormal list, while 7.53(d)
+mentions an orthonormal basis. Also, 7.49(e) mentions the columns of ℳ(𝑇),
+while 7.53(e) mentions the rows of ℳ(𝑇). Furthermore, ℳ(𝑇) in 7.49(e) is with
+respect to an orthonormal basis of 𝑉 and an orthonormal basis of 𝑊, while ℳ(𝑇)
+in 7.53(e) is with respect to a single basis of 𝑉 doing double duty.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+ Section 7D      Isometries, Unitary Operators, and Matrix Factorization          261
+
+
+ 7.53   characterizations of unitary operators
+
+ Suppose 𝑆 ∈ ℒ(𝑉). Suppose 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉. Then
+ the following are equivalent.
+ (a) 𝑆 is a unitary operator.
+ (b) 𝑆∗ 𝑆 = 𝑆𝑆∗ = 𝐼 .
+ (c) 𝑆 is invertible and 𝑆−1 = 𝑆∗.
+ (d) 𝑆𝑒1 , … , 𝑆𝑒𝑛 is an orthonormal basis of 𝑉.
+ (e) The rows of ℳ(𝑆, (𝑒1 , … , 𝑒𝑛 )) form an orthonormal basis of 𝐅𝑛 with
+     respect to the Euclidean inner product.
+ (f) 𝑆∗ is a unitary operator.
+
+Proof   First suppose (a) holds, so 𝑆 is a unitary operator. Hence
+
+                                          𝑆∗ 𝑆 = 𝐼
+
+by the equivalence of (a) and (b) in 7.49. Multiply both sides of this equation by
+𝑆−1 on the right, getting 𝑆∗ = 𝑆−1 . Thus 𝑆𝑆∗ = 𝑆𝑆−1 = 𝐼 , as desired, proving
+that (a) implies (b).
+    The definitions of invertible and inverse show that (b) implies (c).
+    Now suppose (c) holds, so 𝑆 is invertible and 𝑆−1 = 𝑆∗. Thus 𝑆∗ 𝑆 = 𝐼 . Hence
+𝑆𝑒1 , … , 𝑆𝑒𝑛 is an orthonormal list in 𝑉, by the equivalence of (b) and (d) in 7.49.
+The length of this list equals dim 𝑉. Thus 𝑆𝑒1 , … , 𝑆𝑒𝑛 is an orthonormal basis
+of 𝑉, proving that (c) implies (d).
+    Now suppose (d) holds, so 𝑆𝑒1 , … , 𝑆𝑒𝑛 is an orthonormal basis of 𝑉. The
+equivalence of (a) and (d) in 7.49 shows that 𝑆 is a unitary operator. Thus
+                                      ∗
+                                 (𝑆∗ ) 𝑆∗ = 𝑆𝑆∗ = 𝐼 ,
+
+where the last equation holds because we already showed that (a) implies (b) in this
+result. The equation above and the equivalence of (a) and (b) in 7.49 show that 𝑆∗
+is an isometry. Thus the columns of ℳ(𝑆∗, (𝑒1 , … , 𝑒𝑛 )) form an orthonormal basis
+of 𝐅𝑛 [by the equivalence of (a) and (e) of 7.49]. The rows of ℳ(𝑆, (𝑒1 , … , 𝑒𝑛 ))
+are the complex conjugates of the columns of ℳ(𝑆∗, (𝑒1 , … , 𝑒𝑛 )). Thus the rows
+of ℳ(𝑆, (𝑒1 , … , 𝑒𝑛 )) form an orthonormal basis of 𝐅𝑛 , proving that (d) implies (e).
+    Now suppose (e) holds. Thus the columns of ℳ(𝑆∗, (𝑒1 , … , 𝑒𝑛 )) form an
+orthonormal basis of 𝐅𝑛. The equivalence of (a) and (e) in 7.49 shows that 𝑆∗ is
+an isometry, proving that (e) implies (f).
+    Now suppose (f) holds, so 𝑆∗ is a unitary operator. The chain of implications
+we have already proved in this result shows that (a) implies (f). Applying this
+result to 𝑆∗ shows that (𝑆∗ )∗ is a unitary operator, proving that (f) implies (a).
+    We have shown that (a) ⇒ (b) ⇒ (c) ⇒ (d) ⇒ (e) ⇒ (f) ⇒ (a), completing the
+proof.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+262     Chapter 7      Operators on Inner Product Spaces
+
+    Recall our analogy between 𝐂 and ℒ(𝑉). Under this analogy, a complex
+number 𝑧 corresponds to an operator 𝑆 ∈ ℒ(𝑉), and 𝑧 corresponds to 𝑆∗. The
+real numbers (𝑧 = 𝑧) correspond to the self-adjoint operators (𝑆 = 𝑆∗ ), and the
+nonnegative numbers correspond to the (badly named) positive operators.
+    Another distinguished subset of 𝐂 is the unit circle, which consists of the
+complex numbers 𝑧 such that |𝑧| = 1. The condition |𝑧| = 1 is equivalent to the
+condition 𝑧𝑧 = 1. Under our analogy, this corresponds to the condition 𝑆∗ 𝑆 = 𝐼 ,
+which is equivalent to 𝑆 being a unitary operator. Hence the analogy shows that
+the unit circle in 𝐂 corresponds to the set of unitary operators. In the next two
+results, this analogy appears in the eigenvalues of unitary operators. Also see
+Exercise 15 for another example of this analogy.
+
+ 7.54   eigenvalues of unitary operators have absolute value 1
+
+ Suppose 𝜆 is an eigenvalue of a unitary operator. Then |𝜆| = 1.
+
+Proof Suppose 𝑆 ∈ ℒ(𝑉) is a unitary operator and 𝜆 is an eigenvalue of 𝑆. Let
+𝑣 ∈ 𝑉 be such that 𝑣 ≠ 0 and 𝑆𝑣 = 𝜆𝑣. Then
+                             |𝜆| ‖𝑣‖ = ‖𝜆𝑣‖ = ‖𝑆𝑣‖ = ‖𝑣‖.
+Thus |𝜆| = 1, as desired.
+
+   The next result characterizes unitary operators on finite-dimensional complex
+inner product spaces, using the complex spectral theorem as the main tool.
+
+ 7.55   description of unitary operators on complex inner product spaces
+
+ Suppose 𝐅 = 𝐂 and 𝑆 ∈ ℒ(𝑉). Then the following are equivalent.
+ (a) 𝑆 is a unitary operator.
+ (b) There is an orthonormal basis of 𝑉 consisting of eigenvectors of 𝑆 whose
+     corresponding eigenvalues all have absolute value 1.
+
+Proof Suppose (a) holds, so 𝑆 is a unitary operator. The equivalence of (a) and
+(b) in 7.53 shows that 𝑆 is normal. Thus the complex spectral theorem (7.31)
+shows that there is an orthonormal basis 𝑒1 , … , 𝑒𝑛 of 𝑉 consisting of eigenvectors
+of 𝑆. Every eigenvalue of 𝑆 has absolute value 1 (by 7.54), completing the proof
+that (a) implies (b).
+    Now suppose (b) holds. Let 𝑒1 , … , 𝑒𝑛 be an orthonormal basis of 𝑉 consisting
+of eigenvectors of 𝑆 whose corresponding eigenvalues 𝜆1 , … , 𝜆𝑛 all have absolute
+value 1. Then 𝑆𝑒1 , … , 𝑆𝑒𝑛 is also an orthonormal basis of 𝑉 because
+                                                                  ⎧
+                                                                  {0   if 𝑗 ≠ 𝑘 ,
+             ⟨𝑆𝑒𝑗 , 𝑆𝑒𝑘 ⟩ = ⟨𝜆𝑗 𝑒𝑗 , 𝜆𝑘 𝑒𝑘 ⟩ = 𝜆𝑗 𝜆𝑘 ⟨𝑒𝑗 , 𝑒𝑘 ⟩ = ⎨
+                                                                  {
+                                                                  ⎩1   if 𝑗 = 𝑘
+for all 𝑗, 𝑘 = 1, … , 𝑛. Thus the equivalence of (a) and (d) in 7.53 shows that 𝑆 is
+unitary, proving that (b) implies (a).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+  Section 7D     Isometries, Unitary Operators, and Matrix Factorization            263
+
+QR Factorization
+In this subsection, we shift our attention from operators to matrices. This switch
+should give you good practice in identifying an operator with a square matrix
+(after picking a basis of the vector space on which the operator is defined). You
+should also become more comfortable with translating concepts and results back
+and forth between the context of operators and the context of square matrices.
+    When starting with 𝑛-by-𝑛 matrices instead of operators, unless otherwise
+specified assume that the associated operators live on 𝐅𝑛 (with the Euclidean inner
+product) and that their matrices are computed with respect to the standard basis
+of 𝐅𝑛.
+    We begin by making the following definition, transferring the notion of a
+unitary operator to a unitary matrix.
+
+  7.56 definition: unitary matrix
+
+  An 𝑛-by-𝑛 matrix is called unitary if its columns form an orthonormal list
+  in 𝐅𝑛.
+
+     In the definition above, we could have replaced “orthonormal list in 𝐅𝑛 ” with
+“orthonormal basis of 𝐅𝑛 ” because every orthonormal list of length 𝑛 in an 𝑛-
+dimensional inner product space is an orthonormal basis. If 𝑆 ∈ ℒ(𝑉) and
+𝑒1 , … , 𝑒𝑛 and 𝑓1 , … , 𝑓𝑛 are orthonormal bases of 𝑉, then 𝑆 is a unitary operator
+if and only if ℳ(𝑆, (𝑒1 , … , 𝑒𝑛 ), ( 𝑓1 , … , 𝑓𝑛 )) is a unitary matrix, as shown by the
+equivalence of (a) and (e) in 7.49. Also note that we could also have replaced
+“columns” in the definition above with “rows” by using the equivalence between
+conditions (a) and (e) in 7.53.
+     The next result, whose proof will be left as an exercise for the reader, gives
+some equivalent conditions for a square matrix to be unitary. In (c), 𝑄𝑣 denotes
+the matrix product of 𝑄 and 𝑣, identifying elements of 𝐅𝑛 with 𝑛-by-1 matrices
+(sometimes called column vectors). The norm in (c) below is the usual Euclidean
+norm on 𝐅𝑛 that comes from the Euclidean inner product. In (d), 𝑄∗ denotes
+the conjugate transpose of the matrix 𝑄, which corresponds to the adjoint of the
+associated operator.
+
+  7.57   characterizations of unitary matrices
+
+  Suppose 𝑄 is an 𝑛-by-𝑛 matrix. Then the following are equivalent.
+  (a) 𝑄 is a unitary matrix.
+  (b) The rows of 𝑄 form an orthonormal list in 𝐅𝑛.
+  (c) ‖𝑄𝑣‖ = ‖𝑣‖ for every 𝑣 ∈ 𝐅𝑛.
+  (d) 𝑄∗ 𝑄 = 𝑄𝑄∗ = 𝐼 , the 𝑛-by-𝑛 matrix with 1’s on the diagonal and 0’s
+      elsewhere.
+
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+264      Chapter 7      Operators on Inner Product Spaces
+
+   The QR factorization stated and proved below is the main tool in the widely
+used QR algorithm (not discussed here) for finding good approximations to
+eigenvalues and eigenvectors of square matrices. In the result below, if the matrix
+𝐴 is in 𝐅𝑛,𝑛, then the matrices 𝑄 and 𝑅 are also in 𝐅𝑛,𝑛.
+
+ 7.58    QR factorization
+
+ Suppose 𝐴 is a square matrix with linearly independent columns. Then there
+ exist unique matrices 𝑄 and 𝑅 such that 𝑄 is unitary, 𝑅 is upper triangular
+ with only positive numbers on its diagonal, and
+
+                                        𝐴 = 𝑄𝑅.
+
+Proof    Let 𝑣1 , … , 𝑣𝑛 denote the columns of 𝐴, thought of as elements of 𝐅𝑛. Apply
+the Gram–Schmidt procedure (6.32) to the list 𝑣1 , … , 𝑣𝑛 , getting an orthonormal
+basis 𝑒1 , … , 𝑒𝑛 of 𝐅𝑛 such that
+7.59                     span(𝑣1 , … , 𝑣𝑘 ) = span(𝑒1 , … , 𝑒𝑘 )
+for each 𝑘 = 1, … , 𝑛. Let 𝑅 be the 𝑛-by-𝑛 matrix defined by
+                                     𝑅𝑗,𝑘 = ⟨𝑣𝑘 , 𝑒𝑗 ⟩,
+where 𝑅𝑗,𝑘 denotes the entry in row 𝑗, column 𝑘 of 𝑅. If 𝑗 > 𝑘 , then 𝑒𝑗 is orthogonal
+to span(𝑒1 , … , 𝑒𝑘 ) and hence 𝑒𝑗 is orthogonal to 𝑣𝑘 (by 7.59). In other words, if
+𝑗 > 𝑘 then ⟨𝑣𝑘 , 𝑒𝑗 ⟩ = 0. Thus 𝑅 is an upper-triangular matrix.
+    Let 𝑄 be the unitary matrix whose columns are 𝑒1 , … , 𝑒𝑛 . If 𝑘 ∈ {1, … , 𝑛},
+then the 𝑘 th column of 𝑄𝑅 equals a linear combination of the columns of 𝑄, with
+the coefficients for the linear combination coming from the 𝑘 th column of 𝑅—see
+3.51(a). Hence the 𝑘 th column of 𝑄𝑅 equals
+                              ⟨𝑣𝑘 , 𝑒1 ⟩𝑒1 + ⋯ + ⟨𝑣𝑘 , 𝑒𝑘 ⟩𝑒𝑘 ,
+which equals 𝑣𝑘 [by 6.30(a)], the 𝑘 th column of 𝐴. Thus 𝐴 = 𝑄𝑅, as desired.
+    The equations defining the Gram–Schmidt procedure (see 6.32) show that
+each 𝑣𝑘 equals a positive multiple of 𝑒𝑘 plus a linear combination of 𝑒1 , … , 𝑒𝑘−1 .
+Thus each ⟨𝑣𝑘 , 𝑒𝑘 ⟩ is a positive number. Hence all entries on the diagonal of 𝑅 are
+positive numbers, as desired.
+    Finally, to show that 𝑄 and 𝑅 are unique, suppose we also have 𝐴 = 𝑄    ̂𝑅 ̂, where
+𝑄 is unitary and 𝑅 is upper triangular with only positive numbers on its diagonal.
+̂                  ̂
+Let 𝑞1 , … , 𝑞𝑛 denote the columns of 𝑄̂. Thinking of matrix multiplication as above,
+we see that each 𝑣𝑘 is a linear combination of 𝑞1 , … , 𝑞𝑘 , with the coefficients com-
+ing from the 𝑘 th column of ̂ 𝑅. This implies that span(𝑣1 , … , 𝑣𝑘 ) = span(𝑞1 , … , 𝑞𝑘 )
+and ⟨𝑣𝑘 , 𝑞𝑘 ⟩ > 0. The uniqueness of the orthonormal lists satisfying these condi-
+tions (see Exercise 10 in Section 6B) now shows that 𝑞𝑘 = 𝑒𝑘 for each 𝑘 = 1, … , 𝑛.
+Hence 𝑄  ̂ = 𝑄, which then implies that 𝑅   ̂ = 𝑅, completing the proof of unique-
+ness.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+ Section 7D     Isometries, Unitary Operators, and Matrix Factorization              265
+
+    The proof of the QR factorization shows that the columns of the unitary matrix
+can be computed by applying the Gram–Schmidt procedure to the columns of the
+matrix to be factored. The next example illustrates the computation of the QR
+factorization based on the proof that we just completed.
+
+ 7.60 example: QR factorization of a 3-by-3 matrix
+
+   To find the QR factorization of the matrix
+                                      1 2 1
+                                  ⎛                ⎞
+                                                   ⎟,
+                             𝐴=⎜  ⎜ 0 1 −4 ⎟
+                                  ⎜                ⎟
+                                  ⎝ 0 3 2 ⎠
+follow the proof of 7.58. Thus set 𝑣1 , 𝑣2 , 𝑣3 equal to the columns of 𝐴:
+                𝑣1 = (1, 0, 0),    𝑣2 = (2, 1, 3),           𝑣3 = (1, −4, 2).
+Apply the Gram–Schmidt procedure to 𝑣1 , 𝑣2 , 𝑣3 , producing the orthonormal list
+          𝑒1 = (1, 0, 0),   𝑒2 = (0, √1 , √3 ),              𝑒3 = (0, − √3 , √1 ).
+                                        10        10                     10     10
+Still following the proof of 7.58, let 𝑄 be the unitary matrix whose columns are
+𝑒1 , 𝑒2 , 𝑒3 :
+                                    1    0       0
+                                 ⎛
+                                 ⎜                   ⎞
+                                                     ⎟
+                                 ⎜
+                                 ⎜  0    1
+                                              −   3  ⎟
+                                                     ⎟
+                           𝑄=⎜   ⎜      √10      √10 ⎟
+                                                     ⎟ .
+                                 ⎜
+                                 ⎜                   ⎟
+                                                     ⎟
+                                 ⎜       3       1   ⎟
+                                 ⎝ 0 √       10 √    ⎠  10
+As in the proof of 7.58, let 𝑅 be the 3-by-3 matrix whose entry in row 𝑗, column 𝑘
+is ⟨𝑣𝑘 , 𝑒𝑗 ⟩, which gives
+                                 1           2          1
+                               ⎛
+                               ⎜                            ⎞
+                                                            ⎟
+                               ⎜
+                               ⎜ 0                     √10  ⎟
+                                                            ⎟
+                                          √10
+                             𝑅=⎜
+                               ⎜
+                               ⎜                        5
+                                                            ⎟
+                                                            ⎟
+                                                            ⎟ .
+                               ⎜
+                               ⎜                            ⎟
+                                                            ⎟
+                                                       7√10
+                               ⎝ 0           0          5   ⎠
+Note that 𝑅 is indeed an upper-triangular matrix with only positive numbers on
+the diagonal, as required by the QR factorization.
+    Now matrix multiplication can verify that 𝐴 = 𝑄𝑅 is the desired factorization
+of 𝐴:
+             1    0      0        1    2        1
+          ⎛
+          ⎜                   ⎞
+                              ⎟ ⎛
+                                ⎜                  ⎞
+                                                   ⎟      1 2 1
+          ⎜
+          ⎜  0    1
+                       −  3   ⎟
+                              ⎟ ⎜
+                                ⎜              √10 ⎟
+                                                   ⎟   ⎛              ⎞
+   𝑄𝑅 = ⎜ ⎜                   ⎟ ⎜ 0   √ 10         ⎟   ⎜
+                                                     = ⎜ 0 1 −4 ⎟
+                                                       ⎜              ⎟
+          ⎜      √10     √10 ⎟ ⎜
+                              ⎟ ⎜               5  ⎟
+                                                   ⎟                  ⎟ = 𝐴.
+          ⎜
+          ⎜                   ⎟
+                              ⎟ ⎜
+                                ⎜                  ⎟
+                                                   ⎟      0   3    2
+                  3      1                     √       ⎝              ⎠
+          ⎝ 0 √10
+                                              7 10
+                        √10   ⎠⎝ 0     0        5  ⎠
+Thus 𝐴 = 𝑄𝑅, as expected.
+
+    The QR factorization will be the major tool used in the proof of the Cholesky
+factorization (7.63) in the next subsection. For another nice application of the QR
+factorization, see the proof of Hadamard’s inequality (9.66).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+266     Chapter 7      Operators on Inner Product Spaces
+
+    If a QR factorization is available, then it can be used to solve a corresponding
+system of linear equations without using Gaussian elimination. Specifically,
+suppose 𝐴 is an 𝑛-by-𝑛 square matrix with linearly independent columns. Suppose
+that 𝑏 ∈ 𝐅𝑛 and we want to solve the equation 𝐴𝑥 = 𝑏 for 𝑥 = (𝑥1 , … , 𝑥𝑛 ) ∈ 𝐅𝑛
+(as usual, we are identifying elements of 𝐅𝑛 with 𝑛-by-1 column vectors).
+    Suppose 𝐴 = 𝑄𝑅, where 𝑄 is unitary and 𝑅 is upper triangular with only
+positive numbers on its diagonal (𝑄 and 𝑅 are computable from 𝐴 using just the
+Gram–Schmidt procedure, as shown in the proof of 7.58). The equation 𝐴𝑥 = 𝑏 is
+equivalent to the equation 𝑄𝑅𝑥 = 𝑏. Multiplying both sides of this last equation
+by 𝑄∗ on the left and using 7.57(d) gives the equation
+
+                                      𝑅𝑥 = 𝑄∗ 𝑏.
+
+   The matrix 𝑄∗ is the conjugate transpose of the matrix 𝑄. Thus computing
+𝑄 𝑏 is straightforward. Because 𝑅 is an upper-triangular matrix with positive
+ ∗
+numbers on its diagonal, the system of linear equations represented by the equation
+above can quickly be solved by first solving for 𝑥𝑛 , then for 𝑥𝑛−1 , and so on.
+
+Cholesky Factorization
+We begin this subsection with a characterization of positive invertible operators
+in terms of inner products.
+
+ 7.61   positive invertible operator
+
+ A self-adjoint operator 𝑇 ∈ ℒ(𝑉) is a positive invertible operator if and only
+ if ⟨𝑇𝑣, 𝑣⟩ > 0 for every nonzero 𝑣 ∈ 𝑉.
+
+Proof   First suppose 𝑇 is a positive invertible operator. If 𝑣 ∈ 𝑉 and 𝑣 ≠ 0, then
+because 𝑇 is invertible we have 𝑇𝑣 ≠ 0. This implies that ⟨𝑇𝑣, 𝑣⟩ ≠ 0 (by 7.43).
+Hence ⟨𝑇𝑣, 𝑣⟩ > 0.
+    To prove the implication in the other direction, suppose now that ⟨𝑇𝑣, 𝑣⟩ > 0
+for every nonzero 𝑣 ∈ 𝑉. Thus 𝑇𝑣 ≠ 0 for every nonzero 𝑣 ∈ 𝑉. Hence 𝑇 is
+injective. Thus 𝑇 is invertible, as desired.
+
+   The next definition transfers the result above to the language of matrices. Here
+we are using the usual Euclidean inner product on 𝐅𝑛 and identifying elements of
+𝐅𝑛 with 𝑛-by-1 column vectors.
+
+ 7.62 definition: positive definite
+
+ A matrix 𝐵 ∈ 𝐅𝑛,𝑛 is called positive definite if 𝐵∗ = 𝐵 and
+
+                                      ⟨𝐵𝑥, 𝑥⟩ > 0
+
+ for every nonzero 𝑥 ∈ 𝐅𝑛.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+ Section 7D     Isometries, Unitary Operators, and Matrix Factorization              267
+
+    A matrix is upper triangular if and only if its conjugate transpose is lower
+triangular (meaning that all entries above the diagonal are 0). The factorization
+below, which has important consequences in computational linear algebra, writes
+a positive definite matrix as the product of a lower triangular matrix and its
+conjugate transpose.
+    Our next result is solely about matrices, although the proof makes use of the
+identification of results about operators with results about square matrices. In the
+result below, if the matrix 𝐵 is in 𝐅𝑛,𝑛, then the matrix 𝑅 is also in 𝐅𝑛,𝑛.
+
+ 7.63   Cholesky factorization
+
+ Suppose 𝐵 is a positive definite matrix. Then there exists a unique upper-
+ triangular matrix 𝑅 with only positive numbers on its diagonal such that
+
+                                      𝐵 = 𝑅∗ 𝑅.
+
+Proof   Because 𝐵 is positive definite, there exists an invertible square matrix 𝐴
+of the same size as 𝐵 such that 𝐵 = 𝐴∗ 𝐴 [by the equivalence of (a) and (f) in
+7.38].
+    Let 𝐴 = 𝑄𝑅 be the QR factorization of 𝐴 (see 7.58), where 𝑄 is unitary and 𝑅
+is upper triangular with only positive numbers on its diagonal. Then 𝐴∗ = 𝑅∗ 𝑄∗.
+    Thus                                     André-Louis Cholesky (1875–1918)
+                                                   discovered this factorization, which
+     𝐵 = 𝐴∗ 𝐴 = 𝑅∗ 𝑄∗ 𝑄𝑅 = 𝑅∗ 𝑅,
+                                                   was published posthumously in 1924.
+as desired.
+    To prove the uniqueness part of this result, suppose 𝑆 is an upper-triangular
+matrix with only positive numbers on its diagonal and 𝐵 = 𝑆∗ 𝑆. The matrix 𝑆 is
+invertible because 𝐵 is invertible (see Exercise 11 in Section 3D). Multiplying both
+sides of the equation 𝐵 = 𝑆∗ 𝑆 by 𝑆−1 on the right gives the equation 𝐵𝑆−1 = 𝑆∗.
+    Let 𝐴 be the matrix from the first paragraph of this proof. Then
+                                 ∗
+                        (𝐴𝑆−1 ) (𝐴𝑆−1 ) = (𝑆∗ )−1 𝐴∗ 𝐴𝑆−1
+                                            = (𝑆∗ )−1 𝐵𝑆−1
+                                            = (𝑆∗ )−1 𝑆∗
+                                            = 𝐼.
+
+Thus 𝐴𝑆−1 is unitary.
+   Hence 𝐴 = (𝐴𝑆−1 )𝑆 is a factorization of 𝐴 as the product of a unitary matrix
+and an upper-triangular matrix with only positive numbers on its diagonal. The
+uniqueness of the QR factorization, as stated in 7.58, now implies that 𝑆 = 𝑅.
+
+    In the first paragraph of the proof above, we could have chosen 𝐴 to be the
+unique positive definite matrix that is a square root of 𝐵 (see 7.39). However,
+the proof was presented with the more general choice of 𝐴 because for specific
+positive definite matrices 𝐵, it may be easier to find a different choice of 𝐴.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+268      Chapter 7     Operators on Inner Product Spaces
+
+Exercises 7D
+ 1    Suppose dim 𝑉 ≥ 2 and 𝑆 ∈ ℒ(𝑉, 𝑊). Prove that 𝑆 is an isometry if and
+      only if 𝑆𝑒1 , 𝑆𝑒2 is an orthonormal list in 𝑊 for every orthonormal list 𝑒1 , 𝑒2
+      of length two in 𝑉.
+ 2    Suppose 𝑇 ∈ ℒ(𝑉 , 𝑊) and 𝑇 ≠ 0. Prove that 𝑇 is a scalar multiple of an
+      isometry if and only if 𝑇 preserves orthogonality.
+         The phrase “𝑇 preserves orthogonality” means that ⟨𝑇𝑢, 𝑇𝑣⟩ = 0 for all
+         𝑢, 𝑣 ∈ 𝑉 such that ⟨𝑢, 𝑣⟩ = 0.
+
+ 3    (a) Show that the product of two unitary operators on 𝑉 is a unitary operator.
+      (b) Show that the inverse of a unitary operator on 𝑉 is a unitary operator.
+         This exercise shows that the set of unitary operators on 𝑉 is a group, where
+         the group operation is the usual product of two operators.
+ 4    Suppose 𝐅 = 𝐂 and 𝐴, 𝐵 ∈ ℒ(𝑉) are self-adjoint. Show that 𝐴 + 𝑖𝐵 is
+      unitary if and only if 𝐴𝐵 = 𝐵𝐴 and 𝐴2 + 𝐵2 = 𝐼 .
+ 5    Suppose 𝑆 ∈ ℒ(𝑉). Prove that the following are equivalent.
+      (a) 𝑆 is a self-adjoint unitary operator.
+      (b) 𝑆 = 2𝑃 − 𝐼 for some orthogonal projection 𝑃 on 𝑉.
+      (c) There exists a subspace 𝑈 of 𝑉 such that 𝑆𝑢 = 𝑢 for every 𝑢 ∈ 𝑈 and
+          𝑆𝑤 = −𝑤 for every 𝑤 ∈ 𝑈 ⟂.
+ 6    Suppose 𝑇1 , 𝑇2 are both normal operators on 𝐅3 with 2, 5, 7 as eigenvalues.
+      Prove that there exists a unitary operator 𝑆 ∈ ℒ(𝐅3 ) such that 𝑇1 = 𝑆∗ 𝑇2 𝑆.
+ 7    Give an example of two self-adjoint operators 𝑇1 , 𝑇2 ∈ ℒ(𝐅4 ) such that the
+      eigenvalues of both operators are 2, 5, 7 but there does not exist a unitary
+      operator 𝑆 ∈ ℒ(𝐅4 ) such that 𝑇1 = 𝑆∗ 𝑇2 𝑆. Be sure to explain why there is
+      no unitary operator with the required property.
+ 8    Prove or give a counterexample: If 𝑆 ∈ ℒ(𝑉) and there exists an orthonormal
+      basis 𝑒1 , … , 𝑒𝑛 of 𝑉 such that ‖𝑆𝑒𝑘 ‖ = 1 for each 𝑒𝑘 , then 𝑆 is a unitary
+      operator.
+ 9    Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Suppose every eigenvalue of 𝑇 has absolute
+      value 1 and ‖𝑇𝑣‖ ≤ ‖𝑣‖ for every 𝑣 ∈ 𝑉. Prove that 𝑇 is a unitary operator.
+10    Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉) is a self-adjoint operator such that ‖𝑇𝑣‖ ≤ ‖𝑣‖
+      for all 𝑣 ∈ 𝑉.
+      (a) Show that 𝐼 − 𝑇 2 is a positive operator.
+      (b) Show that 𝑇 + 𝑖√𝐼 − 𝑇 2 is a unitary operator.
+11    Suppose 𝑆 ∈ ℒ(𝑉). Prove that 𝑆 is a unitary operator if and only if
+                     {𝑆𝑣 ∶ 𝑣 ∈ 𝑉 and ‖𝑣‖ ≤ 1} = {𝑣 ∈ 𝑉 ∶ ‖𝑣‖ ≤ 1}.
+12    Prove or give a counterexample: If 𝑆 ∈ ℒ(𝑉) is invertible and ∥𝑆−1 𝑣∥ = ‖𝑆𝑣‖
+      for every 𝑣 ∈ 𝑉, then 𝑆 is unitary.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+ Section 7D     Isometries, Unitary Operators, and Matrix Factorization                  269
+
+13   Explain why the columns of a square matrix of complex numbers form
+     an orthonormal list in 𝐂𝑛 if and only if the rows of the matrix form an
+     orthonormal list in 𝐂𝑛 .
+14   Suppose 𝑣 ∈ 𝑉 with ‖𝑣‖ = 1 and 𝑏 ∈ 𝐅. Also suppose dim 𝑉 ≥ 2. Prove
+     that there exists a unitary operator 𝑆 ∈ ℒ(𝑉) such that ⟨𝑆𝑣, 𝑣⟩ = 𝑏 if and
+     only if |𝑏| ≤ 1.
+15   Suppose 𝑇 is a unitary operator on 𝑉 such that 𝑇 − 𝐼 is invertible.
+     (a) Prove that (𝑇 + 𝐼)(𝑇 − 𝐼)−1 is a skew operator (meaning that it equals
+         the negative of its adjoint).
+     (b) Prove that if 𝐅 = 𝐂 , then 𝑖(𝑇 + 𝐼)(𝑇 − 𝐼)−1 is a self-adjoint operator.
+        The function 𝑧 ↦ 𝑖(𝑧 + 1)(𝑧 − 1)−1 maps the unit circle in 𝐂 (except for the
+        point 1) to 𝐑 . Thus (b) illustrates the analogy between the unitary operators
+        and the unit circle in 𝐂 , along with the analogy between the self-adjoint
+        operators and 𝐑 .
+
+16   Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉) is self-adjoint. Prove that (𝑇 + 𝑖𝐼)(𝑇 − 𝑖𝐼)−1
+     is a unitary operator and 1 is not an eigenvalue of this operator.
+17   Explain why the characterizations of unitary matrices given by 7.57 hold.
+18   A square matrix 𝐴 is called symmetric if it equals its transpose. Prove that if
+     𝐴 is a symmetric matrix with real entries, then there exists a unitary matrix
+     𝑄 with real entries such that 𝑄∗ 𝐴𝑄 is a diagonal matrix.
+19   Suppose 𝑛 is a positive integer. For this exercise, we adopt the notation that
+     a typical element 𝑧 of 𝐂𝑛 is denoted by 𝑧 = (𝑧0 , 𝑧1 , … , 𝑧𝑛−1 ). Define linear
+     functionals 𝜔0 , 𝜔1 , … , 𝜔𝑛−1 on 𝐂𝑛 by
+                                                  1 𝑛−1
+                      𝜔𝑗 (𝑧0 , 𝑧1 , … , 𝑧𝑛−1 ) = √ ∑ 𝑧𝑚 𝑒−2𝜋𝑖𝑗𝑚/𝑛 .
+                                                   𝑛 𝑚=0
+     The discrete Fourier transform is the operator ℱ ∶ 𝐂𝑛 → 𝐂𝑛 defined by
+                          ℱ𝑧 = (𝜔0 (𝑧), 𝜔1 (𝑧), … , 𝜔𝑛−1 (𝑧)).
+     (a) Show that ℱ is a unitary operator on 𝐂𝑛.
+     (b) Show that if (𝑧0 , … , 𝑧𝑛−1 ) ∈ 𝐂𝑛 and 𝑧𝑛 is defined to equal 𝑧0 , then
+                        ℱ−1 (𝑧0 , 𝑧1 , … , 𝑧𝑛−1 ) = ℱ(𝑧𝑛 , 𝑧𝑛−1 , … , 𝑧1 ).
+     (c) Show that ℱ4 = 𝐼 .
+        The discrete Fourier transform has many important applications in data
+        analysis. The usual Fourier transform involves expressions of the form
+        ∫−∞ 𝑓 (𝑥)𝑒−2𝜋𝑖𝑡𝑥 𝑑𝑥 for complex-valued integrable functions 𝑓 defined on 𝐑 .
+         ∞
+
+
+20   Suppose 𝐴 is a square matrix with linearly independent columns. Prove that
+     there exist unique matrices 𝑅 and 𝑄 such that 𝑅 is lower triangular with only
+     positive numbers on its diagonal, 𝑄 is unitary, and 𝐴 = 𝑅𝑄.
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+270       Chapter 7      Operators on Inner Product Spaces
+
+7E Singular Value Decomposition
+Singular Values
+We will need the following result in this section.
+
+ 7.64     properties of 𝑇 ∗ 𝑇
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Then
+ (a) 𝑇 ∗ 𝑇 is a positive operator on 𝑉 ;
+ (b) null 𝑇 ∗ 𝑇 = null 𝑇 ;
+ (c) range 𝑇 ∗ 𝑇 = range 𝑇 ∗ ;
+ (d) dim range 𝑇 = dim range 𝑇 ∗ = dim range 𝑇 ∗ 𝑇.
+
+Proof
+(a) We have
+                                        ∗             ∗
+                                 (𝑇 ∗ 𝑇) = 𝑇 ∗ (𝑇 ∗ ) = 𝑇 ∗ 𝑇.
+      Thus 𝑇 ∗ 𝑇 is self-adjoint.
+      If 𝑣 ∈ 𝑉, then
+                  ⟨(𝑇 ∗ 𝑇)𝑣, 𝑣⟩ = ⟨𝑇 ∗ (𝑇𝑣), 𝑣⟩ = ⟨𝑇𝑣, 𝑇𝑣⟩ = ‖𝑇𝑣‖2 ≥ 0.
+
+      Thus 𝑇 ∗ 𝑇 is a positive operator.
+(b) First suppose 𝑣 ∈ null 𝑇 ∗ 𝑇. Then
+                       ‖𝑇𝑣‖2 = ⟨𝑇𝑣, 𝑇𝑣⟩ = ⟨𝑇 ∗ 𝑇𝑣, 𝑣⟩ = ⟨0, 𝑣⟩ = 0.
+      Thus 𝑇𝑣 = 0, proving that null 𝑇 ∗ 𝑇 ⊆ null 𝑇.
+      The inclusion in the other direction is clear, because if 𝑣 ∈ 𝑉 and 𝑇𝑣 = 0,
+      then 𝑇 ∗ 𝑇𝑣 = 0.
+      Thus null 𝑇 ∗ 𝑇 = null 𝑇 , completing the proof of (b).
+(c) We already know from (a) that 𝑇 ∗ 𝑇 is self-adjoint. Thus
+                   range 𝑇 ∗ 𝑇 = (null 𝑇 ∗ 𝑇)⟂ = (null 𝑇)⟂ = range 𝑇 ∗,
+      where the first and last equalities come from 7.6 and the second equality
+      comes from (b).
+(d) To verify the first equation in (d), note that
+        dim range 𝑇 = dim(null 𝑇 ∗ )⟂ = dim 𝑊 − dim null 𝑇 ∗ = dim range 𝑇 ∗,
+      where the first equality comes from 7.6(d), the second equality comes from
+      6.51, and the last equality comes from the fundamental theorem of linear
+      maps (3.21).
+      The equality dim range 𝑇 ∗ = dim range 𝑇 ∗ 𝑇 follows from (c).
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                             Section 7E      Singular Value Decomposition          271
+
+   The eigenvalues of an operator tell us something about the behavior of the
+operator. Another collection of numbers, called the singular values, is also useful.
+Eigenspaces and the notation 𝐸 (used in the examples) were defined in 5.52.
+
+ 7.65 definition: singular values
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). The singular values of 𝑇 are the nonnegative square
+ roots of the eigenvalues of 𝑇 ∗ 𝑇, listed in decreasing order, each included as
+ many times as the dimension of the corresponding eigenspace of 𝑇 ∗ 𝑇.
+
+
+ 7.66 example: singular values of an operator on 𝐅4
+
+   Define 𝑇 ∈ ℒ(𝐅4 ) by 𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 ) = (0, 3𝑧1 , 2𝑧2 , −3𝑧4 ). A calculation
+shows that
+                 𝑇 ∗ 𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 ) = (9𝑧1 , 4𝑧2 , 0, 9𝑧4 ),
+as you should verify. Thus the standard basis of 𝐅4 diagonalizes 𝑇 ∗ 𝑇 , and we
+see that the eigenvalues of 𝑇 ∗ 𝑇 are 9, 4, and 0. Also, the dimensions of the
+eigenspaces corresponding to the eigenvalues are
+  dim 𝐸(9, 𝑇 ∗ 𝑇) = 2    and     dim 𝐸(4, 𝑇 ∗ 𝑇) = 1     and     dim 𝐸(0, 𝑇 ∗ 𝑇) = 1.
+Taking nonnegative square roots of these eigenvalues of 𝑇 ∗ 𝑇 and using dimension
+information from above, we conclude that the singular values of 𝑇 are 3, 3, 2, 0.
+    The only eigenvalues of 𝑇 are −3 and 0. Thus in this case, the collection of
+eigenvalues did not pick up the number 2 that appears in the definition (and hence
+the behavior) of 𝑇 , but the list of singular values does include 2.
+
+
+ 7.67 example: singular values of a linear map from 𝐅4 to 𝐅3
+
+   Suppose 𝑇 ∈ ℒ(𝐅4 , 𝐅3 ) has matrix (with respect to the standard bases)
+                                  0     0    0   −5
+                                ⎛
+                                ⎜                   ⎞
+                                ⎜
+                                ⎜ 0     0    0   0 ⎟⎟
+                                                    ⎟.
+                                ⎝ 1     1    0   0 ⎠
+You can verify that the matrix of 𝑇 ∗ 𝑇 is
+                                   1     1   0   0
+                                 ⎛
+                                 ⎜                  ⎞
+                                 ⎜
+                                 ⎜ 1     1   0   0 ⎟⎟
+                                                    ⎟
+                                 ⎜
+                                 ⎜                  ⎟
+                                 ⎜ 0     0   0   0 ⎟⎟
+                                 ⎝ 0     0   0   25 ⎠
+and that the eigenvalues of the operator 𝑇 ∗ 𝑇 are 25, 2, 0, with dim 𝐸(25, 𝑇 ∗ 𝑇) = 1,
+dim 𝐸(2, 𝑇 ∗ 𝑇) = 1, and dim 𝐸(0, 𝑇 ∗ 𝑇) = 2. Thus the singular values of 𝑇 are
+5, √2, 0, 0.
+
+   See Exercise 2 for a characterization of the positive singular values.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+≈ 100 𝑒      Chapter 7      Operators on Inner Product Spaces
+
+
+ 7.68     role of positive singular values
+
+ Suppose that 𝑇 ∈ ℒ(𝑉, 𝑊). Then
+ (a) 𝑇 is injective ⟺ 0 is not a singular value of 𝑇 ;
+ (b) the number of positive singular values of 𝑇 equals dim range 𝑇 ;
+ (c) 𝑇 is surjective ⟺ number of positive singular values of 𝑇 equals dim 𝑊.
+
+Proof   The linear map 𝑇 is injective if and only if null 𝑇 = {0}, which happens
+if and only if null 𝑇 ∗ 𝑇 = {0} [by 7.64(b)], which happens if and only if 0 is not
+an eigenvalue of 𝑇 ∗ 𝑇 , which happens if and only if 0 is not a singular value of 𝑇 ,
+completing the proof of (a).
+    The spectral theorem applied to 𝑇 ∗ 𝑇 shows that dim range 𝑇 ∗ 𝑇 equals the num-
+ber of positive eigenvalues of 𝑇 ∗ 𝑇 (counting repetitions). Thus 7.64(d) implies
+that dim range 𝑇 equals the number of positive singular values of 𝑇 , proving (b).
+    Use (b) and 2.39 to show that (c) holds.
+
+   The table below compares eigenvalues with singular values.
+             list of eigenvalues                        list of singular values
+ context: vector spaces                        context: inner product spaces
+ defined only for linear maps from a vector    defined for linear maps from an inner
+ space to itself                               product space to a possibly different inner
+                                               product space
+ can be arbitrary real numbers (if 𝐅 = 𝐑 )     are nonnegative numbers
+ or complex numbers (if 𝐅 = 𝐂 )
+ can be the empty list if 𝐅 = 𝐑                length of list equals dimension of domain
+ includes 0 ⟺ operator is not invertible       includes 0 ⟺ linear map is not injective
+ no standard order, especially if 𝐅 = 𝐂        always listed in decreasing order
+
+   The next result nicely characterizes isometries in terms of singular values.
+
+ 7.69     isometries characterized by having all singular values equal 1
+
+ Suppose that 𝑆 ∈ ℒ(𝑉, 𝑊). Then
+
+               𝑆 is an isometry ⟺ all singular values of 𝑆 equal 1.
+
+Proof     We have
+               𝑆 is an isometry ⟺ 𝑆∗ 𝑆 = 𝐼
+                                   ⟺ all eigenvalues of 𝑆∗ 𝑆 equal 1
+                                   ⟺ all singular values of 𝑆 equal 1,
+where the first equivalence comes from 7.49 and the second equivalence comes
+from the spectral theorem (7.29 or 7.31) applied to the self-adjoint operator 𝑆∗ 𝑆.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                      Section 7E       Singular Value Decomposition                 273
+
+SVD for Linear Maps and for Matrices
+The next result shows that every linear                   The singular value decomposition is
+map from 𝑉 to 𝑊 has a remarkably clean                    useful in computational linear alge-
+description in terms of its singular val-                 bra because good techniques exist for
+ues and orthonormal lists in 𝑉 and 𝑊.                     approximating eigenvalues and eigen-
+In the next section we will see several                   vectors of positive operators such as
+important applications of the singular                    𝑇 ∗ 𝑇 , whose eigenvalues and eigenvec-
+value decomposition (often called the                     tors lead to the singular value decom-
+SVD).                                                     position.
+
+
+ 7.70       singular value decomposition
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊) and the positive singular values of 𝑇 are 𝑠1 , … , 𝑠𝑚 .
+ Then there exist orthonormal lists 𝑒1 , … , 𝑒𝑚 in 𝑉 and 𝑓1 , … , 𝑓𝑚 in 𝑊 such that
+
+ 7.71                           𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚
+
+ for every 𝑣 ∈ 𝑉.
+
+Proof Let 𝑠1 , … , 𝑠𝑛 denote the singular values of 𝑇 (thus 𝑛 = dim 𝑉 ). Because
+𝑇 ∗ 𝑇 is a positive operator [see 7.64(a)], the spectral theorem implies that there
+exists an orthonormal basis 𝑒1 , … , 𝑒𝑛 of 𝑉 with
+7.72                                         𝑇 ∗ 𝑇𝑒𝑘 = 𝑠𝑘2 𝑒𝑘
+for each 𝑘 = 1, … , 𝑛.
+    For each 𝑘 = 1, … , 𝑚, let
+                                                       𝑇𝑒𝑘
+7.73                                            𝑓𝑘 =       .
+                                                       𝑠𝑘
+If 𝑗, 𝑘 ∈ {1, … , 𝑚}, then
+                         1                    1                     𝑠𝑘            ⎧
+                                                                                  {0   if 𝑗 ≠ 𝑘 ,
+       ⟨ 𝑓𝑗 , 𝑓 𝑘 ⟩ =         ⟨𝑇𝑒𝑗 , 𝑇𝑒𝑘 ⟩ =       ⟨𝑒𝑗 , 𝑇 ∗ 𝑇𝑒𝑘 ⟩ = ⟨𝑒𝑗 , 𝑒𝑘 ⟩ = ⎨
+                        𝑠𝑗 𝑠𝑘                𝑠𝑗 𝑠𝑘                  𝑠𝑗            {
+                                                                                  ⎩1   if 𝑗 = 𝑘.
+Thus 𝑓1 , … , 𝑓𝑚 is an orthonormal list in 𝑊.
+   If 𝑘 ∈ {1, … , 𝑛} and 𝑘 > 𝑚, then 𝑠𝑘 = 0 and hence 𝑇 ∗ 𝑇𝑒𝑘 = 0 (by 7.72),
+which implies that 𝑇𝑒𝑘 = 0 [by 7.64(b)].
+   Suppose 𝑣 ∈ 𝑉. Then
+                                𝑇𝑣 = 𝑇(⟨𝑣, 𝑒1 ⟩𝑒1 + ⋯ + ⟨𝑣, 𝑒𝑛 ⟩𝑒𝑛 )
+                                    = ⟨𝑣, 𝑒1 ⟩𝑇𝑒1 + ⋯ + ⟨𝑣, 𝑒𝑚 ⟩𝑇𝑒𝑚
+                                    = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚 ,
+where the last index in the first line switched from 𝑛 to 𝑚 in the second line
+because 𝑇𝑒𝑘 = 0 if 𝑘 > 𝑚 (as noted in the paragraph above) and the third line
+follows from 7.73. The equation above is our desired result.
+
+                        Linear Algebra Done Right, fourth edition, by Sheldon Axler
+274     Chapter 7       Operators on Inner Product Spaces
+
+     Suppose 𝑇 ∈ ℒ(𝑉, 𝑊), the positive singular values of 𝑇 are 𝑠1 , … , 𝑠𝑚 , and
+𝑒1 , … , 𝑒𝑚 and 𝑓1 , … , 𝑓𝑚 are as in the singular value decomposition 7.70. The
+orthonormal list 𝑒1 , … , 𝑒𝑚 can be extended to an orthonormal basis 𝑒1 , … , 𝑒dim 𝑉
+of 𝑉 and the orthonormal list 𝑓1 , … , 𝑓𝑚 can be extended to an orthonormal basis
+𝑓1 , … , 𝑓dim 𝑊 of 𝑊. The formula 7.71 shows that
+                                ⎧
+                                {𝑠 𝑓        if 1 ≤ 𝑘 ≤ 𝑚,
+                          𝑇𝑒𝑘 = ⎨ 𝑘 𝑘
+                                {
+                                ⎩0          if 𝑚 < 𝑘 ≤ dim 𝑉.
+Thus the matrix of 𝑇 with respect to the orthonormal bases (𝑒1 , … , 𝑒dim 𝑉 ) and
+( 𝑓1 , … , 𝑓dim 𝑊 ) has the simple form
+                                                           ⎧
+                                                           {𝑠    if 1 ≤ 𝑗 = 𝑘 ≤ 𝑚,
+       ℳ(𝑇 , (𝑒1 , … , 𝑒dim 𝑉 ), ( 𝑓1 , … , 𝑓dim 𝑊 ))𝑗,𝑘 = ⎨ 𝑘
+                                                           {
+                                                           ⎩0    otherwise.
+    If dim 𝑉 = dim 𝑊 (as happens, for example, if 𝑊 = 𝑉 ), then the matrix
+described in the paragraph above is a diagonal matrix. If we extend the definition
+of diagonal matrix as follows to apply to matrices that are not necessarily square,
+then we have proved the wonderful result that every linear map from 𝑉 to 𝑊 has
+a diagonal matrix with respect to appropriate orthonormal bases.
+
+ 7.74 definition: diagonal matrix
+
+ An 𝑀-by-𝑁 matrix 𝐴 is called a diagonal matrix if all entries of the matrix
+ are 0 except possibly 𝐴𝑘,𝑘 for 𝑘 = 1, … , min{𝑀, 𝑁}.
+
+   The table below compares the spectral theorem (7.29 and 7.31) with the
+singular value decomposition (7.70).
+            spectral theorem                         singular value decomposition
+ describes only self-adjoint operators          describes arbitrary linear maps from an
+ (when 𝐅 = 𝐑 ) or normal operators (when        inner product space to a possibly different
+ 𝐅 = 𝐂)                                         inner product space
+ produces a single orthonormal basis            produces two orthonormal lists, one for
+                                                domain space and one for range space,
+                                                that are not necessarily the same even
+                                                when range space equals domain space
+ different proofs depending on whether          same proof works regardless of whether
+ 𝐅 = 𝐑 or 𝐅 = 𝐂                                 𝐅 = 𝐑 or 𝐅 = 𝐂
+
+    The singular value decomposition gives us a new way to understand the adjoint
+and the inverse of a linear map. Specifically, the next result shows that given a
+singular value decomposition of a linear map 𝑇 ∈ ℒ(𝑉, 𝑊), we can obtain the
+adjoint of 𝑇 simply by interchanging the roles of the 𝑒’s and the 𝑓 ’s (see 7.77).
+Similarly, we can obtain the pseudoinverse 𝑇 † (see 6.68) of 𝑇 by interchanging
+the roles of the 𝑒’s and the 𝑓 ’s and replacing each positive singular value 𝑠𝑘 of 𝑇
+with 1/𝑠𝑘 (see 7.78).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                            Section 7E      Singular Value Decomposition      275
+
+   Recall that the pseudoinverse 𝑇 † in 7.78 below equals the inverse 𝑇 −1 if 𝑇 is
+invertible [see 6.69(a)].
+
+ 7.75   singular value decomposition of adjoint and pseudoinverse
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊) and the positive singular values of 𝑇 are 𝑠1 , … , 𝑠𝑚 .
+ Suppose 𝑒1 , … , 𝑒𝑚 and 𝑓1 , … , 𝑓𝑚 are orthonormal lists in 𝑉 and 𝑊 such that
+
+ 7.76                 𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚
+
+ for every 𝑣 ∈ 𝑉. Then
+
+ 7.77                𝑇 ∗ 𝑤 = 𝑠1 ⟨𝑤, 𝑓1 ⟩𝑒1 + ⋯ + 𝑠𝑚 ⟨𝑤, 𝑓𝑚 ⟩𝑒𝑚
+
+ and
+                                ⟨𝑤, 𝑓1 ⟩          ⟨𝑤, 𝑓𝑚 ⟩
+ 7.78                  𝑇†𝑤 =             𝑒1 + ⋯ +          𝑒𝑚
+                                  𝑠1                𝑠𝑚
+ for every 𝑤 ∈ 𝑊.
+
+Proof   If 𝑣 ∈ 𝑉 and 𝑤 ∈ 𝑊 then
+               ⟨𝑇𝑣, 𝑤⟩ = ⟨𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚 , 𝑤⟩
+
+                        = 𝑠1 ⟨𝑣, 𝑒1 ⟩⟨ 𝑓1 , 𝑤⟩ + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩⟨ 𝑓𝑚 , 𝑤⟩
+
+                        = ⟨𝑣, 𝑠1 ⟨𝑤, 𝑓1 ⟩𝑒1 + ⋯ + 𝑠𝑚 ⟨𝑤, 𝑓𝑚 ⟩𝑒𝑚 ⟩.
+This implies that
+                     𝑇 ∗ 𝑤 = 𝑠1 ⟨𝑤, 𝑓1 ⟩𝑒1 + ⋯ + 𝑠𝑚 ⟨𝑤, 𝑓𝑚 ⟩𝑒𝑚 ,
+proving 7.77.
+   To prove 7.78, suppose 𝑤 ∈ 𝑊. Let
+                              ⟨𝑤, 𝑓1 ⟩          ⟨𝑤, 𝑓𝑚 ⟩
+                         𝑣=            𝑒1 + ⋯ +          𝑒𝑚 .
+                                𝑠1                𝑠𝑚
+Apply 𝑇 to both sides of the equation above, getting
+                              ⟨𝑤, 𝑓1 ⟩           ⟨𝑤, 𝑓𝑚 ⟩
+                      𝑇𝑣 =             𝑇𝑒1 + ⋯ +          𝑇𝑒𝑚
+                                𝑠1                 𝑠𝑚
+
+                          = ⟨𝑤, 𝑓1 ⟩ 𝑓1 + ⋯ + ⟨𝑤, 𝑓𝑚 ⟩ 𝑓𝑚
+
+                          = 𝑃range 𝑇 𝑤,
+where the second line holds because 7.76 implies that 𝑇𝑒𝑘 = 𝑠𝑘 𝑓𝑘 if 𝑘 = 1, … , 𝑚,
+and the last line above holds because 7.76 implies that 𝑓1 , … , 𝑓𝑚 spans range 𝑇
+and thus is an orthonormal basis of range 𝑇 [and hence 6.57(i) applies]. The
+equation above, the observation that 𝑣 ∈ (null 𝑇)⟂ [see Exercise 8(b)], and the
+definition of 𝑇 † 𝑤 (see 6.68) show that 𝑣 = 𝑇 † 𝑤, proving 7.78.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+276      Chapter 7     Operators on Inner Product Spaces
+
+
+
+ 7.79 example: finding a singular value decomposition
+
+    Define 𝑇 ∈ ℒ(𝐅4 , 𝐅3 ) by 𝑇(𝑥1 , 𝑥2 , 𝑥3 , 𝑥4 ) = (−5𝑥4 , 0, 𝑥1 + 𝑥2 ). We want to
+find a singular value decomposition of 𝑇. The matrix of 𝑇 (with respect to the
+standard bases) is
+                                0 0 0 −5
+                              ⎛
+                              ⎜                      ⎞
+                                                     ⎟.
+                              ⎜
+                              ⎜ 0 0 0 0 ⎟            ⎟
+                              ⎝ 1 1 0 0 ⎠
+Thus, as discussed in Example 7.67, the matrix of 𝑇 ∗ 𝑇 is
+                                   1    1   0   0
+                                 ⎛
+                                 ⎜                 ⎞
+                                 ⎜
+                                 ⎜ 1    1   0   0 ⎟⎟
+                                                   ⎟
+                                 ⎜                 ⎟,
+                                 ⎜
+                                 ⎜ 0    0   0   0 ⎟⎟
+                                 ⎝ 0    0   0   25 ⎠
+and the positive eigenvalues of 𝑇 ∗ 𝑇 are 25, 2, with dim 𝐸(25, 𝑇 ∗ 𝑇) = 1 and
+dim 𝐸(2, 𝑇 ∗ 𝑇) = 1. Hence the positive singular values of 𝑇 are 5, √2.
+     Thus to find a singular value decomposition of 𝑇 , we must find an orthonormal
+list 𝑒1 , 𝑒2 in 𝐅4 and an orthonormal list 𝑓1 , 𝑓2 in 𝐅3 such that
+
+                           𝑇𝑣 = 5⟨𝑣, 𝑒1 ⟩ 𝑓1 + √2⟨𝑣, 𝑒2 ⟩ 𝑓2
+for all 𝑣 ∈ 𝐅4 .
+    An orthonormal basis of 𝐸(25, 𝑇 ∗ 𝑇) is the vector (0, 0, 0, 1); an orthonormal
+basis of 𝐸(2, 𝑇 ∗ 𝑇) is the vector ( √1 , √1 , 0, 0). Thus, following the proof of 7.70,
+                                       2    2
+we take
+                                                        1     1
+                    𝑒1 = (0, 0, 0, 1) and 𝑒2 = (           ,    , 0, 0)
+                                                       √2 √2
+and
+                      𝑇𝑒1                                 𝑇𝑒2
+                 𝑓1 =      = (−1, 0, 0) and 𝑓2 =               = (0, 0, 1).
+                       5                                  √2
+
+Then, as expected, we see that 𝑒1 , 𝑒2 is an orthonormal list in 𝐅4 and 𝑓1 , 𝑓2 is an
+orthonormal list in 𝐅3 and
+                           𝑇𝑣 = 5⟨𝑣, 𝑒1 ⟩ 𝑓1 + √2⟨𝑣, 𝑒2 ⟩ 𝑓2
+for all 𝑣 ∈ 𝐅4 . Thus we have found a singular value decomposition of 𝑇.
+
+    The next result translates the singular value decomposition from the context
+of linear maps to the context of matrices. Specifically, the following result gives
+a factorization of an arbitrary matrix as the product of three nice matrices. The
+proof gives an explicit construction of these three matrices in terms of the singular
+value decomposition.
+    In the next result, the phrase “orthonormal columns” should be interpreted to
+mean that the columns are orthonormal with respect to the standard Euclidean
+inner product.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                              Section 7E      Singular Value Decomposition       277
+
+
+ 7.80     matrix version of SVD
+
+ Suppose 𝐴 is a 𝑝-by-𝑛 matrix of rank 𝑚 ≥ 1. Then there exist a 𝑝-by-𝑚 matrix
+ 𝐵 with orthonormal columns, an 𝑚-by-𝑚 diagonal matrix 𝐷 with positive
+ numbers on the diagonal, and an 𝑛-by-𝑚 matrix 𝐶 with orthonormal columns
+ such that
+                                  𝐴 = 𝐵𝐷𝐶∗.
+
+Proof   Let 𝑇 ∶ 𝐅𝑛 → 𝐅𝑝 be the linear map whose matrix with respect to the
+standard bases equals 𝐴. Then dim range 𝑇 = 𝑚 (by 3.78). Let
+7.81                    𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚
+
+be a singular value decomposition of 𝑇. Let
+       𝐵 = the 𝑝-by-𝑚 matrix whose columns are 𝑓1 , … , 𝑓𝑚 ,
+       𝐷 = the 𝑚-by-𝑚 diagonal matrix whose diagonal entries are 𝑠1 , … , 𝑠𝑚 ,
+       𝐶 = the 𝑛-by-𝑚 matrix whose columns are 𝑒1 , … , 𝑒𝑚 .
+
+   Let 𝑢1 , … , 𝑢𝑚 denote the standard basis of 𝐅𝑚. If 𝑘 ∈ {1, … , 𝑚} then
+                 (𝐴𝐶 − 𝐵𝐷)𝑢𝑘 = 𝐴𝑒𝑘 − 𝐵(𝑠𝑘 𝑢𝑘 ) = 𝑠𝑘 𝑓𝑘 − 𝑠𝑘 𝑓𝑘 = 0.
+
+Thus 𝐴𝐶 = 𝐵𝐷.
+   Multiply both sides of this last equation by 𝐶∗ (the conjugate transpose of 𝐶)
+on the right to get
+                                 𝐴𝐶𝐶∗ = 𝐵𝐷𝐶∗.
+    Note that the rows of 𝐶∗ are the complex conjugates of 𝑒1 , … , 𝑒𝑚 . Thus if
+𝑘 ∈ {1, … , 𝑚}, then the definition of matrix multiplication shows that 𝐶∗ 𝑒𝑘 = 𝑢𝑘 ;
+hence 𝐶𝐶∗ 𝑒𝑘 = 𝑒𝑘 . Thus 𝐴𝐶𝐶∗ 𝑣 = 𝐴𝑣 for all 𝑣 ∈ span(𝑒1 , … , 𝑒𝑚 ).
+    If 𝑣 ∈ (span(𝑒1 , … , 𝑒𝑚 ))⟂ , then 𝐴𝑣 = 0 (as follows from 7.81) and 𝐶∗ 𝑣 = 0
+(as follows from the definition of matrix multiplication). Hence 𝐴𝐶𝐶∗ 𝑣 = 𝐴𝑣 for
+all 𝑣 ∈ (span(𝑒1 , … , 𝑒𝑚 ))⟂ .
+    Because 𝐴𝐶𝐶∗ and 𝐴 agree on span(𝑒1 , … , 𝑒𝑚 ) and on (span(𝑒1 , … , 𝑒𝑚 ))⟂ ,
+we conclude that 𝐴𝐶𝐶∗ = 𝐴. Thus the displayed equation above becomes
+                                      𝐴 = 𝐵𝐷𝐶∗,
+
+as desired.
+
+   Note that the matrix 𝐴 in the result above has 𝑝𝑛 entries. In comparison, the
+matrices 𝐵, 𝐷, and 𝐶 above have a total of
+                                     𝑚(𝑝 + 𝑚 + 𝑛)
+
+entries. Thus if 𝑝 and 𝑛 are large numbers and the rank 𝑚 is considerably less
+than 𝑝 and 𝑛, then the number of entries that must be stored on a computer to
+represent 𝐴 is considerably less than 𝑝𝑛.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+278      Chapter 7     Operators on Inner Product Spaces
+
+Exercises 7E
+
+1     Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Show that 𝑇 = 0 if and only if all singular values
+      of 𝑇 are 0.
+2     Suppose 𝑇 ∈ ℒ(𝑉, 𝑊) and 𝑠 > 0. Prove that 𝑠 is a singular value of 𝑇 if
+      and only if there exist nonzero vectors 𝑣 ∈ 𝑉 and 𝑤 ∈ 𝑊 such that
+                                𝑇𝑣 = 𝑠𝑤     and 𝑇 ∗ 𝑤 = 𝑠𝑣.
+         The vectors 𝑣, 𝑤 satisfying both equations above are called a Schmidt pair.
+         Erhard Schmidt introduced the concept of singular values in 1907.
+
+3     Give an example of 𝑇 ∈ ℒ(𝐂2 ) such that 0 is the only eigenvalue of 𝑇 and
+      the singular values of 𝑇 are 5, 0.
+4     Suppose that 𝑇 ∈ ℒ(𝑉, 𝑊), 𝑠1 is the largest singular value of 𝑇 , and 𝑠𝑛 is
+      the smallest singular value of 𝑇. Prove that
+                         {‖𝑇𝑣‖ ∶ 𝑣 ∈ 𝑉 and ‖𝑣‖ = 1} = [𝑠𝑛 , 𝑠1 ].
+
+5     Suppose 𝑇 ∈ ℒ(𝐂2 ) is defined by 𝑇(𝑥, 𝑦) = (−4𝑦, 𝑥). Find the singular
+      values of 𝑇.
+6     Find the singular values of the differentiation operator 𝐷 ∈ ℒ(𝒫2 (𝐑))
+      defined by 𝐷𝑝 = 𝑝′, where the inner product on 𝒫2 (𝐑) is as in Example 6.34.
+7     Suppose that 𝑇 ∈ ℒ(𝑉) is self-adjoint or that 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉) is
+      normal. Let 𝜆1 , … , 𝜆𝑛 be the eigenvalues of 𝑇 , each included in this list
+      as many times as the dimension of the corresponding eigenspace. Show
+      that the singular values of 𝑇 are |𝜆1 |, … , |𝜆𝑛 |, after these numbers have been
+      sorted into decreasing order.
+8     Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Suppose 𝑠1 ≥ 𝑠2 ≥ ⋯ ≥ 𝑠𝑚 > 0 and 𝑒1 , … , 𝑒𝑚 is an
+      orthonormal list in 𝑉 and 𝑓1 , … , 𝑓𝑚 is an orthonormal list in 𝑊 such that
+                           𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚
+
+      for every 𝑣 ∈ 𝑉.
+      (a) Prove that 𝑓1 , … , 𝑓𝑚 is an orthonormal basis of range 𝑇.
+      (b) Prove that 𝑒1 , … , 𝑒𝑚 is an orthonormal basis of (null 𝑇)⟂ .
+      (c) Prove that 𝑠1 , … , 𝑠𝑚 are the positive singular values of 𝑇.
+      (d) Prove that if 𝑘 ∈ {1, … , 𝑚}, then 𝑒𝑘 is an eigenvector of 𝑇 ∗ 𝑇 with
+          corresponding eigenvalue 𝑠𝑘2.
+      (e) Prove that
+                           𝑇𝑇 ∗ 𝑤 = 𝑠12 ⟨𝑤, 𝑓1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚2 ⟨𝑤, 𝑓𝑚 ⟩ 𝑓𝑚
+
+          for all 𝑤 ∈ 𝑊.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                            Section 7E      Singular Value Decomposition             279
+
+ 9   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Show that 𝑇 and 𝑇 ∗ have the same positive singular
+     values.
+10   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊) has singular values 𝑠1 , … , 𝑠𝑛 . Prove that if 𝑇 is an
+     invertible linear map, then 𝑇 −1 has singular values
+                                        1     1
+                                           ,…, .
+                                        𝑠𝑛    𝑠1
+11   Suppose that 𝑇 ∈ ℒ(𝑉, 𝑊) and 𝑣1 , … , 𝑣𝑛 is an orthonormal basis of 𝑉. Let
+     𝑠1 , … , 𝑠𝑛 denote the singular values of 𝑇.
+     (a) Prove that ‖𝑇𝑣1 ‖2 + ⋯ + ‖𝑇𝑣𝑛 ‖2 = 𝑠12 + ⋯ + 𝑠𝑛2.
+     (b) Prove that if 𝑊 = 𝑉 and 𝑇 is a positive operator, then
+
+                         ⟨𝑇𝑣1 , 𝑣1 ⟩ + ⋯ + ⟨𝑇𝑣𝑛 , 𝑣𝑛 ⟩ = 𝑠1 + ⋯ + 𝑠𝑛 .
+        See the comment after Exercise 5 in Section 7A.
+
+12   (a) Give an example of a finite-dimensional vector space and an operator 𝑇
+         on it such that the singular values of 𝑇 2 do not equal the squares of the
+         singular values of 𝑇.
+     (b) Suppose 𝑇 ∈ ℒ(𝑉) is normal. Prove that the singular values of 𝑇 2
+         equal the squares of the singular values of 𝑇.
+13   Suppose 𝑇1 , 𝑇2 ∈ ℒ(𝑉). Prove that 𝑇1 and 𝑇2 have the same singular
+     values if and only if there exist unitary operators 𝑆1 , 𝑆2 ∈ ℒ(𝑉) such that
+     𝑇1 = 𝑆1 𝑇2 𝑆2 .
+
+14   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Let 𝑠𝑛 denote the smallest singular value of 𝑇. Prove
+     that 𝑠𝑛 ‖𝑣‖ ≤ ‖𝑇𝑣‖ for every 𝑣 ∈ 𝑉.
+15   Suppose 𝑇 ∈ ℒ(𝑉) and 𝑠1 ≥ ⋯ ≥ 𝑠𝑛 are the singular values of 𝑇. Prove
+     that if 𝜆 is an eigenvalue of 𝑇 , then 𝑠1 ≥ |𝜆| ≥ 𝑠𝑛 .
+
+16   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Prove that (𝑇 ∗ )† = (𝑇 † )∗.
+        Compare the result in this exercise to the analogous result for invertible
+        linear maps [see 7.5( f )].
+
+17   Suppose 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is self-adjoint if and only if 𝑇 † is self-
+     adjoint.
+
+
+
+
+Matrices unfold
+Singular values gleam like stars
+Order in chaos shines
+
+—written by ChatGPT with input haiku about SVD
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+280     Chapter 7      Operators on Inner Product Spaces
+
+7F Consequences of Singular Value Decomposition
+Norms of Linear Maps
+The singular value decomposition leads to the following upper bound for ‖𝑇𝑣‖.
+
+ 7.82   upper bound for ‖𝑇𝑣‖
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Let 𝑠1 be the largest singular value of 𝑇. Then
+
+                                    ‖𝑇𝑣‖ ≤ 𝑠1 ‖𝑣‖
+
+ for all 𝑣 ∈ 𝑉.
+
+Proof   Let 𝑠1 , … , 𝑠𝑚 denote the positive For a lower bound on ‖𝑇𝑣‖, look at
+singular values of 𝑇 , and let 𝑒1 , … , 𝑒𝑚 be Exercise 14 in Section 7E.
+an orthonormal list in 𝑉 and 𝑓1 , … , 𝑓𝑚 be
+an orthonormal list in 𝑊 that provide a singular value decomposition of 𝑇. Thus
+7.83                   𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚
+for all 𝑣 ∈ 𝑉. Hence if 𝑣 ∈ 𝑉 then
+                                           2                        2
+                     ‖𝑇𝑣‖2 = 𝑠12 ∣⟨𝑣, 𝑒1 ⟩∣ + ⋯ + 𝑠𝑚2 ∣⟨𝑣, 𝑒𝑚 ⟩∣
+                                            2                  2
+                             ≤ 𝑠12 (∣⟨𝑣, 𝑒1 ⟩∣ + ⋯ + ∣⟨𝑣, 𝑒𝑚 ⟩∣ )
+                             ≤ 𝑠12 ‖𝑣‖2,
+where the last inequality follows from Bessel’s inequality (6.26). Taking square
+roots of both sides of the inequality above shows that ‖𝑇𝑣‖ ≤ 𝑠1 ‖𝑣‖, as desired.
+
+   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊) and 𝑠1 is the largest singular value of 𝑇. The result
+above shows that
+7.84                   ‖𝑇𝑣‖ ≤ 𝑠1 for all 𝑣 ∈ 𝑉 with ‖𝑣‖ ≤ 1.
+Taking 𝑣 = 𝑒1 in 7.83 shows that 𝑇𝑒1 = 𝑠1 𝑓1 . Because ‖ 𝑓1 ‖ = 1, this implies that
+‖𝑇𝑒1 ‖ = 𝑠1 . Thus because ‖𝑒1 ‖ = 1, the inequality in 7.84 leads to the equation
+7.85                  max{‖𝑇𝑣‖ ∶ 𝑣 ∈ 𝑉 and ‖𝑣‖ ≤ 1} = 𝑠1 .
+    The equation above is the motivation for the following definition, which defines
+the norm of 𝑇 to be the left side of the equation above without needing to refer to
+singular values or the singular value decomposition.
+
+ 7.86 definition: norm of a linear map, ‖ ⋅ ‖
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Then the norm of 𝑇 , denoted by ‖𝑇‖, is defined by
+
+                     ‖𝑇‖ = max{‖𝑇𝑣‖ ∶ 𝑣 ∈ 𝑉 and ‖𝑣‖ ≤ 1}.
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 7F      Consequences of Singular Value Decomposition           281
+
+    In general, the maximum of an infinite set of nonnegative numbers need
+not exist. However, the discussion before 7.86 shows that the maximum in the
+definition of the norm of a linear map 𝑇 from 𝑉 to 𝑊 does indeed exist (and
+equals the largest singular value of 𝑇 ).
+    We now have two different uses of the word norm and the notation ‖ ⋅ ‖. Our
+first use of this notation was in connection with an inner product on 𝑉, when we
+defined ‖𝑣‖ = √⟨𝑣, 𝑣⟩ for each 𝑣 ∈ 𝑉. Our second use of the norm notation and
+terminology is with the definition we just made of ‖𝑇‖ for 𝑇 ∈ ℒ(𝑉, 𝑊). The
+norm ‖𝑇‖ for 𝑇 ∈ ℒ(𝑉, 𝑊) does not usually come from taking an inner product
+of 𝑇 with itself (see Exercise 21). You should be able to tell from the context and
+from the symbols used which meaning of the norm is intended.
+    The properties of the norm on ℒ(𝑉, 𝑊) listed below look identical to properties
+of the norm on an inner product space (see 6.9 and 6.17). The inequality in (d) is
+called the triangle inequality, thus using the same terminology that we used for
+the norm on 𝑉. For the reverse triangle inequality, see Exercise 1.
+
+ 7.87   basic properties of norms of linear maps
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Then
+ (a) ‖𝑇‖ ≥ 0;
+ (b) ‖𝑇‖ = 0 ⟺ 𝑇 = 0;
+ (c) ‖𝜆𝑇‖ = |𝜆| ‖𝑇‖ for all 𝜆 ∈ 𝐅 ;
+ (d) ‖𝑆 + 𝑇‖ ≤ ‖𝑆‖ + ‖𝑇‖ for all 𝑆 ∈ ℒ(𝑉, 𝑊).
+
+Proof
+(a) Because ‖𝑇𝑣‖ ≥ 0 for every 𝑣 ∈ 𝑉, the definition of ‖𝑇‖ implies that ‖𝑇‖ ≥ 0.
+(b) Suppose ‖𝑇‖ = 0. Thus 𝑇𝑣 = 0 for all 𝑣 ∈ 𝑉 with ‖𝑣‖ ≤ 1. If 𝑢 ∈ 𝑉 with
+    𝑢 ≠ 0, then                              𝑢
+                               𝑇𝑢 = ‖𝑢‖ 𝑇(      ) = 0,
+                                            ‖𝑢‖
+    where the last equality holds because 𝑢/‖𝑢‖ has norm 1. Because 𝑇𝑢 = 0 for
+    all 𝑢 ∈ 𝑉, we have 𝑇 = 0.
+    Conversely, if 𝑇 = 0 then 𝑇𝑣 = 0 for all 𝑣 ∈ 𝑉 and hence ‖𝑇‖ = 0.
+(c) Suppose 𝜆 ∈ 𝐅. Then
+                      ‖𝜆𝑇‖ = max{‖𝜆𝑇𝑣‖ ∶ 𝑣 ∈ 𝑉 and ‖𝑣‖ ≤ 1}
+                            = |𝜆| max{‖𝑇𝑣‖ ∶ 𝑣 ∈ 𝑉 and ‖𝑣‖ ≤ 1}
+                            = |𝜆| ‖𝑇‖.
+
+(d) Suppose 𝑆 ∈ ℒ(𝑉, 𝑊). The definition of ‖𝑆 + 𝑇‖ implies that there exists
+    𝑣 ∈ 𝑉 such that ‖𝑣‖ ≤ 1 and ‖𝑆 + 𝑇‖ = ∥(𝑆 + 𝑇)𝑣∥. Now
+           ‖𝑆 + 𝑇‖ = ∥(𝑆 + 𝑇)𝑣∥ = ‖𝑆𝑣 + 𝑇𝑣‖ ≤ ‖𝑆𝑣‖ + ‖𝑇𝑣‖ ≤ ‖𝑆‖ + ‖𝑇‖,
+    completing the proof of (d).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+282          Chapter 7     Operators on Inner Product Spaces
+
+   For 𝑆, 𝑇 ∈ ℒ(𝑉, 𝑊), the quantity ‖𝑆 − 𝑇‖ is often called the distance between
+𝑆 and 𝑇. Informally, think of the condition that ‖𝑆 − 𝑇‖ is a small number as
+meaning that 𝑆 and 𝑇 are close together. For example, Exercise 9 asserts that for
+every 𝑇 ∈ ℒ(𝑉), there is an invertible operator as close to 𝑇 as we wish.
+
+ 7.88    alternative formulas for ‖𝑇‖
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Then
+ (a) ‖𝑇‖ = the largest singular value of 𝑇 ;
+ (b) ‖𝑇‖ = max{‖𝑇𝑣‖ ∶ 𝑣 ∈ 𝑉 and ‖𝑣‖ = 1};
+ (c) ‖𝑇‖ = the smallest number 𝑐 such that ‖𝑇𝑣‖ ≤ 𝑐‖𝑣‖ for all 𝑣 ∈ 𝑉.
+
+Proof
+(a) See 7.85.
+(b) Let 𝑣 ∈ 𝑉 be such that 0 < ‖𝑣‖ ≤ 1. Let 𝑢 = 𝑣/‖𝑣‖. Then
+                           𝑣                               𝑣       ‖𝑇𝑣‖
+                ‖𝑢‖ = ∥       ∥=1    and ‖𝑇𝑢‖ = ∥𝑇(           )∥ =      ≥ ‖𝑇𝑣‖.
+                          ‖𝑣‖                             ‖𝑣‖       ‖𝑣‖
+      Thus when finding the maximum of ‖𝑇𝑣‖ with ‖𝑣‖ ≤ 1, we can restrict
+      attention to vectors in 𝑉 with norm 1, proving (b).
+(c) Suppose 𝑣 ∈ 𝑉 and 𝑣 ≠ 0. Then the definition of ‖𝑇‖ implies that
+                                   𝑣
+                              ∥𝑇( )∥ ≤ ‖𝑇‖,
+                                  ‖𝑣‖
+      which implies that
+      7.89                               ‖𝑇𝑣‖ ≤ ‖𝑇‖ ‖𝑣‖.
+
+      Now suppose 𝑐 ≥ 0 and ‖𝑇𝑣‖ ≤ 𝑐‖𝑣‖ for all 𝑣 ∈ 𝑉. This implies that
+                                            ‖𝑇𝑣‖ ≤ 𝑐
+      for all 𝑣 ∈ 𝑉 with ‖𝑣‖ ≤ 1. Taking the maximum of the left side of the
+      inequality above over all 𝑣 ∈ 𝑉 with ‖𝑣‖ ≤ 1 shows that ‖𝑇‖ ≤ 𝑐. Thus ‖𝑇‖ is
+      the smallest number 𝑐 such that ‖𝑇𝑣‖ ≤ 𝑐‖𝑣‖ for all 𝑣 ∈ 𝑉.
+
+    When working with norms of linear maps, you will probably frequently use
+the inequality 7.89.
+    For computing an approximation of the norm of a linear map 𝑇 given the
+matrix of 𝑇 with respect to some orthonormal bases, 7.88(a) is likely to be most
+useful. The matrix of 𝑇 ∗ 𝑇 is quickly computable from matrix multiplication.
+Then a computer can be asked to find an approximation for the largest eigenvalue
+of 𝑇 ∗ 𝑇 (excellent numerical algorithms exist for this purpose). Then taking the
+square root and using 7.88(a) gives an approximation for the norm of 𝑇 (which
+usually cannot be computed exactly).
+
+                  Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 7F      Consequences of Singular Value Decomposition            283
+
+   You should verify all assertions in the example below.
+
+ 7.90 example: norms
+
+• If 𝐼 denotes the usual identity operator on 𝑉, then ‖𝐼‖ = 1.
+• If 𝑇 ∈ ℒ(𝐅𝑛 ) and the matrix of 𝑇 with respect to the standard basis of 𝐅𝑛
+  consists of all 1’s, then ‖𝑇‖ = 𝑛.
+• If 𝑇 ∈ ℒ(𝑉) and 𝑉 has an orthonormal basis consisting of eigenvectors of
+  𝑇 with corresponding eigenvalues 𝜆1 , … , 𝜆𝑛 , then ‖𝑇‖ is the maximum of the
+  numbers |𝜆1 |, … , |𝜆𝑛 |.
+• Suppose 𝑇 ∈ ℒ(𝐑5 ) is the operator whose matrix (with respect to the stan-
+  dard basis) is the 5-by-5 matrix whose entry in row 𝑗, column 𝑘 is 1/(𝑗2 + 𝑘).
+  Standard mathematical software shows that the largest singular value of 𝑇 is
+  approximately 0.8 and the smallest singular value of 𝑇 is approximately 10−6.
+  Thus ‖𝑇‖ ≈ 0.8 and (using Exercise 10 in Section 7E) ∥𝑇 −1 ∥ ≈ 106. It is not
+  possible to find exact formulas for these norms.
+   A linear map and its adjoint have the same norm, as shown by the next result.
+
+ 7.91   norm of the adjoint
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Then ∥𝑇 ∗ ∥ = ‖𝑇‖.
+
+Proof   Suppose 𝑤 ∈ 𝑊. Then
+     ∥𝑇 ∗ 𝑤∥ = ⟨𝑇 ∗ 𝑤, 𝑇 ∗ 𝑤⟩ = ⟨𝑇𝑇 ∗ 𝑤, 𝑤⟩ ≤ ∥𝑇𝑇 ∗ 𝑤∥ ‖𝑤‖ ≤ ‖𝑇‖ ∥𝑇 ∗ 𝑤∥ ‖𝑤‖.
+            2
+
+
+The inequality above implies that
+                                  ∥𝑇 ∗ 𝑤∥ ≤ ‖𝑇‖ ‖𝑤‖,
+which along with 7.88(c) implies that ∥𝑇 ∗ ∥ ≤ ‖𝑇‖.
+    Replacing 𝑇 with 𝑇 ∗ in the inequality ∥𝑇 ∗ ∥ ≤ ‖𝑇‖ and then using the equation
+      ∗
+(𝑇 ∗ ) = 𝑇 shows that ‖𝑇‖ ≤ ∥𝑇 ∗ ∥. Thus ∥𝑇 ∗ ∥ = ‖𝑇‖, as desired.
+
+   You may want to construct an alternative proof of the result above using
+Exercise 9 in Section 7E, which asserts that a linear map and its adjoint have the
+same positive singular values.
+
+Approximation by Linear Maps with Lower-Dimensional Range
+The next result is a spectacular application of the singular value decomposition.
+It says that to best approximate a linear map by a linear map whose range has
+dimension at most 𝑘 , chop off the singular value decomposition after the first
+𝑘 terms. Specifically, the linear map 𝑇𝑘 in the next result has the property that
+dim range 𝑇𝑘 = 𝑘 and 𝑇𝑘 minimizes the distance to 𝑇 among all linear maps with
+range of dimension at most 𝑘 . This result leads to algorithms for compressing
+huge matrices while preserving their most important information.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+284      Chapter 7     Operators on Inner Product Spaces
+
+
+ 7.92   best approximation by linear map whose range has dimension ≤ 𝑘
+
+ Suppose 𝑇 ∈ ℒ(𝑉, 𝑊) and 𝑠1 ≥ ⋯ ≥ 𝑠𝑚 are the positive singular values of 𝑇.
+ Suppose 1 ≤ 𝑘 < 𝑚. Then
+
+           min{‖𝑇 − 𝑆‖ ∶ 𝑆 ∈ ℒ(𝑉, 𝑊) and dim range 𝑆 ≤ 𝑘} = 𝑠𝑘+1 .
+
+ Furthermore, if
+                        𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚
+ is a singular value decomposition of 𝑇 and 𝑇𝑘 ∈ ℒ(𝑉, 𝑊) is defined by
+
+                        𝑇𝑘 𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑘 ⟨𝑣, 𝑒𝑘 ⟩ 𝑓𝑘
+
+ for each 𝑣 ∈ 𝑉, then dim range 𝑇𝑘 = 𝑘 and ‖𝑇 − 𝑇𝑘 ‖ = 𝑠𝑘+1 .
+
+Proof   If 𝑣 ∈ 𝑉 then
+                          2                                                     2
+             ∥(𝑇 − 𝑇𝑘 )𝑣∥ = ∥𝑠𝑘+1 ⟨𝑣, 𝑒𝑘+1 ⟩ 𝑓𝑘+1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚 ∥
+                                                    2                       2
+                              = 𝑠𝑘+12 ∣⟨𝑣, 𝑒𝑘+1 ⟩∣ + ⋯ + 𝑠𝑚2 ∣⟨𝑣, 𝑒𝑚 ⟩∣
+                                                     2                  2
+                              ≤ 𝑠𝑘+12 (∣⟨𝑣, 𝑒𝑘+1 ⟩∣ + ⋯ + ∣⟨𝑣, 𝑒𝑚 ⟩∣ )
+                              ≤ 𝑠𝑘+12 ‖𝑣‖2.
+Thus ‖𝑇 − 𝑇𝑘 ‖ ≤ 𝑠𝑘+1 . The equation (𝑇 − 𝑇𝑘 )𝑒𝑘+1 = 𝑠𝑘+1 𝑓𝑘+1 now shows that
+‖𝑇 − 𝑇𝑘 ‖ = 𝑠𝑘+1 .
+     Suppose 𝑆 ∈ ℒ(𝑉, 𝑊) and dim range 𝑆 ≤ 𝑘 . Thus 𝑆𝑒1 , … , 𝑆𝑒𝑘+1 , which is a
+list of length 𝑘 + 1, is linearly dependent. Hence there exist 𝑎1 , … , 𝑎𝑘+1 ∈ 𝐅, not
+all 0, such that
+                             𝑎1 𝑆𝑒1 + ⋯ + 𝑎𝑘+1 𝑆𝑒𝑘+1 = 0.
+Now 𝑎1 𝑒1 + ⋯ + 𝑎𝑘+1 𝑒𝑘+1 ≠ 0 because 𝑎1 , … , 𝑎𝑘+1 are not all 0. We have
+                                              2                                      2
+        ∥(𝑇 − 𝑆)(𝑎1 𝑒1 + ⋯ + 𝑎𝑘+1 𝑒𝑘+1 )∥ = ∥𝑇(𝑎1 𝑒1 + ⋯ + 𝑎𝑘+1 𝑒𝑘+1 )∥
+                                                  = ‖𝑠1 𝑎1 𝑓1 + ⋯ + 𝑠𝑘+1 𝑎𝑘+1 𝑓𝑘+1 ‖2
+                                                  = 𝑠12 |𝑎1 |2 + ⋯ + 𝑠𝑘+12 |𝑎𝑘+1 |2
+                                                  ≥ 𝑠𝑘+12 (|𝑎1 |2 + ⋯ + |𝑎𝑘+1 |2 )
+                                                  = 𝑠𝑘+12 ‖𝑎1 𝑒1 + ⋯ + 𝑎𝑘+1 𝑒𝑘+1 ‖2.
+Because 𝑎1 𝑒1 + ⋯ + 𝑎𝑘+1 𝑒𝑘+1 ≠ 0, the inequality above implies that
+                                    ‖𝑇 − 𝑆‖ ≥ 𝑠𝑘+1 .
+Thus 𝑆 = 𝑇𝑘 minimizes ‖𝑇 − 𝑆‖ among 𝑆 ∈ ℒ(𝑉, 𝑊) with dim range 𝑆 ≤ 𝑘 .
+
+   For other examples of the use of the singular value decomposition in best
+approximation, see Exercise 22, which finds a subspace of given dimension on
+which the restriction of a linear map is as small as possible, and Exercise 27,
+which finds a unitary operator that is as close as possible to a given operator.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 7F      Consequences of Singular Value Decomposition           285
+
+Polar Decomposition
+Recall our discussion before 7.54 of the analogy between complex numbers 𝑧
+with |𝑧| = 1 and unitary operators. Continuing with this analogy, note that every
+complex number 𝑧 except 0 can be written in the form
+                                            𝑧
+                                    𝑧=(        )|𝑧|
+                                           |𝑧|
+                                            𝑧
+                                      =(       )√𝑧𝑧,
+                                           |𝑧|
+where the first factor, namely, 𝑧/|𝑧|, has absolute value 1.
+    Our analogy leads us to guess that every operator 𝑇 ∈ ℒ(𝑉) can be written as
+a unitary operator times √𝑇 ∗ 𝑇 . That guess is indeed correct. The corresponding
+result is called the polar decomposition, which gives a beautiful description of an
+arbitrary operator on 𝑉.
+    Note that if 𝑇 ∈ ℒ(𝑉), then 𝑇 ∗ 𝑇 is a positive operator [as was shown in
+7.64(a)]. Thus the operator √𝑇 ∗ 𝑇 makes sense and is well defined as a positive
+operator on 𝑉.
+    The polar decomposition that we are about to state and prove says that every
+operator on 𝑉 is the product of a unitary operator and a positive operator. Thus
+we can write an arbitrary operator on 𝑉 as the product of two nice operators,
+each of which comes from a class that we can completely describe and that we
+understand reasonably well. The unitary operators are described by 7.55 if 𝐅 = 𝐂 ;
+the positive operators are described by the real and complex spectral theorems
+(7.29 and 7.31).
+    Specifically, consider the case 𝐅 = 𝐂 , and suppose
+
+                                     𝑇 = 𝑆√𝑇 ∗ 𝑇
+
+is a polar decomposition of an operator 𝑇 ∈ ℒ(𝑉), where 𝑆 is a unitary operator.
+Then there is an orthonormal basis of 𝑉 with respect to which 𝑆 has a diagonal
+matrix, and there is an orthonormal basis of 𝑉 with respect to which √𝑇 ∗ 𝑇 has
+a diagonal matrix. Warning: There may not exist an orthonormal basis that
+simultaneously puts the matrices of both 𝑆 and √𝑇 ∗ 𝑇 into these nice diagonal
+forms—𝑆 may require one orthonormal basis and √𝑇 ∗ 𝑇 may require a different
+orthonormal basis.
+    However (still assuming that 𝐅 = 𝐂 ), if 𝑇 is normal, then an orthonormal
+basis of 𝑉 can be chosen such that both 𝑆 and √𝑇 ∗ 𝑇 have diagonal matrices with
+respect to this basis—see Exercise 31. The converse is also true: If 𝑇 ∈ ℒ(𝑉)
+and 𝑇 = 𝑆√𝑇 ∗ 𝑇 for some unitary operator 𝑆 ∈ ℒ(𝑉) such that 𝑆 and √𝑇 ∗ 𝑇 both
+have diagonal matrices with respect to the same orthonormal basis of 𝑉, then 𝑇
+is normal. This holds because 𝑇 then has a diagonal matrix with respect to this
+same orthonormal basis, which implies that 𝑇 is normal [by the equivalence of
+(c) and (a) in 7.31].
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+286     Chapter 7      Operators on Inner Product Spaces
+
+   The polar decomposition below is valid on both real and complex inner product
+spaces and for all operators on those spaces.
+
+ 7.93   polar decomposition
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then there exists a unitary operator 𝑆 ∈ ℒ(𝑉) such that
+
+                                      𝑇 = 𝑆√𝑇 ∗ 𝑇.
+
+Proof Let 𝑠1 , … , 𝑠𝑚 be the positive singular values of 𝑇 , and let 𝑒1 , … , 𝑒𝑚 and
+𝑓1 , … , 𝑓𝑚 be orthonormal lists in 𝑉 such that
+7.94                   𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚
+for every 𝑣 ∈ 𝑉. Extend 𝑒1 , … , 𝑒𝑚 and 𝑓1 , … , 𝑓𝑚 to orthonormal bases 𝑒1 , … , 𝑒𝑛
+and 𝑓1 , … , 𝑓𝑛 of 𝑉.
+    Define 𝑆 ∈ ℒ(𝑉) by
+                           𝑆𝑣 = ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + ⟨𝑣, 𝑒𝑛 ⟩ 𝑓𝑛
+for each 𝑣 ∈ 𝑉. Then
+                                                                   2
+                       ‖𝑆𝑣‖2 = ∥⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + ⟨𝑣, 𝑒𝑛 ⟩ 𝑓𝑛 ∥
+                                             2                 2
+                              = ∣⟨𝑣, 𝑒1 ⟩∣ + ⋯ + ∣⟨𝑣, 𝑒𝑛 ⟩∣
+
+                              = ‖𝑣‖2.
+Thus 𝑆 is a unitary operator.
+   Applying 𝑇 ∗ to both sides of 7.94 and then using the formula for 𝑇 ∗ given by
+7.77 shows that
+                     𝑇 ∗ 𝑇𝑣 = 𝑠12 ⟨𝑣, 𝑒1 ⟩𝑒1 + ⋯ + 𝑠𝑚2 ⟨𝑣, 𝑒𝑚 ⟩𝑒𝑚
+for every 𝑣 ∈ 𝑉. Thus if 𝑣 ∈ 𝑉, then
+                     √𝑇 ∗ 𝑇𝑣 = 𝑠 ⟨𝑣, 𝑒 ⟩𝑒
+                                  1      1       1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩𝑒𝑚
+
+because the operator that sends 𝑣 to the right side of the equation above is a
+positive operator whose square equals 𝑇 ∗ 𝑇. Now
+                  𝑆√𝑇 ∗ 𝑇𝑣 = 𝑆(𝑠1 ⟨𝑣, 𝑒1 ⟩𝑒1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩𝑒𝑚 )
+
+                             = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑚 ⟨𝑣, 𝑒𝑚 ⟩ 𝑓𝑚
+
+                             = 𝑇𝑣,
+where the last equation follows from 7.94.
+
+    Exercise 27 shows that the unitary operator 𝑆 produced in the proof above is
+as close as a unitary operator can be to 𝑇.
+    Alternative proofs of the polar decomposition directly use the spectral theorem,
+avoiding the singular value decomposition. However, the proof above seems
+cleaner than those alternative proofs.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+         Section 7F       Consequences of Singular Value Decomposition                     287
+
+Operators Applied to Ellipsoids and Parallelepipeds
+
+ 7.95 definition: ball, 𝐵
+
+ The ball in 𝑉 of radius 1 centered at 0, denoted by 𝐵, is defined by
+
+                                 𝐵 = {𝑣 ∈ 𝑉 ∶ ‖𝑣‖ < 1}.
+
+    If dim 𝑉 = 2, the word disk is sometimes used instead of
+ball. However, using ball in all dimensions is less confusing.
+Similarly, if dim 𝑉 = 2, then the word ellipse is sometimes
+used instead of the word ellipsoid that we are about to define.
+Again, using ellipsoid in all dimensions is less confusing.
+    You can think of the ellipsoid defined below as obtained
+by starting with the ball 𝐵 and then stretching by a factor of
+𝑠𝑘 along each 𝑓𝑘 -axis.                                                   The ball 𝐵 in 𝐑2 .
+
+ 7.96 definition: ellipsoid, 𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ), principal axes
+
+ Suppose that 𝑓1 , … , 𝑓𝑛 is an orthonormal basis of 𝑉 and 𝑠1 , … , 𝑠𝑛 are positive
+ numbers. The ellipsoid 𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ) with principal axes 𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 is
+ defined by
+                                              |⟨𝑣, 𝑓1 ⟩|2       |⟨𝑣, 𝑓𝑛 ⟩|2
+          𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ) = {𝑣 ∈ 𝑉 ∶                + ⋯ +             < 1}.
+                                                 𝑠12               𝑠𝑛2
+
+   The ellipsoid notation 𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ) does not explicitly include the inner
+product space 𝑉, even though the definition above depends on 𝑉. However,
+the inner product space 𝑉 should be clear from the context and also from the
+requirement that 𝑓1 , … , 𝑓𝑛 be an orthonormal basis of 𝑉.
+
+ 7.97 example: ellipsoids
+
+
+
+
+  The ellipsoid 𝐸(2 𝑓1 , 𝑓2 ) in 𝐑2 , where       The ellipsoid 𝐸(2 𝑓1 , 𝑓2 ) in 𝐑2 , where
+    𝑓1 , 𝑓2 is the standard basis of 𝐑2 .         𝑓1 = ( √1 , √1 ) and 𝑓2 = (− √1 , √1 ).
+                                                           2   2                   2   2
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+288      Chapter 7       Operators on Inner Product Spaces
+
+
+
+
+                                                                The ellipsoid
+                                                           𝐸(4 𝑓1 , 3 𝑓2 , 2 𝑓3 ) in 𝐑3 ,
+                                                           where 𝑓1 , 𝑓2 , 𝑓3 is the
+                                                           standard basis of 𝐑3 .
+
+
+
+
+     The ellipsoid 𝐸( 𝑓1 , … , 𝑓𝑛 ) equals the ball 𝐵 in 𝑉 for every orthonormal basis
+𝑓1 , … , 𝑓𝑛 of 𝑉 [by Parseval’s identity 6.30(b)].
+
+ 7.98 notation: 𝑇(Ω)
+
+ For 𝑇 a function defined on 𝑉 and Ω ⊆ 𝑉, define 𝑇(Ω) by
+
+                                𝑇(Ω) = {𝑇𝑣 ∶ 𝑣 ∈ Ω}.
+
+    Thus if 𝑇 is a function defined on 𝑉, then 𝑇(𝑉) = range 𝑇.
+    The next result states that every invertible operator 𝑇 ∈ ℒ(𝑉) maps the ball
+𝐵 in 𝑉 onto an ellipsoid in 𝑉. The proof shows that the principal axes of this
+ellipsoid come from the singular value decomposition of 𝑇.
+
+ 7.99    invertible operator takes ball to ellipsoid
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is invertible. Then 𝑇 maps the ball 𝐵 in 𝑉 onto an ellipsoid
+ in 𝑉.
+
+Proof    Suppose 𝑇 has singular value decomposition
+7.100                     𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑛 ⟨𝑣, 𝑒𝑛 ⟩ 𝑓𝑛
+for all 𝑣 ∈ 𝑉 ; here 𝑠1 , … , 𝑠𝑛 are the singular values of 𝑇 and 𝑒1 , … , 𝑒𝑛 and 𝑓1 , … , 𝑓𝑛
+are both orthonormal bases of 𝑉. We will show that 𝑇(𝐵) = 𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ).
+     First suppose 𝑣 ∈ 𝐵. Because 𝑇 is invertible, none of the singular values
+𝑠1 , … , 𝑠𝑛 equals 0 (see 7.68). Thus 7.100 implies that
+                     2                    2
+           ∣⟨𝑇𝑣, 𝑓1 ⟩∣     ∣⟨𝑇𝑣, 𝑓𝑛 ⟩∣
+                2
+                       +⋯+             = |⟨𝑣, 𝑒1 ⟩|2 + ⋯ + |⟨𝑣, 𝑒𝑛 ⟩|2 < 1.
+               𝑠1              𝑠𝑛2
+Thus 𝑇𝑣 ∈ 𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ). Hence 𝑇(𝐵) ⊆ 𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ).
+    To prove inclusion in the other direction, now suppose 𝑤 ∈ 𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ).
+Let                             ⟨𝑤, 𝑓1 ⟩          ⟨𝑤, 𝑓𝑛 ⟩
+                            𝑣=           𝑒1 + ⋯ +          𝑒𝑛 .
+                                  𝑠1                𝑠𝑛
+Then ‖𝑣‖ < 1 and 7.100 implies that 𝑇𝑣 = ⟨𝑤, 𝑓1 ⟩ 𝑓1 + ⋯ + ⟨𝑤, 𝑓𝑛 ⟩ 𝑓𝑛 = 𝑤. Thus
+𝑇(𝐵) ⊇ 𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+         Section 7F      Consequences of Singular Value Decomposition               289
+
+    We now use the previous result to show that invertible operators take all
+ellipsoids, not just the ball of radius 1, to ellipsoids.
+
+ 7.101   invertible operator takes ellipsoids to ellipsoids
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is invertible and 𝐸 is an ellipsoid in 𝑉. Then 𝑇(𝐸) is an
+ ellipsoid in 𝑉.
+
+Proof There exist an orthonormal basis 𝑓1 , … , 𝑓𝑛 of 𝑉 and positive numbers
+𝑠1 , … , 𝑠𝑛 such that 𝐸 = 𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ). Define 𝑆 ∈ ℒ(𝑉) by
+                    𝑆(𝑎1 𝑓1 + ⋯ + 𝑎𝑛 𝑓𝑛 ) = 𝑎1 𝑠1 𝑓1 + ⋯ + 𝑎𝑛 𝑠𝑛 𝑓𝑛 .
+Then 𝑆 maps the ball 𝐵 of 𝑉 onto 𝐸, as you can verify. Thus
+                             𝑇(𝐸) = 𝑇(𝑆(𝐵)) = (𝑇𝑆)(𝐵).
+The equation above and 7.99, applied to 𝑇𝑆, show that 𝑇(𝐸) is an ellipsoid in 𝑉.
+
+   Recall (see 3.95) that if 𝑢 ∈ 𝑉 and Ω ⊆ 𝑉 then 𝑢 + Ω is defined by
+                              𝑢 + Ω = {𝑢 + 𝑤 ∶ 𝑤 ∈ Ω}.
+Geometrically, the sets Ω and 𝑢 + Ω look the same, but they are in different
+locations.
+   In the following definition, if dim 𝑉 = 2 then the word parallelogram is often
+used instead of parallelepiped.
+
+ 7.102 definition: 𝑃(𝑣1 , … , 𝑣𝑛 ), parallelepiped
+
+ Suppose 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉. Let
+
+             𝑃(𝑣1 , … , 𝑣𝑛 ) = {𝑎1 𝑣1 + ⋯ + 𝑎𝑛 𝑣𝑛 ∶ 𝑎1 , … , 𝑎𝑛 ∈ (0, 1)}.
+
+ A parallelepiped is a set of the form 𝑢 + 𝑃(𝑣1 , … , 𝑣𝑛 ) for some 𝑢 ∈ 𝑉. The
+ vectors 𝑣1 , … , 𝑣𝑛 are called the edges of this parallelepiped.
+
+
+ 7.103 example: parallelepipeds
+
+
+
+
+            The parallelepiped                           A parallelepiped in 𝐑3 .
+    (0.3, 0.5) + 𝑃((1, 0), (1, 1)) in 𝐑2 .
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+290      Chapter 7     Operators on Inner Product Spaces
+
+
+ 7.104    invertible operator takes parallelepipeds to parallelepipeds
+
+ Suppose 𝑢 ∈ 𝑉 , 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉, and 𝑇 ∈ ℒ(𝑉) is invertible. Then
+
+                   𝑇(𝑢 + 𝑃(𝑣1 , … , 𝑣𝑛 )) = 𝑇𝑢 + 𝑃(𝑇𝑣1 , … , 𝑇𝑣𝑛 ).
+
+Proof Because 𝑇 is invertible, the list 𝑇𝑣1 , … , 𝑇𝑣𝑛 is a basis of 𝑉. The linearity
+of 𝑇 implies that
+               𝑇(𝑢 + 𝑎1 𝑣1 + ⋯ + 𝑎𝑛 𝑣𝑛 ) = 𝑇𝑢 + 𝑎1 𝑇𝑣1 + ⋯ + 𝑎𝑛 𝑇𝑣𝑛
+for all 𝑎1 , … , 𝑎𝑛 ∈ (0, 1). Thus 𝑇(𝑢 + 𝑃(𝑣1 , … , 𝑣𝑛 )) = 𝑇𝑢 + 𝑃(𝑇𝑣1 , … , 𝑇𝑣𝑛 ).
+
+    Just as the rectangles are distinguished among the parallelograms in 𝐑2 , we
+give a special name to the parallelepipeds in 𝑉 whose defining edges are orthogo-
+nal to each other.
+
+ 7.105 definition: box
+
+ A box in 𝑉 is a set of the form
+                                𝑢 + 𝑃(𝑟1 𝑒1 , … , 𝑟𝑛 𝑒𝑛 ),
+ where 𝑢 ∈ 𝑉 and 𝑟1 , … , 𝑟𝑛 are positive numbers and 𝑒1 , … , 𝑒𝑛 is an ortho-
+ normal basis of 𝑉.
+
+   Note that in the special case of 𝐑2 each box is a rectangle, but the terminology
+box can be used in all dimensions.
+
+ 7.106 example: boxes
+
+
+
+
+ The box (1, 0) + 𝑃(√2 𝑒1 , √2 𝑒2 ), where       The box 𝑃(𝑒1 , 2𝑒2 , 𝑒3 ), where 𝑒1 , 𝑒2 , 𝑒3
+   𝑒1 = ( √ , √ ) and 𝑒2 = (− √ , √ ).
+          1    1                1    1                is the standard basis of 𝐑3 .
+           2   2                 2   2
+
+
+    Suppose 𝑇 ∈ ℒ(𝑉) is invertible. Then 𝑇 maps every parallelepiped in 𝑉
+to a parallelepiped in 𝑉 (by 7.104). In particular, 𝑇 maps every box in 𝑉 to a
+parallelepiped in 𝑉. This raises the question of whether 𝑇 maps some boxes in
+𝑉 to boxes in 𝑉. The following result answers this question, with the help of the
+singular value decomposition.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+         Section 7F       Consequences of Singular Value Decomposition                 291
+
+
+ 7.107    every invertible operator takes some boxes to boxes
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is invertible. Suppose 𝑇 has singular value decomposition
+
+                         𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑛 ⟨𝑣, 𝑒𝑛 ⟩ 𝑓𝑛 ,
+
+ where 𝑠1 , … , 𝑠𝑛 are the singular values of 𝑇 and 𝑒1 , … , 𝑒𝑛 and 𝑓1 , … , 𝑓𝑛 are
+ orthonormal bases of 𝑉 and the equation above holds for all 𝑣 ∈ 𝑉. Then 𝑇
+ maps the box 𝑢 + 𝑃(𝑟1 𝑒1 , … , 𝑟𝑛 𝑒𝑛 ) onto the box 𝑇𝑢 + 𝑃(𝑟1 𝑠1 𝑓1 , … , 𝑟𝑛 𝑠𝑛 𝑓𝑛 ) for
+ all positive numbers 𝑟1 , … , 𝑟𝑛 and all 𝑢 ∈ 𝑉.
+
+Proof    If 𝑎1 , … , 𝑎𝑛 ∈ (0, 1) and 𝑟1 , … , 𝑟𝑛 are positive numbers and 𝑢 ∈ 𝑉, then
+          𝑇(𝑢 + 𝑎1 𝑟1 𝑒1 + ⋯ + 𝑎𝑛 𝑟𝑛 𝑒𝑛 ) = 𝑇𝑢 + 𝑎1 𝑟1 𝑠1 𝑓1 + ⋯ + 𝑎𝑛 𝑟𝑛 𝑠𝑛 𝑓𝑛 .
+Thus 𝑇(𝑢 + 𝑃(𝑟1 𝑒1 , … , 𝑟𝑛 𝑒𝑛 )) = 𝑇𝑢 + 𝑃(𝑟1 𝑠1 𝑓1 , … , 𝑟𝑛 𝑠𝑛 𝑓𝑛 ).
+
+
+Volume via Singular Values
+Our goal in this subsection is to understand how an operator changes the volume
+of subsets of its domain. Because notions of volume belong to analysis rather
+than to linear algebra, we will work only with an intuitive notion of volume. Our
+intuitive approach to volume can be converted into appropriate correct definitions,
+correct statements, and correct proofs using the machinery of analysis.
+    Our intuition about volume works best in real inner product spaces. Thus the
+assumption that 𝐅 = 𝐑 will appear frequently in the rest of this subsection.
+    If dim 𝑉 = 𝑛, then by volume we will mean 𝑛-dimensional volume. You
+should be familiar with this concept in 𝐑3 . When 𝑛 = 2, this is usually called area
+instead of volume, but for consistency we use the word volume in all dimensions.
+The most fundamental intuition about volume is that the volume of a box (whose
+defining edges are by definition orthogonal to each other) is the product of the
+lengths of the defining edges. Thus we make the following definition.
+
+ 7.108 definition: volume of a box
+
+ Suppose 𝐅 = 𝐑 . If 𝑢 ∈ 𝑉 and 𝑟1 , … , 𝑟𝑛 are positive numbers and 𝑒1 , … , 𝑒𝑛 is
+ an orthonormal basis of 𝑉, then
+
+                    volume(𝑢 + 𝑃(𝑟1 𝑒1 , … , 𝑟𝑛 𝑒𝑛 )) = 𝑟1 × ⋯ × 𝑟𝑛 .
+
+    The definition above agrees with the familiar formulas for the area (which we
+are calling the volume) of a rectangle in 𝐑2 and for the volume of a box in 𝐑3 . For
+example, the first box in Example 7.106 has two-dimensional volume (or area) 2
+because the defining edges of that box have length √2 and √2. The second box
+in Example 7.106 has three-dimensional volume 2 because the defining edges of
+that box have length 1, 2, and 1.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+292     Chapter 7     Operators on Inner Product Spaces
+
+    To define the volume of a subset of 𝑉, approximate the
+subset by a finite collection of disjoint boxes, and then add up
+the volumes of the approximating collection of boxes. As we
+approximate a subset of 𝑉 more accurately by disjoint unions
+of more boxes, we get a better approximation to the volume.
+    These ideas should remind you of how the Riemann integral Volume of this
+is defined by approximating the area under a curve by a disjoint ball ≈ sum of the
+collection of rectangles. This discussion leads to the following volumes of the
+nonrigorous but intuitive definition.                                five boxes.
+
+ 7.109 definition: volume
+
+ Suppose 𝐅 = 𝐑 and Ω ⊆ 𝑉. Then the volume of Ω, denoted by volume Ω, is
+ approximately the sum of the volumes of a collection of disjoint boxes that
+ approximate Ω.
+
+    We are ignoring many reasonable questions by taking an intuitive approach to
+volume. For example, if we approximate Ω by boxes with respect to one basis,
+do we get the same volume if we approximate Ω by boxes with respect to a
+different basis? If Ω1 and Ω2 are disjoint subsets of 𝑉, is volume(Ω1 ∪ Ω2 ) =
+volume Ω1 + volume Ω2 ? Provided that we consider only reasonably nice subsets
+of 𝑉, techniques of analysis show that both these questions have affirmative
+answers that agree with our intuition about volume.
+
+ 7.110 example: volume change by a linear map
+
+    Suppose that 𝑇 ∈ ℒ(𝐑2 ) is defined by
+𝑇𝑣 = 2⟨𝑣, 𝑒1 ⟩𝑒1 + ⟨𝑣, 𝑒2 ⟩𝑒2 , where 𝑒1 , 𝑒2 is the
+standard basis of 𝐑2 . This linear map stretches
+vectors along the 𝑒1 -axis by a factor of 2 and
+leaves vectors along the 𝑒2 -axis unchanged.
+The ball approximated by five boxes above Each box here has twice the width
+gets mapped by 𝑇 to the ellipsoid shown here. and the same height as the boxes in
+Each of the five boxes in the original figure          the previous figure.
+gets mapped to a box of twice the width and the same height as in the original
+figure. Hence each box gets mapped to a box of twice the volume (area) as in the
+original figure. The sum of the volumes of the five new boxes approximates the
+volume of the ellipsoid. Thus 𝑇 changes the volume of the ball by a factor of 2.
+
+    In the example above, 𝑇 maps boxes with respect to the basis 𝑒1 , 𝑒2 to boxes
+with respect to the same basis; thus we can see how 𝑇 changes volume. In general,
+an operator maps boxes to parallelepipeds that are not boxes. However, if we
+choose the right basis (coming from the singular value decomposition!), then
+boxes with respect to that basis get mapped to boxes with respect to a possibly
+different basis, as shown in 7.107. This observation leads to a natural proof of
+the following result.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+         Section 7F     Consequences of Singular Value Decomposition            293
+
+
+ 7.111    volume changes by a factor of the product of the singular values
+
+ Suppose 𝐅 = 𝐑 , 𝑇 ∈ ℒ(𝑉) is invertible, and Ω ⊆ 𝑉. Then
+
+         volume 𝑇(Ω) = (product of singular values of 𝑇)(volume Ω).
+
+Proof    Suppose 𝑇 has singular value decomposition
+                        𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑛 ⟨𝑣, 𝑒𝑛 ⟩ 𝑓𝑛
+for all 𝑣 ∈ 𝑉, where 𝑒1 , … , 𝑒𝑛 and 𝑓1 , … , 𝑓𝑛 are orthonormal bases of 𝑉.
+    Approximate Ω by boxes of the form 𝑢 + 𝑃(𝑟1 𝑒1 , … , 𝑟𝑛 𝑒𝑛 ), which have volume
+𝑟1 × ⋯ × 𝑟𝑛 . The operator 𝑇 maps each box 𝑢 + 𝑃(𝑟1 𝑒1 , … , 𝑟𝑛 𝑒𝑛 ) onto the box
+𝑇𝑢 + 𝑃(𝑟1 𝑠1 𝑓1 , … , 𝑟𝑛 𝑠𝑛 𝑓𝑛 ), which has volume (𝑠1 × ⋯ × 𝑠𝑛 )(𝑟1 × ⋯ × 𝑟𝑛 ).
+    The operator 𝑇 maps a collection of boxes that approximate Ω onto a collection
+of boxes that approximate 𝑇(Ω). Because 𝑇 changes the volume of each box in a
+collection that approximates Ω by a factor of 𝑠1 × ⋯ × 𝑠𝑛 , the linear map 𝑇 changes
+the volume of Ω by the same factor.
+
+    Suppose 𝑇 ∈ ℒ(𝑉). As we will see when we get to determinants, the product
+of the singular values of 𝑇 equals |det 𝑇|; see 9.60 and 9.61.
+
+Properties of an Operator as Determined by Its Eigenvalues
+We conclude this chapter by presenting the table below. The context of this
+table is a finite-dimensional complex inner product space. The first column of
+the table shows a property that a normal operator on such a space might have.
+The second column of the table shows a subset of 𝐂 such that the operator has
+the corresponding property if and only if all eigenvalues of the operator lie in
+the specified subset. For example, the first row of the table states that a normal
+operator is invertible if and only if all its eigenvalues are nonzero (this first row
+is the only one in the table that does not need the hypothesis that the operator is
+normal).
+    Make sure you can explain why all results in the table hold. For example,
+the last row of the table holds because the norm of an operator equals its largest
+singular value (by 7.85) and the singular values of a normal operator, assuming
+𝐅 = 𝐂 , equal the absolute values of the eigenvalues (by Exercise 7 in Section 7E).
+
+        properties of a normal operator         eigenvalues are contained in
+        invertible                              𝐂\{0}
+        self-adjoint                            𝐑
+        skew                                    {𝜆 ∈ 𝐂 ∶ Re 𝜆 = 0}
+        orthogonal projection                   {0, 1}
+        positive                                [0, ∞)
+        unitary                                 {𝜆 ∈ 𝐂 ∶ |𝜆| = 1}
+        norm is less than 1                     {𝜆 ∈ 𝐂 ∶ |𝜆| < 1}
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+294      Chapter 7     Operators on Inner Product Spaces
+
+Exercises 7F
+
+ 1    Prove that if 𝑆, 𝑇 ∈ ℒ(𝑉, 𝑊), then ∣ ‖𝑆‖ − ‖𝑇‖ ∣ ≤ ‖𝑆 − 𝑇‖.
+         The inequality above is called the reverse triangle inequality.
+
+ 2    Suppose that 𝑇 ∈ ℒ(𝑉) is self-adjoint or that 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉) is
+      normal. Prove that
+                       ‖𝑇‖ = max{|𝜆| ∶ 𝜆 is an eigenvalue of 𝑇}.
+ 3    Suppose 𝑇 ∈ ℒ(𝑉, 𝑊) and 𝑣 ∈ 𝑉 . Prove that
+                          ‖𝑇𝑣‖ = ‖𝑇‖ ‖𝑣‖ ⟺ 𝑇 ∗ 𝑇𝑣 = ‖𝑇‖2 𝑣.
+ 4    Suppose 𝑇 ∈ ℒ(𝑉, 𝑊), 𝑣 ∈ 𝑉, and ‖𝑇𝑣‖ = ‖𝑇‖ ‖𝑣‖. Prove that if 𝑢 ∈ 𝑉 and
+      ⟨𝑢, 𝑣⟩ = 0, then ⟨𝑇𝑢, 𝑇𝑣⟩ = 0.
+ 5    Suppose 𝑈 is a finite-dimensional inner product space, 𝑇 ∈ ℒ(𝑉, 𝑈), and
+      𝑆 ∈ ℒ(𝑈 , 𝑊). Prove that
+                                      ‖𝑆𝑇‖ ≤ ‖𝑆‖ ‖𝑇‖.
+ 6    Prove or give a counterexample: If 𝑆, 𝑇 ∈ ℒ(𝑉), then ‖𝑆𝑇‖ = ‖𝑇𝑆‖.
+ 7    Show that defining 𝑑(𝑆, 𝑇) = ‖𝑆 − 𝑇‖ for 𝑆, 𝑇 ∈ ℒ(𝑉, 𝑊) makes 𝑑 a metric
+      on ℒ(𝑉, 𝑊).
+         This exercise is intended for readers who are familiar with metric spaces.
+
+ 8    (a) Prove that if 𝑇 ∈ ℒ(𝑉) and ‖𝐼 − 𝑇‖ < 1, then 𝑇 is invertible.
+      (b) Suppose that 𝑆 ∈ ℒ(𝑉) is invertible. Prove that if 𝑇 ∈ ℒ(𝑉) and
+          ‖𝑆 − 𝑇‖ < 1/∥𝑆−1 ∥, then 𝑇 is invertible.
+         This exercise shows that the set of invertible operators in ℒ(𝑉) is an open
+         subset of ℒ(𝑉), using the metric defined in Exercise 7.
+
+ 9    Suppose 𝑇 ∈ ℒ(𝑉). Prove that for every 𝜖 > 0, there exists an invertible
+      operator 𝑆 ∈ ℒ(𝑉) such that 0 < ‖𝑇 − 𝑆‖ < 𝜖.
+10    Suppose dim 𝑉 > 1 and 𝑇 ∈ ℒ(𝑉) is not invertible. Prove that for every
+      𝜖 > 0, there exists 𝑆 ∈ ℒ(𝑉) such that 0 < ‖𝑇 − 𝑆‖ < 𝜖 and 𝑆 is not
+      invertible.
+11    Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Prove that for every 𝜖 > 0 there exists a
+      diagonalizable operator 𝑆 ∈ ℒ(𝑉) such that 0 < ‖𝑇 − 𝑆‖ < 𝜖.
+
+12    Suppose 𝑇 ∈ ℒ(𝑉) is a positive operator. Show that ∥√𝑇 ∥ = √‖𝑇‖.
+13    Suppose 𝑆, 𝑇 ∈ ℒ(𝑉) are positive operators. Show that
+                          ‖𝑆 − 𝑇‖ ≤ max{‖𝑆‖, ‖𝑇‖} ≤ ‖𝑆 + 𝑇‖.
+14    Suppose 𝑈 and 𝑊 are subspaces of 𝑉 such that ‖𝑃𝑈 − 𝑃𝑊 ‖ < 1. Prove that
+      dim 𝑈 = dim 𝑊 .
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 7F     Consequences of Singular Value Decomposition                  295
+
+15   Define 𝑇 ∈ ℒ(𝐅3 ) by
+                              𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (𝑧3 , 2𝑧1 , 3𝑧2 ).
+
+     Find (explicitly) a unitary operator 𝑆 ∈ ℒ(𝐅3 ) such that 𝑇 = 𝑆√𝑇 ∗ 𝑇 .
+16   Suppose 𝑆 ∈ ℒ(𝑉) is a positive invertible operator. Prove that there exists
+     𝛿 > 0 such that 𝑇 is a positive operator for every self-adjoint operator
+     𝑇 ∈ ℒ(𝑉) with ‖𝑆 − 𝑇‖ < 𝛿.
+17   Prove that if 𝑢 ∈ 𝑉 and 𝜑𝑢 is the linear functional on 𝑉 defined by the
+     equation 𝜑𝑢 (𝑣) = ⟨𝑣, 𝑢⟩, then ‖𝜑𝑢 ‖ = ‖𝑢‖.
+        Here we are thinking of the scalar field 𝐅 as an inner product space with
+        ⟨𝛼, 𝛽⟩ = 𝛼𝛽 for all 𝛼, 𝛽 ∈ 𝐅. Thus ‖𝜑𝑢 ‖ means the norm of 𝜑𝑢 as a linear
+        map from 𝑉 to 𝐅.
+
+18   Suppose 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉 and 𝑇 ∈ ℒ(𝑉, 𝑊).
+     (a) Prove that max{‖𝑇𝑒1 ‖, … , ‖𝑇𝑒𝑛 ‖} ≤ ‖𝑇‖ ≤ (‖𝑇𝑒1 ‖2 + ⋯ + ‖𝑇𝑒𝑛 ‖2 )1/2.
+     (b) Prove that ‖𝑇‖ = (‖𝑇𝑒1 ‖2 + ⋯ + ‖𝑇𝑒𝑛 ‖2 )1/2 if and only if dim range 𝑇 ≤ 1.
+        Here 𝑒1 , … , 𝑒𝑛 is an arbitrary orthonormal basis of 𝑉, not necessarily
+        connected with a singular value decomposition of 𝑇. If 𝑠1 , … , 𝑠𝑛 is the list
+        of singular values of 𝑇 , then the right side of the inequality above equals
+        (𝑠12 + ⋯ + 𝑠𝑛2 ) , as was shown in Exercise 11(a) in Section 7E.
+                        1/2
+
+
+19   Prove that if 𝑇 ∈ ℒ(𝑉, 𝑊), then ∥𝑇 ∗ 𝑇∥ = ‖𝑇‖2.
+        This formula for ∥𝑇 ∗ 𝑇∥ leads to the important subject of 𝐶∗ -algebras.
+
+20   Suppose 𝑇 ∈ ℒ(𝑉) is normal. Prove that ∥𝑇 𝑘 ∥ = ‖𝑇‖𝑘 for every positive
+     integer 𝑘 .
+21   Suppose dim 𝑉 > 1 and dim 𝑊 > 1. Prove that the norm on ℒ(𝑉, 𝑊) does
+     not come from an inner product. In other words, prove that there does not
+     exist an inner product on ℒ(𝑉, 𝑊) such that
+
+                      max{‖𝑇𝑣‖ ∶ 𝑣 ∈ 𝑉 and ‖𝑣‖ ≤ 1} = √⟨𝑇 , 𝑇⟩
+     for all 𝑇 ∈ ℒ(𝑉, 𝑊).
+22   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Let 𝑛 = dim 𝑉 and let 𝑠1 ≥ ⋯ ≥ 𝑠𝑛 denote the
+     singular values of 𝑇. Prove that if 1 ≤ 𝑘 ≤ 𝑛, then
+           min{‖𝑇|𝑈 ‖ ∶ 𝑈 is a subspace of 𝑉 with dim 𝑈 = 𝑘} = 𝑠𝑛−𝑘+1 .
+23   Suppose 𝑇 ∈ ℒ(𝑉, 𝑊). Show that 𝑇 is uniformly continuous with respect
+     to the metrics on 𝑉 and 𝑊 that arise from the norms on those spaces (see
+     Exercise 23 in Section 6B).
+24   Suppose 𝑇 ∈ ℒ(𝑉) is invertible. Prove that
+                                       𝑇
+                 ∥𝑇 −1 ∥ = ‖𝑇‖−1 ⟺        is a unitary operator.
+                                      ‖𝑇‖
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+296      Chapter 7     Operators on Inner Product Spaces
+
+25    Fix 𝑢, 𝑥 ∈ 𝑉 with 𝑢 ≠ 0. Define 𝑇 ∈ ℒ(𝑉) by 𝑇𝑣 = ⟨𝑣, 𝑢⟩𝑥 for every
+      𝑣 ∈ 𝑉. Prove that
+                                        ‖𝑥‖
+                              √𝑇 ∗ 𝑇𝑣 =     ⟨𝑣, 𝑢⟩𝑢
+                                        ‖𝑢‖
+      for every 𝑣 ∈ 𝑉.
+26    Suppose 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is invertible if and only if there exists a
+      unique unitary operator 𝑆 ∈ ℒ(𝑉) such that 𝑇 = 𝑆√𝑇 ∗ 𝑇 .
+27    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑠1 , … , 𝑠𝑛 are the singular values of 𝑇. Let 𝑒1 , … , 𝑒𝑛
+      and 𝑓1 , … , 𝑓𝑛 be orthonormal bases of 𝑉 such that
+                           𝑇𝑣 = 𝑠1 ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + 𝑠𝑛 ⟨𝑣, 𝑒𝑛 ⟩ 𝑓𝑛
+      for all 𝑣 ∈ 𝑉. Define 𝑆 ∈ ℒ(𝑉) by
+                             𝑆𝑣 = ⟨𝑣, 𝑒1 ⟩ 𝑓1 + ⋯ + ⟨𝑣, 𝑒𝑛 ⟩ 𝑓𝑛 .
+      (a) Show that 𝑆 is unitary and ‖𝑇 − 𝑆‖ = max{|𝑠1 − 1|, … , |𝑠𝑛 − 1|}.
+      (b) Show that if 𝐸 ∈ ℒ(𝑉) is unitary, then ‖𝑇 − 𝐸‖ ≥ ‖𝑇 − 𝑆‖.
+         This exercise finds a unitary operator 𝑆 that is as close as possible (among
+         the unitary operators) to a given operator 𝑇.
+
+28    Suppose 𝑇 ∈ ℒ(𝑉). Prove that there exists a unitary operator 𝑆 ∈ ℒ(𝑉)
+      such that 𝑇 = √𝑇𝑇 ∗ 𝑆.
+29    Suppose 𝑇 ∈ ℒ(𝑉).
+      (a) Use the polar decomposition to show that there exists a unitary operator
+          𝑆 ∈ ℒ(𝑉) such that 𝑇𝑇 ∗ = 𝑆𝑇 ∗ 𝑇𝑆∗.
+      (b) Show how (a) implies that 𝑇 and 𝑇 ∗ have the same singular values.
+
+30    Suppose 𝑇 ∈ ℒ(𝑉), 𝑆 ∈ ℒ(𝑉) is a unitary operator, and 𝑅 ∈ ℒ(𝑉) is a
+      positive operator such that 𝑇 = 𝑆𝑅. Prove that 𝑅 = √𝑇 ∗ 𝑇 .
+         This exercise shows that if we write 𝑇 as the product of a unitary operator
+         and a positive operator (as in the polar decomposition 7.93), then the
+         positive operator equals √𝑇 ∗ 𝑇 .
+
+31    Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉) is normal. Prove that there exists a unitary
+      operator 𝑆 ∈ ℒ(𝑉) such that 𝑇 = 𝑆√𝑇 ∗ 𝑇 and such that 𝑆 and √𝑇 ∗ 𝑇 both
+      have diagonal matrices with respect to the same orthonormal basis of 𝑉.
+32    Suppose that 𝑇 ∈ ℒ(𝑉, 𝑊) and 𝑇 ≠ 0. Let 𝑠1 , … , 𝑠𝑚 denote the positive
+      singular values of 𝑇. Show that there exists an orthonormal basis 𝑒1 , … , 𝑒𝑚
+      of (null 𝑇)⟂ such that
+                                        𝑒1      𝑒𝑚
+                                  𝑇(𝐸( , … , ))
+                                        𝑠1      𝑠𝑚
+      equals the ball in range 𝑇 of radius 1 centered at 0.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                     Chapter 8
+ Operators on Complex Vector Spaces
+
+
+In this chapter we delve deeper into the structure of operators, with most of the
+attention on complex vector spaces. Some of the results in this chapter apply to
+both real and complex vector spaces; thus we do not make a standing assumption
+that 𝐅 = 𝐂 . Also, an inner product does not help with this material, so we return
+to the general setting of a finite-dimensional vector space.
+    Even on a finite-dimensional complex vector space, an operator may not have
+enough eigenvectors to form a basis of the vector space. Thus we will consider the
+closely related objects called generalized eigenvectors. We will see that for each
+operator on a finite-dimensional complex vector space, there is a basis of the vector
+space consisting of generalized eigenvectors of the operator. The generalized
+eigenspace decomposition then provides a good description of arbitrary operators
+on a finite-dimensional complex vector space.
+    Nilpotent operators, which are operators that when raised to some power
+equal 0, have an important role in these investigations. Nilpotent operators provide
+a key tool in our proof that every invertible operator on a finite-dimensional
+complex vector space has a square root and in our approach to Jordan form.
+    This chapter concludes by defining the trace and proving its key properties.
+
+    standing assumptions for this chapter
+
+ • 𝐅 denotes 𝐑 or 𝐂 .
+ • 𝑉 denotes a finite-dimensional nonzero vector space over 𝐅.
+
+
+
+
+                                                                                 David Iliff CC BY-SA
+
+
+
+
+The Long Room of the Old Library at the University of Dublin, where William Hamilton
+(1805–1865) was a student and then a faculty member. Hamilton proved a special case
+            of what we now call the Cayley–Hamilton theorem in 1853.
+                                                                                 297
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+298      Chapter 8     Operators on Complex Vector Spaces
+
+8A Generalized Eigenvectors and Nilpotent Operators
+Null Spaces of Powers of an Operator
+We begin this chapter with a study of null spaces of powers of an operator.
+
+ 8.1    sequence of increasing null spaces
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then
+
+           {0} = null 𝑇 0 ⊆ null 𝑇 1 ⊆ ⋯ ⊆ null 𝑇 𝑘 ⊆ null 𝑇 𝑘+1 ⊆ ⋯ .
+
+Proof    Suppose 𝑘 is a nonnegative integer and 𝑣 ∈ null 𝑇 𝑘. Then 𝑇 𝑘 𝑣 = 0,
+which implies that 𝑇 𝑘+1 𝑣 = 𝑇(𝑇 𝑘 𝑣) = 𝑇(0) = 0. Thus 𝑣 ∈ null 𝑇 𝑘+1. Hence
+null 𝑇 𝑘 ⊆ null 𝑇 𝑘+1, as desired.
+
+   The following result states that if two      For similar results about decreasing
+consecutive terms in the sequence of sub-       sequences of ranges, see Exercises 6,
+spaces above are equal, then all later          7, and 8.
+terms in the sequence are equal.
+
+ 8.2    equality in the sequence of null spaces
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑚 is a nonnegative integer such that
+
+                                null 𝑇 𝑚 = null 𝑇 𝑚+1.
+
+ Then
+              null 𝑇 𝑚 = null 𝑇 𝑚+1 = null 𝑇 𝑚+2 = null 𝑇 𝑚+3 = ⋯ .
+
+Proof   Let 𝑘 be a positive integer. We want to prove that
+
+                              null 𝑇 𝑚+𝑘 = null 𝑇 𝑚+𝑘+1.
+
+We already know from 8.1 that null 𝑇 𝑚+𝑘 ⊆ null 𝑇 𝑚+𝑘+1.
+  To prove the inclusion in the other direction, suppose 𝑣 ∈ null 𝑇 𝑚+𝑘+1. Then
+
+                            𝑇 𝑚+1 (𝑇 𝑘 𝑣) = 𝑇 𝑚+𝑘+1 𝑣 = 0.
+
+Hence
+                            𝑇 𝑘 𝑣 ∈ null 𝑇 𝑚+1 = null 𝑇 𝑚.
+Thus 𝑇 𝑚+𝑘 𝑣 = 𝑇 𝑚 (𝑇 𝑘 𝑣) = 0, which means that 𝑣 ∈ null 𝑇 𝑚+𝑘. This implies that
+null 𝑇 𝑚+𝑘+1 ⊆ null 𝑇 𝑚+𝑘, completing the proof.
+
+    The result above raises the question of whether there exists a nonnegative
+integer 𝑚 such that null 𝑇 𝑚 = null 𝑇 𝑚+1. The next result shows that this equality
+holds at least when 𝑚 equals the dimension of the vector space on which 𝑇
+operates.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 8A     Generalized Eigenvectors and Nilpotent Operators         299
+
+
+ 8.3     null spaces stop growing
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then
+
+                  null 𝑇 dim 𝑉 = null 𝑇 dim 𝑉 +1 = null 𝑇 dim 𝑉 +2 = ⋯ .
+
+Proof    We only need to prove that null 𝑇 dim 𝑉 = null 𝑇 dim 𝑉 +1 (by 8.2). Suppose
+this is not true. Then, by 8.1 and 8.2, we have
+
+             {0} = null 𝑇 0 ⊊ null 𝑇 1 ⊊ ⋯ ⊊ null 𝑇 dim 𝑉 ⊊ null 𝑇 dim 𝑉 +1,
+
+where the symbol ⊊ means “contained in but not equal to”. At each of the
+strict inclusions in the chain above, the dimension increases by at least 1. Thus
+dim null 𝑇 dim 𝑉 +1 ≥ dim 𝑉 + 1, a contradiction because a subspace of 𝑉 cannot
+have a larger dimension than dim 𝑉.
+
+   It is not true that 𝑉 = null 𝑇 ⊕ range 𝑇 for every 𝑇 ∈ ℒ(𝑉). However, the
+next result can be a useful substitute.
+
+ 8.4     𝑉 is the direct sum of null 𝑇 dim 𝑉 and range 𝑇 dim 𝑉
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then
+
+                            𝑉 = null 𝑇 dim 𝑉 ⊕ range 𝑇 dim 𝑉.
+
+Proof     Let 𝑛 = dim 𝑉. First we show that
+
+8.5                          (null 𝑇 𝑛 ) ∩ (range 𝑇 𝑛 ) = {0}.
+
+Suppose 𝑣 ∈ (null 𝑇 𝑛 ) ∩ (range 𝑇 𝑛 ). Then 𝑇 𝑛 𝑣 = 0, and there exists 𝑢 ∈ 𝑉
+such that 𝑣 = 𝑇 𝑛 𝑢. Applying 𝑇 𝑛 to both sides of the last equation shows that
+𝑇 𝑛 𝑣 = 𝑇 2𝑛 𝑢. Hence 𝑇 2𝑛 𝑢 = 0, which implies that 𝑇 𝑛 𝑢 = 0 (by 8.3). Thus
+𝑣 = 𝑇 𝑛 𝑢 = 0, completing the proof of 8.5.
+     Now 8.5 implies that null 𝑇 𝑛 + range 𝑇 𝑛 is a direct sum (by 1.46). Also,
+
+          dim(null 𝑇 𝑛 ⊕ range 𝑇 𝑛 ) = dim null 𝑇 𝑛 + dim range 𝑇 𝑛 = dim 𝑉,
+
+where the first equality above comes from 3.94 and the second equality comes
+from the fundamental theorem of linear maps (3.21). The equation above implies
+that null 𝑇 𝑛 ⊕ range 𝑇 𝑛 = 𝑉 (see 2.39), as desired.
+
+      For an improvement of the result above, see Exercise 19.
+
+ 8.6 example: 𝐅3 = null 𝑇 3 ⊕ range 𝑇 3 for 𝑇 ∈ ℒ(𝐅3 )
+
+      Suppose 𝑇 ∈ ℒ(𝐅3 ) is defined by
+
+                              𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (4𝑧2 , 0, 5𝑧3 ).
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+300      Chapter 8     Operators on Complex Vector Spaces
+
+Then null 𝑇 = {(𝑧1 , 0, 0) ∶ 𝑧1 ∈ 𝐅} and range 𝑇 = {(𝑧1 , 0, 𝑧3 ) ∶ 𝑧1 , 𝑧3 ∈ 𝐅}. Thus
+null 𝑇 ∩ range 𝑇 ≠ {0}. Hence null 𝑇 + range 𝑇 is not a direct sum. Also note
+that null 𝑇 + range 𝑇 ≠ 𝐅3. However, we have 𝑇 3 (𝑧1 , 𝑧2 , 𝑧3 ) = (0, 0, 125𝑧3 ). Thus
+we see that
+  null 𝑇 3 = {(𝑧1 , 𝑧2 , 0) ∶ 𝑧1 , 𝑧2 ∈ 𝐅} and    range 𝑇 3 = {(0, 0, 𝑧3 ) ∶ 𝑧3 ∈ 𝐅}.
+Hence 𝐅3 = null 𝑇 3 ⊕ range 𝑇 3, as expected by 8.4.
+
+
+Generalized Eigenvectors
+Some operators do not have enough eigenvectors to lead to good descriptions of
+their behavior. Thus in this subsection we introduce the concept of generalized
+eigenvectors, which will play a major role in our description of the structure of an
+operator.
+    To understand why we need more than eigenvectors, let’s examine the question
+of describing an operator by decomposing its domain into invariant subspaces. Fix
+𝑇 ∈ ℒ(𝑉). We seek to describe 𝑇 by finding a “nice” direct sum decomposition
+                                 𝑉 = 𝑉1 ⊕ ⋯ ⊕ 𝑉𝑛 ,
+where each 𝑉𝑘 is a subspace of 𝑉 invariant under 𝑇. The simplest possible nonzero
+invariant subspaces are one-dimensional. A decomposition as above in which
+each 𝑉𝑘 is a one-dimensional subspace of 𝑉 invariant under 𝑇 is possible if and
+only if 𝑉 has a basis consisting of eigenvectors of 𝑇 (see 5.55). This happens if
+and only if 𝑉 has an eigenspace decomposition
+8.7                       𝑉 = 𝐸(𝜆1 , 𝑇) ⊕ ⋯ ⊕ 𝐸(𝜆𝑚 , 𝑇),
+where 𝜆1 , … , 𝜆𝑚 are the distinct eigenvalues of 𝑇 (see 5.55).
+    The spectral theorem in the previous chapter shows that if 𝑉 is an inner product
+space, then a decomposition of the form 8.7 holds for every self-adjoint operator
+if 𝐅 = 𝐑 and for every normal operator if 𝐅 = 𝐂 because operators of those types
+have enough eigenvectors to form a basis of 𝑉 (see 7.29 and 7.31).
+    However, a decomposition of the form 8.7 may not hold for more general
+operators, even on a complex vector space. An example was given by the operator
+in 5.57, which does not have enough eigenvectors for 8.7 to hold. Generalized
+eigenvectors and generalized eigenspaces, which we now introduce, will remedy
+this situation.
+
+ 8.8 definition: generalized eigenvector
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 is an eigenvalue of 𝑇. A vector 𝑣 ∈ 𝑉 is called a
+ generalized eigenvector of 𝑇 corresponding to 𝜆 if 𝑣 ≠ 0 and
+
+                                   (𝑇 − 𝜆𝐼)𝑘 𝑣 = 0
+
+ for some positive integer 𝑘 .
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 8A   Generalized Eigenvectors and Nilpotent Operators                 301
+
+    A nonzero vector 𝑣 ∈ 𝑉 is a general-        Generalized eigenvalues are not de-
+ized eigenvector of 𝑇 corresponding to 𝜆        fined because doing so would not lead
+if and only if                                  to anything new. Reason: if (𝑇 − 𝜆𝐼)𝑘
+                                                is not injective for some positive inte-
+           (𝑇 − 𝜆𝐼)dim 𝑉 𝑣 = 0,
+                                                ger 𝑘 , then 𝑇 − 𝜆𝐼 is not injective, and
+as follows from applying 8.1 and 8.3 to         hence 𝜆 is an eigenvalue of 𝑇.
+the operator 𝑇 − 𝜆𝐼 .
+    As we know, an operator on a complex vector space may not have enough
+eigenvectors to form a basis of the domain. The next result shows that on a
+complex vector space there are enough generalized eigenvectors to do this.
+
+ 8.9    a basis of generalized eigenvectors
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Then there is a basis of 𝑉 consisting of
+ generalized eigenvectors of 𝑇.
+
+Proof   Let 𝑛 = dim 𝑉. We will use induction on 𝑛. To get started, note that
+the desired result holds if 𝑛 = 1 because then every nonzero vector in 𝑉 is an
+eigenvector of 𝑇.
+    Now suppose 𝑛 > 1 and the de- This step is where we use the hypothesis
+sired result holds for all smaller values that 𝐅 = 𝐂 , because if 𝐅 = 𝐑 then 𝑇
+of dim 𝑉. Let 𝜆 be an eigenvalue of 𝑇. may not have any eigenvalues.
+Applying 8.4 to 𝑇 − 𝜆𝐼 shows that
+
+                      𝑉 = null(𝑇 − 𝜆𝐼)𝑛 ⊕ range(𝑇 − 𝜆𝐼)𝑛.
+
+    If null(𝑇 − 𝜆𝐼)𝑛 = 𝑉, then every nonzero vector in 𝑉 is a generalized eigen-
+vector of 𝑇 , and thus in this case there is a basis of 𝑉 consisting of generalized
+eigenvectors of 𝑇. Hence we can assume that null(𝑇 − 𝜆𝐼)𝑛 ≠ 𝑉, which implies
+that range(𝑇 − 𝜆𝐼)𝑛 ≠ {0}.
+    Also, null(𝑇 − 𝜆𝐼)𝑛 ≠ {0}, because 𝜆 is an eigenvalue of 𝑇. Thus we have
+
+                           0 < dim range(𝑇 − 𝜆𝐼)𝑛 < 𝑛.
+
+Furthermore, range(𝑇 − 𝜆𝐼)𝑛 is invariant under 𝑇 [by 5.18 with 𝑝(𝑧) = (𝑧 − 𝜆)𝑛 ].
+Let 𝑆 ∈ ℒ(range(𝑇 − 𝜆𝐼)𝑛 ) equal 𝑇 restricted to range(𝑇 − 𝜆𝐼)𝑛. Our induction
+hypothesis applied to the operator 𝑆 implies that there is a basis of range(𝑇 − 𝜆𝐼)𝑛
+consisting of generalized eigenvectors of 𝑆, which of course are generalized
+eigenvectors of 𝑇. Adjoining that basis of range(𝑇−𝜆𝐼)𝑛 to a basis of null(𝑇−𝜆𝐼)𝑛
+gives a basis of 𝑉 consisting of generalized eigenvectors of 𝑇.
+
+   If 𝐅 = 𝐑 and dim 𝑉 > 1, then some operators on 𝑉 have the property that
+there exists a basis of 𝑉 consisting of generalized eigenvectors of the operator,
+and (unlike what happens when 𝐅 = 𝐂 ) other operators do not have this property.
+See Exercise 11 for a necessary and sufficient condition that determines whether
+an operator has this property.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+302       Chapter 8     Operators on Complex Vector Spaces
+
+
+
+ 8.10 example: generalized eigenvectors of an operator on 𝐂3
+
+      Define 𝑇 ∈ ℒ(𝐂3 ) by
+                             𝑇(𝑧1 , 𝑧2 , 𝑧3 ) = (4𝑧2 , 0, 5𝑧3 )
+for each (𝑧1 , 𝑧2 , 𝑧3 ) ∈ 𝐂3. A routine use of the definition of eigenvalue shows that
+the eigenvalues of 𝑇 are 0 and 5. Furthermore, the eigenvectors corresponding to
+the eigenvalue 0 are the nonzero vectors of the form (𝑧1 , 0, 0), and the eigenvectors
+corresponding to the eigenvalue 5 are the nonzero vectors of the form (0, 0, 𝑧3 ).
+Hence this operator does not have enough eigenvectors to span its domain 𝐂3.
+    We compute that 𝑇 3 (𝑧1 , 𝑧2 , 𝑧3 ) = (0, 0, 125𝑧3 ). Thus 8.1 and 8.3 imply that the
+generalized eigenvectors of 𝑇 corresponding to the eigenvalue 0 are the nonzero
+vectors of the form (𝑧1 , 𝑧2 , 0).
+    We also have (𝑇 − 5𝐼)3 (𝑧1 , 𝑧2 , 𝑧3 ) = (−125𝑧1 + 300𝑧2 , −125𝑧2 , 0). Thus the
+generalized eigenvectors of 𝑇 corresponding to the eigenvalue 5 are the nonzero
+vectors of the form (0, 0, 𝑧3 ).
+    The paragraphs above show that each of the standard basis vectors of 𝐂3 is a
+generalized eigenvector of 𝑇. Thus 𝐂3 indeed has a basis consisting of generalized
+eigenvectors of 𝑇, as promised by 8.9.
+
+    If 𝑣 is an eigenvector of 𝑇 ∈ ℒ(𝑉), then the corresponding eigenvalue 𝜆 is
+uniquely determined by the equation 𝑇𝑣 = 𝜆𝑣, which can be satisfied by only one
+𝜆 ∈ 𝐅 (because 𝑣 ≠ 0). However, if 𝑣 is a generalized eigenvector of 𝑇 , then it
+is not obvious that the equation (𝑇 − 𝜆𝐼)dim 𝑉 𝑣 = 0 can be satisfied by only one
+𝜆 ∈ 𝐅. Fortunately, the next result tells us that all is well on this issue.
+
+ 8.11     generalized eigenvector corresponds to a unique eigenvalue
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then each generalized eigenvector of 𝑇 corresponds to
+ only one eigenvalue of 𝑇.
+
+Proof Suppose 𝑣 ∈ 𝑉 is a generalized eigenvector of 𝑇 corresponding to eigen-
+values 𝛼 and 𝜆 of 𝑇. Let 𝑚 be the smallest positive integer such that (𝑇−𝛼𝐼)𝑚 𝑣 = 0.
+Let 𝑛 = dim 𝑉. Then
+                          0 = (𝑇 − 𝜆𝐼)𝑛 𝑣
+                                                           𝑛
+                             = ((𝑇 − 𝛼𝐼) + (𝛼 − 𝜆)𝐼) 𝑣
+                                𝑛
+                             = ∑ 𝑏𝑘 (𝛼 − 𝜆)𝑛−𝑘 (𝑇 − 𝛼𝐼)𝑘 𝑣,
+                               𝑘=0
+
+where 𝑏0 = 1 and the values of the other binomial coefficients 𝑏𝑘 do not matter.
+Apply the operator (𝑇 − 𝛼𝐼)𝑚−1 to both sides of the equation above, getting
+                             0 = (𝛼 − 𝜆)𝑛 (𝑇 − 𝛼𝐼)𝑚−1 𝑣.
+Because (𝑇 − 𝛼𝐼)𝑚−1 𝑣 ≠ 0, the equation above implies that 𝛼 = 𝜆, as desired.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 8A    Generalized Eigenvectors and Nilpotent Operators           303
+
+   We saw earlier (5.11) that eigenvectors corresponding to distinct eigenvalues
+are linearly independent. Now we prove a similar result for generalized eigen-
+vectors, with a proof that roughly follows the pattern of the proof of that earlier
+result.
+
+ 8.12    linearly independent generalized eigenvectors
+
+ Suppose that 𝑇 ∈ ℒ(𝑉). Then every list of generalized eigenvectors of 𝑇
+ corresponding to distinct eigenvalues of 𝑇 is linearly independent.
+
+Proof     Suppose the desired result is false. Then there exists a smallest positive
+integer 𝑚 such that there exists a linearly dependent list 𝑣1 , … , 𝑣𝑚 of generalized
+eigenvectors of 𝑇 corresponding to distinct eigenvalues 𝜆1 , … , 𝜆𝑚 of 𝑇 (note that
+𝑚 ≥ 2 because a generalized eigenvector is, by definition, nonzero). Thus there
+exist 𝑎1 , … , 𝑎𝑚 ∈ 𝐅, none of which are 0 (because of the minimality of 𝑚), such
+that
+                               𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 = 0.
+   Let 𝑛 = dim 𝑉. Apply (𝑇 − 𝜆𝑚 𝐼)𝑛 to both sides of the equation above, getting
+8.13            𝑎1 (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣1 + ⋯ + 𝑎𝑚−1 (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣𝑚−1 = 0.
+Suppose 𝑘 ∈ {1, … , 𝑚 − 1}. Then
+                                  (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣𝑘 ≠ 0
+because otherwise 𝑣𝑘 would be a generalized eigenvector of 𝑇 corresponding to
+the distinct eigenvalues 𝜆𝑘 and 𝜆𝑚 , which would contradict 8.11. However,
+          (𝑇 − 𝜆𝑘 𝐼)𝑛 ((𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣𝑘 ) = (𝑇 − 𝜆𝑚 𝐼)𝑛 ((𝑇 − 𝜆𝑘 𝐼)𝑛 𝑣𝑘 ) = 0.
+   Thus the last two displayed equations show that (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣𝑘 is a generalized
+eigenvector of 𝑇 corresponding to the eigenvalue 𝜆𝑘 . Hence
+                         (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣1 , … , (𝑇 − 𝜆𝑚 𝐼)𝑛 𝑣𝑚−1
+is a linearly dependent list (by 8.13) of 𝑚 − 1 generalized eigenvectors correspond-
+ing to distinct eigenvalues, contradicting the minimality of 𝑚. This contradiction
+completes the proof.
+
+
+Nilpotent Operators
+
+ 8.14 definition: nilpotent
+
+ An operator is called nilpotent if some power of it equals 0.
+
+   Thus an operator 𝑇 ∈ ℒ(𝑉) is nilpotent if and only if every nonzero vector in
+𝑉 is a generalized eigenvector of 𝑇 corresponding to the eigenvalue 0.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+304       Chapter 8     Operators on Complex Vector Spaces
+
+
+
+ 8.15 example: nilpotent operators
+
+(a) The operator 𝑇 ∈ ℒ(𝐅4 ) defined by
+
+                              𝑇(𝑧1 , 𝑧2 , 𝑧3 , 𝑧4 ) = (0, 0, 𝑧1 , 𝑧2 )
+
+      is nilpotent because 𝑇 2 = 0.
+(b) The operator on 𝐅3 whose matrix (with respect to the standard basis) is
+                                        −3       9    0
+                                      ⎛
+                                      ⎜                  ⎞
+                                      ⎜
+                                      ⎜ −7       9     6 ⎟
+                                                         ⎟
+                                                         ⎟
+                                      ⎝ 4        0    −6 ⎠
+
+      is nilpotent, as can be shown by cubing the matrix above to get the zero matrix.
+(c) The operator of differentiation on 𝒫𝑚 (𝐑) is nilpotent because the (𝑚 + 1)th
+    derivative of every polynomial of degree at most 𝑚 equals 0. Note that on
+    this space of dimension 𝑚 + 1, we need to raise the nilpotent operator to the
+    power 𝑚 + 1 to get the 0 operator.
+
+    The next result shows that when rais-            The Latin word nil means nothing or
+ing a nilpotent operator to a power, we              zero; the Latin word potens means
+never need to use a power higher than the            having power. Thus nilpotent literally
+dimension of the space. For a slightly               means having a power that is zero.
+stronger result, see Exercise 18.
+
+ 8.16     nilpotent operator raised to dimension of domain is 0
+
+ Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent. Then 𝑇 dim 𝑉 = 0.
+
+Proof  Because 𝑇 is nilpotent, there exists a positive integer 𝑘 such that 𝑇 𝑘 = 0.
+Thus null 𝑇 𝑘 = 𝑉. Now 8.1 and 8.3 imply that null 𝑇 dim 𝑉 = 𝑉. Thus 𝑇 dim 𝑉 = 0.
+
+
+ 8.17     eigenvalues of nilpotent operator
+
+ Suppose 𝑇 ∈ ℒ(𝑉).
+ (a) If 𝑇 is nilpotent, then 0 is an eigenvalue of 𝑇 and 𝑇 has no other
+     eigenvalues.
+ (b) If 𝐅 = 𝐂 and 0 is the only eigenvalue of 𝑇 , then 𝑇 is nilpotent.
+
+Proof
+(a) To prove (a), suppose 𝑇 is nilpotent. Hence there is a positive integer 𝑚 such
+    that 𝑇 𝑚 = 0. This implies that 𝑇 is not injective. Thus 0 is an eigenvalue
+    of 𝑇.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+        Section 8A    Generalized Eigenvectors and Nilpotent Operators          305
+
+    To show that 𝑇 has no other eigenvalues, suppose 𝜆 is an eigenvalue of 𝑇.
+    Then there exists a nonzero vector 𝑣 ∈ 𝑉 such that
+                                          𝜆𝑣 = 𝑇𝑣.
+    Repeatedly applying 𝑇 to both sides of this equation shows that
+                                      𝜆𝑚 𝑣 = 𝑇 𝑚 𝑣 = 0.
+    Thus 𝜆 = 0, as desired.
+(b) Suppose 𝐅 = 𝐂 and 0 is the only eigenvalue of 𝑇. By 5.27(b), the minimal
+    polynomial of 𝑇 equals 𝑧𝑚 for some positive integer 𝑚. Thus 𝑇 𝑚 = 0. Hence
+    𝑇 is nilpotent.
+
+    Exercise 23 shows that the hypothesis that 𝐅 = 𝐂 cannot be deleted in (b) of
+the result above.
+    Given an operator on 𝑉, we want to find a basis of 𝑉 such that the matrix of
+the operator with respect to this basis is as simple as possible, meaning that the
+matrix contains many 0’s. The next result shows that if 𝑇 is nilpotent, then we can
+choose a basis of 𝑉 such that the matrix of 𝑇 with respect to this basis has more
+than half of its entries equal to 0. Later in this chapter we will do even better.
+
+ 8.18     minimal polynomial and upper-triangular matrix of nilpotent operator
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Then the following are equivalent.
+ (a) 𝑇 is nilpotent.
+ (b) The minimal polynomial of 𝑇 is 𝑧𝑚 for some positive integer 𝑚.
+ (c) There is a basis of 𝑉 with respect to which the matrix of 𝑇 has the form
+
+                                      ⎛
+                                        0         ∗⎞
+                                      ⎜             ⎟
+                                      ⎜
+                                      ⎜      ⋱      ⎟,
+                                                    ⎟
+                                      ⎝ 0         0 ⎠
+
+        where all entries on and below the diagonal equal 0.
+
+Proof Suppose (a) holds, so 𝑇 is nilpotent. Thus there exists a positive integer
+𝑛 such that 𝑇 𝑛 = 0. Now 5.29 implies that 𝑧𝑛 is a polynomial multiple of the
+minimal polynomial of 𝑇. Thus the minimal polynomial of 𝑇 is 𝑧𝑚 for some
+positive integer 𝑚, proving that (a) implies (b).
+    Now suppose (b) holds, so the minimal polynomial of 𝑇 is 𝑧𝑚 for some positive
+integer 𝑚. This implies, by 5.27(a), that 0 (which is the only zero of 𝑧𝑚 ) is the
+only eigenvalue of 𝑇. This further implies, by 5.44, that there is a basis of 𝑉 with
+respect to which the matrix of 𝑇 is upper triangular. This also implies, by 5.41,
+that all entries on the diagonal of this matrix are 0, proving that (b) implies (c).
+    Now suppose (c) holds. Then 5.40 implies that 𝑇 dim 𝑉 = 0. Thus 𝑇 is nilpotent,
+proving that (c) implies (a).
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+306      Chapter 8     Operators on Complex Vector Spaces
+
+Exercises 8A
+
+ 1    Suppose 𝑇 ∈ ℒ(𝑉). Prove that if dim null 𝑇 4 = 8 and dim null 𝑇 6 = 9, then
+      dim null 𝑇 𝑚 = 9 for all integers 𝑚 ≥ 5.
+ 2    Suppose 𝑇 ∈ ℒ(𝑉), 𝑚 is a positive integer, 𝑣 ∈ 𝑉 , and 𝑇 𝑚−1 𝑣 ≠ 0 but
+      𝑇 𝑚 𝑣 = 0. Prove that 𝑣, 𝑇𝑣, 𝑇 2 𝑣, … , 𝑇 𝑚−1 𝑣 is linearly independent.
+         The result in this exercise is used in the proof of 8.45.
+
+ 3    Suppose 𝑇 ∈ ℒ(𝑉). Prove that
+                      𝑉 = null 𝑇 ⊕ range 𝑇 ⟺ null 𝑇 2 = null 𝑇.
+ 4    Suppose 𝑇 ∈ ℒ(𝑉), 𝜆 ∈ 𝐅, and 𝑚 is a positive integer such that the minimal
+      polynomial of 𝑇 is a polynomial multiple of (𝑧 − 𝜆)𝑚. Prove that
+                                  dim null(𝑇 − 𝜆𝐼)𝑚 ≥ 𝑚.
+ 5    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑚 is a positive integer. Prove that
+                                dim null 𝑇 𝑚 ≤ 𝑚 dim null 𝑇.
+         Hint: Exercise 21 in Section 3B may be useful.
+
+ 6    Suppose 𝑇 ∈ ℒ(𝑉). Show that
+           𝑉 = range 𝑇 0 ⊇ range 𝑇 1 ⊇ ⋯ ⊇ range 𝑇 𝑘 ⊇ range 𝑇 𝑘+1 ⊇ ⋯ .
+ 7    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑚 is a nonnegative integer such that
+                                  range 𝑇 𝑚 = range 𝑇 𝑚+1.
+      Prove that range 𝑇 𝑘 = range 𝑇 𝑚 for all 𝑘 > 𝑚.
+ 8    Suppose 𝑇 ∈ ℒ(𝑉). Prove that
+                 range 𝑇 dim 𝑉 = range 𝑇 dim 𝑉 +1 = range 𝑇 dim 𝑉 +2 = ⋯ .
+ 9    Suppose 𝑇 ∈ ℒ(𝑉) and 𝑚 is a nonnegative integer. Prove that
+                   null 𝑇 𝑚 = null 𝑇 𝑚+1 ⟺ range 𝑇 𝑚 = range 𝑇 𝑚+1.
+10    Define 𝑇 ∈ ℒ(𝐂2 ) by 𝑇(𝑤, 𝑧) = (𝑧, 0). Find all generalized eigenvectors
+      of 𝑇.
+11    Suppose that 𝑇 ∈ ℒ(𝑉). Prove that there is a basis of 𝑉 consisting of
+      generalized eigenvectors of 𝑇 if and only if the minimal polynomial of 𝑇
+      equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some 𝜆1 , … , 𝜆𝑚 ∈ 𝐅.
+         Assume 𝐅 = 𝐑 because the case 𝐅 = 𝐂 follows from 5.27(b) and 8.9.
+         This exercise states that the condition for there to be a basis of 𝑉 consisting
+         of generalized eigenvectors of 𝑇 is the same as the condition for there to be
+         a basis with respect to which 𝑇 has an upper-triangular matrix (see 5.44).
+         Caution: If 𝑇 has an upper-triangular matrix with respect to a basis
+         𝑣1 , … , 𝑣𝑛 of 𝑉, then 𝑣1 is an eigenvector of 𝑇 but it is not necessarily
+         true that 𝑣2 , … , 𝑣𝑛 are generalized eigenvectors of 𝑇.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+     Section 8A      Generalized Eigenvectors and Nilpotent Operators                  307
+
+12   Suppose 𝑇 ∈ ℒ(𝑉) is such that every nonzero vector in 𝑉 is a generalized
+     eigenvector of 𝑇. Prove that there exists 𝜆 ∈ 𝐅 such that 𝑇 − 𝜆𝐼 is nilpotent.
+13   Suppose 𝑆, 𝑇 ∈ ℒ(𝑉) and 𝑆𝑇 is nilpotent. Prove that 𝑇𝑆 is nilpotent.
+14   Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent and 𝑇 ≠ 0. Prove 𝑇 is not diagonalizable.
+15   Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Prove that 𝑇 is diagonalizable if and only if
+     every generalized eigenvector of 𝑇 is an eigenvector of 𝑇.
+        For 𝐅 = 𝐂 , this exercise adds another equivalence to the list of conditions
+        for diagonalizability in 5.55.
+
+16   (a) Give an example of nilpotent operators 𝑆, 𝑇 on the same vector space
+         such that neither 𝑆 + 𝑇 nor 𝑆𝑇 is nilpotent.
+     (b) Suppose 𝑆, 𝑇 ∈ ℒ(𝑉) are nilpotent and 𝑆𝑇 = 𝑇𝑆. Prove that 𝑆 + 𝑇 and
+         𝑆𝑇 are nilpotent.
+17   Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent and 𝑚 is a positive integer such that 𝑇 𝑚 = 0.
+     (a) Prove that 𝐼 − 𝑇 is invertible and that (𝐼 − 𝑇)−1 = 𝐼 + 𝑇 + ⋯ + 𝑇 𝑚−1.
+     (b) Explain how you would guess the formula above.
+18   Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent. Prove that 𝑇 1+dim range 𝑇 = 0.
+        If dim range 𝑇 < dim 𝑉 − 1, then this exercise improves 8.16.
+
+19   Suppose 𝑇 ∈ ℒ(𝑉) is not nilpotent. Show that
+                         𝑉 = null 𝑇 dim 𝑉−1 ⊕ range 𝑇 dim 𝑉−1.
+        For operators that are not nilpotent, this exercise improves 8.4.
+
+20   Suppose 𝑉 is an inner product space and 𝑇 ∈ ℒ(𝑉) is normal and nilpotent.
+     Prove that 𝑇 = 0.
+21   Suppose 𝑇 ∈ ℒ(𝑉) is such that null 𝑇 dim 𝑉−1 ≠ null 𝑇 dim 𝑉. Prove that 𝑇 is
+     nilpotent and that dim null 𝑇 𝑘 = 𝑘 for every integer 𝑘 with 0 ≤ 𝑘 ≤ dim 𝑉.
+22   Suppose 𝑇 ∈ ℒ(𝐂5 ) is such that range 𝑇 4 ≠ range 𝑇 5. Prove that 𝑇 is
+     nilpotent.
+23   Give an example of an operator 𝑇 on a finite-dimensional real vector space
+     such that 0 is the only eigenvalue of 𝑇 but 𝑇 is not nilpotent.
+        This exercise shows that (b) in 8.17 does not hold without the hypothesis
+        that 𝐅 = 𝐂 .
+
+24   For each item in Example 8.15, find a basis of the domain vector space such
+     that the matrix of the nilpotent operator with respect to that basis has the
+     upper-triangular form promised by 8.18(c).
+25   Suppose that 𝑉 is an inner product space and 𝑇 ∈ ℒ(𝑉) is nilpotent. Show
+     that there is an orthonormal basis of 𝑉 with respect to which the matrix of
+     𝑇 has the upper-triangular form promised by 8.18(c).
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+

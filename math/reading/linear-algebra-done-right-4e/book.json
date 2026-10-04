@@ -1,0 +1,330 @@
+{
+ "version": 1,
+ "slug": "linear-algebra-done-right-4e",
+ "title": "Linear Algebra Done Right — Proof Reading Module",
+ "author": "Sheldon Axler (source textbook); original module adaptation",
+ "edition": "Fourth edition; source PDF revised 16 August 2026",
+ "about": "An independently worded, proof-first adaptation following Sheldon Axler's Linear Algebra Done Right, fourth edition (https://linear.axler.net/LADR4e.pdf). The source is licensed under CC BY-NC 4.0 (https://creativecommons.org/licenses/by-nc/4.0/); this adaptation supplies rewritten exposition and proofs, recall cards, and original optional exercises.",
+ "macros": "\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\C}{\\mathbb{C}}\n\\newcommand{\\F}{\\mathbb{F}}\n\\newcommand{\\N}{\\mathbb{N}}\n\\newcommand{\\Z}{\\mathbb{Z}}\n\\newcommand{\\Poly}{\\mathcal{P}}\n\\newcommand{\\Lin}{\\mathcal{L}}\n\\newcommand{\\Mat}{\\mathcal{M}}\n\\newcommand{\\Bil}{\\mathcal{B}}\n\\newcommand{\\Alt}{\\mathcal{A}}\n\\newcommand{\\dual}[1]{{#1}^{\\prime}}\n\\newcommand{\\ip}[2]{\\left\\langle #1,#2\\right\\rangle}\n\\newcommand{\\norm}[1]{\\left\\lVert #1\\right\\rVert}\n\\newcommand{\\abs}[1]{\\left\\lvert #1\\right\\rvert}\n\\DeclareMathOperator{\\Span}{span}\n\\DeclareMathOperator{\\Null}{null}\n\\DeclareMathOperator{\\Range}{range}\n\\DeclareMathOperator{\\Rank}{rank}\n\\DeclareMathOperator{\\tr}{tr}\n\\DeclareMathOperator{\\sgn}{sgn}\n\\DeclareMathOperator{\\Vol}{volume}",
+ "chapters": [
+  {
+   "id": "c1",
+   "number": "1",
+   "title": "Vector Spaces",
+   "about": "Build scalar and coordinate arithmetic, vector spaces, subspaces, and direct sums.",
+   "requires": [],
+   "sections": [
+    {
+     "id": "1a",
+     "number": "1A",
+     "title": "Coordinates in $\\R^n$ and $\\C^n$"
+    },
+    {
+     "id": "1b",
+     "number": "1B",
+     "title": "Vector Space Axioms"
+    },
+    {
+     "id": "1c",
+     "number": "1C",
+     "title": "Subspaces and Their Sums"
+    },
+    {
+     "id": "1-exercises",
+     "number": "",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "c2",
+   "number": "2",
+   "title": "Finite-Dimensional Vector Spaces",
+   "about": "Develop spanning lists, independence, bases, and dimension.",
+   "requires": [
+    "c1"
+   ],
+   "sections": [
+    {
+     "id": "2a",
+     "number": "2A",
+     "title": "Spanning and Linear Independence"
+    },
+    {
+     "id": "2b",
+     "number": "2B",
+     "title": "Constructing and Extending Bases"
+    },
+    {
+     "id": "2c",
+     "number": "2C",
+     "title": "Dimension and Subspace Arithmetic"
+    },
+    {
+     "id": "2-exercises",
+     "number": "",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "c3",
+   "number": "3",
+   "title": "Linear Maps",
+   "about": "Study kernels, images, matrices, inverses, quotients, and duality.",
+   "requires": [
+    "c2"
+   ],
+   "sections": [
+    {
+     "id": "3a",
+     "number": "3A",
+     "title": "Linear Maps and Their Algebra"
+    },
+    {
+     "id": "3b",
+     "number": "3B",
+     "title": "Kernels, Images, and the Dimension Formula"
+    },
+    {
+     "id": "3c",
+     "number": "3C",
+     "title": "Matrix Representations and Rank"
+    },
+    {
+     "id": "3d",
+     "number": "3D",
+     "title": "Inverses, Isomorphisms, and Basis Changes"
+    },
+    {
+     "id": "3e",
+     "number": "3E",
+     "title": "Product Spaces and Quotient Spaces"
+    },
+    {
+     "id": "3f",
+     "number": "3F",
+     "title": "Dual Spaces and Dual Maps"
+    },
+    {
+     "id": "3-exercises",
+     "number": "",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "c4",
+   "number": "4",
+   "title": "Polynomials",
+   "about": "Establish scalar identities, polynomial division, roots, and factorization.",
+   "requires": [
+    "c2"
+   ],
+   "sections": [
+    {
+     "id": "4-polynomials",
+     "number": "4",
+     "title": "Scalar Identities and Polynomial Factorization"
+    },
+    {
+     "id": "4-exercises",
+     "number": "",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "c5",
+   "number": "5",
+   "title": "Eigenvalues and Eigenvectors",
+   "about": "Analyze operators using invariant subspaces, polynomial identities, and diagonalization.",
+   "requires": [
+    "c3",
+    "c4"
+   ],
+   "sections": [
+    {
+     "id": "5a",
+     "number": "5A",
+     "title": "Invariant Subspaces and Eigenvectors"
+    },
+    {
+     "id": "5b",
+     "number": "5B",
+     "title": "Minimal Polynomials and Eigenvalue Existence"
+    },
+    {
+     "id": "5c",
+     "number": "5C",
+     "title": "Triangular Representations"
+    },
+    {
+     "id": "5d",
+     "number": "5D",
+     "title": "Diagonalization and Eigenvalue Bounds"
+    },
+    {
+     "id": "5e",
+     "number": "5E",
+     "title": "Operators That Commute"
+    },
+    {
+     "id": "5-exercises",
+     "number": "",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "c6",
+   "number": "6",
+   "title": "Inner Product Spaces",
+   "about": "Develop orthogonality, orthonormal bases, projection, and least squares.",
+   "requires": [
+    "c5"
+   ],
+   "sections": [
+    {
+     "id": "6a",
+     "number": "6A",
+     "title": "Inner Products, Lengths, and Inequalities"
+    },
+    {
+     "id": "6b",
+     "number": "6B",
+     "title": "Orthonormal Bases and Functional Representation"
+    },
+    {
+     "id": "6c",
+     "number": "6C",
+     "title": "Orthogonal Projection, Minimization, and Pseudoinverses"
+    },
+    {
+     "id": "6-exercises",
+     "number": "",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "c7",
+   "number": "7",
+   "title": "Operators on Inner Product Spaces",
+   "about": "Use adjoints, spectral theory, and singular values to study operators and geometry.",
+   "requires": [
+    "c6"
+   ],
+   "sections": [
+    {
+     "id": "7a",
+     "number": "7A",
+     "title": "Adjoints, Self-Adjoint Operators, and Normality"
+    },
+    {
+     "id": "7b",
+     "number": "7B",
+     "title": "Real and Complex Spectral Theorems"
+    },
+    {
+     "id": "7c",
+     "number": "7C",
+     "title": "Positivity and Operator Square Roots"
+    },
+    {
+     "id": "7d",
+     "number": "7D",
+     "title": "Isometries, Unitary Maps, and Matrix Factorizations"
+    },
+    {
+     "id": "7e",
+     "number": "7E",
+     "title": "Singular Values and Singular Value Decomposition"
+    },
+    {
+     "id": "7f",
+     "number": "7F",
+     "title": "Approximation, Polar Decomposition, and Volume"
+    },
+    {
+     "id": "7-exercises",
+     "number": "",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "c8",
+   "number": "8",
+   "title": "Operators on Complex Vector Spaces",
+   "about": "Use generalized eigenvectors and nilpotence to obtain decompositions, Jordan bases, and trace identities.",
+   "requires": [
+    "c6"
+   ],
+   "sections": [
+    {
+     "id": "8a",
+     "number": "8A",
+     "title": "Generalized Eigenvectors and Nilpotence"
+    },
+    {
+     "id": "8b",
+     "number": "8B",
+     "title": "Decomposing into Generalized Eigenspaces"
+    },
+    {
+     "id": "8c",
+     "number": "8C",
+     "title": "Operator Square Roots and Jordan Bases"
+    },
+    {
+     "id": "8d",
+     "number": "8D",
+     "title": "Trace of Matrices and Operators"
+    },
+    {
+     "id": "8-exercises",
+     "number": "",
+     "title": "Exercises"
+    }
+   ]
+  },
+  {
+   "id": "c9",
+   "number": "9",
+   "title": "Multilinear Algebra and Determinants",
+   "about": "Develop bilinear and alternating forms, determinants, and tensor products.",
+   "requires": [
+    "c7",
+    "c8"
+   ],
+   "sections": [
+    {
+     "id": "9a",
+     "number": "9A",
+     "title": "Bilinear Forms and Quadratic Expressions"
+    },
+    {
+     "id": "9b",
+     "number": "9B",
+     "title": "Multilinearity, Alternation, and Permutations"
+    },
+    {
+     "id": "9c",
+     "number": "9C",
+     "title": "Determinants from Alternating Forms"
+    },
+    {
+     "id": "9d",
+     "number": "9D",
+     "title": "Tensor Products and Their Universal Property"
+    },
+    {
+     "id": "9-exercises",
+     "number": "",
+     "title": "Exercises"
+    }
+   ]
+  }
+ ]
+}

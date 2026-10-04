@@ -1,0 +1,763 @@
+{
+ "version": 1,
+ "id": "9a",
+ "blocks": [
+  {
+   "id": "c9-intro-bilinear-quadratic",
+   "kind": "prose",
+   "number": "",
+   "title": "Forms that are linear in two arguments",
+   "tex": "Throughout this section, $V$ is a finite-dimensional vector space over $\\F$, where $\\F$ is $\\R$ or $\\C$. A bilinear form is linear in each argument separately. In the complex case, this differs from an inner product, whose second argument is conjugate-linear.",
+   "page": "333"
+  },
+  {
+   "id": "c9-def-bilinear-form",
+   "kind": "definition",
+   "number": "9.1",
+   "title": "Bilinear forms",
+   "tex": "A bilinear form on $V$ is a function $\\beta:V\\times V\\to\\F$ such that, for each fixed $w\\in V$, both functions\n    \\[\n    v\\longmapsto\\beta(v,w),\n    \\qquad\n    v\\longmapsto\\beta(w,v)\n    \\]\n    are linear functionals. Thus scalars leave either argument without complex conjugation.",
+   "page": "333"
+  },
+  {
+   "id": "c9-lem-bilinear-expansion",
+   "kind": "lemma",
+   "number": "",
+   "title": "Expanding a bilinear form",
+   "tex": "Every bilinear form satisfies $\\beta(0,v)=\\beta(v,0)=0$. For finite lists of vectors and scalars,\n    \\[\n    \\beta\\left(\\sum_{j=1}^r a_ju_j,\\sum_{k=1}^t b_kv_k\\right)\n    =\n    \\sum_{j=1}^r\\sum_{k=1}^t a_jb_k\\beta(u_j,v_k).\n    \\]\n    This includes empty sums.",
+   "page": "333",
+   "proof": "Fixing either argument gives a linear functional, and a linear map takes zero to zero. This proves the two zero identities. Repeated additivity and homogeneity in the first argument give\n    \\[\n    \\beta\\left(\\sum_j a_ju_j,\\sum_k b_kv_k\\right)\n    =\\sum_j a_j\\beta\\left(u_j,\\sum_k b_kv_k\\right).\n    \\]\n    Applying additivity and homogeneity in the second argument to each term gives the double sum. Each finite expansion follows by induction on the number of terms from the two-term linearity rule. If either list is empty, the corresponding argument is zero, and both sides vanish by the zero identities.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply linearity to one argument at a time."
+   ],
+   "uses": [
+    "c9-def-bilinear-form",
+    "c3-thm-linear-zero",
+    "c1-foundations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-inner-product-bilinearity",
+   "kind": "example",
+   "number": "",
+   "title": "When an inner product is bilinear",
+   "tex": "An inner product on a real vector space is a bilinear form. On a nonzero complex inner product space, its inner-product function is not bilinear.",
+   "page": "333",
+   "proof": "Over $\\R$, conjugating a scalar leaves it unchanged. Thus the inner product is linear in the second argument as well as the first, proving bilinearity.\n\n    Over $\\C$, choose $v\\ne0$. Conjugate homogeneity gives\n    \\[\n    \\ip{v}{iv}=-i\\ip{v}{v}.\n    \\]\n    If the function were bilinear, homogeneity in the second argument would instead give $\\ip{v}{iv}=i\\ip{v}{v}$. These equations imply $2i\\ip{v}{v}=0$. Since $2i\\ne0$, scalar cancellation would give $\\ip{v}{v}=0$, contradicting positive definiteness. On the zero complex space the inner-product function is the zero bilinear form, explaining the nonzero hypothesis.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "In the complex case, test multiplication by $i$ in the second argument."
+   ],
+   "uses": [
+    "c9-def-bilinear-form",
+    "c6-def-inner-product",
+    "c6-thm-inner-product-properties",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-coordinate-bilinear",
+   "kind": "example",
+   "number": "9.2(a)",
+   "title": "A coordinate formula with mixed indices",
+   "tex": "The function on $\\F^3\\times\\F^3$ given by\n    \\[\n    \\beta(x,y)=x_1y_2-5x_2y_3+2x_3y_1\n    \\]\n    is a bilinear form.",
+   "page": "333",
+   "proof": "For fixed $y$ and scalars $a,b$,\n    \\[\n    \\begin{aligned}\n    \\beta(ax+bx',y)\n    &=(ax_1+bx'_1)y_2-5(ax_2+bx'_2)y_3\n      +2(ax_3+bx'_3)y_1\\\\\n    &=a\\beta(x,y)+b\\beta(x',y).\n    \\end{aligned}\n    \\]\n    For fixed $x$, expansion in the other coordinates gives\n    \\[\n    \\begin{aligned}\n    \\beta(x,ay+by')\n    &=x_1(ay_2+by'_2)-5x_2(ay_3+by'_3)\n      +2x_3(ay_1+by'_1)\\\\\n    &=a\\beta(x,y)+b\\beta(x,y').\n    \\end{aligned}\n    \\]\n    These are the two required linearity conditions.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check a linear combination in each argument separately."
+   ],
+   "uses": [
+    "c9-def-bilinear-form",
+    "c1-def-coordinate-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-matrix-bilinear",
+   "kind": "example",
+   "number": "9.2(b)",
+   "title": "A bilinear form from any square matrix",
+   "tex": "For $A\\in\\F^{n,n}$, the formula\n    \\[\n    \\beta_A(x,y)=\\sum_{j=1}^n\\sum_{k=1}^n A_{jk}x_jy_k\n    \\]\n    defines a bilinear form on $\\F^n$. The preceding coordinate example corresponds to\n    \\[\n    A=\n    \\begin{pmatrix}\n    0&1&0\\\\\n    0&0&-5\\\\\n    2&0&0\n    \\end{pmatrix}.\n    \\]",
+   "page": "333",
+   "proof": "For fixed $y$,\n    \\[\n    \\beta_A(ax+bx',y)\n    =\\sum_{j,k}A_{jk}(ax_j+bx'_j)y_k\n    =a\\beta_A(x,y)+b\\beta_A(x',y).\n    \\]\n    For fixed $x$,\n    \\[\n    \\beta_A(x,ay+by')\n    =\\sum_{j,k}A_{jk}x_j(ay_k+by'_k)\n    =a\\beta_A(x,y)+b\\beta_A(x,y').\n    \\]\n    Hence the form is bilinear. In the displayed matrix, only the entries with indices $(1,2),(2,3),(3,1)$ are nonzero, and substituting them gives exactly the preceding formula. For $n=0$, the formula is the empty sum zero and defines the unique bilinear form on the zero space.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Distribute a scalar linear combination inside the double sum."
+   ],
+   "uses": [
+    "c9-def-bilinear-form",
+    "c3-def-matrix-space",
+    "c1-def-coordinate-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-operator-bilinear",
+   "kind": "example",
+   "number": "9.2(c)",
+   "title": "A real inner product composed with an operator",
+   "tex": "If $V$ is a real inner product space and $T\\in\\Lin(V)$, then\n    \\[\n    \\beta(u,v)=\\ip{u}{Tv}\n    \\]\n    is a bilinear form.",
+   "page": "334",
+   "proof": "For real scalars $a,b$,\n    \\[\n    \\beta(au+bu',v)\n    =\\ip{au+bu'}{Tv}\n    =a\\beta(u,v)+b\\beta(u',v).\n    \\]\n    Linearity of $T$ and real linearity in the second inner-product argument give\n    \\[\n    \\beta(u,av+bv')\n    =\\ip{u}{aTv+bTv'}\n    =a\\beta(u,v)+b\\beta(u,v').\n    \\]\n    Thus both arguments satisfy the required linearity.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use linearity of $T$ for the second argument."
+   ],
+   "uses": [
+    "c9-def-bilinear-form",
+    "c9-ex-inner-product-bilinearity",
+    "c3-def-linear-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-polynomial-bilinear",
+   "kind": "example",
+   "number": "9.2(d)",
+   "title": "Evaluation multiplied by derivative evaluation",
+   "tex": "For every integer $n\\ge0$, the function\n    \\[\n    \\beta(p,q)=p(2)q'(3)\n    \\qquad(p,q\\in\\Poly_n(\\R))\n    \\]\n    is a bilinear form.",
+   "page": "334",
+   "proof": "Evaluation is linear because\n    $(ap+br)(2)=ap(2)+br(2)$. Polynomial differentiation is linear, so\n    $(aq+br)'(3)=aq'(3)+br'(3)$. Therefore, for fixed $q$,\n    \\[\n    \\beta(ap+br,q)\n    =(ap(2)+br(2))q'(3)\n    =a\\beta(p,q)+b\\beta(r,q).\n    \\]\n    For fixed $p$,\n    \\[\n    \\beta(p,aq+br)\n    =p(2)(aq'(3)+br'(3))\n    =a\\beta(p,q)+b\\beta(p,r).\n    \\]\n    This proves bilinearity. For $n=0$, every derivative is zero, so the same formula is the zero bilinear form.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Evaluation and derivative evaluation are linear functionals."
+   ],
+   "uses": [
+    "c9-def-bilinear-form",
+    "c3-ex-polynomial-differentiation",
+    "c2-def-polynomial-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-functional-products-bilinear",
+   "kind": "example",
+   "number": "9.2(e,f)",
+   "title": "Products and sums of linear functionals",
+   "tex": "If $\\varphi,\\tau\\in\\dual V$, then\n    \\[\n    \\beta(u,v)=\\varphi(u)\\tau(v)\n    \\]\n    is bilinear. More generally, if $\\varphi_1,\\ldots,\\varphi_m,\\tau_1,\\ldots,\\tau_m\\in\\dual V$, then\n    \\[\n    \\beta(u,v)=\\sum_{j=1}^m\\varphi_j(u)\\tau_j(v)\n    \\]\n    is bilinear, including the zero form when $m=0$.",
+   "page": "334",
+   "proof": "For the sum formula and fixed $v$, linearity of every $\\varphi_j$ gives\n    \\[\n    \\beta(au+bu',v)\n    =\\sum_j(a\\varphi_j(u)+b\\varphi_j(u'))\\tau_j(v)\n    =a\\beta(u,v)+b\\beta(u',v).\n    \\]\n    For fixed $u$, linearity of every $\\tau_j$ gives\n    \\[\n    \\beta(u,av+bv')\n    =\\sum_j\\varphi_j(u)(a\\tau_j(v)+b\\tau_j(v'))\n    =a\\beta(u,v)+b\\beta(u,v').\n    \\]\n    Thus the sum is bilinear. Taking $m=1$ gives the first assertion. For $m=0$, both displayed linearity identities are identities between zeros.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Hold one argument fixed and distribute the linear functionals in the other argument."
+   ],
+   "uses": [
+    "c9-def-bilinear-form",
+    "c3-def-linear-functional",
+    "c3-def-dual-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-lem-bilinear-joint-linearity",
+   "kind": "lemma",
+   "number": "",
+   "title": "Separate linearity is different from linearity on the product",
+   "tex": "A bilinear form $\\beta$ is also a linear functional on the product vector space $V\\times V$ if and only if $\\beta=0$.",
+   "page": "334",
+   "proof": "Suppose $\\beta$ is linear on the product. Since\n    $(u,v)=(u,0)+(0,v)$, joint additivity gives\n    \\[\n    \\beta(u,v)=\\beta(u,0)+\\beta(0,v)=0\n    \\]\n    by the zero identities for a bilinear form. Thus $\\beta$ is the zero function. Conversely, the zero function satisfies both separate linearity and linearity on the product, because every linearity equation has value zero on both sides.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Decompose $(u,v)$ as $(u,0)+(0,v)$."
+   ],
+   "uses": [
+    "c9-lem-bilinear-expansion",
+    "c3-def-product-space",
+    "c3-def-linear-functional"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-bilinear-space",
+   "kind": "definition",
+   "number": "9.3",
+   "title": "The collection of bilinear forms",
+   "tex": "Write $V^{(2)}$, also denoted $\\Bil(V)$, for the set of bilinear forms on $V$. Equip it with pointwise operations:\n    \\[\n    (\\alpha+\\beta)(u,v)=\\alpha(u,v)+\\beta(u,v),\n    \\qquad\n    (a\\beta)(u,v)=a\\beta(u,v).\n    \\]",
+   "page": "334"
+  },
+  {
+   "id": "c9-thm-bilinear-space",
+   "kind": "theorem",
+   "number": "",
+   "title": "Bilinear forms constitute a vector space",
+   "tex": "The set $V^{(2)}$ is a vector subspace of the space of all functions from $V\\times V$ to $\\F$.",
+   "page": "334",
+   "proof": "The zero function is bilinear. If $\\alpha,\\beta$ are bilinear and $a,b\\in\\F$, fix $v$. The function\n    $u\\mapsto a\\alpha(u,v)+b\\beta(u,v)$\n    is a linear combination of linear functionals and hence is linear. Explicitly, its value at $cu+du'$ is the corresponding sum of $c$ times its value at $u$ and $d$ times its value at $u'$, by distributing $a,b$ through the linearity identities for $\\alpha,\\beta$. Fixing $u$ gives the same conclusion for the function of $v$, using linearity in the second argument. Thus $a\\alpha+b\\beta$ is bilinear. The subspace test applies inside the function space and proves the assertion.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the subspace test with pointwise operations."
+   ],
+   "uses": [
+    "c9-def-bilinear-space",
+    "c9-def-bilinear-form",
+    "c1-thm-function-space",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-bilinear-matrix",
+   "kind": "definition",
+   "number": "9.4",
+   "title": "The matrix of a bilinear form",
+   "tex": "For a basis $\\mathcal E=(e_1,\\ldots,e_n)$, define\n    \\[\n    \\Mat(\\beta,\\mathcal E)_{jk}=\\beta(e_j,e_k).\n    \\]\n    When the basis is fixed, write simply $\\Mat(\\beta)$. This is an $n$-by-$n$ matrix; on the zero space it is the empty square matrix.",
+   "page": "334"
+  },
+  {
+   "id": "c9-thm-bilinear-matrix-isomorphism",
+   "kind": "theorem",
+   "number": "9.5",
+   "title": "Matrices describe all bilinear forms",
+   "tex": "For a fixed basis $\\mathcal E=(e_1,\\ldots,e_n)$, the map\n    \\[\n    V^{(2)}\\longrightarrow\\F^{n,n},\n    \\qquad\n    \\beta\\longmapsto\\Mat(\\beta,\\mathcal E)\n    \\]\n    is an isomorphism. In particular,\n    \\[\n    \\dim V^{(2)}=(\\dim V)^2.\n    \\]\n    If $A=\\Mat(\\beta,\\mathcal E)$, then\n    \\[\n    \\beta\\left(\\sum_jx_je_j,\\sum_ky_ke_k\\right)\n    =\\sum_{j,k}A_{jk}x_jy_k.\n    \\]",
+   "page": "335",
+   "proof": "The final formula follows from bilinear expansion. It shows that the matrix determines all values of $\\beta$, because every vector has unique coordinates in the chosen basis.\n\n    For forms $\\alpha,\\beta$ and scalars $a,b$, each matrix entry satisfies\n    \\[\n    \\Mat(a\\alpha+b\\beta)_{jk}\n    =a\\alpha(e_j,e_k)+b\\beta(e_j,e_k),\n    \\]\n    so the matrix correspondence is linear. If its value at $\\beta$ is the zero matrix, the coordinate formula gives $\\beta(u,v)=0$ for every pair. Therefore it is injective.\n\n    Given any matrix $A$, use the coordinate formula to define a function $\\beta_A$ on $V\\times V$. Unique coordinates make this definition well-defined. Coordinates of a vector linear combination are the same linear combination of coordinate lists, by basis independence. Distributing those coordinates in the double sum proves linearity of $\\beta_A$ in each argument, exactly as for the coordinate-space matrix example. Substituting $u=e_j,v=e_k$ gives $\\beta_A(e_j,e_k)=A_{jk}$. Thus the correspondence is surjective and is an isomorphism.\n\n    For completeness, transport any basis of $\\F^{n,n}$ through its inverse. The transported list spans $V^{(2)}$, because the image of any form expands in the matrix basis. It is independent, because applying the isomorphism to a zero combination gives a zero combination in that matrix basis. Hence the two dimensions agree. The matrix-space dimension is $n^2$, proving the formula. If $n=0$, bilinearity forces the sole value $\\beta(0,0)$ to be zero, so both spaces have dimension zero and the same argument uses empty bases.",
+   "difficulty": 2,
+   "minutes": 25,
+   "hints": [
+    "Expand both arguments in the fixed basis.",
+    "Given a matrix, use its entries as coefficients of a bilinear coordinate formula."
+   ],
+   "uses": [
+    "c9-def-bilinear-matrix",
+    "c9-thm-bilinear-space",
+    "c9-lem-bilinear-expansion",
+    "c9-ex-matrix-bilinear",
+    "c2-thm-basis-coordinates",
+    "c3-def-isomorphism",
+    "c3-thm-matrix-space-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-bilinear-composition",
+   "kind": "theorem",
+   "number": "9.6",
+   "title": "Composing a bilinear form with an operator",
+   "tex": "Let $\\beta\\in V^{(2)}$ and $T\\in\\Lin(V)$. Define\n    \\[\n    \\alpha(u,v)=\\beta(u,Tv),\n    \\qquad\n    \\rho(u,v)=\\beta(Tu,v).\n    \\]\n    Both functions are bilinear. In any one fixed basis,\n    \\[\n    \\Mat(\\alpha)=\\Mat(\\beta)\\Mat(T),\n    \\qquad\n    \\Mat(\\rho)=\\Mat(T)^{\\mathsf t}\\Mat(\\beta).\n    \\]\n    The superscript $\\mathsf t$ means ordinary transpose, without conjugation.",
+   "page": "335",
+   "proof": "Fixing one argument of either function leaves a composition of linear maps, or a fixed-argument linear functional of $\\beta$. More explicitly, linearity of $T$ and of $\\beta$ gives\n    \\[\n    \\alpha(u,av+bw)=a\\alpha(u,v)+b\\alpha(u,w),\n    \\quad\n    \\rho(au+bw,v)=a\\rho(u,v)+b\\rho(w,v),\n    \\]\n    while linearity in the other argument follows directly from $\\beta$. Thus both are bilinear.\n\n    Write $B=\\Mat(\\beta)$ and $M=\\Mat(T)$ in a basis $e_1,\\ldots,e_n$. Since $Te_k=\\sum_\\ell M_{\\ell k}e_\\ell$,\n    \\[\n    \\Mat(\\alpha)_{jk}\n    =\\beta(e_j,Te_k)\n    =\\sum_\\ell B_{j\\ell}M_{\\ell k}\n    =(BM)_{jk}.\n    \\]\n    Likewise,\n    \\[\n    \\Mat(\\rho)_{jk}\n    =\\beta(Te_j,e_k)\n    =\\sum_\\ell M_{\\ell j}B_{\\ell k}\n    =(M^{\\mathsf t}B)_{jk}.\n    \\]\n    Equality of entries proves both matrix identities. In dimension zero all matrices are empty and both equalities hold.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Expand $Te_k$ using column $k$ of its matrix.",
+    "In the first argument, the indices of the operator matrix enter in transposed order."
+   ],
+   "uses": [
+    "c9-def-bilinear-form",
+    "c9-def-bilinear-matrix",
+    "c9-lem-bilinear-expansion",
+    "c3-def-map-matrix",
+    "c3-def-matrix-product",
+    "c3-def-transpose"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-bilinear-basis-change",
+   "kind": "theorem",
+   "number": "9.7",
+   "title": "The change-of-basis formula for a bilinear form",
+   "tex": "Let $\\mathcal E=(e_1,\\ldots,e_n)$ and $\\mathcal F=(f_1,\\ldots,f_n)$ be bases. Put\n    \\[\n    A=\\Mat(\\beta,\\mathcal E),\\qquad\n    B=\\Mat(\\beta,\\mathcal F),\n    \\]\n    and let $C=\\Mat(I,\\mathcal E,\\mathcal F)$, so column $k$ of $C$ is the $\\mathcal F$-coordinate list of $e_k$. Then\n    \\[\n    A=C^{\\mathsf t}BC.\n    \\]",
+   "page": "336",
+   "proof": "By the definition of $C$, one has $e_j=\\sum_r C_{rj}f_r$ for every $j$. Bilinear expansion gives\n    \\[\n    \\begin{aligned}\n    A_{jk}\n    &=\\beta(e_j,e_k)\\\\\n    &=\\sum_{r,\\ell}C_{rj}C_{\\ell k}\\beta(f_r,f_\\ell)\\\\\n    &=\\sum_{r,\\ell}(C^{\\mathsf t})_{jr}B_{r\\ell}C_{\\ell k}\n    =(C^{\\mathsf t}BC)_{jk}.\n    \\end{aligned}\n    \\]\n    This proves equality of the matrices. The formula uses the transpose rather than a conjugate transpose because scalars leave both bilinear arguments unchanged. Empty matrices give the same identity in dimension zero.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Write each old basis vector in the new basis and expand both arguments."
+   ],
+   "uses": [
+    "c9-def-bilinear-matrix",
+    "c9-lem-bilinear-expansion",
+    "c3-def-map-matrix",
+    "c3-def-matrix-product",
+    "c3-def-transpose"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-polynomial-bilinear-matrices",
+   "kind": "example",
+   "number": "9.8",
+   "title": "A polynomial form in two bases",
+   "tex": "On $\\Poly_2(\\R)$ let $\\beta(p,q)=p(2)q'(3)$, and consider\n    \\[\n    \\mathcal E=(1,x-2,(x-3)^2),\n    \\qquad\n    \\mathcal F=(1,x,x^2).\n    \\]\n    These are bases, and\n    \\[\n    A=\\Mat(\\beta,\\mathcal E)=\n    \\begin{pmatrix}0&1&0\\\\0&0&0\\\\0&1&0\\end{pmatrix},\n    \\quad\n    B=\\Mat(\\beta,\\mathcal F)=\n    \\begin{pmatrix}0&1&6\\\\0&2&12\\\\0&4&24\\end{pmatrix}.\n    \\]\n    Moreover,\n    \\[\n    C=\\Mat(I,\\mathcal E,\\mathcal F)=\n    \\begin{pmatrix}1&-2&9\\\\0&1&-6\\\\0&0&1\\end{pmatrix},\n    \\qquad A=C^{\\mathsf t}BC.\n    \\]",
+   "page": "336",
+   "proof": "The standard monomial list $\\mathcal F$ is a basis of $\\Poly_2(\\R)$. Expanding a combination from $\\mathcal E$ gives\n    \\[\n    a+b(x-2)+c(x-3)^2\n    =(a-2b+9c)+(b-6c)x+cx^2.\n    \\]\n    Given any three polynomial coefficients, the coefficient of $x^2$ determines $c$, the coefficient of $x$ then determines $b$, and the constant coefficient determines $a$. Thus the expansion in $\\mathcal E$ exists uniquely, proving that $\\mathcal E$ is a basis.\n\n    Evaluation at $2$ on the $\\mathcal E$ list gives $(1,0,1)$, while derivative evaluation at $3$ gives $(0,1,0)$. Each matrix entry is the product of the corresponding value from these two lists, yielding $A$. On $\\mathcal F$, those lists are $(1,2,4)$ and $(0,1,6)$, yielding $B$.\n\n    The monomial coordinates of the three $\\mathcal E$ vectors are the three columns displayed in $C$, proving its formula. Direct multiplication gives\n    \\[\n    BC=\n    \\begin{pmatrix}0&1&0\\\\0&2&0\\\\0&4&0\\end{pmatrix},\n    \\qquad\n    C^{\\mathsf t}BC=\n    \\begin{pmatrix}0&1&0\\\\0&0&0\\\\0&1&0\\end{pmatrix}=A.\n    \\]\n    This also verifies the change-of-basis identity numerically.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Compute the evaluation list and derivative-evaluation list separately.",
+    "The change-of-basis columns are the monomial coefficients of the three shifted polynomials."
+   ],
+   "uses": [
+    "c9-ex-polynomial-bilinear",
+    "c9-def-bilinear-matrix",
+    "c9-thm-bilinear-basis-change",
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients",
+    "c2-thm-basis-coordinates",
+    "c3-def-map-matrix",
+    "c3-def-matrix-product",
+    "c3-ex-polynomial-differentiation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-symmetric-bilinear",
+   "kind": "definition",
+   "number": "9.9",
+   "title": "Symmetric bilinear forms",
+   "tex": "A bilinear form $\\rho$ is symmetric if\n    \\[\n    \\rho(u,v)=\\rho(v,u)\\qquad(u,v\\in V).\n    \\]\n    Write $V_{\\mathrm{sym}}^{(2)}$ for the set of symmetric bilinear forms.",
+   "page": "337"
+  },
+  {
+   "id": "c9-ex-symmetric-inner-product",
+   "kind": "example",
+   "number": "9.10(a,b)",
+   "title": "Symmetric forms arising from real inner products",
+   "tex": "A real inner product is a symmetric bilinear form. More generally, for $T\\in\\Lin(V)$ on a real inner product space, the form\n    \\[\n    \\rho(u,v)=\\ip{u}{Tv}\n    \\]\n    is symmetric if and only if $T$ is self-adjoint.",
+   "page": "337",
+   "proof": "A real inner product is bilinear by the earlier example and symmetric because conjugate symmetry becomes ordinary symmetry over $\\R$.\n\n    The more general formula is bilinear by the operator-composition example. Suppose $T$ is self-adjoint. Then\n    \\[\n    \\rho(u,v)=\\ip{u}{Tv}=\\ip{Tu}{v}=\\ip{v}{Tu}=\\rho(v,u),\n    \\]\n    using self-adjointness and real symmetry of the inner product. Conversely, if $\\rho$ is symmetric, then\n    \\[\n    \\ip{u}{Tv}=\\rho(u,v)=\\rho(v,u)=\\ip{v}{Tu}=\\ip{Tu}{v}\n    \\]\n    for every $u,v$. The inner-product test for self-adjointness now gives $T=T^*$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Translate symmetry of the form into the inner-product criterion for self-adjointness."
+   ],
+   "uses": [
+    "c9-def-symmetric-bilinear",
+    "c9-ex-inner-product-bilinearity",
+    "c9-ex-operator-bilinear",
+    "c7-thm-self-adjoint-tests",
+    "c6-thm-inner-product-properties"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-trace-bilinear",
+   "kind": "example",
+   "number": "9.10(c)",
+   "title": "Trace of a product is a symmetric bilinear form",
+   "tex": "The function on $\\Lin(V)\\times\\Lin(V)$ defined by\n    \\[\n    \\rho(S,T)=\\tr(ST)\n    \\]\n    is a symmetric bilinear form.",
+   "page": "337",
+   "proof": "For scalars $a,b$, distributivity of composition and linearity of trace give\n    \\[\n    \\rho(aS+bR,T)\n    =\\tr(aST+bRT)\n    =a\\rho(S,T)+b\\rho(R,T).\n    \\]\n    In the second argument they give\n    \\[\n    \\rho(S,aT+bR)\n    =\\tr(aST+bSR)\n    =a\\rho(S,T)+b\\rho(S,R).\n    \\]\n    Thus $\\rho$ is bilinear. Cyclicity of trace gives\n    $\\rho(S,T)=\\tr(ST)=\\tr(TS)=\\rho(T,S)$, proving symmetry. The zero-dimensional case gives the zero form and is included in the trace identities.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use linearity of trace and the equality $\\tr(ST)=\\tr(TS)$."
+   ],
+   "uses": [
+    "c9-def-bilinear-form",
+    "c9-def-symmetric-bilinear",
+    "c8-thm-trace-linear-cyclic",
+    "c3-thm-composition-laws",
+    "c3-thm-linear-map-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-symmetric-matrix",
+   "kind": "definition",
+   "number": "9.11",
+   "title": "Symmetric matrices",
+   "tex": "A square matrix $A$ is symmetric if $A=A^{\\mathsf t}$. Over $\\C$, this still means ordinary transpose and does not mean equality with the conjugate transpose.",
+   "page": "337"
+  },
+  {
+   "id": "c9-lem-symmetric-diagonal-detection",
+   "kind": "lemma",
+   "number": "",
+   "title": "Diagonal values detect a symmetric bilinear form",
+   "tex": "For a symmetric bilinear form $\\rho$,\n    \\[\n    2\\rho(u,v)\n    =\\rho(u+v,u+v)-\\rho(u,u)-\\rho(v,v).\n    \\]\n    Consequently, if $\\rho\\ne0$, there is a vector $w$ such that $\\rho(w,w)\\ne0$.",
+   "page": "338",
+   "proof": "Expanding both arguments gives\n    \\[\n    \\rho(u+v,u+v)\n    =\\rho(u,u)+\\rho(u,v)+\\rho(v,u)+\\rho(v,v).\n    \\]\n    Symmetry identifies the middle two terms, giving the formula. If every diagonal value were zero, that formula would imply $2\\rho(u,v)=0$ for every $u,v$. Since $2\\ne0$ in $\\R$ and $\\C$, scalar cancellation would give $\\rho=0$. Taking the contrapositive proves the final assertion.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Expand the diagonal value at $u+v$."
+   ],
+   "uses": [
+    "c9-def-symmetric-bilinear",
+    "c9-lem-bilinear-expansion",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-symmetric-diagonalization",
+   "kind": "theorem",
+   "number": "9.12",
+   "title": "Symmetric forms admit diagonal matrices",
+   "tex": "For a bilinear form $\\rho$ on $V$, the following conditions are equivalent:\n    \\begin{enumerate}\n    \\item $\\rho$ is symmetric.\n    \\item Its matrix is symmetric in every basis.\n    \\item Its matrix is symmetric in some basis.\n    \\item Its matrix is diagonal in some basis.\n    \\end{enumerate}\n    This holds over both $\\R$ and $\\C$, including the zero space.",
+   "page": "337",
+   "proof": "If $\\rho$ is symmetric, then in every basis\n    $\\Mat(\\rho)_{jk}=\\rho(e_j,e_k)=\\rho(e_k,e_j)=\\Mat(\\rho)_{kj}$,\n    proving the second condition. Because every finite-dimensional space has a basis, the second condition implies the third.\n\n    Suppose its matrix $A$ is symmetric in a basis $\\mathcal E$. For $u=\\sum_jx_je_j$ and $v=\\sum_ky_ke_k$,\n    \\[\n    \\rho(u,v)=\\sum_{j,k}A_{jk}x_jy_k\n    =\\sum_{j,k}A_{kj}x_jy_k\n    =\\rho(v,u),\n    \\]\n    where the final equality is the coordinate expansion with the indices interchanged. Thus the third condition implies the first. Every diagonal matrix is symmetric, so the fourth condition implies the third.\n\n    It remains to obtain a diagonal matrix from symmetry. We use induction on $n=\\dim V$. For $n=0$, the empty basis gives the empty diagonal matrix. Assume $n>0$ and that the assertion holds in all smaller dimensions. If $\\rho=0$, any basis gives a zero, hence diagonal, matrix. Otherwise the diagonal-detection lemma supplies $w$ with $d=\\rho(w,w)\\ne0$.\n\n    Define\n    \\[\n    U=\\{u\\in V:\\rho(u,w)=0\\}.\n    \\]\n    The function $u\\mapsto\\rho(u,w)$ is linear, so $U$ is a subspace. Every $v\\in V$ has the decomposition\n    \\[\n    v=\n    \\left(v-\\frac{\\rho(v,w)}d\\,w\\right)\n    +\\frac{\\rho(v,w)}d\\,w,\n    \\]\n    whose first term belongs to $U$. Moreover, if $aw\\in U$, then $0=\\rho(aw,w)=ad$, so $a=0$. Thus $V=U\\oplus\\Span(w)$.\n\n    Choose a basis $u_1,\\ldots,u_k$ of $U$. The decomposition just proved shows that $u_1,\\ldots,u_k,w$ spans $V$. If a linear combination of this list is zero, applying $\\rho(\\,\\cdot\\,,w)$ forces the coefficient of $w$ to be zero; independence of the $u_j$ then forces all the other coefficients to vanish. Hence this list is a basis, and $k+1=n$. In particular, $\\dim U=n-1$.\n\n    The restriction of $\\rho$ to $U\\times U$ is still symmetric and bilinear. By induction it has a diagonal matrix in some basis $e_1,\\ldots,e_{n-1}$ of $U$. Adjoining $w$ gives a basis of $V$ by the preceding argument. Every cross term involving $w$ vanishes: $\\rho(e_j,w)=0$ by the definition of $U$, and $\\rho(w,e_j)=0$ by symmetry. The other off-diagonal entries vanish by the induction hypothesis. Thus this basis gives a diagonal matrix, completing the equivalence.",
+   "difficulty": 4,
+   "minutes": 70,
+   "hints": [
+    "First relate symmetry of the form to symmetry of its matrix.",
+    "For a nonzero symmetric form, find $w$ with $\\rho(w,w)\\ne0$.",
+    "Split off the line through $w$ using the kernel of $u\\mapsto\\rho(u,w)$, then induct on that kernel."
+   ],
+   "uses": [
+    "c9-def-symmetric-bilinear",
+    "c9-def-symmetric-matrix",
+    "c9-def-bilinear-matrix",
+    "c9-thm-bilinear-matrix-isomorphism",
+    "c9-lem-symmetric-diagonal-detection",
+    "c3-thm-null-subspace",
+    "c2-thm-basis-existence",
+    "c2-thm-subspaces-finite",
+    "c2-def-dimension",
+    "c1-def-direct-sum",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-cor-symmetric-matrix-congruence",
+   "kind": "corollary",
+   "number": "",
+   "title": "Diagonalizing a symmetric matrix by congruence",
+   "tex": "For every symmetric matrix $A\\in\\F^{n,n}$, there is an invertible matrix $C$ such that $C^{\\mathsf t}AC$ is diagonal.",
+   "page": "338",
+   "proof": "The coordinate matrix construction defines a bilinear form $\\beta_A$ on $\\F^n$ whose matrix in the standard basis is $A$. Because that matrix is symmetric, the symmetric-form theorem makes $\\beta_A$ symmetric and supplies a basis $\\mathcal E$ in which its matrix is diagonal. Let $C$ have as its columns the standard coordinates of the vectors in $\\mathcal E$. This is the matrix of the identity map from $\\mathcal E$ coordinates to standard coordinates, so it is invertible. The bilinear change-of-basis formula gives\n    $\\Mat(\\beta_A,\\mathcal E)=C^{\\mathsf t}AC$,\n    proving the assertion. Empty matrices satisfy the same statement when $n=0$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "View the symmetric matrix as the matrix of a bilinear form."
+   ],
+   "uses": [
+    "c9-ex-matrix-bilinear",
+    "c9-thm-symmetric-diagonalization",
+    "c9-thm-bilinear-basis-change",
+    "c3-thm-matrix-inverse"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-real-symmetric-orthonormal",
+   "kind": "theorem",
+   "number": "9.13",
+   "title": "Orthonormal diagonalization of a real symmetric form",
+   "tex": "If $V$ is a real inner product space and $\\rho$ is a symmetric bilinear form on $V$, then some orthonormal basis gives a diagonal matrix for $\\rho$.",
+   "page": "339",
+   "proof": "Choose an orthonormal basis $f_1,\\ldots,f_n$, and set $A_{jk}=\\rho(f_j,f_k)$. Symmetry of $\\rho$ gives a real symmetric matrix $A$. Define a linear operator by\n    \\[\n    Tf_k=\\sum_j A_{jk}f_j.\n    \\]\n    Its matrix in the orthonormal basis is $A$, which equals its conjugate transpose because its entries are real and it is symmetric. Thus the adjoint-matrix formula makes $T$ self-adjoint.\n\n    For $u=\\sum_jx_jf_j$ and $v=\\sum_ky_kf_k$, real orthonormal coordinates give\n    \\[\n    \\ip{u}{Tv}\n    =\\sum_{j,k}x_jA_{jk}y_k\n    =\\rho(u,v).\n    \\]\n    The real spectral theorem provides an orthonormal eigenbasis $e_1,\\ldots,e_n$ of $T$, with $Te_k=\\lambda_ke_k$. In this basis,\n    \\[\n    \\rho(e_j,e_k)=\\ip{e_j}{Te_k}\n    =\\lambda_k\\ip{e_j}{e_k},\n    \\]\n    which is zero when $j\\ne k$. Hence the matrix of $\\rho$ is diagonal. On the zero space the empty orthonormal basis already has the required property.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Use an orthonormal basis to turn the matrix of the form into the matrix of a self-adjoint operator.",
+    "Apply the real spectral theorem to that operator."
+   ],
+   "uses": [
+    "c9-def-bilinear-matrix",
+    "c9-thm-symmetric-diagonalization",
+    "c9-thm-bilinear-matrix-isomorphism",
+    "c6-thm-orthonormal-basis-existence",
+    "c6-thm-orthonormal-coordinates",
+    "c7-thm-adjoint-matrix",
+    "c7-thm-real-spectral",
+    "c3-thm-linear-map-basis"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-alternating-bilinear",
+   "kind": "definition",
+   "number": "9.14",
+   "title": "Alternating bilinear forms",
+   "tex": "A bilinear form $\\alpha$ is alternating if\n    \\[\n    \\alpha(v,v)=0\\qquad(v\\in V).\n    \\]\n    Write $V_{\\mathrm{alt}}^{(2)}$ for the set of alternating bilinear forms.",
+   "page": "339"
+  },
+  {
+   "id": "c9-ex-alternating-coordinate",
+   "kind": "example",
+   "number": "9.15(a)",
+   "title": "An alternating coordinate expression",
+   "tex": "For $n\\ge3$, the formula\n    \\[\n    \\alpha(x,y)=x_1y_2-x_2y_1+x_1y_3-x_3y_1\n    \\]\n    defines an alternating bilinear form on $\\F^n$.",
+   "page": "339",
+   "proof": "This is the matrix-coordinate bilinear form with nonzero entries\n    $A_{12}=1$, $A_{21}=-1$, $A_{13}=1$, and $A_{31}=-1$, so it is bilinear. On the diagonal,\n    \\[\n    \\alpha(x,x)=x_1x_2-x_2x_1+x_1x_3-x_3x_1=0\n    \\]\n    by commutativity of scalar multiplication. Therefore it is alternating.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Set the two arguments equal and cancel the scalar products."
+   ],
+   "uses": [
+    "c9-def-alternating-bilinear",
+    "c9-ex-matrix-bilinear"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-alternating-functionals",
+   "kind": "example",
+   "number": "9.15(b)",
+   "title": "Alternating a product of two functionals",
+   "tex": "For $\\varphi,\\tau\\in\\dual V$, the formula\n    \\[\n    \\alpha(u,v)=\\varphi(u)\\tau(v)-\\varphi(v)\\tau(u)\n    \\]\n    defines an alternating bilinear form.",
+   "page": "339",
+   "proof": "Both $(u,v)\\mapsto\\varphi(u)\\tau(v)$ and\n    $(u,v)\\mapsto\\tau(u)\\varphi(v)$ are bilinear by the functional-product example. Their difference is bilinear because bilinear forms form a vector space. At equal arguments,\n    $\\alpha(v,v)=\\varphi(v)\\tau(v)-\\varphi(v)\\tau(v)=0$.\n    Hence the form is alternating.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use closure of bilinear forms under subtraction, then test equal arguments."
+   ],
+   "uses": [
+    "c9-def-alternating-bilinear",
+    "c9-ex-functional-products-bilinear",
+    "c9-thm-bilinear-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-alternating-bilinear-test",
+   "kind": "theorem",
+   "number": "9.16",
+   "title": "Alternation is antisymmetry",
+   "tex": "A bilinear form $\\alpha$ is alternating if and only if\n    \\[\n    \\alpha(u,v)=-\\alpha(v,u)\\qquad(u,v\\in V).\n    \\]",
+   "page": "340",
+   "proof": "If $\\alpha$ is alternating, bilinear expansion yields\n    \\[\n    0=\\alpha(u+v,u+v)\n    =\\alpha(u,u)+\\alpha(u,v)+\\alpha(v,u)+\\alpha(v,v).\n    \\]\n    The two diagonal values are zero, so\n    $\\alpha(u,v)+\\alpha(v,u)=0$, proving antisymmetry.\n\n    Conversely, suppose the stated antisymmetry holds. Setting $u=v$ gives $\\alpha(v,v)=-\\alpha(v,v)$, hence $2\\alpha(v,v)=0$. Because $2\\ne0$ in $\\F$, scalar cancellation gives $\\alpha(v,v)=0$ for every $v$. This is alternation.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "For one direction, evaluate at $u+v$ in both arguments; for the other, use equal arguments."
+   ],
+   "uses": [
+    "c9-def-alternating-bilinear",
+    "c9-lem-bilinear-expansion",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-bilinear-decomposition",
+   "kind": "theorem",
+   "number": "9.17",
+   "title": "The symmetric and alternating parts",
+   "tex": "The sets $V_{\\mathrm{sym}}^{(2)}$ and $V_{\\mathrm{alt}}^{(2)}$ are subspaces of $V^{(2)}$, and\n    \\[\n    V^{(2)}\n    =V_{\\mathrm{sym}}^{(2)}\n    \\oplus V_{\\mathrm{alt}}^{(2)}.\n    \\]\n    The unique decomposition $\\beta=\\rho+\\alpha$ is\n    \\[\n    \\rho(u,v)=\\frac{\\beta(u,v)+\\beta(v,u)}2,\n    \\qquad\n    \\alpha(u,v)=\\frac{\\beta(u,v)-\\beta(v,u)}2.\n    \\]",
+   "page": "340",
+   "proof": "The zero bilinear form is symmetric and alternating. If $\\rho_1,\\rho_2$ are symmetric, then for scalars $a,b$,\n    \\[\n    (a\\rho_1+b\\rho_2)(u,v)\n    =a\\rho_1(v,u)+b\\rho_2(v,u)\n    =(a\\rho_1+b\\rho_2)(v,u).\n    \\]\n    Thus their linear combination is symmetric. If $\\alpha_1,\\alpha_2$ are alternating, then\n    $(a\\alpha_1+b\\alpha_2)(v,v)=a\\cdot0+b\\cdot0=0$,\n    so their linear combination is alternating. Closure within $V^{(2)}$ follows from its vector-space property. The subspace test proves both subspace assertions.\n\n    For an arbitrary $\\beta$, the reversed-argument function\n    $\\beta^{\\mathsf t}(u,v)=\\beta(v,u)$ is bilinear: linearity in its first argument is linearity in the second argument of $\\beta$, and conversely for its second argument. Therefore the two displayed averages are bilinear. Exchanging their arguments leaves $\\rho$ unchanged and negates $\\alpha$, so $\\rho$ is symmetric and $\\alpha$ is alternating by the antisymmetry test. Adding their formulas gives $\\rho+\\alpha=\\beta$.\n\n    Finally, if a form $\\gamma$ is both symmetric and alternating, then\n    \\[\n    \\gamma(u,v)=\\gamma(v,u)=-\\gamma(u,v).\n    \\]\n    Hence $2\\gamma(u,v)=0$ for every pair, and scalar cancellation gives $\\gamma=0$. The two subspaces have zero intersection and sum to the full space, so the direct-sum criterion proves the asserted direct sum and uniqueness of the displayed decomposition.",
+   "difficulty": 2,
+   "minutes": 25,
+   "hints": [
+    "Average the form with its argument reversal, and take their half-difference.",
+    "A form that is both symmetric and antisymmetric must vanish."
+   ],
+   "uses": [
+    "c9-def-symmetric-bilinear",
+    "c9-def-alternating-bilinear",
+    "c9-thm-alternating-bilinear-test",
+    "c9-thm-bilinear-space",
+    "c1-thm-subspace-test",
+    "c1-thm-direct-intersection",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-quadratic-form",
+   "kind": "definition",
+   "number": "9.18",
+   "title": "Quadratic forms associated with bilinear forms",
+   "tex": "For a bilinear form $\\beta$, define\n    \\[\n    q_\\beta(v)=\\beta(v,v).\n    \\]\n    A function $q:V\\to\\F$ is a quadratic form if $q=q_\\beta$ for at least one bilinear form $\\beta$.",
+   "page": "341"
+  },
+  {
+   "id": "c9-lem-zero-quadratic-form",
+   "kind": "lemma",
+   "number": "",
+   "title": "Which bilinear forms have zero diagonal function",
+   "tex": "For a bilinear form $\\beta$,\n    \\[\n    q_\\beta=0\n    \\quad\\Longleftrightarrow\\quad\n    \\beta\\text{ is alternating}.\n    \\]",
+   "page": "341",
+   "proof": "The identity $q_\\beta=0$ means $\\beta(v,v)=0$ for every $v$, which is precisely the definition of an alternating bilinear form. Thus each condition implies the other.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compare the two definitions."
+   ],
+   "uses": [
+    "c9-def-quadratic-form",
+    "c9-def-alternating-bilinear"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-quadratic-coordinate",
+   "kind": "example",
+   "number": "9.19",
+   "title": "A quadratic form with cross terms",
+   "tex": "On $\\R^3$, the bilinear form\n    \\[\n    \\beta(x,y)=x_1y_1-4x_1y_2+8x_1y_3-3x_3y_3\n    \\]\n    has associated quadratic form\n    \\[\n    q_\\beta(x)=x_1^2-4x_1x_2+8x_1x_3-3x_3^2.\n    \\]",
+   "page": "341",
+   "proof": "The displayed bilinear expression is a matrix-coordinate form with nonzero entries $A_{11}=1$, $A_{12}=-4$, $A_{13}=8$, and $A_{33}=-3$. Hence it is bilinear. Substituting $y=x$ in its formula gives exactly the asserted expression for $q_\\beta$, by the definition of the associated quadratic form.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Set the two inputs of the bilinear expression equal."
+   ],
+   "uses": [
+    "c9-ex-matrix-bilinear",
+    "c9-def-quadratic-form"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-coordinate-quadratic",
+   "kind": "theorem",
+   "number": "9.20",
+   "title": "Quadratic forms in a coordinate space",
+   "tex": "A function $q:\\F^n\\to\\F$ is a quadratic form if and only if there are scalars $A_{jk}$ such that\n    \\[\n    q(x)=\\sum_{j=1}^n\\sum_{k=1}^n A_{jk}x_jx_k\n    \\qquad(x\\in\\F^n).\n    \\]\n    For $n=0$, this says that the only quadratic form is the function with value zero.",
+   "page": "341",
+   "proof": "If $q=q_\\beta$ for a bilinear form $\\beta$, let $A$ be its matrix in the standard basis. The bilinear coordinate expansion with the same vector in both arguments gives\n    \\[\n    q(x)=\\beta(x,x)=\\sum_{j,k}A_{jk}x_jx_k.\n    \\]\n    Conversely, given such coefficients, the matrix-coordinate formula\n    $\\beta(x,y)=\\sum_{j,k}A_{jk}x_jy_k$\n    defines a bilinear form, and substituting $y=x$ gives $q=q_\\beta$. When $n=0$, the double sum is zero and the unique vector is zero, so these arguments prove the stated special case as well.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the coordinate formula for a bilinear form with equal arguments."
+   ],
+   "uses": [
+    "c9-def-quadratic-form",
+    "c9-thm-bilinear-matrix-isomorphism",
+    "c9-ex-matrix-bilinear"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-quadratic-characterizations",
+   "kind": "theorem",
+   "number": "9.21",
+   "title": "Recovering the symmetric form from a quadratic form",
+   "tex": "For a function $q:V\\to\\F$, the following are equivalent:\n    \\begin{enumerate}\n    \\item $q$ is a quadratic form.\n    \\item There is exactly one symmetric bilinear form $\\rho$ with $q(v)=\\rho(v,v)$ for every $v$.\n    \\item $q(av)=a^2q(v)$ for every $a\\in\\F$ and $v\\in V$, and\n    \\[\n    b_q(u,v)=q(u+v)-q(u)-q(v)\n    \\]\n    is a symmetric bilinear form.\n    \\item $q(2v)=4q(v)$ for every $v$, and the same function $b_q$ is a symmetric bilinear form.\n    \\end{enumerate}\n    Whenever these conditions hold, the unique symmetric form is\n    \\[\n    \\rho(u,v)=\\frac{q(u+v)-q(u)-q(v)}2.\n    \\]",
+   "page": "342",
+   "proof": "Suppose first that $q=q_\\beta$. Decompose $\\beta=\\rho+\\alpha$ into its symmetric and alternating parts. Then\n    \\[\n    q(v)=\\rho(v,v)+\\alpha(v,v)=\\rho(v,v),\n    \\]\n    proving existence in the second condition. If another symmetric form $\\sigma$ has the same diagonal values, then $\\sigma-\\rho$ is symmetric and has zero quadratic form. It is therefore also alternating. The symmetric-alternating direct sum has zero intersection, so $\\sigma-\\rho=0$. This proves uniqueness.\n\n    Now suppose $q(v)=\\rho(v,v)$ for a symmetric bilinear form. Bilinearity gives\n    \\[\n    q(av)=\\rho(av,av)=a^2\\rho(v,v)=a^2q(v).\n    \\]\n    The diagonal-expansion identity gives\n    \\[\n    b_q(u,v)=2\\rho(u,v).\n    \\]\n    Thus $b_q$ is symmetric and bilinear, proving the third condition and the stated recovery formula.\n\n    The third condition implies the fourth by setting $a=2$. Finally, suppose the fourth condition holds and set $\\rho=b_q/2$. This is a symmetric bilinear form by the assumed property of $b_q$. For every $v$,\n    \\[\n    \\rho(v,v)\n    =\\frac{q(2v)-2q(v)}2\n    =\\frac{4q(v)-2q(v)}2\n    =q(v).\n    \\]\n    Hence $q$ is a quadratic form, closing the cycle of implications. These equations also apply at zero and on the zero space.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "The alternating part of a bilinear form disappears on the diagonal.",
+    "Expand the diagonal of a symmetric form at $u+v$.",
+    "For the weakest condition, take $\\rho=b_q/2$ and evaluate it at $(v,v)$."
+   ],
+   "uses": [
+    "c9-def-quadratic-form",
+    "c9-thm-bilinear-decomposition",
+    "c9-lem-zero-quadratic-form",
+    "c9-lem-symmetric-diagonal-detection",
+    "c9-lem-bilinear-expansion",
+    "c9-thm-bilinear-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-symmetric-quadratic-associate",
+   "kind": "example",
+   "number": "9.22",
+   "title": "The symmetric form behind the coordinate example",
+   "tex": "For\n    \\[\n    q(x)=x_1^2-4x_1x_2+8x_1x_3-3x_3^2,\n    \\]\n    the unique symmetric bilinear form with diagonal $q$ is\n    \\[\n    \\rho(x,y)\n    =x_1y_1-2x_1y_2-2x_2y_1\n      +4x_1y_3+4x_3y_1-3x_3y_3.\n    \\]",
+   "page": "343",
+   "proof": "The coordinate expression is bilinear by the matrix-coordinate construction. Exchanging $x$ and $y$ leaves the diagonal terms unchanged, interchanges the two terms with coefficient $-2$, and interchanges the two terms with coefficient $4$. Commutativity of scalar multiplication therefore gives $\\rho(x,y)=\\rho(y,x)$.\n\n    Substituting $y=x$ combines the two $-2$ terms into $-4x_1x_2$ and the two $4$ terms into $8x_1x_3$, giving $\\rho(x,x)=q(x)$. The quadratic-form characterization proves that this symmetric form is unique.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Split each cross-term coefficient equally between its two possible argument orders."
+   ],
+   "uses": [
+    "c9-ex-matrix-bilinear",
+    "c9-def-symmetric-bilinear",
+    "c9-thm-quadratic-characterizations",
+    "c9-ex-quadratic-coordinate"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-quadratic-diagonalization",
+   "kind": "theorem",
+   "number": "9.23",
+   "title": "Eliminating the cross terms of a quadratic form",
+   "tex": "For every quadratic form $q$ on $V$, there are a basis $e_1,\\ldots,e_n$ and scalars $\\lambda_1,\\ldots,\\lambda_n$ such that\n    \\[\n    q\\left(\\sum_{j=1}^n x_je_j\\right)\n    =\\sum_{j=1}^n\\lambda_jx_j^2\n    \\qquad(x_1,\\ldots,x_n\\in\\F).\n    \\]\n    If $V$ is a real inner product space, the basis can be chosen orthonormal. Over $\\C$, the expression uses ordinary squares $x_j^2$, not squared moduli.",
+   "page": "343",
+   "proof": "Let $\\rho$ be the unique symmetric bilinear form whose diagonal is $q$. Symmetric-form diagonalization gives a basis $e_1,\\ldots,e_n$ with $\\rho(e_j,e_k)=0$ for $j\\ne k$. Set $\\lambda_j=\\rho(e_j,e_j)$. Bilinear expansion gives\n    \\[\n    \\begin{aligned}\n    q\\left(\\sum_jx_je_j\\right)\n    &=\\rho\\left(\\sum_jx_je_j,\\sum_kx_ke_k\\right)\\\\\n    &=\\sum_{j,k}x_jx_k\\rho(e_j,e_k)\n    =\\sum_j\\lambda_jx_j^2.\n    \\end{aligned}\n    \\]\n    If $V$ has a real inner product, use the orthonormal diagonalization theorem for $\\rho$ to choose the basis, and the same calculation proves the orthonormal assertion. If $V=\\{0\\}$, the basis and sums are empty; every quadratic form then vanishes, so the formula remains valid.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Replace the quadratic form by its unique symmetric bilinear form.",
+    "Use a basis in which that bilinear form has zero off-diagonal entries."
+   ],
+   "uses": [
+    "c9-thm-quadratic-characterizations",
+    "c9-thm-symmetric-diagonalization",
+    "c9-thm-real-symmetric-orthonormal",
+    "c9-lem-bilinear-expansion",
+    "c9-def-quadratic-form"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c9-card-bilinear-definition",
+   "item": "c9-def-bilinear-form",
+   "front": "What does bilinearity require, and how does it differ from a complex inner product?",
+   "back": "Each argument is linear when the other is fixed. Scalars leave either argument unchanged; in a complex inner product they leave the second argument conjugated."
+  },
+  {
+   "id": "c9-card-bilinear-matrix",
+   "item": "c9-def-bilinear-matrix",
+   "front": "What is the $(j,k)$ entry of the matrix of a bilinear form in a basis $(e_1,\\ldots,e_n)$?",
+   "back": "It is $\\beta(e_j,e_k)$."
+  },
+  {
+   "id": "c9-card-bilinear-dimension",
+   "item": "c9-thm-bilinear-matrix-isomorphism",
+   "front": "What is the dimension of the space of bilinear forms on an $n$-dimensional space?",
+   "back": "It is $n^2$, because taking the matrix in a fixed basis is an isomorphism onto $\\F^{n,n}$."
+  },
+  {
+   "id": "c9-card-bilinear-change-basis",
+   "item": "c9-thm-bilinear-basis-change",
+   "front": "If the columns of $C$ are the $\\mathcal F$ coordinates of the $\\mathcal E$ basis vectors, how are the form matrices related?",
+   "back": "$\\Mat(\\beta,\\mathcal E)=C^{\\mathsf t}\\Mat(\\beta,\\mathcal F)C$. The transpose is ordinary, even over $\\C$."
+  },
+  {
+   "id": "c9-card-symmetric-diagonalization-idea",
+   "item": "c9-thm-symmetric-diagonalization",
+   "front": "What is the inductive step for diagonalizing a nonzero symmetric bilinear form?",
+   "back": "Find $w$ with $\\rho(w,w)\\ne0$, split off $\\Span(w)$ using the kernel of $\\rho(\\,\\cdot\\,,w)$, and diagonalize the restriction to that smaller subspace."
+  },
+  {
+   "id": "c9-card-real-orthonormal-form",
+   "item": "c9-thm-real-symmetric-orthonormal",
+   "front": "When does this section guarantee an orthonormal diagonalizing basis for a symmetric bilinear form?",
+   "back": "When the ambient inner product space is real. The proof represents the form by a self-adjoint operator and applies the real spectral theorem."
+  },
+  {
+   "id": "c9-card-alternating-test",
+   "item": "c9-thm-alternating-bilinear-test",
+   "front": "What identity is equivalent to alternation of a bilinear form over $\\R$ or $\\C$?",
+   "back": "$\\alpha(u,v)=-\\alpha(v,u)$ for all inputs. Expand $\\alpha(u+v,u+v)$ to obtain it from the diagonal condition."
+  },
+  {
+   "id": "c9-card-bilinear-parts",
+   "item": "c9-thm-bilinear-decomposition",
+   "front": "What are the symmetric and alternating parts of $\\beta$?",
+   "back": "They are $\\rho(u,v)=(\\beta(u,v)+\\beta(v,u))/2$ and $\\alpha(u,v)=(\\beta(u,v)-\\beta(v,u))/2$. Their sum is $\\beta$, uniquely."
+  },
+  {
+   "id": "c9-card-quadratic-polarization",
+   "item": "c9-thm-quadratic-characterizations",
+   "front": "How does a quadratic form determine its unique symmetric bilinear form?",
+   "back": "$\\rho(u,v)=(q(u+v)-q(u)-q(v))/2$."
+  },
+  {
+   "id": "c9-card-quadratic-diagonalization",
+   "item": "c9-thm-quadratic-diagonalization",
+   "front": "What does a quadratic form look like in a suitable basis?",
+   "back": "It has the form $q(\\sum_jx_je_j)=\\sum_j\\lambda_jx_j^2$. In a real inner product space the basis may be orthonormal."
+  }
+ ]
+}

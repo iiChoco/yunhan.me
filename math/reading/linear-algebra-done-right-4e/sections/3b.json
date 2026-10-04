@@ -1,0 +1,592 @@
+{
+ "version": 1,
+ "id": "3b",
+ "blocks": [
+  {
+   "id": "c3-intro-null-spaces-ranges",
+   "kind": "prose",
+   "number": "",
+   "title": "Inputs sent to zero and outputs that occur",
+   "tex": "Two subspaces describe important features of a linear map: the inputs it sends to zero and the outputs it produces. When the domain is finite-dimensional, the dimensions of these subspaces account for the entire dimension of the domain.",
+   "page": "59"
+  },
+  {
+   "id": "c3-def-null-space",
+   "kind": "definition",
+   "number": "3.11",
+   "title": "Null space",
+   "tex": "For $T\\in\\Lin(V,W)$, its \\emph{null space}, also called its \\emph{kernel}, is\n\\[\n\\Null T=\\{v\\in V:Tv=0_W\\}.\n\\]\nThus membership in the null space is a condition on vectors in the domain.",
+   "page": "59"
+  },
+  {
+   "id": "c3-ex-null-zero-map",
+   "kind": "example",
+   "number": "3.12",
+   "title": "The null space of a zero map",
+   "tex": "For the zero map $0:V\\to W$, prove that $\\Null 0=V$.",
+   "page": "59",
+   "proof": "Every $v\\in V$ is sent to $0_W$ by the definition of the zero map, so every $v\\in V$ belongs to its null space. Conversely, a null space consists only of vectors from the domain, so it is contained in $V$. The two inclusions give the equality.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Which inputs does the zero map send to zero?"
+   ],
+   "uses": [
+    "c3-def-null-space",
+    "c3-def-zero-identity-maps"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-null-coordinate-functional",
+   "kind": "example",
+   "number": "3.12",
+   "title": "The null space of a coordinate functional",
+   "tex": "Define $\\varphi:\\C^3\\to\\C$ by\n\\[\n\\varphi(z_1,z_2,z_3)=z_1+2z_2+3z_3.\n\\]\nProve that $\\varphi$ is linear and that\n\\[\n\\Null\\varphi\n=\\{(z_1,z_2,z_3)\\in\\C^3:z_1+2z_2+3z_3=0\\}.\n\\]",
+   "page": "59",
+   "proof": "For $u,v\\in\\C^3$, distributing the scalar coefficients gives\n\\[\n\\varphi(u+v)\n=(u_1+2u_2+3u_3)+(v_1+2v_2+3v_3)\n=\\varphi(u)+\\varphi(v).\n\\]\nFor $a\\in\\C$, the same distributive laws give\n$\\varphi(au)=a(u_1+2u_2+3u_3)=a\\varphi(u)$.\nThus $\\varphi$ is linear. By the definition of its null space, a vector belongs to $\\Null\\varphi$ exactly when the displayed formula for its image equals zero. This is precisely the stated coordinate condition.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "For the null space, set the output formula equal to zero."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c3-def-null-space",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-null-polynomial-differentiation",
+   "kind": "example",
+   "number": "3.12",
+   "title": "Polynomials with zero derivative",
+   "tex": "For the differentiation map $D:\\Poly(\\R)\\to\\Poly(\\R)$, prove that $\\Null D$ consists exactly of the constant polynomials.",
+   "page": "59",
+   "proof": "Write $p(x)=\\sum_{j=0}^{m}a_jx^j$. The polynomial differentiation formula gives\n\\[\nDp=\\sum_{j=1}^{m}ja_jx^{j-1}.\n\\]\nIf $Dp=0$, uniqueness of polynomial coefficients gives $ja_j=0$ for every $j=1,\\ldots,m$. Each such integer $j$ is a nonzero real scalar, so $a_j=0$. Consequently $p(x)=a_0$ is constant. Conversely, the differentiation formula gives derivative zero for a constant polynomial, because its derivative is an empty sum. Hence every constant polynomial lies in the null space, proving the equality.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Write the derivative in terms of the coefficients of the original polynomial.",
+    "Use coefficient uniqueness, then divide by each positive integer index."
+   ],
+   "uses": [
+    "c3-def-null-space",
+    "c3-ex-polynomial-differentiation",
+    "c2-thm-polynomial-differentiation",
+    "c2-lem-polynomial-coefficients",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-null-polynomial-square-multiplication",
+   "kind": "example",
+   "number": "3.12",
+   "title": "Multiplication by a square loses no polynomial",
+   "tex": "Let $M:\\Poly(\\R)\\to\\Poly(\\R)$ be multiplication by $x^2$, so $(Mp)(x)=x^2p(x)$. Prove that $\\Null M=\\{0\\}$.",
+   "page": "59",
+   "proof": "For $p(x)=\\sum_{j=0}^{m}a_jx^j$, multiplication gives\n\\[\n(Mp)(x)=\\sum_{j=0}^{m}a_jx^{j+2}.\n\\]\nIf $Mp=0$, uniqueness of coefficients of the zero polynomial gives $a_j=0$ for every $j$, so $p=0$. Conversely, multiplication of the zero polynomial by $x^2$ is again zero. Thus zero is the only member of the null space.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Multiplication by $x^2$ shifts the coefficient list by two positions."
+   ],
+   "uses": [
+    "c3-def-null-space",
+    "c3-ex-polynomial-multiplication",
+    "c2-lem-polynomial-coefficients"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-null-backward-shift",
+   "kind": "example",
+   "number": "3.12",
+   "title": "The information discarded by a backward shift",
+   "tex": "For the backward shift $B:\\F^\\infty\\to\\F^\\infty$, defined by $(Bx)_k=x_{k+1}$, prove\n\\[\n\\Null B=\\{(a,0,0,\\ldots):a\\in\\F\\}.\n\\]",
+   "page": "59",
+   "proof": "The equation $Bx=0$ means that $(Bx)_k=0$ for every $k\\ge1$. By the shift formula this is equivalent to $x_{k+1}=0$ for every $k\\ge1$, which says that all entries of $x$ from its second entry onward vanish. There is no condition on $x_1$. Thus the solutions are exactly the displayed sequences, and each of those sequences is indeed shifted to zero.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Which entries of an input sequence occur in its shifted output?"
+   ],
+   "uses": [
+    "c3-def-null-space",
+    "c3-ex-backward-shift",
+    "c1-def-sequences"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-null-subspace",
+   "kind": "theorem",
+   "number": "3.13",
+   "title": "The null space is a subspace of the domain",
+   "tex": "For every $T\\in\\Lin(V,W)$, the set $\\Null T$ is a subspace of $V$.",
+   "page": "59",
+   "proof": "A linear map preserves zero, so $T0_V=0_W$ and $0_V\\in\\Null T$. If $u,v\\in\\Null T$, additivity gives\n\\[\nT(u+v)=Tu+Tv=0_W+0_W=0_W.\n\\]\nHence $u+v\\in\\Null T$. If $a\\in\\F$ and $u\\in\\Null T$, homogeneity gives\n\\[\nT(au)=aTu=a0_W=0_W.\n\\]\nThus $au\\in\\Null T$. The subspace test now proves the assertion.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check zero, addition, and scalar multiplication using linearity."
+   ],
+   "uses": [
+    "c3-def-null-space",
+    "c3-def-linear-map",
+    "c3-thm-linear-zero",
+    "c1-thm-subspace-test",
+    "c1-thm-scalar-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-injective",
+   "kind": "definition",
+   "number": "3.14",
+   "title": "Injective functions",
+   "tex": "A function $T:V\\to W$ is \\emph{injective}, or \\emph{one-to-one}, if for every $u,v\\in V$, the equality $Tu=Tv$ implies $u=v$. Equivalently, distinct inputs must have distinct outputs.",
+   "page": "60"
+  },
+  {
+   "id": "c3-thm-injective-null",
+   "kind": "theorem",
+   "number": "3.15",
+   "title": "Injectivity is detected by the null space",
+   "tex": "A linear map $T\\in\\Lin(V,W)$ is injective if and only if $\\Null T=\\{0_V\\}$.",
+   "page": "60",
+   "proof": "Suppose first that $T$ is injective. If $v\\in\\Null T$, then $Tv=0_W=T0_V$, where the second equality follows from preservation of zero. Injectivity gives $v=0_V$. Since $0_V$ belongs to the null space, this proves $\\Null T=\\{0_V\\}$.\n\nConversely, suppose the null space is $\\{0_V\\}$ and $Tu=Tv$. Linearity and the negative-one identity give\n\\[\nT(u-v)=T(u+(-1)v)=Tu+(-1)Tv=Tu-Tv=0_W.\n\\]\nHence $u-v\\in\\Null T$, so $u-v=0_V$. Adding $v$ gives $u=v$. This proves injectivity. Neither implication requires the domain or target to be nonzero.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "For a linear map, equal outputs turn a difference of inputs into a null-space vector.",
+    "For the other direction, compare the image of a null-space vector with the image of zero."
+   ],
+   "uses": [
+    "c3-def-injective",
+    "c3-def-null-space",
+    "c3-def-linear-map",
+    "c3-thm-linear-zero",
+    "c1-def-vector-subtraction",
+    "c1-thm-negative-one"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-injectivity-from-kernels",
+   "kind": "example",
+   "number": "",
+   "title": "Applying the null-space test to the examples",
+   "tex": "Prove the following conclusions about the maps already considered:\n\\begin{itemize}\n\\item Multiplication by $x^2$ on $\\Poly(\\R)$ is injective.\n\\item Polynomial differentiation, the backward shift, and the coordinate functional $\\varphi(z_1,z_2,z_3)=z_1+2z_2+3z_3$ are not injective.\n\\item The zero map $V\\to W$ is injective exactly when $V=\\{0\\}$.\n\\end{itemize}",
+   "page": "60",
+   "proof": "Multiplication by $x^2$ has null space $\\{0\\}$ by its computed null-space example, so it is injective.\n\nThe nonzero constant polynomial $1$ lies in the differentiation null space. The nonzero sequence $(1,0,0,\\ldots)$ lies in the backward-shift null space. The vector $(-2,1,0)$ is nonzero and lies in $\\Null\\varphi$, because $-2+2\\cdot1+3\\cdot0=0$. Each of these three null spaces therefore differs from $\\{0\\}$, so none of those maps is injective.\n\nFinally, the zero map has null space $V$. The injectivity criterion says that it is injective exactly when this null space equals $\\{0\\}$, which is exactly the condition $V=\\{0\\}$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the null spaces already computed; exhibit a nonzero member when injectivity fails."
+   ],
+   "uses": [
+    "c3-thm-injective-null",
+    "c3-ex-null-polynomial-square-multiplication",
+    "c3-ex-null-polynomial-differentiation",
+    "c3-ex-null-backward-shift",
+    "c3-ex-null-coordinate-functional",
+    "c3-ex-null-zero-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-range",
+   "kind": "definition",
+   "number": "3.16",
+   "title": "Range",
+   "tex": "For $T\\in\\Lin(V,W)$, its \\emph{range} is the set of outputs that actually occur:\n\\[\n\\Range T=\\{Tv:v\\in V\\}\\subseteq W.\n\\]\nA vector $w\\in W$ belongs to this set precisely when there exists an input $v\\in V$ with $Tv=w$.",
+   "page": "61"
+  },
+  {
+   "id": "c3-ex-range-zero-map",
+   "kind": "example",
+   "number": "3.17",
+   "title": "The range of a zero map",
+   "tex": "For the zero map $0:V\\to W$, prove that $\\Range 0=\\{0_W\\}$.",
+   "page": "61",
+   "proof": "Every output of this map is $0_W$, so the range is contained in $\\{0_W\\}$. The domain contains $0_V$, and its image is $0_W$, so $0_W$ actually belongs to the range. Thus the range equals the stated singleton, including when the domain itself is the zero space.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check both that no other output occurs and that zero does occur."
+   ],
+   "uses": [
+    "c3-def-range",
+    "c3-def-zero-identity-maps",
+    "c1-def-vector-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-range-coordinate-map",
+   "kind": "example",
+   "number": "3.17",
+   "title": "Describing a range by an equation",
+   "tex": "Let $T:\\R^2\\to\\R^3$ be given by $T(x,y)=(2x,5y,x+y)$. Prove that $T$ is linear and that\n\\[\n\\Range T\n=\\{(2x,5y,x+y):x,y\\in\\R\\}\n=\\{(a,b,c)\\in\\R^3:5a+2b=10c\\}.\n\\]\nProve also that this range is a subspace of $\\R^3$.",
+   "page": "61",
+   "proof": "Each output coordinate is a fixed linear combination of the input coordinates, so the coordinate-map theorem proves that $T$ is linear. The first range description follows from the definition of range.\n\nFor an output $(a,b,c)=(2x,5y,x+y)$, one has\n$5a+2b=10x+10y=10c$, giving one inclusion in the second description. Conversely, suppose $5a+2b=10c$. Set $x=a/2$ and $y=b/5$. Then\n\\[\nx+y=\\frac{5a+2b}{10}=c,\n\\]\nso $T(x,y)=(a,b,c)$. This proves the reverse inclusion.\n\nFinally, every output can be written as\n\\[\nT(x,y)=x(2,0,1)+y(0,5,1),\n\\]\nand every such combination is an output. Thus the range is the span of these two vectors and is a subspace by the span theorem.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Eliminate the input parameters from the three output coordinates.",
+    "To prove the reverse inclusion, recover the inputs from the first two output coordinates."
+   ],
+   "uses": [
+    "c3-def-range",
+    "c3-thm-coordinate-linear-maps",
+    "c2-def-span",
+    "c2-thm-span-smallest"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-range-polynomial-differentiation",
+   "kind": "example",
+   "number": "3.17",
+   "title": "Every polynomial is a derivative",
+   "tex": "For $D:\\Poly(\\R)\\to\\Poly(\\R)$ given by differentiation, prove that $\\Range D=\\Poly(\\R)$.",
+   "page": "61",
+   "proof": "The range is contained in $\\Poly(\\R)$ because differentiation maps polynomials to polynomials. To prove the opposite inclusion, take an arbitrary\n\\[\nq(x)=\\sum_{j=0}^{m}a_jx^j\n\\]\nand define\n\\[\np(x)=\\sum_{j=0}^{m}\\frac{a_j}{j+1}x^{j+1}.\n\\]\nAll denominators are nonzero real numbers, and this finite expression defines a polynomial. Its derivative is\n\\[\np'(x)=\\sum_{j=0}^{m}(j+1)\\frac{a_j}{j+1}x^j\n=\\sum_{j=0}^{m}a_jx^j=q(x).\n\\]\nThus $q=Dp$ belongs to the range. The construction also applies to the zero polynomial by taking every coefficient zero.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Construct an input separately for each monomial in the desired output.",
+    "Raise each exponent by one and divide its coefficient by the new exponent."
+   ],
+   "uses": [
+    "c3-def-range",
+    "c3-ex-polynomial-differentiation",
+    "c2-def-polynomial",
+    "c2-thm-polynomial-differentiation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-range-subspace",
+   "kind": "theorem",
+   "number": "3.18",
+   "title": "The range is a subspace of the target",
+   "tex": "For every $T\\in\\Lin(V,W)$, the set $\\Range T$ is a subspace of $W$.",
+   "page": "61",
+   "proof": "Since $T0_V=0_W$, the target's zero vector belongs to the range. If $y,z\\in\\Range T$, choose $u,v\\in V$ with $Tu=y$ and $Tv=z$. Then\n\\[\ny+z=Tu+Tv=T(u+v),\n\\]\nso $y+z$ also belongs to the range. If $a\\in\\F$ and $y=Tu$ is in the range, then $ay=aTu=T(au)$ is in the range. These facts verify the subspace test.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "For each output in the range, choose an input producing it."
+   ],
+   "uses": [
+    "c3-def-range",
+    "c3-def-linear-map",
+    "c3-thm-linear-zero",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-surjective",
+   "kind": "definition",
+   "number": "3.19",
+   "title": "Surjective functions",
+   "tex": "A function $T:V\\to W$ is \\emph{surjective}, or \\emph{onto}, when every element of $W$ occurs as an output. For a linear map this says $\\Range T=W$; the specified target space is part of this condition.",
+   "page": "62"
+  },
+  {
+   "id": "c3-ex-surjectivity-from-ranges",
+   "kind": "example",
+   "number": "",
+   "title": "Reading surjectivity from the range",
+   "tex": "Prove that polynomial differentiation $\\Poly(\\R)\\to\\Poly(\\R)$ is surjective, that $T:\\R^2\\to\\R^3$ given by $T(x,y)=(2x,5y,x+y)$ is not surjective, and that the zero map $V\\to W$ is surjective exactly when $W=\\{0\\}$.",
+   "page": "62",
+   "proof": "The computed range of differentiation is all of $\\Poly(\\R)$, so it is surjective.\n\nEvery vector $(a,b,c)$ in the range of the coordinate map satisfies $5a+2b=10c$. The target vector $(0,0,1)$ violates this equation, because its two sides are $0$ and $10$. It is therefore outside the range, so this map is not surjective.\n\nThe zero map has range $\\{0_W\\}$. That range equals its target $W$ exactly when $W$ is the zero space, proving the last assertion.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compare each computed range with the specified target."
+   ],
+   "uses": [
+    "c3-def-surjective",
+    "c3-ex-range-polynomial-differentiation",
+    "c3-ex-range-coordinate-map",
+    "c3-ex-range-zero-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-surjectivity-depends-on-target",
+   "kind": "example",
+   "number": "3.20",
+   "title": "The target can change surjectivity",
+   "tex": "The formulas\n\\[\nD_5:\\Poly_5(\\R)\\to\\Poly_5(\\R),\\quad D_5p=p',\n\\qquad\nS:\\Poly_5(\\R)\\to\\Poly_4(\\R),\\quad Sp=p'\n\\]\ndefine linear maps. Prove that both have range $\\Poly_4(\\R)$, so $D_5$ is not surjective whereas $S$ is surjective.",
+   "page": "62",
+   "proof": "The derivative of a polynomial of degree at most $5$ has degree at most $4$, or is the zero polynomial, by the coefficient formula for differentiation. Hence both formulas have outputs in their stated targets. The linearity identities are inherited from differentiation on all polynomials, so both maps are linear.\n\nTheir outputs belong to $\\Poly_4(\\R)$. Conversely, for\n$q(x)=\\sum_{j=0}^{4}a_jx^j$, the polynomial\n\\[\np(x)=\\sum_{j=0}^{4}\\frac{a_j}{j+1}x^{j+1}\n\\]\nbelongs to $\\Poly_5(\\R)$ and satisfies $p'=q$. Thus every member of $\\Poly_4(\\R)$ is an output of both maps, proving the asserted common range.\n\nThe polynomial $x^5$ belongs to $\\Poly_5(\\R)$ but not to $\\Poly_4(\\R)$, because uniqueness of coefficients prevents a nonzero coefficient at exponent $5$ from being represented using lower exponents. Therefore $D_5$ misses a vector in its target. The target of $S$ is exactly the common range, so $S$ is surjective.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Find the precise degree bound on the derivative.",
+    "Construct an antiderivative of each polynomial of degree at most four."
+   ],
+   "uses": [
+    "c3-def-surjective",
+    "c3-def-range",
+    "c3-ex-polynomial-differentiation",
+    "c2-def-polynomial-space",
+    "c2-def-degree",
+    "c2-thm-polynomial-differentiation",
+    "c2-lem-polynomial-coefficients"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-intro-rank-nullity",
+   "kind": "prose",
+   "number": "",
+   "title": "Counting the lost and retained coordinates",
+   "tex": "A basis of the null space records directions that disappear under the map. Extending that basis to the domain will reveal a basis of the range among the images of the added vectors.",
+   "page": "62"
+  },
+  {
+   "id": "c3-thm-rank-nullity",
+   "kind": "theorem",
+   "number": "3.21",
+   "title": "Fundamental theorem of linear maps",
+   "tex": "Let $V$ be finite-dimensional, let $W$ be any vector space over $\\F$, and let $T\\in\\Lin(V,W)$. Then $\\Range T$ is finite-dimensional and\n\\[\n\\dim V=\\dim\\Null T+\\dim\\Range T.\n\\]\nThis equality is also called the \\emph{rank-nullity formula}.",
+   "page": "62",
+   "proof": "The null space is a subspace of the finite-dimensional space $V$, so it is finite-dimensional. Choose a basis $u_1,\\ldots,u_m$ of $\\Null T$, and extend it to a basis\n\\[\nu_1,\\ldots,u_m,v_1,\\ldots,v_n\n\\]\nof $V$. Thus $\\dim\\Null T=m$ and $\\dim V=m+n$.\n\nWe prove that $Tv_1,\\ldots,Tv_n$ is a basis of $\\Range T$. First, any $x\\in V$ can be written as\n\\[\nx=\\sum_{j=1}^{m}a_ju_j+\\sum_{k=1}^{n}b_kv_k.\n\\]\nApplying linearity, and using $Tu_j=0$ for every $j$, gives\n\\[\nTx=\\sum_{k=1}^{n}b_kTv_k.\n\\]\nThus every vector in the range is in the span of the displayed image list. Conversely, each $Tv_k$ lies in the range, which is a subspace, so every combination of the image list lies in the range. This proves that the list spans the range, and in particular that the range is finite-dimensional.\n\nFor independence, suppose $\\sum_{k=1}^{n}c_kTv_k=0$. By linearity,\n$T(\\sum_kc_kv_k)=0$, so $\\sum_kc_kv_k\\in\\Null T$. The chosen basis of the null space supplies coefficients $d_j$ with\n\\[\n\\sum_{k=1}^{n}c_kv_k=\\sum_{j=1}^{m}d_ju_j.\n\\]\nRearranging gives a relation on the extended basis with coefficients $-d_j$ and $c_k$. Its independence forces every $c_k=0$, as well as every $d_j=0$. Hence the image list is independent.\n\nIts basis length is $n$, so $\\dim\\Range T=n$. Substituting the three basis lengths gives the stated formula. Empty lists are permitted throughout: finite linearity with an empty sum uses $T0=0$, and the independence condition for an empty image list is vacuous. Therefore the proof covers a zero domain, a zero target, and a zero map without exceptions.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Begin with a basis of the null space and extend it to a basis of the domain.",
+    "Try the images of the added basis vectors as a basis of the range.",
+    "A relation among those images puts a combination of the added vectors into the null space."
+   ],
+   "uses": [
+    "c3-def-null-space",
+    "c3-def-range",
+    "c3-thm-null-subspace",
+    "c3-thm-range-subspace",
+    "c3-def-linear-map",
+    "c3-thm-linear-zero",
+    "c2-thm-subspaces-finite",
+    "c2-thm-basis-existence",
+    "c2-thm-extend-independent",
+    "c2-def-basis",
+    "c2-def-dimension",
+    "c2-def-finite-dimensional",
+    "c2-def-linear-independence"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-no-injection-lower",
+   "kind": "theorem",
+   "number": "3.22",
+   "title": "A smaller target prevents injectivity",
+   "tex": "If $V,W$ are finite-dimensional and $\\dim V>\\dim W$, then no linear map $T:V\\to W$ is injective.",
+   "page": "63",
+   "proof": "Let $T:V\\to W$ be linear. Its range is finite-dimensional by the fundamental theorem. A basis of the range is an independent list in $W$, so comparison with a basis of $W$ gives\n\\[\n\\dim\\Range T\\le\\dim W.\n\\]\nThe fundamental theorem therefore yields\n\\[\n\\dim\\Null T\n=\\dim V-\\dim\\Range T\n\\ge\\dim V-\\dim W>0.\n\\]\nThe zero space has the empty list as a basis and consequently dimension zero. Thus $\\Null T$ cannot equal $\\{0\\}$. The null-space criterion then shows that $T$ is not injective. The proof also permits $W=\\{0\\}$; the strict inequality in the hypothesis already rules out a zero domain in that case.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the fundamental theorem to bound the dimension of the null space from below.",
+    "The range lies in the target, so compare their basis lengths."
+   ],
+   "uses": [
+    "c3-thm-rank-nullity",
+    "c3-thm-injective-null",
+    "c3-thm-range-subspace",
+    "c2-def-dimension",
+    "c2-def-basis",
+    "c2-thm-basis-existence",
+    "c2-thm-independent-length"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-four-to-three-not-injective",
+   "kind": "example",
+   "number": "3.23",
+   "title": "A dimension count replaces solving equations",
+   "tex": "Consider\n\\[\nT:\\F^4\\to\\F^3,\\qquad\nT(z_1,z_2,z_3,z_4)\n=\\bigl(\\sqrt7\\,z_1+\\pi z_2+z_4,\\,\n97z_1+3z_2+2z_3,\\,\nz_2+6z_3+7z_4\\bigr).\n\\]\nProve that $T$ is linear and not injective, without solving explicitly for a nonzero null-space vector.",
+   "page": "63",
+   "proof": "All coefficients in the formula are scalars in $\\F$, and each output coordinate is a fixed scalar combination of the input coordinates. Thus the coordinate-map theorem proves linearity.\n\nThe standard coordinate bases have lengths $4$ and $3$, so $\\dim\\F^4=4$ and $\\dim\\F^3=3$. The theorem excluding injectivity into a smaller finite-dimensional target now applies, giving that $T$ is not injective. No value of a null-space vector needs to be computed.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compare the lengths of the standard bases of the domain and target."
+   ],
+   "uses": [
+    "c3-thm-coordinate-linear-maps",
+    "c3-thm-no-injection-lower",
+    "c2-ex-standard-basis",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-no-surjection-higher",
+   "kind": "theorem",
+   "number": "3.24",
+   "title": "A larger target prevents surjectivity",
+   "tex": "If $V,W$ are finite-dimensional and $\\dim V<\\dim W$, then no linear map $T:V\\to W$ is surjective.",
+   "page": "64",
+   "proof": "Let $T:V\\to W$ be linear. Dimensions of finite-dimensional spaces are nonnegative integers, because they are basis lengths. The fundamental theorem gives\n\\[\n\\dim\\Range T=\\dim V-\\dim\\Null T\n\\le\\dim V<\\dim W.\n\\]\nIf $T$ were surjective, its range would be $W$, and the two spaces would have the same dimension, contradicting the strict inequality. Hence $T$ is not surjective. When $V=\\{0\\}$, its dimension is zero and the same argument applies to every nonzero finite-dimensional target.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Bound the dimension of the range from above using the fundamental theorem."
+   ],
+   "uses": [
+    "c3-thm-rank-nullity",
+    "c3-def-surjective",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-coordinate-linear-system",
+   "kind": "definition",
+   "number": "",
+   "title": "Systems of scalar linear equations",
+   "tex": "Fix nonnegative integers $m,n$, scalars $A_{jk}\\in\\F$ for $1\\le j\\le m$, $1\\le k\\le n$, and prescribed scalars $c_1,\\ldots,c_m$. The corresponding system in the unknowns $x_1,\\ldots,x_n$ is\n\\[\n\\sum_{k=1}^{n}A_{jk}x_k=c_j\n\\qquad(1\\le j\\le m).\n\\]\nA \\emph{solution} is a vector $x\\in\\F^n$ satisfying every equation. The system is \\emph{homogeneous} if every $c_j=0$. If $n=0$, each left side is an empty sum equal to zero; if $m=0$, there are no conditions to satisfy.",
+   "page": "64"
+  },
+  {
+   "id": "c3-lem-system-map-correspondence",
+   "kind": "lemma",
+   "number": "",
+   "title": "A system as one equation for a linear map",
+   "tex": "For the fixed coefficients of a scalar linear system, define $T:\\F^n\\to\\F^m$ by\n\\[\n(Tx)_j=\\sum_{k=1}^{n}A_{jk}x_k.\n\\]\nThen $T$ is linear, and the solutions with prescribed right side $c=(c_1,\\ldots,c_m)$ are exactly the inputs satisfying $Tx=c$. In particular, the homogeneous solution set is $\\Null T$, and a solution for a prescribed $c$ exists exactly when $c\\in\\Range T$.",
+   "page": "64",
+   "proof": "The coordinate-map theorem proves that the displayed formula defines a linear map, including the cases of empty input or output lists. Equality $Tx=c$ means equality at each output coordinate. Its $j$th coordinate equation is precisely\n$\\sum_kA_{jk}x_k=c_j$, so equality of these vectors is equivalent to satisfaction of the system.\n\nFor $c=0$, the inputs satisfying $Tx=0$ form $\\Null T$ by definition. For general $c$, the existence of an input with image $c$ is exactly the defining condition for $c\\in\\Range T$. If $m=0$, the output equality and the list of equations are both empty conditions. If $n=0$, the only input is zero and its output is zero, agreeing with the empty-sum equations.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compare the two statements one output coordinate at a time."
+   ],
+   "uses": [
+    "c3-def-coordinate-linear-system",
+    "c3-thm-coordinate-linear-maps",
+    "c3-def-null-space",
+    "c3-def-range",
+    "c1-def-list"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-homogeneous-system",
+   "kind": "theorem",
+   "number": "3.26",
+   "title": "More unknowns give a nonzero homogeneous solution",
+   "tex": "For fixed scalar coefficients, a homogeneous system with $n$ unknowns and $m$ equations has a nonzero solution whenever $n>m$. In particular, every homogeneous system of four scalar linear equations in five unknowns has a nonzero solution.",
+   "page": "65",
+   "proof": "Let $T:\\F^n\\to\\F^m$ be the associated coordinate map. It is linear, and the homogeneous solutions are exactly $\\Null T$ by the system-map correspondence.\n\nThe standard bases give $\\dim\\F^n=n$ and $\\dim\\F^m=m$, including dimension zero for an empty coordinate space. Since $n>m$, the smaller-target theorem says that $T$ is not injective. The null-space criterion implies $\\Null T\\ne\\{0\\}$. Because zero belongs to the null space, this inequality means that some nonzero vector belongs to it. That vector is the required nonzero solution.\n\nThe numerical instance follows by taking $n=5$ and $m=4$. If $m=0$, the same argument applies; in that case there are no equations and every vector is a solution, with $n>0$ ensuring that nonzero vectors exist.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Interpret the homogeneous solutions as the null space of a coordinate map.",
+    "Compare the dimension of its domain with the dimension of its target."
+   ],
+   "uses": [
+    "c3-def-coordinate-linear-system",
+    "c3-lem-system-map-correspondence",
+    "c3-thm-no-injection-lower",
+    "c3-thm-injective-null",
+    "c3-thm-null-subspace",
+    "c2-ex-standard-basis",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-overdetermined-system",
+   "kind": "theorem",
+   "number": "3.28",
+   "title": "More equations allow an inconsistent right side",
+   "tex": "Fix the coefficients of a system with $m$ equations in $n$ unknowns. If $m>n$, then there is a choice of right side $(c_1,\\ldots,c_m)$ for which the system has no solution. In particular, this conclusion holds for five equations in four unknowns.",
+   "page": "65",
+   "proof": "For the fixed coefficients, form the associated linear map $T:\\F^n\\to\\F^m$. The standard basis lengths give\n\\[\n\\dim\\F^n=n<m=\\dim\\F^m.\n\\]\nThe larger-target theorem implies that $T$ is not surjective. Thus $\\Range T$ is a proper subset of $\\F^m$, so choose $c\\in\\F^m\\setminus\\Range T$. The system-map correspondence says that the system with right side $c$ has a solution exactly when $c$ lies in the range. Our choice therefore makes the system inconsistent.\n\nTaking $m=5$, $n=4$ gives the stated instance. If $n=0$, the associated map has only the zero input and zero output; because $m>0$, its target has nonzero vectors and the same argument still supplies an inconsistent right side.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "The coefficients determine a map before the right side is chosen.",
+    "Choose a right side outside the range of that map."
+   ],
+   "uses": [
+    "c3-def-coordinate-linear-system",
+    "c3-lem-system-map-correspondence",
+    "c3-thm-no-surjection-higher",
+    "c3-def-surjective",
+    "c2-ex-standard-basis",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-remark-some-right-sides",
+   "kind": "remark",
+   "number": "",
+   "title": "What the inconsistency conclusion says",
+   "tex": "The last theorem asserts that some choice of right side is inconsistent. It does not assert that every right side is inconsistent: choosing the zero right side always permits the zero solution, since each left side is then a sum of zero terms.",
+   "page": "65"
+  }
+ ],
+ "cards": [
+  {
+   "id": "c3-card-null-space",
+   "item": "c3-def-null-space",
+   "front": "What is the null space of $T:V\\to W$, and in which space does it lie?",
+   "back": "$\\Null T=\\{v\\in V:Tv=0_W\\}$; it lies in the domain $V$."
+  },
+  {
+   "id": "c3-card-injective-null",
+   "item": "c3-thm-injective-null",
+   "front": "How can injectivity of a linear map be checked using a single output?",
+   "back": "Check that the only input sent to zero is zero: $T$ is injective exactly when $\\Null T=\\{0\\}$."
+  },
+  {
+   "id": "c3-card-range",
+   "item": "c3-def-range",
+   "front": "What does it mean for $w\\in W$ to belong to $\\Range T$?",
+   "back": "There exists $v\\in V$ such that $Tv=w$."
+  },
+  {
+   "id": "c3-card-surjective-target",
+   "item": "c3-ex-surjectivity-depends-on-target",
+   "front": "Why does surjectivity depend on the specified target space?",
+   "back": "The range must equal that target. Differentiation on $\\Poly_5(\\R)$ has range $\\Poly_4(\\R)$, so it is onto $\\Poly_4(\\R)$ but not onto $\\Poly_5(\\R)$."
+  },
+  {
+   "id": "c3-card-rank-nullity",
+   "item": "c3-thm-rank-nullity",
+   "front": "State the fundamental theorem of linear maps, including its finiteness hypothesis.",
+   "back": "If $V$ is finite-dimensional and $T\\in\\Lin(V,W)$, then $\\Range T$ is finite-dimensional and $\\dim V=\\dim\\Null T+\\dim\\Range T$. The target $W$ need not be finite-dimensional."
+  },
+  {
+   "id": "c3-card-rank-nullity-proof",
+   "item": "c3-thm-rank-nullity",
+   "front": "Which basis construction proves the rank-nullity formula?",
+   "back": "Extend a basis of the null space to a basis of the domain. The images of the added vectors form a basis of the range."
+  },
+  {
+   "id": "c3-card-homogeneous-count",
+   "item": "c3-thm-homogeneous-system",
+   "front": "What does having more unknowns than equations guarantee for a homogeneous scalar linear system?",
+   "back": "It guarantees a nonzero solution."
+  },
+  {
+   "id": "c3-card-overdetermined-quantifier",
+   "item": "c3-thm-overdetermined-system",
+   "front": "When there are more equations than unknowns, does every right side make the system inconsistent?",
+   "back": "No. The theorem guarantees an inconsistent right side for some choice; the zero right side always has the zero solution."
+  }
+ ]
+}

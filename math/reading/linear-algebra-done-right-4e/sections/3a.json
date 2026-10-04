@@ -1,0 +1,441 @@
+{
+ "version": 1,
+ "id": "3a",
+ "blocks": [
+  {
+   "id": "c3-intro-linear-maps",
+   "kind": "prose",
+   "number": "",
+   "title": "Maps that respect vector arithmetic",
+   "tex": "A linear map transports sums and scalar multiples without changing their algebraic form. We examine concrete examples, construct maps by prescribing values on a basis, and then study addition and composition of maps. All vector spaces in this section use the same scalar field $\\F$.",
+   "page": "52"
+  },
+  {
+   "id": "c3-def-linear-map",
+   "kind": "definition",
+   "number": "3.1",
+   "title": "Linear maps",
+   "tex": "A function $T:V\\to W$ between vector spaces over $\\F$ is linear if $T(u+v)=Tu+Tv$ for all $u,v\\in V$ and $T(av)=aTv$ for all $a\\in\\F$ and $v\\in V$. We may write $Tv$ instead of $T(v)$.",
+   "page": "52"
+  },
+  {
+   "id": "c3-def-linear-map-space",
+   "kind": "definition",
+   "number": "3.2",
+   "title": "Notation for collections of linear maps",
+   "tex": "The set of linear maps from $V$ to $W$ is denoted by $\\Lin(V,W)$. Write $\\Lin(V)=\\Lin(V,V)$.",
+   "page": "52"
+  },
+  {
+   "id": "c3-def-zero-identity-maps",
+   "kind": "definition",
+   "number": "",
+   "title": "Zero and identity maps",
+   "tex": "The zero map $0:V\\to W$ sends every vector to $0_W$. The identity map $I_V:V\\to V$ sends each $v$ to itself. We omit the subscript on $I$ when its space is determined by the expression.",
+   "page": "52"
+  },
+  {
+   "id": "c3-ex-zero-identity-linear",
+   "kind": "example",
+   "number": "3.3",
+   "title": "Zero and identity maps are linear",
+   "tex": "The zero map belongs to $\\Lin(V,W)$ and $I_V$ belongs to $\\Lin(V)$.",
+   "page": "52",
+   "proof": "For the zero map, $0(u+v)=0_W=0_W+0_W=0u+0v$, and $0(av)=0_W=a0_W=a(0v)$. For the identity map, $I_V(u+v)=u+v=I_Vu+I_Vv$ and $I_V(av)=av=aI_Vv$. These are the two required identities for each map.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply each map to the two kinds of expression appearing in the definition."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c3-def-zero-identity-maps",
+    "c1-def-vector-space",
+    "c1-thm-scalar-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-lem-polynomial-products",
+   "kind": "lemma",
+   "number": "",
+   "title": "Products and substitutions of polynomial functions",
+   "tex": "If $p,q\\in\\Poly(\\F)$, the pointwise product $pq$ and the composite function $p\\circ q$ are polynomial functions.",
+   "page": "53",
+   "proof": "Write $p(z)=\\sum_{j=0}^m a_jz^j$ and $q(z)=\\sum_{k=0}^n b_kz^k$. Finite distributivity and scalar power laws give\n\\[(pq)(z)=\\sum_{j=0}^m\\sum_{k=0}^n a_jb_kz^{j+k}.\\]\nGrouping terms with the same exponent expresses this as a finite scalar combination of powers, so it is polynomial. The constant function $1$ is polynomial; induction using product closure makes every power $q^j$ polynomial. Thus $p(q(z))=\\sum_{j=0}^m a_jq(z)^j$ is polynomial by closure under addition and scalar multiplication. This argument includes zero and constant polynomials.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Expand a product using finite sums, and then treat substitution as a sum of powers."
+   ],
+   "uses": [
+    "c2-def-polynomial",
+    "c2-thm-polynomial-subspace",
+    "c1-thm-complex-laws",
+    "c1-lem-scalar-powers"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-polynomial-integral",
+   "kind": "definition",
+   "number": "",
+   "title": "Integration notation for polynomial examples",
+   "tex": "For a real polynomial $p(x)=\\sum_{j=0}^m a_jx^j$, define\n\\[\\int_0^1p(x)\\,dx=\\sum_{j=0}^m\\frac{a_j}{j+1}.\\]\nCoefficient uniqueness ensures that this value does not depend on adding trailing zero coefficients. This specifies integration on polynomials; no integration of more general functions is needed here.",
+   "page": "53"
+  },
+  {
+   "id": "c3-ex-polynomial-differentiation",
+   "kind": "example",
+   "number": "3.3",
+   "title": "Differentiation is linear on polynomials",
+   "tex": "The map $D:\\Poly(\\R)\\to\\Poly(\\R)$ defined by $Dp=p'$ is linear.",
+   "page": "53",
+   "proof": "By the polynomial differentiation rule, if $p(x)=\\sum_{j=0}^m a_jx^j$, then $p'(x)=\\sum_{j=1}^m ja_jx^{j-1}$, a polynomial. Thus the map has the asserted domain and target. Write $p$ and $q$ with coefficient lists $a_j,b_j$ padded to the same length. The derivative of $p+q$ has coefficients $j(a_j+b_j)=ja_j+jb_j$, so $D(p+q)=Dp+Dq$. The derivative of $cp$ has coefficients $jca_j=cja_j$, so $D(cp)=cDp$. When $m=0$, each displayed derivative is the empty sum, meaning zero, and the same identities hold.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the coefficient formula for the derivative."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c2-def-polynomial",
+    "c2-lem-polynomial-coefficients",
+    "c2-thm-polynomial-differentiation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-polynomial-integration",
+   "kind": "example",
+   "number": "3.3",
+   "title": "Integration is linear on polynomials",
+   "tex": "The map $J:\\Poly(\\R)\\to\\R$ given by $Jp=\\int_0^1p(x)\\,dx$ is linear.",
+   "page": "53",
+   "proof": "After padding coefficient lists to the same length, the coefficient of $x^j$ in $p+q$ is $a_j+b_j$. Hence $J(p+q)=\\sum_j(a_j+b_j)/(j+1)=Jp+Jq$. For $c\\in\\R$, the coefficients of $cp$ are $ca_j$, so $J(cp)=\\sum_jca_j/(j+1)=cJp$. The finite sums are real numbers, so this also verifies the target of the map.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the defining finite sum for this integral."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c3-def-polynomial-integral",
+    "c2-def-polynomial"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-polynomial-multiplication",
+   "kind": "example",
+   "number": "3.3",
+   "title": "Multiplication by a fixed polynomial is linear",
+   "tex": "For fixed $q\\in\\Poly(\\F)$, define $M_qp=qp$. Then $M_q\\in\\Lin(\\Poly(\\F))$. In particular, multiplication by $x^2$ is a linear map on $\\Poly(\\R)$.",
+   "page": "53",
+   "proof": "Product closure shows $qp\\in\\Poly(\\F)$. At any scalar $z$, $q(z)(p(z)+r(z))=q(z)p(z)+q(z)r(z)$ and $q(z)(ap(z))=a(q(z)p(z))$. These pointwise equalities give $M_q(p+r)=M_qp+M_qr$ and $M_q(ap)=aM_qp$. Taking $q(x)=x^2$ gives the special case.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check the two identities by evaluating them at a scalar argument."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c3-lem-polynomial-products",
+    "c2-def-polynomial",
+    "c1-thm-complex-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-backward-shift",
+   "kind": "example",
+   "number": "3.3",
+   "title": "The backward shift is linear",
+   "tex": "The map $B:\\F^\\infty\\to\\F^\\infty$ defined by $(Bx)_k=x_{k+1}$ is linear.",
+   "page": "53",
+   "proof": "It returns a scalar sequence. For every $k\\in\\N$, $[B(x+y)]_k=x_{k+1}+y_{k+1}=(Bx)_k+(By)_k$, and $[B(ax)]_k=ax_{k+1}=a(Bx)_k$. Equality at every index proves $B(x+y)=Bx+By$ and $B(ax)=aBx$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compare the $k$th entries."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c1-def-sequences",
+    "c1-ex-sequence-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-coordinate-linear-map",
+   "kind": "example",
+   "number": "3.3",
+   "title": "A map between different coordinate spaces",
+   "tex": "The map $T:\\R^3\\to\\R^2$ given by $T(x,y,z)=(2x-y+3z,7x+5y-6z)$ is linear.",
+   "page": "53",
+   "proof": "For $u=(x,y,z)$ and $v=(r,s,t)$, distributing in each coordinate gives\n\\[T(u+v)=(2x-y+3z+2r-s+3t,7x+5y-6z+7r+5s-6t)=Tu+Tv.\\]\nFor $a\\in\\R$, factoring $a$ from each coordinate gives $T(au)=(a(2x-y+3z),a(7x+5y-6z))=aTu$. Thus the two linearity conditions hold.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Expand the two output coordinates separately."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-coordinate-linear-maps",
+   "kind": "theorem",
+   "number": "3.3",
+   "title": "Coordinate description of every linear map",
+   "tex": "Let $m,n\\ge0$ and choose scalars $A_{jk}$ for $1\\le j\\le m$, $1\\le k\\le n$. The formula\n\\[(Tx)_j=\\sum_{k=1}^n A_{jk}x_k\\]\ndefines a linear map $T:\\F^n\\to\\F^m$. Conversely, every such linear map has this form, with $A_{jk}$ the $j$th coordinate of $Te_k$, where $e_k$ are the standard coordinate vectors.",
+   "page": "53",
+   "proof": "The formula gives a length-$m$ scalar list for every input. Scalar distributivity gives $[T(x+y)]_j=\\sum_kA_{jk}x_k+\\sum_kA_{jk}y_k=(Tx)_j+(Ty)_j$ and $[T(ax)]_j=a\\sum_kA_{jk}x_k=a(Tx)_j$. Thus the map is linear. Conversely, for a linear $T$ and $n>0$, use $x=\\sum_kx_ke_k$. Repeated additivity and homogeneity give $Tx=\\sum_kx_kTe_k$, whose $j$th coordinate has the claimed form. If $n=0$, the domain contains only zero. Homogeneity gives $T0=T(0\\cdot0)=0\\cdot T0=0$, so the empty-sum formula also holds. If $m=0$, all outputs are the empty list and both assertions remain valid.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "For the converse, write the input using standard coordinate vectors."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c2-ex-standard-spanning",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c1-thm-zero-scalar"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-polynomial-composition",
+   "kind": "example",
+   "number": "3.3",
+   "title": "Substitution by a fixed polynomial is linear",
+   "tex": "For fixed $q\\in\\Poly(\\R)$, the map $C_q:\\Poly(\\R)\\to\\Poly(\\R)$ given by $(C_qp)(x)=p(q(x))$ is linear.",
+   "page": "53",
+   "proof": "Substitution closure proves that $C_qp$ is polynomial. For every $x\\in\\R$, $(C_q(p+r))(x)=p(q(x))+r(q(x))=(C_qp+C_qr)(x)$, and $(C_q(ap))(x)=ap(q(x))=(aC_qp)(x)$. These pointwise identities prove linearity.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Only the outer polynomial varies; the substituted polynomial stays fixed."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c3-lem-polynomial-products",
+    "c1-def-function-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-linear-map-basis",
+   "kind": "theorem",
+   "number": "3.4",
+   "title": "Prescribing a linear map on a basis",
+   "tex": "If $v_1,\\ldots,v_n$ is a basis of $V$ and $w_1,\\ldots,w_n$ are any vectors of $W$, there is exactly one $T\\in\\Lin(V,W)$ with $Tv_k=w_k$ for every $k$.",
+   "page": "54",
+   "proof": "Every $v\\in V$ has unique coefficients $a_k$ with $v=\\sum_ka_kv_k$. Define $Tv=\\sum_ka_kw_k$. Uniqueness of the coefficients makes this a well-defined function into $W$. The coefficients of $u+v$ are the sums of the respective coefficients, because the corresponding expansion follows from distributivity and is unique. Those of $cv$ are $ca_k$. Consequently $T(u+v)=Tu+Tv$ and $T(cv)=cTv$. Taking one coefficient equal to $1$ and all others zero proves $Tv_k=w_k$. Any other linear map $S$ with these basis values must satisfy $Sv=\\sum_ka_kSv_k=\\sum_ka_kw_k=Tv$ by repeated additivity and homogeneity. If $n=0$, $V=\\{0\\}$, the definition is $T0=0$, and every linear $S$ satisfies $S0=S(0\\cdot0)=0\\cdot S0=0$. Thus existence and uniqueness include the zero space.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the unique coefficient list of a vector to define its image.",
+    "Check well-definedness before checking linearity."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c2-def-basis",
+    "c2-thm-basis-coordinates",
+    "c1-def-vector-space",
+    "c1-thm-zero-scalar"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-map-operations",
+   "kind": "definition",
+   "number": "3.5",
+   "title": "Addition and scalar multiplication of maps",
+   "tex": "For $S,T\\in\\Lin(V,W)$ and $a\\in\\F$, define functions by $(S+T)v=Sv+Tv$ and $(aT)v=a(Tv)$.",
+   "page": "55"
+  },
+  {
+   "id": "c3-thm-linear-map-space",
+   "kind": "theorem",
+   "number": "3.6",
+   "title": "Linear maps form a vector space",
+   "tex": "With these operations, $\\Lin(V,W)$ is a vector space over $\\F$. Its zero vector is the zero map, and the map $v\\mapsto-Tv$ is the additive inverse of $T$.",
+   "page": "55",
+   "proof": "First verify closure. For $u,v\\in V$, $(S+T)(u+v)=Su+Sv+Tu+Tv=(Su+Tu)+(Sv+Tv)$, using commutativity and associativity in $W$. For $b\\in\\F$, $(S+T)(bv)=bSv+bTv=b(S+T)v$. Also $(aT)(u+v)=aTu+aTv$ and $(aT)(bv)=a(bTv)=b(aTv)$, so $S+T$ and $aT$ are linear. The zero map is linear by the earlier example. Evaluating at any $v\\in V$ gives\n\\[\\begin{aligned}\n(S+T)v&=(T+S)v,\\\\\n((R+S)+T)v&=Rv+(Sv+Tv)=(R+(S+T))v,\\\\\n((ab)T)v&=(ab)Tv=a(bTv)=(a(bT))v,\\\\\n(1T)v&=Tv,\\\\\n(a(S+T))v&=aSv+aTv=(aS+aT)v,\\\\\n((a+b)T)v&=aTv+bTv=(aT+bT)v.\n\\end{aligned}\\]\nEach equality is a vector-space identity in $W$, so equality of functions proves all six corresponding axioms. Finally $(T+0)v=Tv$ and $(T+(-1)T)v=Tv+(-Tv)=0_W$. Closure already makes $(-1)T$ linear, and the negative-one identity in $W$ identifies it with the stated inverse map. Thus the identity and inverse axioms also hold.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "First prove the pointwise operations preserve linearity.",
+    "Check the vector-space axioms by evaluating at an arbitrary input."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c3-def-linear-map-space",
+    "c3-def-map-operations",
+    "c3-ex-zero-identity-linear",
+    "c1-def-vector-space",
+    "c1-thm-negative-one"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-map-composition",
+   "kind": "definition",
+   "number": "3.7",
+   "title": "Products of linear maps",
+   "tex": "For $T\\in\\Lin(U,V)$ and $S\\in\\Lin(V,W)$, the product $ST$ denotes the composite function $u\\mapsto S(Tu)$. The rightmost map is applied first.",
+   "page": "55"
+  },
+  {
+   "id": "c3-lem-composition-linear",
+   "kind": "lemma",
+   "number": "",
+   "title": "Composition preserves linearity",
+   "tex": "For $T\\in\\Lin(U,V)$ and $S\\in\\Lin(V,W)$, the composite $ST$ belongs to $\\Lin(U,W)$.",
+   "page": "55",
+   "proof": "The image $Tu$ lies in the domain of $S$, so composition is defined. For $u,v\\in U$, $(ST)(u+v)=S(Tu+Tv)=S(Tu)+S(Tv)$. For $a\\in\\F$, $(ST)(au)=S(aTu)=aS(Tu)$. These are the linearity identities.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply linearity of the inner map and then the outer map."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c3-def-map-composition"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-composition-laws",
+   "kind": "theorem",
+   "number": "3.8",
+   "title": "Associativity, identities, and distributivity of composition",
+   "tex": "Whenever the domains and targets match, composition of linear maps is associative and satisfies $TI_V=I_WT=T$ for $T:V\\to W$. If $T,T_1,T_2:U\\to V$ and $S,S_1,S_2:V\\to W$ are linear, then $(S_1+S_2)T=S_1T+S_2T$ and $S(T_1+T_2)=ST_1+ST_2$.",
+   "page": "56",
+   "proof": "At an input $u$, both $((AB)C)u$ and $(A(BC))u$ equal $A(B(Cu))$. Thus composition is associative as an equality of functions. For $v\\in V$, $(TI_V)v=T(v)$ and $(I_WT)v=Tv$, proving both identity formulas. Finally, for $u\\in U$, $((S_1+S_2)T)u=S_1(Tu)+S_2(Tu)=(S_1T+S_2T)u$ by pointwise addition. Also $(S(T_1+T_2))u=S(T_1u+T_2u)=S(T_1u)+S(T_2u)=(ST_1+ST_2)u$, this time using additivity of $S$. Agreement at every input proves the assertions.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Evaluate both sides at the same vector; distinguish which distributive identity uses linearity."
+   ],
+   "uses": [
+    "c3-def-map-composition",
+    "c3-lem-composition-linear",
+    "c3-def-map-operations",
+    "c3-def-zero-identity-maps",
+    "c3-def-linear-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-noncommuting-maps",
+   "kind": "example",
+   "number": "3.9",
+   "title": "Differentiation and multiplication need not commute",
+   "tex": "On $\\Poly(\\R)$, let $D$ be differentiation and let $M=M_{x^2}$. Then\n\\[(DM)p=x^2p'+2xp,\\qquad (MD)p=x^2p',\\]\nand $DM\\ne MD$.",
+   "page": "56",
+   "proof": "For $p(x)=\\sum_{j=0}^m a_jx^j$, multiplication gives $Mp=\\sum_{j=0}^m a_jx^{j+2}$, and hence $DMp=\\sum_{j=0}^m(j+2)a_jx^{j+1}$ by polynomial differentiation. Meanwhile $MDp=\\sum_{j=1}^mja_jx^{j+1}$. Subtracting gives $DMp-MDp=2\\sum_{j=0}^ma_jx^{j+1}=2xp$. The formula for $MDp$ is its definition. At $p=1$, the two outputs are $2x$ and zero, which differ at $x=1$. Therefore the maps are unequal.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Compute the two compositions on monomials or compare them first on a constant."
+   ],
+   "uses": [
+    "c3-def-map-composition",
+    "c3-ex-polynomial-differentiation",
+    "c3-ex-polynomial-multiplication",
+    "c2-thm-polynomial-differentiation",
+    "c2-def-polynomial"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-linear-zero",
+   "kind": "theorem",
+   "number": "3.10",
+   "title": "Linear maps preserve the zero vector",
+   "tex": "Every linear map $T:V\\to W$ satisfies $T0_V=0_W$.",
+   "page": "56",
+   "proof": "Additivity gives $T0_V=T(0_V+0_V)=T0_V+T0_V$. Because also $T0_V=T0_V+0_W$, cancellation of $T0_V$ in $W$ gives $0_W=T0_V$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply additivity to $0_V+0_V$."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c1-lem-vector-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-affine-not-linear",
+   "kind": "example",
+   "number": "",
+   "title": "Affine formulas and linear maps",
+   "tex": "For $m,b\\in\\R$, the function $f:\\R\\to\\R$ given by $f(x)=mx+b$ is linear exactly when $b=0$.",
+   "page": "56",
+   "proof": "If $f$ is linear, preservation of zero gives $b=f(0)=0$. Conversely, when $b=0$, $f(x+y)=m(x+y)=mx+my=f(x)+f(y)$ and $f(ax)=max=amx=af(x)$ for real $a,x,y$, so $f$ is linear.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Test the image of zero first."
+   ],
+   "uses": [
+    "c3-def-linear-map",
+    "c3-thm-linear-zero",
+    "c1-foundations"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c3-card-linear-map",
+   "item": "c3-def-linear-map",
+   "front": "What are the two linearity identities?",
+   "back": "$T(u+v)=Tu+Tv$ and $T(av)=aTv$."
+  },
+  {
+   "id": "c3-card-basis-values",
+   "item": "c3-thm-linear-map-basis",
+   "front": "What data determine a linear map from a finite-dimensional space?",
+   "back": "Arbitrary images of the vectors in one basis determine exactly one linear map."
+  },
+  {
+   "id": "c3-card-map-vector-space",
+   "item": "c3-thm-linear-map-space",
+   "front": "What are the zero vector and additive inverse in $\\Lin(V,W)$?",
+   "back": "The zero map and the map $v\\mapsto-Tv$."
+  },
+  {
+   "id": "c3-card-composition-order",
+   "item": "c3-def-map-composition",
+   "front": "Which map is applied first in $ST$?",
+   "back": "$T$ is applied first, followed by $S$."
+  },
+  {
+   "id": "c3-card-composition-noncommuting",
+   "item": "c3-ex-noncommuting-maps",
+   "front": "Give noncommuting maps on polynomial space.",
+   "back": "Differentiation $D$ and multiplication $M$ by $x^2$: $DM(1)=2x$ but $MD(1)=0$."
+  },
+  {
+   "id": "c3-card-preserve-zero",
+   "item": "c3-thm-linear-zero",
+   "front": "Why must a linear map take zero to zero?",
+   "back": "Additivity gives $T0=T0+T0$; cancel one copy of $T0$."
+  },
+  {
+   "id": "c3-card-affine-test",
+   "item": "c3-ex-affine-not-linear",
+   "front": "When is $x\\mapsto mx+b$ linear?",
+   "back": "Exactly when $b=0$."
+  }
+ ]
+}

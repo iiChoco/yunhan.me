@@ -1,0 +1,600 @@
+                                     Chapter 4
+                             Polynomials
+
+
+This chapter contains material on polynomials that we will use to investigate
+linear maps from a vector space to itself. Many results in this chapter will already
+be familiar to you from other courses; they are included here for completeness.
+     Because this chapter is not about linear algebra, your instructor may go through
+it rapidly. You may not be asked to scrutinize all the proofs. Make sure, however,
+that you at least read and understand the statements of all results in this chapter—
+they will be used in later chapters.
+     This chapter begins with a brief discussion of algebraic properties of the
+complex numbers. Then we prove that a nonconstant polynomial cannot have
+more zeros than its degree. We also give a linear-algebra-based proof of the
+division algorithm for polynomials, which is worth reading even if you are already
+familiar with a proof that does not use linear algebra.
+     As we will see, the fundamental theorem of algebra leads to a factorization of
+every polynomial into degree-one factors if the scalar field is 𝐂 or to factors of
+degree at most two if the scalar field is 𝐑 .
+
+    standing assumption for this chapter
+
+ • 𝐅 denotes 𝐑 or 𝐂 .
+
+
+
+
+                                                                  Alireza Javaheri CC BY
+
+
+
+
+   Statue of mathematician and poet Omar Khayyam (1048–1131), whose algebra
+     book written in 1070 contained the first serious study of cubic polynomials.
+                                                                                           119
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+120       Chapter 4     Polynomials
+
+    Before discussing polynomials with complex or real coefficients, we need to
+learn a bit more about the complex numbers.
+
+ 4.1 definition: real part, Re 𝑧, imaginary part, Im 𝑧
+
+ Suppose 𝑧 = 𝑎 + 𝑏𝑖, where 𝑎 and 𝑏 are real numbers.
+
+ • The real part of 𝑧, denoted by Re 𝑧, is defined by Re 𝑧 = 𝑎.
+ • The imaginary part of 𝑧, denoted by Im 𝑧, is defined by Im 𝑧 = 𝑏.
+
+      Thus for every complex number 𝑧, we have
+
+                                  𝑧 = Re 𝑧 + (Im 𝑧)𝑖.
+
+
+ 4.2 definition: complex conjugate, 𝑧, absolute value, |𝑧|
+
+ Suppose 𝑧 ∈ 𝐂 .
+ • The complex conjugate of 𝑧 ∈ 𝐂 , denoted by 𝑧, is defined by
+
+                                   𝑧 = Re 𝑧 − (Im 𝑧)𝑖.
+
+ • The absolute value of a complex number 𝑧, denoted by |𝑧|, is defined by
+
+                                |𝑧| = √(Re 𝑧)2 + (Im 𝑧)2 .
+
+
+ 4.3 example: real and imaginary part, complex conjugate, absolute value
+
+      Suppose 𝑧 = 3 + 2𝑖. Then
+
+• Re 𝑧 = 3 and Im 𝑧 = 2;
+• 𝑧 = 3 − 2𝑖;
+• |𝑧| = √32 + 22 = √13.
+
+    Identifying a complex number 𝑧 ∈ 𝐂 with the ordered pair (Re 𝑧, Im 𝑧) ∈ 𝐑2
+identifies 𝐂 with 𝐑2. Note that 𝐂 is a one-dimensional complex vector space,
+but we can also think of 𝐂 (identified with 𝐑2 ) as a two-dimensional real vector
+space.
+    The absolute value of each complex number is a nonnegative number. Specif-
+ically, if 𝑧 ∈ 𝐂 , then |𝑧| equals the distance from the origin in 𝐑2 to the point
+(Re 𝑧, Im 𝑧) ∈ 𝐑2.
+    The real and imaginary parts, com- You should verify that 𝑧 = 𝑧 if and only
+plex conjugate, and absolute value have if 𝑧 is a real number.
+the properties listed in the following
+multipart result.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                     Chapter 4    Polynomials         121
+
+
+ 4.4    properties of complex numbers
+
+ Suppose 𝑤, 𝑧 ∈ 𝐂 . Then the following equalities and inequalities hold.
+
+ sum of 𝑧 and 𝑧
+   𝑧 + 𝑧 = 2 Re 𝑧.
+ difference of 𝑧 and 𝑧
+    𝑧 − 𝑧 = 2(Im 𝑧)𝑖.
+ product of 𝑧 and 𝑧
+   𝑧𝑧 = |𝑧|2.
+ additivity and multiplicativity of complex conjugate
+   𝑤 + 𝑧 = 𝑤 + 𝑧 and 𝑤𝑧 = 𝑤 𝑧.
+ double complex conjugate
+   𝑧 = 𝑧.
+ real and imaginary parts are bounded by |𝑧|
+   | Re 𝑧| ≤ |𝑧| and | Im 𝑧| ≤ |𝑧|.
+ absolute value of the complex conjugate
+   ∣𝑧∣ = |𝑧|.
+ multiplicativity of absolute value
+  |𝑤𝑧| = |𝑤| |𝑧|.
+ triangle inequality
+    |𝑤 + 𝑧| ≤ |𝑤| + |𝑧|.
+
+Proof    Except for the last item above,        Geometric interpretation of triangle in-
+the routine verifications of the assertions     equality: The length of each side of a
+above are left to the reader. To verify the     triangle is less than or equal to the sum
+triangle inequality, we have                    of the lengths of the two other sides.
+
+                           |𝑤 + 𝑧|2 = (𝑤 + 𝑧)(𝑤 + 𝑧)
+                                   = 𝑤𝑤 + 𝑧𝑧 + 𝑤𝑧 + 𝑧𝑤
+                                   = |𝑤|2 + |𝑧|2 + 𝑤𝑧 + 𝑤𝑧
+                                   = |𝑤|2 + |𝑧|2 + 2 Re(𝑤𝑧)
+                                   ≤ |𝑤|2 + |𝑧|2 + 2∣𝑤𝑧∣
+                                   = |𝑤|2 + |𝑧|2 + 2|𝑤| |𝑧|
+                                   = (|𝑤| + |𝑧|)2.
+
+Taking square roots now gives the desired       See Exercise 2 for the reverse triangle
+inequality |𝑤 + 𝑧| ≤ |𝑤| + |𝑧|.                 inequality.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+122      Chapter 4     Polynomials
+
+Zeros of Polynomials
+Recall that a function 𝑝 ∶ 𝐅 → 𝐅 is called a polynomial of degree 𝑚 if there exist
+𝑎0 , … , 𝑎𝑚 ∈ 𝐅 with 𝑎𝑚 ≠ 0 such that
+
+                            𝑝(𝑧) = 𝑎0 + 𝑎1 𝑧 + ⋯ + 𝑎𝑚 𝑧𝑚
+
+for all 𝑧 ∈ 𝐅. A polynomial could have more than one degree if the representation
+of 𝑝 in the form above were not unique. Our first task is to show that this cannot
+happen.
+    The solutions to the equation 𝑝(𝑧) = 0 play a crucial role in the study of a
+polynomial 𝑝 ∈ 𝒫(𝐅). Thus these solutions have a special name.
+
+ 4.5 definition: zero of a polynomial
+
+ A number 𝜆 ∈ 𝐅 is called a zero (or root) of a polynomial 𝑝 ∈ 𝒫(𝐅) if
+
+                                      𝑝(𝜆) = 0.
+
+   The next result is the key tool that we will use to show that the degree of a
+polynomial is unique.
+
+ 4.6    each zero of a polynomial corresponds to a degree-one factor
+
+ Suppose 𝑚 is a positive integer and 𝑝 ∈ 𝒫(𝐅) is a polynomial of degree 𝑚.
+ Suppose 𝜆 ∈ 𝐅. Then 𝑝(𝜆) = 0 if and only if there exists a polynomial
+ 𝑞 ∈ 𝒫(𝐅) of degree 𝑚 − 1 such that
+
+                                 𝑝(𝑧) = (𝑧 − 𝜆)𝑞(𝑧)
+
+ for every 𝑧 ∈ 𝐅.
+
+Proof   First suppose 𝑝(𝜆) = 0. Let 𝑎0 , 𝑎1 , … , 𝑎𝑚 ∈ 𝐅 be such that
+                            𝑝(𝑧) = 𝑎0 + 𝑎1 𝑧 + ⋯ + 𝑎𝑚 𝑧𝑚
+
+for all 𝑧 ∈ 𝐅. Then
+4.7           𝑝(𝑧) = 𝑝(𝑧) − 𝑝(𝜆) = 𝑎1 (𝑧 − 𝜆) + ⋯ + 𝑎𝑚 (𝑧𝑚 − 𝜆𝑚 )
+
+for all 𝑧 ∈ 𝐅. For each 𝑘 ∈ {1, … , 𝑚}, the equation
+                                                 𝑘
+                           𝑧𝑘 − 𝜆𝑘 = (𝑧 − 𝜆) ∑ 𝜆𝑗−1 𝑧𝑘−𝑗
+                                                𝑗=1
+
+shows that 𝑧𝑘 − 𝜆𝑘 equals 𝑧 − 𝜆 times some polynomial of degree 𝑘 − 1. Thus 4.7
+shows that 𝑝 equals 𝑧 − 𝜆 times some polynomial of degree 𝑚 − 1, as desired.
+   To prove the implication in the other direction, now suppose that there is
+a polynomial 𝑞 ∈ 𝒫(𝐅) such that 𝑝(𝑧) = (𝑧 − 𝜆)𝑞(𝑧) for every 𝑧 ∈ 𝐅. Then
+𝑝(𝜆) = (𝜆 − 𝜆)𝑞(𝜆) = 0, as desired.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                   Chapter 4      Polynomials   123
+
+   Now we can prove that polynomials do not have too many zeros.
+
+ 4.8   degree 𝑚 implies at most 𝑚 zeros
+
+ Suppose 𝑚 is a positive integer and 𝑝 ∈ 𝒫(𝐅) is a polynomial of degree 𝑚.
+ Then 𝑝 has at most 𝑚 zeros in 𝐅.
+
+Proof We will use induction on 𝑚. The desired result holds if 𝑚 = 1 because
+if 𝑎1 ≠ 0 then the polynomial 𝑎0 + 𝑎1 𝑧 has only one zero (which equals −𝑎0 /𝑎1 ).
+Thus assume that 𝑚 > 1 and the desired result holds for 𝑚 − 1.
+    If 𝑝 has no zeros in 𝐅, then the desired result holds and we are done. Thus
+suppose 𝑝 has a zero 𝜆 ∈ 𝐅. By 4.6, there is a polynomial 𝑞 ∈ 𝒫(𝐅) of degree
+𝑚 − 1 such that
+                               𝑝(𝑧) = (𝑧 − 𝜆)𝑞(𝑧)
+for every 𝑧 ∈ 𝐅. Our induction hypothesis implies that 𝑞 has at most 𝑚 − 1 zeros
+in 𝐅. The equation above shows that the zeros of 𝑝 in 𝐅 are exactly the zeros of 𝑞
+in 𝐅 along with 𝜆. Thus 𝑝 has at most 𝑚 zeros in 𝐅.
+
+    The result above implies that the coefficients of a polynomial are uniquely
+determined (because if a polynomial had two different sets of coefficients, then
+subtracting the two representations of the polynomial would give a polynomial
+with some nonzero coefficients but infinitely many zeros). In particular, the degree
+of a polynomial is uniquely defined.
+    Recall that the degree of the 0 poly- The 0 polynomial is declared to have
+nomial is defined to be −∞. When degree −∞ so that exceptions are not
+necessary, use the expected arithmetic needed for various reasonable results
+with −∞. For example, −∞ < 𝑚 and such as deg(𝑝𝑞) = deg 𝑝 + deg 𝑞.
+−∞ + 𝑚 = −∞ for every integer 𝑚.
+
+Division Algorithm for Polynomials
+If 𝑝 and 𝑠 are nonnegative integers, with 𝑠 ≠ 0, then there exist nonnegative
+integers 𝑞 and 𝑟 such that
+                                  𝑝 = 𝑠𝑞 + 𝑟
+and 𝑟 < 𝑠. Think of dividing 𝑝 by 𝑠, getting quotient 𝑞 with remainder 𝑟. Our next
+result gives an analogous result for polynomials. Thus the next result is often
+called the division algorithm for polynomials, although as stated here it is not
+really an algorithm, just a useful result.
+    The division algorithm for polynomi- Think of the division algorithm for poly-
+als could be proved without using any nomials as giving a remainder polyno-
+linear algebra. However, as is appropri- mial 𝑟 when the polynomial 𝑝 is divided
+ate for a linear algebra textbook, the proof by the polynomial 𝑠.
+given here uses linear algebra techniques
+and makes nice use of a basis of 𝒫𝑛 (𝐅), which is the (𝑛 + 1)-dimensional vector
+space of polynomials with coefficients in 𝐅 and of degree at most 𝑛.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+124      Chapter 4     Polynomials
+
+
+ 4.9    division algorithm for polynomials
+
+ Suppose that 𝑝, 𝑠 ∈ 𝒫(𝐅), with 𝑠 ≠ 0. Then there exist unique polynomials
+ 𝑞, 𝑟 ∈ 𝒫(𝐅) such that
+                                 𝑝 = 𝑠𝑞 + 𝑟
+ and deg 𝑟 < deg 𝑠.
+
+Proof    Let 𝑛 = deg 𝑝 and let 𝑚 = deg 𝑠. If 𝑛 < 𝑚, then take 𝑞 = 0 and 𝑟 = 𝑝 to
+get the desired equation 𝑝 = 𝑠𝑞 + 𝑟 with deg 𝑟 < deg 𝑠. Thus we now assume that
+𝑛 ≥ 𝑚.
+    The list
+
+4.10                        1, 𝑧, … , 𝑧𝑚−1 , 𝑠, 𝑧𝑠, … , 𝑧𝑛−𝑚 𝑠
+
+is linearly independent in 𝒫𝑛 (𝐅) because each polynomial in this list has a different
+degree. Also, the list 4.10 has length 𝑛 + 1, which equals dim 𝒫𝑛 (𝐅). Hence 4.10
+is a basis of 𝒫𝑛 (𝐅) [by 2.38].
+     Because 𝑝 ∈ 𝒫𝑛 (𝐅) and 4.10 is a basis of 𝒫𝑛 (𝐅), there exist unique constants
+𝑎0 , 𝑎1 , … , 𝑎𝑚−1 ∈ 𝐅 and 𝑏0 , 𝑏1 , … , 𝑏𝑛−𝑚 ∈ 𝐅 such that
+
+4.11     𝑝 = 𝑎0 + 𝑎1 𝑧 + ⋯ + 𝑎𝑚−1 𝑧𝑚−1 + 𝑏0 𝑠 + 𝑏1 𝑧𝑠 + ⋯ + 𝑏𝑛−𝑚 𝑧𝑛−𝑚 𝑠
+
+           = 𝑎0 + 𝑎1 𝑧 + ⋯ + 𝑎𝑚−1 𝑧𝑚−1 + 𝑠(𝑏0 + 𝑏1
+             ⏟⏟⏟⏟⏟⏟⏟⏟⏟                             𝑧 + ⋯ + 𝑏𝑛−𝑚 𝑧𝑛−𝑚 ).
+                                           ⏟⏟⏟⏟⏟⏟⏟⏟⏟
+                           𝑟                                     𝑞
+
+With 𝑟 and 𝑞 as defined above, we see that 𝑝 can be written as 𝑝 = 𝑠𝑞 + 𝑟 with
+deg 𝑟 < deg 𝑠, as desired.
+   The uniqueness of 𝑞, 𝑟 ∈ 𝒫(𝐅) satisfying these conditions follows from the
+uniqueness of the constants 𝑎0 , 𝑎1 , … , 𝑎𝑚−1 ∈ 𝐅 and 𝑏0 , 𝑏1 , … , 𝑏𝑛−𝑚 ∈ 𝐅 satisfy-
+ing 4.11.
+
+
+
+Factorization of Polynomials over 𝐂
+We have been handling polynomials with The fundamental theorem of algebra is
+complex coefficients and polynomials an existence theorem. Its proof does
+with real coefficients simultaneously, let- not lead to a method for finding zeros.
+ting 𝐅 denote 𝐑 or 𝐂 . Now we will The quadratic formula gives the zeros
+see differences between these two cases. explicitly for polynomials of degree 2.
+First we treat polynomials with complex Similar but more complicated formulas
+coefficients. Then we will use those re- exist for polynomials of degree 3 and 4.
+sults to prove corresponding results for No such formulas exist for polynomials
+polynomials with real coefficients.           of degree 5 and above.
+    Our proof of the fundamental theorem
+of algebra implicitly uses the result that a continuous real-valued function on a
+closed disk in 𝐑2 attains a minimum value. A web search can lead you to several
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                    Chapter 4     Polynomials   125
+
+other proofs of the fundamental theorem of algebra. The proof using Liouville’s
+theorem is particularly nice if you are comfortable with analytic functions. All
+proofs of the fundamental theorem of algebra need to use some analysis, because
+the result is not true if 𝐂 is replaced, for example, with the set of numbers of the
+form 𝑐 + 𝑑𝑖 where 𝑐, 𝑑 are rational numbers.
+
+ 4.12   fundamental theorem of algebra, first version
+
+ Every nonconstant polynomial with complex coefficients has a zero in 𝐂 .
+
+Proof   De Moivre’s theorem, which you can prove using induction on 𝑘 and the
+addition formulas for cosine and sine, states that if 𝑘 is a positive integer and
+𝜃 ∈ 𝐑 , then
+                     (cos 𝜃 + 𝑖 sin 𝜃)𝑘 = cos 𝑘𝜃 + 𝑖 sin 𝑘𝜃.
+    Suppose 𝑤 ∈ 𝐂 and 𝑘 is a positive integer. Using polar coordinates, we know
+that there exist 𝑟 ≥ 0 and 𝜃 ∈ 𝐑 such that
+                               𝑟(cos 𝜃 + 𝑖 sin 𝜃) = 𝑤.
+De Moivre’s theorem implies that
+                                                       𝑘
+                           (𝑟1/𝑘 (cos 𝜃𝑘 + 𝑖 sin 𝜃𝑘 )) = 𝑤.
+
+Thus every complex number has a 𝑘 th root, a fact that we will soon use.
+    Suppose 𝑝 is a nonconstant polynomial with complex coefficients and highest-
+order nonzero term 𝑐𝑚 𝑧𝑚. Then |𝑝(𝑧)| → ∞ as |𝑧| → ∞ (because |𝑝(𝑧)|/∣𝑧𝑚 ∣ → |𝑐𝑚 |
+as |𝑧| → ∞). Thus the continuous function 𝑧 ↦ |𝑝(𝑧)| has a global minimum at
+some point 𝜁 ∈ 𝐂 . To show that 𝑝(𝜁 ) = 0, suppose that 𝑝(𝜁 ) ≠ 0.
+    Define a new polynomial 𝑞 by
+                                            𝑝(𝑧 + 𝜁 )
+                                  𝑞(𝑧) =              .
+                                              𝑝(𝜁 )
+The function 𝑧 ↦ |𝑞(𝑧)| has a global minimum value of 1 at 𝑧 = 0. Write
+                            𝑞(𝑧) = 1 + 𝑎𝑘 𝑧𝑘 + ⋯ + 𝑎𝑚 𝑧𝑚,
+where 𝑘 is the smallest positive integer such that the coefficient of 𝑧𝑘 is nonzero;
+in other words, 𝑎𝑘 ≠ 0.
+                                       1
+    Let 𝛽 ∈ 𝐂 be such that 𝛽𝑘 = − . There is a constant 𝑐 > 1 such that if
+                                      𝑎𝑘
+𝑡 ∈ (0, 1), then
+                            |𝑞(𝑡𝛽)| ≤ ∣1 + 𝑎𝑘 𝑡𝑘 𝛽𝑘 ∣ + 𝑡𝑘+1 𝑐
+                                    = 1 − 𝑡𝑘 (1 − 𝑡𝑐).
+Thus taking 𝑡 to be 1/(2𝑐) in the inequality above, we have |𝑞(𝑡𝛽)| < 1, which
+contradicts the assumption that the global minimum of 𝑧 ↦ |𝑞(𝑧)| is 1. This
+contradiction implies that 𝑝(𝜁 ) = 0, showing that 𝑝 has a zero, as desired.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+126      Chapter 4     Polynomials
+
+    Computers can use clever numerical methods to find good approximations to
+the zeros of any polynomial, even when exact zeros cannot be found. For example,
+no one will ever give an exact formula for a zero of the polynomial 𝑝 defined by
+                     𝑝(𝑥) = 𝑥5 − 5𝑥4 − 6𝑥3 + 17𝑥2 + 4𝑥 − 7.
+However, a computer can find that the zeros of 𝑝 are approximately the five
+numbers −1.87, −0.74, 0.62, 1.47, 5.51.
+    The first version of the fundamental theorem of algebra leads to the following
+factorization result for polynomials with complex coefficients. Note that in this
+factorization, the zeros of 𝑝 are the numbers 𝜆1 , … , 𝜆𝑚 , which are the only values
+of 𝑧 for which the right side of the equation in the next result equals 0.
+
+ 4.13   fundamental theorem of algebra, second version
+
+ If 𝑝 ∈ 𝒫(𝐂) is a nonconstant polynomial, then 𝑝 has a unique factorization
+ (except for the order of the factors) of the form
+
+                           𝑝(𝑧) = 𝑐(𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ),
+
+ where 𝑐, 𝜆1 , … , 𝜆𝑚 ∈ 𝐂 .
+
+Proof    Let 𝑝 ∈ 𝒫(𝐂) and let 𝑚 = deg 𝑝. We will use induction on 𝑚. If 𝑚 = 1,
+then the desired factorization exists and is unique. So assume that 𝑚 > 1 and that
+the desired factorization exists and is unique for all polynomials of degree 𝑚 − 1.
+    First we will show that the desired factorization of 𝑝 exists. By the first version
+of the fundamental theorem of algebra (4.12), 𝑝 has a zero 𝜆 ∈ 𝐂 . By 4.6, there
+is a polynomial 𝑞 of degree 𝑚 − 1 such that
+                                 𝑝(𝑧) = (𝑧 − 𝜆)𝑞(𝑧)
+for all 𝑧 ∈ 𝐂 . Our induction hypothesis implies that 𝑞 has the desired factorization,
+which when plugged into the equation above gives the desired factorization of 𝑝.
+    Now we turn to the question of uniqueness. The number 𝑐 is uniquely deter-
+mined as the coefficient of 𝑧𝑚 in 𝑝. So we only need to show that except for the
+order, there is only one way to choose 𝜆1 , … , 𝜆𝑚 . If
+                   (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) = (𝑧 − 𝜏1 ) ⋯ (𝑧 − 𝜏𝑚 )
+for all 𝑧 ∈ 𝐂 , then because the left side of the equation above equals 0 when
+𝑧 = 𝜆1 , one of the 𝜏 ’s on the right side equals 𝜆1 . Relabeling, we can assume
+that 𝜏1 = 𝜆1 . Now if 𝑧 ≠ 𝜆1 , we can divide both sides of the equation above by
+𝑧 − 𝜆1 , getting
+                   (𝑧 − 𝜆2 ) ⋯ (𝑧 − 𝜆𝑚 ) = (𝑧 − 𝜏2 ) ⋯ (𝑧 − 𝜏𝑚 )
+for all 𝑧 ∈ 𝐂 except possibly 𝑧 = 𝜆1 . Actually the equation above holds for all
+𝑧 ∈ 𝐂 , because otherwise by subtracting the right side from the left side we would
+get a nonzero polynomial that has infinitely many zeros. The equation above and
+our induction hypothesis imply that except for the order, the 𝜆’s are the same as
+the 𝜏 ’s, completing the proof of uniqueness.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                  Chapter 4      Polynomials         127
+
+Factorization of Polynomials over 𝐑
+A polynomial with real coefficients may        The failure of the fundamental theorem
+have no real zeros. For example, the poly-     of algebra for 𝐑 accounts for the differ-
+nomial 1 + 𝑥2 has no real zeros.               ences between linear algebra on real
+    To obtain a factorization theorem over     and complex vector spaces, as we will
+𝐑 , we will use our factorization theorem      see in later chapters.
+over 𝐂 . We begin with the next result.
+
+ 4.14   polynomials with real coefficients have nonreal zeros in pairs
+
+ Suppose 𝑝 ∈ 𝒫(𝐂) is a polynomial with real coefficients. If 𝜆 ∈ 𝐂 is a zero
+ of 𝑝, then so is 𝜆.
+
+Proof   Let
+                          𝑝(𝑧) = 𝑎0 + 𝑎1 𝑧 + ⋯ + 𝑎𝑚 𝑧𝑚,
+where 𝑎0 , … , 𝑎𝑚 are real numbers. Suppose 𝜆 ∈ 𝐂 is a zero of 𝑝. Then
+                           𝑎0 + 𝑎1 𝜆 + ⋯ + 𝑎𝑚 𝜆𝑚 = 0.
+
+Take the complex conjugate of both sides of this equation, obtaining
+                           𝑎0 + 𝑎1 𝜆 + ⋯ + 𝑎𝑚 𝜆𝑚 = 0,
+
+where we have used basic properties of the complex conjugate (see 4.4). The
+equation above shows that 𝜆 is a zero of 𝑝.
+
+   We want a factorization theorem for         Think about the quadratic formula in
+polynomials with real coefficients. We         connection with the result below.
+begin with the following result.
+
+ 4.15   factorization of a quadratic polynomial
+
+ Suppose 𝑏, 𝑐 ∈ 𝐑 . Then there is a polynomial factorization of the form
+
+                        𝑥2 + 𝑏𝑥 + 𝑐 = (𝑥 − 𝜆1 )(𝑥 − 𝜆2 )
+
+ with 𝜆1 , 𝜆2 ∈ 𝐑 if and only if 𝑏2 ≥ 4𝑐.
+
+Proof   Notice that
+                                        𝑏 2      𝑏2
+                      𝑥2 + 𝑏𝑥 + 𝑐 = (𝑥 + ) + (𝑐 − ).
+                                        2        4
+   First suppose 𝑏2 < 4𝑐. Then the right The equation above is the basis of
+side of the equation above is positive for the technique called completing the
+every 𝑥 ∈ 𝐑 . Hence the polynomial square.
+𝑥2 + 𝑏𝑥 + 𝑐 has no real zeros and thus
+cannot be factored in the form (𝑥 − 𝜆1 )(𝑥 − 𝜆2 ) with 𝜆1 , 𝜆2 ∈ 𝐑 .
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+128      Chapter 4     Polynomials
+
+  Conversely, now suppose 𝑏2 ≥ 4𝑐. Then there is a real number 𝑑 such that
+      2
+𝑑 = 𝑏4 − 𝑐. From the displayed equation above, we have
+ 2
+
+
+                                       𝑏 2
+                     𝑥2 + 𝑏𝑥 + 𝑐 = (𝑥 + ) − 𝑑2
+                                       2
+                                            𝑏         𝑏
+                                   = (𝑥 +     + 𝑑)(𝑥 + − 𝑑),
+                                            2         2
+which gives the desired factorization.
+
+    The next result gives a factorization of a polynomial over 𝐑 . The idea of
+the proof is to use the second version of the fundamental theorem of algebra
+(4.13), which gives a factorization of 𝑝 as a polynomial with complex coefficients.
+Complex but nonreal zeros of 𝑝 come in pairs; see 4.14. Thus if the factorization
+of 𝑝 as an element of 𝒫(𝐂) includes terms of the form (𝑥 − 𝜆) with 𝜆 a nonreal
+complex number, then (𝑥 − 𝜆) is also a term in the factorization. Multiplying
+together these two terms, we get
+
+                                𝑥2 − 2(Re 𝜆)𝑥 + |𝜆|2 ,
+
+which is a quadratic term of the required form.
+    The idea sketched in the paragraph above almost provides a proof of the
+existence of our desired factorization. However, we need to be careful about
+one point. Suppose 𝜆 is a nonreal complex number and (𝑥 − 𝜆) is a term in the
+factorization of 𝑝 as an element of 𝒫(𝐂). We are guaranteed by 4.14 that (𝑥 − 𝜆)
+also appears as a term in the factorization, but 4.14 does not state that these two
+factors appear the same number of times, as needed to make the idea above work.
+However, the proof works around this point.
+    In the next result, either 𝑚 or 𝑀 may equal 0. The numbers 𝜆1 , … , 𝜆𝑚 are
+precisely the real zeros of 𝑝, for these are the only real values of 𝑥 for which the
+right side of the equation in the next result equals 0.
+
+ 4.16    factorization of a polynomial over 𝐑
+
+ Suppose 𝑝 ∈ 𝒫(𝐑) is a nonconstant polynomial. Then 𝑝 has a unique factor-
+ ization (except for the order of the factors) of the form
+
+        𝑝(𝑥) = 𝑐(𝑥 − 𝜆1 ) ⋯ (𝑥 − 𝜆𝑚 )(𝑥2 + 𝑏1 𝑥 + 𝑐1 ) ⋯ (𝑥2 + 𝑏𝑀 𝑥 + 𝑐𝑀 ),
+
+ where 𝑐, 𝜆1 , … , 𝜆𝑚 , 𝑏1 , … , 𝑏𝑀 , 𝑐1 , … , 𝑐𝑀 ∈ 𝐑 , with 𝑏𝑘2 < 4𝑐𝑘 for each 𝑘 .
+
+Proof First we will prove that the desired factorization exists, and after that we
+will prove the uniqueness.
+   Think of 𝑝 as an element of 𝒫(𝐂). If all (complex) zeros of 𝑝 are real, then
+we have the desired factorization by 4.13. Thus suppose 𝑝 has a zero 𝜆 ∈ 𝐂 with
+𝜆 ∉ 𝐑 . By 4.14, 𝜆 is a zero of 𝑝. Thus we can write
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                    Chapter 4     Polynomials      129
+
+                          𝑝(𝑥) = (𝑥 − 𝜆)(𝑥 − 𝜆)𝑞(𝑥)
+                               = (𝑥2 − 2(Re 𝜆)𝑥 + |𝜆|2 )𝑞(𝑥)
+
+for some polynomial 𝑞 ∈ 𝒫(𝐂) of degree two less than the degree of 𝑝. If we
+can prove that 𝑞 has real coefficients, then using induction on the degree of 𝑝
+completes the proof of the existence part of this result.
+    To prove that 𝑞 has real coefficients, we solve the equation above for 𝑞, getting
+                                            𝑝(𝑥)
+                            𝑞(𝑥) =
+                                     𝑥2 − 2(Re 𝜆)𝑥 + |𝜆|2
+for all 𝑥 ∈ 𝐑 . The equation above implies that 𝑞(𝑥) ∈ 𝐑 for all 𝑥 ∈ 𝐑 . Writing
+
+                           𝑞(𝑥) = 𝑎0 + 𝑎1 𝑥 + ⋯ + 𝑎𝑛−2 𝑥𝑛−2,
+
+where 𝑛 = deg 𝑝 and 𝑎0 , … , 𝑎𝑛−2 ∈ 𝐂 , we thus have
+
+             0 = Im 𝑞(𝑥) = (Im 𝑎0 ) + (Im 𝑎1 )𝑥 + ⋯ + (Im 𝑎𝑛−2 )𝑥𝑛−2
+
+for all 𝑥 ∈ 𝐑 . This implies that Im 𝑎0 , … , Im 𝑎𝑛−2 all equal 0 (by 4.8). Thus all
+coefficients of 𝑞 are real, as desired. Hence the desired factorization exists.
+    Now we turn to the question of uniqueness of our factorization. A factor of 𝑝
+of the form 𝑥2 + 𝑏𝑘 𝑥 + 𝑐𝑘 with 𝑏𝑘2 < 4𝑐𝑘 can be uniquely written as (𝑥 − 𝜆𝑘 )(𝑥 − 𝜆𝑘 )
+with 𝜆𝑘 ∈ 𝐂 . A moment’s thought shows that two different factorizations of 𝑝 as
+an element of 𝒫(𝐑) would lead to two different factorizations of 𝑝 as an element
+of 𝒫(𝐂), contradicting 4.13.
+
+
+
+Exercises 4
+
+ 1   Suppose 𝑤, 𝑧 ∈ 𝐂 . Verify the following equalities and inequalities.
+     (a) 𝑧 + 𝑧 = 2 Re 𝑧
+     (b) 𝑧 − 𝑧 = 2(Im 𝑧)𝑖
+     (c) 𝑧𝑧 = |𝑧|2
+     (d) 𝑤 + 𝑧 = 𝑤 + 𝑧 and 𝑤𝑧 = 𝑤 𝑧
+     (e) 𝑧 = 𝑧
+     (f) | Re 𝑧| ≤ |𝑧| and | Im 𝑧| ≤ |𝑧|
+     (g) ∣𝑧∣ = |𝑧|
+     (h) |𝑤𝑧| = |𝑤| |𝑧|
+         The results above are the parts of 4.4 that were left to the reader.
+
+ 2   Prove that if 𝑤, 𝑧 ∈ 𝐂 , then ∣ |𝑤| − |𝑧| ∣ ≤ |𝑤 − 𝑧|.
+         The inequality above is called the reverse triangle inequality.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+130      Chapter 4         Polynomials
+
+ 3    Suppose 𝑉 is a complex vector space and 𝜑 ∈ 𝑉 ′. Define 𝜎 ∶ 𝑉 → 𝐑 by
+      𝜎(𝑣) = Re 𝜑(𝑣) for each 𝑣 ∈ 𝑉. Show that
+                                      𝜑(𝑣) = 𝜎(𝑣) − 𝑖𝜎(𝑖𝑣)
+      for all 𝑣 ∈ 𝑉.
+ 4    Suppose 𝑚 is a positive integer. Is the set
+                                 {0} ∪ {𝑝 ∈ 𝒫(𝐅) ∶ deg 𝑝 = 𝑚}
+      a subspace of 𝒫(𝐅)?
+ 5    Is the set
+                                {0} ∪ {𝑝 ∈ 𝒫(𝐅) ∶ deg 𝑝 is even}
+      a subspace of 𝒫(𝐅)?
+ 6    Suppose that 𝑚 and 𝑛 are positive integers with 𝑚 ≤ 𝑛, and suppose
+      𝜆1 , … , 𝜆𝑚 ∈ 𝐅. Prove that there exists a polynomial 𝑝 ∈ 𝒫(𝐅) with
+      deg 𝑝 = 𝑛 such that 0 = 𝑝(𝜆1 ) = ⋯ = 𝑝(𝜆𝑚 ) and such that 𝑝 has no
+      other zeros.
+ 7    Suppose that 𝑚 is a nonnegative integer, 𝑧1 , … , 𝑧𝑚+1 are distinct elements
+      of 𝐅, and 𝑤1 , … , 𝑤𝑚+1 ∈ 𝐅. Prove that there exists a unique polynomial
+      𝑝 ∈ 𝒫𝑚 (𝐅) such that
+                                    𝑝(𝑧𝑘 ) = 𝑤𝑘
+      for each 𝑘 = 1, … , 𝑚 + 1.
+         This result can be proved without using linear algebra. However, try to find
+         the clearer, shorter proof that uses some linear algebra.
+
+ 8    Suppose 𝑝 ∈ 𝒫(𝐂) has degree 𝑚. Prove that 𝑝 has 𝑚 distinct zeros if and
+      only if 𝑝 and its derivative 𝑝′ have no zeros in common.
+ 9    Prove that every polynomial of odd degree with real coefficients has a real
+      zero.
+10    For 𝑝 ∈ 𝒫(𝐑), define 𝑇𝑝 ∶ 𝐑 → 𝐑 by
+                                        ⎧ 𝑝(𝑥) − 𝑝(3)
+                                        {
+                                        { 𝑥−3                 if 𝑥 ≠ 3,
+                              (𝑇𝑝)(𝑥) = ⎨
+                                        {
+                                        {  ′
+                                        ⎩𝑝 (3)                if 𝑥 = 3
+      for each 𝑥 ∈ 𝐑 . Show that 𝑇𝑝 ∈ 𝒫(𝐑) for every polynomial 𝑝 ∈ 𝒫(𝐑) and
+      also show that 𝑇 ∶ 𝒫(𝐑) → 𝒫(𝐑) is a linear map.
+11    Suppose 𝑝 ∈ 𝒫(𝐂). Define 𝑞 ∶ 𝐂 → 𝐂 by
+                                         𝑞(𝑧) = 𝑝(𝑧) 𝑝(𝑧).
+      Prove that 𝑞 is a polynomial with real coefficients.
+
+                   Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                  Chapter 4      Polynomials    131
+
+12   Suppose 𝑚 is a nonnegative integer and 𝑝 ∈ 𝒫𝑚 (𝐂) is such that there are
+     distinct real numbers 𝑥0 , 𝑥1 , … , 𝑥𝑚 with 𝑝(𝑥𝑘 ) ∈ 𝐑 for each 𝑘 = 0, 1, … , 𝑚.
+     Prove that all coefficients of 𝑝 are real.
+13   Suppose 𝑝 ∈ 𝒫(𝐅) with 𝑝 ≠ 0. Let 𝑈 = {𝑝𝑞 ∶ 𝑞 ∈ 𝒫(𝐅)}.
+     (a) Show that dim 𝒫(𝐅)/𝑈 = deg 𝑝.
+     (b) Find a basis of 𝒫(𝐅)/𝑈 .
+
+14   Suppose 𝑝, 𝑞 ∈ 𝒫(𝐂) are nonconstant polynomials with no zeros in common.
+     Let 𝑚 = deg 𝑝 and 𝑛 = deg 𝑞. Use linear algebra as outlined below in (a)–(c)
+     to prove that there exist 𝑟 ∈ 𝒫𝑛−1 (𝐂) and 𝑠 ∈ 𝒫𝑚−1 (𝐂) such that
+
+                                       𝑟𝑝 + 𝑠𝑞 = 1.
+
+     (a) Define 𝑇 ∶ 𝒫𝑛−1 (𝐂) × 𝒫𝑚−1 (𝐂) → 𝒫𝑚+𝑛−1 (𝐂) by
+
+                                       𝑇(𝑟, 𝑠) = 𝑟𝑝 + 𝑠𝑞.
+
+         Show that the linear map 𝑇 is injective.
+     (b) Show that the linear map 𝑇 in (a) is surjective.
+     (c) Use (b) to conclude that there exist 𝑟 ∈ 𝒫𝑛−1 (𝐂) and 𝑠 ∈ 𝒫𝑚−1 (𝐂) such
+         that 𝑟𝑝 + 𝑠𝑞 = 1.
+
+
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+

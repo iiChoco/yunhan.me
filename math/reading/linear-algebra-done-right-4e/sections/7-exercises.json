@@ -1,0 +1,413 @@
+{
+ "version": 1,
+ "id": "7-exercises",
+ "blocks": [
+  {
+   "id": "c7-intro-exercises",
+   "kind": "prose",
+   "number": "",
+   "title": "Exercises on adjoints, spectra, and singular values",
+   "tex": "These optional problems connect the algebra of adjoints with spectral decompositions and quantitative estimates. All spaces in this exercise section are finite-dimensional inner product spaces over the same field $\\F$, unless a statement explicitly specifies $\\C$."
+  },
+  {
+   "id": "c7-ex-adjoint-rank-one",
+   "kind": "exercise",
+   "number": "",
+   "title": "A rank-one operator and its positive product",
+   "tex": "Fix $u\\in V,w\\in W$ and set $Tv=\\ip{v}{u}\\,w$. Compute $T^*$ and $T^*T$. If $u,w$ are nonzero, determine the nonzero eigenvalue of $T^*T$ and its eigenspace.",
+   "proof": "For arbitrary $v,y$, the scalar rules give $\\ip{Tv}{y}=\\ip{v}{u}\\ip{w}{y}=\\ip{v}{\\ip{y}{w}\\,u}$. Thus adjoint uniqueness yields $T^*y=\\ip{y}{w}\\,u$. Substituting $Tv$ gives $T^*Tv=\\ip{v}{u}\\|w\\|^2u$. In particular $u$ is an eigenvector of $T^*T$ with eigenvalue $\\|u\\|^2\\|w\\|^2>0$. Every output belongs to $\\Span(u)$, so an eigenvector with a nonzero eigenvalue must lie in that line. On this line the displayed eigenvalue is the only possible value, and every nonzero vector in the line has it. The formulas themselves also cover either fixed vector being zero.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the adjoint identity to compute the first map, then compose."
+   ],
+   "uses": [
+    "c7-def-adjoint",
+    "c7-lem-adjoint-existence",
+    "c6-thm-inner-product-properties",
+    "c6-thm-norm-properties",
+    "c5-def-eigenspace"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-self-adjoint-product",
+   "kind": "exercise",
+   "number": "",
+   "title": "When a product of self-adjoint operators is self-adjoint",
+   "tex": "For self-adjoint $A,B\\in\\Lin(V)$, prove that $AB$ is self-adjoint exactly when $AB=BA$.",
+   "proof": "The product rule for adjoints gives $(AB)^*=B^*A^*=BA$. Therefore $(AB)^*=AB$ is equivalent to $BA=AB$. These are exactly self-adjointness of the product and commutation, respectively.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compute the adjoint of the product."
+   ],
+   "uses": [
+    "c7-thm-adjoint-properties",
+    "c7-def-self-adjoint",
+    "c5-def-commute"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-normal-power-zero",
+   "kind": "exercise",
+   "number": "",
+   "title": "A normal operator with a zero power",
+   "tex": "On a complex inner product space, suppose $N$ is normal and $N^m=0$ for some positive integer $m$. Prove $N=0$. Explain why normality cannot be omitted.",
+   "proof": "The complex spectral theorem gives an orthonormal eigenbasis for $N$. If $Nv_j=\\lambda_jv_j$, then $0=N^mv_j=\\lambda_j^mv_j$. Since $v_j\\ne0$, the scalar power vanishes, and hence $\\lambda_j=0$. Thus $N$ is zero on a basis and is the zero map. An empty basis yields the same conclusion. Without normality, on $\\C^2$ the nonzero map $N(x,y)=(y,0)$ has square zero. Its adjoint is $N^*(x,y)=(0,x)$ by the adjoint matrix formula. Then $NN^*(1,0)=(1,0)$ while $N^*N(1,0)=0$, so it is not normal and supplies the requested obstruction.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Apply the zero-power identity to each vector in an orthonormal eigenbasis."
+   ],
+   "uses": [
+    "c7-thm-complex-spectral",
+    "c5-lem-polynomial-eigenvector",
+    "c3-thm-linear-map-basis",
+    "c7-thm-adjoint-matrix",
+    "c7-def-normal"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-self-adjoint-idempotent",
+   "kind": "exercise",
+   "number": "",
+   "title": "Self-adjoint idempotents are orthogonal projections",
+   "tex": "Prove that $P\\in\\Lin(V)$ is an orthogonal projection if and only if $P^*=P$ and $P^2=P$.",
+   "proof": "If $P=P_U$, its projection properties give $P^2=P$. For decompositions $v=u+u_\\perp$ and $w=z+z_\\perp$ relative to $U$, orthogonality gives $\\ip{Pv}{w}=\\ip{u}{z}=\\ip{v}{Pw}$. Thus $P$ is self-adjoint. Conversely assume the two identities and put $U=\\Range P$. For each $v$, $Pv\\in U$. If $u=Px\\in U$, then\n\\[\\ip{v-Pv}{u}=\\ip{v-Pv}{Px}=\\ip{P(v-Pv)}{x}=\\ip{Pv-P^2v}{x}=0.\\]\nHence $v-Pv\\in U^\\perp$. Uniqueness of orthogonal decomposition gives $Pv=P_Uv$ for all $v$, proving the converse.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the range of $P$ as the candidate subspace and test its residual against $Px$."
+   ],
+   "uses": [
+    "c7-thm-self-adjoint-tests",
+    "c6-thm-projection-properties",
+    "c6-thm-orthogonal-direct-sum",
+    "c6-def-orthogonal-projection",
+    "c3-thm-range-subspace"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-positive-inverse",
+   "kind": "exercise",
+   "number": "",
+   "title": "The inverse of a positive invertible operator is positive",
+   "tex": "Suppose $T$ is positive and invertible. Prove $T^{-1}$ is positive and $\\sqrt{T^{-1}}=(\\sqrt T)^{-1}$.",
+   "proof": "The positivity characterization supplies an orthonormal eigenbasis with $Te_j=\\lambda_je_j$ and $\\lambda_j\\ge0$. Invertibility excludes zero eigenvalues, so every $\\lambda_j>0$. The inverse acts as $T^{-1}e_j=\\lambda_j^{-1}e_j$, a nonnegative real diagonal matrix in this orthonormal basis, hence is positive. The positive square root acts as $\\sqrt T e_j=\\sqrt{\\lambda_j}e_j$. All these coefficients are nonzero, so it is invertible and its inverse is positive with coefficients $1/\\sqrt{\\lambda_j}$. Squaring these coefficients yields $\\lambda_j^{-1}$, so its square is $T^{-1}$. Positive-square-root uniqueness proves the identity. For the zero space all operators and inverses are the unique map, and the empty basis proves the same statements.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Work in an orthonormal eigenbasis of the positive operator."
+   ],
+   "uses": [
+    "c7-thm-positive-characterizations",
+    "c7-thm-positive-square-root-unique",
+    "c7-def-positive-square-root",
+    "c5-thm-eigenvalue-tests",
+    "c3-def-map-inverse"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-commuting-square-root",
+   "kind": "exercise",
+   "number": "",
+   "title": "Commutation passes to the positive square root",
+   "tex": "If $T$ is positive and $AT=TA$, prove $A\\sqrt T=\\sqrt T A$. The operator $A$ need not be normal.",
+   "proof": "Every eigenspace of $T$ is invariant under $A$ by the commuting-eigenspace theorem. On $E(\\lambda,T)$, the positive-square-root theorem gives $\\sqrt T v=\\sqrt\\lambda v$ for every vector: it gives this for nonzero eigenvectors and both sides vanish for zero. If $v$ is in that eigenspace, then so is $Av$, giving\n\\[A\\sqrt T v=\\sqrt\\lambda Av=\\sqrt T Av.\\]\nThe positive operator has an eigenvector basis, so the two compositions agree on a basis and hence on every vector. This proves the identity without assuming any spectral property of $A$.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "A commuting operator preserves the eigenspaces of $T$; the square root is scalar on each such space."
+   ],
+   "uses": [
+    "c5-thm-commuting-eigenspace",
+    "c7-thm-positive-square-root-unique",
+    "c7-thm-positive-characterizations",
+    "c3-thm-linear-map-basis"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-positive-product",
+   "kind": "exercise",
+   "number": "",
+   "title": "Products of positive operators",
+   "tex": "For positive $A,B$, prove that $AB$ is positive if and only if $AB=BA$.",
+   "proof": "If $AB$ is positive, it is self-adjoint. Since $A,B$ are self-adjoint, the adjoint product rule gives $(AB)^*=BA$. Equality with $AB$ proves commutation. Conversely suppose they commute. Both are diagonalizable by positivity, so the simultaneous diagonalization theorem supplies a common eigenvector basis, with $Av_j=a_jv_j$ and $Bv_j=b_jv_j$. Positivity makes all $a_j,b_j$ nonnegative. Their product has eigenvalues among the diagonal entries $a_jb_j\\ge0$, by the diagonal eigenvalue theorem. Also $(AB)^*=BA=AB$, proving self-adjointness. The positive characterization by self-adjointness and nonnegative eigenvalues now proves $AB$ positive. This does not require the common basis used in the argument to be orthonormal.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "For necessity use adjoints; for sufficiency use simultaneous diagonalization and the positivity criterion."
+   ],
+   "uses": [
+    "c7-def-positive",
+    "c7-thm-adjoint-properties",
+    "c7-thm-positive-characterizations",
+    "c5-thm-simultaneous-diagonalization",
+    "c5-thm-triangular-eigenvalues"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-sylvester-positive",
+   "kind": "exercise",
+   "number": "",
+   "title": "Solving a two-sided positive equation",
+   "tex": "Let $A\\in\\Lin(V)$ and $B\\in\\Lin(W)$ be positive and invertible. Prove that for every $C\\in\\Lin(W,V)$ there is a unique $X\\in\\Lin(W,V)$ satisfying $AX+XB=C$. Give a formula for its matrix in appropriate orthonormal bases.",
+   "proof": "Positivity, invertibility, and the spectral characterization provide orthonormal bases $e_1,\\ldots,e_n$ of $V$ and $f_1,\\ldots,f_m$ of $W$ with $Ae_j=a_je_j$, $Bf_k=b_kf_k$, and all $a_j,b_k>0$. Write $Cf_k=\\sum_jc_{jk}e_j$ and seek $Xf_k=\\sum_jx_{jk}e_j$. The equation at $f_k$ becomes\n\\[\\sum_j(a_j+b_k)x_{jk}e_j=\\sum_jc_{jk}e_j.\\]\nUniqueness of basis coordinates makes it equivalent to $(a_j+b_k)x_{jk}=c_{jk}$ for every pair. The sums in the denominators are positive, so these equations have exactly the solution $x_{jk}=c_{jk}/(a_j+b_k)$. Prescribing these images of the $f$ basis defines a linear map that satisfies the equation on that basis, and hence everywhere. Every possible solution must have the same entries, proving uniqueness. If either space is zero, there is just the zero map between the stated spaces and the empty-entry prescription still proves the assertion.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Choose eigenbases separately for $A$ and $B$; solve the equation one matrix entry at a time."
+   ],
+   "uses": [
+    "c7-thm-positive-invertible",
+    "c7-thm-positive-characterizations",
+    "c7-thm-real-spectral",
+    "c7-thm-complex-spectral",
+    "c7-thm-self-adjoint-normal",
+    "c3-def-map-matrix",
+    "c3-thm-linear-map-basis",
+    "c2-thm-basis-coordinates"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-common-normal-orthonormal",
+   "kind": "exercise",
+   "number": "",
+   "title": "Simultaneous orthonormal diagonalization",
+   "tex": "Two normal operators on a finite-dimensional complex inner product space have a common orthonormal eigenvector basis if and only if they commute.",
+   "proof": "A common eigenbasis makes the compositions equal on each basis vector because scalar multiplication commutes, hence the operators commute. Conversely let $S,T$ commute and be normal. The complex spectral theorem makes each diagonalizable, so the simultaneous diagonalization theorem yields a common eigenbasis. Group its vectors by their ordered pairs $(\\alpha,\\beta)$ of eigenvalues. The span of each group consists of vectors satisfying $Sv=\\alpha v$, $Tv=\\beta v$; this follows from linearity. The group spans are independent as subspaces because their concatenated generating lists form a basis, and together they span $V$.\nTwo distinct groups have distinct first or distinct second eigenvalues. In the first case their nonzero vectors are orthogonal by normality of $S$, and in the second by normality of $T$. Zero vectors cause no exception. Choose an orthonormal basis inside each group span and concatenate these new bases. Within a group they are orthonormal by choice and across groups by the just-proved orthogonality. They span $V$ and hence form an orthonormal basis, and every member is still a common eigenvector. The empty construction handles the zero space.",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "First obtain an ordinary simultaneous eigenbasis.",
+    "Group vectors by both eigenvalues before orthonormalizing within each group."
+   ],
+   "uses": [
+    "c7-thm-complex-spectral",
+    "c5-thm-simultaneous-diagonalization",
+    "c7-thm-normal-orthogonal-eigenvectors",
+    "c6-thm-orthonormal-basis-existence",
+    "c6-thm-orthonormal-independent",
+    "c3-thm-linear-map-basis"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-composition-norm",
+   "kind": "exercise",
+   "number": "",
+   "title": "Submultiplicativity and a strict example",
+   "tex": "For $T:U\\to V$ and $S:V\\to W$, prove $\\|ST\\|\\le\\|S\\|\\|T\\|$. Give nonzero $S,T$ for which the inequality is strict.",
+   "proof": "By the operator-norm bound, every $u$ satisfies $\\|STu\\|\\le\\|S\\|\\|Tu\\|\\le\\|S\\|\\|T\\|\\|u\\|$. For $\\|u\\|\\le1$, this is at most $\\|S\\|\\|T\\|$. Taking the defining maximum proves the inequality. On $\\F^2$ take $T(x,y)=(x,0)$ and $S(x,y)=(0,y)$. Each has norm one: coordinate norms give an upper bound of one on the unit ball, attained at the corresponding standard vector. Their product is zero, whose norm is zero, so $0<1\\cdot1$ gives strictness despite both maps being nonzero.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Apply the defining norm bound twice."
+   ],
+   "uses": [
+    "c7-def-operator-norm",
+    "c7-thm-operator-norm-formulas",
+    "c6-thm-standard-inner-product",
+    "c6-def-norm"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-invertible-perturbation",
+   "kind": "exercise",
+   "number": "",
+   "title": "A quantitative neighborhood of an invertible operator",
+   "tex": "Let $V\\ne\\{0\\}$, let $T$ be invertible, and suppose $E\\in\\Lin(V)$ satisfies $\\|E\\|<1/\\|T^{-1}\\|$. Prove that $T+E$ is invertible and\n\\[\\|(T+E)^{-1}\\|\\le\\frac{\\|T^{-1}\\|}{1-\\|T^{-1}\\|\\|E\\|}.\\]",
+   "proof": "The inverse is nonzero on a nonzero space, so $a=\\|T^{-1}\\|>0$. The norm bound applied to $v=T^{-1}Tv$ gives $\\|Tv\\|\\ge\\|v\\|/a$. The vector triangle inequality, written as $\\|Tv\\|\\le\\|(T+E)v\\|+\\|Ev\\|$, gives\n\\[\\|(T+E)v\\|\\ge(1/a-\\|E\\|)\\|v\\|.\\]\nThe coefficient $d=1/a-\\|E\\|$ is positive by hypothesis. Thus $(T+E)v=0$ implies $v=0$, so the map is injective and, in finite dimensions, invertible. Substitute $v=(T+E)^{-1}w$ in the last inequality to obtain $\\|(T+E)^{-1}w\\|\\le\\|w\\|/d$. The least-bound characterization of the operator norm yields $\\|(T+E)^{-1}\\|\\le1/d=a/(1-a\\|E\\|)$, as asserted.",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "Use the inverse to get a lower bound for $\\|Tv\\|$.",
+    "Show the perturbation cannot cancel that lower bound."
+   ],
+   "uses": [
+    "c7-def-operator-norm",
+    "c7-thm-operator-norm-formulas",
+    "c7-thm-operator-norm-properties",
+    "c6-thm-triangle-inequality",
+    "c3-thm-equal-dimension-invertibility",
+    "c3-def-map-inverse"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-normal-norm-quadratic",
+   "kind": "exercise",
+   "number": "",
+   "title": "A positive operator controls its own squared output",
+   "tex": "If $T$ is positive, prove\n\\[\\|Tv\\|^2\\le\\|T\\|\\ip{Tv}{v}\\qquad(v\\in V).\\]\nIf $T\\ne0$, determine when equality holds using its eigenspaces.",
+   "proof": "Choose an orthonormal eigenbasis with eigenvalues $\\lambda_j\\ge0$. Write $v=\\sum_ja_je_j$. Orthonormal expansion gives $\\|Tv\\|^2=\\sum_j\\lambda_j^2|a_j|^2$ and $\\ip{Tv}{v}=\\sum_j\\lambda_j|a_j|^2$. For $T\\ne0$, its norm is $M=\\max_j\\lambda_j>0$, by the norm formula for an orthonormal diagonal operator. Each $\\lambda_j^2\\le M\\lambda_j$, proving the inequality. The difference of the right and left sides is $\\sum_j\\lambda_j(M-\\lambda_j)|a_j|^2$, a sum of nonnegative terms. It vanishes exactly when $a_j=0$ at every index with $0<\\lambda_j<M$. Thus equality holds precisely for $v\\in E(0,T)+E(M,T)$. When $T=0$, both sides are zero for every vector, including on the zero space.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Expand in an orthonormal eigenbasis and use $0\\le\\lambda_j\\le\\|T\\|$."
+   ],
+   "uses": [
+    "c7-thm-positive-characterizations",
+    "c7-ex-orthonormal-eigenbasis-norm",
+    "c7-def-operator-norm",
+    "c6-thm-orthonormal-coordinates",
+    "c5-def-eigenspace"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-polar-unitary-unique",
+   "kind": "exercise",
+   "number": "",
+   "title": "When the unitary factor in a polar decomposition is unique",
+   "tex": "On a complex inner product space, prove that the unitary factor $U$ in $T=U\\sqrt{T^*T}$ is unique exactly when $T$ is invertible.",
+   "proof": "Put $H=\\sqrt{T^*T}$. Its kernel equals the kernel of $T$: the identity $\\|Hv\\|^2=\\ip{H^2v}{v}=\\ip{T^*Tv}{v}=\\|Tv\\|^2$ proves this by norm definiteness. If $T$ is invertible, then $H$ is injective, hence invertible in finite dimensions. Every factor must equal $TH^{-1}$, proving uniqueness.\nIf $T$ is not invertible, choose a unit vector $e$ in $\\Null H$. As $H$ is self-adjoint, every $Hx$ is orthogonal to $e$: $\\ip{Hx}{e}=\\ip{x}{He}=0$. Extend $e$ to an orthonormal basis and define $D$ to send $e$ to $-e$ and fix the other basis vectors. This sends an orthonormal basis to another, so $D$ is unitary, and it fixes $e^\\perp$ by coordinate expansion. Therefore $DH=H$. Polar decomposition supplies one unitary $U$ with $T=UH$. The product $UD$ is unitary because it preserves norms and is surjective, and $(UD)H=UH=T$. Yet $UDe=-Ue\\ne Ue$, since $Ue$ has norm one. Hence the unitary factor is not unique. On the zero space $T$ is invertible and the only factor is the only operator, in accord with the first case.",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "Identify the kernel of the positive factor.",
+    "If this kernel is nonzero, change a unitary factor on one kernel direction."
+   ],
+   "uses": [
+    "c7-thm-polar-decomposition",
+    "c7-def-positive-square-root",
+    "c7-def-adjoint",
+    "c7-def-unitary",
+    "c7-thm-unitary-equivalences",
+    "c6-thm-orthonormal-extension",
+    "c6-thm-orthonormal-coordinates",
+    "c3-thm-equal-dimension-invertibility"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-nearest-unitary",
+   "kind": "exercise",
+   "number": "",
+   "title": "A nearest unitary operator",
+   "tex": "Let $T\\in\\Lin(V)$ and let $n=\\dim V>0$. Suppose full singular bases satisfy $Te_j=s_jf_j$ with $s_j\\ge0$ and both lists orthonormal bases. Prove that the unitary map $Ue_j=f_j$ minimizes $\\|T-Q\\|$ over unitary $Q$, and that the minimum is $\\max_j|s_j-1|$.",
+   "proof": "The prescribed map $U$ is unitary because it sends one orthonormal basis to another. For $v=\\sum_ja_je_j$,\n\\[\\|(T-U)v\\|^2=\\sum_j|s_j-1|^2|a_j|^2\\le M^2\\|v\\|^2,\\quad M=\\max_j|s_j-1|.\\]\nEquality at an $e_j$ attaining this finite maximum shows $\\|T-U\\|=M$. Now let $Q$ be any unitary operator. The vector triangle inequality in the two orders implies $\\|x-y\\|\\ge|\\|x\\|-\\|y\\||$. Apply this with $x=Te_j$, $y=Qe_j$. Their norms are $s_j$ and one, so $\\|(T-Q)e_j\\|\\ge|s_j-1|$. Since $e_j$ is unit, the operator norm is at least this value for every $j$, hence at least $M$. The already constructed $U$ attains that bound and is a minimizer. This argument includes zero singular values and does not assert that the minimizing unitary is unique.",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "The singular bases suggest a unitary sending every right singular vector to its corresponding left singular vector.",
+    "For an arbitrary unitary, test the error on each right singular vector."
+   ],
+   "uses": [
+    "c7-thm-svd-orthonormal-bases",
+    "c7-thm-unitary-equivalences",
+    "c7-def-operator-norm",
+    "c7-thm-operator-norm-formulas",
+    "c6-thm-orthonormal-norm",
+    "c6-thm-triangle-inequality",
+    "c3-thm-linear-map-basis"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-smallest-singular-inverse",
+   "kind": "exercise",
+   "number": "",
+   "title": "The smallest singular value measures inverse amplification",
+   "tex": "For an invertible operator on a nonzero space, let $s_1\\ge\\cdots\\ge s_n>0$ be its singular values. Prove\n\\[s_n\\|v\\|\\le\\|Tv\\|\\le s_1\\|v\\|,\\qquad\\|T^{-1}\\|=s_n^{-1}.\\]\nConclude $\\|T\\|\\|T^{-1}\\|\\ge1$, with equality exactly when $T$ is a positive real scalar multiple of a unitary operator.",
+   "proof": "In full singular bases write $v=\\sum_ja_je_j$. Then $\\|Tv\\|^2=\\sum_js_j^2|a_j|^2$ and $\\|v\\|^2=\\sum_j|a_j|^2$. Bounding each $s_j$ between $s_n$ and $s_1$ and taking nonnegative square roots gives both inequalities. Substitution of $v=T^{-1}w$ into the lower bound gives $\\|T^{-1}w\\|\\le\\|w\\|/s_n$. At $w=f_n$ the inverse has value $e_n/s_n$, attaining that norm. Thus $\\|T^{-1}\\|=1/s_n$, while the upper bound attained at $e_1$ gives $\\|T\\|=s_1$. Their product is $s_1/s_n\\ge1$.\nEquality holds exactly when every singular value equals the same positive number $c$. In that case the map $Ue_j=f_j$ is unitary and $T=cU$ by equality on a basis. Conversely for $T=cU$ with $c>0$ and $U$ unitary, norm preservation gives $\\|T\\|=c$ and $\\|T^{-1}\\|=1/c$, so the product is one.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Use the weighted sum of squared singular coordinates.",
+    "Equality in the ratio of largest to smallest singular value forces every weight to be identical."
+   ],
+   "uses": [
+    "c7-thm-svd-orthonormal-bases",
+    "c7-def-singular-values",
+    "c7-thm-unitary-equivalences",
+    "c7-def-operator-norm",
+    "c7-thm-operator-norm-formulas",
+    "c6-thm-orthonormal-norm",
+    "c3-def-map-inverse"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c7-ex-best-rank-one-positive",
+   "kind": "exercise",
+   "number": "",
+   "title": "A sharp rank-one approximation to a positive operator",
+   "tex": "Let $T$ be positive on a space of dimension at least two, with eigenvalues $\\lambda_1\\ge\\lambda_2\\ge\\cdots\\ge\\lambda_n\\ge0$ in an orthonormal eigenbasis $e_j$. Show directly that $Rv=\\lambda_1\\ip{v}{e_1}e_1$ has range dimension at most one and minimizes $\\|T-S\\|$ among all maps with range dimension at most one. The minimum is $\\lambda_2$.",
+   "proof": "Every image of $R$ is in $\\Span(e_1)$, so its range has dimension at most one. For $v=\\sum_ja_je_j$, the difference is $(T-R)v=\\sum_{j\\ge2}\\lambda_ja_je_j$. Thus its squared norm is at most $\\lambda_2^2\\|v\\|^2$, with equality in the operator-norm bound at $e_2$, giving $\\|T-R\\|=\\lambda_2$.\nFor any $S$ with range dimension at most one, the two vectors $Se_1,Se_2$ are dependent. Hence there are scalars $a,b$, not both zero, with $S(ae_1+be_2)=0$. The vector $v=ae_1+be_2$ is nonzero by orthonormal independence. Therefore\n\\[\\|(T-S)v\\|^2=\\|Tv\\|^2=\\lambda_1^2|a|^2+\\lambda_2^2|b|^2\\ge\\lambda_2^2\\|v\\|^2.\\]\nDivide by the positive norm of $v$ and use the operator-norm bound to get $\\|T-S\\|\\ge\\lambda_2$. This proves the minimum and its attainment even when $\\lambda_2=0$.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "For a lower bound, a map of range dimension at most one must kill some nonzero vector in $\\Span(e_1,e_2)$."
+   ],
+   "uses": [
+    "c7-thm-positive-characterizations",
+    "c7-def-operator-norm",
+    "c7-thm-operator-norm-formulas",
+    "c6-thm-orthonormal-norm",
+    "c6-thm-orthonormal-independent",
+    "c2-thm-independent-length"
+   ],
+   "optional": true
+  }
+ ],
+ "cards": [
+  {
+   "id": "c7-card-ex-product-adjoint",
+   "item": "c7-ex-self-adjoint-product",
+   "front": "When is a product of self-adjoint operators self-adjoint?",
+   "back": "Exactly when the two factors commute."
+  },
+  {
+   "id": "c7-card-ex-positive-product",
+   "item": "c7-ex-positive-product",
+   "front": "When is a product of positive operators positive?",
+   "back": "Exactly when the factors commute."
+  },
+  {
+   "id": "c7-card-ex-sylvester",
+   "item": "c7-ex-sylvester-positive",
+   "front": "How is $AX+XB=C$ solved for positive invertible $A,B$ in their eigenbases?",
+   "back": "$x_{jk}=c_{jk}/(a_j+b_k)$."
+  },
+  {
+   "id": "c7-card-ex-normal-joint",
+   "item": "c7-ex-common-normal-orthonormal",
+   "front": "When do two complex normal operators share an orthonormal eigenbasis?",
+   "back": "Exactly when they commute."
+  },
+  {
+   "id": "c7-card-ex-perturbation",
+   "item": "c7-ex-invertible-perturbation",
+   "front": "What norm bound on a perturbation preserves invertibility?",
+   "back": "$\\|E\\|<1/\\|T^{-1}\\|$ guarantees that $T+E$ is invertible."
+  },
+  {
+   "id": "c7-card-ex-polar-unique",
+   "item": "c7-ex-polar-unitary-unique",
+   "front": "When is the unitary factor in a complex polar decomposition unique?",
+   "back": "Exactly when the original operator is invertible."
+  },
+  {
+   "id": "c7-card-ex-unitary-distance",
+   "item": "c7-ex-nearest-unitary",
+   "front": "What is the operator-norm distance from $T$ to the nearest unitary?",
+   "back": "$\\max_j|s_j-1|$, using all singular values on a nonzero space."
+  },
+  {
+   "id": "c7-card-ex-inverse-singular",
+   "item": "c7-ex-smallest-singular-inverse",
+   "front": "What is the norm of an inverse in terms of singular values?",
+   "back": "The reciprocal of the smallest singular value."
+  }
+ ]
+}

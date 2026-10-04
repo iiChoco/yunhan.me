@@ -1,0 +1,681 @@
+{
+ "version": 1,
+ "id": "9d",
+ "blocks": [
+  {
+   "id": "c9-intro-tensor-products",
+   "kind": "prose",
+   "number": "",
+   "title": "Products of vectors and linearization",
+   "tex": "All vector spaces used as tensor factors in this section are finite-dimensional over $\\F$. Tensor products will provide a bilinear multiplication of vectors whose products span a new vector space. The construction uses bilinear functionals on the dual spaces, and includes zero-dimensional factors.",
+   "page": "370"
+  },
+  {
+   "id": "c9-def-bilinear-functional",
+   "kind": "definition",
+   "number": "9.68",
+   "title": "Bilinear functionals on two spaces",
+   "tex": "A bilinear functional on $V\\times W$ is a function $\\beta:V\\times W\\to\\F$ that is linear in each argument when the other argument is fixed. Write $\\Bil(V,W)$ for the set of these functions, with pointwise addition and scalar multiplication. When $W=V$, this is the space of bilinear forms from Section 9A.",
+   "page": "370"
+  },
+  {
+   "id": "c9-thm-bilinear-functional-space",
+   "kind": "theorem",
+   "number": "",
+   "title": "The vector space of bilinear functionals",
+   "tex": "The set $\\Bil(V,W)$ is a vector subspace of the space of all functions $V\\times W\\to\\F$. Every $\\beta\\in\\Bil(V,W)$ satisfies\n    \\[\n    \\beta(0,w)=\\beta(v,0)=0\n    \\]\n    and\n    \\[\n    \\beta\\left(\\sum_j a_jv_j,\\sum_k b_kw_k\\right)\n    =\\sum_{j,k}a_jb_k\\beta(v_j,w_k).\n    \\]\n    If either $V$ or $W$ is the zero space, then $\\Bil(V,W)=\\{0\\}$.",
+   "page": "370",
+   "proof": "The zero function is separately linear. If $\\alpha,\\beta$ are separately linear, then for scalars $a,b$ each fixed-argument function of $a\\alpha+b\\beta$ is a linear combination of two linear functionals. Distributing a further scalar linear combination in that argument shows it is linear. This applies to both arguments, so the subspace test proves that $\\Bil(V,W)$ is a subspace of the function space.\n\n    Each fixed-argument linear functional takes zero to zero, giving the zero identities. Repeated linearity in the first argument expands the first finite sum, and repeated linearity in the second expands each resulting term into the displayed double sum. For empty sums the zero identities give the same formula.\n\n    If $V=\\{0\\}$, every possible input is $(0,w)$ and every value is zero. If $W=\\{0\\}$, every input is $(v,0)$ and again every value is zero. Thus only the zero functional exists in either case.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the subspace test and expand one argument at a time."
+   ],
+   "uses": [
+    "c9-def-bilinear-functional",
+    "c1-thm-function-space",
+    "c1-thm-subspace-test",
+    "c3-thm-linear-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-bilinear-functional-product",
+   "kind": "example",
+   "number": "9.69(a)",
+   "title": "Multiplying two functional values",
+   "tex": "For $\\varphi\\in\\dual V$ and $\\tau\\in\\dual W$, the function\n    \\[\n    \\beta(v,w)=\\varphi(v)\\tau(w)\n    \\]\n    belongs to $\\Bil(V,W)$.",
+   "page": "371",
+   "proof": "For scalars $a,b$,\n    \\[\n    \\beta(av+bv',w)\n    =(a\\varphi(v)+b\\varphi(v'))\\tau(w)\n    =a\\beta(v,w)+b\\beta(v',w).\n    \\]\n    In the other argument,\n    \\[\n    \\beta(v,aw+bw')\n    =\\varphi(v)(a\\tau(w)+b\\tau(w'))\n    =a\\beta(v,w)+b\\beta(v,w').\n    \\]\n    These identities prove separate linearity.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Hold one functional value fixed while using linearity of the other."
+   ],
+   "uses": [
+    "c9-def-bilinear-functional",
+    "c3-def-dual-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-dual-evaluation-bilinear",
+   "kind": "example",
+   "number": "9.69(b)",
+   "title": "A bilinear functional on the dual spaces",
+   "tex": "For fixed $v\\in V$ and $w\\in W$, the function\n    \\[\n    (\\varphi,\\tau)\\longmapsto\\varphi(v)\\tau(w)\n    \\]\n    belongs to $\\Bil(\\dual V,\\dual W)$.",
+   "page": "371",
+   "proof": "Operations on dual spaces are pointwise. Thus, for scalars $a,b$,\n    \\[\n    (a\\varphi+b\\psi)(v)\\tau(w)\n    =a\\varphi(v)\\tau(w)+b\\psi(v)\\tau(w).\n    \\]\n    Similarly,\n    \\[\n    \\varphi(v)(a\\tau+b\\sigma)(w)\n    =a\\varphi(v)\\tau(w)+b\\varphi(v)\\sigma(w).\n    \\]\n    These are linearity in the two dual-space arguments, proving the assertion.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Evaluation at a fixed vector is linear in the functional being evaluated."
+   ],
+   "uses": [
+    "c9-def-bilinear-functional",
+    "c3-def-dual-space",
+    "c3-def-map-operations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-vector-functional-evaluation",
+   "kind": "example",
+   "number": "9.69(c)",
+   "title": "Evaluation is bilinear",
+   "tex": "The function $V\\times\\dual V\\to\\F$ given by\n    \\[\n    \\beta(v,\\varphi)=\\varphi(v)\n    \\]\n    is a bilinear functional.",
+   "page": "371",
+   "proof": "For fixed $\\varphi$, the function of $v$ is linear because $\\varphi$ is a linear functional. For fixed $v$, pointwise operations give\n    \\[\n    \\beta(v,a\\varphi+b\\psi)\n    =(a\\varphi+b\\psi)(v)\n    =a\\beta(v,\\varphi)+b\\beta(v,\\psi).\n    \\]\n    Hence it is linear in the second argument as well.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the definition of a functional in one argument and pointwise operations in the other."
+   ],
+   "uses": [
+    "c9-def-bilinear-functional",
+    "c3-def-dual-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-vector-operator-functional",
+   "kind": "example",
+   "number": "9.69(d)",
+   "title": "Applying a functional after an operator",
+   "tex": "For a fixed $\\varphi\\in\\dual V$, the function\n    \\[\n    \\beta:V\\times\\Lin(V)\\to\\F,\\qquad\n    \\beta(v,T)=\\varphi(Tv)\n    \\]\n    is bilinear.",
+   "page": "371",
+   "proof": "For fixed $T$, the composition $\\varphi\\circ T$ is linear, so the first argument is linear. For fixed $v$, the pointwise operator operations and linearity of $\\varphi$ give\n    \\[\n    \\beta(v,aS+bT)\n    =\\varphi(aSv+bTv)\n    =a\\beta(v,S)+b\\beta(v,T).\n    \\]\n    This proves linearity in the second argument.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use composition for the first argument and pointwise operator operations for the second."
+   ],
+   "uses": [
+    "c9-def-bilinear-functional",
+    "c3-lem-composition-linear",
+    "c3-def-map-operations",
+    "c3-def-linear-functional"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-rectangular-trace-bilinear",
+   "kind": "example",
+   "number": "9.69(e)",
+   "title": "Trace of a rectangular matrix product",
+   "tex": "For nonnegative integers $m,n$, the function\n    \\[\n    \\beta:\\F^{m,n}\\times\\F^{n,m}\\to\\F,\\qquad\n    \\beta(A,B)=\\tr(AB)\n    \\]\n    is bilinear.",
+   "page": "371",
+   "proof": "The matrix-product and trace definitions give\n    \\[\n    \\beta(A,B)=\\sum_{j=1}^m\\sum_{k=1}^n A_{jk}B_{kj}.\n    \\]\n    Replacing $A$ by $aA+bC$ replaces each entry $A_{jk}$ by $aA_{jk}+bC_{jk}$, so distributing the finite sum proves\n    $\\beta(aA+bC,B)=a\\beta(A,B)+b\\beta(C,B)$.\n    Replacing $B$ by $aB+bD$ and distributing proves\n    $\\beta(A,aB+bD)=a\\beta(A,B)+b\\beta(A,D)$.\n    Thus the function is bilinear. If $m=0$ or $n=0$, all terms vanish and the same assertions hold for the zero function.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Write the trace of the product as a double sum of entry products."
+   ],
+   "uses": [
+    "c9-def-bilinear-functional",
+    "c8-def-matrix-trace",
+    "c3-def-matrix-product",
+    "c3-def-matrix-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-bilinear-functional-dimension",
+   "kind": "theorem",
+   "number": "9.70",
+   "title": "Dimension of the space of bilinear functionals",
+   "tex": "For finite-dimensional spaces $V,W$,\n    \\[\n    \\dim\\Bil(V,W)=(\\dim V)(\\dim W).\n    \\]\n    More precisely, if $e_1,\\ldots,e_m$ and $f_1,\\ldots,f_n$ are bases, then\n    \\[\n    \\beta\\longmapsto\\bigl(\\beta(e_j,f_k)\\bigr)_{j,k}\n    \\]\n    is an isomorphism from $\\Bil(V,W)$ to $\\F^{m,n}$.",
+   "page": "371",
+   "proof": "Denote the displayed map by $M$. Pointwise operations give\n    $M(a\\alpha+b\\beta)_{jk}=a\\alpha(e_j,f_k)+b\\beta(e_j,f_k)$,\n    so $M$ is linear. If $v=\\sum_jx_je_j$ and $w=\\sum_ky_kf_k$, bilinear expansion gives\n    \\[\n    \\beta(v,w)=\\sum_{j,k}x_jy_kM(\\beta)_{jk}.\n    \\]\n    Therefore $M(\\beta)=0$ implies $\\beta=0$, proving injectivity.\n\n    Conversely, for $A\\in\\F^{m,n}$ define\n    \\[\n    \\beta_A\\left(\\sum_jx_je_j,\\sum_ky_kf_k\\right)\n    =\\sum_{j,k}A_{jk}x_jy_k.\n    \\]\n    Unique basis coordinates make this a well-defined function. Coordinates of vector linear combinations are the same linear combinations of coordinates. Distributing the sum therefore proves separate linearity of $\\beta_A$. Substitution of a basis pair gives $\\beta_A(e_j,f_k)=A_{jk}$, proving surjectivity.\n\n    Thus $M$ is an isomorphism. The inverse images of a basis of $\\F^{m,n}$ span $\\Bil(V,W)$ because their images span, and are independent because their images are independent. This transports a basis and proves equality of dimensions. The matrix-space dimension is $mn$. If either factor is zero, the functional space is zero by the preceding result, and the formula gives zero as required.",
+   "difficulty": 2,
+   "minutes": 25,
+   "hints": [
+    "Record the values of a functional on all pairs of basis vectors.",
+    "Recover the functional from those entries by expanding both inputs."
+   ],
+   "uses": [
+    "c9-def-bilinear-functional",
+    "c9-thm-bilinear-functional-space",
+    "c2-thm-basis-coordinates",
+    "c3-def-isomorphism",
+    "c3-thm-matrix-space-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-tensor-product",
+   "kind": "definition",
+   "number": "9.71",
+   "title": "Tensor products of two spaces and of two vectors",
+   "tex": "Define\n    \\[\n    V\\otimes W=\\Bil(\\dual V,\\dual W).\n    \\]\n    For $v\\in V$ and $w\\in W$, define the pure tensor $v\\otimes w$ by\n    \\[\n    (v\\otimes w)(\\varphi,\\tau)=\\varphi(v)\\tau(w)\n    \\qquad(\\varphi\\in\\dual V,\\ \\tau\\in\\dual W).\n    \\]\n    The preceding dual-evaluation example proves that this function belongs to the stated tensor product. Thus a tensor is, in this construction, a bilinear functional on the two dual spaces.",
+   "page": "372"
+  },
+  {
+   "id": "c9-thm-tensor-dimension",
+   "kind": "theorem",
+   "number": "9.72",
+   "title": "Dimension of a tensor product",
+   "tex": "The tensor product satisfies\n    \\[\n    \\dim(V\\otimes W)=(\\dim V)(\\dim W).\n    \\]\n    In particular, a zero factor makes the tensor product the zero space.",
+   "page": "372",
+   "proof": "The definition and the bilinear-functional dimension formula give\n    \\[\n    \\dim(V\\otimes W)\n    =\\dim\\Bil(\\dual V,\\dual W)\n    =(\\dim\\dual V)(\\dim\\dual W).\n    \\]\n    Finite-dimensional dual spaces have the same dimensions as their original spaces, yielding the required product. If one factor has dimension zero, the tensor product has dimension zero and hence consists only of its zero vector.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply the dimension formula for bilinear functionals to the dual spaces."
+   ],
+   "uses": [
+    "c9-def-tensor-product",
+    "c9-thm-bilinear-functional-dimension",
+    "c3-thm-dual-dimension",
+    "c2-lem-zero-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-tensor-bilinearity",
+   "kind": "theorem",
+   "number": "9.73",
+   "title": "Bilinearity of the pure-tensor operation",
+   "tex": "For vectors in the indicated factors and a scalar $a$,\n    \\[\n    (v_1+v_2)\\otimes w=v_1\\otimes w+v_2\\otimes w,\n    \\]\n    \\[\n    v\\otimes(w_1+w_2)=v\\otimes w_1+v\\otimes w_2,\n    \\]\n    and\n    \\[\n    (av)\\otimes w=a(v\\otimes w)=v\\otimes(aw).\n    \\]\n    Also $0\\otimes w=v\\otimes0=0$.",
+   "page": "372",
+   "proof": "To prove identities between tensors in this construction, it suffices to compare their values at every pair $(\\varphi,\\tau)\\in\\dual V\\times\\dual W$. Linearity of $\\varphi$ gives\n    \\[\n    \\begin{aligned}\n    ((v_1+v_2)\\otimes w)(\\varphi,\\tau)\n    &=(\\varphi(v_1)+\\varphi(v_2))\\tau(w)\\\\\n    &=(v_1\\otimes w+v_2\\otimes w)(\\varphi,\\tau).\n    \\end{aligned}\n    \\]\n    Linearity of $\\tau$ gives\n    \\[\n    (v\\otimes(w_1+w_2))(\\varphi,\\tau)\n    =\\varphi(v)(\\tau(w_1)+\\tau(w_2))\n    =(v\\otimes w_1+v\\otimes w_2)(\\varphi,\\tau).\n    \\]\n    Finally,\n    \\[\n    ((av)\\otimes w)(\\varphi,\\tau)\n    =a\\varphi(v)\\tau(w)\n    =(a(v\\otimes w))(\\varphi,\\tau)\n    =(v\\otimes(aw))(\\varphi,\\tau).\n    \\]\n    Thus all asserted functions are equal. Since every linear functional takes zero to zero, the defining formula gives zero at every pair for $0\\otimes w$ and $v\\otimes0$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Evaluate each proposed identity at an arbitrary pair of functionals."
+   ],
+   "uses": [
+    "c9-def-tensor-product",
+    "c3-def-dual-space",
+    "c3-thm-linear-zero",
+    "c1-def-function-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-tensor-basis",
+   "kind": "theorem",
+   "number": "9.74",
+   "title": "Independent tensor lists and tensor bases",
+   "tex": "Let $e_1,\\ldots,e_m$ be a list in $V$ and $f_1,\\ldots,f_n$ a list in $W$.\n    \\begin{enumerate}\n    \\item If both lists are independent, then the list\n    \\[\n    (e_j\\otimes f_k)_{1\\le j\\le m,\\ 1\\le k\\le n}\n    \\]\n    is independent.\n    \\item If both lists are bases, then that tensor list is a basis of $V\\otimes W$.\n    \\end{enumerate}\n    Choose any fixed order for the pairs of indices. Consequently every tensor is a finite sum of pure tensors.",
+   "page": "373",
+   "proof": "For the first assertion, extend each independent list to a basis of its space. The dual bases supply functionals $\\varphi_1,\\ldots,\\varphi_m$ and $\\tau_1,\\ldots,\\tau_n$ with\n    \\[\n    \\varphi_r(e_j)=\n    \\begin{cases}1,&r=j,\\\\0,&r\\ne j,\\end{cases}\n    \\qquad\n    \\tau_s(f_k)=\n    \\begin{cases}1,&s=k,\\\\0,&s\\ne k.\\end{cases}\n    \\]\n    Suppose $\\sum_{j,k}a_{jk}(e_j\\otimes f_k)=0$.\n    Evaluation at $(\\varphi_r,\\tau_s)$ gives\n    \\[\n    0=\\sum_{j,k}a_{jk}\\varphi_r(e_j)\\tau_s(f_k)=a_{rs}.\n    \\]\n    Every coefficient is therefore zero, proving independence. If either list is empty, the tensor list is empty and independence holds by definition.\n\n    If the original lists are bases, the tensor list is independent and has $mn$ elements. The tensor-dimension formula says that $mn=\\dim(V\\otimes W)$, so the full-length independence theorem makes it a basis.\n\n    Every tensor consequently has an expansion $\\sum_{j,k}a_{jk}(e_j\\otimes f_k)$. Tensor homogeneity rewrites each term as $(a_{jk}e_j)\\otimes f_k$, which proves the finite-sum assertion. If a factor is zero, the tensor basis and sum are empty and represent the unique tensor zero.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Use functionals that select one vector from each independent list.",
+    "Evaluate a proposed dependence at each pair of these functionals.",
+    "For bases, compare the number of independent tensors with the dimension."
+   ],
+   "uses": [
+    "c9-def-tensor-product",
+    "c9-thm-tensor-dimension",
+    "c9-thm-tensor-bilinearity",
+    "c2-thm-extend-independent",
+    "c3-def-dual-basis",
+    "c3-thm-dual-basis",
+    "c2-thm-full-length-independent"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-nonpure-tensor",
+   "kind": "example",
+   "number": "",
+   "title": "A tensor that is not a single pure tensor",
+   "tex": "If $\\dim V\\ge2$ and $\\dim W\\ge2$, choose independent vectors $e_1,e_2$ and $f_1,f_2$. Then\n    \\[\n    z=e_1\\otimes f_1+e_2\\otimes f_2\n    \\]\n    cannot equal $v\\otimes w$ for any $v\\in V,w\\in W$. Thus pure tensors need not exhaust a tensor product.",
+   "page": "373",
+   "proof": "Extend the two independent lists to bases and choose their coordinate functionals $\\varphi_1,\\varphi_2$ and $\\tau_1,\\tau_2$. These select the displayed vectors as in the tensor-basis proof. Suppose $z=v\\otimes w$, and put $a_j=\\varphi_j(v)$ and $b_k=\\tau_k(w)$ for $j,k\\in\\{1,2\\}$. Evaluating at the four pairs gives\n    \\[\n    a_1b_1=1,\\qquad a_1b_2=0,\\qquad\n    a_2b_1=0,\\qquad a_2b_2=1.\n    \\]\n    The first equation implies $a_1\\ne0$. The second then forces $b_2=0$, whereas the fourth requires $a_2b_2=1$. This contradiction proves the assertion.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Evaluate a hypothetical pure-tensor representation using two coordinate functionals from each factor."
+   ],
+   "uses": [
+    "c9-def-tensor-product",
+    "c9-thm-tensor-basis",
+    "c2-thm-extend-independent",
+    "c3-def-dual-basis",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-tensor-coordinate-array",
+   "kind": "example",
+   "number": "9.76",
+   "title": "Tensor coordinates and outer products",
+   "tex": "Let $e_1,\\ldots,e_m$ and $f_1,\\ldots,f_n$ be the standard bases of $\\F^m$ and $\\F^n$. Sending\n    \\[\n    z=\\sum_{j,k}A_{jk}(e_j\\otimes f_k)\n    \\quad\\text{to}\\quad\n    A=(A_{jk})\n    \\]\n    gives an isomorphism $\\F^m\\otimes\\F^n\\to\\F^{m,n}$. Under this identification,\n    \\[\n    v\\otimes w\\longleftrightarrow\n    (v_jw_k)_{j,k}.\n    \\]\n    The same coefficient formula holds in any pair of chosen bases, with $v_j,w_k$ interpreted as their coordinates.",
+   "page": "374",
+   "proof": "The tensor-basis theorem gives existence and uniqueness of the coefficients $A_{jk}$. Addition and scalar multiplication of tensors add and scale these coefficients, so the correspondence is linear. It is injective because zero coordinates give the zero tensor, and surjective because any matrix supplies the coefficients of a tensor. Thus it is an isomorphism.\n\n    Expand $v=\\sum_jv_je_j$ and $w=\\sum_kw_kf_k$. Repeated tensor bilinearity gives\n    \\[\n    v\\otimes w\n    =\\sum_{j,k}v_jw_k(e_j\\otimes f_k).\n    \\]\n    Uniqueness of tensor-basis coordinates gives the asserted entries. This calculation uses only basis expansions and tensor bilinearity, so it is valid for arbitrary bases as well. With a zero factor, both coordinate arrays and tensor bases are empty and the unique tensor maps to the unique matrix of that size.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Expand each vector before taking its tensor product."
+   ],
+   "uses": [
+    "c9-thm-tensor-basis",
+    "c9-thm-tensor-bilinearity",
+    "c2-thm-basis-coordinates",
+    "c3-def-isomorphism",
+    "c3-def-matrix-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-bilinear-map",
+   "kind": "definition",
+   "number": "9.77",
+   "title": "Bilinear maps with a vector-space target",
+   "tex": "For a vector space $U$, a bilinear map $\\Gamma:V\\times W\\to U$ is a function that is linear in each argument with the other held fixed. The target $U$ need not be finite-dimensional.",
+   "page": "374"
+  },
+  {
+   "id": "c9-ex-bilinear-maps",
+   "kind": "example",
+   "number": "9.78",
+   "title": "Four bilinear maps",
+   "tex": "The following functions are bilinear maps:\n    \\begin{enumerate}\n    \\item Every bilinear functional $\\beta:V\\times W\\to\\F$.\n    \\item $(v,w)\\mapsto v\\otimes w$, with target $V\\otimes W$.\n    \\item $(S,T)\\mapsto ST$, from $\\Lin(V)\\times\\Lin(V)$ to $\\Lin(V)$.\n    \\item $(v,T)\\mapsto Tv$, from $V\\times\\Lin(V,W)$ to $W$.\n    \\end{enumerate}",
+   "page": "374",
+   "proof": "For the first item, the definition of a bilinear functional is the bilinear-map definition with target $\\F$. The tensor identities prove the second item.\n\n    For composition, the operator algebra gives\n    \\[\n    (aS+bR)T=aST+bRT,\n    \\qquad\n    S(aT+bR)=aST+bSR.\n    \\]\n    These identities prove linearity in each operator argument.\n\n    Finally, for evaluation, linearity of each operator gives\n    $T(av+bv')=aTv+bTv'$.\n    Pointwise operator operations give\n    $(aS+bT)v=aSv+bTv$.\n    Thus evaluation is linear in each of its two arguments as well.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check the two scalar linear-combination identities for each formula."
+   ],
+   "uses": [
+    "c9-def-bilinear-map",
+    "c9-def-bilinear-functional",
+    "c9-thm-tensor-bilinearity",
+    "c3-thm-composition-laws",
+    "c3-def-map-operations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-tensor-universal",
+   "kind": "theorem",
+   "number": "9.79",
+   "title": "The universal property of the tensor product",
+   "tex": "For any vector space $U$ and bilinear map $\\Gamma:V\\times W\\to U$, there is exactly one linear map\n    \\[\n    \\widehat\\Gamma:V\\otimes W\\to U\n    \\]\n    such that\n    \\[\n    \\widehat\\Gamma(v\\otimes w)=\\Gamma(v,w)\n    \\qquad(v\\in V,w\\in W).\n    \\]\n    Conversely, every linear map $T:V\\otimes W\\to U$ determines exactly one bilinear map\n    \\[\n    T^\\#(v,w)=T(v\\otimes w).\n    \\]\n    These two constructions are inverse to one another.",
+   "page": "375",
+   "proof": "Choose bases $e_1,\\ldots,e_m$ and $f_1,\\ldots,f_n$. Their pure tensors are a basis of $V\\otimes W$. Prescribe\n    \\[\n    \\widehat\\Gamma(e_j\\otimes f_k)=\\Gamma(e_j,f_k)\n    \\]\n    on that basis. The basis prescription theorem gives a unique linear map with these values. If $v=\\sum_ja_je_j$ and $w=\\sum_kb_kf_k$, tensor bilinearity and linearity of this prescribed map give\n    \\[\n    \\widehat\\Gamma(v\\otimes w)\n    =\\sum_{j,k}a_jb_k\\widehat\\Gamma(e_j\\otimes f_k)\n    =\\sum_{j,k}a_jb_k\\Gamma(e_j,f_k).\n    \\]\n    Expanding the two arguments of the bilinear map $\\Gamma$ shows that the last sum equals $\\Gamma(v,w)$. Thus the required identity holds for all vectors, not just basis vectors. Any other linear map satisfying it has the same values on the tensor basis and is therefore equal to $\\widehat\\Gamma$.\n\n    Conversely, define $T^\\#$ by the stated formula. For scalars $a,b$, tensor bilinearity and linearity of $T$ give\n    \\[\n    T^\\#(av+bv',w)\n    =T\\bigl(a(v\\otimes w)+b(v'\\otimes w)\\bigr)\n    =aT^\\#(v,w)+bT^\\#(v',w).\n    \\]\n    The second argument has the corresponding identity\n    \\[\n    T^\\#(v,aw+bw')\n    =aT^\\#(v,w)+bT^\\#(v,w').\n    \\]\n    Hence $T^\\#$ is bilinear. Its formula specifies its value at every input, proving uniqueness. Beginning with $\\Gamma$, the construction followed by $\\#$ returns $\\Gamma$ by the defining identity. Beginning with $T$, the constructed linear map agrees with $T$ on every pure tensor, hence on the tensor basis, so it is $T$.\n\n    If a factor is zero, every bilinear map on the product is zero because a linear map in the zero argument takes zero to zero. The tensor product is also zero, and its unique linear map to $U$ is the zero map. Thus all assertions remain valid in this case.",
+   "difficulty": 3,
+   "minutes": 40,
+   "hints": [
+    "Prescribe the desired map on a tensor basis, where coordinates are unique.",
+    "Expand arbitrary pure tensors to verify the formula beyond the basis.",
+    "For the converse, compose a linear map with the bilinear pure-tensor operation."
+   ],
+   "uses": [
+    "c9-def-bilinear-map",
+    "c9-thm-tensor-basis",
+    "c9-thm-tensor-bilinearity",
+    "c9-thm-tensor-dimension",
+    "c3-thm-linear-map-basis",
+    "c3-thm-linear-zero",
+    "c2-thm-basis-coordinates"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-note-tensor-universal-well-defined",
+   "kind": "remark",
+   "number": "",
+   "title": "Why the construction uses a basis",
+   "tex": "A tensor can have many presentations as a sum of pure tensors. The proof constructs the linear map from unique tensor-basis coordinates, and only then proves its formula for all pure tensors. Uniqueness also shows that the resulting map is independent of the bases chosen during the construction.",
+   "page": "376"
+  },
+  {
+   "id": "c9-thm-tensor-inner-product",
+   "kind": "theorem",
+   "number": "9.80",
+   "title": "The inner product on a tensor product",
+   "tex": "If $V$ and $W$ are inner product spaces, there is exactly one inner product on $V\\otimes W$ satisfying\n    \\[\n    \\ip{v\\otimes w}{u\\otimes x}\n    =\\ip{v}{u}\\,\\ip{w}{x}\n    \\qquad(v,u\\in V,\\ w,x\\in W).\n    \\]\n    As throughout the module, the inner product is linear in its first argument.",
+   "page": "376",
+   "proof": "Choose orthonormal bases $e_1,\\ldots,e_m$ of $V$ and $f_1,\\ldots,f_n$ of $W$. Their tensors form a basis. For the unique coordinate expansions\n    \\[\n    z=\\sum_{j,k}a_{jk}(e_j\\otimes f_k),\n    \\qquad\n    t=\\sum_{j,k}b_{jk}(e_j\\otimes f_k),\n    \\]\n    define\n    \\[\n    H(z,t)=\\sum_{j,k}a_{jk}\\overline{b_{jk}}.\n    \\]\n    Unique coordinates make this well-defined.\n\n    Addition and scalar multiplication of the first coordinate array give\n    $H(z+z',t)=H(z,t)+H(z',t)$ and\n    $H(cz,t)=cH(z,t)$.\n    Conjugating the finite sum gives\n    $\\overline{H(z,t)}=\\sum_{j,k}\\overline{a_{jk}}b_{jk}=H(t,z)$,\n    proving conjugate symmetry. Moreover,\n    \\[\n    H(z,z)=\\sum_{j,k}|a_{jk}|^2\n    \\]\n    is real and nonnegative. It vanishes only when each coefficient is zero, since a finite sum of nonnegative numbers can be zero only if every summand is zero. By basis uniqueness, that is equivalent to $z=0$. Thus all inner-product axioms hold.\n\n    Write $v=\\sum_jv_je_j$, $u=\\sum_ju_je_j$,\n    $w=\\sum_kw_kf_k$, and $x=\\sum_kx_kf_k$.\n    The tensor-coordinate formula yields\n    \\[\n    \\begin{aligned}\n    H(v\\otimes w,u\\otimes x)\n    &=\\sum_{j,k}v_jw_k\\overline{u_jx_k}\\\\\n    &=\\left(\\sum_jv_j\\overline{u_j}\\right)\n      \\left(\\sum_kw_k\\overline{x_k}\\right)\\\\\n    &=\\ip{v}{u}\\,\\ip{w}{x}.\n    \\end{aligned}\n    \\]\n    The last step uses orthonormal coordinates in each factor. Thus the constructed inner product has the required property.\n\n    Any other inner product with that property has\n    \\[\n    \\ip{e_j\\otimes f_k}{e_r\\otimes f_\\ell}\n    =\\ip{e_j}{e_r}\\ip{f_k}{f_\\ell},\n    \\]\n    equal to one for identical index pairs and zero otherwise. Expanding arbitrary tensors in this basis, using linearity in the first argument and conjugate linearity in the second, forces its value to be $\\sum_{j,k}a_{jk}\\overline{b_{jk}}$. Hence it equals $H$, proving uniqueness.\n\n    If a factor is zero, the tensor product is zero and its tensor basis is empty. The construction then gives the sole value $H(0,0)=0$, which satisfies the inner-product axioms on the zero space. The prescribed formula holds because a pure tensor with a zero factor is zero and the corresponding factor inner product is zero.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Choose orthonormal bases of the factors and use the resulting tensor basis.",
+    "Define the inner product from the unique coordinate arrays and check all axioms.",
+    "For uniqueness, the required rule already specifies all inner products between tensor-basis vectors."
+   ],
+   "uses": [
+    "c9-thm-tensor-basis",
+    "c9-thm-tensor-coordinate-array",
+    "c9-thm-tensor-bilinearity",
+    "c9-thm-tensor-dimension",
+    "c6-def-inner-product",
+    "c6-thm-inner-product-properties",
+    "c6-thm-orthonormal-basis-existence",
+    "c6-thm-orthonormal-coordinates",
+    "c4-thm-complex-properties",
+    "c2-thm-basis-coordinates"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-tensor-inner-product",
+   "kind": "definition",
+   "number": "9.82",
+   "title": "The designated tensor-product inner product",
+   "tex": "For inner product spaces $V,W$, equip $V\\otimes W$ with the unique inner product proved to exist above. Thus\n    \\[\n    \\ip{v\\otimes w}{u\\otimes x}\n    =\\ip{v}{u}\\,\\ip{w}{x}.\n    \\]\n    Its definition is independent of any orthonormal bases used to construct it.",
+   "page": "377"
+  },
+  {
+   "id": "c9-thm-tensor-norm",
+   "kind": "theorem",
+   "number": "",
+   "title": "The norm of a pure tensor",
+   "tex": "For the tensor-product inner product,\n    \\[\n    \\norm{v\\otimes w}=\\norm v\\,\\norm w.\n    \\]",
+   "page": "377",
+   "proof": "Applying the defining inner-product rule with equal arguments gives\n    \\[\n    \\norm{v\\otimes w}^2\n    =\\ip{v\\otimes w}{v\\otimes w}\n    =\\ip{v}{v}\\,\\ip{w}{w}\n    =\\norm v^2\\norm w^2.\n    \\]\n    Both $\\norm{v\\otimes w}$ and $\\norm v\\,\\norm w$ are nonnegative, so equality of their squares implies equality. If either vector is zero, both sides are zero and the same argument applies.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compute the squared norm using the product rule for inner products."
+   ],
+   "uses": [
+    "c9-def-tensor-inner-product",
+    "c6-def-norm",
+    "c6-thm-norm-properties"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-tensor-orthonormal-basis",
+   "kind": "theorem",
+   "number": "9.83",
+   "title": "Orthonormal tensor bases",
+   "tex": "If $e_1,\\ldots,e_m$ and $f_1,\\ldots,f_n$ are any orthonormal bases of the factors, then\n    \\[\n    (e_j\\otimes f_k)_{j,k}\n    \\]\n    is an orthonormal basis of their tensor product with its designated inner product.",
+   "page": "377",
+   "proof": "It is a basis by the tensor-basis theorem. For two index pairs,\n    \\[\n    \\ip{e_j\\otimes f_k}{e_r\\otimes f_\\ell}\n    =\\ip{e_j}{e_r}\\ip{f_k}{f_\\ell}.\n    \\]\n    The right side is one if $j=r$ and $k=\\ell$, and zero otherwise, because each factor basis is orthonormal. Thus the tensor basis is orthonormal. This reasoning uses the basis-independent inner-product rule, so the factor bases can be any orthonormal bases. When a factor is zero, the tensor space is zero and the empty list is its orthonormal basis.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compute the inner product of two tensor-basis vectors."
+   ],
+   "uses": [
+    "c9-thm-tensor-basis",
+    "c9-def-tensor-inner-product",
+    "c6-def-orthonormal-basis"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-multiple-factor-notation",
+   "kind": "definition",
+   "number": "9.84",
+   "title": "Notation for several tensor factors",
+   "tex": "For the remaining results, let $m\\ge2$ be an integer and let $V_1,\\ldots,V_m$ be finite-dimensional vector spaces over the same field $\\F$. Any of these spaces may be zero.",
+   "page": "378"
+  },
+  {
+   "id": "c9-def-multilinear-functional",
+   "kind": "definition",
+   "number": "9.85",
+   "title": "Multilinear functionals on different spaces",
+   "tex": "An $m$-linear functional on $V_1\\times\\cdots\\times V_m$ is a scalar-valued function that is linear in each argument when the other arguments are fixed. Denote the set of these functions by\n    \\[\n    \\Bil(V_1,\\ldots,V_m),\n    \\]\n    with pointwise addition and scalar multiplication.",
+   "page": "378"
+  },
+  {
+   "id": "c9-thm-multilinear-functional-space",
+   "kind": "theorem",
+   "number": "",
+   "title": "The space and expansion rule for multilinear functionals",
+   "tex": "The set $\\Bil(V_1,\\ldots,V_m)$ is a vector space. Every member vanishes whenever one argument is zero. If\n    $v_r=\\sum_{j=1}^{n_r}a_{rj}e_j^{(r)}$, then\n    \\[\n    \\beta(v_1,\\ldots,v_m)\n    =\n    \\sum_{j_1=1}^{n_1}\\cdots\\sum_{j_m=1}^{n_m}\n    \\left(\\prod_{r=1}^m a_{rj_r}\\right)\n    \\beta(e_{j_1}^{(1)},\\ldots,e_{j_m}^{(m)}).\n    \\]\n    In particular, if a factor is zero then this functional space is zero.",
+   "page": "378",
+   "proof": "The zero function is linear in each argument. For a linear combination $a\\alpha+b\\beta$, fixing all but one argument leaves a linear combination of linear functionals in that argument; distributing the scalar coefficients proves its linearity. Applying this to each argument gives closure, so the subspace test in the ambient function space proves the vector-space assertion.\n\n    If one argument is zero, the corresponding fixed-argument linear functional takes zero to zero. For the expansion formula, first use linearity to expand $v_1$ in the first argument, obtaining one sum and its coefficients $a_{1j_1}$. In every summand, expand $v_2$ in the second argument, multiplying its coefficient by $a_{2j_2}$. Continue through the $m$ arguments. Induction on the number of expanded arguments gives the displayed product of coefficients and iterated finite sum. If one expansion is empty, its vector is zero; the functional value and the iterated sum are both zero. If an entire factor space is zero, every input has such a zero argument, so the only functional is zero.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Apply the fixed-argument linearity rule successively in the $m$ positions."
+   ],
+   "uses": [
+    "c9-def-multilinear-functional",
+    "c1-thm-function-space",
+    "c1-thm-subspace-test",
+    "c3-thm-linear-zero",
+    "c1-foundations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-ex-multilinear-functional-product",
+   "kind": "example",
+   "number": "9.86",
+   "title": "A product of one functional from each factor",
+   "tex": "If $\\varphi_r\\in\\dual{V_r}$ for $r=1,\\ldots,m$, then\n    \\[\n    \\beta(v_1,\\ldots,v_m)=\\prod_{r=1}^m\\varphi_r(v_r)\n    \\]\n    is an $m$-linear functional.",
+   "page": "378",
+   "proof": "Fix all arguments except the $k$th. The function of that remaining argument is\n    \\[\n    v_k\\longmapsto\n    \\left(\\prod_{r\\ne k}\\varphi_r(v_r)\\right)\\varphi_k(v_k).\n    \\]\n    The parenthesized quantity is a fixed scalar, so this is a scalar multiple of the linear functional $\\varphi_k$ and is therefore linear. Since $k$ was arbitrary, the function is linear in every argument.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "With all other inputs fixed, only one factor in the product varies."
+   ],
+   "uses": [
+    "c9-def-multilinear-functional",
+    "c3-def-linear-functional"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-multilinear-functional-dimension",
+   "kind": "theorem",
+   "number": "9.87",
+   "title": "Dimension of a multilinear-functional space",
+   "tex": "For finite-dimensional factors,\n    \\[\n    \\dim\\Bil(V_1,\\ldots,V_m)\n    =\\prod_{r=1}^m\\dim V_r.\n    \\]",
+   "page": "378",
+   "proof": "If one factor is zero, the functional space is zero by the preceding result, and both sides of the formula are zero. Now assume each $n_r=\\dim V_r$ is positive. Choose a basis\n    $e_1^{(r)},\\ldots,e_{n_r}^{(r)}$\n    with dual basis\n    $\\varphi_1^{(r)},\\ldots,\\varphi_{n_r}^{(r)}$.\n    For each index tuple $J=(j_1,\\ldots,j_m)$, define\n    \\[\n    b_J(v_1,\\ldots,v_m)\n    =\\prod_{r=1}^m\\varphi_{j_r}^{(r)}(v_r).\n    \\]\n    The product-functional example makes each $b_J$ multilinear.\n\n    On a basis tuple\n    $(e_{k_1}^{(1)},\\ldots,e_{k_m}^{(m)})$,\n    the value of $b_J$ is one if $J=(k_1,\\ldots,k_m)$ and zero otherwise. Consequently, evaluating a zero linear combination of the $b_J$ at each basis tuple forces every coefficient to vanish. Thus they are independent.\n\n    Given any multilinear functional $\\beta$, define\n    \\[\n    \\gamma=\\sum_J\n    \\beta(e_{j_1}^{(1)},\\ldots,e_{j_m}^{(m)})\\,b_J.\n    \\]\n    The evaluation rule just proved shows that $\\gamma$ and $\\beta$ have the same value on every basis tuple. Their multilinear expansion formulas therefore give the same value on every tuple of vectors. Hence $\\gamma=\\beta$, proving that the $b_J$ span. They are a basis, with exactly $\\prod_r n_r$ members, proving the dimension formula.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Use products of coordinate functionals as candidate basis vectors.",
+    "Evaluation at a basis tuple singles out one coefficient.",
+    "Repeated multilinearity shows that basis-tuple values determine the functional."
+   ],
+   "uses": [
+    "c9-thm-multilinear-functional-space",
+    "c9-ex-multilinear-functional-product",
+    "c3-def-dual-basis",
+    "c3-thm-dual-basis",
+    "c2-thm-basis-existence",
+    "c2-def-dimension",
+    "c1-foundations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-multiple-tensor-product",
+   "kind": "definition",
+   "number": "9.88",
+   "title": "Tensor products of several spaces and vectors",
+   "tex": "Define\n    \\[\n    V_1\\otimes\\cdots\\otimes V_m\n    =\\Bil(\\dual{V_1},\\ldots,\\dual{V_m}).\n    \\]\n    For vectors $v_r\\in V_r$, the pure tensor is the function\n    \\[\n    (v_1\\otimes\\cdots\\otimes v_m)(\\varphi_1,\\ldots,\\varphi_m)\n    =\\prod_{r=1}^m\\varphi_r(v_r).\n    \\]\n    The next result verifies membership and the multilinearity of this operation.",
+   "page": "379"
+  },
+  {
+   "id": "c9-thm-multiple-tensor-multilinearity",
+   "kind": "theorem",
+   "number": "",
+   "title": "The pure-tensor operation is multilinear",
+   "tex": "Every function specified as $v_1\\otimes\\cdots\\otimes v_m$ in the definition belongs to the tensor product. The map\n    \\[\n    (v_1,\\ldots,v_m)\\longmapsto v_1\\otimes\\cdots\\otimes v_m\n    \\]\n    is linear in each argument when the others are fixed. A pure tensor is zero whenever one of its vector arguments is zero.",
+   "page": "379",
+   "proof": "For fixed vectors $v_r$, evaluation\n    $\\varphi_r\\mapsto\\varphi_r(v_r)$\n    is a linear functional on $\\dual{V_r}$ by pointwise dual-space operations. The product-functional example, applied to these dual spaces, shows that their product is multilinear in the functionals. This proves membership in\n    $\\Bil(\\dual{V_1},\\ldots,\\dual{V_m})$.\n\n    Fix all vector arguments except position $k$, and evaluate at an arbitrary tuple of functionals. Replacing the $k$th vector by $au+bw$ changes the value to\n    \\[\n    \\left(\\prod_{r\\ne k}\\varphi_r(v_r)\\right)\n    \\varphi_k(au+bw)\n    =\n    a\\left(\\prod_{r\\ne k}\\varphi_r(v_r)\\right)\\varphi_k(u)\n    +\n    b\\left(\\prod_{r\\ne k}\\varphi_r(v_r)\\right)\\varphi_k(w).\n    \\]\n    This is the value of the corresponding linear combination of the two tensors with $u$ and $w$ in position $k$. Equality at every functional tuple proves equality of the tensors, and hence linearity in that position. Since $k$ was arbitrary, the operation is multilinear. If the $k$th vector is zero, the factor $\\varphi_k(0)$ vanishes at every input, so the tensor is the zero function.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Verify identities by evaluating at an arbitrary tuple of functionals."
+   ],
+   "uses": [
+    "c9-def-multiple-tensor-product",
+    "c9-ex-multilinear-functional-product",
+    "c3-def-dual-space",
+    "c3-thm-linear-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-multiple-tensor-dimension",
+   "kind": "theorem",
+   "number": "9.89",
+   "title": "Dimension of a tensor product with several factors",
+   "tex": "For $m\\ge2$,\n    \\[\n    \\dim(V_1\\otimes\\cdots\\otimes V_m)\n    =\\prod_{r=1}^m\\dim V_r.\n    \\]",
+   "page": "379",
+   "proof": "The definition and the multilinear-functional dimension theorem give\n    \\[\n    \\dim(V_1\\otimes\\cdots\\otimes V_m)\n    =\\prod_{r=1}^m\\dim\\dual{V_r}.\n    \\]\n    Each finite-dimensional dual has the dimension of its original space, so the right side is the asserted product. If a factor is zero, the product is zero, and the tensor space is zero by the zero-dimension criterion.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply the preceding dimension theorem to the dual factors."
+   ],
+   "uses": [
+    "c9-def-multiple-tensor-product",
+    "c9-thm-multilinear-functional-dimension",
+    "c3-thm-dual-dimension",
+    "c2-lem-zero-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-thm-multiple-tensor-basis",
+   "kind": "theorem",
+   "number": "9.90",
+   "title": "Tensor bases and arrays with several indices",
+   "tex": "For each $r=1,\\ldots,m$, choose a basis\n    $e_1^{(r)},\\ldots,e_{n_r}^{(r)}$ of $V_r$.\n    Then the tensors\n    \\[\n    E_J=e_{j_1}^{(1)}\\otimes\\cdots\\otimes e_{j_m}^{(m)},\n    \\qquad\n    1\\le j_r\\le n_r,\n    \\]\n    form a basis of $V_1\\otimes\\cdots\\otimes V_m$, in any fixed ordering of the index tuples.\n\n    If $\\varphi_1^{(r)},\\ldots,\\varphi_{n_r}^{(r)}$ are the dual bases, the coefficient of $E_J$ in a tensor $z$ is\n    \\[\n    z(\\varphi_{j_1}^{(1)},\\ldots,\\varphi_{j_m}^{(m)}).\n    \\]\n    If $v_r=\\sum_ja_{rj}e_j^{(r)}$, the coefficient of $E_J$ in the pure tensor $v_1\\otimes\\cdots\\otimes v_m$ is\n    $\\prod_{r=1}^m a_{rj_r}$.",
+   "page": "379",
+   "proof": "First assume no factor is zero. At a tuple of dual-basis functionals indexed by $K=(k_1,\\ldots,k_m)$, the tensor definition gives\n    \\[\n    E_J(\\varphi_{k_1}^{(1)},\\ldots,\\varphi_{k_m}^{(m)})\n    =\\prod_{r=1}^m\n    \\varphi_{k_r}^{(r)}(e_{j_r}^{(r)}).\n    \\]\n    This product is one if $J=K$ and zero otherwise. Evaluating a zero combination $\\sum_Jc_JE_J=0$ at the tuple indexed by $K$ therefore gives $c_K=0$. All coefficients vanish, proving independence.\n\n    There are $\\prod_rn_r$ tensors in the list, equal to the dimension of the tensor space. The full-length independence theorem makes them a basis. Evaluating the unique basis expansion of any tensor $z$ at the tuple indexed by $J$ then selects its coefficient, proving the second assertion.\n\n    For a pure tensor, that evaluation is\n    \\[\n    \\prod_{r=1}^m\\varphi_{j_r}^{(r)}(v_r)\n    =\\prod_{r=1}^m a_{rj_r},\n    \\]\n    by the dual-coordinate property. This proves the final assertion.\n\n    If a factor is zero, its basis is empty, so there are no index tuples $J$. The tensor space is zero by the dimension theorem, and the empty list is its basis. The coordinate assertions contain no indices, and the only pure tensor is zero, as required.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Evaluate candidate basis tensors on tuples of dual-basis functionals.",
+    "The number of resulting independent tensors equals the dimension."
+   ],
+   "uses": [
+    "c9-def-multiple-tensor-product",
+    "c9-thm-multiple-tensor-dimension",
+    "c9-thm-multiple-tensor-multilinearity",
+    "c3-def-dual-basis",
+    "c3-thm-dual-basis",
+    "c3-thm-dual-coordinates",
+    "c2-thm-full-length-independent"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c9-def-multilinear-map",
+   "kind": "definition",
+   "number": "9.91",
+   "title": "Multilinear maps into an arbitrary vector space",
+   "tex": "For a vector space $U$, an $m$-linear map\n    \\[\n    \\Gamma:V_1\\times\\cdots\\times V_m\\to U\n    \\]\n    is a function that is linear in each argument when the other arguments are fixed. No finite-dimensional assumption is imposed on $U$.",
+   "page": "379"
+  },
+  {
+   "id": "c9-thm-multiple-tensor-universal",
+   "kind": "theorem",
+   "number": "9.92",
+   "title": "The universal property for several factors",
+   "tex": "For an $m$-linear map\n    $\\Gamma:V_1\\times\\cdots\\times V_m\\to U$,\n    there exists exactly one linear map\n    \\[\n    \\widehat\\Gamma:\n    V_1\\otimes\\cdots\\otimes V_m\\to U\n    \\]\n    satisfying\n    \\[\n    \\widehat\\Gamma(v_1\\otimes\\cdots\\otimes v_m)\n    =\\Gamma(v_1,\\ldots,v_m).\n    \\]\n    Conversely, each linear map $T$ on the tensor product with target $U$ determines exactly one $m$-linear map\n    \\[\n    T^\\#(v_1,\\ldots,v_m)=T(v_1\\otimes\\cdots\\otimes v_m).\n    \\]\n    These correspondences are inverse to one another.",
+   "page": "380",
+   "proof": "First suppose every factor is nonzero, and choose bases as in the tensor-basis theorem. Prescribe values on that basis by\n    \\[\n    \\widehat\\Gamma(E_J)\n    =\\Gamma(e_{j_1}^{(1)},\\ldots,e_{j_m}^{(m)}).\n    \\]\n    The basis prescription theorem gives exactly one linear map with these values. Write $v_r=\\sum_ja_{rj}e_j^{(r)}$. The pure-tensor coordinate formula gives\n    \\[\n    v_1\\otimes\\cdots\\otimes v_m\n    =\\sum_J\\left(\\prod_r a_{rj_r}\\right)E_J.\n    \\]\n    Applying the prescribed linear map yields\n    \\[\n    \\widehat\\Gamma(v_1\\otimes\\cdots\\otimes v_m)\n    =\n    \\sum_J\\left(\\prod_r a_{rj_r}\\right)\n    \\Gamma(e_{j_1}^{(1)},\\ldots,e_{j_m}^{(m)}).\n    \\]\n    Expand $\\Gamma(v_1,\\ldots,v_m)$ first in its first argument, then in its second argument, and continue through its $m$th argument. Linearity in each position gives exactly the same sum with the same product of coefficients. This proves the required identity for every tuple of vectors. Any other linear map satisfying that identity agrees on every $E_J$, and hence is equal to $\\widehat\\Gamma$.\n\n    Conversely, define $T^\\#$ by the displayed formula. Fix all arguments except position $k$. The pure-tensor operation is linear in that position, so replacing its vector by $au+bw$ replaces the tensor by $a$ times the tensor with $u$ plus $b$ times the tensor with $w$. Applying linearity of $T$ gives the same scalar linear-combination identity for $T^\\#$. Since this works in each position, $T^\\#$ is $m$-linear. Its formula specifies every value, so it is unique.\n\n    Starting with $\\Gamma$ and then applying $\\#$ returns $\\Gamma$ by the proven pure-tensor identity. Starting with $T$ gives a new linear map agreeing with $T$ on every pure tensor, in particular on the tensor basis, so it returns $T$.\n\n    If some factor $V_k$ is zero, every input to an $m$-linear map has zero in position $k$, and linearity there forces every output to be zero. The tensor space also has dimension zero. Its only linear map to $U$ is zero, and every pure tensor is zero. Thus existence, uniqueness, the formulas, and the inverse-correspondence assertion all hold in this remaining case.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Prescribe the map on the tensor basis indexed by tuples of basis indices.",
+    "Expand every argument to check the prescribed map on arbitrary pure tensors.",
+    "For the converse, compose a linear map with the multilinear pure-tensor operation."
+   ],
+   "uses": [
+    "c9-def-multilinear-map",
+    "c9-thm-multiple-tensor-basis",
+    "c9-thm-multiple-tensor-multilinearity",
+    "c9-thm-multiple-tensor-dimension",
+    "c3-thm-linear-map-basis",
+    "c3-thm-linear-zero",
+    "c2-thm-basis-coordinates"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c9-card-tensor-definition",
+   "item": "c9-def-tensor-product",
+   "front": "In this construction, what space is $V\\otimes W$, and how does $v\\otimes w$ act?",
+   "back": "$V\\otimes W=\\Bil(\\dual V,\\dual W)$, and $(v\\otimes w)(\\varphi,\\tau)=\\varphi(v)\\tau(w)$."
+  },
+  {
+   "id": "c9-card-tensor-dimension",
+   "item": "c9-thm-tensor-dimension",
+   "front": "What is $\\dim(V\\otimes W)$? What happens when a factor is zero?",
+   "back": "It equals $(\\dim V)(\\dim W)$. A zero factor makes the tensor product the zero space."
+  },
+  {
+   "id": "c9-card-tensor-bilinearity",
+   "item": "c9-thm-tensor-bilinearity",
+   "front": "How do sums and scalars interact with a pure tensor?",
+   "back": "The operation is linear in each factor: for example $(v+u)\\otimes w=v\\otimes w+u\\otimes w$, and $(av)\\otimes w=a(v\\otimes w)=v\\otimes(aw)$."
+  },
+  {
+   "id": "c9-card-tensor-basis",
+   "item": "c9-thm-tensor-basis",
+   "front": "How do bases of the factors produce a tensor basis, and how is independence proved?",
+   "back": "All pairwise tensors $e_j\\otimes f_k$ form a basis. Evaluate a proposed dependence on pairs of dual coordinate functionals to isolate its coefficients."
+  },
+  {
+   "id": "c9-card-tensor-outer-product",
+   "item": "c9-thm-tensor-coordinate-array",
+   "front": "What coordinate matrix represents the pure tensor $v\\otimes w$?",
+   "back": "Its $(j,k)$ entry is $v_jw_k$, with no complex conjugation."
+  },
+  {
+   "id": "c9-card-tensor-universal",
+   "item": "c9-thm-tensor-universal",
+   "front": "State the universal property of $V\\otimes W$.",
+   "back": "Every bilinear map $\\Gamma:V\\times W\\to U$ factors uniquely through a linear map $\\widehat\\Gamma:V\\otimes W\\to U$ satisfying $\\widehat\\Gamma(v\\otimes w)=\\Gamma(v,w)$."
+  },
+  {
+   "id": "c9-card-tensor-inner-product",
+   "item": "c9-thm-tensor-inner-product",
+   "front": "What rule specifies the tensor-product inner product, and why does its construction use a basis?",
+   "back": "$\\ip{v\\otimes w}{u\\otimes x}=\\ip{v}{u}\\,\\ip{w}{x}$. Unique tensor-basis coordinates define a well-defined inner product; arbitrary sums of pure tensors need not be unique."
+  },
+  {
+   "id": "c9-card-tensor-norm",
+   "item": "c9-thm-tensor-norm",
+   "front": "What is the norm of a pure tensor in inner product spaces?",
+   "back": "$\\norm{v\\otimes w}=\\norm v\\,\\norm w$."
+  },
+  {
+   "id": "c9-card-multiple-tensor-basis",
+   "item": "c9-thm-multiple-tensor-basis",
+   "front": "How are coordinates indexed for a tensor product of $m$ spaces?",
+   "back": "By tuples $(j_1,\\ldots,j_m)$ selecting one basis vector from each factor. The associated basis vector is $e_{j_1}^{(1)}\\otimes\\cdots\\otimes e_{j_m}^{(m)}$."
+  },
+  {
+   "id": "c9-card-multiple-tensor-universal",
+   "item": "c9-thm-multiple-tensor-universal",
+   "front": "What replaces bilinear maps in the universal property for $m$ tensor factors?",
+   "back": "Maps that are linear separately in all $m$ arguments. Each has a unique linear extension to the tensor product taking a pure tensor to its value on the corresponding tuple."
+  }
+ ]
+}

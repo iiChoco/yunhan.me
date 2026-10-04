@@ -1,0 +1,2937 @@
+                                    Chapter 9
+Multilinear Algebra and Determinants
+
+
+We begin this chapter by investigating bilinear forms and quadratic forms on a
+vector space. Then we will move on to multilinear forms. We will show that the
+vector space of alternating 𝑛-linear forms has dimension one on a vector space of
+dimension 𝑛. This result will allow us to give a clean basis-free definition of the
+determinant of an operator.
+    This approach to the determinant via alternating multilinear forms leads to
+straightforward proofs of key properties of determinants. For example, we will see
+that the determinant is multiplicative, meaning that det(𝑆𝑇) = (det 𝑆)(det 𝑇) for
+all operators 𝑆 and 𝑇 on the same vector space. We will also see that 𝑇 is invertible
+if and only if det 𝑇 ≠ 0. Another important result states that the determinant of
+an operator on a complex vector space equals the product of the eigenvalues of
+the operator, with each eigenvalue included as many times as its multiplicity.
+    The chapter concludes with an introduction to tensor products.
+
+    standing assumptions for this chapter
+
+ • 𝐅 denotes 𝐑 or 𝐂 .
+ • 𝑉 and 𝑊 denote finite-dimensional nonzero vector spaces over 𝐅.
+
+
+
+
+                                                                                     Daniel Schwen CC BY-SA
+
+
+
+
+The Mathematical Institute at the University of Göttingen. This building opened in 1930,
+  when Emmy Noether (1882–1935) had already been a research mathematician and
+   faculty member at the university for 15 years (the first eight years without salary).
+      Noether was fired by the Nazi government in 1933. By then Noether and her
+ collaborators had created many of the foundations of modern algebra, including an
+    abstract algebra viewpoint that contributed to the development of linear algebra.
+
+                                                                                    332
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                     Section 9A       Bilinear Forms and Quadratic Forms         333
+
+9A Bilinear Forms and Quadratic Forms
+Bilinear Forms
+A bilinear form on 𝑉 is a function from 𝑉 × 𝑉 to 𝐅 that is linear in each slot
+separately, meaning that if we hold either slot fixed then we have a linear function
+in the other slot. Here is the formal definition.
+
+ 9.1 definition: bilinear form
+
+ A bilinear form on 𝑉 is a function 𝛽 ∶ 𝑉 × 𝑉 → 𝐅 such that
+
+                         𝑣 ↦ 𝛽(𝑣, 𝑢)      and 𝑣 ↦ 𝛽(𝑢, 𝑣)
+
+ are both linear functionals on 𝑉 for every 𝑢 ∈ 𝑉.
+
+    For example, if 𝑉 is a real inner prod- Recall that the term linear functional,
+uct space, then the function that takes an used in the definition above, means
+ordered pair (𝑢, 𝑣) ∈ 𝑉 × 𝑉 to ⟨𝑢, 𝑣⟩ is a linear function that maps into the
+a bilinear form on 𝑉. If 𝑉 is a nonzero scalar field 𝐅. Thus the term bilinear
+complex inner product space, then this functional would be more consistent
+function is not a bilinear form because terminology than bilinear form, which
+the inner product is not linear in the sec- unfortunately has become standard.
+ond slot (complex scalars come out of the
+second slot as their complex conjugates).
+    If 𝐅 = 𝐑 , then a bilinear form differs from an inner product in that an inner
+product requires symmetry [meaning that 𝛽(𝑣, 𝑤) = 𝛽(𝑤, 𝑣) for all 𝑣, 𝑤 ∈ 𝑉]
+and positive definiteness [meaning that 𝛽(𝑣, 𝑣) > 0 for all 𝑣 ∈ 𝑉\{0}], but these
+properties are not required for a bilinear form.
+
+ 9.2 example: bilinear forms
+
+• The function 𝛽 ∶ 𝐅3 × 𝐅3 → 𝐅 defined by
+
+                𝛽((𝑥1 , 𝑥2 , 𝑥3 ), (𝑦1 , 𝑦2 , 𝑦3 )) = 𝑥1 𝑦2 − 5𝑥2 𝑦3 + 2𝑥3 𝑦1
+
+  is a bilinear form on 𝐅3 .
+• Suppose 𝐴 is an 𝑛-by-𝑛 matrix with 𝐴𝑗,𝑘 ∈ 𝐅 in row 𝑗, column 𝑘 . Define a
+  bilinear form 𝛽𝐴 on 𝐅𝑛 by
+                                                         𝑛   𝑛
+                  𝛽𝐴 ((𝑥1 , … , 𝑥𝑛 ), (𝑦1 , … , 𝑦𝑛 )) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑦𝑘 .
+                                                       𝑘=1 𝑗 = 1
+
+  The first bullet point is a special case of this bullet point with 𝑛 = 3 and
+                                     0         1   0
+                                   ⎛                  ⎞
+                                 𝐴=⎜
+                                   ⎜
+                                   ⎜ 0         0   −5 ⎟
+                                                      ⎟
+                                                      ⎟.
+                                   ⎝ 2         0   0 ⎠
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+334     Chapter 9        Multilinear Algebra and Determinants
+
+• Suppose 𝑉 is a real inner product space and 𝑇 ∈ ℒ(𝑉). Then the function
+  𝛽 ∶ 𝑉 × 𝑉 → 𝐑 defined by
+                                    𝛽(𝑢, 𝑣) = ⟨𝑢, 𝑇𝑣⟩
+  is a bilinear form on 𝑉.
+• If 𝑛 is a positive integer, then the function 𝛽 ∶ 𝒫𝑛 (𝐑) × 𝒫𝑛 (𝐑) → 𝐑 defined by
+                                  𝛽(𝑝, 𝑞) = 𝑝(2) ⋅ 𝑞′ (3)
+  is a bilinear form on 𝒫𝑛 (𝐑).
+• Suppose 𝜑, 𝜏 ∈ 𝑉 ′. Then the function 𝛽 ∶ 𝑉 × 𝑉 → 𝐅 defined by
+                                 𝛽(𝑢, 𝑣) = 𝜑(𝑢) ⋅ 𝜏(𝑣)
+  is a bilinear form on 𝑉.
+• More generally, suppose that 𝜑1 , … , 𝜑𝑛 , 𝜏1 , … , 𝜏𝑛 ∈ 𝑉 ′. Then the function
+  𝛽 ∶ 𝑉 × 𝑉 → 𝐅 defined by
+                    𝛽(𝑢, 𝑣) = 𝜑1 (𝑢) ⋅ 𝜏1 (𝑣) + ⋯ + 𝜑𝑛 (𝑢) ⋅ 𝜏𝑛 (𝑣)
+  is a bilinear form on 𝑉.
+    A bilinear form on 𝑉 is a function from 𝑉 × 𝑉 to 𝐅. Because 𝑉 × 𝑉 is a vector
+space, this raises the question of whether a bilinear form can also be a linear map
+from 𝑉× 𝑉 to 𝐅. Note that none of the bilinear forms in 9.2 are linear maps except
+in some special cases in which the bilinear form is the zero map. Exercise 3 shows
+that a bilinear form 𝛽 on 𝑉 is a linear map on 𝑉 × 𝑉 only if 𝛽 = 0.
+
+ 9.3 definition: 𝑉 (2)
+
+ The set of bilinear forms on 𝑉 is denoted by 𝑉 (2).
+
+   With the usual operations of addition and scalar multiplication of functions,
+𝑉 is a vector space.
+ (2)
+
+   For 𝑇 an operator on an 𝑛-dimensional vector space 𝑉 and a basis 𝑒1 , … , 𝑒𝑛
+of 𝑉, we used an 𝑛-by-𝑛 matrix to provide information about 𝑇. We now do the
+same thing for bilinear forms on 𝑉.
+
+ 9.4 definition: matrix of a bilinear form, ℳ(𝛽)
+
+ Suppose 𝛽 is a bilinear form on 𝑉 and 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉. The matrix of
+ 𝛽 with respect to this basis is the 𝑛-by-𝑛 matrix ℳ(𝛽) whose entry ℳ(𝛽)𝑗,𝑘
+ in row 𝑗, column 𝑘 is given by
+
+                                 ℳ(𝛽)𝑗,𝑘 = 𝛽(𝑒𝑗 , 𝑒𝑘 ).
+
+ If the basis 𝑒1 , … , 𝑒𝑛 is not clear from the context, then the notation
+ ℳ(𝛽, (𝑒1 , … , 𝑒𝑛 )) is used.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                      Section 9A        Bilinear Forms and Quadratic Forms          335
+
+   Recall that 𝐅𝑛,𝑛 denotes the vector space of 𝑛-by-𝑛 matrices with entries in 𝐅
+and that dim 𝐅𝑛,𝑛 = 𝑛2 (see 3.39 and 3.40).
+
+ 9.5    dim 𝑉 (2) = (dim 𝑉)2
+
+ Suppose 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉. Then the map 𝛽 ↦ ℳ(𝛽) is an isomorphism
+ of 𝑉 (2) onto 𝐅𝑛,𝑛. Furthermore, dim 𝑉 (2) = (dim 𝑉)2.
+
+Proof   The map 𝛽 ↦ ℳ(𝛽) is clearly a linear map of 𝑉 (2) into 𝐅𝑛,𝑛. For 𝐴 ∈ 𝐅𝑛,𝑛,
+define a bilinear form 𝛽𝐴 on 𝑉 by
+                                                             𝑛    𝑛
+            𝛽𝐴 (𝑥1 𝑒1 + ⋯ + 𝑥𝑛 𝑒𝑛 , 𝑦1 𝑒1 + ⋯ + 𝑦𝑛 𝑒𝑛 ) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑦𝑘
+                                                            𝑘=1 𝑗 = 1
+for 𝑥1 , … , 𝑥𝑛 , 𝑦1 , … , 𝑦𝑛 ∈ 𝐅 (if 𝑉 = 𝐅𝑛 and 𝑒1 , … , 𝑒𝑛 is the standard basis of 𝐅𝑛,
+this 𝛽𝐴 is the same as the bilinear form 𝛽𝐴 in the second bullet point of Example
+9.2).
+     The linear map 𝛽 ↦ ℳ(𝛽) from 𝑉 (2) to 𝐅𝑛,𝑛 and the linear map 𝐴 ↦ 𝛽𝐴 from
+𝐅 to 𝑉 (2) are inverses of each other because 𝛽ℳ(𝛽) = 𝛽 for all 𝛽 ∈ 𝑉 (2) and
+  𝑛,𝑛
+
+ℳ(𝛽𝐴 ) = 𝐴 for all 𝐴 ∈ 𝐅𝑛,𝑛, as you should verify.
+     Thus both maps are isomorphisms and the two spaces that they connect have
+the same dimension. Hence dim 𝑉 (2) = dim 𝐅𝑛,𝑛 = 𝑛2 = (dim 𝑉)2.
+
+    Recall that 𝐶 t denotes the transpose of a matrix 𝐶. The matrix 𝐶 t is obtained
+by interchanging the rows and the columns of 𝐶.
+
+ 9.6    composition of a bilinear form and an operator
+
+ Suppose 𝛽 is a bilinear form on 𝑉 and 𝑇 ∈ ℒ(𝑉). Define bilinear forms 𝛼
+ and 𝜌 on 𝑉 by
+
+                  𝛼(𝑢, 𝑣) = 𝛽(𝑢, 𝑇𝑣)         and 𝜌(𝑢, 𝑣) = 𝛽(𝑇𝑢, 𝑣).
+
+ Let 𝑒1 , … , 𝑒𝑛 be a basis of 𝑉. Then
+
+              ℳ(𝛼) = ℳ(𝛽)ℳ(𝑇)                and ℳ(𝜌) = ℳ(𝑇)t ℳ(𝛽).
+
+Proof   If 𝑗, 𝑘 ∈ {1, … , 𝑛}, then
+                         ℳ(𝛼)𝑗,𝑘 = 𝛼(𝑒𝑗 , 𝑒𝑘 )
+                                     = 𝛽(𝑒𝑗 , 𝑇𝑒𝑘 )
+                                               𝑛
+                                     = 𝛽(𝑒𝑗 , ∑ ℳ(𝑇)𝑚,𝑘 𝑒𝑚 )
+                                              𝑚=1
+                                         𝑛
+                                     = ∑ 𝛽(𝑒𝑗 , 𝑒𝑚 )ℳ(𝑇)𝑚,𝑘
+                                       𝑚=1
+                                     = (ℳ(𝛽)ℳ(𝑇))𝑗,𝑘 .
+
+Thus ℳ(𝛼) = ℳ(𝛽)ℳ(𝑇). The proof that ℳ(𝜌) = ℳ(𝑇)t ℳ(𝛽) is similar.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+336        Chapter 9      Multilinear Algebra and Determinants
+
+   The result below shows how the matrix of a bilinear form changes if we change
+the basis. The formula in the result below should be compared to the change-
+of-basis formula for the matrix of an operator (see 3.84). The two formulas are
+similar, except that the transpose 𝐶 t appears in the formula below and the inverse
+𝐶−1 appears in the change-of-basis formula for the matrix of an operator.
+
+  9.7    change-of-basis formula
+
+  Suppose 𝛽 ∈ 𝑉 (2). Suppose 𝑒1 , … , 𝑒𝑛 and 𝑓1 , … , 𝑓𝑛 are bases of 𝑉. Let
+
+               𝐴 = ℳ(𝛽, (𝑒1 , … , 𝑒𝑛 ))      and 𝐵 = ℳ(𝛽, ( 𝑓1 , … , 𝑓𝑛 ))
+
+  and 𝐶 = ℳ(𝐼 , (𝑒1 , … , 𝑒𝑛 ), ( 𝑓1 , … , 𝑓𝑛 )). Then
+
+                                        𝐴 = 𝐶 t 𝐵𝐶.
+
+Proof   The linear map lemma (3.4) tells us that there exists an operator 𝑇 ∈ ℒ(𝑉)
+such that 𝑇 𝑓𝑘 = 𝑒𝑘 for each 𝑘 = 1, … , 𝑛. The definition of the matrix of an operator
+with respect to a basis implies that
+                                 ℳ(𝑇 , ( 𝑓1 , … , 𝑓𝑛 )) = 𝐶.
+
+      Define bilinear forms 𝛼, 𝜌 on 𝑉 by
+            𝛼(𝑢, 𝑣) = 𝛽(𝑢, 𝑇𝑣)       and 𝜌(𝑢, 𝑣) = 𝛼(𝑇𝑢, 𝑣) = 𝛽(𝑇𝑢, 𝑇𝑣).
+Then 𝛽(𝑒𝑗 , 𝑒𝑘 ) = 𝛽(𝑇 𝑓𝑗 , 𝑇 𝑓𝑘 ) = 𝜌( 𝑓𝑗 , 𝑓𝑘 ) for all 𝑗, 𝑘 ∈ {1, … , 𝑛}. Thus
+
+                                𝐴 = ℳ(𝜌, ( 𝑓1 , … , 𝑓𝑛 ))
+                                   = 𝐶 t ℳ(𝛼, ( 𝑓1 , … , 𝑓𝑛 ))
+                                   = 𝐶 t 𝐵𝐶,
+
+where the second and third lines each follow from 9.6.
+
+
+ 9.8 example: the matrix of a bilinear form on 𝒫2 (𝐑)
+
+      Define a bilinear form 𝛽 on 𝒫2 (𝐑) by 𝛽(𝑝, 𝑞) = 𝑝(2) ⋅ 𝑞′ (3). Let
+            𝐴 = ℳ(𝛽, (1, 𝑥 − 2, (𝑥 − 3)2 ))        and 𝐵 = ℳ(𝛽, (1, 𝑥, 𝑥2 ))
+and 𝐶 = ℳ(𝐼 , (1, 𝑥 − 2, (𝑥 − 3)2 ), (1, 𝑥, 𝑥2 )). Then
+    0         1   0                 0 1 6                            1 −2 9
+  ⎛                 ⎞             ⎛        ⎞                       ⎛        ⎞
+𝐴=⎜
+  ⎜
+  ⎜ 0         0   0 ⎟
+                    ⎟
+                    ⎟     and 𝐵 = ⎜
+                                  ⎜        ⎟
+                                  ⎜ 0 2 12 ⎟
+                                           ⎟               and 𝐶 = ⎜
+                                                                   ⎜        ⎟.
+                                                                   ⎜ 0 1 −6 ⎟
+                                                                            ⎟
+  ⎝ 0         1   0 ⎠             ⎝ 0 4 24 ⎠                       ⎝ 0 0  1 ⎠
+
+Now the change-of-basis formula 9.7 asserts that 𝐴 = 𝐶 t 𝐵𝐶, which you can verify
+with matrix multiplication using the matrices above.
+
+
+                  Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                     Section 9A       Bilinear Forms and Quadratic Forms            337
+
+Symmetric Bilinear Forms
+
+ 9.9 definition: symmetric bilinear form, 𝑉sym
+                                                (2)
+
+
+
+ A bilinear form 𝜌 ∈ 𝑉 (2) is called symmetric if
+
+                                 𝜌(𝑢, 𝑤) = 𝜌(𝑤, 𝑢)
+
+ for all 𝑢, 𝑤 ∈ 𝑉. The set of symmetric bilinear forms on 𝑉 is denoted by 𝑉sym
+                                                                           (2)
+                                                                               .
+
+
+ 9.10 example: symmetric bilinear forms
+
+• If 𝑉 is a real inner product space and 𝜌 ∈ 𝑉 (2) is defined by
+                                    𝜌(𝑢, 𝑤) = ⟨𝑢, 𝑤⟩,
+  then 𝜌 is a symmetric bilinear form on 𝑉.
+• Suppose 𝑉 is a real inner product space and 𝑇 ∈ ℒ(𝑉). Define 𝜌 ∈ 𝑉 (2) by
+                                   𝜌(𝑢, 𝑤) = ⟨𝑢, 𝑇𝑤⟩.
+  Then 𝜌 is a symmetric bilinear form on 𝑉 if and only if 𝑇 is a self-adjoint
+  operator (the previous bullet point is the special case 𝑇 = 𝐼 ).
+• Suppose 𝜌 ∶ ℒ(𝑉) × ℒ(𝑉) → 𝐅 is defined by
+                                   𝜌(𝑆, 𝑇) = tr(𝑆𝑇).
+  Then 𝜌 is a symmetric bilinear form on ℒ(𝑉) because trace is a linear functional
+  on ℒ(𝑉) and tr(𝑆𝑇) = tr(𝑇𝑆) for all 𝑆, 𝑇 ∈ ℒ(𝑉); see 8.56.
+
+ 9.11 definition: symmetric matrix
+
+ A square matrix 𝐴 is called symmetric if it equals its transpose.
+
+   An operator on 𝑉 may have a symmetric matrix with respect to some but not all
+bases of 𝑉. In contrast, the next result shows that a bilinear form on 𝑉 has a sym-
+metric matrix with respect to either all bases of 𝑉 or with respect to no bases of 𝑉.
+
+ 9.12   symmetric bilinear forms are diagonalizable
+
+ Suppose 𝜌 ∈ 𝑉 (2). Then the following are equivalent.
+ (a) 𝜌 is a symmetric bilinear form on 𝑉.
+ (b) ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 )) is a symmetric matrix for every basis 𝑒1 , … , 𝑒𝑛 of 𝑉.
+ (c) ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 )) is a symmetric matrix for some basis 𝑒1 , … , 𝑒𝑛 of 𝑉.
+ (d) ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 )) is a diagonal matrix for some basis 𝑒1 , … , 𝑒𝑛 of 𝑉.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+338      Chapter 9      Multilinear Algebra and Determinants
+
+Proof First suppose (a) holds, so 𝜌 is a symmetric bilinear form. Suppose
+𝑒1 , … , 𝑒𝑛 is a basis of 𝑉 and 𝑗, 𝑘 ∈ {1, … , 𝑛}. Then 𝜌(𝑒𝑗 , 𝑒𝑘 ) = 𝜌(𝑒𝑘 , 𝑒𝑗 ) because
+𝜌 is symmetric. Thus ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 )) is a symmetric matrix, showing that (a)
+implies (b).
+    Clearly (b) implies (c).
+    Now suppose (c) holds and 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉 such that ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 ))
+is a symmetric matrix. Suppose 𝑢, 𝑤 ∈ 𝑉. There exist 𝑎1 , … , 𝑎𝑛 , 𝑏1 , … , 𝑏𝑛 ∈ 𝐅
+such that 𝑢 = 𝑎1 𝑒1 + ⋯ + 𝑎𝑛 𝑒𝑛 and 𝑤 = 𝑏1 𝑒1 + ⋯ + 𝑏𝑛 𝑒𝑛 . Now
+                                              𝑛       𝑛
+                            𝜌(𝑢, 𝑤) = 𝜌( ∑ 𝑎𝑗 𝑒𝑗 , ∑ 𝑏𝑘 𝑒𝑘 )
+                                             𝑗=1      𝑘=1
+                                         𝑛        𝑛
+                                     = ∑ ∑ 𝑎𝑗 𝑏𝑘 𝜌(𝑒𝑗 , 𝑒𝑘 )
+                                        𝑗 = 1 𝑘=1
+                                         𝑛        𝑛
+                                     = ∑ ∑ 𝑎𝑗 𝑏𝑘 𝜌(𝑒𝑘 , 𝑒𝑗 )
+                                        𝑗 = 1 𝑘=1
+                                             𝑛         𝑛
+                                     = 𝜌( ∑ 𝑏𝑘 𝑒𝑘 , ∑ 𝑎𝑗 𝑒𝑗 )
+                                             𝑘=1      𝑗=1
+
+                                     = 𝜌(𝑤, 𝑢),
+
+where the third line holds because ℳ(𝜌) is a symmetric matrix. The equation
+above shows that 𝜌 is a symmetric bilinear form, proving that (c) implies (a).
+   At this point, we have proved that (a), (b), (c) are equivalent. Because every
+diagonal matrix is symmetric, (d) implies (c). To complete the proof, we will
+show that (a) implies (d) by induction on 𝑛 = dim 𝑉.
+   If 𝑛 = 1, then (a) implies (d) because every 1-by-1 matrix is diagonal. Now
+suppose 𝑛 > 1 and the implication (a) ⟹ (d) holds for one less dimension.
+Suppose (a) holds, so 𝜌 is a symmetric bilinear form. If 𝜌 = 0, then the matrix of
+𝜌 with respect to every basis of 𝑉 is the zero matrix, which is a diagonal matrix.
+Hence we can assume that 𝜌 ≠ 0, which means there exist 𝑢, 𝑤 ∈ 𝑉 such that
+𝜌(𝑢, 𝑤) ≠ 0. Now
+
+                 2𝜌(𝑢, 𝑤) = 𝜌(𝑢 + 𝑤, 𝑢 + 𝑤) − 𝜌(𝑢, 𝑢) − 𝜌(𝑤, 𝑤).
+
+Because the left side of the equation above is nonzero, the three terms on the right
+cannot all equal 0. Hence there exists 𝑣 ∈ 𝑉 such that 𝜌(𝑣, 𝑣) ≠ 0.
+   Let 𝑈 = {𝑢 ∈ 𝑉 ∶ 𝜌(𝑢, 𝑣) = 0}. Thus 𝑈 is the null space of the linear
+functional 𝑢 ↦ 𝜌(𝑢, 𝑣) on 𝑉. This linear functional is not the zero linear functional
+because 𝑣 ∉ 𝑈 . Thus dim 𝑈 = 𝑛 − 1. By our induction hypothesis, there is a
+basis 𝑒1 , … , 𝑒𝑛−1 of 𝑈 such that the symmetric bilinear form 𝜌|𝑈×𝑈 has a diagonal
+matrix with respect to this basis.
+   Because 𝑣 ∉ 𝑈 , the list 𝑒1 , … , 𝑒𝑛−1 , 𝑣 is a basis of 𝑉. Suppose 𝑘 ∈ {1, … , 𝑛−1}.
+Then 𝜌(𝑒𝑘 , 𝑣) = 0 by the construction of 𝑈 . Because 𝜌 is symmetric, we also
+have 𝜌(𝑣, 𝑒𝑘 ) = 0. Thus the matrix of 𝜌 with respect to 𝑒1 , … , 𝑒𝑛−1 , 𝑣 is a diagonal
+matrix, completing the proof that (a) implies (d).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                       Section 9A      Bilinear Forms and Quadratic Forms             339
+
+    The previous result states that every symmetric bilinear form has a diagonal
+matrix with respect to some basis. If our vector space happens to be a real inner
+product space, then the next result shows that every symmetric bilinear form has
+a diagonal matrix with respect to some orthonormal basis. Note that the inner
+product here is unrelated to the bilinear form.
+
+ 9.13    diagonalization of a symmetric bilinear form by an orthonormal basis
+
+ Suppose 𝑉 is a real inner product space and 𝜌 is a symmetric bilinear form on
+ 𝑉. Then 𝜌 has a diagonal matrix with respect to some orthonormal basis of 𝑉.
+
+Proof Let 𝑓1 , … , 𝑓𝑛 be an orthonormal basis of 𝑉. Let 𝐵 = ℳ(𝜌, ( 𝑓1 , … , 𝑓𝑛 )).
+Then 𝐵 is a symmetric matrix (by 9.12). Let 𝑇 ∈ ℒ(𝑉) be the operator such that
+ℳ(𝑇 , ( 𝑓1 , … , 𝑓𝑛 )) = 𝐵. Thus 𝑇 is self-adjoint.
+    The real spectral theorem (7.29) states that 𝑇 has a diagonal matrix with respect
+to some orthonormal basis 𝑒1 , … , 𝑒𝑛 of 𝑉. Let 𝐶 = ℳ(𝐼 , (𝑒1 , … , 𝑒𝑛 ), ( 𝑓1 , … , 𝑓𝑛 )).
+Thus 𝐶−1 𝐵𝐶 is the matrix of 𝑇 with respect to the basis 𝑒1 , … , 𝑒𝑛 (by 3.84). Hence
+𝐶−1 𝐵𝐶 is a diagonal matrix. Now
+                        𝑀(𝜌, (𝑒1 , … , 𝑒𝑛 )) = 𝐶 t 𝐵𝐶 = 𝐶−1 𝐵𝐶,
+where the first equality holds by 9.7 and the second equality holds because 𝐶 is a
+unitary matrix with real entries (which implies that 𝐶−1 = 𝐶 t ; see 7.57).
+
+   Now we turn our attention to alternating bilinear forms. Alternating multilinear
+forms will play a major role in our approach to determinants later in this chapter.
+
+ 9.14 definition: alternating bilinear form, 𝑉alt
+                                                     (2)
+
+
+
+ A bilinear form 𝛼 ∈ 𝑉 (2) is called alternating if
+
+                                       𝛼(𝑣, 𝑣) = 0
+
+ for all 𝑣 ∈ 𝑉. The set of alternating bilinear forms on 𝑉 is denoted by 𝑉alt
+                                                                          (2)
+                                                                              .
+
+
+ 9.15 example: alternating bilinear forms
+
+• Suppose 𝑛 ≥ 3 and 𝛼 ∶ 𝐅𝑛 × 𝐅𝑛 → 𝐅 is defined by
+              𝛼((𝑥1 , … , 𝑥𝑛 ), (𝑦1 , … , 𝑦𝑛 )) = 𝑥1 𝑦2 − 𝑥2 𝑦1 + 𝑥1 𝑦3 − 𝑥3 𝑦1 .
+  Then 𝛼 is an alternating bilinear form on 𝐅𝑛.
+• Suppose 𝜑, 𝜏 ∈ 𝑉 ′. Then the bilinear form 𝛼 on 𝑉 defined by
+                           𝛼(𝑢, 𝑤) = 𝜑(𝑢)𝜏(𝑤) − 𝜑(𝑤)𝜏(𝑢)
+   is alternating.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+340      Chapter 9      Multilinear Algebra and Determinants
+
+    The next result shows that a bilinear form is alternating if and only if switching
+the order of the two inputs multiplies the output by −1.
+
+ 9.16    characterization of alternating bilinear forms
+
+ A bilinear form 𝛼 on 𝑉 is alternating if and only if
+
+                                 𝛼(𝑢, 𝑤) = −𝛼(𝑤, 𝑢)
+
+ for all 𝑢, 𝑤 ∈ 𝑉.
+
+Proof    First suppose that 𝛼 is alternating. If 𝑢, 𝑤 ∈ 𝑉, then
+                     0 = 𝛼(𝑢 + 𝑤, 𝑢 + 𝑤)
+                       = 𝛼(𝑢, 𝑢) + 𝛼(𝑢, 𝑤) + 𝛼(𝑤, 𝑢) + 𝛼(𝑤, 𝑤)
+                       = 𝛼(𝑢, 𝑤) + 𝛼(𝑤, 𝑢).
+Thus 𝛼(𝑢, 𝑤) = −𝛼(𝑤, 𝑢), as desired.
+    To prove the implication in the other direction, suppose 𝛼(𝑢, 𝑤) = −𝛼(𝑤, 𝑢)
+for all 𝑢, 𝑤 ∈ 𝑉. Then 𝛼(𝑣, 𝑣) = −𝛼(𝑣, 𝑣) for all 𝑣 ∈ 𝑉, which implies that
+𝛼(𝑣, 𝑣) = 0 for all 𝑣 ∈ 𝑉. Thus 𝛼 is alternating.
+
+    Now we show that the vector space of bilinear forms on 𝑉 is the direct sum of
+the symmetric bilinear forms on 𝑉 and the alternating bilinear forms on 𝑉.
+
+ 9.17
+                  (2)    (2)
+         𝑉 (2) = 𝑉sym ⊕ 𝑉alt
+
+ The sets 𝑉sym
+           (2)
+               and 𝑉alt
+                    (2)
+                        are subspaces of 𝑉 (2) . Furthermore,
+                                          (2)    (2)
+                                 𝑉 (2) = 𝑉sym ⊕ 𝑉alt .
+
+Proof   The definition of symmetric bilinear form implies that the sum of any
+two symmetric bilinear forms on 𝑉 is a symmetric bilinear form on 𝑉, and every
+scalar multiple of any symmetric bilinear form on 𝑉 is a symmetric bilinear form
+on 𝑉. Also, the zero bilinear form is in 𝑉sym   (2)
+                                                    . Thus 𝑉sym(2)
+                                                                   is a subspace of 𝑉 (2).
+Similarly, the verification that 𝑉alt is a subspace of 𝑉 (2) is straightforward.
+                                  (2)
+
+   Next, we want to show that 𝑉 (2) = 𝑉sym  (2)       (2)
+                                                 + 𝑉alt   . To do this, suppose 𝛽 ∈ 𝑉 (2).
+Define 𝜌, 𝛼 ∈ 𝑉 by
+                 (2)
+
+                    𝛽(𝑢, 𝑤) + 𝛽(𝑤, 𝑢)                         𝛽(𝑢, 𝑤) − 𝛽(𝑤, 𝑢)
+        𝜌(𝑢, 𝑤) =                         and 𝛼(𝑢, 𝑤) =                         .
+                            2                                         2
+Then 𝜌 ∈ 𝑉sym(2)
+                 and 𝛼 ∈ 𝑉alt
+                           (2)
+                               , and 𝛽 = 𝜌 + 𝛼. Thus 𝑉 (2) = 𝑉sym (2)    (2)
+                                                                      + 𝑉alt .
+   Finally, to show that the intersection of the two subspaces under consideration
+equals {0}, suppose 𝛽 ∈ 𝑉sym(2)      (2)
+                                 ∩ 𝑉alt  . If 𝑢, 𝑤 ∈ 𝑉, then 9.16 implies that
+                          𝛽(𝑢, 𝑤) = −𝛽(𝑤, 𝑢) = −𝛽(𝑢, 𝑤)
+and hence 𝛽(𝑢, 𝑤) = 0. Thus 𝛽 = 0. Hence 𝑉 (2) = 𝑉sym
+                                                  (2)    (2)
+                                                      ⊕ 𝑉alt (by 1.46).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                       Section 9A      Bilinear Forms and Quadratic Forms            341
+
+Quadratic Forms
+
+ 9.18 definition: quadratic form associated with a bilinear form, 𝑞𝛽
+
+ For 𝛽 a bilinear form on 𝑉, define a function 𝑞𝛽 ∶ 𝑉 → 𝐅 by 𝑞𝛽 (𝑣) = 𝛽(𝑣, 𝑣).
+ A function 𝑞 ∶ 𝑉 → 𝐅 is called a quadratic form on 𝑉 if there exists a bilinear
+ form 𝛽 on 𝑉 such that 𝑞 = 𝑞𝛽 .
+
+   Note that if 𝛽 is a bilinear form, then 𝑞𝛽 = 0 if and only if 𝛽 is alternating.
+
+ 9.19 example: quadratic form
+
+   Suppose 𝛽 is the bilinear form on 𝐑3 defined by
+          𝛽((𝑥1 , 𝑥2 , 𝑥3 ), (𝑦1 , 𝑦2 , 𝑦3 )) = 𝑥1 𝑦1 − 4𝑥1 𝑦2 + 8𝑥1 𝑦3 − 3𝑥3 𝑦3 .
+Then 𝑞𝛽 is the quadratic form on 𝐑3 given by the formula
+                    𝑞𝛽 (𝑥1 , 𝑥2 , 𝑥3 ) = 𝑥12 − 4𝑥1 𝑥2 + 8𝑥1 𝑥3 − 3𝑥32.
+
+    The quadratic form in the example above is typical of quadratic forms on 𝐅𝑛,
+as shown in the next result.
+
+ 9.20   quadratic forms on 𝐅𝑛
+
+ Suppose 𝑛 is a positive integer and 𝑞 is a function from 𝐅𝑛 to 𝐅. Then 𝑞
+ is a quadratic form on 𝐅𝑛 if and only if there exist numbers 𝐴𝑗,𝑘 ∈ 𝐅 for
+ 𝑗, 𝑘 ∈ {1, … , 𝑛} such that
+                                               𝑛   𝑛
+                             𝑞(𝑥1 , … , 𝑥𝑛 ) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑥𝑘
+                                             𝑘=1 𝑗 = 1
+
+ for all (𝑥1 , … , 𝑥𝑛 ) ∈ 𝐅𝑛.
+
+Proof First suppose 𝑞 is a quadratic form on 𝐅𝑛. Thus there exists a bilinear form
+𝛽 on 𝐅𝑛 such that 𝑞 = 𝑞𝛽 . Let 𝐴 be the matrix of 𝛽 with respect to the standard
+basis of 𝐅𝑛. Then for all (𝑥1 , … , 𝑥𝑛 ) ∈ 𝐅𝑛, we have the desired equation
+                                                                      𝑛    𝑛
+         𝑞(𝑥1 , … , 𝑥𝑛 ) = 𝛽((𝑥1 , … , 𝑥𝑛 ), (𝑥1 , … , 𝑥𝑛 )) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑥𝑘 .
+                                                                     𝑘=1 𝑗 = 1
+
+   Conversely, suppose there exist numbers 𝐴𝑗,𝑘 ∈ 𝐅 for 𝑗, 𝑘 ∈ {1, … , 𝑛} such that
+                                               𝑛    𝑛
+                             𝑞(𝑥1 , … , 𝑥𝑛 ) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑥𝑘
+                                              𝑘=1 𝑗 = 1
+
+for all (𝑥1 , … , 𝑥𝑛 ) ∈ 𝐅 . Define a bilinear form 𝛽 on 𝐅𝑛 by
+                         𝑛
+
+                                                          𝑛    𝑛
+                   𝛽((𝑥1 , … , 𝑥𝑛 ), (𝑦1 , … , 𝑦𝑛 )) = ∑ ∑ 𝐴𝑗,𝑘 𝑥𝑗 𝑦𝑘 .
+                                                         𝑘=1 𝑗 = 1
+
+Then 𝑞 = 𝑞𝛽 , as desired.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+342       Chapter 9     Multilinear Algebra and Determinants
+
+    Although quadratic forms are defined in terms of an arbitrary bilinear form,
+the equivalence of (a) and (b) in the result below shows that a symmetric bilinear
+form can always be used.
+
+ 9.21     characterizations of quadratic forms
+
+ Suppose 𝑞 ∶ 𝑉 → 𝐅 is a function. The following are equivalent.
+ (a) 𝑞 is a quadratic form.
+ (b) There exists a unique symmetric bilinear form 𝜌 on 𝑉 such that 𝑞 = 𝑞𝜌 .
+ (c) 𝑞(𝜆𝑣) = 𝜆2 𝑞(𝑣) for all 𝜆 ∈ 𝐅 and all 𝑣 ∈ 𝑉, and the function
+                            (𝑢, 𝑤) ↦ 𝑞(𝑢 + 𝑤) − 𝑞(𝑢) − 𝑞(𝑤)
+
+        is a symmetric bilinear form on 𝑉.
+ (d) 𝑞(2𝑣) = 4𝑞(𝑣) for all 𝑣 ∈ 𝑉, and the function
+                            (𝑢, 𝑤) ↦ 𝑞(𝑢 + 𝑤) − 𝑞(𝑢) − 𝑞(𝑤)
+
+        is a symmetric bilinear form on 𝑉.
+
+Proof    First suppose (a) holds, so 𝑞 is a quadratic form. Hence there exists a
+bilinear form 𝛽 such that 𝑞 = 𝑞𝛽 . By 9.17, there exist a symmetric bilinear form 𝜌
+on 𝑉 and an alternating bilinear form 𝛼 on 𝑉 such that 𝛽 = 𝜌 + 𝛼. Now
+                                𝑞 = 𝑞𝛽 = 𝑞𝜌 + 𝑞𝛼 = 𝑞𝜌 .
+
+If 𝜌′ ∈ 𝑉sym
+          (2)
+               also satisfies 𝑞𝜌′ = 𝑞, then 𝑞𝜌′−𝜌 = 0; thus 𝜌′ − 𝜌 ∈ 𝑉sym
+                                                                      (2)     (2)
+                                                                          ∩ 𝑉alt  ,
+which implies that 𝜌 = 𝜌 (by 9.17). This completes the proof that (a) implies (b).
+                      ′
+
+    Now suppose (b) holds, so there exists a symmetric bilinear form 𝜌 on 𝑉 such
+that 𝑞 = 𝑞𝜌 . If 𝜆 ∈ 𝐅 and 𝑣 ∈ 𝑉 then
+              𝑞(𝜆𝑣) = 𝜌(𝜆𝑣, 𝜆𝑣) = 𝜆𝜌(𝑣, 𝜆𝑣) = 𝜆2 𝜌(𝑣, 𝑣) = 𝜆2 𝑞(𝑣),
+showing that the first part of (c) holds.
+   If 𝑢, 𝑤 ∈ 𝑉, then
+ 𝑞(𝑢 + 𝑤) − 𝑞(𝑢) − 𝑞(𝑤) = 𝜌(𝑢 + 𝑤, 𝑢 + 𝑤) − 𝜌(𝑢, 𝑢) − 𝜌(𝑤, 𝑤) = 2𝜌(𝑢, 𝑤).
+Thus the function (𝑢, 𝑤) ↦ 𝑞(𝑢 + 𝑤)−𝑞(𝑢)−𝑞(𝑤) equals 2𝜌, which is a symmetric
+bilinear form on 𝑉, completing the proof that (b) implies (c).
+    Clearly (c) implies (d).
+    Now suppose (d) holds. Let 𝜌 be the symmetric bilinear form on 𝑉 defined by
+                                  𝑞(𝑢 + 𝑤) − 𝑞(𝑢) − 𝑞(𝑤)
+                       𝜌(𝑢, 𝑤) =                          .
+                                             2
+If 𝑣 ∈ 𝑉, then
+                       𝑞(2𝑣) − 𝑞(𝑣) − 𝑞(𝑣)     4𝑞(𝑣) − 2𝑞(𝑣)
+            𝜌(𝑣, 𝑣) =                       =                 = 𝑞(𝑣).
+                                2                    2
+Thus 𝑞 = 𝑞𝜌 , completing the proof that (d) implies (a).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                        Section 9A      Bilinear Forms and Quadratic Forms             343
+
+
+
+ 9.22 example: symmetric bilinear form associated with a quadratic form
+
+   Suppose 𝑞 is the quadratic form on 𝐑3 given by the formula
+                      𝑞(𝑥1 , 𝑥2 , 𝑥3 ) = 𝑥12 − 4𝑥1 𝑥2 + 8𝑥1 𝑥3 − 3𝑥32.
+A bilinear form 𝛽 on 𝐑3 such that 𝑞 = 𝑞𝛽 is given by Example 9.19, but this
+bilinear form is not symmetric, as promised by 9.21(b). However, the bilinear
+form 𝜌 on 𝐑3 defined by
+ 𝜌((𝑥1 , 𝑥2 , 𝑥3 ), (𝑦1 , 𝑦2 , 𝑦3 )) = 𝑥1 𝑦1 − 2𝑥1 𝑦2 − 2𝑥2 𝑦1 + 4𝑥1 𝑦3 + 4𝑥3 𝑦1 − 3𝑥3 𝑦3
+is symmetric and satisfies 𝑞 = 𝑞𝜌 .
+
+    The next result states that for each quadratic form we can choose a basis such
+that the quadratic form looks like a weighted sum of squares of the coordinates,
+meaning that there are no cross terms of the form 𝑥𝑗 𝑥𝑘 with 𝑗 ≠ 𝑘 .
+
+ 9.23     diagonalization of quadratic form
+
+ Suppose 𝑞 is a quadratic form on 𝑉.
+ (a) There exist a basis 𝑒1 , … , 𝑒𝑛 of 𝑉 and 𝜆1 , … , 𝜆𝑛 ∈ 𝐅 such that
+
+                         𝑞(𝑥1 𝑒1 + ⋯ + 𝑥𝑛 𝑒𝑛 ) = 𝜆1 𝑥12 + ⋯ + 𝜆𝑛 𝑥𝑛2
+
+        for all 𝑥1 , … , 𝑥𝑛 ∈ 𝐅.
+ (b) If 𝐅 = 𝐑 and 𝑉 is an inner product space, then the basis in (a) can be
+     chosen to be an orthonormal basis of 𝑉.
+
+Proof
+(a) There exists a symmetric bilinear form 𝜌 on 𝑉 such that 𝑞 = 𝑞𝜌 (by 9.21). Now
+    there exists a basis 𝑒1 , … , 𝑒𝑛 of 𝑉 such that ℳ(𝜌, (𝑒1 , … , 𝑒𝑛 )) is a diagonal
+    matrix (by 9.12). Let 𝜆1 , … , 𝜆𝑛 denote the entries on the diagonal of this
+    matrix. Thus
+                                              { 𝜆 if 𝑗 = 𝑘 ,
+                                              ⎧
+                                𝜌(𝑒𝑗 , 𝑒𝑘 ) = ⎨ 𝑗
+                                              ⎩0 if 𝑗 ≠ 𝑘
+                                              {
+    for all 𝑗, 𝑘 ∈ {1, … , 𝑛}. If 𝑥1 , … , 𝑥𝑛 ∈ 𝐅, then
+               𝑞(𝑥1 𝑒1 + ⋯ + 𝑥𝑛 𝑒𝑛 ) = 𝜌(𝑥1 𝑒1 + ⋯ + 𝑥𝑛 𝑒𝑛 , 𝑥1 𝑒1 + ⋯ + 𝑥𝑛 𝑒𝑛 )
+                                         𝑛    𝑛
+                                     = ∑ ∑ 𝑥𝑗 𝑥𝑘 𝜌(𝑒𝑗 , 𝑒𝑘 )
+                                        𝑘=1 𝑗 = 1
+
+                                     = 𝜆1 𝑥12 + ⋯ + 𝜆𝑛 𝑥𝑛2,
+    as desired.
+(b) Suppose 𝐅 = 𝐑 and 𝑉 is an inner product space. Then 9.13 tells us that the
+    basis in (a) can be chosen to be an orthonormal basis of 𝑉.
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+344      Chapter 9        Multilinear Algebra and Determinants
+
+Exercises 9A
+
+1     Prove that if 𝛽 is a bilinear form on 𝐅, then there exists 𝑐 ∈ 𝐅 such that
+                                        𝛽(𝑥, 𝑦) = 𝑐𝑥𝑦
+      for all 𝑥, 𝑦 ∈ 𝐅.
+2     Let 𝑛 = dim 𝑉. Suppose 𝛽 is a bilinear form on 𝑉. Prove that there exist
+      𝜑1 , … , 𝜑𝑛 , 𝜏1 , … , 𝜏𝑛 ∈ 𝑉 ′ such that
+                      𝛽(𝑢, 𝑣) = 𝜑1 (𝑢) ⋅ 𝜏1 (𝑣) + ⋯ + 𝜑𝑛 (𝑢) ⋅ 𝜏𝑛 (𝑣)
+      for all 𝑢, 𝑣 ∈ 𝑉.
+         This exercise shows that if 𝑛 = dim 𝑉, then every bilinear form on 𝑉 is of
+         the form given by the last bullet point of Example 9.2.
+
+3     Suppose 𝛽 ∶ 𝑉× 𝑉 → 𝐅 is a bilinear form on 𝑉 and also is a linear functional
+      on 𝑉 × 𝑉. Prove that 𝛽 = 0.
+4     Suppose 𝑉 is a real inner product space and 𝛽 is a bilinear form on 𝑉. Show
+      that there exists a unique operator 𝑇 ∈ ℒ(𝑉) such that
+                                      𝛽(𝑢, 𝑣) = ⟨𝑢, 𝑇𝑣⟩
+      for all 𝑢, 𝑣 ∈ 𝑉.
+         This exercise states that if 𝑉 is a real inner product space, then every
+         bilinear form on 𝑉 is of the form given by the third bullet point in 9.2.
+
+5     Suppose 𝛽 is a bilinear form on a real inner product space 𝑉 and 𝑇 is the
+      unique operator on 𝑉 such that 𝛽(𝑢, 𝑣) = ⟨𝑢, 𝑇𝑣⟩ for all 𝑢, 𝑣 ∈ 𝑉 (see
+      Exercise 4). Show that 𝛽 is an inner product on 𝑉 if and only if 𝑇 is an
+      invertible positive operator on 𝑉.
+6     Prove or give a counterexample: If 𝜌 is a symmetric bilinear form on 𝑉, then
+                                   {𝑣 ∈ 𝑉 ∶ 𝜌(𝑣, 𝑣) = 0}
+      is a subspace of 𝑉.
+7     Explain why the proof of 9.13 (diagonalization of a symmetric bilinear form
+      by an orthonormal basis on a real inner product space) fails if the hypothesis
+      that 𝐅 = 𝐑 is dropped.
+8     Find formulas for dim 𝑉sym
+                             (2)
+                                 and dim 𝑉alt
+                                          (2)
+                                              in terms of dim 𝑉.
+9     Suppose that 𝑛 is a positive integer and 𝑉 = {𝑝 ∈ 𝒫𝑛 (𝐑) ∶ 𝑝(0) = 𝑝(1)}.
+      Define 𝛼 ∶ 𝑉 × 𝑉 → 𝐑 by
+                                                    1
+                                       𝛼(𝑝, 𝑞) = ∫ 𝑝𝑞′.
+                                                   0
+
+      Show that 𝛼 is an alternating bilinear form on 𝑉.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                    Section 9A       Bilinear Forms and Quadratic Forms     345
+
+10   Suppose that 𝑛 is a positive integer and
+
+                𝑉 = {𝑝 ∈ 𝒫𝑛 (𝐑) ∶ 𝑝(0) = 𝑝(1) and 𝑝′ (0) = 𝑝′ (1)}.
+
+     Define 𝜌 ∶ 𝑉 × 𝑉 → 𝐑 by
+                                                  1
+                                     𝜌(𝑝, 𝑞) = ∫ 𝑝𝑞″.
+                                                 0
+
+     Show that 𝜌 is a symmetric bilinear form on 𝑉.
+
+
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+346       Chapter 9     Multilinear Algebra and Determinants
+
+9B Alternating Multilinear Forms
+Multilinear Forms
+
+ 9.24 definition: 𝑉 𝑚
+
+ For 𝑚 a positive integer, define 𝑉 𝑚 by
+
+                                         ⏟
+                                    𝑉𝑚 = 𝑉 × ⋯ × 𝑉.
+                                               𝑚 times
+
+
+    Now we can define 𝑚-linear forms as a generalization of the bilinear forms
+that we discussed in the previous section.
+
+ 9.25 definition: 𝑚-linear form, 𝑉 (𝑚), multilinear form
+
+ • For 𝑚 a positive integer, an 𝑚-linear form on 𝑉 is a function 𝛽 ∶ 𝑉 𝑚 → 𝐅
+      that is linear in each slot when the other slots are held fixed. This means
+      that for each 𝑘 ∈ {1, … , 𝑚} and all 𝑢1 , … , 𝑢𝑚 ∈ 𝑉, the function
+
+                            𝑣 ↦ 𝛽(𝑢1 , … , 𝑢𝑘−1 , 𝑣, 𝑢𝑘+1 , … , 𝑢𝑚 )
+
+      is a linear map from 𝑉 to 𝐅.
+ • The set of 𝑚-linear forms on 𝑉 is denoted by 𝑉 (𝑚).
+ • A function 𝛽 is called a multilinear form on 𝑉 if it is an 𝑚-linear form on
+   𝑉 for some positive integer 𝑚.
+
+   In the definition above, the expression 𝛽(𝑢1 , … , 𝑢𝑘−1 , 𝑣, 𝑢𝑘+1 , … , 𝑢𝑚 ) means
+𝛽(𝑣, 𝑢2 , … , 𝑢𝑚 ) if 𝑘 = 1 and means 𝛽(𝑢1 , … , 𝑢𝑚−1 , 𝑣) if 𝑘 = 𝑚.
+   A 1-linear form on 𝑉 is a linear functional on 𝑉. A 2-linear form on 𝑉 is
+a bilinear form on 𝑉. You can verify that with the usual addition and scalar
+multiplication of functions, 𝑉 (𝑚) is a vector space.
+
+ 9.26 example: 𝑚-linear forms
+
+• Suppose 𝛼, 𝜌 ∈ 𝑉 (2). Define a function 𝛽 ∶ 𝑉 4 → 𝐅 by
+
+                         𝛽(𝑣1 , 𝑣2 , 𝑣3 , 𝑣4 ) = 𝛼(𝑣1 , 𝑣2 ) 𝜌(𝑣3 , 𝑣4 ).
+
+  Then 𝛽 ∈ 𝑉 (4).
+• Define 𝛽 ∶ (ℒ(𝑉)) → 𝐅 by
+                        𝑚
+
+
+                               𝛽(𝑇1 , … , 𝑇𝑚 ) = tr(𝑇1 ⋯ 𝑇𝑚 ).
+
+  Then 𝛽 is an 𝑚-linear form on ℒ(𝑉).
+
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                               Section 9B        Alternating Multilinear Forms       347
+
+   Alternating multilinear forms, which we now define, play an important role as
+we head toward defining determinants.
+
+ 9.27 definition: alternating forms, 𝑉alt
+                                           (𝑚)
+
+
+ Suppose 𝑚 is a positive integer.
+
+ • An 𝑚-linear form 𝛼 on 𝑉 is called alternating if 𝛼(𝑣1 , … , 𝑣𝑚 ) = 0 whenever
+   𝑣1 , … , 𝑣𝑚 is a list of vectors in 𝑉 with 𝑣𝑗 = 𝑣𝑘 for some two distinct values
+   of 𝑗 and 𝑘 in {1, … , 𝑚}.
+    (𝑚)
+ • 𝑉alt = {𝛼 ∈ 𝑉 (𝑚) ∶ 𝛼 is an alternating 𝑚-linear form on 𝑉}.
+
+    You should verify that 𝑉alt  (𝑚)
+                                      is a subspace of 𝑉 (𝑚). See Example 9.15 for
+examples of alternating 2-linear forms. See Exercise 2 for an example of an
+alternating 3-linear form.
+    The next result tells us that if a linearly dependent list is input to an alternating
+multilinear form, then the output equals 0.
+
+ 9.28    alternating multilinear forms and linear dependence
+
+ Suppose 𝑚 is a positive integer and 𝛼 is an alternating 𝑚-linear form on 𝑉. If
+ 𝑣1 , … , 𝑣𝑚 is a linearly dependent list in 𝑉, then
+
+                                  𝛼(𝑣1 , … , 𝑣𝑚 ) = 0.
+
+Proof     Suppose 𝑣1 , … , 𝑣𝑚 is a linearly dependent list in 𝑉. By the linear depen-
+dence lemma (2.19), some 𝑣𝑘 is a linear combination of 𝑣1 , … , 𝑣𝑘−1 . Thus there
+exist 𝑏1 , … , 𝑏𝑘−1 such that 𝑣𝑘 = 𝑏1 𝑣1 + ⋯ + 𝑏𝑘−1 𝑣𝑘−1 . Now
+                                                   𝑘−1
+               𝛼(𝑣1 , … , 𝑣𝑚 ) = 𝛼(𝑣1 , … , 𝑣𝑘−1 , ∑ 𝑏𝑗 𝑣𝑗 , 𝑣𝑘+1 , … , 𝑣𝑚 )
+                                                   𝑗=1
+                                 𝑘−1
+                              = ∑ 𝑏𝑗 𝛼(𝑣1 , … , 𝑣𝑘−1 , 𝑣𝑗 , 𝑣𝑘+1 , … , 𝑣𝑚 )
+                                  𝑗=1
+
+                              = 0.
+
+   The next result states that if 𝑚 > dim 𝑉, then there are no alternating 𝑚-linear
+forms on 𝑉 other than the function on 𝑉 𝑚 that is identically 0.
+
+ 9.29    no nonzero alternating 𝑚-linear forms for 𝑚 > dim 𝑉
+
+ Suppose 𝑚 > dim 𝑉. Then 0 is the only alternating 𝑚-linear form on 𝑉.
+
+Proof   Suppose that 𝛼 is an alternating 𝑚-linear form on 𝑉 and 𝑣1 , … , 𝑣𝑚 ∈ 𝑉.
+Because 𝑚 > dim 𝑉, this list is not linearly independent (by 2.22). Thus 9.28
+implies that 𝛼(𝑣1 , … , 𝑣𝑚 ) = 0. Hence 𝛼 is the zero function from 𝑉 𝑚 to 𝐅.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+348      Chapter 9      Multilinear Algebra and Determinants
+
+Alternating Multilinear Forms and Permutations
+
+ 9.30    swapping input vectors in an alternating multilinear form
+
+ Suppose 𝑚 is a positive integer, 𝛼 is an alternating 𝑚-linear form on 𝑉, and
+ 𝑣1 , … , 𝑣𝑚 is a list of vectors in 𝑉. Then swapping the vectors in any two slots
+ of 𝛼(𝑣1 , … , 𝑣𝑚 ) changes the value of 𝛼 by a factor of −1.
+
+Proof   Put 𝑣1 + 𝑣2 in both the first two slots, getting
+                         0 = 𝛼(𝑣1 + 𝑣2 , 𝑣1 + 𝑣2 , 𝑣3 , … , 𝑣𝑚 ).
+
+Use the multilinear properties of 𝛼 to expand the right side of the equation above
+(as in the proof of 9.16) to get
+                   𝛼(𝑣2 , 𝑣1 , 𝑣3 , … , 𝑣𝑚 ) = −𝛼(𝑣1 , 𝑣2 , 𝑣3 , … , 𝑣𝑚 ).
+
+   Similarly, swapping the vectors in any two slots of 𝛼(𝑣1 , … , 𝑣𝑚 ) changes the
+value of 𝛼 by a factor of −1.
+
+    To see what can happen with multiple swaps, suppose 𝛼 is an alternating
+3-linear form on 𝑉 and 𝑣1 , 𝑣2 , 𝑣3 ∈ 𝑉. To evaluate 𝛼(𝑣3 , 𝑣1 , 𝑣2 ) in terms of
+𝛼(𝑣1 , 𝑣2 , 𝑣3 ), start with 𝛼(𝑣3 , 𝑣1 , 𝑣2 ) and swap the entries in the first and third
+slots, getting 𝛼(𝑣3 , 𝑣1 , 𝑣2 ) = −𝛼(𝑣2 , 𝑣1 , 𝑣3 ). Now in the last expression, swap the
+entries in the first and second slots, getting
+                   𝛼(𝑣3 , 𝑣1 , 𝑣2 ) = −𝛼(𝑣2 , 𝑣1 , 𝑣3 ) = 𝛼(𝑣1 , 𝑣2 , 𝑣3 ).
+
+More generally, we see that if we do an odd number of swaps, then the value of 𝛼
+changes by a factor of −1, and if we do an even number of swaps, then the value
+of 𝛼 does not change.
+    To deal with arbitrary multiple swaps, we need a bit of information about
+permutations.
+
+ 9.31 definition: permutation, perm 𝑚
+
+ Suppose 𝑚 is a positive integer.
+ • A permutation of (1, … , 𝑚) is a list (𝑗1 , … , 𝑗𝑚 ) that contains each of the
+   numbers 1, … , 𝑚 exactly once.
+ • The set of all permutations of (1, … , 𝑚) is denoted by perm 𝑚.
+
+    For example, (2, 3, 4, 5, 1) ∈ perm 5. You should think of an element of
+perm 𝑚 as a rearrangement of the first 𝑚 positive integers.
+    The number of swaps used to change a permutation (𝑗1 , … , 𝑗𝑚 ) to the stan-
+dard order (1, … , 𝑚) can depend on the specific swaps selected. The following
+definition has the advantage of assigning a well-defined sign to every permutation.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                              Section 9B       Alternating Multilinear Forms      349
+
+
+ 9.32 definition: sign of a permutation
+
+ The sign of a permutation (𝑗1 , … , 𝑗𝑚 ) is defined by
+
+                             sign(𝑗1 , … , 𝑗𝑚 ) = (−1)𝑁,
+
+ where 𝑁 is the number of pairs of integers (𝑘 , ℓ) with 1 ≤ 𝑘 < ℓ ≤ 𝑚 such
+ that 𝑘 appears after ℓ in the list (𝑗1 , … , 𝑗𝑚 ).
+
+   Hence the sign of a permutation equals 1 if the natural order has been changed
+an even number of times and equals −1 if the natural order has been changed an
+odd number of times.
+
+ 9.33 example: signs
+
+• The permutation (1, … , 𝑚) [no changes in the natural order] has sign 1.
+• The only pair of integers (𝑘 , ℓ) with 𝑘 < ℓ such that 𝑘 appears after ℓ in the list
+  (2, 1, 3, 4) is (1, 2). Thus the permutation (2, 1, 3, 4) has sign −1.
+• In the permutation (2, 3, … , 𝑚, 1), the only pairs (𝑘 , ℓ) with 𝑘 < ℓ that appear
+  with changed order are (1, 2), (1, 3), … , (1, 𝑚). Because we have 𝑚 − 1 such
+  pairs, the sign of this permutation equals (−1)𝑚−1 .
+
+ 9.34   swapping two entries in a permutation
+
+ Swapping two entries in a permutation multiplies the sign of the permutation
+ by −1.
+
+Proof    Suppose we have two permutations, where the second permutation is
+obtained from the first by swapping two entries. The two swapped entries were
+in their natural order in the first permutation if and only if they are not in their
+natural order in the second permutation. Thus we have a net change (so far) of 1
+or −1 (both odd numbers) in the number of pairs not in their natural order.
+    Consider each entry between the two swapped entries. If an intermediate entry
+was originally in the natural order with respect to both swapped entries, then it
+is now in the natural order with respect to neither swapped entry. Similarly, if
+an intermediate entry was originally in the natural order with respect to neither
+of the swapped entries, then it is now in the natural order with respect to both
+swapped entries. If an intermediate entry was originally in the natural order with
+respect to exactly one of the swapped entries, then that is still true. Thus the net
+change (for each pair containing an entry between the two swapped entries) in the
+number of pairs not in their natural order is 2, −2, or 0 (all even numbers).
+    For all other pairs of entries, there is no change in whether or not they are in
+their natural order. Thus the total net change in the number of pairs not in their
+natural order is an odd number. Hence the sign of the second permutation equals
+−1 times the sign of the first permutation.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+350        Chapter 9       Multilinear Algebra and Determinants
+
+
+ 9.35      permutations and alternating multilinear forms
+
+ Suppose 𝑚 is a positive integer and 𝛼 ∈ 𝑉alt
+                                          (𝑚)
+                                              . Then
+
+                     𝛼(𝑣𝑗1 , … , 𝑣𝑗𝑚 ) = (sign(𝑗1 , … , 𝑗𝑚 ))𝛼(𝑣1 , … , 𝑣𝑚 )
+
+ for every list 𝑣1 , … , 𝑣𝑚 of vectors in 𝑉 and all (𝑗1 , … , 𝑗𝑚 ) ∈ perm 𝑚.
+
+Proof Suppose 𝑣1 , … , 𝑣𝑚 ∈ 𝑉 and (𝑗1 , … , 𝑗𝑚 ) ∈ perm 𝑚. We can get from
+(𝑗1 , … , 𝑗𝑚 ) to (1, … , 𝑚) by a series of swaps of entries in different slots. Each
+such swap changes the value of 𝛼 by a factor of −1 (by 9.30) and also changes the
+sign of the remaining permutation by a factor of −1 (by 9.34). After an appropriate
+number of swaps, we reach the permutation 1, … , 𝑚, which has sign 1. Thus the
+value of 𝛼 changed signs an even number of times if sign(𝑗1 , … , 𝑗𝑚 ) = 1 and an
+odd number of times if sign(𝑗1 , … , 𝑗𝑚 ) = −1, which gives the desired result.
+
+   Our use of permutations now leads in a natural way to the following beautiful
+formula for alternating 𝑛-linear forms on an 𝑛-dimensional vector space.
+
+ 9.36      formula for (dim 𝑉)-linear alternating forms on 𝑉
+
+ Let 𝑛 = dim 𝑉. Suppose 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉 and 𝑣1 , … , 𝑣𝑛 ∈ 𝑉. For each
+ 𝑘 ∈ {1, … , 𝑛}, let 𝑏1,𝑘 , … , 𝑏𝑛,𝑘 ∈ 𝐅 be such that
+                                                        𝑛
+                                                𝑣𝑘 = ∑ 𝑏𝑗,𝑘 𝑒𝑗 .
+                                                       𝑗=1
+
+ Then
+
+        𝛼(𝑣1 , … , 𝑣𝑛 ) = 𝛼(𝑒1 , … , 𝑒𝑛 )              ∑             (sign(𝑗1 , … , 𝑗𝑛 ))𝑏𝑗1,1 ⋯ 𝑏𝑗𝑛,𝑛
+                                                (𝑗1 ,…,𝑗𝑛 )∈perm 𝑛
+
+ for every alternating 𝑛-linear form 𝛼 on 𝑉.
+
+Proof     Suppose 𝛼 is an alternating 𝑛-linear form on 𝑉. Then
+                                   𝑛                     𝑛
+      𝛼(𝑣1 , … , 𝑣𝑛 ) = 𝛼( ∑ 𝑏𝑗1,1 𝑒𝑗1 , … , ∑ 𝑏𝑗𝑛,𝑛 𝑒𝑗𝑛 )
+                                𝑗1 =1                  𝑗𝑛 =1
+
+                            𝑛            𝑛
+                       = ∑ ⋯ ∑ 𝑏𝑗1,1 ⋯ 𝑏𝑗𝑛,𝑛 𝛼(𝑒𝑗1 , … , 𝑒𝑗𝑛 )
+                           𝑗1 =1        𝑗𝑛 =1
+
+
+                       =               ∑         𝑏𝑗1,1 ⋯ 𝑏𝑗𝑛,𝑛 𝛼(𝑒𝑗1 , … , 𝑒𝑗𝑛 )
+                           (𝑗1 ,…,𝑗𝑛 )∈perm 𝑛
+
+
+                       = 𝛼(𝑒1 , … , 𝑒𝑛 )               ∑             (sign(𝑗1 , … , 𝑗𝑛 ))𝑏𝑗1,1 ⋯ 𝑏𝑗𝑛,𝑛 ,
+                                                (𝑗1 ,…,𝑗𝑛 )∈perm 𝑛
+
+where the third line holds because 𝛼(𝑒𝑗1 , … , 𝑒𝑗𝑛 ) = 0 if 𝑗1 , … , 𝑗𝑛 are not distinct
+integers, and the last line holds by 9.35.
+
+                  Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                    Section 9B               Alternating Multilinear Forms              351
+
+   The following result will be the key to our definition of the determinant in the
+next section.
+
+                (dim 𝑉)
+ 9.37      dim 𝑉alt     =1
+
+                   (dim 𝑉)
+ The vector space 𝑉alt     has dimension one.
+
+Proof Let 𝑛 = dim 𝑉. Suppose 𝛼 and 𝛼′ are alternating 𝑛-linear forms on 𝑉 with
+𝛼 ≠ 0. Let 𝑒1 , … , 𝑒𝑛 be such that 𝛼(𝑒1 , … , 𝑒𝑛 ) ≠ 0. There exists 𝑐 ∈ 𝐅 such that
+                                 𝛼′ (𝑒1 , … , 𝑒𝑛 ) = 𝑐𝛼(𝑒1 , … , 𝑒𝑛 ).
+Furthermore, 9.28 implies that 𝑒1 , … , 𝑒𝑛 is linearly independent and thus is a basis
+of 𝑉.
+   Suppose 𝑣1 , … , 𝑣𝑛 ∈ 𝑉. Let 𝑏𝑗,𝑘 be as in 9.36 for 𝑗, 𝑘 = 1, … , 𝑛. Then
+       𝛼′ (𝑣1 , … , 𝑣𝑛 ) = 𝛼′ (𝑒1 , … , 𝑒𝑛 )             ∑          (sign(𝑗1 , … , 𝑗𝑛 ))𝑏𝑗1,1 ⋯ 𝑏𝑗𝑛,𝑛
+                                               (𝑗1 ,…,𝑗𝑛 )∈perm 𝑛
+
+
+                        = 𝑐𝛼(𝑒1 , … , 𝑒𝑛 )               ∑          (sign(𝑗1 , … , 𝑗𝑛 ))𝑏𝑗1,1 ⋯ 𝑏𝑗𝑛,𝑛
+                                               (𝑗1 ,…,𝑗𝑛 )∈perm 𝑛
+
+                        = 𝑐𝛼(𝑣1 , … , 𝑣𝑛 ),
+where the first and last lines above come from 9.36. The equation above implies
+that 𝛼′ = 𝑐𝛼. Thus 𝛼′, 𝛼 is not a linearly independent list, which implies that
+dim 𝑉alt
+       (𝑛)
+           ≤ 1.
+    To complete the proof, we only need to show that there exists a nonzero
+alternating 𝑛-linear form 𝛼 on 𝑉 (thus eliminating the possibility that dim 𝑉alt   (𝑛)
+
+equals 0). To do this, let 𝑒1 , … , 𝑒𝑛 be any basis of 𝑉, and let 𝜑1 , … , 𝜑𝑛 ∈ 𝑉 be
+                                                                                 ′
+
+the linear functionals on 𝑉 that allow us to express each element of 𝑉 as a linear
+combination of 𝑒1 , … , 𝑒𝑛 . In other words,
+                                                     𝑛
+                                           𝑣 = ∑ 𝜑𝑗 (𝑣)𝑒𝑗
+                                                    𝑗=1
+
+for every 𝑣 ∈ 𝑉 (see 3.114). Now for 𝑣1 , … , 𝑣𝑛 ∈ 𝑉, define
+9.38       𝛼(𝑣1 , … , 𝑣𝑛 ) =          ∑             (sign(𝑗1 , … , 𝑗𝑛 ))𝜑𝑗1 (𝑣1 ) ⋯ 𝜑𝑗𝑛 (𝑣𝑛 ).
+                               (𝑗1 ,…,𝑗𝑛 )∈perm 𝑛
+
+The verification that 𝛼 is an 𝑛-linear form on 𝑉 is straightforward.
+      To see that 𝛼 is alternating, suppose 𝑣1 , … , 𝑣𝑛 ∈ 𝑉 with 𝑣1 = 𝑣2 . For each
+(𝑗1 , … , 𝑗𝑛 ) ∈ perm 𝑛, the permutation (𝑗2 , 𝑗1 , 𝑗3 , … , 𝑗𝑛 ) has the opposite sign. Be-
+cause 𝑣1 = 𝑣2 , the contributions from these two permutations to the sum in 9.38
+cancel each other. Hence 𝛼(𝑣1 , 𝑣1 , 𝑣3 , … , 𝑣𝑛 ) = 0. Similarly, 𝛼(𝑣1 , … , 𝑣𝑛 ) = 0 if
+any two vectors in the list 𝑣1 , … , 𝑣𝑛 are equal. Thus 𝛼 is alternating.
+      Finally, consider 9.38 with each 𝑣𝑘 = 𝑒𝑘 . Because 𝜑𝑗 (𝑒𝑘 ) equals 0 if 𝑗 ≠ 𝑘 and
+equals 1 if 𝑗 = 𝑘 , only the permutation (1, … , 𝑛) makes a nonzero contribution to
+the right side of 9.38 in this case, giving the equation 𝛼(𝑒1 , … , 𝑒𝑛 ) = 1. Thus we
+have produced a nonzero alternating 𝑛-linear form 𝛼 on 𝑉, as desired.
+
+                   Linear Algebra Done Right, fourth edition, by Sheldon Axler
+352      Chapter 9      Multilinear Algebra and Determinants
+
+    Earlier we showed that the value of The formula 9.38 used in the last proof
+an alternating multilinear form applied to construct a nonzero alternating 𝑛-
+to a linearly dependent list is 0; see 9.28. linear form came from the formula in
+The next result provides a converse of 9.36, and that formula arose naturally
+9.28 for alternating 𝑛-linear forms when from the properties of an alternating
+𝑛 = dim 𝑉. In the following result, the        multilinear form.
+statement that 𝛼 is nonzero means (as
+usual for a function) that 𝛼 is not the function on 𝑉 𝑛 that is identically 0.
+
+ 9.39    alternating (dim 𝑉)-linear forms and linear independence
+
+ Let 𝑛 = dim 𝑉. Suppose 𝛼 is a nonzero alternating 𝑛-linear form on 𝑉 and
+ 𝑒1 , … , 𝑒𝑛 is a list of vectors in 𝑉. Then
+
+                                     𝛼(𝑒1 , … , 𝑒𝑛 ) ≠ 0
+
+ if and only if 𝑒1 , … , 𝑒𝑛 is linearly independent.
+
+Proof    First suppose 𝛼(𝑒1 , … , 𝑒𝑛 ) ≠ 0. Then 9.28 implies that 𝑒1 , … , 𝑒𝑛 is linearly
+independent.
+   To prove the implication in the other direction, now suppose 𝑒1 , … , 𝑒𝑛 is linearly
+independent. Because 𝑛 = dim 𝑉, this implies that 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉 (see
+2.38).
+   Because 𝛼 is not the zero 𝑛-linear form, there exist 𝑣1 , … , 𝑣𝑛 ∈ 𝑉 such that
+𝛼(𝑣1 , … , 𝑣𝑛 ) ≠ 0. Now 9.36 implies that 𝛼(𝑒1 , … , 𝑒𝑛 ) ≠ 0.
+
+
+
+Exercises 9B
+
+ 1    Suppose 𝑚 is a positive integer. Show that dim 𝑉 (𝑚) = (dim 𝑉)𝑚.
+ 2    Suppose 𝑛 ≥ 3 and 𝛼 ∶ 𝐅𝑛 × 𝐅𝑛 × 𝐅𝑛 → 𝐅 is defined by
+             𝛼((𝑥1 , … , 𝑥𝑛 ), (𝑦1 , … , 𝑦𝑛 ), (𝑧1 , … , 𝑧𝑛 ))
+                  = 𝑥1 𝑦2 𝑧3 − 𝑥2 𝑦1 𝑧3 − 𝑥3 𝑦2 𝑧1 − 𝑥1 𝑦3 𝑧2 + 𝑥3 𝑦1 𝑧2 + 𝑥2 𝑦3 𝑧1 .
+
+      Show that 𝛼 is an alternating 3-linear form on 𝐅𝑛.
+ 3    Suppose 𝑚 is a positive integer and 𝛼 is an 𝑚-linear form on 𝑉 such that
+      𝛼(𝑣1 , … , 𝑣𝑚 ) = 0 whenever 𝑣1 , … , 𝑣𝑚 is a list of vectors in 𝑉 with 𝑣𝑗 = 𝑣𝑗+1
+      for some 𝑗 ∈ {1, … , 𝑚 − 1}. Prove that 𝛼 is an alternating 𝑚-linear form
+      on 𝑉.
+ 4    Prove or give a counterexample: If 𝛼 ∈ 𝑉alt
+                                              (4)
+                                                  , then
+                       {(𝑣1 , 𝑣2 , 𝑣3 , 𝑣4 ) ∈ 𝑉 4 ∶ 𝛼(𝑣1 , 𝑣2 , 𝑣3 , 𝑣4 ) = 0}
+
+      is a subspace of 𝑉 4.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                               Section 9B           Alternating Multilinear Forms           353
+
+5   Suppose 𝑚 is a positive integer and 𝛽 is an 𝑚-linear form on 𝑉. Define an
+    𝑚-linear form 𝛼 on 𝑉 by
+
+           𝛼(𝑣1 , … , 𝑣𝑚 ) =          ∑             (sign(𝑗1 , … , 𝑗𝑚 ))𝛽(𝑣𝑗1 , … , 𝑣𝑗𝑚 )
+                               (𝑗1 ,…,𝑗𝑚 )∈perm 𝑚
+
+    for 𝑣1 , … , 𝑣𝑚 ∈ 𝑉. Explain why 𝛼 ∈ 𝑉alt
+                                          (𝑚)
+                                              .
+6   Suppose 𝑚 is a positive integer and 𝛽 is an 𝑚-linear form on 𝑉. Define an
+    𝑚-linear form 𝛼 on 𝑉 by
+
+                    𝛼(𝑣1 , … , 𝑣𝑚 ) =               ∑          𝛽(𝑣𝑗1 , … , 𝑣𝑗𝑚 )
+                                          (𝑗1 ,…,𝑗𝑚 )∈perm 𝑚
+
+    for 𝑣1 , … , 𝑣𝑚 ∈ 𝑉. Explain why
+
+                            𝛼(𝑣𝑘1 , … , 𝑣𝑘𝑚 ) = 𝛼(𝑣1 , … , 𝑣𝑚 )
+
+    for all 𝑣1 , … , 𝑣𝑚 ∈ 𝑉 and all (𝑘1 , … , 𝑘𝑚 ) ∈ perm 𝑚.
+7   Give an example of a nonzero alternating 2-linear form 𝛼 on 𝐑3 and a linearly
+    independent list 𝑣1 , 𝑣2 in 𝐑3 such that 𝛼(𝑣1 , 𝑣2 ) = 0.
+       This exercise shows that 9.39 can fail if the hypothesis that 𝑛 = dim 𝑉 is
+       deleted.
+
+
+
+
+             Linear Algebra Done Right, fourth edition, by Sheldon Axler
+354       Chapter 9      Multilinear Algebra and Determinants
+
+9C Determinants
+Defining the Determinant
+The next definition will lead us to a clean, beautiful, basis-free definition of the
+determinant of an operator.
+
+ 9.40 definition: 𝛼𝑇
+
+ Suppose that 𝑚 is a positive integer and 𝑇 ∈ ℒ(𝑉). For 𝛼 ∈ 𝑉alt
+                                                             (𝑚)
+                                                                 , define
+ 𝛼𝑇 ∈ 𝑉alt by
+       (𝑚)
+
+                     𝛼𝑇 (𝑣1 , … , 𝑣𝑚 ) = 𝛼(𝑇𝑣1 , … , 𝑇𝑣𝑚 )
+ for each list 𝑣1 , … , 𝑣𝑚 of vectors in 𝑉.
+
+    Suppose 𝑇 ∈ ℒ(𝑉). If 𝛼 ∈ 𝑉alt (𝑚)
+                                      and 𝑣1 , … , 𝑣𝑚 is a list of vectors in 𝑉 with
+𝑣𝑗 = 𝑣𝑘 for some 𝑗 ≠ 𝑘 , then 𝑇𝑣𝑗 = 𝑇𝑣𝑘 , which implies that 𝛼𝑇 (𝑣1 , … , 𝑣𝑚 ) =
+𝛼(𝑇𝑣1 , … , 𝑇𝑣𝑚 ) = 0. Thus the function 𝛼 ↦ 𝛼𝑇 is a linear map of 𝑉alt  (𝑚)
+                                                                             to itself.
+                         (dim 𝑉)
+    We know that dim 𝑉alt        = 1 (see 9.37). Every linear map from a one-
+dimensional vector space to itself is multiplication by some unique scalar. For
+the linear map 𝛼 ↦ 𝛼𝑇 , we now define det 𝑇 to be that scalar.
+
+ 9.41 definition: determinant of an operator, det 𝑇
+
+ Suppose 𝑇 ∈ ℒ(𝑉). The determinant of 𝑇, denoted by det 𝑇, is defined to be
+ the unique number in 𝐅 such that
+
+                                     𝛼𝑇 = (det 𝑇) 𝛼
+              (dim 𝑉)
+ for all 𝛼 ∈ 𝑉alt    .
+
+
+ 9.42 example: determinants of operators
+
+      Let 𝑛 = dim 𝑉.
+• If 𝐼 is the identity operator on 𝑉, then 𝛼𝐼 = 𝛼 for all 𝛼 ∈ 𝑉alt
+                                                               (𝑛)
+                                                                   . Thus det 𝐼 = 1.
+• More generally, if 𝜆 ∈ 𝐅, then 𝛼 𝜆𝐼 = 𝜆𝑛 𝛼 for all 𝛼 ∈ 𝑉alt
+                                                          (𝑛)
+                                                              . Thus det(𝜆𝐼) = 𝜆𝑛.
+• Still more generally, if 𝑇 ∈ ℒ(𝑉) and 𝜆 ∈ 𝐅, then 𝛼 𝜆𝑇 = 𝜆𝑛 𝛼𝑇 = 𝜆𝑛 (det 𝑇)𝛼
+  for all 𝛼 ∈ 𝑉alt
+               (𝑛)
+                   . Thus det(𝜆𝑇) = 𝜆𝑛 det 𝑇.
+• Suppose 𝑇 ∈ ℒ(𝑉) and there is a basis 𝑒1 , … , 𝑒𝑛 of 𝑉 consisting of eigenvectors
+  of 𝑇, with corresponding eigenvalues 𝜆1 , … , 𝜆𝑛 . If 𝛼 ∈ 𝑉alt
+                                                              (𝑛)
+                                                                 , then
+             𝛼𝑇 (𝑒1 , … , 𝑒𝑛 ) = 𝛼(𝜆1 𝑒1 , … , 𝜆𝑛 𝑒𝑛 ) = (𝜆1 ⋯ 𝜆𝑛 )𝛼(𝑒1 , … , 𝑒𝑛 ).
+  If 𝛼 ≠ 0, then 9.39 implies 𝛼(𝑒1 , … , 𝑒𝑛 ) ≠ 0. Thus the equation above implies
+                                     det 𝑇 = 𝜆1 ⋯ 𝜆𝑛 .
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                Section 9C       Determinants      355
+
+   Our next task is to define and give a formula for the determinant of a square
+matrix. To do this, we associate with each square matrix an operator and then
+define the determinant of the matrix to be the determinant of the associated
+operator.
+
+ 9.43 definition: determinant of a matrix, det 𝐴
+
+ Suppose that 𝑛 is a positive integer and 𝐴 is an 𝑛-by-𝑛 square matrix with
+ entries in 𝐅. Let 𝑇 ∈ ℒ(𝐅𝑛 ) be the operator whose matrix with respect to
+ the standard basis of 𝐅𝑛 equals 𝐴. The determinant of 𝐴, denoted by det 𝐴, is
+ defined by det 𝐴 = det 𝑇.
+
+
+ 9.44 example: determinants of matrices
+
+• If 𝐼 is the 𝑛-by-𝑛 identity matrix, then the corresponding operator on 𝐅𝑛 is the
+  identity operator 𝐼 on 𝐅𝑛. Thus the first bullet point of 9.42 implies that the
+  determinant of the identity matrix is 1.
+• Suppose 𝐴 is a diagonal matrix with 𝜆1 , … , 𝜆𝑛 on the diagonal. Then the
+  corresponding operator on 𝐅𝑛 has the standard basis of 𝐅𝑛 as eigenvectors,
+  with eigenvalues 𝜆1 , … , 𝜆𝑛 . Thus the last bullet point of 9.42 implies that
+  det 𝐴 = 𝜆1 ⋯ 𝜆𝑛 .
+   For the next result, think of each list 𝑣1 , … , 𝑣𝑛 of 𝑛 vectors in 𝐅𝑛 as a list of
+𝑛-by-1 column vectors. The notation ( 𝑣1 ⋯ 𝑣𝑛 ) then denotes the 𝑛-by-𝑛
+square matrix whose 𝑘 th column is 𝑣𝑘 for each 𝑘 = 1, … , 𝑛.
+
+ 9.45    determinant is an alternating multilinear form
+
+ Suppose that 𝑛 is a positive integer. The map that takes a list 𝑣1 , … , 𝑣𝑛 of
+ vectors in 𝐅𝑛 to det ( 𝑣1 ⋯ 𝑣𝑛 ) is an alternating 𝑛-linear form on 𝐅𝑛.
+
+Proof   Let 𝑒1 , … , 𝑒𝑛 be the standard basis of 𝐅𝑛 and suppose 𝑣1 , … , 𝑣𝑛 is a list of
+vectors in 𝐅𝑛. Let 𝑇 ∈ ℒ(𝐅𝑛 ) be the operator such that 𝑇𝑒𝑘 = 𝑣𝑘 for 𝑘 = 1, … , 𝑛.
+Thus 𝑇 is the operator whose matrix with respect to 𝑒1 , … , 𝑒𝑛 is ( 𝑣1 ⋯ 𝑣𝑛 ).
+Hence det ( 𝑣1 ⋯ 𝑣𝑛 ) = det 𝑇, by definition of the determinant of a matrix.
+   Let 𝛼 be an alternating 𝑛-linear form on 𝐅𝑛 such that 𝛼(𝑒1 , … , 𝑒𝑛 ) = 1. Then
+                    det ( 𝑣1 ⋯ 𝑣𝑛 ) = det 𝑇
+                                    = (det 𝑇) 𝛼(𝑒1 , … , 𝑒𝑛 )
+                                    = 𝛼(𝑇𝑒1 , … , 𝑇𝑒𝑛 )
+                                    = 𝛼(𝑣1 , … , 𝑣𝑛 ),
+where the third line follows from the definition of the determinant of an operator.
+The equation above shows that the map that takes a list of vectors 𝑣1 , … , 𝑣𝑛 in 𝐅𝑛
+to det ( 𝑣1 ⋯ 𝑣𝑛 ) is the alternating 𝑛-linear form 𝛼 on 𝐅𝑛.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+356      Chapter 9     Multilinear Algebra and Determinants
+
+    The previous result has several important consequences. For example, it
+immediately implies that a matrix with two identical columns has determinant 0.
+We will come back to other consequences later, but for now we want to give a
+formula for the determinant of a square matrix. Recall that if 𝐴 is a matrix, then
+𝐴𝑗,𝑘 denotes the entry in row 𝑗, column 𝑘 of 𝐴.
+
+ 9.46    formula for determinant of a matrix
+
+ Suppose that 𝑛 is a positive integer and 𝐴 is an 𝑛-by-𝑛 square matrix. Then
+
+               det 𝐴 =          ∑             (sign(𝑗1 , … , 𝑗𝑛 ))𝐴𝑗1,1 ⋯ 𝐴𝑗𝑛,𝑛 .
+                         (𝑗1 ,…,𝑗𝑛 )∈perm 𝑛
+
+
+Proof    Apply 9.36 with 𝑉 = 𝐅𝑛 and 𝑒1 , … , 𝑒𝑛 the standard basis of 𝐅𝑛 and 𝛼 the
+alternating 𝑛-linear form on 𝐅𝑛 that takes 𝑣1 , … , 𝑣𝑛 to det ( 𝑣1 ⋯ 𝑣𝑛 ) [see
+9.45]. If each 𝑣𝑘 is the 𝑘 th column of 𝐴, then each 𝑏𝑗,𝑘 in 9.36 equals 𝐴𝑗,𝑘 . Finally,
+                  𝛼(𝑒1 , … , 𝑒𝑛 ) = det ( 𝑒1         ⋯    𝑒𝑛 ) = det 𝐼 = 1.
+Thus the formula in 9.36 becomes the formula stated in this result.
+
+
+ 9.47 example: explicit formula for determinant
+
+• If 𝐴 is a 2-by-2 matrix, then the formula in 9.46 becomes
+                              det 𝐴 = 𝐴1,1 𝐴2,2 − 𝐴2,1 𝐴1,2 .
+
+• If 𝐴 is a 3-by-3 matrix, then the formula in 9.46 becomes
+               det 𝐴 =𝐴1,1 𝐴2,2 𝐴3,3 − 𝐴2,1 𝐴1,2 𝐴3,3 − 𝐴3,1 𝐴2,2 𝐴1,3
+                         − 𝐴1,1 𝐴3,2 𝐴2,3 + 𝐴3,1 𝐴1,2 𝐴2,3 + 𝐴2,1 𝐴3,2 𝐴1,3 .
+
+    The sum in the formula in 9.46 contains 𝑛! terms. Because 𝑛! grows rapidly as
+𝑛 increases, the formula in 9.46 is not a viable method to evaluate determinants
+even for moderately sized 𝑛. For example, 10! is over three million, and 100! is
+approximately 10158 , leading to a sum that the fastest computer cannot evaluate.
+We will soon see some results that lead to faster evaluations of determinants than
+direct use of the sum in 9.46.
+
+ 9.48    determinant of upper-triangular matrix
+
+ Suppose that 𝐴 is an upper-triangular matrix with 𝜆1 , … , 𝜆𝑛 on the diagonal.
+ Then det 𝐴 = 𝜆1 ⋯ 𝜆𝑛 .
+
+Proof If (𝑗1 , … , 𝑗𝑛 ) ∈ perm 𝑛 with (𝑗1 , … , 𝑗𝑛 ) ≠ (1, … , 𝑛), then 𝑗𝑘 > 𝑘 for some
+𝑘 ∈ {1, … , 𝑛}, which implies that 𝐴𝑗𝑘 ,𝑘 = 0. Thus the only permutation that
+can make a nonzero contribution to the sum in 9.46 is the permutation (1, … , 𝑛).
+Because 𝐴𝑘,𝑘 = 𝜆𝑘 for each 𝑘 = 1, … , 𝑛, this implies that det 𝐴 = 𝜆1 ⋯ 𝜆𝑛 .
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                Section 9C       Determinants   357
+
+Properties of Determinants
+Our definition of the determinant leads to the following magical proof that the
+determinant is multiplicative.
+
+ 9.49   determinant is multiplicative
+ (a) Suppose 𝑆, 𝑇 ∈ ℒ(𝑉). Then det(𝑆𝑇) = (det 𝑆)(det 𝑇).
+ (b) Suppose 𝐴 and 𝐵 are square matrices of the same size. Then
+
+                               det(𝐴𝐵) = (det 𝐴)(det 𝐵).
+
+Proof
+(a) Let 𝑛 = dim 𝑉. Suppose 𝛼 ∈ 𝑉alt
+                                (𝑛)
+                                    and 𝑣1 , … , 𝑣𝑛 ∈ 𝑉. Then
+                    𝛼𝑆𝑇 (𝑣1 , … , 𝑣𝑛 ) = 𝛼(𝑆𝑇𝑣1 , … , 𝑆𝑇𝑣𝑛 )
+                                      = (det 𝑆)𝛼(𝑇𝑣1 , … , 𝑇𝑣𝑛 )
+                                      = (det 𝑆)(det 𝑇)𝛼(𝑣1 , … , 𝑣𝑛 ),
+    where the first equation follows from the definition of 𝛼𝑆𝑇 , the second equation
+    follows from the definition of det 𝑆, and the third equation follows from the
+    definition of det 𝑇. The equation above implies that det(𝑆𝑇) = (det 𝑆)(det 𝑇).
+(b) Let 𝑆, 𝑇 ∈ ℒ(𝐅𝑛 ) be such that ℳ(𝑆) = 𝐴 and ℳ(𝑇) = 𝐵, where all matrices
+    of operators in this proof are with respect to the standard basis of 𝐅𝑛. Then
+    ℳ(𝑆𝑇) = ℳ(𝑆)ℳ(𝑇) = 𝐴𝐵 (see 3.43). Thus
+               det(𝐴𝐵) = det(𝑆𝑇) = (det 𝑆)(det 𝑇) = (det 𝐴)(det 𝐵),
+    where the second equality comes from the result in (a).
+
+   The determinant of an operator determines whether the operator is invertible.
+
+ 9.50   invertible ⟺ nonzero determinant
+ An operator 𝑇 ∈ ℒ(𝑉) is invertible if and only if det 𝑇 ≠ 0. Furthermore, if
+ 𝑇 is invertible, then det(𝑇 −1 ) = det1 𝑇 .
+
+Proof   First suppose 𝑇 is invertible. Thus 𝑇𝑇 −1 = 𝐼 . Now 9.49 implies that
+                  1 = det 𝐼 = det(𝑇𝑇 −1 ) = (det 𝑇)(det(𝑇 −1 )).
+Hence det 𝑇 ≠ 0 and det(𝑇 −1 ) is the multiplicative inverse of det 𝑇.
+   To prove the other direction, now suppose det 𝑇 ≠ 0. Suppose 𝑣 ∈ 𝑉 and
+𝑣 ≠ 0. Let 𝑣, 𝑒2 , … , 𝑒𝑛 be a basis of 𝑉 and let 𝛼 ∈ 𝑉alt
+                                                       (𝑛)
+                                                           be such that 𝛼 ≠ 0. Then
+𝛼(𝑣, 𝑒2 , … , 𝑒𝑛 ) ≠ 0 (by 9.39). Now
+                𝛼(𝑇𝑣, 𝑇𝑒2 , … , 𝑇𝑒𝑛 ) = (det 𝑇)𝛼(𝑣, 𝑒2 , … , 𝑒𝑛 ) ≠ 0.
+Thus 𝑇𝑣 ≠ 0. Hence 𝑇 is invertible.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+358     Chapter 9      Multilinear Algebra and Determinants
+
+   An 𝑛-by-𝑛 matrix 𝐴 is invertible (see 3.80 for the definition of an invertible
+matrix) if and only if the operator on 𝐅𝑛 associated with 𝐴 (via the standard basis
+of 𝐅𝑛 ) is invertible. Thus the previous result shows that a square matrix 𝐴 is
+invertible if and only if det 𝐴 ≠ 0.
+
+ 9.51   eigenvalues and determinants
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝜆 ∈ 𝐅. Then 𝜆 is an eigenvalue of 𝑇 if and only if
+ det(𝜆𝐼 − 𝑇) = 0.
+
+Proof   The number 𝜆 is an eigenvalue of 𝑇 if and only if 𝑇 − 𝜆𝐼 is not invertible
+(see 5.7), which happens if and only if 𝜆𝐼 − 𝑇 is not invertible, which happens if
+and only if det(𝜆𝐼 − 𝑇) = 0 (by 9.50).
+
+   Suppose 𝑇 ∈ ℒ(𝑉) and 𝑆 ∶ 𝑊 → 𝑉 is an invertible linear map. To prove that
+det(𝑆−1 𝑇𝑆) = det 𝑇 , we could try to use 9.49 and 9.50, writing
+
+                      det(𝑆−1 𝑇𝑆) = (det 𝑆−1 )(det 𝑇)(det 𝑆)
+                                  = det 𝑇.
+
+That proof works if 𝑊 = 𝑉, but if 𝑊 ≠ 𝑉 then it makes no sense because the
+determinant is defined only for linear maps from a vector space to itself, and 𝑆
+maps 𝑊 to 𝑉, making det 𝑆 undefined. The proof given below works around this
+issue and is valid when 𝑊 ≠ 𝑉.
+
+ 9.52   determinant is a similarity invariant
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑆 ∶ 𝑊 → 𝑉 is an invertible linear map. Then
+
+                                det(𝑆−1 𝑇𝑆) = det 𝑇.
+
+Proof   Let 𝑛 = dim 𝑊 = dim 𝑉. Suppose 𝜏 ∈ 𝑊alt
+                                            (𝑛)
+                                                . Define 𝛼 ∈ 𝑉alt
+                                                              (𝑛)
+                                                                  by
+
+                       𝛼(𝑣1 , … , 𝑣𝑛 ) = 𝜏(𝑆−1 𝑣1 , … , 𝑆−1 𝑣𝑛 )
+
+for 𝑣1 , … , 𝑣𝑛 ∈ 𝑉. Suppose 𝑤1 , … , 𝑤𝑛 ∈ 𝑊. Then
+
+                𝜏𝑆−1𝑇𝑆 (𝑤1 , … , 𝑤𝑛 ) = 𝜏(𝑆−1 𝑇𝑆𝑤1 , … , 𝑆−1 𝑇𝑆𝑤𝑛 )
+
+                                      = 𝛼(𝑇𝑆𝑤1 , … , 𝑇𝑆𝑤𝑛 )
+
+                                      = 𝛼𝑇 (𝑆𝑤1 , … , 𝑆𝑤𝑛 )
+
+                                      = (det 𝑇)𝛼(𝑆𝑤1 , … , 𝑆𝑤𝑛 )
+
+                                      = (det 𝑇)𝜏(𝑤1 , … , 𝑤𝑛 ).
+
+The equation above and the definition of the determinant of the operator 𝑆−1 𝑇𝑆
+imply that det(𝑆−1 𝑇𝑆) = det 𝑇.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                 Section 9C       Determinants       359
+
+    For the special case in which 𝑉 = 𝐅𝑛 and 𝑒1 , … , 𝑒𝑛 is the standard basis of 𝐅𝑛,
+the next result is true by the definition of the determinant of a matrix. The left
+side of the equation in the next result does not depend on a choice of basis, which
+means that the right side is independent of the choice of basis.
+
+ 9.53    determinant of operator equals determinant of its matrix
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉. Then
+
+                           det 𝑇 = det ℳ(𝑇 , (𝑒1 , … , 𝑒𝑛 )).
+
+Proof   Let 𝑓1 , … , 𝑓𝑛 be the standard basis of 𝐅𝑛. Let 𝑆 ∶ 𝐅𝑛 → 𝑉 be the linear map
+such that 𝑆 𝑓𝑘 = 𝑒𝑘 for each 𝑘 = 1, … , 𝑛. Thus ℳ(𝑆, ( 𝑓1 , … , 𝑓𝑛 ), (𝑒1 , … , 𝑒𝑛 )) and
+ℳ(𝑆−1 , (𝑒1 , … , 𝑒𝑛 ), ( 𝑓1 , … , 𝑓𝑛 )) both equal the 𝑛-by-𝑛 identity matrix. Hence
+
+9.54               ℳ(𝑆−1 𝑇𝑆, ( 𝑓1 , … , 𝑓𝑛 )) = ℳ(𝑇 , (𝑒1 , … , 𝑒𝑛 )),
+
+as follows from two applications of 3.43. Thus
+                         det 𝑇 = det(𝑆−1 𝑇𝑆)
+
+                               = det ℳ(𝑆−1 𝑇𝑆, ( 𝑓1 , … , 𝑓𝑛 ))
+
+                               = det ℳ(𝑇 , (𝑒1 , … , 𝑒𝑛 )),
+
+where the first line comes from 9.52, the second line comes from the definition of
+the determinant of a matrix, and the third line follows from 9.54.
+
+    The next result gives a more intuitive way to think about determinants than the
+definition or the formula in 9.46. We could make the characterization in the result
+below the definition of the determinant of an operator on a finite-dimensional
+complex vector space, with the current definition then becoming a consequence
+of that definition.
+
+ 9.55    if 𝐅 = 𝐂 , then determinant equals product of eigenvalues
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Then det 𝑇 equals the product of the eigen-
+ values of 𝑇, with each eigenvalue included as many times as its multiplicity.
+
+Proof   There is a basis of 𝑉 with respect to which 𝑇 has an upper-triangular
+matrix with the diagonal entries of the matrix consisting of the eigenvalues of 𝑇,
+with each eigenvalue included as many times as its multiplicity—see 8.37. Thus
+9.53 and 9.48 imply that det 𝑇 equals the product of the eigenvalues of 𝑇, with
+each eigenvalue included as many times as its multiplicity.
+
+    As the next result shows, the determinant interacts nicely with the transpose of
+a square matrix, with the dual of an operator, and with the adjoint of an operator
+on an inner product space.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+360       Chapter 9     Multilinear Algebra and Determinants
+
+
+ 9.56     determinant of transpose, dual, or adjoint
+ (a) Suppose 𝐴 is a square matrix. Then det 𝐴t = det 𝐴.
+ (b) Suppose 𝑇 ∈ ℒ(𝑉). Then det 𝑇 ′ = det 𝑇.
+ (c) Suppose 𝑉 is an inner product space and 𝑇 ∈ ℒ(𝑉). Then
+
+                                      det(𝑇 ∗ ) = det 𝑇.
+
+Proof
+(a) Let 𝑛 be a positive integer. Define 𝛼 ∶ (𝐅𝑛 )𝑛 → 𝐅 by
+                                                                   t
+                          𝛼(𝑣1 , … , 𝑣𝑛 ) = det(( 𝑣1     ⋯    𝑣𝑛 ) )
+
+      for all 𝑣1 , … , 𝑣𝑛 ∈ 𝐅𝑛. The formula in 9.46 for the determinant of a matrix
+      shows that 𝛼 is an 𝑛-linear form on 𝐅𝑛.
+      Suppose 𝑣1 , … , 𝑣𝑛 ∈ 𝐅𝑛 and 𝑣𝑗 = 𝑣𝑘 for some 𝑗 ≠ 𝑘 . If 𝐵 is an 𝑛-by-𝑛 matrix,
+                            t
+      then ( 𝑣1 ⋯ 𝑣𝑛 ) 𝐵 cannot equal the identity matrix because row 𝑗 and
+                                t                                    t
+      row 𝑘 of ( 𝑣1 ⋯ 𝑣𝑛 ) 𝐵 are equal. Thus ( 𝑣1 ⋯ 𝑣𝑛 ) is not invertible,
+      which implies that 𝛼(𝑣1 , … , 𝑣𝑛 ) = 0. Hence 𝛼 is an alternating 𝑛-linear form
+      on 𝐅𝑛.
+      Note that 𝛼 applied to the standard basis of 𝐅𝑛 equals 1. Because the vector
+      space of alternating 𝑛-linear forms on 𝐅𝑛 has dimension one (by 9.37), this
+      implies that 𝛼 is the determinant function. Thus (a) holds.
+(b) The equation det 𝑇 ′ = det 𝑇 follows from (a) and 9.53 and 3.132.
+(c) Pick an orthonormal basis of 𝑉. The matrix of 𝑇 ∗ with respect to that basis
+    is the conjugate transpose of the matrix of 𝑇 with respect to that basis (by
+    7.9). Thus 9.53, 9.46, and (a) imply that det(𝑇 ∗ ) = det 𝑇.
+
+
+ 9.57     helpful results in evaluating determinants
+ (a) If either two columns or two rows of a square matrix are equal, then the
+     determinant of the matrix equals 0.
+ (b) Suppose 𝐴 is a square matrix and 𝐵 is the matrix obtained from 𝐴 by
+     swapping either two columns or two rows. Then det 𝐴 = − det 𝐵.
+ (c) If one column or one row of a square matrix is multiplied by a scalar, then
+     the value of the determinant is multiplied by the same scalar.
+ (d) If a scalar multiple of one column of a square matrix is added to another
+     column, then the value of the determinant is unchanged.
+ (e) If a scalar multiple of one row of a square matrix is added to another row,
+     then the value of the determinant is unchanged.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                Section 9C       Determinants       361
+
+Proof All the assertions in this result follow from the result that the maps
+                                                                        t
+𝑣1 , … , 𝑣𝑛 ↦ det ( 𝑣1 ⋯ 𝑣𝑛 ) and 𝑣1 , … , 𝑣𝑛 ↦ det ( 𝑣1 ⋯ 𝑣𝑛 ) are both
+alternating 𝑛-linear forms on 𝐅𝑛 [see 9.45 and 9.56(a)].
+     For example, to prove (d) suppose 𝑣1 , … , 𝑣𝑛 ∈ 𝐅𝑛 and 𝑐 ∈ 𝐅. Then
+        det ( 𝑣1 + 𝑐𝑣2 𝑣2 ⋯ 𝑣𝑛 )
+
+            = det ( 𝑣1     𝑣2   ⋯    𝑣𝑛 ) + 𝑐 det ( 𝑣2     𝑣2    𝑣3   ⋯      𝑣𝑛 )
+
+            = det ( 𝑣1     𝑣2   ⋯    𝑣𝑛 ) ,
+
+where the first equation follows from the multilinearity property and the second
+equation follows from the alternating property. The equation above shows that
+adding a multiple of the second column to the first column does not change the
+value of the determinant. The same conclusion holds for any two columns. Thus
+(d) holds.
+    The proof of (e) follows from (d) and from 9.56(a). The proofs of (a), (b), and
+(c) use similar tools and are left to the reader.
+
+     For matrices whose entries are concrete numbers, the result above leads to a
+much faster way to evaluate the determinant than direct application of the formula
+in 9.46. Specifically, apply the Gaussian elimination procedure of swapping
+rows [by 9.57(b), this changes the determinant by a factor of −1], multiplying
+a row by a nonzero constant [by 9.57(c), this changes the determinant by the
+same constant], and adding a multiple of one row to another row [by 9.57(e), this
+does not change the determinant] to produce an upper-triangular matrix, whose
+determinant is the product of the diagonal entries (by 9.48). If your software keeps
+track of the number of row swaps and of the constants used when multiplying a
+row by a constant, then the determinant of the original matrix can be computed.
+     Because a number 𝜆 ∈ 𝐅 is an eigenvalue of an operator 𝑇 ∈ ℒ(𝑉) if and
+only if det(𝜆𝐼 − 𝑇) = 0 (by 9.51), you may be tempted to think that one way
+to find eigenvalues quickly is to choose a basis of 𝑉, let 𝐴 = ℳ(𝑇), evaluate
+det(𝜆𝐼 − 𝐴), and then solve the equation det(𝜆𝐼 − 𝐴) = 0 for 𝜆. However, that
+procedure is rarely efficient, except when dim 𝑉 = 2 (or when dim 𝑉 equals 3 or
+4 if you are willing to use the cubic or quartic formulas). One problem is that the
+procedure described in the paragraph above for evaluating a determinant does not
+work when the matrix includes a symbol (such as the 𝜆 in 𝜆𝐼 − 𝐴). This problem
+arises because decisions need to be made in the Gaussian elimination procedure
+about whether certain quantities equal 0, and those decisions become complicated
+in expressions involving a symbol 𝜆.
+     Recall that an operator on a finite-dimensional inner product space is unitary
+if it preserves norms (see 7.51 and the paragraph following it). Every eigenvalue
+of a unitary operator has absolute value 1 (by 7.54). Thus the product of the
+eigenvalues of a unitary operator has absolute value 1. Hence (at least in the case
+𝐅 = 𝐂 ) the determinant of a unitary operator has absolute value 1 (by 9.55). The
+next result gives a proof that works without the assumption that 𝐅 = 𝐂 .
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+362      Chapter 9     Multilinear Algebra and Determinants
+
+
+ 9.58   every unitary operator has determinant with absolute value 1
+
+ Suppose 𝑉 is an inner product space and 𝑆 ∈ ℒ(𝑉) is a unitary operator.
+ Then |det 𝑆| = 1.
+
+Proof   Because 𝑆 is unitary, 𝐼 = 𝑆∗ 𝑆 (see 7.53). Thus
+           1 = det(𝑆∗ 𝑆) = (det 𝑆∗ )(det 𝑆) = (det 𝑆)(det 𝑆) = |det 𝑆|2,
+where the second equality comes from 9.49(a) and the third equality comes from
+9.56(c). The equation above implies that |det 𝑆| = 1.
+
+   The determinant of a positive operator on an inner product space meshes well
+with the analogy that such operators correspond to the nonnegative real numbers.
+
+ 9.59   every positive operator has nonnegative determinant
+
+ Suppose 𝑉 is an inner product space and 𝑇 ∈ ℒ(𝑉) is a positive operator.
+ Then det 𝑇 ≥ 0.
+
+Proof   By the spectral theorem (7.29 or 7.31), 𝑉 has an orthonormal basis
+consisting of eigenvectors of 𝑇. Thus by the last bullet point of 9.42, det 𝑇 equals
+a product of the eigenvalues of 𝑇, possibly with repetitions. Each eigenvalue of 𝑇
+is a nonnegative number (by 7.38). Thus we conclude that det 𝑇 ≥ 0.
+
+    Suppose 𝑉 is an inner product space and 𝑇 ∈ ℒ(𝑉). Recall that the list of
+nonnegative square roots of the eigenvalues of 𝑇 ∗ 𝑇 (each included as many times
+as its multiplicity) is called the list of singular values of 𝑇 (see Section 7E).
+
+ 9.60   |det 𝑇| = product of singular values of 𝑇
+
+ Suppose 𝑉 is an inner product space and 𝑇 ∈ ℒ(𝑉). Then
+
+            |det 𝑇| = √det(𝑇 ∗ 𝑇) = product of singular values of 𝑇.
+
+Proof   We have
+           |det 𝑇|2 = (det 𝑇)(det 𝑇) = (det(𝑇 ∗ ))(det 𝑇) = det(𝑇 ∗ 𝑇),
+where the middle equality comes from 9.56(c) and the last equality comes from
+9.49(a). Taking square roots of both sides of the equation above shows that
+|det 𝑇| = √det(𝑇 ∗ 𝑇).
+    Let 𝑠1 , … , 𝑠𝑛 denote the list of singular values of 𝑇. Thus 𝑠12, … , 𝑠𝑛2 is the
+list of eigenvalues of 𝑇 ∗ 𝑇 (with appropriate repetitions), corresponding to an
+orthonormal basis of 𝑉 consisting of eigenvectors of 𝑇 ∗ 𝑇. Hence the last bullet
+point of 9.42 implies that
+                                det(𝑇 ∗ 𝑇) = 𝑠12 ⋯ 𝑠𝑛2.
+Thus |det 𝑇| = 𝑠1 ⋯ 𝑠𝑛 , as desired.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                Section 9C       Determinants   363
+
+   An operator 𝑇 on a real inner product space changes volume by a factor of the
+product of the singular values (by 7.111). Thus the next result follows immediately
+from 7.111 and 9.60. This result explains why the absolute value of a determinant
+appears in the change of variables formula in multivariable calculus.
+
+ 9.61   𝑇 changes volume by factor of |det 𝑇|
+
+ Suppose 𝑇 ∈ ℒ(𝐑𝑛 ) and Ω ⊆ 𝐑𝑛. Then
+
+                       volume 𝑇(Ω) = |det 𝑇|(volume Ω).
+
+    For operators on finite-dimensional complex vector spaces, we now connect
+the determinant to a polynomial that we have previously seen.
+
+ 9.62   if 𝐅 = 𝐂 , then characteristic polynomial of 𝑇 equals det(𝑧𝐼 − 𝑇)
+
+ Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). Let 𝜆1 , … , 𝜆𝑚 denote the distinct eigenvalues
+ of 𝑇 , and let 𝑑1 , … , 𝑑𝑚 denote their multiplicities. Then
+
+                     det(𝑧𝐼 − 𝑇) = (𝑧 − 𝜆1 )𝑑1 ⋯ (𝑧 − 𝜆𝑚 )𝑑𝑚.
+
+Proof   There exists a basis of 𝑉 with respect to which 𝑇 has an upper-triangular
+matrix with each 𝜆𝑘 appearing on the diagonal exactly 𝑑𝑘 times (by 8.37). With
+respect to this basis, 𝑧𝐼 − 𝑇 has an upper-triangular matrix with 𝑧 − 𝜆𝑘 appearing
+on the diagonal exactly 𝑑𝑘 times for each 𝑘 . Thus 9.48 gives the desired equation.
+
+    Suppose 𝐅 = 𝐂 and 𝑇 ∈ ℒ(𝑉). The characteristic polynomial of 𝑇 was
+defined in 8.26 as the polynomial on the right side of the equation in 9.62. We
+did not previously define the characteristic polynomial of an operator on a finite-
+dimensional real vector space because such operators may have no eigenvalues,
+making a definition using the right side of the equation in 9.62 inappropriate.
+    We now present a new definition of the characteristic polynomial, motivated
+by 9.62. This new definition is valid for both real and complex vector spaces.
+The equation in 9.62 shows that this new definition is equivalent to our previous
+definition when 𝐅 = 𝐂 (8.26).
+
+ 9.63 definition: characteristic polynomial
+
+ Suppose 𝑇 ∈ ℒ(𝑉). The polynomial defined by
+
+                                  𝑧 ↦ det(𝑧𝐼 − 𝑇)
+
+ is called the characteristic polynomial of 𝑇 .
+
+    The formula in 9.46 shows that the characteristic polynomial of an opera-
+tor 𝑇 ∈ ℒ(𝑉) is a monic polynomial of degree dim 𝑉. The zeros in 𝐅 of the
+characteristic polynomial of 𝑇 are exactly the eigenvalues of 𝑇 (by 9.51).
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+364     Chapter 9      Multilinear Algebra and Determinants
+
+   Previously we proved the Cayley–Hamilton theorem (8.29) in the complex
+case. Now we can extend that result to operators on real vector spaces.
+
+ 9.64   Cayley–Hamilton theorem
+
+ Suppose 𝑇 ∈ ℒ(𝑉) and 𝑞 is the characteristic polynomial of 𝑇. Then 𝑞(𝑇) = 0.
+
+Proof   If 𝐅 = 𝐂 , then the equation 𝑞(𝑇) = 0 follows from 9.62 and 8.29.
+   Now suppose 𝐅 = 𝐑 . Fix a basis of 𝑉, and let 𝐴 be the matrix of 𝑇 with
+respect to this basis. Let 𝑆 be the operator on 𝐂dim 𝑉 such that the matrix of 𝑆
+(with respect to the standard basis of 𝐂dim 𝑉 ) is 𝐴. For all 𝑧 ∈ 𝐑 we have
+                𝑞(𝑧) = det(𝑧𝐼 − 𝑇) = det(𝑧𝐼 − 𝐴) = det(𝑧𝐼 − 𝑆).
+Thus 𝑞 is the characteristic polynomial of 𝑆. The case 𝐅 = 𝐂 (first sentence of
+this proof) now implies that 0 = 𝑞(𝑆) = 𝑞(𝐴) = 𝑞(𝑇).
+
+    The Cayley–Hamilton theorem (9.64) implies that the characteristic polyno-
+mial of an operator 𝑇 ∈ ℒ(𝑉) is a polynomial multiple of the minimal polynomial
+of 𝑇 (by 5.29). Thus if the degree of the minimal polynomial of 𝑇 equals dim 𝑉,
+then the characteristic polynomial of 𝑇 equals the minimal polynomial of 𝑇. This
+happens for a very large percentage of operators, including over 99.999% of
+4-by-4 matrices with integer entries in [−100, 100] (see the paragraph following
+5.25).
+    The last sentence in our next result was previously proved in the complex case
+(see 8.54). Now we can give a proof that works on both real and complex vector
+spaces.
+
+ 9.65   characteristic polynomial, trace, and determinant
+
+ Suppose 𝑇 ∈ ℒ(𝑉). Let 𝑛 = dim 𝑉. Then the characteristic polynomial of 𝑇
+ can be written as
+
+                       𝑧𝑛 − (tr 𝑇)𝑧𝑛−1 + ⋯ + (−1)𝑛 (det 𝑇).
+
+Proof   The constant term of a polynomial function of 𝑧 is the value of the poly-
+nomial when 𝑧 = 0. Thus the constant term of the characteristic polynomial of 𝑇
+equals det(−𝑇), which equals (−1)𝑛 det 𝑇 (by the third bullet point of 9.42).
+   Fix a basis of 𝑉, and let 𝐴 be the matrix of 𝑇 with respect to this basis. The
+matrix of 𝑧𝐼 − 𝑇 with respect to this basis is 𝑧𝐼 − 𝐴. The term coming from the
+identity permutation (1, … , 𝑛) in the formula 9.46 for det(𝑧𝐼 − 𝐴) is
+                              (𝑧 − 𝐴1,1 ) ⋯ (𝑧 − 𝐴𝑛,𝑛 ).
+The coefficient of 𝑧𝑛−1 in the expression above is −(𝐴1,1 + ⋯ + 𝐴𝑛,𝑛 ), which equals
+− tr 𝑇 . The terms in the formula for det(𝑧𝐼 − 𝐴) coming from other elements of
+perm 𝑛 contain at most 𝑛 − 2 factors of the form 𝑧 − 𝐴𝑘,𝑘 and thus do not contribute
+to the coefficient of 𝑧𝑛−1 in the characteristic polynomial of 𝑇.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                     Section 9C   Determinants    365
+
+    In the result below, think of the The next result was proved by Jacques
+columns of the 𝑛-by-𝑛 matrix 𝐴 as ele- Hadamard (1865–1963) in 1893.
+ments of 𝐅𝑛. The norms appearing below
+then arise from the standard inner product on 𝐅𝑛. Recall that the notation 𝑅⋅,𝑘 in
+the proof below means the 𝑘 th column of the matrix 𝑅 (as was defined in 3.44).
+
+ 9.66   Hadamard’s inequality
+
+ Suppose 𝐴 is an 𝑛-by-𝑛 matrix. Let 𝑣1 , … , 𝑣𝑛 denote the columns of 𝐴. Then
+                                                𝑛
+                                  |det 𝐴| ≤ ∏ ‖𝑣𝑘 ‖.
+                                               𝑘=1
+
+
+Proof   If 𝐴 is not invertible, then det 𝐴 = 0 and hence the desired inequality
+holds in this case.
+   Thus assume that 𝐴 is invertible. The QR factorization (7.58) tells us that
+there exist a unitary matrix 𝑄 and an upper-triangular matrix 𝑅 whose diagonal
+contains only positive numbers such that 𝐴 = 𝑄𝑅. We have
+                               |det 𝐴| = |det 𝑄| |det 𝑅|
+                                       = |det 𝑅|
+                                           𝑛
+                                       = ∏ 𝑅𝑘,𝑘
+                                          𝑘=1
+                                           𝑛
+                                       ≤ ∏ ‖𝑅⋅,𝑘 ‖
+                                          𝑘=1
+                                           𝑛
+                                       = ∏ ‖𝑄𝑅⋅,𝑘 ‖
+                                          𝑘=1
+                                           𝑛
+                                       = ∏ ‖𝑣𝑘 ‖,
+                                          𝑘=1
+
+where the first line comes from 9.49(b), the second line comes from 9.58, the
+third line comes from 9.48, and the fifth line holds because 𝑄 is an isometry.
+
+     To give a geometric interpretation to Hadamard’s inequality, suppose 𝐅 = 𝐑 .
+Let 𝑇 ∈ ℒ(𝐑𝑛 ) be the operator such that 𝑇𝑒𝑘 = 𝑣𝑘 for each 𝑘 = 1, … , 𝑛, where
+𝑒1 , … , 𝑒𝑛 is the standard basis of 𝐑𝑛. Then 𝑇 maps the box 𝑃(𝑒1 , … , 𝑒𝑛 ) onto the
+parallelepiped 𝑃(𝑣1 , … , 𝑣𝑛 ) [see 7.102 and 7.105 for a review of this notation
+and terminology]. Because the box 𝑃(𝑒1 , … , 𝑒𝑛 ) has volume 1, this implies (by
+9.61) that the parallelepiped 𝑃(𝑣1 , … , 𝑣𝑛 ) has volume |det 𝑇|, which equals |det 𝐴|.
+Thus Hadamard’s inequality above can be interpreted to say that among all paral-
+lelepipeds whose edges have lengths ‖𝑣1 ‖, … , ‖𝑣𝑛 ‖, the ones with largest volume
+have orthogonal edges (and thus have volume ∏𝑛𝑘=1 ‖𝑣𝑘 ‖).
+     For a necessary and sufficient condition for Hadamard’s inequality to be an
+equality, see Exercise 18.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+366       Chapter 9        Multilinear Algebra and Determinants
+
+    The matrix in the next result is called the Vandermonde matrix. Vandermonde
+matrices have important applications in polynomial interpolation, the discrete
+Fourier transform, and other areas of mathematics. The proof of the next result is
+a nice illustration of the power of switching between matrices and linear maps.
+
+ 9.67     determinant of Vandermonde matrix
+
+ Suppose 𝑛 > 1 and 𝛽1 , … , 𝛽𝑛 ∈ 𝐅. Then
+
+                      1      𝛽1       𝛽12   ⋯   𝛽1𝑛−1
+                    ⎛
+                    ⎜                                 ⎞
+                                                      ⎟
+                    ⎜                                 ⎟
+                    ⎜
+                    ⎜
+                    ⎜ 1      𝛽2       𝛽22   ⋯   𝛽2𝑛−1 ⎟
+                                                      ⎟
+                                                      ⎟
+                    ⎜
+                    ⎜                                 ⎟
+                                                      ⎟
+                det ⎜
+                    ⎜                                 ⎟
+                                                      ⎟ = ∏ (𝛽𝑘 − 𝛽𝑗 ).
+                    ⎜
+                    ⎜                 ⋱               ⎟
+                                                      ⎟  1≤𝑗<𝑘≤𝑛
+                    ⎜
+                    ⎜                                 ⎟
+                                                      ⎟
+                    ⎜
+                    ⎜                                 ⎟
+                                                      ⎟
+                    ⎝ 1     𝛽𝑛        𝛽𝑛2   ⋯   𝛽𝑛𝑛−1 ⎠
+
+Proof   Let 1, 𝑧, … , 𝑧𝑛−1 be the standard basis of 𝒫𝑛−1 (𝐅) and let 𝑒1 , … , 𝑒𝑛 denote
+the standard basis of 𝐅𝑛. Define a linear map 𝑆 ∶ 𝒫𝑛−1 (𝐅) → 𝐅𝑛 by
+                                      𝑆𝑝 = (𝑝(𝛽1 ), … , 𝑝(𝛽𝑛 )).
+   Let 𝐴 denote the Vandermonde matrix shown in the statement of this result.
+Note that
+                   𝐴 = ℳ(𝑆, (1, 𝑧, … , 𝑧𝑛−1 ), (𝑒1 , … , 𝑒𝑛 )).
+      Let 𝑇 ∶ 𝒫𝑛−1 (𝐅) → 𝒫𝑛−1 (𝐅) be the operator on 𝒫𝑛−1 (𝐅) such that 𝑇1 = 1 and
+                            𝑇𝑧𝑘 = (𝑧 − 𝛽1 )(𝑧 − 𝛽2 ) ⋯ (𝑧 − 𝛽𝑘 )
+for 𝑘 = 1, … , 𝑛 − 1. Let 𝐵 = ℳ(𝑇 , (1, 𝑧, … , 𝑧𝑛−1 ), (1, 𝑧, … , 𝑧𝑛−1 )). Then 𝐵 is an
+upper-triangular matrix all of whose diagonal entries equal 1. Thus det 𝐵 = 1 (by
+9.48).
+    Let 𝐶 = ℳ(𝑆𝑇 , (1, 𝑧, … , 𝑧𝑛−1 ), (𝑒1 , … , 𝑒𝑛 )). Thus 𝐶 = 𝐴𝐵 (by 3.81), which
+implies that
+                          det 𝐴 = (det 𝐴)(det 𝐵) = det 𝐶.
+The definitions of 𝐶, 𝑆, and 𝑇 show that 𝐶 equals
+  1         0                     0              ⋯                      0
+⎛
+⎜                                                                                           ⎞
+                                                                                            ⎟
+⎜
+⎜ 1     𝛽2 − 𝛽1                   0              ⋯                      0                   ⎟
+                                                                                            ⎟
+⎜
+⎜                                                                                           ⎟
+                                                                                            ⎟
+⎜
+⎜                                                                                           ⎟
+                                                                                            ⎟
+⎜
+⎜ 1     𝛽3 − 𝛽1      (𝛽3 − 𝛽1 )(𝛽3 − 𝛽2 )        ⋯                      0                   ⎟
+                                                                                            ⎟
+⎜
+⎜                                                                                           ⎟
+                                                                                            ⎟ .
+⎜
+⎜                                                                                           ⎟
+                                                                                            ⎟
+⎜
+⎜                                                                                           ⎟
+                                                                                            ⎟
+⎜
+⎜                                                 ⋱                                         ⎟
+                                                                                            ⎟
+⎜
+⎜                                                                                           ⎟
+                                                                                            ⎟
+⎜                                                                                           ⎟
+⎝ 1     𝛽𝑛 − 𝛽 1     (𝛽𝑛 − 𝛽1 )(𝛽𝑛 − 𝛽2 )        ⋯      (𝛽𝑛 − 𝛽1 )(𝛽𝑛 − 𝛽2 ) ⋯ (𝛽𝑛 − 𝛽𝑛−1 ) ⎠
+
+Now det 𝐴 = det 𝐶 =           ∏ (𝛽𝑘 − 𝛽𝑗 ), where we have used 9.56(a) and 9.48.
+                           1≤𝑗<𝑘≤𝑛
+
+
+
+
+                   Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                               Section 9C       Determinants       367
+
+Exercises 9C
+
+ 1   Prove or give a counterexample: 𝑆, 𝑇 ∈ ℒ(𝑉) ⟹ det(𝑆 + 𝑇) = det 𝑆 +det 𝑇.
+ 2   Suppose the first column of a square matrix 𝐴 consists of all zeros except
+     possibly the first entry 𝐴1,1 . Let 𝐵 be the matrix obtained from 𝐴 by deleting
+     the first row and the first column of 𝐴. Show that det 𝐴 = 𝐴1,1 det 𝐵.
+ 3   Suppose 𝑇 ∈ ℒ(𝑉) is nilpotent. Prove that det(𝐼 + 𝑇) = 1.
+ 4   Suppose 𝑉 is an inner product space and 𝑆 ∈ ℒ(𝑉). Prove that 𝑆 is unitary
+     if and only if |det 𝑆| = ‖𝑆‖ = 1.
+ 5   Suppose 𝐴 is a block upper-triangular matrix
+                                    𝐴
+                                  ⎛ 1
+                                                     ∗ ⎞
+                                𝐴=⎜
+                                  ⎜
+                                  ⎜            ⋱       ⎟
+                                                       ⎟,
+                                                       ⎟
+                                  ⎝ 0               𝐴𝑚 ⎠
+
+     where each 𝐴𝑘 along the diagonal is a square matrix. Prove that
+                              det 𝐴 = (det 𝐴1 ) ⋯ (det 𝐴𝑚 ).
+
+ 6   Suppose 𝐴 = ( 𝑣1 ⋯ 𝑣𝑛 ) is an 𝑛-by-𝑛 matrix, with 𝑣𝑘 denoting the 𝑘 th
+     column of 𝐴. Show that if (𝑚1 , … , 𝑚𝑛 ) ∈ perm 𝑛, then
+                 det ( 𝑣𝑚1     ⋯    𝑣𝑚𝑛 ) = (sign(𝑚1 , … , 𝑚𝑛 )) det 𝐴.
+
+ 7   Suppose 𝑇 ∈ ℒ(𝑉) is invertible. Let 𝑝 denote the characteristic polynomial
+     of 𝑇 and let 𝑞 denote the characteristic polynomial of 𝑇 −1 . Prove that
+                                          1 dim 𝑉 1
+                                𝑞(𝑧) =        𝑧  𝑝( )
+                                         𝑝(0)      𝑧
+     for all nonzero 𝑧 ∈ 𝐅.
+ 8   Suppose 𝑇 ∈ ℒ(𝑉) is an operator with no eigenvalues (which implies that
+     𝐅 = 𝐑 ). Prove that det 𝑇 > 0.
+
+ 9   Suppose that 𝑉 is a real vector space of even dimension, 𝑇 ∈ ℒ(𝑉), and
+     det 𝑇 < 0. Prove that 𝑇 has at least two distinct eigenvalues.
+10   Suppose 𝑉 is a real vector space of odd dimension and 𝑇 ∈ ℒ(𝑉). Without
+     using the minimal polynomial, prove that 𝑇 has an eigenvalue.
+        This result was previously proved without using determinants or the charac-
+        teristic polynomial—see 5.34.
+
+11   Prove or give a counterexample: If 𝐅 = 𝐑 , 𝑇 ∈ ℒ(𝑉), and det 𝑇 > 0, then
+     𝑇 has a square root.
+        If 𝐅 = 𝐂 , 𝑇 ∈ ℒ(𝑉), and det 𝑇 ≠ 0, then 𝑇 has a square root (see 8.41).
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+368      Chapter 9     Multilinear Algebra and Determinants
+
+12    Suppose 𝑆, 𝑇 ∈ ℒ(𝑉) and 𝑆 is invertible. Define 𝑝 ∶ 𝐅 → 𝐅 by
+                                   𝑝(𝑧) = det(𝑧𝑆 − 𝑇).
+
+      Prove that 𝑝 is a polynomial of degree dim 𝑉 and that the coefficient of 𝑧dim 𝑉
+      in this polynomial is det 𝑆.
+13    Suppose 𝐅 = 𝐂 , 𝑇 ∈ ℒ(𝑉), and 𝑛 = dim 𝑉 > 2. Let 𝜆1 , … , 𝜆𝑛 denote
+      the eigenvalues of 𝑇 , with each eigenvalue included as many times as its
+      multiplicity.
+      (a) Find a formula for the coefficient of 𝑧𝑛−2 in the characteristic polynomial
+          of 𝑇 in terms of 𝜆1 , … , 𝜆𝑛 .
+      (b) Find a formula for the coefficient of 𝑧 in the characteristic polynomial
+          of 𝑇 in terms of 𝜆1 , … , 𝜆𝑛 .
+
+14    Suppose 𝑉 is an inner product space and 𝑇 is a positive operator on 𝑉. Prove
+      that
+                                  det √𝑇 = √det 𝑇.
+15    Suppose 𝑉 is an inner product space and 𝑇 ∈ ℒ(𝑉). Use the polar decom-
+      position to give a proof that
+
+                                   |det 𝑇| = √det(𝑇 ∗ 𝑇)
+
+      that is different from the proof given earlier (see 9.60).
+16    Suppose 𝑇 ∈ ℒ(𝑉). Define 𝑔 ∶ 𝐅 → 𝐅 by 𝑔(𝑥) = det(𝐼 + 𝑥𝑇). Show that
+      𝑔′ (0) = tr 𝑇.
+         Look for a clean solution to this exercise, without using the explicit but
+         complicated formula for the determinant of a matrix.
+
+17    Suppose 𝑎, 𝑏, 𝑐 are positive numbers. Find the volume of the ellipsoid
+                                              𝑥2 𝑦2 𝑧2
+                          {(𝑥, 𝑦, 𝑧) ∈ 𝐑3 ∶      + 2 + 2 < 1}
+                                              𝑎2  𝑏   𝑐
+      by finding a set Ω ⊆ 𝐑3 whose volume you know and an operator 𝑇 on 𝐑3
+      such that 𝑇(Ω) equals the ellipsoid above.
+18    Suppose that 𝐴 is an invertible square matrix. Prove that Hadamard’s
+      inequality (9.66) is an equality if and only if each column of 𝐴 is orthogonal
+      to the other columns.
+19    Suppose 𝑉 is an inner product space, 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉,
+      and 𝑇 ∈ ℒ(𝑉) is a positive operator.
+      (a) Prove that det 𝑇 ≤ ∏𝑛𝑘=1 ⟨𝑇𝑒𝑘 , 𝑒𝑘 ⟩.
+      (b) Prove that if 𝑇 is invertible, then the inequality in (a) is an equality if
+          and only if 𝑒𝑘 is an eigenvector of 𝑇 for each 𝑘 = 1, … , 𝑛.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                Section 9C       Determinants           369
+
+20   Suppose 𝐴 is an 𝑛-by-𝑛 matrix, and suppose 𝑐 is such that |𝐴𝑗,𝑘 | ≤ 𝑐 for all
+     𝑗, 𝑘 ∈ {1, … , 𝑛}. Prove that
+
+                                      |det 𝐴| ≤ 𝑐𝑛 𝑛𝑛/2.
+        The formula for the determinant of a matrix (9.46) shows that |det 𝐴| ≤ 𝑐𝑛 𝑛!.
+        However, the estimate given by this exercise is much better. For example, if
+        𝑐 = 1 and 𝑛 = 100, then 𝑐𝑛 𝑛! ≈ 10158, but the estimate given by this exercise
+        is the much smaller number 10100. If 𝑛 is an integer power of 2, then the
+        inequality above is sharp and cannot be improved.
+
+21   Suppose 𝑛 is a positive integer and 𝛿 ∶ 𝐂𝑛,𝑛 → 𝐂 is a function such that
+
+                                   𝛿(𝐴𝐵) = 𝛿(𝐴) ⋅ 𝛿(𝐵)
+
+     for all 𝐴, 𝐵 ∈ 𝐂𝑛,𝑛 and 𝛿(𝐴) equals the product of the diagonal entries of 𝐴
+     for each diagonal matrix 𝐴 ∈ 𝐂𝑛,𝑛 . Prove that
+
+                                       𝛿(𝐴) = det 𝐴
+
+     for all 𝐴 ∈ 𝐂𝑛,𝑛 .
+         Recall that 𝐂𝑛,𝑛 denotes the set of 𝑛-by-𝑛 matrices with entries in 𝐂 . This
+         exercise shows that the determinant is the unique function defined on square
+         matrices that is multiplicative and has the desired behavior on diagonal
+         matrices. This result is analogous to Exercise 10 in Section 8D, which
+         shows that the trace is uniquely determined by its algebraic properties.
+
+
+
+
+I find that in my own elementary lectures, I have, for pedagogical reasons, pushed
+determinants more and more into the background. Too often I have had the expe-
+rience that, while the students acquired facility with the formulas, which are so
+useful in abbreviating long expressions, they often failed to gain familiarity with
+their meaning, and skill in manipulation prevented the student from going into all
+the details of the subject and so gaining a mastery.
+
+—Elementary Mathematics from an Advanced Standpoint: Geometry, Felix Klein
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+370     Chapter 9      Multilinear Algebra and Determinants
+
+9D Tensor Products
+Tensor Product of Two Vector Spaces
+The motivation for our next topic comes from wanting to form the product of
+a vector 𝑣 ∈ 𝑉 and a vector 𝑤 ∈ 𝑊. This product will be denoted by 𝑣 ⊗ 𝑤,
+pronounced “𝑣 tensor 𝑤”, and will be an element of some new vector space called
+𝑉 ⊗ 𝑊 (also pronounced “𝑉 tensor 𝑊 ”).
+    We already have a vector space 𝑉 × 𝑊 (see Section 3E), called the product of
+𝑉 and 𝑊. However, 𝑉 × 𝑊 will not serve our purposes here because it does not
+provide a natural way to multiply an element of 𝑉 by an element of 𝑊. We would
+like our tensor product to satisfy some of the usual properties of multiplication.
+For example, we would like the distributive property to be satisfied, meaning that
+if 𝑣1 , 𝑣2 , 𝑣 ∈ 𝑉 and 𝑤1 , 𝑤2 , 𝑤 ∈ 𝑊, then
+ (𝑣1 + 𝑣2 ) ⊗ 𝑤 = 𝑣1 ⊗ 𝑤 + 𝑣2 ⊗ 𝑤        and 𝑣 ⊗ (𝑤1 + 𝑤2 ) = 𝑣 ⊗ 𝑤1 + 𝑣 ⊗ 𝑤2 .
+    We would also like scalar multiplica-       To produce ⊗ in TEX, type \otimes.
+tion to interact well with this new multi-
+plication, meaning that
+                        𝜆(𝑣 ⊗ 𝑤) = (𝜆𝑣) ⊗ 𝑤 = 𝑣 ⊗ (𝜆𝑤)
+for all 𝜆 ∈ 𝐅, 𝑣 ∈ 𝑉, and 𝑤 ∈ 𝑊.
+    Furthermore, it would be nice if each basis of 𝑉 when combined with each
+basis of 𝑊 produced a basis of 𝑉 ⊗ 𝑊. Specifically, if 𝑒1 , … , 𝑒𝑚 is a basis of 𝑉
+and 𝑓1 , … , 𝑓𝑛 is a basis of 𝑊, then we would like a list (in any order) consisting
+of 𝑒𝑗 ⊗ 𝑓𝑘 , as 𝑗 ranges from 1 to 𝑚 and 𝑘 ranges from 1 to 𝑛, to be a basis of
+𝑉 ⊗ 𝑊. This implies that dim(𝑉 ⊗ 𝑊) should equal (dim 𝑉)(dim 𝑊). Recall that
+dim(𝑉 × 𝑊) = dim 𝑉 + dim 𝑊 (see 3.92), which shows that the product 𝑉 × 𝑊
+will not serve our purposes here.
+    To produce a vector space whose dimension is (dim 𝑉)(dim 𝑊) in a natural
+fashion from 𝑉 and 𝑊 , we look at the vector space of bilinear functionals, as
+defined below.
+
+ 9.68 definition: bilinear functional on 𝑉 × 𝑊, the vector space ℬ(𝑉, 𝑊)
+
+ • A bilinear functional on 𝑉 × 𝑊 is a function 𝛽 ∶ 𝑉 × 𝑊 → 𝐅 such that
+   𝑣 ↦ 𝛽(𝑣, 𝑤) is a linear functional on 𝑉 for each 𝑤 ∈ 𝑊 and 𝑤 ↦ 𝛽(𝑣, 𝑤)
+   is a linear functional on 𝑊 for each 𝑣 ∈ 𝑉.
+ • The vector space of bilinear functionals on 𝑉 × 𝑊 is denoted by ℬ(𝑉, 𝑊).
+
+    If 𝑊 = 𝑉 , then a bilinear functional on 𝑉 × 𝑊 is a bilinear form; see 9.1.
+    The operations of addition and scalar multiplication on ℬ(𝑉, 𝑊) are defined
+to be the usual operations of addition and scalar multiplication of functions. As
+you can verify, these operations make ℬ(𝑉, 𝑊) into a vector space whose additive
+identity is the zero function from 𝑉 × 𝑊 to 𝐅.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                             Section 9D      Tensor Products     371
+
+
+
+ 9.69 example: bilinear functionals
+
+• Suppose 𝜑 ∈ 𝑉 ′ and 𝜏 ∈ 𝑊 ′. Define 𝛽 ∶ 𝑉 × 𝑊 → 𝐅 by 𝛽(𝑣, 𝑤) = 𝜑(𝑣)𝜏(𝑤).
+  Then 𝛽 is a bilinear functional on 𝑉 × 𝑊.
+• Suppose 𝑣 ∈ 𝑉 and 𝑤 ∈ 𝑊. Define 𝛽 ∶ 𝑉 ′ × 𝑊 ′ → 𝐅 by 𝛽(𝜑, 𝜏) = 𝜑(𝑣)𝜏(𝑤).
+  Then 𝛽 is a bilinear functional on 𝑉 ′ × 𝑊 ′.
+• Define 𝛽 ∶ 𝑉 × 𝑉 ′ → 𝐅 by 𝛽(𝑣, 𝜑) = 𝜑(𝑣). Then 𝛽 is a bilinear functional on
+  𝑉 × 𝑉 ′.
+• Suppose 𝜑 ∈ 𝑉 ′. Define 𝛽 ∶ 𝑉 × ℒ(𝑉) → 𝐅 by 𝛽(𝑣, 𝑇) = 𝜑(𝑇𝑣). Then 𝛽 is a
+  bilinear functional on 𝑉 × ℒ(𝑉).
+• Suppose 𝑚 and 𝑛 are positive integers. Define 𝛽 ∶ 𝐅𝑚,𝑛 ×𝐅𝑛,𝑚 → 𝐅 by 𝛽(𝐴, 𝐵) =
+  tr(𝐴𝐵). Then 𝛽 is a bilinear functional on 𝐅𝑚,𝑛 × 𝐅𝑛,𝑚.
+
+
+ 9.70   dimension of the vector space of bilinear functionals
+
+ dim ℬ(𝑉, 𝑊) = (dim 𝑉)(dim 𝑊).
+
+Proof  Let 𝑒1 , … , 𝑒𝑚 be a basis of 𝑉 and 𝑓1 , … , 𝑓𝑛 be a basis of 𝑊. For a bilinear
+functional 𝛽 ∈ ℬ(𝑉, 𝑊), let ℳ(𝛽) be the 𝑚-by-𝑛 matrix whose entry in row 𝑗,
+column 𝑘 is 𝛽(𝑒𝑗 , 𝑓𝑘 ). The map 𝛽 ↦ ℳ(𝛽) is a linear map of ℬ(𝑉, 𝑊) into 𝐅𝑚,𝑛.
+   For a matrix 𝐶 ∈ 𝐅𝑚,𝑛, define a bilinear functional 𝛽𝐶 on 𝑉 × 𝑊 by
+                                                             𝑛   𝑚
+            𝛽𝐶 (𝑎1 𝑒1 + ⋯ + 𝑎𝑚 𝑒𝑚 , 𝑏1 𝑓1 + ⋯ + 𝑏𝑛 𝑓𝑛 ) = ∑ ∑ 𝐶𝑗,𝑘 𝑎𝑗 𝑏𝑘
+                                                            𝑘=1 𝑗 = 1
+
+for 𝑎1 , … , 𝑎𝑚 , 𝑏1 , … , 𝑏𝑛 ∈ 𝐅.
+    The linear map 𝛽 ↦ ℳ(𝛽) from ℬ(𝑉, 𝑊) to 𝐅𝑚,𝑛 and the linear map 𝐶 ↦ 𝛽𝐶
+from 𝐅𝑚,𝑛 to ℬ(𝑉, 𝑊) are inverses of each other because 𝛽ℳ(𝛽) = 𝛽 for all
+𝛽 ∈ ℬ(𝑉, 𝑊) and ℳ(𝛽𝐶 ) = 𝐶 for all 𝐶 ∈ 𝐅𝑚,𝑛, as you should verify.
+    Thus both maps are isomorphisms and the two spaces that they connect have the
+same dimension. Hence dim ℬ(𝑉, 𝑊) = dim 𝐅𝑚,𝑛 = 𝑚𝑛 = (dim 𝑉)(dim 𝑊).
+
+   Several different definitions of 𝑉 ⊗ 𝑊 appear in the mathematical literature.
+These definitions are equivalent to each other, at least in the finite-dimensional
+context, because any two vector spaces of the same dimension are isomorphic.
+   The result above states that ℬ(𝑉, 𝑊) has the dimension that we seek, as do
+ℒ(𝑉, 𝑊) and 𝐅dim 𝑉,dim 𝑊. Thus it may be tempting to define 𝑉⊗ 𝑊 to be ℬ(𝑉, 𝑊)
+or ℒ(𝑉, 𝑊) or 𝐅dim 𝑉,dim 𝑊. However, none of those definitions would lead to a
+basis-free definition of 𝑣 ⊗ 𝑤 for 𝑣 ∈ 𝑉 and 𝑤 ∈ 𝑊.
+   The following definition, while it may seem a bit strange and abstract at first,
+has the huge advantage that it defines 𝑣 ⊗ 𝑤 in a basis-free fashion. We define
+𝑉 ⊗ 𝑊 to be the vector space of bilinear functionals on 𝑉 ′ × 𝑊 ′ instead of the
+more tempting choice of the vector space of bilinear functionals on 𝑉 × 𝑊.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+372        Chapter 9     Multilinear Algebra and Determinants
+
+
+ 9.71 definition: tensor product, 𝑉 ⊗ 𝑊, 𝑣 ⊗ 𝑤
+
+ • The tensor product 𝑉 ⊗ 𝑊 is defined to be ℬ(𝑉 ′ , 𝑊 ′ ).
+ • For 𝑣 ∈ 𝑉 and 𝑤 ∈ 𝑊, the tensor product 𝑣 ⊗ 𝑤 is the element of 𝑉 ⊗ 𝑊
+      defined by
+                                (𝑣 ⊗ 𝑤)(𝜑, 𝜏) = 𝜑(𝑣)𝜏(𝑤)
+      for all (𝜑, 𝜏) ∈ 𝑉 ′ × 𝑊 ′.
+
+      We can quickly prove that the definition of 𝑉⊗𝑊 gives it the desired dimension.
+
+ 9.72     dimension of the tensor product of two vector spaces
+
+ dim(𝑉 ⊗ 𝑊) = (dim 𝑉)(dim 𝑊).
+
+Proof Because a vector space and its dual have the same dimension (by 3.111),
+we have dim 𝑉 ′ = dim 𝑉 and dim 𝑊 ′ = dim 𝑊. Thus 9.70 tells us that the
+dimension of ℬ(𝑉 ′ , 𝑊 ′ ) equals (dim 𝑉)(dim 𝑊).
+
+    To understand the definition of the tensor product 𝑣 ⊗ 𝑤 of two vectors 𝑣 ∈ 𝑉
+and 𝑤 ∈ 𝑊, focus on the kind of object it is. An element of 𝑉 ⊗ 𝑊 is a bilinear
+functional on 𝑉 ′ × 𝑊 ′, and in particular it is a function from 𝑉 ′ × 𝑊 ′ to 𝐅. Thus for
+each element of 𝑉 ′ × 𝑊 ′, it should produce an element of 𝐅. The definition above
+has this behavior, because 𝑣 ⊗ 𝑤 applied to a typical element (𝜑, 𝜏) of 𝑉 ′ × 𝑊 ′
+produces the number 𝜑(𝑣)𝜏(𝑤).
+    The somewhat abstract nature of 𝑣 ⊗ 𝑤 should not matter. The important point
+is the behavior of these objects. The next result shows that tensor products of
+vectors have the desired bilinearity properties.
+
+ 9.73     bilinearity of tensor product
+
+ Suppose 𝑣, 𝑣1 , 𝑣2 ∈ 𝑉 and 𝑤, 𝑤1 , 𝑤2 ∈ 𝑊 and 𝜆 ∈ 𝐅. Then
+
+ (𝑣1 + 𝑣2 ) ⊗ 𝑤 = 𝑣1 ⊗ 𝑤 + 𝑣2 ⊗ 𝑤          and 𝑣 ⊗ (𝑤1 + 𝑤2 ) = 𝑣 ⊗ 𝑤1 + 𝑣 ⊗ 𝑤2
+
+ and
+                          𝜆(𝑣 ⊗ 𝑤) = (𝜆𝑣) ⊗ 𝑤 = 𝑣 ⊗ (𝜆𝑤).
+
+Proof     Suppose (𝜑, 𝜏) ∈ 𝑉 ′ × 𝑊 ′. Then
+             ((𝑣1 + 𝑣2 ) ⊗ 𝑤)(𝜑, 𝜏) = 𝜑(𝑣1 + 𝑣2 )𝜏(𝑤)
+                                       = 𝜑(𝑣1 )𝜏(𝑤) + 𝜑(𝑣2 )𝜏(𝑤)
+                                       = (𝑣1 ⊗ 𝑤)(𝜑, 𝜏) + (𝑣2 ⊗ 𝑤)(𝜑, 𝜏)
+                                       = (𝑣1 ⊗ 𝑤 + 𝑣2 ⊗ 𝑤)(𝜑, 𝜏).
+Thus (𝑣1 + 𝑣2 ) ⊗ 𝑤 = 𝑣1 ⊗ 𝑤 + 𝑣2 ⊗ 𝑤.
+   The other two equalities are proved similarly.
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                Section 9D       Tensor Products    373
+
+   Lists are, by definition, ordered. The order matters when, for example, we
+form the matrix of an operator with respect to a basis. For lists in this section
+with two indices, such as {𝑒𝑗 ⊗ 𝑓𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛 in the next result, the ordering
+does not matter and we do not specify it—just choose any convenient ordering.
+   The linear independence of elements of 𝑉 ⊗ 𝑊 in (a) of the result below
+captures the idea that there are no relationships among vectors in 𝑉 ⊗ 𝑊 other
+than the relationships that come from bilinearity of the tensor product (see 9.73)
+and the relationships that may be present due to linear dependence of a list of
+vectors in 𝑉 or a list of vectors in 𝑊.
+
+  9.74     basis of 𝑉 ⊗ 𝑊
+
+  Suppose 𝑒1 , … , 𝑒𝑚 is a list of vectors in 𝑉 and 𝑓1 , … , 𝑓𝑛 is a list of vectors
+  in 𝑊.
+  (a) If 𝑒1 , … , 𝑒𝑚 and 𝑓1 , … , 𝑓𝑛 are both linearly independent lists, then
+
+                                     {𝑒𝑗 ⊗ 𝑓𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛
+
+         is a linearly independent list in 𝑉 ⊗ 𝑊.
+  (b) If 𝑒1 , … , 𝑒𝑚 is a basis of 𝑉 and 𝑓1 , … , 𝑓𝑛 is a basis of 𝑊, then the list
+      {𝑒𝑗 ⊗ 𝑓𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛 is a basis of 𝑉 ⊗ 𝑊.
+
+Proof    To prove (a), suppose 𝑒1 , … , 𝑒𝑚 and 𝑓1 , … , 𝑓𝑛 are both linearly independent
+lists. This linear independence and the linear map lemma (3.4) imply that there
+exist 𝜑1 , … , 𝜑𝑚 ∈ 𝑉 ′ and 𝜏1 , … , 𝜏𝑛 ∈ 𝑊 ′ such that
+                          {1 if 𝑗 = 𝑘 ,
+                          ⎧                                  {1 if 𝑗 = 𝑘 ,
+                                                             ⎧
+               𝜑𝑗 (𝑒𝑘 ) = ⎨                and 𝜏𝑗 ( 𝑓𝑘 ) = ⎨
+                          ⎩0 if 𝑗 ≠ 𝑘
+                          {                                  ⎩0 if 𝑗 ≠ 𝑘 ,
+                                                             {
+where 𝑗, 𝑘 ∈ {1, … , 𝑚} in the first equation and 𝑗, 𝑘 ∈ {1, … , 𝑛} in the second
+equation.
+    Suppose {𝑎𝑗,𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛 is a list of scalars such that
+                                 𝑛    𝑚
+9.75                            ∑ ∑ 𝑎𝑗,𝑘 (𝑒𝑗 ⊗ 𝑓𝑘 ) = 0.
+                                𝑘=1 𝑗 = 1
+Note that (𝑒𝑗 ⊗ 𝑓𝑘 )(𝜑𝑀 , 𝜏𝑁 ) equals 1 if 𝑗 = 𝑀 and 𝑘 = 𝑁 , and equals 0 otherwise.
+Thus applying both sides of 9.75 to (𝜑𝑀 , 𝜏𝑁 ) shows that 𝑎𝑀,𝑁 = 0, proving that
+{𝑒𝑗 ⊗ 𝑓𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛 is linearly independent.
+    Now (b) follows from (a), the equation dim 𝑉 ⊗ 𝑊 = (dim 𝑉)(dim 𝑊) [see
+9.72], and the result that a linearly independent list of the right length is a basis
+(see 2.38).
+
+   Every element of 𝑉 ⊗ 𝑊 is a finite sum of elements of the form 𝑣 ⊗ 𝑤, where
+𝑣 ∈ 𝑉 and 𝑤 ∈ 𝑊, as implied by (b) in the result above. However, if dim 𝑉 > 1
+and dim 𝑊 > 1, then Exercise 4 shows that
+                    {𝑣 ⊗ 𝑤 ∶ (𝑣, 𝑤) ∈ 𝑉 × 𝑊} ≠ 𝑉 ⊗ 𝑊.
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+374      Chapter 9     Multilinear Algebra and Determinants
+
+
+
+ 9.76 example: tensor product of element of 𝐅𝑚 with element of 𝐅𝑛
+
+    Suppose 𝑚 and 𝑛 are positive integers. Let 𝑒1 , … , 𝑒𝑚 denote the standard basis
+of 𝐅𝑚 and let 𝑓1 , … , 𝑓𝑛 denote the standard basis of 𝐅𝑛. Suppose
+              𝑣 = (𝑣1 , … , 𝑣𝑚 ) ∈ 𝐅𝑚       and 𝑤 = (𝑤1 , … , 𝑤𝑛 ) ∈ 𝐅𝑛 .
+Then
+                                        𝑚                   𝑛
+                         𝑣 ⊗ 𝑤 = ( ∑ 𝑣𝑗 𝑒𝑗 ) ⊗ ( ∑ 𝑤𝑘 𝑓𝑘 )
+                                     𝑗=1                𝑘=1
+                                    𝑛       𝑚
+                                = ∑ ∑ (𝑣𝑗 𝑤𝑘 )(𝑒𝑗 ⊗ 𝑓𝑘 ).
+                                   𝑘=1 𝑗 = 1
+
+Thus with respect to the basis {𝑒𝑗 ⊗ 𝑓𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛 of 𝐅𝑚 ⊗ 𝐅𝑛 provided by
+9.74(b), the coefficients of 𝑣 ⊗ 𝑤 are the numbers {𝑣𝑗 𝑤𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛 . If instead
+of writing these numbers in a list, we write them in an 𝑚-by-𝑛 matrix with 𝑣𝑗 𝑤𝑘
+in row 𝑗, column 𝑘 , then we can identify 𝑣 ⊗ 𝑤 with the 𝑚-by-𝑛 matrix
+                                𝑣1 𝑤1           ⋯   𝑣1 𝑤𝑛
+                              ⎛
+                              ⎜                           ⎞
+                                                          ⎟
+                              ⎜
+                              ⎜                           ⎟
+                                                          ⎟
+                              ⎜
+                              ⎜                 ⋱         ⎟
+                                                          ⎟ .
+                              ⎜                           ⎟
+                              ⎝ 𝑣𝑚 𝑤1           ⋯   𝑣𝑚 𝑤𝑛 ⎠
+
+    See Exercises 5 and 6 for practice in using the identification from the example
+above.
+    We now define bilinear maps, which differ from bilinear functionals in that
+the target space can be an arbitrary vector space rather than just the scalar field.
+
+ 9.77 definition: bilinear map
+
+ A bilinear map from 𝑉 × 𝑊 to a vector space 𝑈 is a function Γ ∶ 𝑉 × 𝑊 → 𝑈
+ such that 𝑣 ↦ Γ(𝑣, 𝑤) is a linear map from 𝑉 to 𝑈 for each 𝑤 ∈ 𝑊 and
+ 𝑤 ↦ Γ(𝑣, 𝑤) is a linear map from 𝑊 to 𝑈 for each 𝑣 ∈ 𝑉.
+
+
+ 9.78 example: bilinear maps
+
+• Every bilinear functional on 𝑉 × 𝑊 is a bilinear map from 𝑉 × 𝑊 to 𝐅.
+• The function Γ ∶ 𝑉 × 𝑊 → 𝑉 ⊗ 𝑊 defined by Γ(𝑣, 𝑤) = 𝑣 ⊗ 𝑤 is a bilinear map
+  from 𝑉 × 𝑊 to 𝑉 ⊗ 𝑊 (by 9.73).
+• The function Γ ∶ ℒ(𝑉) × ℒ(𝑉) → ℒ(𝑉) defined by Γ(𝑆, 𝑇) = 𝑆𝑇 is a bilinear
+  map from ℒ(𝑉) × ℒ(𝑉) to ℒ(𝑉).
+• The function Γ ∶ 𝑉 × ℒ(𝑉, 𝑊) → 𝑊 defined by Γ(𝑣, 𝑇) = 𝑇𝑣 is a bilinear map
+  from 𝑉 × ℒ(𝑉, 𝑊) to 𝑊.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                 Section 9D   Tensor Products         375
+
+    Tensor products allow us to convert bilinear maps on 𝑉×𝑊 into linear maps on
+𝑉⊗ 𝑊 (and vice versa), as shown by the next result. In the mathematical literature,
+(a) of the result below is called the “universal property” of tensor products.
+
+ 9.79     converting bilinear maps to linear maps
+
+ Suppose 𝑈 is a vector space.
+ (a) Suppose Γ ∶ 𝑉 × 𝑊 → 𝑈 is a bilinear map. Then there exists a unique
+     linear map Γ̂ ∶ 𝑉 ⊗ 𝑊 → 𝑈 such that
+                                     ̂ ⊗ 𝑤) = Γ(𝑣, 𝑤)
+                                    Γ(𝑣
+
+        for all (𝑣, 𝑤) ∈ 𝑉 × 𝑊.
+ (b) Conversely, suppose 𝑇 ∶ 𝑉 ⊗ 𝑊 → 𝑈 is a linear map. Then there exists a
+     unique bilinear map 𝑇 # ∶ 𝑉 × 𝑊 → 𝑈 such that
+
+                                   𝑇 # (𝑣, 𝑤) = 𝑇(𝑣 ⊗ 𝑤)
+
+        for all (𝑣, 𝑤) ∈ 𝑉 × 𝑊.
+
+Proof   Let 𝑒1 , … , 𝑒𝑚 be a basis of 𝑉 and let 𝑓1 , … , 𝑓𝑛 be a basis of 𝑊. By the linear
+map lemma (3.4) and 9.74(b), there exists a unique linear map Γ̂ ∶ 𝑉 ⊗ 𝑊 → 𝑈
+such that
+                                   ̂
+                                 Γ(𝑒𝑗 ⊗ 𝑓𝑘 ) = Γ(𝑒𝑗 , 𝑓𝑘 )
+for all 𝑗 ∈ {1, … , 𝑚} and 𝑘 ∈ {1, … , 𝑛}.
+    Now suppose (𝑣, 𝑤) ∈ 𝑉 × 𝑊. There exist 𝑎1 , … , 𝑎𝑚 , 𝑏1 , … , 𝑏𝑛 ∈ 𝐅 such that
+𝑣 = 𝑎1 𝑒1 + ⋯ + 𝑎𝑚 𝑒𝑚 and 𝑤 = 𝑏1 𝑓1 + ⋯ + 𝑏𝑛 𝑓𝑛 . Thus
+                                           𝑛     𝑚
+                        ̂ ⊗ 𝑤) = Γ(
+                       Γ(𝑣        ̂ ∑ ∑ (𝑎 𝑏 )(𝑒 ⊗ 𝑓 ))
+                                          𝑗 𝑘   𝑗   𝑘
+                                          𝑘=1 𝑗 = 1
+
+                                      𝑛     𝑚
+                                  = ∑ ∑ 𝑎𝑗 𝑏𝑘 ̂
+                                             Γ(𝑒𝑗 ⊗ 𝑓𝑘 )
+                                     𝑘=1 𝑗 = 1
+
+                                      𝑛     𝑚
+                                  = ∑ ∑ 𝑎𝑗 𝑏𝑘 Γ(𝑒𝑗 , 𝑓𝑘 )
+                                     𝑘=1 𝑗 = 1
+
+                                  = Γ(𝑣, 𝑤),
+as desired, where the second line holds because Γ̂ is linear, the third line holds by
+the definition of Γ̂ , and the fourth line holds because Γ is bilinear.
+    The uniqueness of the linear map Γ̂ satisfying ̂   Γ(𝑣 ⊗ 𝑤) = Γ(𝑣, 𝑤) follows
+from 9.74(b), completing the proof of (a).
+    To prove (b), define a function 𝑇 # ∶ 𝑉 × 𝑊 → 𝑈 by 𝑇 # (𝑣, 𝑤) = 𝑇(𝑣 ⊗ 𝑤)
+for all (𝑣, 𝑤) ∈ 𝑉 × 𝑊. The bilinearity of the tensor product (see 9.73) and the
+linearity of 𝑇 imply that 𝑇 # is bilinear.
+    Clearly the choice of 𝑇 # that satisfies the conditions is unique.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+376     Chapter 9        Multilinear Algebra and Determinants
+
+   To prove 9.79(a), we could not just define ̂
+                                              Γ(𝑣 ⊗ 𝑤) = Γ(𝑣, 𝑤) for all 𝑣 ∈ 𝑉
+and 𝑤 ∈ 𝑊 (and then extend Γ linearly to all of 𝑉 ⊗ 𝑊) because elements of
+                                ̂
+𝑉 ⊗ 𝑊 do not have unique representations as finite sums of elements of the form
+𝑣 ⊗ 𝑤. Our proof used a basis of 𝑉 and a basis of 𝑊 to get around this problem.
+   Although our construction of Γ̂ in the proof of 9.79(a) depended on a basis
+of 𝑉 and a basis of 𝑊, the equation Γ(𝑣
+                                     ̂ ⊗ 𝑤) = Γ(𝑣, 𝑤) that holds for all 𝑣 ∈ 𝑉
+and 𝑤 ∈ 𝑊 shows that Γ̂ does not depend on the choice of bases for 𝑉 and 𝑊.
+
+Tensor Product of Inner Product Spaces
+The result below features three inner products—one on 𝑉 ⊗ 𝑊, one on 𝑉, and one
+on 𝑊, although we use the same symbol ⟨⋅, ⋅⟩ for all three inner products.
+
+ 9.80   inner product on tensor product of two inner product spaces
+
+ Suppose 𝑉 and 𝑊 are inner product spaces. Then there is a unique inner
+ product on 𝑉 ⊗ 𝑊 such that
+
+                            ⟨𝑣 ⊗ 𝑤, 𝑢 ⊗ 𝑥⟩ = ⟨𝑣, 𝑢⟩⟨𝑤, 𝑥⟩
+
+ for all 𝑣, 𝑢 ∈ 𝑉 and 𝑤, 𝑥 ∈ 𝑊.
+
+Proof  Suppose 𝑒1 , … , 𝑒𝑚 is an orthonormal basis of 𝑉 and 𝑓1 , … , 𝑓𝑛 is an ortho-
+normal basis of 𝑊. Define an inner product on 𝑉 ⊗ 𝑊 by
+              𝑛   𝑚                   𝑛       𝑚                𝑛    𝑚
+9.81        ⟨ ∑ ∑ 𝑏𝑗,𝑘 𝑒𝑗 ⊗ 𝑓𝑘 , ∑ ∑ 𝑐𝑗,𝑘 𝑒𝑗 ⊗ 𝑓𝑘 ⟩ = ∑ ∑ 𝑏𝑗,𝑘 𝑐𝑗,𝑘 .
+             𝑘=1 𝑗 = 1               𝑘=1 𝑗 = 1                𝑘=1 𝑗 = 1
+    The straightforward verification that 9.81 defines an inner product on 𝑉 ⊗ 𝑊
+is left to the reader [use 9.74(b)].
+    Suppose that 𝑣, 𝑢 ∈ 𝑉 and 𝑤, 𝑥 ∈ 𝑊. Let 𝑣1 , … , 𝑣𝑚 ∈ 𝐅 be such that
+𝑣 = 𝑣1 𝑒1 + ⋯ + 𝑣𝑚 𝑒𝑚 , with similar expressions for 𝑢, 𝑤, and 𝑥. Then
+                                 𝑚                𝑛     𝑚               𝑛
+          ⟨𝑣 ⊗ 𝑤, 𝑢 ⊗ 𝑥⟩ = ⟨ ∑ 𝑣𝑗 𝑒𝑗 ⊗ ∑ 𝑤𝑘 𝑓𝑘 , ∑ 𝑢𝑗 𝑒𝑗 ⊗ ∑ 𝑥𝑘 𝑓𝑘 ⟩
+                                𝑗=1               𝑘=1   𝑗=1          𝑘=1
+                                 𝑛        𝑚              𝑛    𝑚
+                            = ⟨ ∑ ∑ 𝑣𝑗 𝑤𝑘 𝑒𝑗 ⊗ 𝑓𝑘 , ∑ ∑ 𝑢𝑗 𝑥𝑘 𝑒𝑗 ⊗ 𝑓𝑘 ⟩
+                                𝑘=1 𝑗 = 1               𝑘=1 𝑗 = 1
+                                𝑛 𝑚
+                            = ∑ ∑ 𝑣𝑗 𝑢𝑗 𝑤𝑘 𝑥𝑘
+                               𝑘=1 𝑗 = 1
+                                  𝑚                𝑛
+                            = ( ∑ 𝑣𝑗 𝑢𝑗 )( ∑ 𝑤𝑘 𝑥𝑘 )
+                                 𝑗=1              𝑘=1
+                            = ⟨𝑣, 𝑢⟩⟨𝑤, 𝑥⟩.
+    There is only one inner product on 𝑉⊗𝑊 such that ⟨𝑣⊗𝑤, 𝑢⊗𝑥⟩ = ⟨𝑣, 𝑢⟩⟨𝑤, 𝑥⟩
+for all 𝑣, 𝑢 ∈ 𝑉 and 𝑤, 𝑥 ∈ 𝑊 because every element of 𝑉 ⊗ 𝑊 can be written as
+a linear combination of elements of the form 𝑣 ⊗ 𝑤 [by 9.74(b)].
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                            Section 9D      Tensor Products    377
+
+    The definition below of a natural inner product on 𝑉 ⊗ 𝑊 is now justified by
+9.80. We could not have simply defined ⟨𝑣 ⊗ 𝑤, 𝑢 ⊗ 𝑥⟩ to be ⟨𝑣, 𝑢⟩⟨𝑤, 𝑥⟩ (and then
+used additivity in each slot separately to extend the definition to 𝑉 ⊗ 𝑊 ) without
+some proof because elements of 𝑉 ⊗ 𝑊 do not have unique representations as
+finite sums of elements of the form 𝑣 ⊗ 𝑤.
+
+ 9.82 definition: inner product on tensor product of two inner product spaces
+
+ Suppose 𝑉 and 𝑊 are inner product spaces. The inner product on 𝑉 ⊗ 𝑊 is
+ the unique function ⟨⋅, ⋅⟩ from (𝑉 ⊗ 𝑊) × (𝑉 ⊗ 𝑊) to 𝐅 such that
+
+                          ⟨𝑣 ⊗ 𝑤, 𝑢 ⊗ 𝑥⟩ = ⟨𝑣, 𝑢⟩⟨𝑤, 𝑥⟩
+
+ for all 𝑣, 𝑢 ∈ 𝑉 and 𝑤, 𝑥 ∈ 𝑊.
+
+   Take 𝑢 = 𝑣 and 𝑥 = 𝑤 in the equation above and then take square roots to
+show that
+                            ‖𝑣 ⊗ 𝑤‖ = ‖𝑣‖ ‖𝑤‖
+for all 𝑣 ∈ 𝑉 and all 𝑤 ∈ 𝑊.
+    The construction of the inner product in the proof of 9.80 depended on an
+orthonormal basis 𝑒1 , … , 𝑒𝑚 of 𝑉 and an orthonormal basis 𝑓1 , … , 𝑓𝑛 of 𝑊. For-
+mula 9.81 implies that {𝑒𝑗 ⊗ 𝑓𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛 is a doubly indexed orthonormal
+list in 𝑉 ⊗ 𝑊 and hence is an orthonormal basis of 𝑉 ⊗ 𝑊 [by 9.74(b)]. The
+importance of the next result arises because the orthonormal bases used there can
+be different from the orthonormal bases used to define the inner product in 9.80.
+Although the notation for the bases is the same in the proof of 9.80 and in the
+result below, think of them as two different sets of orthonormal bases.
+
+ 9.83   orthonormal basis of 𝑉 ⊗ 𝑊
+
+ Suppose 𝑉 and 𝑊 are inner product spaces, and 𝑒1 , … , 𝑒𝑚 is an orthonormal
+ basis of 𝑉 and 𝑓1 , … , 𝑓𝑛 is an orthonormal basis of 𝑊. Then
+
+                              {𝑒𝑗 ⊗ 𝑓𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛
+
+ is an orthonormal basis of 𝑉 ⊗ 𝑊.
+
+Proof We know that {𝑒𝑗 ⊗ 𝑓𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛 is a basis of 𝑉 ⊗ 𝑊 [by 9.74(b)].
+Thus we only need to verify orthonormality. To do this, suppose 𝑗, 𝑀 ∈ {1, … , 𝑚}
+and 𝑘 , 𝑁 ∈ {1, … , 𝑛}. Then
+                                                        {1 if 𝑗 = 𝑀 and 𝑘 = 𝑁 ,
+                                                        ⎧
+         ⟨𝑒𝑗 ⊗ 𝑓𝑘 , 𝑒𝑀 ⊗ 𝑓𝑁 ⟩ = ⟨𝑒𝑗 , 𝑒𝑀 ⟩⟨ 𝑓𝑘 , 𝑓𝑁 ⟩ = ⎨
+                                                        ⎩0 otherwise.
+                                                        {
+Hence the doubly indexed list {𝑒𝑗 ⊗ 𝑓𝑘 }𝑗=1,…,𝑚;𝑘=1,…,𝑛 is indeed an orthonormal
+basis of 𝑉 ⊗ 𝑊.
+
+    See Exercise 11 for an example of how the inner product structure on 𝑉 ⊗ 𝑊
+interacts with operators on 𝑉 and 𝑊.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+378        Chapter 9     Multilinear Algebra and Determinants
+
+Tensor Product of Multiple Vector Spaces
+We have been discussing properties of the tensor product of two finite-dimensional
+vector spaces. Now we turn our attention to the tensor product of multiple finite-
+dimensional vector spaces. This generalization requires no new ideas, only some
+slightly more complicated notation. Readers with a good understanding of the
+tensor product of two vector spaces should be able to make the extension to the
+tensor product of more than two vector spaces.
+    Thus in this subsection, no proofs will be provided. The definitions and the
+statements of results that will be provided should be enough information to enable
+readers to fill in the details, using what has already been learned about the tensor
+product of two vector spaces.
+    We begin with the following notational assumption.
+
+  9.84 notation: 𝑉1 , … , 𝑉𝑚
+
+  For the rest of this subsection, 𝑚 denotes an integer greater than 1 and
+  𝑉1 , … , 𝑉𝑚 denote finite-dimensional vector spaces.
+
+    The notion of an 𝑚-linear functional, which we are about to define, generalizes
+the notion of a bilinear functional (see 9.68). Recall that the use of the word
+“functional” indicates that we are mapping into the scalar field 𝐅. Recall also that
+the terminology “𝑚-linear form” is used in the special case 𝑉1 = ⋯ = 𝑉𝑚 (see
+9.25). The notation ℬ(𝑉1 , … , 𝑉𝑚 ) generalizes our previous notation ℬ(𝑉, 𝑊).
+
+  9.85 definition: 𝑚-linear functional, the vector space ℬ(𝑉1 , … , 𝑉𝑚 )
+
+  • An 𝑚-linear functional on 𝑉1 × ⋯ × 𝑉𝑚 is a function 𝛽 ∶ 𝑉1 × ⋯ × 𝑉𝑚 → 𝐅
+      that is a linear functional in each slot when the other slots are held fixed.
+  • The vector space of 𝑚-linear functionals on 𝑉1 × ⋯ × 𝑉𝑚 is denoted by
+    ℬ(𝑉1 , … , 𝑉𝑚 ).
+
+
+ 9.86 example: 𝑚-linear functional
+
+      Suppose 𝜑𝑘 ∈ 𝑉𝑘 ′ for each 𝑘 ∈ {1, … , 𝑚}. Define 𝛽 ∶ 𝑉1 × ⋯ × 𝑉𝑚 → 𝐅 by
+
+                        𝛽(𝑣1 , … , 𝑣𝑚 ) = 𝜑1 (𝑣1 ) × ⋯ × 𝜑𝑚 (𝑣𝑚 ).
+
+Then 𝛽 is an 𝑚-linear functional on 𝑉1 × ⋯ × 𝑉𝑚 .
+
+      The next result can be proved by imitating the proof of 9.70.
+
+  9.87    dimension of the vector space of 𝑚-linear functionals
+
+  dim ℬ(𝑉1 , … , 𝑉𝑚 ) = (dim 𝑉1 ) ⋯ (dim 𝑉𝑚 ).
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                               Section 9D     Tensor Products         379
+
+   Now we can define the tensor product of multiple vector spaces and the tensor
+product of elements of those vector spaces. The following definition is completely
+analogous to our previous definition (9.71) in the case 𝑚 = 2.
+
+ 9.88 definition: tensor product, 𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 , 𝑣1 ⊗ ⋯ ⊗ 𝑣𝑚
+
+  • The tensor product 𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 is defined to be ℬ(𝑉1′ , … , 𝑉𝑚′ ).
+  • For 𝑣1 ∈ 𝑉1 , … , 𝑣𝑚 ∈ 𝑉𝑚 , the tensor product 𝑣1 ⊗ ⋯ ⊗ 𝑣𝑚 is the element
+    of 𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 defined by
+                   (𝑣1 ⊗ ⋯ ⊗ 𝑣𝑚 )(𝜑1 , … , 𝜑𝑚 ) = 𝜑1 (𝑣1 ) ⋯ 𝜑𝑚 (𝑣𝑚 )
+    for all (𝜑1 , … , 𝜑𝑚 ) ∈ 𝑉1′ × ⋯ × 𝑉𝑚′ .
+
+   The next result can be proved by following the pattern of the proof of the
+analogous result when 𝑚 = 2 (see 9.72).
+
+ 9.89    dimension of the tensor product
+
+ dim(𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 ) = (dim 𝑉1 ) ⋯ (dim 𝑉𝑚 ).
+
+    Our next result generalizes 9.74.
+
+ 9.90    basis of 𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚
+
+ Suppose dim 𝑉𝑘 = 𝑛𝑘 and 𝑒1𝑘 , … , 𝑒𝑛𝑘𝑘 is a basis of 𝑉𝑘 for 𝑘 = 1, … , 𝑚. Then
+                         {𝑒𝑗11 ⊗ ⋯ ⊗ 𝑒𝑗𝑚𝑚 }𝑗1=1,…,𝑛1;⋯;𝑗𝑚=1,…,𝑛𝑚
+ is a basis of 𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 .
+
+    Suppose 𝑚 = 2 and 𝑒11 , … , 𝑒𝑛11 is a basis of 𝑉1 and 𝑒12 , … , 𝑒𝑛22 is a basis of 𝑉2 .
+Then with respect to the basis {𝑒𝑗11 ⊗ 𝑒𝑗22 }𝑗1=1,…,𝑛1;𝑗2=1,…,𝑛2 in the result above, the
+coefficients of an element of 𝑉1 ⊗ 𝑉2 can be represented by an 𝑛1 -by-𝑛2 matrix
+that contains the coefficient of 𝑒𝑗11 ⊗𝑒𝑗22 in row 𝑗1 , column 𝑗2 . Thus we need a matrix,
+which is an array specified by two indices, to represent an element of 𝑉1 ⊗ 𝑉2 .
+    If 𝑚 > 2, then the result above shows that we need an array specified by 𝑚
+indices to represent an arbitrary element of 𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 . Thus tensor products
+may appear when we deal with objects specified by arrays with multiple indices.
+    The next definition generalizes the notion of a bilinear map (see 9.77). As
+with bilinear maps, the target space can be an arbitrary vector space.
+
+ 9.91 definition: 𝑚-linear map
+
+ An 𝑚-linear map from 𝑉1 × ⋯ × 𝑉𝑚 to a vector space 𝑈 is a function
+ Γ ∶ 𝑉1 × ⋯ × 𝑉𝑚 → 𝑈 that is a linear map in each slot when the other slots
+ are held fixed.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+380        Chapter 9     Multilinear Algebra and Determinants
+
+      The next result can be proved by following the pattern of the proof of 9.79.
+
+ 9.92     converting 𝑚-linear maps to linear maps
+
+ Suppose 𝑈 is a vector space.
+ (a) Suppose that Γ ∶ 𝑉1 × ⋯ × 𝑉𝑚 → 𝑈 is an 𝑚-linear map. Then there exists
+     a unique linear map Γ̂ ∶ 𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 → 𝑈 such that
+                              ̂
+                             Γ(𝑣1 ⊗ ⋯ ⊗ 𝑣𝑚 ) = Γ(𝑣1 , … , 𝑣𝑚 )
+
+        for all (𝑣1 , … , 𝑣𝑚 ) ∈ 𝑉1 × ⋯ × 𝑉𝑚 .
+ (b) Conversely, suppose 𝑇 ∶ 𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 → 𝑈 is a linear map. Then there
+     exists a unique 𝑚-linear map 𝑇 # ∶ 𝑉1 × ⋯ × 𝑉𝑚 → 𝑈 such that
+
+                             𝑇 # (𝑣1 , … , 𝑣𝑚 ) = 𝑇(𝑣1 ⊗ ⋯ ⊗ 𝑣𝑚 )
+
+        for all (𝑣1 , … , 𝑣𝑚 ) ∈ 𝑉1 × ⋯ × 𝑉𝑚 .
+
+      See Exercises 12 and 13 for tensor products of multiple inner product spaces.
+
+Exercises 9D
+
+1      Suppose 𝑣 ∈ 𝑉 and 𝑤 ∈ 𝑊. Prove that 𝑣 ⊗ 𝑤 = 0 if and only if 𝑣 = 0 or
+       𝑤 = 0.
+
+2      Give an example of six distinct vectors 𝑣1 , 𝑣2 , 𝑣3 , 𝑤1 , 𝑤2 , 𝑤3 in 𝐑3 such that
+
+                             𝑣1 ⊗ 𝑤1 + 𝑣2 ⊗ 𝑤2 + 𝑣3 ⊗ 𝑤3 = 0
+
+       but none of 𝑣1 ⊗ 𝑤1 , 𝑣2 ⊗ 𝑤2 , 𝑣3 ⊗ 𝑤3 is a scalar multiple of another element
+       of this list.
+3      Suppose that 𝑣1 , … , 𝑣𝑚 is a linearly independent list in 𝑉. Suppose also that
+       𝑤1 , … , 𝑤𝑚 is a list in 𝑊 such that
+
+                                𝑣1 ⊗ 𝑤1 + ⋯ + 𝑣𝑚 ⊗ 𝑤𝑚 = 0.
+
+       Prove that 𝑤1 = ⋯ = 𝑤𝑚 = 0.
+4      Suppose dim 𝑉 > 1 and dim 𝑊 > 1. Prove that
+
+                                  {𝑣 ⊗ 𝑤 ∶ (𝑣, 𝑤) ∈ 𝑉 × 𝑊}
+
+       is not a subspace of 𝑉 ⊗ 𝑊.
+           This exercise implies that if dim 𝑉 > 1 and dim 𝑊 > 1, then
+                              {𝑣 ⊗ 𝑤 ∶ (𝑣, 𝑤) ∈ 𝑉 × 𝑊} ≠ 𝑉 ⊗ 𝑊.
+
+
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                             Section 9D      Tensor Products       381
+
+ 5   Suppose 𝑚 and 𝑛 are positive integers. For 𝑣 ∈ 𝐅𝑚 and 𝑤 ∈ 𝐅𝑛, identify
+     𝑣 ⊗ 𝑤 with an 𝑚-by-𝑛 matrix as in Example 9.76. With that identification,
+     show that the set
+                          {𝑣 ⊗ 𝑤 ∶ 𝑣 ∈ 𝐅𝑚 and 𝑤 ∈ 𝐅𝑛 }
+     is the set of 𝑚-by-𝑛 matrices (with entries in 𝐅 ) that have rank at most one.
+ 6   Suppose 𝑚 and 𝑛 are positive integers. Give a description, analogous to
+     Exercise 5, of the set of 𝑚-by-𝑛 matrices (with entries in 𝐅 ) that have rank
+     at most two.
+ 7   Suppose dim 𝑉 > 2 and dim 𝑊 > 2. Prove that
+
+            {𝑣1 ⊗ 𝑤1 + 𝑣2 ⊗ 𝑤2 ∶ 𝑣1 , 𝑣2 ∈ 𝑉 and 𝑤1 , 𝑤2 ∈ 𝑊} ≠ 𝑉 ⊗ 𝑊.
+
+ 8   Suppose 𝑣1 , … , 𝑣𝑚 ∈ 𝑉 and 𝑤1 , … , 𝑤𝑚 ∈ 𝑊 are such that
+
+                              𝑣1 ⊗ 𝑤1 + ⋯ + 𝑣𝑚 ⊗ 𝑤𝑚 = 0.
+
+     Suppose that 𝑈 is a vector space and Γ ∶ 𝑉× 𝑊 → 𝑈 is a bilinear map. Show
+     that
+                          Γ(𝑣1 , 𝑤1 ) + ⋯ + Γ(𝑣𝑚 , 𝑤𝑚 ) = 0.
+ 9   Suppose 𝑆 ∈ ℒ(𝑉) and 𝑇 ∈ ℒ(𝑊). Prove that there exists a unique operator
+     on 𝑉 ⊗ 𝑊 that takes 𝑣 ⊗ 𝑤 to 𝑆𝑣 ⊗ 𝑇𝑤 for all 𝑣 ∈ 𝑉 and 𝑤 ∈ 𝑊.
+        In an abuse of notation, the operator on 𝑉 ⊗ 𝑊 given by this exercise is
+        often called 𝑆 ⊗ 𝑇.
+
+10   Suppose 𝑆 ∈ ℒ(𝑉) and 𝑇 ∈ ℒ(𝑊). Prove that 𝑆⊗𝑇 is an invertible operator
+     on 𝑉 ⊗ 𝑊 if and only if both 𝑆 and 𝑇 are invertible operators. Also, prove
+     that if both 𝑆 and 𝑇 are invertible operators, then (𝑆 ⊗ 𝑇)−1 = 𝑆−1 ⊗ 𝑇 −1 ,
+     where we are using the notation from the comment after Exercise 9.
+11   Suppose 𝑉 and 𝑊 are inner product spaces. Prove that if 𝑆 ∈ ℒ(𝑉) and
+     𝑇 ∈ ℒ(𝑊), then (𝑆 ⊗ 𝑇)∗ = 𝑆∗ ⊗ 𝑇 ∗, where we are using the notation from
+     the comment after Exercise 9.
+12   Suppose that 𝑉1 , … , 𝑉𝑚 are finite-dimensional inner product spaces. Prove
+     that there is a unique inner product on 𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 such that
+
+                  ⟨𝑣1 ⊗ ⋯ ⊗ 𝑣𝑚 , 𝑢1 ⊗ ⋯ ⊗ 𝑢𝑚 ⟩ = ⟨𝑣1 , 𝑢1 ⟩ ⋯ ⟨𝑣𝑚 , 𝑢𝑚 ⟩
+
+     for all (𝑣1 , … , 𝑣𝑚 ) and (𝑢1 , … , 𝑢𝑚 ) in 𝑉1 × ⋯ × 𝑉𝑚 .
+        Note that the equation above implies that
+
+                             ‖𝑣1 ⊗ ⋯ ⊗ 𝑣𝑚 ‖ = ‖𝑣1 ‖ × ⋯ × ‖𝑣𝑚 ‖
+
+        for all (𝑣1 , … , 𝑣𝑚 ) ∈ 𝑉1 × ⋯ × 𝑉𝑚 .
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+382      Chapter 9     Multilinear Algebra and Determinants
+
+13    Suppose that 𝑉1 , … , 𝑉𝑚 are finite-dimensional inner product spaces and
+      𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 is made into an inner product space using the inner product
+      from Exercise 12. Suppose 𝑒1𝑘 , … , 𝑒𝑛𝑘𝑘 is an orthonormal basis of 𝑉𝑘 for each
+      𝑘 = 1, … , 𝑚. Show that the list
+
+                           {𝑒𝑗11 ⊗ ⋯ ⊗ 𝑒𝑗𝑚𝑚 }𝑗1=1,…,𝑛1;⋯;𝑗𝑚=1,…,𝑛𝑚
+
+      is an orthonormal basis of 𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 .
+
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                 Photo Credits
+
+
+
+• page v: Photos by Carrie Heeter and Bishnu Sarangi. Public domain image.
+• page 1: Original painting by Pierre Louis Dumesnil; 1884 copy by Nils
+  Forsberg. Public domain image downloaded on 29 March 2022 from
+  https://commons.wikimedia.org/wiki/File:René_Descartes_i_samtal_med_Sveriges_drottning,_Kristina.jpg.
+
+• page 27: Public domain image downloaded on 4 February 2022 from
+  https://commons.wikimedia.org/wiki/File:IAS_Princeton.jpg.
+• page 51: Photo by Stefan Schäfer; Creative Commons Attribution Share Alike
+  license. Downloaded on 28 March 2022 from
+  https://commons.wikimedia.org/wiki/File:BurgDankwarderode2016.jpg.
+• page 119: Photo by Alireza Javaheri. Creative Commons Attribution license.
+  Downloaded on 12 March 2023 from
+  https://commons.wikimedia.org/wiki/File:Hakim_Omar_Khayam_-_panoramio.jpg.
+• page 132: Statue completed by Giovanni Paganucci in 1863. Photo by
+  Hans-Peter Postel; Creative Commons Attribution license. Downloaded on 14
+  March 2022 from
+  https://commons.wikimedia.org/wiki/File:Leonardo_da_Pisa.jpg.
+• page 181: Photo by Matthew Petroff; Creative Commons Attribution Share
+  Alike license. Downloaded on 31 March 2022 from
+  https://commons.wikimedia.org/wiki/File:George-peabody-library.jpg.
+• page 227: Photo by Petar Milošević; Creative Commons Attribution Share
+  Alike license. Downloaded on 30 March 2022 from
+  https://en.wikipedia.org/wiki/Lviv.
+• page 297: Photo by David Iliff; Creative Commons Attribution Share Alike
+  license. Downloaded on 30 March 2022 from
+  https://en.wikipedia.org/wiki/File:Long_Room_Interior,_Trinity_College_Dublin,_Ireland_-_Diliff.jpg.
+
+• page 332: Photo by Daniel Schwen; Creative Commons Attribution Share
+  Alike license. Downloaded on 9 July 2019 from
+  https://commons.wikimedia.org/wiki/File:Mathematik_Göttingen.jpg.
+
+
+
+
+                                                                                                         383
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                             Symbol Index
+
+
+
+𝐴−1, 91                          ⟺ , 23                         𝑇 †, 221
+𝐴𝑗,⋅ , 74                        Im, 120                        𝑇 𝑚, 137
+𝐴𝑗,𝑘 , 69                        −∞, 31                         ‖𝑇‖, 280
+𝐴⋅,𝑘 , 74                                                       𝑇 #, 375, 380
+𝛼𝑇 , 354                         ℒ(𝑉), 52                       tr 𝐴, 326
+𝐴∗, 231                          ℒ(𝑉, 𝑊), 52                    tr 𝑇 , 327
+𝐴t , 77                                                         𝑇|𝑈 , 133
+                                 ℳ(𝛽), 334
+                                                                𝑇/𝑈 , 142
+Γ̂ , 375, 380                    ℳ(𝑇), 69, 154
+𝐵, 287                           ℳ(𝑣), 88                       𝑈 ⟂ , 211
+ℬ(𝑉1 , … , 𝑉𝑚 ), 378                                            𝑈 0 , 109
+                                 perm, 348                      ⟨𝑢, 𝑣⟩, 184
+ℬ(𝑉, 𝑊), 370
+                                 𝒫(𝐅), 30
+𝐂, 2                             𝜋 , 101                        𝑉, 15
+∘, 55                            𝒫𝑚 (𝐅), 31                     𝑉 ′, 105, 204
+                                 𝑝(𝑇), 137                      𝑉/𝑈 , 99
+deg, 31                                                         −𝑣, 15
+                                 𝑃𝑈 , 214
+Δ, 196                                                          𝑉1 ⊗ ⋯ ⊗ 𝑉𝑚 , 379
+det 𝐴, 355                       𝑞𝛽 , 341                       𝑣1 ⊗ ⋯ ⊗ 𝑣𝑚 , 379
+det 𝑇 , 354                       ,7                            𝑉 (2), 334
+dim, 44                                                           (2)
+                                                                𝑉alt  , 339
+⊕, 21                            𝐑, 2
+                                                                𝑉sym , 337
+                                                                  (2)
+
+                                 Re, 120                        𝑉𝐂 , 17
+𝐸(𝑠1 𝑓1 , … , 𝑠𝑛 𝑓𝑛 ), 287
+                                                                𝑉 𝑚, 103, 346
+𝐸(𝜆, 𝑇), 164                     𝑆 ⊗ 𝑇, 381
+                                                                𝑉 (𝑚), 346
+                                 ⊊, 299
+𝐅, 4                                                              (𝑚)
+                                                                𝑉alt   , 347
+𝐅∞, 13                           √𝑇 , 253                       𝑉 ⊗ 𝑊, 372
+𝐅𝑚,𝑛, 72                         ̃, 102
+                                 𝑇                              𝑣 ⊗ 𝑤, 372
+𝐅𝑛, 6                            𝑇 ′, 107                       𝑣 + 𝑈 , 98
+𝐅𝑆, 13                           𝑇 ∗, 228
+                                                                ||𝑣||, 186
+                                 𝑇 −1, 82
+𝐺(𝜆, 𝑇), 308
+                                 𝑇(Ω), 288                      𝑧, 120
+𝐼 , 52, 90                       𝑇𝐂 , 68                        |𝑧|, 120
+                                                                                384
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                    Index
+
+
+Abbott, Edwin A., 6                         bilinear map, 374
+absolute value, 120                         block diagonal matrix, 314
+addition                                    Bunyakovsky, Viktor, 189
+     in quotient space, 100
+     of complex numbers, 2                  𝐶∗ -algebras, 295
+     of functions, 13                     Carroll, Lewis, 11
+     of linear maps, 55                   Cauchy, Augustin-Louis, 189
+     of matrices, 71                      Cauchy–Schwarz inequality, 189
+     of subspaces, 19                     Cayley, Arthur, 312
+     of vectors, 12                       Cayley–Hamilton theorem, 364
+     of vectors in 𝐅𝑛 , 6                      on complex vector space, 312
+additive inverse                          change-of-basis formula
+     in 𝐂 , 3, 4                               for bilinear forms, 336
+     in 𝐅𝑛 , 9                                 for operators, 93
+     in vector space, 12, 15              characteristic polynomial, 363
+additivity, 52                                 on complex vector space, 311
+adjoint of a linear map, 228              ChatGPT, 196, 279
+algebraic multiplicity, 311               Cholesky factorization, 267
+alternating bilinear form, 339            Cholesky, André-Louis, 267
+alternating 𝑚-linear form, 347            Christina, Queen of Sweden, 1
+annihilator, 109                          closed under addition, 18
+Apollonius’s identity, 195                closed under scalar multiplication, 18
+Artin, Emil, 80                           column rank of a matrix, 77, 114, 239
+associativity, 3, 12, 56                  column–row factorization, 78
+                                          commutativity, 3, 7, 12, 25, 56, 73, 80
+backward shift, 53, 59, 84, 140           commuting operators, 138, 175–180,
+ball, 287                                           209, 235, 248–249, 256
+Banach, Stefan, 227                       companion matrix, 152
+basis, 39                                 complex conjugate, 120
+      of eigenvectors, 165, 245, 246, 250 complex number, 2
+      of generalized eigenvectors, 301    complex spectral theorem, 246
+Bernstein polynomials, 49                 complex vector space, 13
+Bessel’s inequality, 198                  complexification
+bilinear form, 333                             eigenvalues of, 140
+bilinear functional, 370                       generalized eigenvectors of, 318
+                                                                               385
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+386      Index
+
+    minimal polynomial of, 153                  eigenspace, 164
+    multiplicity of eigenvalues, 318            eigenvalue
+    of a linear map, 68                              of adjoint, 239
+    of a vector space, 17, 43                        of dual of an operator, 140
+    of an inner product space, 194                   of operator, 134
+conjugate symmetry, 183                              of positive operator, 252
+conjugate transpose of a matrix, 231                 of self-adjoint operator, 233
+coordinate, 6                                        of unitary operator, 262
+cube root of an operator, 248                        on odd-dimensional space, 150,
+                                                           318, 367
+De Moivre’s theorem, 125                        eigenvector, 135
+degree of a polynomial, 31                      ellipsoid, 287
+Descartes, René, 1                              Euclidean inner product, 184
+determinant                                     Euler, Leonhard, 2
+      of matrix, 355
+      of operator, 354                          Fibonacci, 132
+      of positive operator, 362                 Fibonacci sequence, 174
+      of unitary operator, 362                  field, 10
+diagonal matrix, 163, 274                       finite-dimensional vector space, 30
+diagonal of a square matrix, 155                Flatland, 6
+diagonalizable, 163, 172, 176, 245, 246,        forward shift, 140
+            294, 307, 316                       Fourier series, 207
+differentiation linear map, 53, 56, 59,         Frankenstein, 50
+            61, 62, 67, 70, 79, 138, 208,       Frobenius norm, 331
+            304                                 Fuglede’s theorem, 248
+dimension, 44                                   fundamental theorem of algebra, 125
+      of a sum of subspaces, 47                 fundamental theorem of linear maps, 62
+direct sum, 21, 42, 98
+      of a subspace and its orthogonal          Gauss, Carl Friedrich, 51
+            complement, 212                     Gaussian elimination, 51, 65, 361
+      of null 𝑇 dim 𝑉 and range 𝑇 dim 𝑉 , 299   generalized eigenspace, 308
+discrete Fourier transform, 269                 generalized eigenvector, 300
+distributive property, 3, 12, 15, 56, 80        geometric multiplicity, 311
+division algorithm for polynomials, 124         Gershgorin disk, 170
+division of complex numbers, 4                  Gershgorin disk theorem, 171
+dot product, 182                                Gershgorin, Semyon Aronovich, 171
+double dual space, 118                          Gram, Jørgen, 200
+dual                                            Gram–Schmidt procedure, 200
+      of a basis, 106                           graph of a linear map, 103
+      of a linear map, 107
+      of a vector space, 105, 204               Hadamard’s inequality, 365
+      of an operator, 140, 153, 162, 174        Halmos, Paul, 27
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                                            Index   387
+
+Hamilton, William, 297                      linear map lemma, 54
+harmonic function, 196                      linear span, 29
+Hilbert matrix, 256                         linear subspace, 18
+Hilbert–Schmidt norm, 331                   linear transformation, 52
+homogeneity, 52                             linearly dependent, 33
+homogeneous system of linear                linearly independent, 32
+         equations, 65, 95                  list, 5
+hyponormal operator, 241                          of vectors, 28
+                                            lower-triangular matrix, 162, 267
+identity matrix, 90                         Lviv, 227
+identity operator, 52, 56                   Lwów, 227
+imaginary part, 120
+infinite-dimensional vector space, 31       matrix, 69
+injective, 60                                   multiplication, 73
+inner product, 183                              of bilinear form, 334
+inner product space, 184                        of linear map, 69
+Institute for Advanced Study, 27                of nilpotent operator, 305
+invariant subspace, 133                         of operator, 154
+inverse                                         of product of linear maps, 74, 91
+      of a linear map, 82                       of 𝑇 ′ , 113
+      of a matrix, 91                           of 𝑇 ∗, 232
+invertible linear map, 82                       of vector, 88
+invertible matrix, 91                       minimal polynomial
+isometry, 258                                   and basis of generalized
+isomorphic vector spaces, 86                          eigenvectors, 306
+isomorphism, 86                                 and characteristic polynomial, 312
+                                                and diagonalizability, 169
+Jordan basis, 322                               and generalized eigenspace
+Jordan form, 324                                      decomposition, 316
+Jordan, Camille, 324                            and generalized eigenspaces, 317
+kernel, 59                                      and invertibility, 149
+Khayyam, Omar, 119                              and upper-triangular matrices, 159,
+Klein, Felix, 369                                     203
+                                                computing, 145
+Laplacian, 196                                  definition of, 145
+length of list, 5                               gcd with its derivative, 173
+Leonardo of Pisa, 132                           no direct sum decomposition, 325
+linear combination, 28                          of adjoint, 241
+linear dependence lemma, 33                     of companion matrix, 152
+linear equations, 64–65, 95                     of complexification, 153
+linear functional, 105, 204                     of dual map, 153
+linear map, 52                                  of nilpotent operator, 305, 324
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+388      Index
+
+     of normal operator, 241                   Peabody Library, 181
+     of quotient operator, 153                 permutation, 348
+     of restriction operator, 148              photo credits, 383
+     of self-adjoint operator, 244             point, 12
+     polynomial multiple of, 148               polar decomposition, 286
+     zeros of, 146                             polynomial, 30
+minimizing distance, 217                       positive definite, 266
+𝑚-linear form, 346                             positive operator, 251
+𝑚-linear functional, 378                       positive semidefinite operator, 251
+𝑚-linear map, 379                              principal axes, 287
+monic polynomial, 144                          product
+Moon, v, xvii                                       of complex numbers, 2
+Moore–Penrose inverse, 221                          of linear maps, 55
+multilinear form, 346                               of matrices, 73
+multiplication, see product                         of polynomials, 138
+multiplicity of an eigenvalue, 310                  of scalar and linear map, 55
+                                                    of scalar and vector, 12
+nilpotent operator, 303, 322                        of scalar and vector in 𝐅𝑛 , 9
+Noether, Emmy, 332                                  of vector spaces, 96
+nonsingular matrix, 91                         pseudoinverse, 221, 250, 255, 275, 279
+norm of a linear map, 280                      Pythagorean theorem, 187
+norm of a vector, 182, 186
+normal operator, 235                           QR factorization, 264, 365
+null space, 59                                 quadratic form, 341
+     of powers of an operator, 298             quotient
+     of 𝑇 ′, 111                                    map, 101
+     of 𝑇 ∗, 231                                    operator, 142, 153, 162, 173
+                                                    space, 99
+one-to-one, 60
+onto, 62                                       range, 61
+operator, 133                                        of powers of an operator, 306
+orthogonal                                           of 𝑇 ′, 112
+     complement, 211                                 of 𝑇 ∗, 231
+     projection, 214                           rank of a matrix, 79, 114, 239
+     vectors, 187                              real part, 120
+orthonormal                                    real spectral theorem, 245
+     basis, 199                                real vector space, 13
+     list, 197                                 reverse triangle inequality, 129, 193,
+                                                           294
+parallelogram equality, 191                    Riesz representation theorem, 205, 210,
+Parseval’s identity, 200                                   216, 224, 225
+partial differentiation operator, 175          Riesz, Frigyes, 205
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                                            Index   389
+
+row rank of a matrix, 77, 114, 239          symmetric bilinear form, 337
+                                            symmetric matrix, 269, 337
+scalar, 4
+scalar multiplication, 9, 12                Taylor polynomial, 219
+     in quotient space, 100                 tensor product, 372, 379
+     of linear maps, 55                     Through the Looking Glass, 11
+     of matrices, 71                        trace
+Schmidt pair, 278                                 of a matrix, 326
+Schmidt, Erhard, 200, 278                         of an operator, 327
+Schur’s theorem, 204                        translate, 99
+Schur, Issai, 204                           transpose of a matrix, 77, 231
+Schwarz, Hermann, 189                       triangle inequality, 121, 190, 281
+self-adjoint operator, 233                  tuple, 5
+Shelley, Mary Wollstonecraft, 50            two-sided ideal, 58
+sign of a permutation, 349
+simultaneous diagonalization, 176           unit circle in 𝐂 , 262, 269
+simultaneously upper triangularizable,      unitary matrix, 263
+           178                              unitary operator, 260
+singular matrix, 91                         University of Dublin, 297
+singular value decomposition                University of Göttingen, 332
+     of adjoint, 275                        upper-triangular matrix, 155–160, 264,
+     of linear map, 273                                267, 314
+     of pseudoinverse, 275
+                                            Vandermonde matrix, 366
+singular values, 271, 362
+                                            vector, 8, 12
+skew operator, 240, 247, 269
+                                            vector space, 12
+span, 29
+                                            volume, 292, 363
+spans, 29
+                                                 of a box, 291
+spectral theorem, 245, 246
+square matrix, 91                           zero of a polynomial, 122
+square root of an operator, 248, 251,
+           253, 320
+standard basis
+     of 𝐅𝑛 , 39
+     of 𝒫𝑚 (𝐅), 39
+subspace, 18
+subtraction of complex numbers, 4
+sum, see addition
+sum of subspaces, 19
+Supreme Court, 210
+surjective, 62
+SVD, see singular value decomposition
+Sylvester, James, 181
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+      Colophon: Notes on Typesetting
+
+
+• This book was typeset in LuaLATEX by the author, who wrote the LATEX code to
+  implement the book’s design.
+• The LATEX software used for this book was written by Leslie Lamport. The TEX
+  software, which forms the base for LATEX, was written by Donald Knuth.
+• The main text font in this book is the Open Type Format version of TEX Gyre
+  Termes, a font based on Times, which was designed by Stanley Morison and
+  Victor Lardent for the British newspaper The Times in 1931.
+• The main math font in this book is the Open Type Format version of TEX Gyre
+  Pagella Math, a font based on Palatino, which was designed by Hermann Zapf.
+• The sans serif font used for page headings and some other design elements is
+  the Open Type Format version of TEX Gyre Heros, a font based on Helvetica,
+  which was designed by Max Miedinger and Eduard Hoffmann.
+• The LuaLATEX packages fontspec and unicode-math, both written by Will
+  Robertson, were used to manage fonts.
+• The LATEX package fontsize, written by Ivan Valbusa, was used to gracefully
+  change the main fonts to 10.5 point size.
+• The figures in the book were produced by Mathematica, using Mathematica
+  code written by the author. Mathematica was created by Stephen Wolfram.
+  The Mathematica package MaTeX, written by Szabolcs Horvát, was used to
+  place LATEX-generated labels in the Mathematica figures.
+• The LATEX package graphicx, written by David Carlisle and Sebastian Rahtz,
+  was used to include photos and figures.
+• The LATEX package multicol, written by Frank Mittelbach, was used to get
+  around LATEX’s limitation that two-column format must start on a new page
+  (needed for the Symbol Index and the Index).
+• The LATEX packages TikZ, written by Till Tantau, and tcolorbox, written by
+  Thomas Sturm, were used to produce the definition boxes and result boxes.
+• The LATEX package color, written by David Carlisle, was used to add appropriate
+  color to various design elements.
+• The LATEX package wrapfig, written by Donald Arseneau, was used to wrap
+  text around the comment boxes.
+• The LATEX package microtype, written by Robert Schlicht, was used to reduce
+  hyphenation and produce more pleasing right justification.
+                                                                             390
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+

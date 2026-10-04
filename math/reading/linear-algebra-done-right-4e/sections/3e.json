@@ -1,0 +1,480 @@
+{
+ "version": 1,
+ "id": "3e",
+ "blocks": [
+  {
+   "id": "c3-intro-products-quotients",
+   "kind": "prose",
+   "number": "",
+   "title": "Combining spaces and identifying vectors",
+   "tex": "A product keeps several vector components in separate positions. A quotient instead identifies vectors whose difference belongs to a chosen subspace. These constructions let us describe direct sums and remove the failure of injectivity from a linear map.",
+   "page": "96"
+  },
+  {
+   "id": "c3-def-product-space",
+   "kind": "definition",
+   "number": "3.87",
+   "title": "Products of vector spaces",
+   "tex": "For vector spaces $V_1,\\ldots,V_m$ over the same field, with $m\\ge1$, their product consists of tuples $(v_1,\\ldots,v_m)$ with $v_j\\in V_j$. Operations act in each position:\n\\[(u_1,\\ldots,u_m)+(v_1,\\ldots,v_m)=(u_1+v_1,\\ldots,u_m+v_m),\\quad a(v_1,\\ldots,v_m)=(av_1,\\ldots,av_m).\\]",
+   "page": "96"
+  },
+  {
+   "id": "c3-ex-product-arithmetic",
+   "kind": "example",
+   "number": "3.88",
+   "title": "Arithmetic with polynomial and coordinate components",
+   "tex": "In $\\Poly_5(\\R)\\times\\R^3$, set $u=(1+2x^2,(1,-1,3))$ and $v=(x^5-x,(2,4,0))$. Then $u+v=(1-x+2x^2+x^5,(3,3,3))$ and $2u=(2+4x^2,(2,-2,6))$.",
+   "page": "96",
+   "proof": "Each polynomial has degree at most five, so both tuples belong to the stated product. The product rule for addition adds the polynomials pointwise and the three real coordinates separately, producing the displayed sum. The product rule for scaling doubles the polynomial coefficients and the three real coordinates, producing the second tuple.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "The two positions belong to different spaces; perform each operation in its own space."
+   ],
+   "uses": [
+    "c3-def-product-space",
+    "c2-def-polynomial-space",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-product-space",
+   "kind": "theorem",
+   "number": "3.89",
+   "title": "A product is a vector space",
+   "tex": "The product $V_1\\times\\cdots\\times V_m$ with its defined operations is a vector space. Its zero is $(0_{V_1},\\ldots,0_{V_m})$, and the negative of $(v_1,\\ldots,v_m)$ is $(-v_1,\\ldots,-v_m)$.",
+   "page": "96",
+   "proof": "Closure holds because addition and scaling stay in each $V_j$. Write $u,v,w$ for product vectors, and let $a,b\\in\\F$. In every position $j$, the vector-space axioms in $V_j$ give\n\\[\\begin{aligned}\nu_j+v_j&=v_j+u_j,&(u_j+v_j)+w_j&=u_j+(v_j+w_j),\\\\\nu_j+0_{V_j}&=u_j,&u_j+(-u_j)&=0_{V_j},\\\\\n(ab)u_j&=a(bu_j),&1u_j&=u_j,\\\\\na(u_j+v_j)&=au_j+av_j,&(a+b)u_j&=au_j+bu_j.\n\\end{aligned}\\]\nEquality in every position is equality of product tuples. These eight identities therefore establish all the vector-space axioms, including the asserted zero and negatives.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check the axioms one component at a time."
+   ],
+   "uses": [
+    "c3-def-product-space",
+    "c1-def-vector-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-flatten-product",
+   "kind": "example",
+   "number": "3.90",
+   "title": "Flattening a product of coordinate spaces",
+   "tex": "The map $F:\\R^2\\times\\R^3\\to\\R^5$ defined by $F((x_1,x_2),(x_3,x_4,x_5))=(x_1,x_2,x_3,x_4,x_5)$ is an isomorphism. The two spaces are not literally the same set of lists: their elements have different outer lengths.",
+   "page": "97",
+   "proof": "Flattening a componentwise sum gives the sum of the flattened lists, and flattening a scalar multiple scales each of the same five coordinates. Thus $F$ is linear. The function that splits a length-five list after its second position is an inverse function: splitting and then flattening, or flattening and then splitting, recovers the input. Consequently $F$ is bijective and is a linear isomorphism by the invertibility criterion. Elements in the domain have outer length two, whereas those in the target have length five, explaining the set distinction.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Write the inverse by splitting a list after its second position."
+   ],
+   "uses": [
+    "c3-def-product-space",
+    "c3-thm-product-space",
+    "c3-def-linear-map",
+    "c3-def-isomorphism",
+    "c3-thm-invertible-bijective"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-product-basis",
+   "kind": "example",
+   "number": "3.91",
+   "title": "A basis in a mixed product",
+   "tex": "The list $(1,(0,0)),(x,(0,0)),(x^2,(0,0)),(0,(1,0)),(0,(0,1))$ is a basis of $\\Poly_2(\\R)\\times\\R^2$.",
+   "page": "97",
+   "proof": "A vector $(a+bx+cx^2,(d,e))$ is the linear combination of the displayed list with coefficients $a,b,c,d,e$, so it spans. If such a combination is zero, polynomial coefficient uniqueness gives $a=b=c=0$, and the second component gives $d=e=0$. Thus the list is independent and a basis.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Separate a zero relation into its polynomial and coordinate parts."
+   ],
+   "uses": [
+    "c3-thm-product-space",
+    "c3-def-product-space",
+    "c2-def-basis",
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-product-dimension",
+   "kind": "theorem",
+   "number": "3.92",
+   "title": "Dimension of a finite product",
+   "tex": "If each $V_j$ is finite-dimensional, then $V_1\\times\\cdots\\times V_m$ is finite-dimensional and has dimension $\\sum_{j=1}^m\\dim V_j$.",
+   "page": "97",
+   "proof": "Choose a basis $v_{j,1},\\ldots,v_{j,n_j}$ in each $V_j$. For each pair $(j,k)$ let $b_{j,k}$ be the product vector with $v_{j,k}$ in position $j$ and zero in all other positions. List these vectors in increasing $j$, and within each position in increasing $k$. For any tuple, expand its $j$th component in the chosen basis of $V_j$. Combining these expansions expresses the tuple as a combination of the $b_{j,k}$, proving spanning. In a zero relation on this list, inspection of position $j$ gives a zero relation on $v_{j,1},\\ldots,v_{j,n_j}$. Their independence forces every coefficient indexed by $j$ to vanish. Doing this for each $j$ proves independence of the whole list. It is a finite basis of length $\\sum_jn_j$, which proves both claims. If $n_j=0$, that component space is zero and contributes no vectors; if all $n_j=0$, the product is zero and the constructed basis is empty.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Place each basis vector of each factor in its own component, filling the others with zero."
+   ],
+   "uses": [
+    "c3-thm-product-space",
+    "c3-def-product-space",
+    "c2-thm-basis-existence",
+    "c2-def-basis",
+    "c2-def-dimension",
+    "c2-lem-zero-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-product-direct-sum",
+   "kind": "theorem",
+   "number": "3.93",
+   "title": "The summation map detects direct sums",
+   "tex": "For subspaces $V_1,\\ldots,V_m$ of $V$, the map\n\\[G:V_1\\times\\cdots\\times V_m\\to V_1+\\cdots+V_m,\\qquad G(v_1,\\ldots,v_m)=\\sum_jv_j\\]\nis linear and surjective. The sum is direct exactly when $G$ is injective, and hence exactly when $G$ is an isomorphism.",
+   "page": "98",
+   "proof": "The target contains every prescribed sum and is a vector space by the subspace-sum theorem. Regrouping finite sums gives $G(u+v)=Gu+Gv$, and distributivity gives $G(au)=aGu$, so $G$ is linear. Every element of the target is such a sum by its definition, proving surjectivity. The kernel consists of tuples with $\\sum_jv_j=0$. By the zero criterion for directness, this kernel contains only the zero tuple exactly when the sum is direct. The injectivity criterion for linear maps gives the stated equivalence. Since $G$ is already surjective, the bijective invertibility criterion proves the isomorphism assertion.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Compute the null space of the summation map."
+   ],
+   "uses": [
+    "c3-thm-product-space",
+    "c3-def-product-space",
+    "c1-def-subspace-sum",
+    "c1-thm-smallest-sum",
+    "c1-thm-direct-zero",
+    "c3-def-linear-map",
+    "c3-def-null-space",
+    "c3-thm-injective-null",
+    "c3-def-surjective",
+    "c3-thm-invertible-bijective",
+    "c3-def-isomorphism"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-direct-sum-dimension",
+   "kind": "theorem",
+   "number": "3.94",
+   "title": "Direct sums characterized by dimension addition",
+   "tex": "If $V_1,\\ldots,V_m$ are subspaces of a finite-dimensional space, their sum is direct exactly when\n\\[\\dim(V_1+\\cdots+V_m)=\\sum_j\\dim V_j.\\]",
+   "page": "98",
+   "proof": "Each subspace is finite-dimensional, so the product dimension theorem applies to the domain of the summation map $G$. Its range is the entire sum. Rank-nullity gives\n\\[\\sum_j\\dim V_j=\\dim\\Null G+\\dim(V_1+\\cdots+V_m).\\]\nThe displayed dimension equality therefore holds exactly when $\\dim\\Null G=0$. This is equivalent to $\\Null G=\\{0\\}$ and hence to injectivity of $G$. By the summation-map theorem this is equivalent to directness.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Apply rank-nullity to the summation map."
+   ],
+   "uses": [
+    "c2-thm-subspaces-finite",
+    "c2-lem-zero-dimension",
+    "c3-thm-product-dimension",
+    "c3-thm-product-direct-sum",
+    "c3-thm-rank-nullity",
+    "c3-thm-injective-null"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-vector-set-sum",
+   "kind": "definition",
+   "number": "3.95",
+   "title": "Adding a vector to a subset",
+   "tex": "For $v\\in V$ and a subset $U\\subseteq V$, write $v+U=\\{v+u:u\\in U\\}$. This is a subset of $V$, not an individual vector of $V$.",
+   "page": "98"
+  },
+  {
+   "id": "c3-ex-shifted-line",
+   "kind": "example",
+   "number": "3.96",
+   "title": "A shifted line in the plane",
+   "tex": "Let $U=\\{(t,2t):t\\in\\R\\}$. Then\n\\[(17,20)+U=\\{(x,2x-14):x\\in\\R\\}=(7,0)+U.\\]",
+   "page": "99",
+   "proof": "An element of the first set has coordinates $(17+t,20+2t)$. Setting $x=17+t$ gives second coordinate $2x-14$. Conversely, a prescribed real $x$ is obtained by taking $t=x-17$. The same calculation for $(7,0)+(t,2t)$ gives $(x,2x-14)$ with $x=7+t$, ranging over all real values. Both equalities follow.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Express the second coordinate in terms of the first."
+   ],
+   "uses": [
+    "c3-def-vector-set-sum",
+    "c1-def-coordinate-addition"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-translate",
+   "kind": "definition",
+   "number": "3.97",
+   "title": "Translates and affine geometric objects",
+   "tex": "A set $v+U$ is called a translate of $U$. For a nonzero vector $u$, an affine line with direction $\\Span(u)$ means a set $v+\\Span(u)$. For independent $u,w\\in\\R^3$, an affine plane with direction $\\Span(u,w)$ means $v+\\Span(u,w)$. In this terminology affine lines or planes with the same direction are parallel.",
+   "page": "99"
+  },
+  {
+   "id": "c3-ex-translates",
+   "kind": "example",
+   "number": "3.98",
+   "title": "Families of parallel lines and planes",
+   "tex": "The translates of $U=\\{(x,2x):x\\in\\R\\}$ are exactly the sets $\\{(x,2x+b):x\\in\\R\\}$ for $b\\in\\R$. The translates of $H=\\{(x,y,0):x,y\\in\\R\\}$ are exactly the sets $\\{(x,y,c):x,y\\in\\R\\}$ for $c\\in\\R$. More generally, translates of a linear line or plane are exactly the affine lines or planes with its direction.",
+   "page": "99",
+   "proof": "For $v=(a,b)$, the translate $v+U$ consists of $(a+t,b+2t)$, which is the line with second coordinate $2x+(b-2a)$. Every desired intercept $d$ arises from $v=(0,d)$. For $v=(a,b,c)$, the translate $v+H$ consists of $(a+x,b+y,c)$; the first two coordinates vary independently over all real numbers, and every third coordinate $c$ arises by translating by $(0,0,c)$. The general assertion follows from the definitions of affine line, affine plane, and direction: each such affine set has exactly the form of a translate of its stated direction subspace.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Write the coordinates of a typical translated point."
+   ],
+   "uses": [
+    "c3-def-vector-set-sum",
+    "c3-def-translate",
+    "c2-def-span"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-quotient-space",
+   "kind": "definition",
+   "number": "3.99",
+   "title": "Quotient space as a set of translates",
+   "tex": "If $U$ is a subspace of $V$, define $V/U=\\{v+U:v\\in V\\}$. Its elements are translates of $U$, also called cosets. We next define vector operations on this set.",
+   "page": "99"
+  },
+  {
+   "id": "c3-ex-geometric-quotients",
+   "kind": "example",
+   "number": "3.100",
+   "title": "Geometric objects as quotient elements",
+   "tex": "For $U=\\{(x,2x):x\\in\\R\\}$, elements of $\\R^2/U$ are exactly the lines of slope $2$. If $L$ is a line through zero in $\\R^3$, elements of $\\R^3/L$ are its parallel affine lines. If $H$ is a plane through zero in $\\R^3$, elements of $\\R^3/H$ are its parallel affine planes.",
+   "page": "100",
+   "proof": "By definition a quotient contains precisely the translates of the subspace being removed. The first family of translates was computed in the preceding example. For a linear line or plane, the definitions of affine line or plane identify its translates with exactly the stated parallel affine sets. Thus all three descriptions follow from the quotient definition and the previously established descriptions of translates.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "A quotient element is an entire translate."
+   ],
+   "uses": [
+    "c3-def-quotient-space",
+    "c3-def-translate",
+    "c3-ex-translates"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-coset-equality",
+   "kind": "theorem",
+   "number": "3.101",
+   "title": "Equal or disjoint translates",
+   "tex": "If $U$ is a subspace of $V$ and $v,w\\in V$, the following conditions are equivalent:\n\\[v-w\\in U,\\qquad v+U=w+U,\\qquad(v+U)\\cap(w+U)\\ne\\varnothing.\\]",
+   "page": "100",
+   "proof": "Assume $v-w\\in U$. For $u\\in U$, $v+u=w+((v-w)+u)$ lies in $w+U$, giving $v+U\\subseteq w+U$. Also $w-v=-(v-w)\\in U$, and for $u\\in U$, $w+u=v+((w-v)+u)$ lies in $v+U$. This proves equality. Equal translates have nonempty intersection because $0\\in U$ makes $v$ belong to $v+U$. Finally, if $x$ is in their intersection, write $x=v+u_1=w+u_2$ with $u_1,u_2\\in U$. Subtraction gives $v-w=u_2-u_1\\in U$, since a subspace is closed under addition and multiplication by $-1$. This proves the cycle of implications.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "If two translates meet, subtract their two expressions for a common point."
+   ],
+   "uses": [
+    "c3-def-vector-set-sum",
+    "c1-thm-subspace-test",
+    "c1-def-vector-subtraction",
+    "c1-thm-negative-one"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-quotient-operations",
+   "kind": "definition",
+   "number": "3.102",
+   "title": "Operations on cosets",
+   "tex": "For $U\\subseteq V$ a subspace, prescribe\n\\[(v+U)+(w+U)=(v+w)+U,\\qquad a(v+U)=(av)+U.\\]\nThe next result verifies that these prescriptions do not depend on representatives.",
+   "page": "100"
+  },
+  {
+   "id": "c3-thm-quotient-vector-space",
+   "kind": "theorem",
+   "number": "3.103",
+   "title": "Well-defined quotient vector operations",
+   "tex": "The prescribed operations make $V/U$ a vector space. Its zero is $U=0+U$, and the negative of $v+U$ is $(-v)+U$.",
+   "page": "101",
+   "proof": "Suppose $v+U=v'+U$ and $w+U=w'+U$. The coset equality criterion gives $v-v'\\in U$ and $w-w'\\in U$. Closure yields $(v+w)-(v'+w')\\in U$ and $av-av'=a(v-v')\\in U$. Applying the same criterion gives $(v+w)+U=(v'+w')+U$ and $av+U=av'+U$. Thus both operations are well-defined and stay in $V/U$.\nWrite $[v]=v+U$ for this proof. The rules and the axioms in $V$ give\n\\[\\begin{aligned}\n[u]+[v]&=[u+v]=[v+u]=[v]+[u],\\\\\n([u]+[v])+[w]&=[(u+v)+w]=[u+(v+w)]=[u]+([v]+[w]),\\\\\n[v]+[0]&=[v],\\qquad [v]+[-v]=[0],\\\\\n(ab)[v]&=[(ab)v]=[a(bv)]=a(b[v]),\\qquad 1[v]=[v],\\\\\na([u]+[v])&=[a(u+v)]=[au+av]=a[u]+a[v],\\\\\n(a+b)[v]&=[(a+b)v]=[av+bv]=a[v]+b[v].\n\\end{aligned}\\]\nThese verify all eight axioms. Finally $0+U=U$, since $0+u=u$ for every $u\\in U$, so the zero and negatives have the stated descriptions.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "First compare operations using two different representatives of each coset.",
+    "Once representative independence is established, transfer each vector-space identity to cosets."
+   ],
+   "uses": [
+    "c3-def-quotient-space",
+    "c3-def-quotient-operations",
+    "c3-thm-coset-equality",
+    "c1-thm-subspace-test",
+    "c1-def-vector-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-quotient-map",
+   "kind": "definition",
+   "number": "3.104",
+   "title": "The canonical quotient map",
+   "tex": "For a subspace $U$ of $V$, define $\\pi:V\\to V/U$ by $\\pi(v)=v+U$.",
+   "page": "101"
+  },
+  {
+   "id": "c3-thm-quotient-map",
+   "kind": "theorem",
+   "number": "",
+   "title": "Linearity, range, and kernel of the quotient map",
+   "tex": "The quotient map is linear and surjective, and $\\Null\\pi=U$.",
+   "page": "101",
+   "proof": "By the quotient operation rules, $\\pi(v+w)=(v+w)+U=\\pi(v)+\\pi(w)$ and $\\pi(av)=av+U=a\\pi(v)$. Every coset $v+U$ is the image of its representative $v$, proving surjectivity. The zero of the quotient is $0+U$, and the coset equality criterion says $\\pi(v)=0+U$ exactly when $v-0\\in U$. Hence its kernel is precisely $U$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Identify which vectors map to the zero coset."
+   ],
+   "uses": [
+    "c3-def-quotient-map",
+    "c3-def-quotient-space",
+    "c3-def-quotient-operations",
+    "c3-thm-quotient-vector-space",
+    "c3-thm-coset-equality",
+    "c3-def-linear-map",
+    "c3-def-null-space",
+    "c3-def-surjective"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-quotient-dimension",
+   "kind": "theorem",
+   "number": "3.105",
+   "title": "Dimension of a quotient",
+   "tex": "If $V$ is finite-dimensional and $U$ is a subspace, then $V/U$ is finite-dimensional and $\\dim(V/U)=\\dim V-\\dim U$.",
+   "page": "102",
+   "proof": "The quotient map is linear with range $V/U$ and kernel $U$. Rank-nullity for a finite-dimensional domain states that its range is finite-dimensional and that $\\dim V=\\dim\\Null\\pi+\\dim\\Range\\pi$. Substituting the identified kernel and range and rearranging proves the formula. If $U=\\{0\\}$ or $U=V$, the same calculation applies and gives dimensions $\\dim V$ or $0$, respectively.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Apply rank-nullity to the quotient map."
+   ],
+   "uses": [
+    "c3-thm-quotient-map",
+    "c3-thm-rank-nullity"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-induced-map",
+   "kind": "definition",
+   "number": "3.106",
+   "title": "A map on the quotient by a kernel",
+   "tex": "For $T\\in\\Lin(V,W)$, prescribe $\\widetilde T:V/\\Null T\\to W$ by $\\widetilde T(v+\\Null T)=Tv$. The representative independence of this prescription is part of the next result.",
+   "page": "102"
+  },
+  {
+   "id": "c3-lem-induced-map-linear",
+   "kind": "lemma",
+   "number": "",
+   "title": "The induced map is well-defined and linear",
+   "tex": "The prescription defining $\\widetilde T$ gives a well-defined linear map from $V/\\Null T$ to $W$.",
+   "page": "102",
+   "proof": "The null space is a subspace, so the quotient is a vector space. If $v+\\Null T=w+\\Null T$, then $v-w\\in\\Null T$. Linearity gives $0=T(v-w)=Tv-Tw$, hence $Tv=Tw$, establishing independence of representatives. For cosets represented by $v,w$ and scalar $a$, the quotient operations give\n\\[\\widetilde T((v+\\Null T)+(w+\\Null T))=T(v+w)=Tv+Tw,\\]\nand $\\widetilde T(a(v+\\Null T))=T(av)=aTv$. These are the two linearity identities.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Compare the images of representatives whose difference lies in the kernel."
+   ],
+   "uses": [
+    "c3-def-induced-map",
+    "c3-thm-null-subspace",
+    "c3-thm-quotient-vector-space",
+    "c3-thm-coset-equality",
+    "c3-def-quotient-operations",
+    "c3-def-linear-map",
+    "c3-def-null-space",
+    "c1-thm-negative-one"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-quotient-isomorphism",
+   "kind": "theorem",
+   "number": "3.107",
+   "title": "Removing the kernel produces an isomorphism onto the range",
+   "tex": "For $T\\in\\Lin(V,W)$ and the quotient map $\\pi:V\\to V/\\Null T$, we have $\\widetilde T\\pi=T$. Moreover $\\widetilde T$ is injective and $\\Range\\widetilde T=\\Range T$. In particular, $V/\\Null T$ is isomorphic to $\\Range T$, without a finite-dimensionality hypothesis.",
+   "page": "102",
+   "proof": "For every $v\\in V$, $(\\widetilde T\\pi)v=\\widetilde T(v+\\Null T)=Tv$, proving the factorization. If a coset $v+\\Null T$ maps to zero, then $Tv=0$ and $v\\in\\Null T$. The coset equality criterion gives $v+\\Null T=0+\\Null T$, the zero of the quotient. Thus $\\widetilde T$ has zero kernel and is injective. Every output $\\widetilde T(v+\\Null T)$ equals $Tv$ and lies in $\\Range T$, giving one range inclusion. Conversely, each $Tv$ equals that output, giving the reverse inclusion. Regard the same map as having target $\\Range T$, which is a subspace of $W$. Its linearity persists under that restriction of target, it remains injective, and the range equality makes it surjective. The bijective invertibility theorem makes it an isomorphism of the two asserted spaces.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Compute the kernel and the image of the induced map.",
+    "For the isomorphism, use the range as target."
+   ],
+   "uses": [
+    "c3-def-induced-map",
+    "c3-lem-induced-map-linear",
+    "c3-def-quotient-map",
+    "c3-thm-coset-equality",
+    "c3-thm-quotient-vector-space",
+    "c3-def-map-composition",
+    "c3-def-null-space",
+    "c3-def-range",
+    "c3-thm-range-subspace",
+    "c3-thm-injective-null",
+    "c3-thm-invertible-bijective",
+    "c3-def-isomorphism"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c3-card-product-dimension",
+   "item": "c3-thm-product-dimension",
+   "front": "What is the dimension of a finite product of finite-dimensional spaces?",
+   "back": "The sum of the dimensions of the factors."
+  },
+  {
+   "id": "c3-card-summation-map",
+   "item": "c3-thm-product-direct-sum",
+   "front": "Which map links a product of subspaces to their sum, and when is it injective?",
+   "back": "The map $(v_1,\\ldots,v_m)\\mapsto\\sum_jv_j$ is injective exactly when the sum is direct."
+  },
+  {
+   "id": "c3-card-quotient-elements",
+   "item": "c3-def-quotient-space",
+   "front": "What are the elements of $V/U$?",
+   "back": "The sets $v+U=\\{v+u:u\\in U\\}$, with $v\\in V$."
+  },
+  {
+   "id": "c3-card-coset-equality",
+   "item": "c3-thm-coset-equality",
+   "front": "When do $v+U$ and $w+U$ agree?",
+   "back": "Exactly when $v-w\\in U$. Otherwise they are disjoint."
+  },
+  {
+   "id": "c3-card-quotient-zero",
+   "item": "c3-thm-quotient-vector-space",
+   "front": "What is the zero vector of $V/U$?",
+   "back": "The coset $0+U$, which is the set $U$ itself."
+  },
+  {
+   "id": "c3-card-quotient-map",
+   "item": "c3-thm-quotient-map",
+   "front": "What are the kernel and range of the quotient map?",
+   "back": "Its kernel is $U$ and its range is all of $V/U$."
+  },
+  {
+   "id": "c3-card-quotient-dimension",
+   "item": "c3-thm-quotient-dimension",
+   "front": "What is $\\dim(V/U)$ when $V$ is finite-dimensional?",
+   "back": "$\\dim V-\\dim U$."
+  },
+  {
+   "id": "c3-card-quotient-isomorphism",
+   "item": "c3-thm-quotient-isomorphism",
+   "front": "Which quotient is naturally isomorphic to the range of a linear map?",
+   "back": "$V/\\Null T$ maps isomorphically to $\\Range T$ by $v+\\Null T\\mapsto Tv$."
+  }
+ ]
+}

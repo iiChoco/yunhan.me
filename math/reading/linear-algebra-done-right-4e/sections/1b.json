@@ -1,0 +1,346 @@
+{
+ "version": 1,
+ "id": "1b",
+ "blocks": [
+  {
+   "id": "c1-intro-vector-spaces",
+   "kind": "prose",
+   "number": "",
+   "title": "From coordinates to vector spaces",
+   "tex": "The identities proved for coordinate lists can be imposed on other kinds of objects. A vector space packages these identities into axioms, so one argument can apply to lists, sequences, and functions. We first check these examples and then derive consequences of the axioms.",
+   "page": "12"
+  },
+  {
+   "id": "c1-def-vector-operations",
+   "kind": "definition",
+   "number": "1.19",
+   "title": "Addition and scalar multiplication on a set",
+   "tex": "An addition on a set $V$ is a function from $V\\times V$ to $V$, written $(u,v)\\mapsto u+v$. A scalar multiplication is a function from $\\F\\times V$ to $V$, written $(a,v)\\mapsto av$. Both operations must be defined for every indicated input and return an element of $V$.",
+   "page": "12"
+  },
+  {
+   "id": "c1-def-vector-space",
+   "kind": "definition",
+   "number": "1.20",
+   "title": "Vector space axioms",
+   "tex": "A vector space over $\\F$ is a set $V$ equipped with addition and scalar multiplication satisfying these axioms:\n\\begin{itemize}\n\\item $u+v=v+u$ for $u,v\\in V$.\n\\item $(u+v)+w=u+(v+w)$ for $u,v,w\\in V$.\n\\item There is $0_V\\in V$ such that $v+0_V=v$ for every $v\\in V$.\n\\item For every $v\\in V$ there is $w\\in V$ such that $v+w=0_V$.\n\\item $(ab)v=a(bv)$ for $a,b\\in\\F$ and $v\\in V$.\n\\item $1v=v$ for every $v\\in V$.\n\\item $a(u+v)=au+av$ for $a\\in\\F$ and $u,v\\in V$.\n\\item $(a+b)v=av+bv$ for $a,b\\in\\F$ and $v\\in V$.\n\\end{itemize}\nWe usually write $0$ for $0_V$ when the context determines its meaning. A vector space is nonempty because it contains an additive identity.",
+   "page": "12"
+  },
+  {
+   "id": "c1-def-vector-terminology",
+   "kind": "definition",
+   "number": "1.21",
+   "title": "Vectors and points",
+   "tex": "An element of a vector space is called a vector, or a point. These terms do not require the element to be a coordinate list.",
+   "page": "12"
+  },
+  {
+   "id": "c1-def-real-complex-space",
+   "kind": "definition",
+   "number": "1.22",
+   "title": "Real and complex vector spaces",
+   "tex": "A vector space with scalar field $\\R$ is real; one with scalar field $\\C$ is complex. The scalar field is part of the specification of the vector space.",
+   "page": "13"
+  },
+  {
+   "id": "c1-ex-coordinate-space",
+   "kind": "example",
+   "number": "",
+   "title": "Coordinate spaces satisfy the axioms",
+   "tex": "For every nonnegative integer $n$, coordinate addition and scalar multiplication make $\\F^n$ a vector space over $\\F$. The zero list is an additive identity, and the coordinate negative is an additive inverse.",
+   "page": "13",
+   "proof": "Each operation returns a length-$n$ list with scalar entries, so the operations have the required domains and codomains. Coordinate commutativity gives commutative addition. The remaining coordinate identities give associative addition, $(ab)x=a(bx)$, $1x=x$, and both distributive laws. The zero-list identity and the coordinate-inverse result supply an identity and inverses. Thus all eight axioms hold. Those earlier results include $n=0$, when there is only the empty list and both operations return that list.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Match each axiom with an established coordinate identity."
+   ],
+   "uses": [
+    "c1-def-vector-space",
+    "c1-def-coordinate-space",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c1-thm-coordinate-commutativity",
+    "c1-ex-coordinate-identity",
+    "c1-lem-coordinate-inverse",
+    "c1-lem-coordinate-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-ex-zero-space",
+   "kind": "example",
+   "number": "",
+   "title": "The one-element vector space",
+   "tex": "Let $V=\\{z\\}$, define $z+z=z$, and define $az=z$ for every $a\\in\\F$. Then $V$ is a vector space.",
+   "page": "13",
+   "proof": "Both operations are defined on their required domains and return $z$. Every side of every equality in the axioms equals $z$, so all the associative, commutative, and distributive identities hold, as does $1z=z$. The element $z$ is an additive identity and its own additive inverse because $z+z=z$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Every expression taking values in this set has the same value."
+   ],
+   "uses": [
+    "c1-def-vector-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-sequences",
+   "kind": "definition",
+   "number": "1.23",
+   "title": "Scalar sequences",
+   "tex": "Let $\\F^\\infty$ consist of sequences $x=(x_1,x_2,\\ldots)$ indexed by $\\N$. Equality means agreement at every index. Define $(x+y)_k=x_k+y_k$ and $(ax)_k=ax_k$ for every $k\\in\\N$.",
+   "page": "13"
+  },
+  {
+   "id": "c1-ex-sequence-space",
+   "kind": "example",
+   "number": "1.23",
+   "title": "Sequences form a vector space",
+   "tex": "The specified operations make $\\F^\\infty$ a vector space over $\\F$. The all-zero sequence is an additive identity, and the sequence with entries $-x_k$ is an additive inverse of $x$.",
+   "page": "13",
+   "proof": "Both operations produce scalar entries at every index, so they produce sequences. For $x,y,z\\in\\F^\\infty$ and $a,b\\in\\F$, at each index $k$ scalar arithmetic gives\n\\[\\begin{aligned}\nx_k+y_k&=y_k+x_k, & (x_k+y_k)+z_k&=x_k+(y_k+z_k),\\\\\n(ab)x_k&=a(bx_k), & 1x_k&=x_k,\\\\\na(x_k+y_k)&=ax_k+ay_k, & (a+b)x_k&=ax_k+bx_k.\n\\end{aligned}\\]\nThese coordinate equalities give commutativity and associativity of addition, compatibility with scalar products, the scalar identity axiom, and both distributive axioms. The all-zero sequence belongs to the set and satisfies $x_k+0=x_k$ at every index. The sequence with entries $-x_k$ also belongs to the set and satisfies $x_k+(-x_k)=0$ at every index. This verifies the remaining axioms.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Check equality one index at a time.",
+    "Specify every entry of the identity and inverse sequences."
+   ],
+   "uses": [
+    "c1-foundations",
+    "c1-thm-complex-laws",
+    "c1-thm-complex-inverses",
+    "c1-def-scalars",
+    "c1-def-sequences",
+    "c1-def-vector-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-function-space",
+   "kind": "definition",
+   "number": "1.24",
+   "title": "Scalar-valued functions on a set",
+   "tex": "For a set $S$, let $\\F^S$ be the set of functions from $S$ to $\\F$. For $x\\in S$, define\n\\[(f+g)(x)=f(x)+g(x),\\qquad (af)(x)=af(x).\\]\nFor example, $\\R^{[0,1]}$ contains all real-valued functions on $[0,1]$, without any continuity requirement.",
+   "page": "13"
+  },
+  {
+   "id": "c1-thm-function-space",
+   "kind": "example",
+   "number": "1.25",
+   "title": "Function spaces satisfy the axioms",
+   "tex": "For any set $S$, including the empty set, $\\F^S$ is a vector space with these operations. The function $z(x)=0$ is an additive identity; the function $h(x)=-f(x)$ is an additive inverse of $f$.",
+   "page": "14",
+   "proof": "Each rule specifies one scalar for each $x\\in S$, so sums, scalar multiples, $z$, and $h$ are functions with the required domain and target. For $f,g,q\\in\\F^S$ and $a,b\\in\\F$, evaluation at any $x\\in S$ gives\n\\[\\begin{aligned}\n(f+g)(x)&=f(x)+g(x)=g(x)+f(x)=(g+f)(x),\\\\\n((f+g)+q)(x)&=(f(x)+g(x))+q(x)\\\\\n&=f(x)+(g(x)+q(x))=(f+(g+q))(x),\\\\\n((ab)f)(x)&=(ab)f(x)=a(bf(x))=(a(bf))(x),\\\\\n(1f)(x)&=f(x),\\\\\n(a(f+g))(x)&=a(f(x)+g(x))=af(x)+ag(x)=(af+ag)(x),\\\\\n((a+b)f)(x)&=(a+b)f(x)=af(x)+bf(x)=(af+bf)(x).\n\\end{aligned}\\]\nScalar distributivity and commutativity justify the last identity. Agreement at every argument proves these six axioms. Also $(f+z)(x)=f(x)$ and $(f+h)(x)=0=z(x)$ for each $x$, proving the identity and inverse axioms. For $S=\\varnothing$, there is exactly one function, the empty function; all constructed functions equal it and all these equalities hold. This includes the empty-domain case.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Evaluate each vector space identity at an arbitrary argument.",
+    "Two functions with the same domain are equal when their values agree everywhere."
+   ],
+   "uses": [
+    "c1-foundations",
+    "c1-thm-complex-laws",
+    "c1-thm-complex-inverses",
+    "c1-def-scalars",
+    "c1-def-vector-space",
+    "c1-def-function-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-remark-functions-as-vectors",
+   "kind": "remark",
+   "number": "",
+   "title": "Coordinates are function values",
+   "tex": "A list in $\\F^n$ can be viewed as a function on $\\{1,\\ldots,n\\}$ by sending $k$ to its $k$th entry. A sequence is a function on $\\N$. These viewpoints explain why the preceding examples have the same arithmetic rules.",
+   "page": "14"
+  },
+  {
+   "id": "c1-thm-unique-zero",
+   "kind": "theorem",
+   "number": "1.26",
+   "title": "Uniqueness of the additive identity",
+   "tex": "A vector space has exactly one additive identity.",
+   "page": "14",
+   "proof": "Existence is an axiom. If $e$ and $z$ are both identities, the identity property of $z$ gives $e+z=e$, whereas the identity property of $e$ gives $z+e=z$. The left sides are equal by commutativity, so $e=z$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Add the two proposed identities."
+   ],
+   "uses": [
+    "c1-def-vector-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-thm-unique-negative",
+   "kind": "theorem",
+   "number": "1.27",
+   "title": "Uniqueness of additive inverses",
+   "tex": "For each $v\\in V$, exactly one $w\\in V$ satisfies $v+w=0$.",
+   "page": "15",
+   "proof": "An inverse exists by the vector space axioms, and the additive identity is unique. Suppose $v+w=0$ and $v+t=0$. Adding $w$ on the left of the latter equation gives $w+(v+t)=w$. By associativity and commutativity the left side equals $(v+w)+t=0+t=t$. Thus $w=t$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use one proposed inverse to simplify the equation for the other."
+   ],
+   "uses": [
+    "c1-def-vector-space",
+    "c1-thm-unique-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-def-vector-subtraction",
+   "kind": "definition",
+   "number": "1.28",
+   "title": "Vector negatives and subtraction",
+   "tex": "Write $-v$ for the unique additive inverse of $v$. Define $w-v=w+(-v)$ for vectors in the same space.",
+   "page": "15"
+  },
+  {
+   "id": "c1-def-ambient-space",
+   "kind": "definition",
+   "number": "1.29",
+   "title": "Standing vector space notation",
+   "tex": "Unless specified otherwise, $V$ denotes a vector space over $\\F$, where $\\F$ is $\\R$ or $\\C$. Operations in a statement are those of the specified vector space.",
+   "page": "15"
+  },
+  {
+   "id": "c1-lem-vector-cancellation",
+   "kind": "lemma",
+   "number": "",
+   "title": "Cancellation for vector addition",
+   "tex": "If $u+v=u+w$ in $V$, then $v=w$.",
+   "page": "15",
+   "proof": "Add $-u$ on the left and use associativity to obtain $((-u)+u)+v=((-u)+u)+w$. Commutativity and the inverse property give $(-u)+u=0$, so the identity axiom gives $v=w$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Add the inverse of the shared summand."
+   ],
+   "uses": [
+    "c1-def-vector-space",
+    "c1-def-vector-subtraction"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-thm-zero-scalar",
+   "kind": "theorem",
+   "number": "1.30",
+   "title": "The zero scalar annihilates vectors",
+   "tex": "For every $v\\in V$, $0v=0_V$. The zero on the left is a scalar; the right side is a vector.",
+   "page": "15",
+   "proof": "Put $x=0v$. Distributivity applied to $0+0=0$ gives $x=(0+0)v=0v+0v=x+x$. Since $x+0_V=x$, we have $x+0_V=x+x$. Vector cancellation gives $0_V=x$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply distributivity to $0+0=0$."
+   ],
+   "uses": [
+    "c1-foundations",
+    "c1-thm-complex-laws",
+    "c1-def-vector-space",
+    "c1-lem-vector-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-thm-scalar-zero",
+   "kind": "theorem",
+   "number": "1.31",
+   "title": "Scalars preserve the zero vector",
+   "tex": "For every $a\\in\\F$, $a0_V=0_V$.",
+   "page": "16",
+   "proof": "From $0_V+0_V=0_V$ and distributivity, $a0_V=a0_V+a0_V$. Also $a0_V+0_V=a0_V$. Cancellation in $a0_V+0_V=a0_V+a0_V$ therefore gives $0_V=a0_V$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Expand $a(0_V+0_V)$."
+   ],
+   "uses": [
+    "c1-def-vector-space",
+    "c1-lem-vector-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c1-thm-negative-one",
+   "kind": "theorem",
+   "number": "1.32",
+   "title": "Multiplication by minus one gives the negative",
+   "tex": "For $v\\in V$, $(-1)v=-v$.",
+   "page": "16",
+   "proof": "Since $(-1)+1=0$, distributivity and $1v=v$ give $(-1)v+v=((-1)+1)v=0v=0_V$. Commutativity shows $v+(-1)v=0_V$, so $(-1)v$ is an additive inverse of $v$. Its uniqueness gives $(-1)v=-v$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Show that the proposed expression is an additive inverse."
+   ],
+   "uses": [
+    "c1-foundations",
+    "c1-thm-complex-inverses",
+    "c1-def-vector-space",
+    "c1-thm-unique-negative",
+    "c1-def-vector-subtraction",
+    "c1-thm-zero-scalar"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c1-card-vector-axioms",
+   "item": "c1-def-vector-space",
+   "front": "State both distributive axioms.",
+   "back": "$a(u+v)=au+av$ and $(a+b)v=av+bv$."
+  },
+  {
+   "id": "c1-card-vector-nonempty",
+   "item": "c1-def-vector-space",
+   "front": "Why is the empty set not a vector space?",
+   "back": "It contains no additive identity."
+  },
+  {
+   "id": "c1-card-scalar-field",
+   "item": "c1-def-real-complex-space",
+   "front": "What distinguishes a real vector space from a complex one?",
+   "back": "The scalar field is $\\R$ in the first case and $\\C$ in the second."
+  },
+  {
+   "id": "c1-card-function-space-operations",
+   "item": "c1-def-function-space",
+   "front": "How are operations defined in $\\F^S$?",
+   "back": "$(f+g)(x)=f(x)+g(x)$ and $(af)(x)=af(x)$ for every $x\\in S$."
+  },
+  {
+   "id": "c1-card-empty-domain",
+   "item": "c1-thm-function-space",
+   "front": "What is $\\F^\\varnothing$?",
+   "back": "The one-element vector space consisting of the empty function."
+  },
+  {
+   "id": "c1-card-zero-uniqueness",
+   "item": "c1-thm-unique-zero",
+   "front": "What proves uniqueness of the additive identity?",
+   "back": "Adding two proposed identities gives a sum equal to each of them."
+  },
+  {
+   "id": "c1-card-vector-zero-identities",
+   "item": "c1-thm-zero-scalar",
+   "front": "How do $0v=0_V$ and $a0_V=0_V$ differ?",
+   "back": "One multiplies any vector by zero; the other multiplies the zero vector by any scalar."
+  },
+  {
+   "id": "c1-card-negative-one",
+   "item": "c1-thm-negative-one",
+   "front": "Why is $(-1)v=-v$?",
+   "back": "Distributivity shows it is an additive inverse, and that inverse is unique."
+  }
+ ]
+}

@@ -1,0 +1,310 @@
+{
+ "version": 1,
+ "id": "1-euclidean-space",
+ "blocks": [
+  {
+   "id": "c1-euclid-intro",
+   "kind": "prose",
+   "tex": "Analysis in several variables takes place in $\\R^m$, the set of $m$-tuples of real numbers. Its geometry (length, distance, angle) comes from one algebraic object, the dot product, and from one inequality, Cauchy–Schwarz. This section sets up that geometry and isolates the abstract notions behind it, inner products and norms, which return later for spaces of functions. The algebra of vector spaces is assumed from linear algebra."
+  },
+  {
+   "id": "c1-def-rm",
+   "kind": "definition",
+   "number": "",
+   "title": "Euclidean space",
+   "tex": "For $m \\in \\N$, \\emph{Euclidean $m$-space} $\\R^m$ is the set of ordered $m$-tuples $x = (x_1, \\dots, x_m)$ of real numbers; its elements are called \\emph{vectors} or \\emph{points}, and $x_i$ is the $i$th \\emph{coordinate} of $x$. Vectors are added and multiplied by \\emph{scalars} $c \\in \\R$ coordinatewise:\n\\[ x + y = (x_1 + y_1, \\dots, x_m + y_m), \\qquad cx = (cx_1, \\dots, cx_m). \\]\nWith these operations $\\R^m$ is a real vector space; its zero vector is $0 = (0, \\dots, 0)$, and $x - y = x + (-1)y$. The \\emph{standard basis vectors} are $e_1 = (1, 0, \\dots, 0), \\dots, e_m = (0, \\dots, 0, 1)$."
+  },
+  {
+   "id": "c1-def-dot-product",
+   "kind": "definition",
+   "number": "",
+   "title": "Dot product",
+   "tex": "The \\emph{dot product} of $x, y \\in \\R^m$ is the real number\n\\[ \\inner{x}{y} = x_1 y_1 + \\dots + x_m y_m. \\]"
+  },
+  {
+   "id": "c1-prop-dot-properties",
+   "kind": "proposition",
+   "number": "",
+   "title": "Properties of the dot product",
+   "tex": "For all $x, x', y \\in \\R^m$ and $c \\in \\R$:\n\\begin{enumerate}\n\\item $\\inner{x + x'}{y} = \\inner{x}{y} + \\inner{x'}{y}$ and $\\inner{cx}{y} = c\\inner{x}{y}$ (linearity in the first variable);\n\\item $\\inner{x}{y} = \\inner{y}{x}$ (symmetry);\n\\item $\\inner{x}{x} \\ge 0$, and $\\inner{x}{x} = 0$ if and only if $x = 0$ (positive definiteness).\n\\end{enumerate}",
+   "proof": "(1) By the distributive law in $\\R$,\n\\[ \\inner{x + x'}{y} = \\sum_{i=1}^m (x_i + x_i')y_i = \\sum_{i=1}^m x_i y_i + \\sum_{i=1}^m x_i' y_i = \\inner{x}{y} + \\inner{x'}{y}, \\]\nand $\\inner{cx}{y} = \\sum_i (c x_i) y_i = c \\sum_i x_i y_i = c \\inner{x}{y}$.\n\n(2) $\\inner{x}{y} = \\sum_i x_i y_i = \\sum_i y_i x_i = \\inner{y}{x}$ because multiplication in $\\R$ is commutative.\n\n(3) $\\inner{x}{x} = \\sum_i x_i^2$ is a sum of squares, each of which is $\\ge 0$, so $\\inner{x}{x} \\ge 0$. If $x = 0$ every term is $0$ and $\\inner{x}{x} = 0$. If $x \\ne 0$ then some coordinate $x_j \\ne 0$, so $x_j^2 > 0$, and since the other terms are $\\ge 0$, $\\inner{x}{x} \\ge x_j^2 > 0$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Write each side as a sum over coordinates and use the field axioms of $\\R$.",
+    "For (3): a sum of nonnegative numbers is at least as large as each of its terms."
+   ],
+   "uses": [
+    "c1-def-rm",
+    "c1-def-dot-product"
+   ]
+  },
+  {
+   "id": "c1-def-inner-product",
+   "kind": "definition",
+   "number": "",
+   "title": "Inner product, length",
+   "tex": "Let $V$ be a vector space over $\\R$. An \\emph{inner product} on $V$ is a function that assigns to each pair $x, y \\in V$ a real number $\\inner{x}{y}$ and has the three properties of the preceding proposition: it is linear in the first variable, symmetric, and positive definite. By symmetry it is then linear in the second variable as well, so it is \\emph{bilinear}. A vector space with a chosen inner product is an \\emph{inner product space}. The \\emph{length} (or \\emph{magnitude}) of $x \\in V$ is\n\\[ \\abs{x} = \\sqrt{\\inner{x}{x}}, \\]\nwhich makes sense because nonnegative real numbers have square roots. In $\\R^m$ with the dot product this is the \\emph{Euclidean length} $\\abs{x} = \\sqrt{x_1^2 + \\dots + x_m^2}$; for $m = 1$ it is the absolute value."
+  },
+  {
+   "id": "c1-rem-square-compare",
+   "kind": "remark",
+   "tex": "Lengths are defined through their squares, so the following fact about real numbers is used repeatedly: if $u \\ge 0$, $v \\ge 0$ and $u^2 \\le v^2$, then $u \\le v$. (Otherwise $u > v \\ge 0$ would give $u^2 > v^2$.) Note also that $\\abs{x}^2 = \\inner{x}{x}$, and that $\\inner{x}{0} = \\inner{x}{0 \\cdot 0} = 0 \\cdot \\inner{x}{0} = 0$ for every $x$."
+  },
+  {
+   "id": "c1-thm-cauchy-schwarz",
+   "kind": "theorem",
+   "number": "",
+   "title": "Cauchy–Schwarz inequality",
+   "tex": "Let $V$ be an inner product space. For all $x, y \\in V$,\n\\[ \\abs{\\inner{x}{y}} \\le \\abs{x}\\,\\abs{y}. \\]\nIn particular, for $x, y \\in \\R^m$: $\\ \\abs{x_1 y_1 + \\dots + x_m y_m} \\le \\sqrt{x_1^2 + \\dots + x_m^2}\\,\\sqrt{y_1^2 + \\dots + y_m^2}$.",
+   "proof": "If $y = 0$ then $\\inner{x}{y} = 0$ and $\\abs{y} = 0$, so both sides are $0$. Assume $y \\ne 0$, so that $\\inner{y}{y} > 0$ by positive definiteness. For every $t \\in \\R$, positive definiteness and bilinearity give\n\\[ 0 \\le \\inner{x + ty}{x + ty} = \\inner{x}{x} + 2t\\inner{x}{y} + t^2 \\inner{y}{y}. \\]\nTake $t = -\\inner{x}{y}/\\inner{y}{y}$. Then\n\\[ 0 \\le \\inner{x}{x} - \\frac{2\\inner{x}{y}^2}{\\inner{y}{y}} + \\frac{\\inner{x}{y}^2}{\\inner{y}{y}} = \\inner{x}{x} - \\frac{\\inner{x}{y}^2}{\\inner{y}{y}}, \\]\nand multiplying by $\\inner{y}{y} > 0$ gives\n\\[ \\inner{x}{y}^2 \\le \\inner{x}{x}\\inner{y}{y} = \\big(\\abs{x}\\abs{y}\\big)^2. \\]\nThe numbers $\\abs{\\inner{x}{y}}$ and $\\abs{x}\\abs{y}$ are nonnegative, and the square of the first is $\\inner{x}{y}^2$; so the inequality between squares gives $\\abs{\\inner{x}{y}} \\le \\abs{x}\\abs{y}$. The statement for $\\R^m$ is the special case of the dot product.",
+   "difficulty": 3,
+   "minutes": 40,
+   "hints": [
+    "The only inequality available is positive definiteness: $\\inner{v}{v} \\ge 0$ for every vector $v$. Apply it to a well-chosen combination of $x$ and $y$.",
+    "Expand $\\inner{x + ty}{x + ty} \\ge 0$ as a quadratic in the real variable $t$.",
+    "Treat $y = 0$ separately; otherwise choose $t = -\\inner{x}{y}/\\inner{y}{y}$, the value that minimises the quadratic."
+   ],
+   "uses": [
+    "c1-def-inner-product",
+    "c1-prop-dot-properties",
+    "c1-thm-square-roots"
+   ]
+  },
+  {
+   "id": "c1-ex-cs-equality",
+   "kind": "exercise",
+   "number": "",
+   "title": "Equality in Cauchy–Schwarz",
+   "tex": "Let $V$ be an inner product space and $x, y \\in V$. Prove that $\\abs{\\inner{x}{y}} = \\abs{x}\\abs{y}$ if and only if $y = 0$ or $x = cy$ for some $c \\in \\R$.",
+   "proof": "Suppose $y = 0$. Then both sides are $0$ and equality holds. Suppose $x = cy$. Then $\\inner{x}{y} = c\\inner{y}{y} = c\\abs{y}^2$, so $\\abs{\\inner{x}{y}} = \\abs{c}\\abs{y}^2$; and $\\abs{x}^2 = \\inner{cy}{cy} = c^2\\abs{y}^2 = (\\abs{c}\\abs{y})^2$, so $\\abs{x} = \\abs{c}\\abs{y}$ by uniqueness of nonnegative square roots, and $\\abs{x}\\abs{y} = \\abs{c}\\abs{y}^2$. Equality holds.\n\nConversely suppose $\\abs{\\inner{x}{y}} = \\abs{x}\\abs{y}$ and $y \\ne 0$. Put $t = -\\inner{x}{y}/\\inner{y}{y}$. Expanding by bilinearity as in the proof of the Cauchy–Schwarz inequality,\n\\[ \\inner{x + ty}{x + ty} = \\inner{x}{x} - \\frac{\\inner{x}{y}^2}{\\inner{y}{y}} = \\frac{\\abs{x}^2\\abs{y}^2 - \\inner{x}{y}^2}{\\abs{y}^2} = 0, \\]\nbecause $\\inner{x}{y}^2 = \\abs{\\inner{x}{y}}^2 = \\abs{x}^2\\abs{y}^2$. By positive definiteness $x + ty = 0$, so $x = cy$ with $c = -t$.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "One direction is a computation. For the other, go back to the proof of the inequality and ask where it could be an equality.",
+    "With $t = -\\inner{x}{y}/\\inner{y}{y}$, equality forces $\\inner{x + ty}{x + ty} = 0$. What does positive definiteness say then?"
+   ],
+   "uses": [
+    "c1-thm-cauchy-schwarz",
+    "c1-def-inner-product"
+   ]
+  },
+  {
+   "id": "c1-thm-vector-triangle",
+   "kind": "theorem",
+   "number": "",
+   "title": "Triangle inequality for vectors",
+   "tex": "Let $V$ be an inner product space. For all $x, y \\in V$,\n\\[ \\abs{x + y} \\le \\abs{x} + \\abs{y}. \\]",
+   "proof": "By bilinearity and symmetry, and then the Cauchy–Schwarz inequality (with $\\inner{x}{y} \\le \\abs{\\inner{x}{y}}$),\n\\[ \\abs{x + y}^2 = \\inner{x + y}{x + y} = \\abs{x}^2 + 2\\inner{x}{y} + \\abs{y}^2 \\le \\abs{x}^2 + 2\\abs{x}\\abs{y} + \\abs{y}^2 = \\big(\\abs{x} + \\abs{y}\\big)^2. \\]\nBoth $\\abs{x + y}$ and $\\abs{x} + \\abs{y}$ are nonnegative, so the inequality between their squares gives $\\abs{x + y} \\le \\abs{x} + \\abs{y}$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Compare the squares of the two sides.",
+    "Expand $\\inner{x + y}{x + y}$ and bound the cross term with Cauchy–Schwarz."
+   ],
+   "uses": [
+    "c1-thm-cauchy-schwarz",
+    "c1-def-inner-product"
+   ]
+  },
+  {
+   "id": "c1-def-norm",
+   "kind": "definition",
+   "number": "",
+   "title": "Norm",
+   "tex": "Let $V$ be a vector space over $\\R$. A \\emph{norm} on $V$ is a function $\\norm{\\cdot} \\colon V \\to \\R$ such that for all $x, y \\in V$ and $c \\in \\R$:\n\\begin{enumerate}\n\\item $\\norm{x} \\ge 0$, and $\\norm{x} = 0$ if and only if $x = 0$;\n\\item $\\norm{cx} = \\abs{c}\\,\\norm{x}$;\n\\item $\\norm{x + y} \\le \\norm{x} + \\norm{y}$.\n\\end{enumerate}\nA vector space with a chosen norm is a \\emph{normed space}."
+  },
+  {
+   "id": "c1-prop-inner-product-norm",
+   "kind": "proposition",
+   "number": "",
+   "title": "An inner product gives a norm",
+   "tex": "If $V$ is an inner product space, then $\\abs{x} = \\sqrt{\\inner{x}{x}}$ is a norm on $V$. In particular the Euclidean length is a norm on $\\R^m$.",
+   "proof": "(1) A square root is nonnegative by definition, so $\\abs{x} \\ge 0$. If $x = 0$ then $\\inner{x}{x} = 0$ and $\\abs{x} = 0$. If $\\abs{x} = 0$ then $\\inner{x}{x} = \\abs{x}^2 = 0$, so $x = 0$ by positive definiteness.\n\n(2) By bilinearity $\\inner{cx}{cx} = c^2\\inner{x}{x} = c^2\\abs{x}^2 = (\\abs{c}\\abs{x})^2$. Since $\\abs{c}\\abs{x} \\ge 0$ and a nonnegative number has only one nonnegative square root, $\\abs{cx} = \\abs{c}\\abs{x}$.\n\n(3) This is the triangle inequality for vectors.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check the three norm axioms. The third has already been proved.",
+    "For homogeneity, compute $\\inner{cx}{cx}$ and use the uniqueness of nonnegative square roots."
+   ],
+   "uses": [
+    "c1-def-norm",
+    "c1-def-inner-product",
+    "c1-thm-vector-triangle",
+    "c1-thm-square-roots"
+   ]
+  },
+  {
+   "id": "c1-cor-norm-distance",
+   "kind": "corollary",
+   "number": "",
+   "title": "The distance defined by a norm",
+   "tex": "Let $\\norm{\\cdot}$ be a norm on a vector space $V$ and put $d(x, y) = \\norm{x - y}$. Then for all $x, y, z \\in V$:\n\\begin{enumerate}\n\\item $d(x, y) \\ge 0$, and $d(x, y) = 0$ if and only if $x = y$;\n\\item $d(x, y) = d(y, x)$;\n\\item $d(x, z) \\le d(x, y) + d(y, z)$.\n\\end{enumerate}\nFor the Euclidean length on $\\R^m$, $d(x, y) = \\abs{x - y} = \\sqrt{(x_1 - y_1)^2 + \\dots + (x_m - y_m)^2}$ is the \\emph{Euclidean distance}.",
+   "proof": "(1) $\\norm{x - y} \\ge 0$, with equality if and only if $x - y = 0$, that is, $x = y$.\n\n(2) $\\norm{y - x} = \\norm{(-1)(x - y)} = \\abs{-1}\\,\\norm{x - y} = \\norm{x - y}$.\n\n(3) $\\norm{x - z} = \\norm{(x - y) + (y - z)} \\le \\norm{x - y} + \\norm{y - z}$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Each property of $d$ comes from the norm axiom with the same number.",
+    "For the third, write $x - z = (x - y) + (y - z)$."
+   ],
+   "uses": [
+    "c1-def-norm"
+   ]
+  },
+  {
+   "id": "c1-ex-other-norms",
+   "kind": "exercise",
+   "number": "",
+   "title": "The maximum norm and the sum norm",
+   "tex": "For $x \\in \\R^m$ define\n\\[ \\norm{x}_{\\max} = \\max\\set{\\abs{x_1}, \\dots, \\abs{x_m}}, \\qquad \\norm{x}_{\\mathrm{sum}} = \\abs{x_1} + \\dots + \\abs{x_m}. \\]\nProve that both are norms on $\\R^m$.",
+   "proof": "\\emph{Axiom (1).} Both quantities are built from the nonnegative numbers $\\abs{x_i}$, so both are $\\ge 0$, and both are $0$ when $x = 0$. If $x \\ne 0$ then $\\abs{x_j} > 0$ for some $j$, and each of $\\norm{x}_{\\max}$, $\\norm{x}_{\\mathrm{sum}}$ is $\\ge \\abs{x_j} > 0$.\n\n\\emph{Axiom (2).} Since $\\abs{cx_i} = \\abs{c}\\abs{x_i}$, we get $\\norm{cx}_{\\mathrm{sum}} = \\sum_i \\abs{c}\\abs{x_i} = \\abs{c}\\norm{x}_{\\mathrm{sum}}$. For the maximum: each $\\abs{c}\\abs{x_i} \\le \\abs{c}\\norm{x}_{\\max}$ because $\\abs{c} \\ge 0$, and equality holds for an index $i$ at which $\\abs{x_i}$ is largest; so $\\norm{cx}_{\\max} = \\abs{c}\\norm{x}_{\\max}$.\n\n\\emph{Axiom (3).} For each $i$, the triangle inequality in $\\R$ gives $\\abs{x_i + y_i} \\le \\abs{x_i} + \\abs{y_i}$. Summing over $i$ gives $\\norm{x + y}_{\\mathrm{sum}} \\le \\norm{x}_{\\mathrm{sum}} + \\norm{y}_{\\mathrm{sum}}$. Also $\\abs{x_i} + \\abs{y_i} \\le \\norm{x}_{\\max} + \\norm{y}_{\\max}$ for each $i$, so every $\\abs{x_i + y_i}$, and hence their maximum, is at most $\\norm{x}_{\\max} + \\norm{y}_{\\max}$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Verify the three axioms for each; everything reduces to properties of the absolute value on $\\R$, one coordinate at a time.",
+    "For the triangle inequality of the maximum norm, bound each $\\abs{x_i + y_i}$ by $\\norm{x}_{\\max} + \\norm{y}_{\\max}$ before taking the maximum."
+   ],
+   "uses": [
+    "c1-def-norm",
+    "c1-prop-triangle-inequality"
+   ]
+  },
+  {
+   "id": "c1-ex-norm-comparison",
+   "kind": "exercise",
+   "number": "",
+   "title": "Comparing the three norms on Euclidean space",
+   "tex": "With the notation of the previous exercise, prove that for every $x \\in \\R^m$\n\\[ \\norm{x}_{\\max} \\le \\abs{x} \\le \\norm{x}_{\\mathrm{sum}} \\le m\\,\\norm{x}_{\\max}, \\]\nwhere $\\abs{x}$ is the Euclidean length.",
+   "proof": "\\emph{First inequality.} For each $i$, $\\abs{x_i}^2 = x_i^2 \\le x_1^2 + \\dots + x_m^2 = \\abs{x}^2$, since the omitted terms are nonnegative. Both $\\abs{x_i}$ and $\\abs{x}$ are nonnegative, so $\\abs{x_i} \\le \\abs{x}$. This holds for every $i$, hence for the maximum.\n\n\\emph{Second inequality.} Expanding the square,\n\\[ \\norm{x}_{\\mathrm{sum}}^2 = \\Big(\\sum_{i=1}^m \\abs{x_i}\\Big)^2 = \\sum_{i=1}^m x_i^2 + 2\\sum_{i < j} \\abs{x_i}\\abs{x_j} \\ge \\sum_{i=1}^m x_i^2 = \\abs{x}^2, \\]\nand both $\\norm{x}_{\\mathrm{sum}}$ and $\\abs{x}$ are nonnegative, so $\\abs{x} \\le \\norm{x}_{\\mathrm{sum}}$.\n\n\\emph{Third inequality.} Each of the $m$ terms $\\abs{x_i}$ is at most $\\norm{x}_{\\max}$, so their sum is at most $m\\,\\norm{x}_{\\max}$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Since the Euclidean length is a square root, compare squares of nonnegative numbers.",
+    "Expand $(\\abs{x_1} + \\dots + \\abs{x_m})^2$ and discard the cross terms."
+   ],
+   "uses": [
+    "c1-ex-other-norms",
+    "c1-def-inner-product"
+   ]
+  },
+  {
+   "id": "c1-ex-parallelogram",
+   "kind": "exercise",
+   "number": "",
+   "title": "Parallelogram law",
+   "tex": "\\begin{enumerate}\n\\item Let $V$ be an inner product space. Prove that for all $x, y \\in V$,\n\\[ \\abs{x + y}^2 + \\abs{x - y}^2 = 2\\abs{x}^2 + 2\\abs{y}^2. \\]\n\\item Deduce that for $m \\ge 2$ there is no inner product on $\\R^m$ whose length function is the maximum norm $\\norm{x}_{\\max} = \\max_i \\abs{x_i}$.\n\\end{enumerate}",
+   "proof": "(1) By bilinearity and symmetry,\n\\[ \\abs{x + y}^2 = \\abs{x}^2 + 2\\inner{x}{y} + \\abs{y}^2, \\qquad \\abs{x - y}^2 = \\abs{x}^2 - 2\\inner{x}{y} + \\abs{y}^2. \\]\nAdding the two equations gives the identity.\n\n(2) Suppose some inner product on $\\R^m$ had $\\sqrt{\\inner{x}{x}} = \\norm{x}_{\\max}$ for all $x$. Then by (1) the maximum norm would satisfy the parallelogram law. Take $x = e_1$ and $y = e_2$ (possible since $m \\ge 2$). Then $x + y$ has coordinates $1, 1, 0, \\dots, 0$ and $x - y$ has coordinates $1, -1, 0, \\dots, 0$, so\n\\[ \\norm{x + y}_{\\max}^2 + \\norm{x - y}_{\\max}^2 = 1 + 1 = 2, \\qquad 2\\norm{x}_{\\max}^2 + 2\\norm{y}_{\\max}^2 = 2 + 2 = 4. \\]\nSince $2 \\ne 4$, the law fails, and no such inner product exists.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Expand both squared lengths with bilinearity; the cross terms cancel.",
+    "For (2), any norm that comes from an inner product must satisfy the identity in (1). Test it on two standard basis vectors."
+   ],
+   "uses": [
+    "c1-def-inner-product",
+    "c1-ex-other-norms"
+   ]
+  },
+  {
+   "id": "c1-rem-angle",
+   "kind": "remark",
+   "tex": "For nonzero $x, y \\in \\R^m$ the Cauchy–Schwarz inequality says that $\\inner{x}{y}/(\\abs{x}\\abs{y})$ lies in $[-1, 1]$. This is what allows the \\emph{angle} between $x$ and $y$ to be defined as the number whose cosine is that ratio; vectors with $\\inner{x}{y} = 0$ are \\emph{orthogonal}."
+  },
+  {
+   "id": "c1-def-balls-boxes",
+   "kind": "definition",
+   "number": "",
+   "title": "Balls, spheres, boxes",
+   "tex": "In $\\R^m$ with the Euclidean length:\n\\begin{itemize}\n\\item the (open) \\emph{ball} of radius $r > 0$ about $p$ is $\\set{x \\in \\R^m : \\abs{x - p} < r}$, and the \\emph{closed ball} is $\\set{x \\in \\R^m : \\abs{x - p} \\le r}$;\n\\item the \\emph{unit ball} is $B^m = \\set{x \\in \\R^m : \\abs{x} \\le 1}$ and the \\emph{unit sphere} is $S^{m-1} = \\set{x \\in \\R^m : \\abs{x} = 1}$;\n\\item a \\emph{box} is a product of closed intervals $[a_1, b_1] \\times \\dots \\times [a_m, b_m] = \\set{x \\in \\R^m : a_i \\le x_i \\le b_i \\text{ for } i = 1, \\dots, m}$; the \\emph{unit cube} is $[0, 1]^m$.\n\\end{itemize}"
+  },
+  {
+   "id": "c1-def-convex",
+   "kind": "definition",
+   "number": "",
+   "title": "Convex set",
+   "tex": "Let $V$ be a vector space over $\\R$. For $x, y \\in V$, the points $(1 - t)x + ty$ with $0 \\le t \\le 1$ form the \\emph{segment} from $x$ to $y$; such a point is a \\emph{convex combination} of $x$ and $y$. A set $E \\subset V$ is \\emph{convex} if it contains the segment between any two of its points: whenever $x, y \\in E$ and $0 \\le t \\le 1$, also $(1 - t)x + ty \\in E$."
+  },
+  {
+   "id": "c1-prop-ball-convex",
+   "kind": "proposition",
+   "number": "",
+   "title": "Balls are convex",
+   "tex": "Let $\\norm{\\cdot}$ be a norm on a vector space $V$, let $p \\in V$ and $r > 0$. Then the open ball $\\set{x \\in V : \\norm{x - p} < r}$ and the closed ball $\\set{x \\in V : \\norm{x - p} \\le r}$ are convex. In particular the unit ball $B^m \\subset \\R^m$ is convex.",
+   "proof": "Let $x, y \\in V$ and $0 \\le t \\le 1$, and put $z = (1 - t)x + ty$. Since $p = (1 - t)p + tp$,\n\\[ z - p = (1 - t)(x - p) + t(y - p), \\]\nso by the triangle inequality and homogeneity of the norm (note $1 - t \\ge 0$ and $t \\ge 0$),\n\\[ \\norm{z - p} \\le (1 - t)\\norm{x - p} + t\\norm{y - p}. \\]\n\\emph{Closed ball.} If $\\norm{x - p} \\le r$ and $\\norm{y - p} \\le r$, the right-hand side is at most $(1 - t)r + tr = r$, so $z$ is in the closed ball.\n\n\\emph{Open ball.} Suppose $\\norm{x - p} < r$ and $\\norm{y - p} < r$. Then $(1 - t)\\norm{x - p} \\le (1 - t)r$ and $t\\norm{y - p} \\le tr$. The numbers $1 - t$ and $t$ are not both zero; if $1 - t > 0$ the first inequality is strict, and if $t > 0$ the second is. Adding, $\\norm{z - p} < (1 - t)r + tr = r$, so $z$ is in the open ball.\n\nThe unit ball is the closed ball of radius $1$ about $0$ for the Euclidean length, which is a norm.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Take two points of the ball and a point $z = (1 - t)x + ty$ between them; you must estimate $\\norm{z - p}$.",
+    "Write $p = (1 - t)p + tp$ so that $z - p = (1 - t)(x - p) + t(y - p)$, then use the triangle inequality and homogeneity."
+   ],
+   "uses": [
+    "c1-def-norm",
+    "c1-def-convex",
+    "c1-prop-inner-product-norm",
+    "c1-def-balls-boxes"
+   ]
+  },
+  {
+   "id": "c1-ex-convex-facts",
+   "kind": "exercise",
+   "number": "",
+   "title": "Convex and not convex",
+   "tex": "\\begin{enumerate}\n\\item Prove that the intersection of any nonempty class of convex subsets of a vector space $V$ is convex.\n\\item Prove that every box $[a_1, b_1] \\times \\dots \\times [a_m, b_m]$ in $\\R^m$ is convex.\n\\item Prove that the unit sphere $S^{m-1} \\subset \\R^m$ is not convex.\n\\end{enumerate}",
+   "proof": "(1) Let $\\mathcal{C}$ be a nonempty class of convex sets and $E = \\bigcap \\mathcal{C}$. Let $x, y \\in E$ and $0 \\le t \\le 1$. For each $C \\in \\mathcal{C}$ we have $x, y \\in C$, so $(1 - t)x + ty \\in C$ by convexity of $C$. As this holds for every member of $\\mathcal{C}$, $(1 - t)x + ty \\in E$.\n\n(2) Let $x, y$ be in the box and $0 \\le t \\le 1$. For each $i$ we have $a_i \\le x_i \\le b_i$ and $a_i \\le y_i \\le b_i$. Multiplying by $1 - t \\ge 0$ and $t \\ge 0$ respectively and adding,\n\\[ a_i = (1 - t)a_i + ta_i \\le (1 - t)x_i + ty_i \\le (1 - t)b_i + tb_i = b_i. \\]\nThe middle term is the $i$th coordinate of $(1 - t)x + ty$, so that point is in the box.\n\n(3) The points $e_1$ and $-e_1$ have Euclidean length $1$, so they lie in $S^{m-1}$. With $t = 1/2$ the convex combination is $\\tfrac12 e_1 + \\tfrac12(-e_1) = 0$, whose length is $0 \\ne 1$. So the segment from $e_1$ to $-e_1$ is not contained in $S^{m-1}$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "For (1) and (2), take two points of the set and a convex combination, and check the defining condition of the set.",
+    "For (3), find two points of the sphere whose midpoint is not on the sphere."
+   ],
+   "uses": [
+    "c1-def-convex",
+    "c1-def-balls-boxes"
+   ]
+  }
+ ],
+ "cards": [
+  {
+   "id": "c1-card-dot-product",
+   "item": "c1-prop-dot-properties",
+   "front": "Define the dot product on $\\R^m$ and name its three key properties.",
+   "back": "$\\inner{x}{y} = \\sum_i x_i y_i$. It is bilinear, symmetric, and positive definite ($\\inner{x}{x} \\ge 0$ with equality only for $x = 0$)."
+  },
+  {
+   "id": "c1-card-cauchy-schwarz",
+   "item": "c1-thm-cauchy-schwarz",
+   "front": "State the Cauchy–Schwarz inequality.",
+   "back": "In an inner product space, $\\abs{\\inner{x}{y}} \\le \\abs{x}\\abs{y}$, where $\\abs{x} = \\sqrt{\\inner{x}{x}}$."
+  },
+  {
+   "id": "c1-card-cauchy-schwarz-idea",
+   "item": "c1-thm-cauchy-schwarz",
+   "front": "What is the idea of the proof of Cauchy–Schwarz?",
+   "back": "$\\inner{x + ty}{x + ty} \\ge 0$ for all real $t$; expand it as a quadratic in $t$ and take $t = -\\inner{x}{y}/\\inner{y}{y}$ (for $y \\ne 0$)."
+  },
+  {
+   "id": "c1-card-vector-triangle",
+   "item": "c1-thm-vector-triangle",
+   "front": "How does the triangle inequality $\\abs{x + y} \\le \\abs{x} + \\abs{y}$ follow from Cauchy–Schwarz?",
+   "back": "$\\abs{x + y}^2 = \\abs{x}^2 + 2\\inner{x}{y} + \\abs{y}^2 \\le (\\abs{x} + \\abs{y})^2$, then compare nonnegative numbers through their squares."
+  },
+  {
+   "id": "c1-card-norm",
+   "item": "c1-def-norm",
+   "front": "Define a norm on a real vector space.",
+   "back": "A function $\\norm{\\cdot} \\colon V \\to \\R$ with $\\norm{x} \\ge 0$ and $\\norm{x} = 0$ only for $x = 0$; $\\norm{cx} = \\abs{c}\\norm{x}$; $\\norm{x + y} \\le \\norm{x} + \\norm{y}$."
+  },
+  {
+   "id": "c1-card-norm-not-inner",
+   "item": "c1-ex-parallelogram",
+   "front": "Give a norm on $\\R^2$ that does not come from an inner product, and the reason.",
+   "back": "The maximum norm: it violates the parallelogram law $\\abs{x + y}^2 + \\abs{x - y}^2 = 2\\abs{x}^2 + 2\\abs{y}^2$ for $x = e_1$, $y = e_2$."
+  },
+  {
+   "id": "c1-card-convex",
+   "item": "c1-prop-ball-convex",
+   "front": "Define a convex set. Is the unit ball convex? The unit sphere?",
+   "back": "$E$ is convex if $(1 - t)x + ty \\in E$ whenever $x, y \\in E$ and $0 \\le t \\le 1$. Balls of any norm are convex; the sphere is not (the midpoint of $e_1$ and $-e_1$ is $0$)."
+  }
+ ]
+}

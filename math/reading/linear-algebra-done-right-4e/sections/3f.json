@@ -1,0 +1,718 @@
+{
+ "version": 1,
+ "id": "3f",
+ "blocks": [
+  {
+   "id": "c3-intro-duality",
+   "kind": "prose",
+   "number": "",
+   "title": "Scalar-valued observations of vectors",
+   "tex": "A linear functional assigns a scalar to each vector while respecting vector arithmetic. Collecting these functionals into a vector space gives another way to study a linear map, with the direction of the map reversed.",
+   "page": "105"
+  },
+  {
+   "id": "c3-def-linear-functional",
+   "kind": "definition",
+   "number": "3.108",
+   "title": "Linear functionals",
+   "tex": "A \\emph{linear functional} on a vector space $V$ over $\\F$ is a linear map from $V$ to $\\F$. Thus it is an element of $\\Lin(V,\\F)$.",
+   "page": "105"
+  },
+  {
+   "id": "c3-ex-functional-three-coordinates",
+   "kind": "example",
+   "number": "3.109",
+   "title": "A scalar output from three coordinates",
+   "tex": "The function $\\varphi:\\R^3\\to\\R$ given by\n\\[\n\\varphi(x,y,z)=4x-5y+2z\n\\]\nis a linear functional.",
+   "page": "105",
+   "proof": "For $u=(x,y,z)$ and $v=(a,b,c)$, distributivity gives\n\\[\n\\varphi(u+v)\n=4(x+a)-5(y+b)+2(z+c)\n=(4x-5y+2z)+(4a-5b+2c)\n=\\varphi(u)+\\varphi(v).\n\\]\nFor $r\\in\\R$, factoring $r$ from the three terms gives\n$\\varphi(ru)=r(4x-5y+2z)=r\\varphi(u)$.\nThe output is real, so these identities establish that $\\varphi$ is a linear functional on $\\R^3$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Expand the output on a sum and on a scalar multiple."
+   ],
+   "uses": [
+    "c3-def-linear-functional",
+    "c3-def-linear-map",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-functional-coordinate-combination",
+   "kind": "example",
+   "number": "3.109",
+   "title": "Coordinate linear functionals",
+   "tex": "For fixed $c_1,\\ldots,c_n\\in\\F$, the function\n\\[\n\\varphi:\\F^n\\to\\F,\\qquad\n\\varphi(x)=\\sum_{k=1}^{n}c_kx_k\n\\]\nis a linear functional. This includes $n=0$, when the formula defines the zero functional on the zero coordinate space.",
+   "page": "105",
+   "proof": "The finite sum is a scalar. For $x,y\\in\\F^n$ and $a\\in\\F$,\n\\[\n\\varphi(x+y)=\\sum_kc_k(x_k+y_k)\n=\\sum_kc_kx_k+\\sum_kc_ky_k\n=\\varphi(x)+\\varphi(y),\n\\]\nand\n\\[\n\\varphi(ax)=\\sum_kc_k(ax_k)\n=a\\sum_kc_kx_k=a\\varphi(x).\n\\]\nThus the function is linear. When $n=0$, all sums in these equalities are zero, so the same calculation verifies the asserted zero functional.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Distribute inside each finite sum."
+   ],
+   "uses": [
+    "c3-def-linear-functional",
+    "c3-def-linear-map",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c1-thm-complex-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-functional-polynomial-values",
+   "kind": "example",
+   "number": "3.109",
+   "title": "A functional using values and derivatives",
+   "tex": "The function $\\varphi:\\Poly(\\R)\\to\\R$ defined by\n\\[\n\\varphi(p)=3p''(5)+7p(4),\n\\]\nwhere $p''=(p')'$, is a linear functional.",
+   "page": "105",
+   "proof": "Polynomial differentiation is linear. Applying that fact twice gives\n\\[\n(p+q)''=p''+q'',\\qquad (ap)''=ap''\n\\]\nfor polynomials $p,q$ and real $a$. Evaluation of a pointwise sum or scalar multiple gives the corresponding sum or scalar multiple of its values. Therefore\n\\[\n\\begin{aligned}\n\\varphi(p+q)\n&=3\\bigl(p''(5)+q''(5)\\bigr)+7\\bigl(p(4)+q(4)\\bigr)\\\\\n&=\\varphi(p)+\\varphi(q),\n\\end{aligned}\n\\]\nand\n\\[\n\\varphi(ap)=3ap''(5)+7ap(4)=a\\varphi(p).\n\\]\nThe displayed values are real scalars, so this proves the claim.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use linearity of differentiation twice and the pointwise rules for functions."
+   ],
+   "uses": [
+    "c3-def-linear-functional",
+    "c3-def-linear-map",
+    "c3-ex-polynomial-differentiation",
+    "c1-def-function-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-functional-polynomial-integral",
+   "kind": "example",
+   "number": "3.109",
+   "title": "A polynomial integral functional",
+   "tex": "The function $J:\\Poly(\\R)\\to\\R$ defined by\n\\[\nJp=\\int_0^1p(x)\\,dx\n\\]\nis a linear functional, with the integral understood by its earlier coefficient definition.",
+   "page": "105",
+   "proof": "Write $p(x)=\\sum_j a_jx^j$ and $q(x)=\\sum_j b_jx^j$, adding trailing zero coefficients so that the finite sums have the same index range. The integral definition gives\n\\[\nJ(p+q)=\\sum_j\\frac{a_j+b_j}{j+1}\n=\\sum_j\\frac{a_j}{j+1}+\\sum_j\\frac{b_j}{j+1}\n=Jp+Jq.\n\\]\nFor $c\\in\\R$, it likewise gives\n$J(cp)=\\sum_j ca_j/(j+1)=cJp$.\nThus $J$ is linear with scalar outputs, which is precisely the functional condition.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the finite sum defining the integral of a polynomial."
+   ],
+   "uses": [
+    "c3-def-linear-functional",
+    "c3-def-polynomial-integral",
+    "c2-def-polynomial",
+    "c2-lem-polynomial-coefficients"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-dual-space",
+   "kind": "definition",
+   "number": "3.110",
+   "title": "Dual space",
+   "tex": "The \\emph{dual space} of $V$ is\n\\[\n\\dual{V}=\\Lin(V,\\F).\n\\]\nIts vectors are linear functionals. Addition and scalar multiplication are the pointwise operations already defined for linear maps, so the earlier vector-space theorem for $\\Lin(V,\\F)$ makes this a vector space, whether or not $V$ is finite-dimensional.",
+   "page": "105"
+  },
+  {
+   "id": "c3-thm-dual-dimension",
+   "kind": "theorem",
+   "number": "3.111",
+   "title": "A finite-dimensional space and its dual have equal dimensions",
+   "tex": "If $V$ is finite-dimensional, then $\\dual{V}$ is finite-dimensional and\n\\[\n\\dim\\dual{V}=\\dim V.\n\\]",
+   "page": "105",
+   "proof": "The scalar space $\\F$ has the one-element basis consisting of $1$: every scalar $a$ equals $a\\cdot1$, and $a\\cdot1=0$ forces $a=0$. Hence $\\dim\\F=1$. Applying the dimension theorem for spaces of linear maps to the finite-dimensional spaces $V$ and $\\F$ gives\n\\[\n\\dim\\dual{V}\n=\\dim\\Lin(V,\\F)\n=(\\dim V)(\\dim\\F)\n=\\dim V.\n\\]\nThat theorem also supplies finite-dimensionality of the space of maps. The calculation includes $V=\\{0\\}$, in which case both dimensions are zero.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Regard the dual as a space of linear maps with a one-dimensional target."
+   ],
+   "uses": [
+    "c3-def-dual-space",
+    "c3-thm-linear-map-dimension",
+    "c2-def-basis",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-dual-basis",
+   "kind": "definition",
+   "number": "3.112",
+   "title": "Dual basis",
+   "tex": "Let $v_1,\\ldots,v_n$ be a basis of $V$. For each $j$, let $\\varphi_j\\in\\dual{V}$ be the unique linear functional with\n\\[\n\\varphi_j(v_k)=\n\\begin{cases}\n1,&k=j,\\\\\n0,&k\\ne j.\n\\end{cases}\n\\]\nExistence and uniqueness follow from the theorem on prescribing a linear map on a basis. The list $\\varphi_1,\\ldots,\\varphi_n$ is called the \\emph{dual basis} of the chosen basis; when $n=0$, it is the empty list.",
+   "page": "106"
+  },
+  {
+   "id": "c3-ex-standard-dual-basis",
+   "kind": "example",
+   "number": "3.113",
+   "title": "The dual of the standard coordinate basis",
+   "tex": "For the standard basis $e_1,\\ldots,e_n$ of $\\F^n$, its dual basis consists of the coordinate selectors\n\\[\n\\varphi_j(x_1,\\ldots,x_n)=x_j\n\\qquad(1\\le j\\le n).\n\\]\nFor $n=0$, both lists are empty.",
+   "page": "106",
+   "proof": "Each coordinate selector is linear: it is the coordinate functional with coefficient $1$ in position $j$ and zero coefficients elsewhere. Its value at $e_k$ is $1$ when $k=j$ and $0$ otherwise. These are exactly the prescribed values in the definition of the dual basis. Uniqueness of a functional with specified basis values identifies it with $\\varphi_j$.\n\nWhen $n=0$, there are no selectors or basis vectors to specify, and the definition gives the empty dual list.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Evaluate the $j$th coordinate selector on every standard basis vector."
+   ],
+   "uses": [
+    "c3-def-dual-basis",
+    "c3-ex-functional-coordinate-combination",
+    "c3-thm-linear-map-basis",
+    "c2-ex-standard-basis"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-dual-coordinates",
+   "kind": "theorem",
+   "number": "3.114",
+   "title": "Dual functionals recover basis coefficients",
+   "tex": "If $v_1,\\ldots,v_n$ is a basis of $V$ and $\\varphi_1,\\ldots,\\varphi_n$ is its dual basis, then every $v\\in V$ satisfies\n\\[\nv=\\sum_{j=1}^{n}\\varphi_j(v)v_j.\n\\]",
+   "page": "106",
+   "proof": "Expand $v$ in the chosen basis as $v=\\sum_{k=1}^{n}a_kv_k$. Applying $\\varphi_j$ and using its linearity gives\n\\[\n\\varphi_j(v)=\\sum_{k=1}^{n}a_k\\varphi_j(v_k)=a_j,\n\\]\nbecause its prescribed value is zero at every basis vector except $v_j$, where it is one. Substituting these values for all coefficients proves the formula.\n\nIf $n=0$, the basis condition implies $V=\\{0\\}$. The only vector $v$ is zero, and the asserted empty sum also equals zero.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply one dual functional to a basis expansion of the vector."
+   ],
+   "uses": [
+    "c3-def-dual-basis",
+    "c3-def-linear-functional",
+    "c2-thm-basis-coordinates",
+    "c3-def-linear-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-dual-basis",
+   "kind": "theorem",
+   "number": "3.116",
+   "title": "The dual basis spans the dual space independently",
+   "tex": "If $v_1,\\ldots,v_n$ is a basis of a finite-dimensional space $V$, then its dual basis $\\varphi_1,\\ldots,\\varphi_n$ is a basis of $\\dual{V}$.",
+   "page": "107",
+   "proof": "Suppose $\\sum_{j=1}^{n}a_j\\varphi_j=0$, where zero denotes the zero functional. Evaluating this identity at $v_k$ gives\n\\[\n0=\\sum_{j=1}^{n}a_j\\varphi_j(v_k)=a_k.\n\\]\nThus all coefficients vanish, proving independence.\n\nTo show spanning, let $\\psi\\in\\dual{V}$. For every $v\\in V$, the dual-coordinate formula and linearity of $\\psi$ give\n\\[\n\\psi(v)=\\psi\\left(\\sum_{j=1}^{n}\\varphi_j(v)v_j\\right)\n=\\sum_{j=1}^{n}\\varphi_j(v)\\psi(v_j)\n=\\left(\\sum_{j=1}^{n}\\psi(v_j)\\varphi_j\\right)(v).\n\\]\nThe two functionals agree at every input, so\n$\\psi=\\sum_j\\psi(v_j)\\varphi_j$.\nHence the dual list spans $\\dual{V}$ and is a basis.\n\nFor $n=0$, the domain is the zero space. Every linear functional sends its only vector to zero, so the dual space consists only of the zero functional. The empty list is then independent and spans this dual space, in agreement with the proof.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "For independence, evaluate a zero relation on each original basis vector.",
+    "For spanning, apply an arbitrary functional to the dual-coordinate expansion of an arbitrary vector."
+   ],
+   "uses": [
+    "c3-def-dual-space",
+    "c3-def-dual-basis",
+    "c3-thm-dual-coordinates",
+    "c3-def-map-operations",
+    "c3-def-linear-map",
+    "c3-thm-linear-zero",
+    "c2-def-basis",
+    "c2-def-linear-independence"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-dual-map",
+   "kind": "definition",
+   "number": "3.118",
+   "title": "Dual map",
+   "tex": "For $T\\in\\Lin(V,W)$, prescribe the \\emph{dual map}\n\\[\nT':\\dual{W}\\to\\dual{V},\n\\qquad\nT'(\\psi)=\\psi\\circ T.\n\\]\nThus $(T'\\psi)(v)=\\psi(Tv)$. The following result verifies that this prescription takes values in $\\dual{V}$ and is linear.",
+   "page": "107"
+  },
+  {
+   "id": "c3-thm-dual-map-linear",
+   "kind": "theorem",
+   "number": "",
+   "title": "The dual map is well-defined and linear",
+   "tex": "For every $T\\in\\Lin(V,W)$, the prescribed dual map belongs to $\\Lin(\\dual{W},\\dual{V})$. No finite-dimensionality assumption is needed.",
+   "page": "107",
+   "proof": "For $\\psi\\in\\dual{W}$, both $T:V\\to W$ and $\\psi:W\\to\\F$ are linear. Their composition is therefore a linear map $V\\to\\F$, so $T'\\psi\\in\\dual{V}$. This proves that the prescription has the stated domain and target.\n\nFor $\\psi,\\theta\\in\\dual{W}$ and $v\\in V$,\n\\[\n(T'(\\psi+\\theta))(v)\n=(\\psi+\\theta)(Tv)\n=\\psi(Tv)+\\theta(Tv)\n=(T'\\psi+T'\\theta)(v).\n\\]\nFor $a\\in\\F$,\n\\[\n(T'(a\\psi))(v)=(a\\psi)(Tv)\n=a\\psi(Tv)=(aT'\\psi)(v).\n\\]\nAgreement at every $v$ proves the additivity and homogeneity identities for $T'$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "First check that composing the two maps gives a scalar-valued linear map.",
+    "Then evaluate the proposed linearity identities at an arbitrary vector of $V$."
+   ],
+   "uses": [
+    "c3-def-dual-map",
+    "c3-def-dual-space",
+    "c3-def-linear-functional",
+    "c3-lem-composition-linear",
+    "c3-def-map-operations",
+    "c3-def-linear-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-dual-differentiation-evaluation",
+   "kind": "example",
+   "number": "3.119",
+   "title": "Dual differentiation applied to evaluation",
+   "tex": "Let $D:\\Poly(\\R)\\to\\Poly(\\R)$ be differentiation, and let $E_3(p)=p(3)$. Prove that $E_3$ is a linear functional and that\n\\[\n(D'E_3)(p)=p'(3)\n\\]\nfor every polynomial $p$.",
+   "page": "108",
+   "proof": "Pointwise function operations give\n$E_3(p+q)=p(3)+q(3)=E_3p+E_3q$ and\n$E_3(ap)=ap(3)=aE_3p$.\nThus $E_3$ is a linear functional. The definition of the dual map now gives\n\\[\n(D'E_3)(p)=E_3(Dp)=E_3(p')=p'(3).\n\\]\nThe prime in $D'$ denotes the dual map; the prime in $p'$ denotes the derivative.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply differentiation first and evaluation second."
+   ],
+   "uses": [
+    "c3-def-dual-map",
+    "c3-def-linear-functional",
+    "c3-ex-polynomial-differentiation",
+    "c1-def-function-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-dual-differentiation-integral",
+   "kind": "example",
+   "number": "3.119",
+   "title": "Dual differentiation applied to integration",
+   "tex": "Let $D$ be differentiation on $\\Poly(\\R)$ and let $Jp=\\int_0^1p(x)\\,dx$. Prove directly from polynomial coefficients that\n\\[\n(D'J)(p)=p(1)-p(0)\n\\]\nfor every $p\\in\\Poly(\\R)$.",
+   "page": "108",
+   "proof": "The integral map $J$ is a linear functional by the earlier example. If\n$p(x)=\\sum_{j=0}^{m}a_jx^j$, then\n$p'(x)=\\sum_{j=1}^{m}ja_jx^{j-1}$.\nThe definition of the dual map and the coefficient definition of the integral therefore give\n\\[\n(D'J)(p)=J(p')\n=\\sum_{j=1}^{m}\\frac{ja_j}{j}\n=\\sum_{j=1}^{m}a_j.\n\\]\nMeanwhile $p(1)=\\sum_{j=0}^{m}a_j$ and $p(0)=a_0$, so their difference is the same sum. For a constant polynomial, both sums over $j=1,\\ldots,m$ are empty and the difference is zero, so the identity also holds in that case.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Compute $J(p')$ from the coefficient formula for $p$.",
+    "Compare the resulting coefficient sum with $p(1)-p(0)$."
+   ],
+   "uses": [
+    "c3-def-dual-map",
+    "c3-ex-functional-polynomial-integral",
+    "c3-def-polynomial-integral",
+    "c3-ex-polynomial-differentiation",
+    "c2-thm-polynomial-differentiation",
+    "c2-def-polynomial"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-dual-map-laws",
+   "kind": "theorem",
+   "number": "3.120",
+   "title": "Addition, scaling, and reversed composition for dual maps",
+   "tex": "Dual maps satisfy the following identities:\n\\[\n(S+T)'=S'+T',\\qquad (aT)'=aT'\n\\]\nfor $S,T\\in\\Lin(V,W)$ and $a\\in\\F$, and\n\\[\n(RT)'=T'R'\n\\]\nfor $T\\in\\Lin(V,W)$ and $R\\in\\Lin(W,U)$. Consequently $T\\mapsto T'$ is a linear map from $\\Lin(V,W)$ to $\\Lin(\\dual{W},\\dual{V})$.",
+   "page": "108",
+   "proof": "Let $\\psi\\in\\dual{W}$ and $v\\in V$. Linearity of $\\psi$ gives\n\\[\n\\begin{aligned}\n((S+T)'\\psi)(v)\n&=\\psi(Sv+Tv)\\\\\n&=\\psi(Sv)+\\psi(Tv)\n=((S'+T')\\psi)(v).\n\\end{aligned}\n\\]\nFor a scalar $a$, it also gives\n\\[\n((aT)'\\psi)(v)=\\psi(aTv)\n=a\\psi(Tv)=((aT')\\psi)(v).\n\\]\nThus, for every input functional, the resulting functionals agree at every vector. This proves the first two identities.\n\nFor $\\eta\\in\\dual{U}$ and $v\\in V$,\n\\[\n((RT)'\\eta)(v)=\\eta(R(Tv))\n=(R'\\eta)(Tv)\n=(T'(R'\\eta))(v)\n=((T'R')\\eta)(v).\n\\]\nThis establishes the composition identity, with the reversed order and matching domain $\\dual{U}$ and target $\\dual{V}$.\n\nEvery $T'$ is in the asserted target map space by the linearity theorem for dual maps. The first two identities are exactly the additivity and homogeneity conditions for the assignment $T\\mapsto T'$, proving the last assertion.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Evaluate each map identity first on a functional and then on a vector.",
+    "For composition, follow the input vector through $T$, then $R$, then the functional."
+   ],
+   "uses": [
+    "c3-def-dual-map",
+    "c3-thm-dual-map-linear",
+    "c3-def-dual-space",
+    "c3-def-map-operations",
+    "c3-def-map-composition",
+    "c3-def-linear-map",
+    "c3-thm-linear-map-space"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-intro-annihilators",
+   "kind": "prose",
+   "number": "",
+   "title": "Functionals that vanish on a chosen set",
+   "tex": "To describe the kernel and range of a dual map, we need to collect functionals that vanish on specified vectors. The ambient space matters because it determines which functionals are available.",
+   "page": "109"
+  },
+  {
+   "id": "c3-def-annihilator",
+   "kind": "definition",
+   "number": "3.121",
+   "title": "Annihilator",
+   "tex": "For any subset $U\\subseteq V$, its \\emph{annihilator} in $\\dual{V}$ is\n\\[\nU^0=\\{\\varphi\\in\\dual{V}:\\varphi(u)=0\\text{ for every }u\\in U\\}.\n\\]\nThe subset $U$ need not be a subspace. The notation always refers to functionals on the stated ambient space $V$.",
+   "page": "109"
+  },
+  {
+   "id": "c3-ex-annihilator-polynomial-multiples",
+   "kind": "example",
+   "number": "3.122",
+   "title": "A functional vanishing on polynomial multiples",
+   "tex": "Let\n\\[\nU=\\{x^2q(x):q\\in\\Poly(\\R)\\}\\subseteq\\Poly(\\R).\n\\]\nProve that $U$ is a subspace and that the functional $\\varphi(p)=p'(0)$ belongs to $U^0$.",
+   "page": "109",
+   "proof": "Multiplication by $x^2$ is a linear map on polynomial space, and its range is exactly $U$. The range-subspace theorem makes $U$ a subspace.\n\nFor polynomials $p,r$ and real $a$, linearity of differentiation gives\n\\[\n\\varphi(p+r)=(p'+r')(0)=\\varphi(p)+\\varphi(r),\n\\qquad\n\\varphi(ap)=(ap')(0)=a\\varphi(p).\n\\]\nThus $\\varphi$ is a linear functional.\n\nIf $u=x^2q$ and $q(x)=\\sum_{j=0}^{m}a_jx^j$, then\n\\[\nu'(x)=\\sum_{j=0}^{m}(j+2)a_jx^{j+1}.\n\\]\nEvery exponent in this sum is positive, so evaluation at zero gives $u'(0)=0$. Hence $\\varphi$ vanishes on every element of $U$, proving $\\varphi\\in U^0$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "View $U$ as the range of multiplication by $x^2$.",
+    "Check the lowest exponent that can occur in the derivative of $x^2q$."
+   ],
+   "uses": [
+    "c3-def-annihilator",
+    "c3-def-linear-functional",
+    "c3-ex-polynomial-multiplication",
+    "c3-thm-range-subspace",
+    "c3-ex-polynomial-differentiation",
+    "c2-thm-polynomial-differentiation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-annihilator-coordinate-plane",
+   "kind": "example",
+   "number": "3.123",
+   "title": "The annihilator of a coordinate plane",
+   "tex": "Let $e_1,\\ldots,e_5$ be the standard basis of $\\R^5$, and let $\\varphi_1,\\ldots,\\varphi_5$ be its dual basis. For $U=\\Span(e_1,e_2)$, prove\n\\[\nU^0=\\Span(\\varphi_3,\\varphi_4,\\varphi_5).\n\\]",
+   "page": "109",
+   "proof": "The dual functionals are coordinate selectors. If\n$\\psi=a_3\\varphi_3+a_4\\varphi_4+a_5\\varphi_5$ and $u=be_1+ce_2\\in U$, each of $\\varphi_3,\\varphi_4,\\varphi_5$ vanishes at $u$. Hence $\\psi(u)=0$. This proves\n$\\Span(\\varphi_3,\\varphi_4,\\varphi_5)\\subseteq U^0$.\n\nConversely, let $\\psi\\in U^0$. Because the dual list is a basis of $(\\R^5)'$, write\n$\\psi=\\sum_{j=1}^{5}a_j\\varphi_j$.\nBoth $e_1$ and $e_2$ belong to $U$, so\n\\[\n0=\\psi(e_1)=a_1,\\qquad 0=\\psi(e_2)=a_2.\n\\]\nThus $\\psi=a_3\\varphi_3+a_4\\varphi_4+a_5\\varphi_5$, proving the other inclusion.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Expand an arbitrary functional in the dual basis.",
+    "Its values at $e_1$ and $e_2$ determine which two coefficients must vanish."
+   ],
+   "uses": [
+    "c3-def-annihilator",
+    "c3-ex-standard-dual-basis",
+    "c3-thm-dual-basis",
+    "c3-def-dual-basis",
+    "c2-def-span"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-annihilator-subspace",
+   "kind": "theorem",
+   "number": "3.124",
+   "title": "An annihilator is a subspace",
+   "tex": "For every subset $U\\subseteq V$, the annihilator $U^0$ is a subspace of $\\dual{V}$. If $U=\\varnothing$, then $U^0=\\dual{V}$.",
+   "page": "110",
+   "proof": "The zero functional vanishes at every vector, so it belongs to $U^0$. If $\\varphi,\\psi\\in U^0$ and $u\\in U$, then\n\\[\n(\\varphi+\\psi)(u)=\\varphi(u)+\\psi(u)=0+0=0.\n\\]\nThus $\\varphi+\\psi\\in U^0$. For $a\\in\\F$ and $\\varphi\\in U^0$, one has\n$(a\\varphi)(u)=a\\varphi(u)=a0=0$ for every $u\\in U$, so $a\\varphi\\in U^0$. The subspace test in $\\dual{V}$ proves the assertion.\n\nWhen $U$ is empty, every linear functional satisfies the requirement of vanishing at every member of $U$, because there is no member at which it could fail. Thus the annihilator is the whole dual space in that case.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the pointwise operations on functionals and the subspace test."
+   ],
+   "uses": [
+    "c3-def-annihilator",
+    "c3-def-dual-space",
+    "c3-def-map-operations",
+    "c3-thm-linear-map-space",
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-annihilator-dimension",
+   "kind": "theorem",
+   "number": "3.125",
+   "title": "A basis and dimension formula for an annihilator",
+   "tex": "Let $V$ be finite-dimensional and let $U$ be a subspace. Choose a basis $u_1,\\ldots,u_m$ of $U$ and extend it to a basis $u_1,\\ldots,u_n$ of $V$. If $\\varphi_1,\\ldots,\\varphi_n$ is the corresponding dual basis, then\n\\[\n\\varphi_{m+1},\\ldots,\\varphi_n\n\\]\nis a basis of $U^0$. Consequently\n\\[\n\\dim U^0=\\dim V-\\dim U.\n\\]",
+   "page": "110",
+   "proof": "The required choices exist: a subspace of a finite-dimensional space is finite-dimensional, has a basis, and that basis extends to one of $V$.\n\nFor $j>m$, the functional $\\varphi_j$ vanishes at every $u_k$ with $k\\le m$. By linearity it vanishes on their span $U$. Thus each listed tail functional belongs to $U^0$.\n\nFor an arbitrary $\\psi\\in U^0$, expand in the full dual basis:\n\\[\n\\psi=\\sum_{j=1}^{n}a_j\\varphi_j.\n\\]\nFor each $k\\le m$, evaluation at $u_k\\in U$ gives $0=\\psi(u_k)=a_k$. Hence\n$\\psi=\\sum_{j=m+1}^{n}a_j\\varphi_j$.\nThis proves that the tail list spans $U^0$.\n\nA zero relation on the tail list becomes a zero relation on the full dual basis by inserting zero coefficients in the first $m$ positions. Independence of that full basis makes every tail coefficient zero. Thus the tail list is independent and is a basis of $U^0$.\n\nIts length is $n-m$, whereas the chosen bases give $\\dim V=n$ and $\\dim U=m$. This proves the formula. If $m=0$, the tail is the whole dual basis. If $m=n$, it is empty and its span is $\\{0\\}$. The proof also covers $n=0$.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Adapt a basis of $V$ so that its first vectors form a basis of $U$.",
+    "An annihilating functional must have zero dual-basis coefficients in those first positions."
+   ],
+   "uses": [
+    "c3-def-annihilator",
+    "c3-thm-annihilator-subspace",
+    "c3-def-dual-basis",
+    "c3-thm-dual-basis",
+    "c2-thm-subspaces-finite",
+    "c2-thm-basis-existence",
+    "c2-thm-extend-independent",
+    "c2-def-basis",
+    "c2-def-dimension",
+    "c2-def-linear-independence"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-annihilator-extremes",
+   "kind": "theorem",
+   "number": "3.127",
+   "title": "When an annihilator is zero or the whole dual",
+   "tex": "For a subspace $U$ of a finite-dimensional vector space $V$,\n\\[\nU^0=\\{0\\}\\quad\\Longleftrightarrow\\quad U=V,\n\\]\nand\n\\[\nU^0=\\dual{V}\\quad\\Longleftrightarrow\\quad U=\\{0\\}.\n\\]",
+   "page": "111",
+   "proof": "If $U^0=\\{0\\}$, its dimension is zero. The annihilator dimension formula gives $\\dim U=\\dim V$. Since $U$ is a subspace of the finite-dimensional space $V$, equality of dimensions implies $U=V$. Conversely, if $U=V$, a functional in $U^0$ vanishes on every vector of its domain and hence is the zero functional. The zero functional belongs to $U^0$, so $U^0=\\{0\\}$.\n\nIf $U^0=\\dual{V}$, equality of the dimensions of $V$ and its dual, together with the annihilator formula, gives\n\\[\n\\dim V=\\dim U^0=\\dim V-\\dim U.\n\\]\nThus $\\dim U=0$, which implies $U=\\{0\\}$. Conversely, if $U=\\{0\\}$, every linear functional on $V$ vanishes on $U$ because linear maps preserve zero. Therefore every element of $\\dual{V}$ belongs to $U^0$, proving $U^0=\\dual{V}$. These arguments also apply when $V$ is the zero space.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the annihilator dimension formula for the implications from small or large annihilators.",
+    "For the reverse implications, inspect directly what the functionals must vanish on."
+   ],
+   "uses": [
+    "c3-def-annihilator",
+    "c3-thm-annihilator-dimension",
+    "c3-thm-dual-dimension",
+    "c3-thm-linear-zero",
+    "c2-lem-zero-dimension",
+    "c2-thm-full-dimension-equality"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-dual-null",
+   "kind": "theorem",
+   "number": "3.128(a)",
+   "title": "The null space of the dual map",
+   "tex": "For arbitrary vector spaces $V,W$ and $T\\in\\Lin(V,W)$,\n\\[\n\\Null T'=(\\Range T)^0,\n\\]\nwhere the annihilator on the right is formed in $\\dual{W}$. This equality does not require finite-dimensionality.",
+   "page": "111",
+   "proof": "Take $\\psi\\in\\dual{W}$. The condition $\\psi\\in\\Null T'$ means that $T'\\psi$ is the zero functional on $V$. By the dual-map definition, this is equivalent to\n\\[\n\\psi(Tv)=0\\qquad\\text{for every }v\\in V.\n\\]\nThe vectors $Tv$, as $v$ varies, are exactly the members of $\\Range T$. Thus the displayed condition is equivalent to $\\psi$ vanishing on every member of $\\Range T$, which is the condition\n$\\psi\\in(\\Range T)^0$.\nThis equivalence proves equality of the two subsets of $\\dual{W}$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Unwind what it means for $T'\\psi$ to be the zero functional."
+   ],
+   "uses": [
+    "c3-def-dual-map",
+    "c3-thm-dual-map-linear",
+    "c3-def-null-space",
+    "c3-def-range",
+    "c3-def-annihilator"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-dual-null-dimension",
+   "kind": "theorem",
+   "number": "3.128(b)",
+   "title": "Dimension of the dual null space",
+   "tex": "If $V,W$ are finite-dimensional and $T\\in\\Lin(V,W)$, then\n\\[\n\\dim\\Null T'=\\dim\\Null T+\\dim W-\\dim V.\n\\]",
+   "page": "112",
+   "proof": "The range of $T$ is a subspace of $W$. The dual null-space identity and the annihilator dimension formula in the ambient space $W$ give\n\\[\n\\dim\\Null T'\n=\\dim(\\Range T)^0\n=\\dim W-\\dim\\Range T.\n\\]\nThe fundamental theorem of linear maps gives\n$\\dim\\Range T=\\dim V-\\dim\\Null T$.\nSubstituting and regrouping the integers proves\n\\[\n\\dim\\Null T'\n=\\dim W-(\\dim V-\\dim\\Null T)\n=\\dim\\Null T+\\dim W-\\dim V.\n\\]\nAll spaces whose dimensions occur are finite-dimensional under the hypotheses and the earlier dual-space and subspace theorems.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Apply the annihilator dimension formula in $W$, then use rank-nullity for $T$."
+   ],
+   "uses": [
+    "c3-thm-dual-null",
+    "c3-thm-annihilator-dimension",
+    "c3-thm-range-subspace",
+    "c3-thm-rank-nullity",
+    "c3-thm-dual-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-surjective-dual-injective",
+   "kind": "theorem",
+   "number": "3.129",
+   "title": "Surjectivity becomes injectivity under duality",
+   "tex": "Let $V,W$ be finite-dimensional and $T\\in\\Lin(V,W)$. Then\n\\[\nT\\text{ is surjective}\\quad\\Longleftrightarrow\\quad\nT'\\text{ is injective}.\n\\]",
+   "page": "112",
+   "proof": "By the definition of surjectivity, $T$ is surjective exactly when $\\Range T=W$. This range is a subspace of the finite-dimensional space $W$, so the annihilator criterion says that the equality is equivalent to\n$(\\Range T)^0=\\{0\\}$.\nThe dual null-space identity turns this into $\\Null T'=\\{0\\}$. Because $T'$ is linear, the null-space criterion for injectivity says that this last condition is equivalent to injectivity of $T'$. Every step is an equivalence, proving both implications.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Translate surjectivity into a statement about the annihilator of the range."
+   ],
+   "uses": [
+    "c3-def-surjective",
+    "c3-thm-range-subspace",
+    "c3-thm-annihilator-extremes",
+    "c3-thm-dual-null",
+    "c3-thm-dual-map-linear",
+    "c3-thm-injective-null"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-dual-range-dimension",
+   "kind": "theorem",
+   "number": "3.130(a)",
+   "title": "A map and its dual have ranges of equal dimension",
+   "tex": "If $V,W$ are finite-dimensional and $T\\in\\Lin(V,W)$, then\n\\[\n\\dim\\Range T'=\\dim\\Range T.\n\\]",
+   "page": "112",
+   "proof": "The domain of $T'$ is $\\dual{W}$, which is finite-dimensional. Rank-nullity applied to $T'$ gives\n\\[\n\\dim\\Range T'=\\dim\\dual{W}-\\dim\\Null T'.\n\\]\nThe dual dimension theorem replaces the first dimension on the right by $\\dim W$. The dual null-space identity and the annihilator dimension formula give\n$\\dim\\Null T'=\\dim W-\\dim\\Range T$.\nTherefore\n\\[\n\\dim\\Range T'\n=\\dim W-(\\dim W-\\dim\\Range T)\n=\\dim\\Range T.\n\\]\nThe same calculation permits any of these dimensions to be zero.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Apply rank-nullity to $T'$ and then compute its null-space dimension."
+   ],
+   "uses": [
+    "c3-thm-dual-map-linear",
+    "c3-thm-dual-dimension",
+    "c3-thm-rank-nullity",
+    "c3-thm-dual-null",
+    "c3-thm-annihilator-dimension",
+    "c3-thm-range-subspace"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-dual-range",
+   "kind": "theorem",
+   "number": "3.130(b)",
+   "title": "The range of the dual map",
+   "tex": "If $V,W$ are finite-dimensional and $T\\in\\Lin(V,W)$, then\n\\[\n\\Range T'=(\\Null T)^0,\n\\]\nwhere the annihilator is formed in $\\dual{V}$.",
+   "page": "113",
+   "proof": "Let $\\varphi\\in\\Range T'$. Choose $\\psi\\in\\dual{W}$ with\n$\\varphi=T'\\psi=\\psi\\circ T$.\nFor any $v\\in\\Null T$, one has\n\\[\n\\varphi(v)=\\psi(Tv)=\\psi(0_W)=0,\n\\]\nusing preservation of zero by the linear functional $\\psi$. Thus\n$\\varphi\\in(\\Null T)^0$, proving\n$\\Range T'\\subseteq(\\Null T)^0$.\n\nBoth sets are subspaces of $\\dual{V}$: one is the range of a linear map, and the other is an annihilator. They are finite-dimensional because $\\dual{V}$ is finite-dimensional. Their dimensions agree, since\n\\[\n\\begin{aligned}\n\\dim\\Range T'\n&=\\dim\\Range T\\\\\n&=\\dim V-\\dim\\Null T\\\\\n&=\\dim(\\Null T)^0.\n\\end{aligned}\n\\]\nThe first equality is the preceding dual-range dimension theorem, the second is rank-nullity for $T$, and the third is the annihilator formula for the subspace $\\Null T$ of $V$. A subspace of a finite-dimensional space with the same dimension as that space must equal it. Applying this to the established inclusion proves the desired equality.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "First show that every functional of the form $\\psi\\circ T$ vanishes on $\\Null T$.",
+    "After obtaining one inclusion, compare dimensions."
+   ],
+   "uses": [
+    "c3-def-range",
+    "c3-def-dual-map",
+    "c3-def-annihilator",
+    "c3-def-null-space",
+    "c3-thm-linear-zero",
+    "c3-thm-dual-range-dimension",
+    "c3-thm-rank-nullity",
+    "c3-thm-annihilator-dimension",
+    "c3-thm-null-subspace",
+    "c3-thm-range-subspace",
+    "c3-thm-annihilator-subspace",
+    "c3-thm-dual-dimension",
+    "c2-thm-subspaces-finite",
+    "c2-thm-full-dimension-equality"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-injective-dual-surjective",
+   "kind": "theorem",
+   "number": "3.131",
+   "title": "Injectivity becomes surjectivity under duality",
+   "tex": "Let $V,W$ be finite-dimensional and $T\\in\\Lin(V,W)$. Then\n\\[\nT\\text{ is injective}\\quad\\Longleftrightarrow\\quad\nT'\\text{ is surjective}.\n\\]",
+   "page": "113",
+   "proof": "The injectivity criterion gives\n$T$ injective if and only if $\\Null T=\\{0\\}$.\nBecause $\\Null T$ is a subspace of the finite-dimensional space $V$, the annihilator criterion makes this equivalent to\n$(\\Null T)^0=\\dual{V}$.\nThe dual-range theorem identifies $(\\Null T)^0$ with $\\Range T'$. Consequently the condition is equivalent to\n$\\Range T'=\\dual{V}$.\nThe target of $T'$ is $\\dual{V}$, so the last equality is exactly surjectivity of $T'$. These equivalences prove both directions.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Translate injectivity into a null-space statement, and then take its annihilator."
+   ],
+   "uses": [
+    "c3-thm-injective-null",
+    "c3-thm-null-subspace",
+    "c3-thm-annihilator-extremes",
+    "c3-thm-dual-range",
+    "c3-def-dual-map",
+    "c3-def-surjective"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-intro-dual-matrices",
+   "kind": "prose",
+   "number": "",
+   "title": "Representing dual maps in dual bases",
+   "tex": "Fix bases in the original spaces and use their corresponding dual bases in the dual spaces. With these coordinated choices, reversing a linear map by duality exchanges the rows and columns of its representing matrix.",
+   "page": "113"
+  },
+  {
+   "id": "c3-thm-dual-matrix",
+   "kind": "theorem",
+   "number": "3.132",
+   "title": "The matrix of a dual map is the transpose",
+   "tex": "Let $v_1,\\ldots,v_n$ and $w_1,\\ldots,w_m$ be bases of finite-dimensional spaces $V,W$, with corresponding dual bases $\\varphi_1,\\ldots,\\varphi_n$ and $\\psi_1,\\ldots,\\psi_m$. For $T\\in\\Lin(V,W)$, form $\\Mat(T)$ using the original bases, and form $\\Mat(T')$ using the domain basis $\\psi_1,\\ldots,\\psi_m$ and target basis $\\varphi_1,\\ldots,\\varphi_n$. Then\n\\[\n\\Mat(T')=\\bigl(\\Mat(T)\\bigr)^{\\mathsf t},\n\\]\nwhere ${}^{\\mathsf t}$ denotes transpose.",
+   "page": "113",
+   "proof": "Put $A=\\Mat(T)$ and $C=\\Mat(T')$. The shapes are respectively $m$ by $n$ and $n$ by $m$. By the definition of a representing matrix,\n\\[\nTv_k=\\sum_{r=1}^{m}A_{rk}w_r,\n\\qquad\nT'\\psi_j=\\sum_{\\ell=1}^{n}C_{\\ell j}\\varphi_\\ell.\n\\]\nFor $1\\le j\\le m$ and $1\\le k\\le n$, evaluate the second equality at $v_k$. The defining values of the dual basis give\n\\[\n(T'\\psi_j)(v_k)\n=\\sum_{\\ell=1}^{n}C_{\\ell j}\\varphi_\\ell(v_k)\n=C_{kj}.\n\\]\nOn the other hand, the dual-map definition and the first matrix expansion give\n\\[\n(T'\\psi_j)(v_k)\n=\\psi_j(Tv_k)\n=\\sum_{r=1}^{m}A_{rk}\\psi_j(w_r)\n=A_{jk}.\n\\]\nThus $C_{kj}=A_{jk}$ for every pair of indices, which is precisely the transpose rule.\n\nIf $m=0$ or $n=0$, both $C$ and $A^{\\mathsf t}$ have the same shape and no entries. Equality then follows from equality of their shapes and the vacuous entry comparison. The argument is valid over both $\\R$ and $\\C$; the scalar coefficients are not conjugated.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "The coefficient of $\\varphi_k$ in $T'\\psi_j$ can be recovered by evaluating at $v_k$.",
+    "Compute that same value as $\\psi_j(Tv_k)$."
+   ],
+   "uses": [
+    "c3-def-map-matrix",
+    "c3-def-transpose",
+    "c3-def-dual-map",
+    "c3-def-dual-basis",
+    "c3-thm-dual-basis",
+    "c3-def-linear-map",
+    "c3-def-map-operations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-row-column-rank-duality",
+   "kind": "theorem",
+   "number": "3.133",
+   "title": "Row rank equals column rank by duality",
+   "tex": "For every $m$ by $n$ matrix $A$ over $\\F$, its column rank equals its row rank. Give a proof using dual maps and the transpose formula, without using the earlier equality of row and column rank.",
+   "page": "114",
+   "proof": "We first justify the connection between column spans and ranges without using row rank. Let $S:P\\to Q$ be a linear map between finite-dimensional spaces with bases $p_1,\\ldots,p_r$ and $q_1,\\ldots,q_s$, and let $B$ be its representing matrix. Define the coordinate function\n\\[\n\\Gamma:Q\\to\\F^s,\\qquad\n\\Gamma\\left(\\sum_{j=1}^{s}a_jq_j\\right)=(a_1,\\ldots,a_s).\n\\]\nUnique basis coefficients make this well-defined. Adding two basis expansions adds their coefficient lists, and scaling an expansion scales that list, so $\\Gamma$ is linear. Every coefficient list is the image of its displayed combination, and unique coefficients make $\\Gamma$ injective. Hence it is an isomorphism.\n\nLinearity of $S$ shows that $\\Range S=\\Span(Sp_1,\\ldots,Sp_r)$: apply $S$ to a basis expansion of any input for one inclusion, and use closure of the range for the other. The vectors $\\Gamma(Sp_k)$ are exactly the columns of $B$, viewed as lists of entries. It follows that\n\\[\n\\Gamma(\\Range S)=\\Span(\\text{columns of }B).\n\\]\nThe restriction of $\\Gamma$ is a linear bijection from $\\Range S$ to this column span, so these spaces have equal dimensions. Thus the column rank of $B$ equals $\\dim\\Range S$. If columns are written as one-column matrices instead of lists, the correspondence that preserves all entries is a linear bijection, so the same dimension statement holds with that convention.\n\nNow define $T:\\F^n\\to\\F^m$ by\n$(Tx)_j=\\sum_{k=1}^{n}A_{jk}x_k$.\nThe coordinate-map theorem proves linearity. Evaluating $T$ at the standard basis vectors shows that its representing matrix is $A$. In the corresponding dual bases the matrix of $T'$ is $A^{\\mathsf t}$. Applying the column-span conclusion to both maps and then using equality of their range dimensions yields\n\\[\n\\begin{aligned}\n\\text{column rank of }A\n&=\\dim\\Range T\\\\\n&=\\dim\\Range T'\\\\\n&=\\text{column rank of }A^{\\mathsf t}\\\\\n&=\\text{row rank of }A.\n\\end{aligned}\n\\]\nThe last equality follows from the definition of transpose: its columns are the rows of $A$ with the same entries, so their spans have the same dimension after the entry-preserving row-to-column identification. Empty bases and empty column lists have zero span, so the proof includes $m=0$ or $n=0$.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "First identify the dimension of a map range with the dimension of the span of its matrix columns.",
+    "Use a map with representing matrix $A$, and compare it with its dual map.",
+    "Transposition turns the original rows into columns."
+   ],
+   "uses": [
+    "c3-thm-coordinate-linear-maps",
+    "c3-def-map-matrix",
+    "c3-def-row-column-rank",
+    "c3-def-transpose",
+    "c3-thm-dual-matrix",
+    "c3-thm-dual-range-dimension",
+    "c3-def-range",
+    "c3-thm-range-subspace",
+    "c3-def-linear-map",
+    "c3-thm-invertible-bijective",
+    "c3-def-isomorphism",
+    "c3-thm-isomorphism-dimension",
+    "c2-thm-basis-coordinates",
+    "c2-def-span"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c3-card-linear-functional",
+   "item": "c3-def-linear-functional",
+   "front": "What is a linear functional on a vector space over $\\F$?",
+   "back": "A linear map from the space to the scalar field $\\F$."
+  },
+  {
+   "id": "c3-card-dual-dimension",
+   "item": "c3-thm-dual-dimension",
+   "front": "What is the dimension of the dual of a finite-dimensional space?",
+   "back": "$\\dim\\dual{V}=\\dim V$."
+  },
+  {
+   "id": "c3-card-dual-basis-values",
+   "item": "c3-def-dual-basis",
+   "front": "Which values define the dual basis of $v_1,\\ldots,v_n$?",
+   "back": "The functional $\\varphi_j$ takes value $1$ at $v_j$ and value $0$ at every other listed basis vector."
+  },
+  {
+   "id": "c3-card-dual-map-direction",
+   "item": "c3-def-dual-map",
+   "front": "If $T:V\\to W$ is linear, what are the domain, target, and formula of its dual map?",
+   "back": "$T':\\dual{W}\\to\\dual{V}$ is given by $T'\\psi=\\psi\\circ T$."
+  },
+  {
+   "id": "c3-card-dual-composition-order",
+   "item": "c3-thm-dual-map-laws",
+   "front": "How does duality affect the order of composition?",
+   "back": "It reverses the order: $(RT)'=T'R'$."
+  },
+  {
+   "id": "c3-card-annihilator-definition",
+   "item": "c3-def-annihilator",
+   "front": "What is the annihilator of $U\\subseteq V$?",
+   "back": "$U^0$ consists of all linear functionals on $V$ that vanish at every vector of $U$."
+  },
+  {
+   "id": "c3-card-annihilator-dimension",
+   "item": "c3-thm-annihilator-dimension",
+   "front": "What is the dimension of $U^0$ when $U$ is a subspace of a finite-dimensional space $V$?",
+   "back": "$\\dim U^0=\\dim V-\\dim U$."
+  },
+  {
+   "id": "c3-card-dual-kernel-and-range",
+   "item": "c3-thm-dual-range",
+   "front": "For a linear map between finite-dimensional spaces, how are the null space and range of its dual described by annihilators?",
+   "back": "$\\Null T'=(\\Range T)^0$ in $\\dual{W}$, and $\\Range T'=(\\Null T)^0$ in $\\dual{V}$."
+  },
+  {
+   "id": "c3-card-dual-matrix-transpose",
+   "item": "c3-thm-dual-matrix",
+   "front": "Which basis choices make the matrix of the dual map the transpose of the original matrix?",
+   "back": "Use the corresponding dual bases, with the dual of the original target basis as domain basis and the dual of the original domain basis as target basis. No complex conjugation is involved."
+  }
+ ]
+}

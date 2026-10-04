@@ -1,0 +1,2243 @@
+                                      Chapter 6
+                   Inner Product Spaces
+
+
+In making the definition of a vector space, we generalized the linear structure
+(addition and scalar multiplication) of 𝐑2 and 𝐑3. We ignored geometric features
+such as the notions of length and angle. These ideas are embedded in the concept
+of inner products, which we will investigate in this chapter.
+    Every inner product induces a norm, which you can think of as a length.
+This norm satisfies key properties such as the Pythagorean theorem, the triangle
+inequality, the parallelogram equality, and the Cauchy–Schwarz inequality.
+    The notion of perpendicular vectors in Euclidean geometry gets renamed to
+orthogonal vectors in the context of an inner product space. We will see that
+orthonormal bases are tremendously useful in inner product spaces. The Gram–
+Schmidt procedure constructs such bases. This chapter will conclude by putting
+together these tools to solve minimization problems.
+
+    standing assumptions for this chapter
+
+ • 𝐅 denotes 𝐑 or 𝐂 .
+ • 𝑉 and 𝑊 denote vector spaces over 𝐅.
+
+
+
+
+                                                                                  Matthew Petroff CC BY-SA
+
+
+
+
+  The George Peabody Library, now part of Johns Hopkins University, opened while
+James Sylvester (1814–1897) was the university’s first mathematics professor. Sylvester’s
+         publications include the first use of the word matrix in mathematics.
+                                                                                                             181
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+182      Chapter 6     Inner Product Spaces
+
+6A Inner Products and Norms
+Inner Products
+To motivate the concept of inner product,
+think of vectors in 𝐑2 and 𝐑3 as arrows
+with initial point at the origin. The length
+of a vector 𝑣 in 𝐑2 or 𝐑3 is called the
+norm of 𝑣 and is denoted by ‖𝑣‖. Thus
+for 𝑣 = (𝑎, 𝑏) ∈ 𝐑2, we have
+                                                    This vector 𝑣 has norm √𝑎2 + 𝑏2 .
+             ‖𝑣‖ = √𝑎2 + 𝑏2 .
+
+Similarly, if 𝑣 = (𝑎, 𝑏, 𝑐) ∈ 𝐑3, then ‖𝑣‖ = √𝑎2 + 𝑏2 + 𝑐2 .
+   Even though we cannot draw pictures in higher dimensions, the generalization
+to 𝐑𝑛 is easy: we define the norm of 𝑥 = (𝑥1 , … , 𝑥𝑛 ) ∈ 𝐑𝑛 by
+
+                                ‖𝑥‖ = √𝑥12 + ⋯ + 𝑥𝑛2 .
+
+    The norm is not linear on 𝐑𝑛. To inject linearity into the discussion, we
+introduce the dot product.
+
+ 6.1 definition: dot product
+
+ For 𝑥, 𝑦 ∈ 𝐑𝑛, the dot product of 𝑥 and 𝑦, denoted by 𝑥 ⋅ 𝑦, is defined by
+
+                              𝑥 ⋅ 𝑦 = 𝑥1 𝑦1 + ⋯ + 𝑥𝑛 𝑦𝑛 ,
+
+ where 𝑥 = (𝑥1 , … , 𝑥𝑛 ) and 𝑦 = (𝑦1 , … , 𝑦𝑛 ).
+
+    The dot product of two vectors in 𝐑𝑛        If we think of a vector as a point instead
+is a number, not a vector. Notice that          of as an arrow, then ‖𝑥‖ should be
+𝑥 ⋅ 𝑥 = ‖𝑥‖2 for all 𝑥 ∈ 𝐑𝑛. Furthermore,       interpreted to mean the distance from
+the dot product on 𝐑𝑛 has the following         the origin to the point 𝑥.
+properties.
+• 𝑥 ⋅ 𝑥 ≥ 0 for all 𝑥 ∈ 𝐑𝑛.
+• 𝑥 ⋅ 𝑥 = 0 if and only if 𝑥 = 0.
+• For 𝑦 ∈ 𝐑𝑛 fixed, the map from 𝐑𝑛 to 𝐑 that sends 𝑥 ∈ 𝐑𝑛 to 𝑥 ⋅ 𝑦 is linear.
+• 𝑥 ⋅ 𝑦 = 𝑦 ⋅ 𝑥 for all 𝑥, 𝑦 ∈ 𝐑𝑛.
+
+    An inner product is a generalization of the dot product. At this point you may
+be tempted to guess that an inner product is defined by abstracting the properties
+of the dot product discussed in the last paragraph. For real vector spaces, that
+guess is correct. However, so that we can make a definition that will be useful
+for both real and complex vector spaces, we need to examine the complex case
+before making the definition.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                 Section 6A       Inner Products and Norms   183
+
+   Recall that if 𝜆 = 𝑎 + 𝑏𝑖, where 𝑎, 𝑏 ∈ 𝐑 , then
+• the absolute value of 𝜆, denoted by |𝜆|, is defined by |𝜆| = √𝑎2 + 𝑏2 ;
+• the complex conjugate of 𝜆, denoted by 𝜆, is defined by 𝜆 = 𝑎 − 𝑏𝑖;
+• |𝜆|2 = 𝜆𝜆.
+See Chapter 4 for the definitions and the basic properties of the absolute value
+and complex conjugate.
+   For 𝑧 = (𝑧1 , … , 𝑧𝑛 ) ∈ 𝐂𝑛, we define the norm of 𝑧 by
+
+                              ‖𝑧‖ = √|𝑧1 |2 + ⋯ + |𝑧𝑛 |2 .
+The absolute values are needed because we want ‖𝑧‖ to be a nonnegative number.
+Note that
+                            ‖𝑧‖2 = 𝑧1 𝑧1 + ⋯ + 𝑧𝑛 𝑧𝑛 .
+   We want to think of ‖𝑧‖2 as the inner product of 𝑧 with itself, as we did
+in 𝐑𝑛. The equation above thus suggests that the inner product of the vector
+𝑤 = (𝑤1 , … , 𝑤𝑛 ) ∈ 𝐂𝑛 with 𝑧 should equal
+                                  𝑤1 𝑧1 + ⋯ + 𝑤𝑛 𝑧𝑛 .
+If the roles of the 𝑤 and 𝑧 were interchanged, the expression above would be
+replaced with its complex conjugate. Thus we should expect that the inner product
+of 𝑤 with 𝑧 equals the complex conjugate of the inner product of 𝑧 with 𝑤. With
+that motivation, we are now ready to define an inner product on 𝑉, which may be
+a real or a complex vector space.
+    One comment about the notation used in the next definition:
+• For 𝜆 ∈ 𝐂 , the notation 𝜆 ≥ 0 means 𝜆 is real and nonnegative.
+
+ 6.2 definition: inner product
+
+ An inner product on 𝑉 is a function that takes each ordered pair (𝑢, 𝑣) of
+ elements of 𝑉 to a number ⟨𝑢, 𝑣⟩ ∈ 𝐅 and has the following properties.
+ positivity
+   ⟨𝑣, 𝑣⟩ ≥ 0 for all 𝑣 ∈ 𝑉.
+
+ definiteness
+   ⟨𝑣, 𝑣⟩ = 0 if and only if 𝑣 = 0.
+
+ additivity in first slot
+   ⟨𝑢 + 𝑣, 𝑤⟩ = ⟨𝑢, 𝑤⟩ + ⟨𝑣, 𝑤⟩ for all 𝑢, 𝑣, 𝑤 ∈ 𝑉.
+
+ homogeneity in first slot
+   ⟨𝜆𝑢, 𝑣⟩ = 𝜆⟨𝑢, 𝑣⟩ for all 𝜆 ∈ 𝐅 and all 𝑢, 𝑣 ∈ 𝑉.
+
+ conjugate symmetry
+   ⟨𝑢, 𝑣⟩ = ⟨𝑣, 𝑢⟩ for all 𝑢, 𝑣 ∈ 𝑉.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+184       Chapter 6       Inner Product Spaces
+
+    Every real number equals its complex             Most mathematicians define inner
+conjugate. Thus if we are dealing with               products as above, but many physicists
+a real vector space, then in the last con-           use a definition that requires homo-
+dition above we can dispense with the                geneity in the second slot instead of
+complex conjugate and simply state that              the first slot.
+⟨𝑢, 𝑣⟩ = ⟨𝑣, 𝑢⟩ for all 𝑢, 𝑣 ∈ 𝑉.
+
+ 6.3 example: inner products
+
+(a) The Euclidean inner product on 𝐅𝑛 is defined by
+                       ⟨(𝑤1 , … , 𝑤𝑛 ), (𝑧1 , … , 𝑧𝑛 )⟩ = 𝑤1 𝑧1 + ⋯ + 𝑤𝑛 𝑧𝑛
+
+      for all (𝑤1 , … , 𝑤𝑛 ), (𝑧1 , … , 𝑧𝑛 ) ∈ 𝐅𝑛.
+(b) If 𝑐1 , … , 𝑐𝑛 are positive numbers, then an inner product can be defined on 𝐅𝑛
+    by
+                    ⟨(𝑤1 , … , 𝑤𝑛 ), (𝑧1 , … , 𝑧𝑛 )⟩ = 𝑐1 𝑤1 𝑧1 + ⋯ + 𝑐𝑛 𝑤𝑛 𝑧𝑛
+      for all (𝑤1 , … , 𝑤𝑛 ), (𝑧1 , … , 𝑧𝑛 ) ∈ 𝐅𝑛.
+(c) An inner product can be defined on the vector space of continuous real-valued
+    functions on the interval [−1, 1] by
+                                                      1
+                                          ⟨ 𝑓 , 𝑔⟩ = ∫    𝑓𝑔
+                                                     −1
+
+      for all 𝑓 , 𝑔 continuous real-valued functions on [−1, 1].
+(d) An inner product can be defined on 𝒫(𝐑) by
+                                                               1
+                                  ⟨𝑝, 𝑞⟩ = 𝑝(0)𝑞(0) + ∫ 𝑝′ 𝑞′
+                                                           −1
+
+      for all 𝑝, 𝑞 ∈ 𝒫(𝐑).
+(e) An inner product can be defined on 𝒫(𝐑) by
+                                               ∞
+                                   ⟨𝑝, 𝑞⟩ = ∫ 𝑝(𝑥)𝑞(𝑥)𝑒−𝑥 𝑑𝑥
+                                              0
+
+      for all 𝑝, 𝑞 ∈ 𝒫(𝐑).
+
+
+ 6.4 definition: inner product space
+
+ An inner product space is a vector space 𝑉 along with an inner product on 𝑉.
+
+   The most important example of an inner product space is 𝐅𝑛 with the Euclidean
+inner product given by (a) in the example above. When 𝐅𝑛 is referred to as an
+inner product space, you should assume that the inner product is the Euclidean
+inner product unless explicitly told otherwise.
+
+                  Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                 Section 6A       Inner Products and Norms      185
+
+   So that we do not have to keep repeating the hypothesis that 𝑉 and 𝑊 are
+inner product spaces, we make the following assumption.
+
+ 6.5 notation: 𝑉, 𝑊
+
+ For the rest of this chapter and the next chapter, 𝑉 and 𝑊 denote inner product
+ spaces over 𝐅.
+
+    Note the slight abuse of language here. An inner product space is a vector
+space along with an inner product on that vector space. When we say that a vector
+space 𝑉 is an inner product space, we are also thinking that an inner product on
+𝑉 is lurking nearby or is clear from the context (or is the Euclidean inner product
+if the vector space is 𝐅𝑛 ).
+
+ 6.6    basic properties of an inner product
+ (a) For each fixed 𝑣 ∈ 𝑉, the function that takes 𝑢 ∈ 𝑉 to ⟨𝑢, 𝑣⟩ is a linear
+     map from 𝑉 to 𝐅.
+ (b) ⟨0, 𝑣⟩ = 0 for every 𝑣 ∈ 𝑉.
+ (c) ⟨𝑣, 0⟩ = 0 for every 𝑣 ∈ 𝑉.
+ (d) ⟨𝑢, 𝑣 + 𝑤⟩ = ⟨𝑢, 𝑣⟩ + ⟨𝑢, 𝑤⟩ for all 𝑢, 𝑣, 𝑤 ∈ 𝑉.
+ (e) ⟨𝑢, 𝜆𝑣⟩ = 𝜆⟨𝑢, 𝑣⟩ for all 𝜆 ∈ 𝐅 and all 𝑢, 𝑣 ∈ 𝑉.
+
+Proof
+(a) For 𝑣 ∈ 𝑉, the linearity of 𝑢 ↦ ⟨𝑢, 𝑣⟩ follows from the conditions of additivity
+    and homogeneity in the first slot in the definition of an inner product.
+(b) Every linear map takes 0 to 0. Thus (b) follows from (a).
+(c) If 𝑣 ∈ 𝑉, then the conjugate symmetry property in the definition of an inner
+    product and (b) show that ⟨𝑣, 0⟩ = ⟨0, 𝑣⟩ = 0 = 0.
+(d) Suppose 𝑢, 𝑣, 𝑤 ∈ 𝑉. Then
+                              ⟨𝑢, 𝑣 + 𝑤⟩ = ⟨𝑣 + 𝑤, 𝑢⟩
+                                           = ⟨𝑣, 𝑢⟩ + ⟨𝑤, 𝑢⟩
+                                           = ⟨𝑣, 𝑢⟩ + ⟨𝑤, 𝑢⟩
+                                           = ⟨𝑢, 𝑣⟩ + ⟨𝑢, 𝑤⟩.
+
+(e) Suppose 𝜆 ∈ 𝐅 and 𝑢, 𝑣 ∈ 𝑉. Then
+                                    ⟨𝑢, 𝜆𝑣⟩ = ⟨𝜆𝑣, 𝑢⟩
+                                             = 𝜆⟨𝑣, 𝑢⟩
+                                             = 𝜆 ⟨𝑣, 𝑢⟩
+                                             = 𝜆⟨𝑢, 𝑣⟩.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+186       Chapter 6     Inner Product Spaces
+
+Norms
+Our motivation for defining inner products came initially from the norms of
+vectors on 𝐑2 and 𝐑3. Now we see that each inner product determines a norm.
+
+ 6.7 definition: norm, ‖𝑣‖
+
+ For 𝑣 ∈ 𝑉, the norm of 𝑣, denoted by ‖𝑣‖, is defined by
+
+                                     ‖𝑣‖ = √⟨𝑣, 𝑣⟩.
+
+
+ 6.8 example: norms
+
+(a) If (𝑧1 , … , 𝑧𝑛 ) ∈ 𝐅𝑛 (with the Euclidean inner product), then
+
+                            ‖(𝑧1 , … , 𝑧𝑛 )‖ = √|𝑧1 |2 + ⋯ + |𝑧𝑛 |2 .
+
+(b) For 𝑓 in the vector space of continuous real-valued functions on [−1, 1] and
+    with inner product given as in 6.3(c), we have
+                                                    1
+                                       ‖ 𝑓 ‖ = √∫       𝑓 2.
+                                                  −1
+
+
+
+ 6.9    basic properties of the norm
+
+ Suppose 𝑣 ∈ 𝑉.
+ (a) ‖𝑣‖ = 0 if and only if 𝑣 = 0.
+ (b) ‖𝜆𝑣‖ = |𝜆| ‖𝑣‖ for all 𝜆 ∈ 𝐅.
+
+Proof
+(a) The desired result holds because ⟨𝑣, 𝑣⟩ = 0 if and only if 𝑣 = 0.
+(b) Suppose 𝜆 ∈ 𝐅. Then
+
+                                      ‖𝜆𝑣‖2 = ⟨𝜆𝑣, 𝜆𝑣⟩
+                                             = 𝜆⟨𝑣, 𝜆𝑣⟩
+
+                                             = 𝜆𝜆⟨𝑣, 𝑣⟩
+                                             = |𝜆|2 ‖𝑣‖2.
+
+      Taking square roots now gives the desired equality.
+
+   The proof of (b) in the result above illustrates a general principle: working
+with norms squared is usually easier than working directly with norms.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                 Section 6A       Inner Products and Norms    187
+
+   Now we come to a crucial definition.
+
+ 6.10 definition: orthogonal
+
+ Two vectors 𝑢, 𝑣 ∈ 𝑉 are called orthogonal if ⟨𝑢, 𝑣⟩ = 0.
+
+    In the definition above, the order of The word orthogonal comes from the
+the two vectors does not matter, because Greek word orthogonios, which means
+⟨𝑢, 𝑣⟩ = 0 if and only if ⟨𝑣, 𝑢⟩ = 0. In- right-angled.
+stead of saying 𝑢 and 𝑣 are orthogonal,
+sometimes we say 𝑢 is orthogonal to 𝑣.
+    Exercise 15 asks you to prove that if 𝑢, 𝑣 are nonzero vectors in 𝐑2, then
+                                ⟨𝑢, 𝑣⟩ = ‖𝑢‖ ‖𝑣‖ cos 𝜃,
+where 𝜃 is the angle between 𝑢 and 𝑣 (thinking of 𝑢 and 𝑣 as arrows with initial
+point at the origin). Thus two nonzero vectors in 𝐑2 are orthogonal (with respect
+to the Euclidean inner product) if and only if the cosine of the angle between
+them is 0, which happens if and only if the vectors are perpendicular in the usual
+sense of plane geometry. Thus you can think of the word orthogonal as a fancy
+word meaning perpendicular.
+    We begin our study of orthogonality with an easy result.
+
+ 6.11   orthogonality and 0
+ (a) 0 is orthogonal to every vector in 𝑉.
+ (b) 0 is the only vector in 𝑉 that is orthogonal to itself.
+
+Proof
+(a) Recall that 6.6(b) states that ⟨0, 𝑣⟩ = 0 for every 𝑣 ∈ 𝑉.
+(b) If 𝑣 ∈ 𝑉 and ⟨𝑣, 𝑣⟩ = 0, then 𝑣 = 0 (by definition of inner product).
+
+   For the special case 𝑉 = 𝐑2, the next theorem was known over 3,500 years ago
+in Babylonia and then rediscovered and proved over 2,500 years ago in Greece.
+Of course, the proof below is not the original proof.
+
+ 6.12   Pythagorean theorem
+
+ Suppose 𝑢, 𝑣 ∈ 𝑉. If 𝑢 and 𝑣 are orthogonal, then
+
+                               ‖𝑢 + 𝑣‖2 = ‖𝑢‖2 + ‖𝑣‖2.
+
+Proof   Suppose ⟨𝑢, 𝑣⟩ = 0. Then
+                    ‖𝑢 + 𝑣‖2 = ⟨𝑢 + 𝑣, 𝑢 + 𝑣⟩
+                              = ⟨𝑢, 𝑢⟩ + ⟨𝑢, 𝑣⟩ + ⟨𝑣, 𝑢⟩ + ⟨𝑣, 𝑣⟩
+                              = ‖𝑢‖2 + ‖𝑣‖2.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+188     Chapter 6     Inner Product Spaces
+
+    Suppose 𝑢, 𝑣 ∈ 𝑉, with 𝑣 ≠ 0. We would like to write 𝑢 as a scalar multiple
+of 𝑣 plus a vector 𝑤 orthogonal to 𝑣, as suggested in the picture here.
+
+
+
+
+                           An orthogonal decomposition:
+         𝑢 expressed as a scalar multiple of 𝑣 plus a vector orthogonal to 𝑣.
+
+    To discover how to write 𝑢 as a scalar multiple of 𝑣 plus a vector orthogonal
+to 𝑣, let 𝑐 ∈ 𝐅 denote a scalar. Then
+
+                                𝑢 = 𝑐𝑣 + (𝑢 − 𝑐𝑣).
+
+Thus we need to choose 𝑐 so that 𝑣 is orthogonal to (𝑢 − 𝑐𝑣). Hence we want
+
+                         0 = ⟨𝑢 − 𝑐𝑣, 𝑣⟩ = ⟨𝑢, 𝑣⟩ − 𝑐‖𝑣‖2.
+
+The equation above shows that we should choose 𝑐 to be ⟨𝑢, 𝑣⟩/‖𝑣‖2. Making this
+choice of 𝑐, we can write
+                               ⟨𝑢, 𝑣⟩          ⟨𝑢, 𝑣⟩
+                          𝑢=       2
+                                      𝑣 + (𝑢 −        𝑣).
+                                ‖𝑣‖             ‖𝑣‖2
+As you should verify, the equation displayed above explicitly writes 𝑢 as a scalar
+multiple of 𝑣 plus a vector orthogonal to 𝑣. Thus we have proved the following
+key result.
+
+ 6.13   an orthogonal decomposition
+
+                                            ⟨𝑢, 𝑣⟩             ⟨𝑢, 𝑣⟩
+ Suppose 𝑢, 𝑣 ∈ 𝑉, with 𝑣 ≠ 0. Set 𝑐 =             and 𝑤 = 𝑢 −        𝑣. Then
+                                             ‖𝑣‖2               ‖𝑣‖2
+                         𝑢 = 𝑐𝑣 + 𝑤      and ⟨𝑤, 𝑣⟩ = 0.
+
+   The orthogonal decomposition 6.13 will be used in the proof of the Cauchy–
+Schwarz inequality, which is our next result and is one of the most important
+inequalities in mathematics.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                    Section 6A         Inner Products and Norms        189
+
+
+ 6.14      Cauchy–Schwarz inequality
+
+ Suppose 𝑢, 𝑣 ∈ 𝑉. Then
+                                     |⟨𝑢, 𝑣⟩| ≤ ‖𝑢‖ ‖𝑣‖.
+ This inequality is an equality if and only if one of 𝑢, 𝑣 is a scalar multiple of
+ the other.
+
+Proof  If 𝑣 = 0, then both sides of the desired inequality equal 0. Thus we can
+assume that 𝑣 ≠ 0. Consider the orthogonal decomposition
+                                              ⟨𝑢, 𝑣⟩
+                                      𝑢=             𝑣+𝑤
+                                               ‖𝑣‖2
+given by 6.13, where 𝑤 is orthogonal to 𝑣. By the Pythagorean theorem,
+                                            ⟨𝑢, 𝑣⟩ 2
+                                 ‖𝑢‖2 = ∥         𝑣∥ + ‖𝑤‖2
+                                             ‖𝑣‖2
+                                                  2
+                                          ∣⟨𝑢, 𝑣⟩∣
+                                      =            + ‖𝑤‖2
+                                            ‖𝑣‖2
+                                                  2
+                                          ∣⟨𝑢, 𝑣⟩∣
+6.15                                  ≥            .
+                                            ‖𝑣‖2
+Multiplying both sides of this inequality by ‖𝑣‖2 and then taking square roots
+gives the desired inequality.
+     The proof in the paragraph above Augustin-Louis Cauchy (1789–1857)
+shows that the Cauchy–Schwarz inequal- proved 6.16(a) in 1821. In 1859,
+ity is an equality if and only if 6.15 is Cauchy’s student Viktor Bunyakovsky
+an equality. This happens if and only (1804–1889) proved integral inequal-
+if 𝑤 = 0. But 𝑤 = 0 if and only if 𝑢 ities like the one in 6.16(b). A few
+is a multiple of 𝑣 (see 6.13). Thus the decades later, similar discoveries by
+Cauchy–Schwarz inequality is an equal- Hermann Schwarz (1843–1921) at-
+ity if and only if 𝑢 is a scalar multiple of 𝑣 tracted more attention and led to the
+or 𝑣 is a scalar multiple of 𝑢 (or both; the name of this inequality.
+phrasing has been chosen to cover cases
+in which either 𝑢 or 𝑣 equals 0).
+
+
+ 6.16 example: Cauchy–Schwarz inequality
+
+(a) If 𝑥1 , … , 𝑥𝑛 , 𝑦1 , … , 𝑦𝑛 ∈ 𝐑 , then
+
+                  (𝑥1 𝑦1 + ⋯ + 𝑥𝑛 𝑦𝑛 )2 ≤ (𝑥12 + ⋯ + 𝑥𝑛2 )(𝑦12 + ⋯ + 𝑦𝑛2 ),
+
+       as follows from applying the Cauchy–Schwarz inequality to the vectors
+       (𝑥1 , … , 𝑥𝑛 ), (𝑦1 , … , 𝑦𝑛 ) ∈ 𝐑𝑛, using the usual Euclidean inner product.
+
+
+                  Linear Algebra Done Right, fourth edition, by Sheldon Axler
+190        Chapter 6     Inner Product Spaces
+
+(b) If 𝑓 , 𝑔 are continuous real-valued functions on [−1, 1], then
+                                     1        2        1         1
+                                ∣∫        𝑓 𝑔 ∣ ≤ (∫       𝑓 2 )(∫ 𝑔2 ),
+                                 −1                  −1         −1
+       as follows from applying the Cauchy–Schwarz inequality to Example 6.3(c).
+    The next result, called the triangle inequality,
+has the geometric interpretation that the length
+of each side of a triangle is less than the sum of
+the lengths of the other two sides.
+    Note that the triangle inequality implies that
+the shortest polygonal path between two points is                    In this triangle, the length of
+a single line segment (a polygonal path consists                      𝑢 + 𝑣 is less than the length
+of line segments).                                                     of 𝑢 plus the length of 𝑣.
+
+ 6.17     triangle inequality
+
+ Suppose 𝑢, 𝑣 ∈ 𝑉. Then
+                                         ‖𝑢 + 𝑣‖ ≤ ‖𝑢‖ + ‖𝑣‖.
+
+ This inequality is an equality if and only if one of 𝑢, 𝑣 is a nonnegative real
+ multiple of the other.
+
+Proof     We have
+                       ‖𝑢 + 𝑣‖2 = ⟨𝑢 + 𝑣, 𝑢 + 𝑣⟩
+                                 = ⟨𝑢, 𝑢⟩ + ⟨𝑣, 𝑣⟩ + ⟨𝑢, 𝑣⟩ + ⟨𝑣, 𝑢⟩
+                                 = ⟨𝑢, 𝑢⟩ + ⟨𝑣, 𝑣⟩ + ⟨𝑢, 𝑣⟩ + ⟨𝑢, 𝑣⟩
+                                 = ‖𝑢‖2 + ‖𝑣‖2 + 2 Re⟨𝑢, 𝑣⟩
+6.18                             ≤ ‖𝑢‖2 + ‖𝑣‖2 + 2∣⟨𝑢, 𝑣⟩∣
+6.19                             ≤ ‖𝑢‖2 + ‖𝑣‖2 + 2‖𝑢‖ ‖𝑣‖
+                                                     2
+                                 = (‖𝑢‖ + ‖𝑣‖) ,
+where 6.19 follows from the Cauchy–Schwarz inequality (6.14). Taking square
+roots of both sides of the inequality above gives the desired inequality.
+    The proof above shows that the triangle inequality is an equality if and only if
+we have equality in 6.18 and 6.19. Thus we have equality in the triangle inequality
+if and only if
+6.20                                       ⟨𝑢, 𝑣⟩ = ‖𝑢‖ ‖𝑣‖.
+If one of 𝑢, 𝑣 is a nonnegative real multiple of the other, then 6.20 holds. Con-
+versely, suppose 6.20 holds. Then the condition for equality in the Cauchy–
+Schwarz inequality (6.14) implies that one of 𝑢, 𝑣 is a scalar multiple of the other.
+This scalar must be a nonnegative real number, by 6.20, completing the proof.
+
+      For the reverse triangle inequality, see Exercise 20.
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                 Section 6A       Inner Products and Norms           191
+
+    The next result is called the parallel-
+ogram equality because of its geometric
+interpretation: in every parallelogram, the
+sum of the squares of the lengths of the
+diagonals equals the sum of the squares of
+the lengths of the four sides. Note that the
+proof here is more straightforward than           The diagonals of this parallelogram
+the usual proof in Euclidean geometry.                   are 𝑢 + 𝑣 and 𝑢 − 𝑣.
+
+ 6.21   parallelogram equality
+
+ Suppose 𝑢, 𝑣 ∈ 𝑉. Then
+
+                      ‖𝑢 + 𝑣‖2 + ‖𝑢 − 𝑣‖2 = 2(‖𝑢‖2 + ‖𝑣‖2 ).
+
+Proof   We have
+              ‖𝑢 + 𝑣‖2 + ‖𝑢 − 𝑣‖2 = ⟨𝑢 + 𝑣, 𝑢 + 𝑣⟩ + ⟨𝑢 − 𝑣, 𝑢 − 𝑣⟩
+
+                                   = ‖𝑢‖2 + ‖𝑣‖2 + ⟨𝑢, 𝑣⟩ + ⟨𝑣, 𝑢⟩
+                                         + ‖𝑢‖2 + ‖𝑣‖2 − ⟨𝑢, 𝑣⟩ − ⟨𝑣, 𝑢⟩
+                                   = 2(‖𝑢‖2 + ‖𝑣‖2 ),
+
+as desired.
+
+
+
+Exercises 6A
+
+ 1   Prove or give a counterexample: If 𝑣1 , … , 𝑣𝑚 ∈ 𝑉, then
+                                     𝑚    𝑚
+                                     ∑ ∑ ⟨𝑣𝑗 , 𝑣𝑘 ⟩ ≥ 0.
+                                    𝑗 = 1 𝑘=1
+
+ 2   Suppose 𝑆 ∈ ℒ(𝑉). Define ⟨⋅, ⋅⟩1 by
+                                     ⟨𝑢, 𝑣⟩1 = ⟨𝑆𝑢, 𝑆𝑣⟩
+
+     for all 𝑢, 𝑣 ∈ 𝑉. Show that ⟨⋅, ⋅⟩1 is an inner product on 𝑉 if and only if 𝑆 is
+     injective.
+ 3   (a) Show that the function taking an ordered pair ((𝑥1 , 𝑥2 ), (𝑦1 , 𝑦2 )) of
+         elements of 𝐑2 to |𝑥1 𝑦1 | + |𝑥2 𝑦2 | is not an inner product on 𝐑2.
+     (b) Show that the function taking an ordered pair ((𝑥1 , 𝑥2 , 𝑥3 ), (𝑦1 , 𝑦2 , 𝑦3 ))
+         of elements of 𝐑3 to 𝑥1 𝑦1 + 𝑥3 𝑦3 is not an inner product on 𝐑3.
+ 4   Suppose 𝑇 ∈ ℒ(𝑉) is such that ‖𝑇𝑣‖ ≤ ‖𝑣‖ for every 𝑣 ∈ 𝑉. Prove that
+     𝑇 − √2 𝐼 is injective.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+192      Chapter 6     Inner Product Spaces
+
+ 5    Suppose 𝑉 is a real inner product space.
+      (a) Show that ⟨𝑢 + 𝑣, 𝑢 − 𝑣⟩ = ‖𝑢‖2 − ‖𝑣‖2 for every 𝑢, 𝑣 ∈ 𝑉.
+      (b) Show that if 𝑢, 𝑣 ∈ 𝑉 have the same norm, then 𝑢 + 𝑣 is orthogonal to
+          𝑢 − 𝑣.
+      (c) Use (b) to show that the diagonals of a rhombus are perpendicular to
+          each other.
+
+ 6    Suppose 𝑢, 𝑣 ∈ 𝑉. Prove that ⟨𝑢, 𝑣⟩ = 0 ⟺ ‖𝑢‖ ≤ ‖𝑢 + 𝑎𝑣‖ for all 𝑎 ∈ 𝐅.
+ 7    Suppose 𝑢, 𝑣 ∈ 𝑉. Prove that ‖𝑎𝑢 + 𝑏𝑣‖ = ‖𝑏𝑢 + 𝑎𝑣‖ for all 𝑎, 𝑏 ∈ 𝐑 if and
+      only if ‖𝑢‖ = ‖𝑣‖.
+ 8    Suppose 𝑎, 𝑏, 𝑐, 𝑥, 𝑦 ∈ 𝐑 and 𝑎2 + 𝑏2 + 𝑐2 + 𝑥2 + 𝑦2 ≤ 1. Prove that
+      𝑎 + 𝑏 + 𝑐 + 4𝑥 + 9𝑦 ≤ 10.
+
+ 9    Suppose 𝑢, 𝑣 ∈ 𝑉 and ‖𝑢‖ = ‖𝑣‖ = 1 and ⟨𝑢, 𝑣⟩ = 1. Prove that 𝑢 = 𝑣.
+10    Suppose 𝑢, 𝑣 ∈ 𝑉 and ‖𝑢‖ ≤ 1 and ‖𝑣‖ ≤ 1. Prove that
+
+                           √1 − ‖𝑢‖2 √1 − ‖𝑣‖2 ≤ 1 − ∣⟨𝑢, 𝑣⟩∣.
+
+11    Find vectors 𝑢, 𝑣 ∈ 𝐑2 such that 𝑢 is a scalar multiple of (1, 3), 𝑣 is orthog-
+      onal to (1, 3), and (1, 2) = 𝑢 + 𝑣.
+12    Suppose 𝑎, 𝑏, 𝑐, 𝑑 are positive numbers.
+                                        1 1 1 1
+      (a) Prove that (𝑎 + 𝑏 + 𝑐 + 𝑑)( + + + ) ≥ 16.
+                                        𝑎 𝑏 𝑐 𝑑
+      (b) For which positive numbers 𝑎, 𝑏, 𝑐, 𝑑 is the inequality above an equality?
+
+13    Show that the square of an average is less than or equal to the average of the
+      squares. More precisely, show that if 𝑎1 , … , 𝑎𝑛 ∈ 𝐑 , then the square of the
+      average of 𝑎1 , … , 𝑎𝑛 is less than or equal to the average of 𝑎12, … , 𝑎𝑛2.
+14    Suppose 𝑣 ∈ 𝑉 and 𝑣 ≠ 0. Prove that 𝑣/‖𝑣‖ is the unique closest element on
+      the unit sphere of 𝑉 to 𝑣. More precisely, prove that if 𝑢 ∈ 𝑉 and ‖𝑢‖ = 1,
+      then
+                                       𝑣
+                                 ∥𝑣 −     ∥ ≤ ‖𝑣 − 𝑢‖,
+                                      ‖𝑣‖
+      with equality only if 𝑢 = 𝑣/‖𝑣‖.
+15    Suppose 𝑢, 𝑣 are nonzero vectors in 𝐑2. Prove that
+
+                                   ⟨𝑢, 𝑣⟩ = ‖𝑢‖ ‖𝑣‖ cos 𝜃,
+
+      where 𝜃 is the angle between 𝑢 and 𝑣 (thinking of 𝑢 and 𝑣 as arrows with
+      initial point at the origin).
+         Hint: Use the law of cosines on the triangle formed by 𝑢, 𝑣, and 𝑢 − 𝑣.
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                   Section 6A                  Inner Products and Norms   193
+
+16   The angle between two vectors (thought of as arrows with initial point at
+     the origin) in 𝐑2 or 𝐑3 can be defined geometrically. However, geometry is
+     not as clear in 𝐑𝑛 for 𝑛 > 3. Thus the angle between two nonzero vectors
+     𝑥, 𝑦 ∈ 𝐑𝑛 is defined to be
+                                            ⟨𝑥, 𝑦⟩
+                                    arccos         ,
+                                           ‖𝑥‖ ‖𝑦‖
+     where the motivation for this definition comes from Exercise 15. Explain
+     why the Cauchy–Schwarz inequality is needed to show that this definition
+     makes sense.
+17   Prove that
+                              𝑛              2          𝑛             𝑛  𝑏𝑘2
+                           ( ∑ 𝑎𝑘 𝑏𝑘 ) ≤ ( ∑ 𝑘𝑎𝑘2 )( ∑                       )
+                             𝑘=1                      𝑘=1            𝑘=1 𝑘
+
+     for all real numbers 𝑎1 , … , 𝑎𝑛 and 𝑏1 , … , 𝑏𝑛 .
+18   (a) Suppose 𝑓 ∶ [1, ∞) → [0, ∞) is continuous. Show that
+                                        ∞         2         ∞
+                                                                          2
+                                   (∫       𝑓 ) ≤ ∫ 𝑥2 ( 𝑓 (𝑥)) 𝑑𝑥.
+                                    1                      1
+
+     (b) For which continuous functions 𝑓 ∶ [1, ∞) → [0, ∞) is the inequality
+         in (a) an equality with both sides finite?
+19   Suppose 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉 and 𝑇 ∈ ℒ(𝑉). Prove that if 𝜆 is an
+     eigenvalue of 𝑇 , then
+                                                  𝑛    𝑛
+                                   |𝜆|2 ≤ ∑ ∑ |ℳ(𝑇)𝑗,𝑘 |2,
+                                                 𝑗 = 1 𝑘=1
+
+     where ℳ(𝑇)𝑗,𝑘 denotes the entry in row 𝑗, column 𝑘 of the matrix of 𝑇 with
+     respect to the basis 𝑣1 , … , 𝑣𝑛 .
+20   Prove that if 𝑢, 𝑣 ∈ 𝑉, then ∣ ‖𝑢‖ − ‖𝑣‖ ∣ ≤ ‖𝑢 − 𝑣‖.
+        The inequality above is called the reverse triangle inequality. For the
+        reverse triangle inequality when 𝑉 = 𝐂 , see Exercise 2 in Chapter 4.
+
+21   Suppose 𝑢, 𝑣 ∈ 𝑉 are such that
+                         ‖𝑢‖ = 3,           ‖𝑢 + 𝑣‖ = 4,           ‖𝑢 − 𝑣‖ = 6.
+
+     What number does ‖𝑣‖ equal?
+22   Show that if 𝑢, 𝑣 ∈ 𝑉, then
+                               ‖𝑢 + 𝑣‖ ‖𝑢 − 𝑣‖ ≤ ‖𝑢‖2 + ‖𝑣‖2.
+
+23   Suppose 𝑣1 , … , 𝑣𝑚 ∈ 𝑉 are such that ‖𝑣𝑘 ‖ ≤ 1 for each 𝑘 = 1, … , 𝑚. Show
+     that there exist 𝑎1 , … , 𝑎𝑚 ∈ {1, −1} such that
+                                                                     √
+                                  ‖𝑎1 𝑣1 + ⋯ + 𝑎𝑚 𝑣𝑚 ‖ ≤ 𝑚.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+194      Chapter 6        Inner Product Spaces
+
+24    Prove or give a counterexample: If ‖ ⋅ ‖ is the norm associated with an inner
+      product on 𝐑2, then there exists (𝑥, 𝑦) ∈ 𝐑2 such that ‖(𝑥, 𝑦)‖ ≠ max{|𝑥|, |𝑦|}.
+25    Suppose 𝑝 > 0. Prove that there is an inner product on 𝐑2 such that the
+      associated norm is given by
+                                                              1/𝑝
+                                  ‖(𝑥, 𝑦)‖ = (|𝑥|𝑝 + |𝑦|𝑝 )
+
+      for all (𝑥, 𝑦) ∈ 𝐑2 if and only if 𝑝 = 2.
+26    Suppose 𝑉 is a real inner product space. Prove that
+                                           ‖𝑢 + 𝑣‖2 − ‖𝑢 − 𝑣‖2
+                                ⟨𝑢, 𝑣⟩ =
+                                                    4
+      for all 𝑢, 𝑣 ∈ 𝑉.
+27    Suppose 𝑉 is a complex inner product space. Prove that
+                             ‖𝑢 + 𝑣‖2 − ‖𝑢 − 𝑣‖2 + ‖𝑢 + 𝑖𝑣‖2 𝑖 − ‖𝑢 − 𝑖𝑣‖2 𝑖
+                 ⟨𝑢, 𝑣⟩ =
+                                                  4
+      for all 𝑢, 𝑣 ∈ 𝑉.
+28    A norm on a vector space 𝑈 is a function
+                                      ‖ ⋅ ‖ ∶ 𝑈 → [0, ∞)
+
+      such that ‖𝑢‖ = 0 if and only if 𝑢 = 0, ‖𝛼𝑢‖ = |𝛼|‖𝑢‖ for all 𝛼 ∈ 𝐅 and all
+      𝑢 ∈ 𝑈 , and ‖𝑢 + 𝑣‖ ≤ ‖𝑢‖ + ‖𝑣‖ for all 𝑢, 𝑣 ∈ 𝑈 . Prove that a norm satisfying
+      the parallelogram equality comes from an inner product (in other words,
+      show that if ‖ ⋅ ‖ is a norm on 𝑈 satisfying the parallelogram equality, then
+      there is an inner product ⟨⋅, ⋅⟩ on 𝑈 such that ‖𝑢‖ = ⟨𝑢, 𝑢⟩1/2 for all 𝑢 ∈ 𝑈).
+29    Suppose 𝑉1 , … , 𝑉𝑚 are inner product spaces. Show that the equation
+                 ⟨(𝑢1 , … , 𝑢𝑚 ), (𝑣1 , … , 𝑣𝑚 )⟩ = ⟨𝑢1 , 𝑣1 ⟩ + ⋯ + ⟨𝑢𝑚 , 𝑣𝑚 ⟩
+
+      defines an inner product on 𝑉1 × ⋯ × 𝑉𝑚 .
+         In the expression above on the right, for each 𝑘 = 1, … , 𝑚, the inner product
+         ⟨𝑢𝑘 , 𝑣𝑘 ⟩ denotes the inner product on 𝑉𝑘 . Each of the spaces 𝑉1 , … , 𝑉𝑚 may
+         have a different inner product, even though the same notation is used here.
+
+30    Suppose 𝑉 is a real inner product space. For 𝑢, 𝑣, 𝑤, 𝑥 ∈ 𝑉, define
+                 ⟨𝑢 + 𝑖𝑣, 𝑤 + 𝑖𝑥⟩𝐂 = ⟨𝑢, 𝑤⟩ + ⟨𝑣, 𝑥⟩ + (⟨𝑣, 𝑤⟩ − ⟨𝑢, 𝑥⟩)𝑖.
+
+      (a) Show that ⟨⋅, ⋅⟩𝐂 makes 𝑉𝐂 into a complex inner product space.
+      (b) Show that if 𝑢, 𝑣 ∈ 𝑉, then
+                      ⟨𝑢, 𝑣⟩𝐂 = ⟨𝑢, 𝑣⟩      and ‖𝑢 + 𝑖𝑣‖𝐂2 = ‖𝑢‖2 + ‖𝑣‖2.
+         See Exercise 8 in Section 1B for the definition of the complexification 𝑉𝐂 .
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                  Section 6A        Inner Products and Norms             195
+
+31   Suppose 𝑢, 𝑣, 𝑤 ∈ 𝑉. Prove that
+                                   2        ‖𝑤 − 𝑢‖2 + ‖𝑤 − 𝑣‖2   ‖𝑢 − 𝑣‖2
+                 ∥𝑤 − 12 (𝑢 + 𝑣)∥ =                             −          .
+                                                     2               4
+32   Suppose that 𝐸 is a subset of 𝑉 with the property that 𝑢, 𝑣 ∈ 𝐸 implies
+     1
+     2
+       (𝑢 + 𝑣) ∈ 𝐸. Let 𝑤 ∈ 𝑉. Show that there is at most one point in 𝐸 that is
+     closest to 𝑤. In other words, show that there is at most one 𝑢 ∈ 𝐸 such that
+                                       ‖𝑤 − 𝑢‖ ≤ ‖𝑤 − 𝑥‖
+     for all 𝑥 ∈ 𝐸.
+33   Suppose 𝑓 , 𝑔 are differentiable functions from 𝐑 to 𝐑𝑛.
+     (a) Show that
+                                        ′
+                          ⟨ 𝑓 (𝑡), 𝑔(𝑡)⟩ = ⟨ 𝑓 ′(𝑡), 𝑔(𝑡)⟩ + ⟨ 𝑓 (𝑡), 𝑔′(𝑡)⟩.
+     (b) Suppose 𝑐 is a positive number and ∥ 𝑓 (𝑡)∥ = 𝑐 for every 𝑡 ∈ 𝐑 . Show
+         that ⟨ 𝑓 ′(𝑡), 𝑓 (𝑡)⟩ = 0 for every 𝑡 ∈ 𝐑 .
+     (c) Interpret the result in (b) geometrically in terms of the tangent vector to
+         a curve lying on a sphere in 𝐑𝑛 centered at the origin.
+        A function 𝑓 ∶ 𝐑 → 𝐑𝑛 is called differentiable if there exist differentiable
+        functions 𝑓1 , … , 𝑓𝑛 from 𝐑 to 𝐑 such that 𝑓 (𝑡) = ( 𝑓1 (𝑡), … , 𝑓𝑛 (𝑡)) for each
+        𝑡 ∈ 𝐑 . Furthermore, for each 𝑡 ∈ 𝐑 , the derivative 𝑓 ′(𝑡) ∈ 𝐑𝑛 is defined by
+        𝑓 ′(𝑡) = ( 𝑓1 ′(𝑡), … , 𝑓𝑛 ′(𝑡)).
+
+34   Use inner products to prove Apollonius’s identity: In a triangle with sides of
+     length 𝑎, 𝑏, and 𝑐, let 𝑑 be the length of the line segment from the midpoint
+     of the side of length 𝑐 to the opposite vertex. Then
+                                    𝑎2 + 𝑏2 = 12 𝑐2 + 2𝑑2.
+
+
+
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+196      Chapter 6     Inner Product Spaces
+
+35    Fix a positive integer 𝑛. The Laplacian Δ𝑝 of a twice differentiable real-
+      valued function 𝑝 on 𝐑𝑛 is the function on 𝐑𝑛 defined by
+                                         𝜕2 𝑝       𝜕2 𝑝
+                                  Δ𝑝 =        + ⋯ +      .
+                                         𝜕𝑥12       𝜕𝑥𝑛2
+      The function 𝑝 is called harmonic if Δ𝑝 = 0.
+           A polynomial on 𝐑𝑛 is a linear combination (with coefficients in 𝐑 ) of
+      functions of the form 𝑥1𝑚1 ⋯ 𝑥𝑛𝑚𝑛 , where 𝑚1 , … , 𝑚𝑛 are nonnegative integers.
+           Suppose 𝑞 is a polynomial on 𝐑𝑛. Prove that there exists a harmonic
+      polynomial 𝑝 on 𝐑𝑛 such that 𝑝(𝑥) = 𝑞(𝑥) for every 𝑥 ∈ 𝐑𝑛 with ‖𝑥‖ = 1.
+         The only fact about harmonic functions that you need for this exercise is
+         that if 𝑝 is a harmonic function on 𝐑𝑛 and 𝑝(𝑥) = 0 for all 𝑥 ∈ 𝐑𝑛 with
+         ‖𝑥‖ = 1, then 𝑝 = 0.
+         Hint: A reasonable guess is that the desired harmonic polynomial 𝑝 is of the
+         form 𝑞 + (1 − ‖𝑥‖2 )𝑟 for some polynomial 𝑟. Prove that there is a polynomial
+         𝑟 on 𝐑𝑛 such that 𝑞 + (1 − ‖𝑥‖2 )𝑟 is harmonic by defining an operator 𝑇 on
+         a suitable vector space by
+
+                                    𝑇𝑟 = Δ((1 − ‖𝑥‖2 )𝑟)
+
+         and then showing that 𝑇 is injective and hence surjective.
+
+
+
+
+In realms of numbers, where the secrets lie,
+A noble truth emerges from the deep,
+Cauchy and Schwarz, their wisdom they apply,
+An inequality for all to keep.
+Two vectors, by this bond, are intertwined,
+As inner products weave a gilded thread,
+Their magnitude, by providence, confined,
+A bound to which their destiny is wed.
+Though shadows fall, and twilight dims the day,
+This inequality will stand the test,
+To guide us in our quest, to light the way,
+And in its truth, our understanding rest.
+So sing, ye muses, of this noble feat,
+Cauchy–Schwarz, the bound that none can beat.
+
+—written by ChatGPT with input Shakespearean sonnet on Cauchy–Schwarz inequality
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                 Section 6B             Orthonormal Bases   197
+
+6B Orthonormal Bases
+Orthonormal Lists and the Gram–Schmidt Procedure
+
+ 6.22 definition: orthonormal
+
+ • A list of vectors is called orthonormal if each vector in the list has norm 1
+    and is orthogonal to all the other vectors in the list.
+ • In other words, a list 𝑒1 , … , 𝑒𝑚 of vectors in 𝑉 is orthonormal if
+                                                  ⎧
+                                                  {1     if 𝑗 = 𝑘 ,
+                                     ⟨𝑒𝑗 , 𝑒𝑘 ⟩ = ⎨
+                                                  {
+                                                  ⎩0     if 𝑗 ≠ 𝑘
+
+    for all 𝑗, 𝑘 ∈ {1, … , 𝑚}.
+
+
+ 6.23 example: orthonormal lists
+
+(a) The standard basis of 𝐅𝑛 is an orthonormal list.
+(b) ( √1 , √1 , √1 ), (− √1 , √1 , 0) is an orthonormal list in 𝐅3.
+        3   3   3          2     2
+
+(c) ( √ , √ , √ ), (− √ , √ , 0), ( √1 , √1 , − √2 ) is an orthonormal list in 𝐅3.
+       1    1   1         1    1
+        3   3   3          2     2           6     6         6
+(d) Suppose 𝑛 is a positive integer. Then, as Exercise 4 asks you to verify,
+                    1    cos 𝑥 cos 2𝑥 cos 𝑛𝑥 sin 𝑥 sin 2𝑥 sin 𝑛𝑥
+                        , √ , √ ,…, √ , √ , √ ,…, √
+                √2𝜋        𝜋      𝜋      𝜋     𝜋      𝜋      𝜋
+    is an orthonormal list of vectors in 𝐶[−𝜋 , 𝜋], the vector space of continuous
+    real-valued functions on [−𝜋 , 𝜋] with inner product
+                                                       𝜋
+                                          ⟨ 𝑓 , 𝑔⟩ = ∫           𝑓 𝑔.
+                                                       −𝜋
+
+    The orthonormal list above is often used for modeling periodic phenomena,
+    such as tides.
+(e) Suppose we make 𝒫2 (𝐑) into an inner product space using the inner product
+    given by
+                                                         1
+                                           ⟨𝑝, 𝑞⟩ = ∫ 𝑝𝑞
+                                                         −1
+    for all 𝑝, 𝑞 ∈ 𝒫2 (𝐑). The standard basis 1, 𝑥, 𝑥2 of 𝒫2 (𝐑) is not an orthonor-
+    mal list because the vectors in that list do not have norm 1. Dividing each
+    vector by its norm gives the list 1/√2, √3/2𝑥, √5/2𝑥2, in which each vector
+    has norm 1, and the second vector is orthogonal to the first and third vectors.
+    However, the first and third vectors are not orthogonal. Thus this is not an
+    orthonormal list. Soon we will see how to construct an orthonormal list from
+    the standard basis 1, 𝑥, 𝑥2 (see Example 6.34).
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+198       Chapter 6     Inner Product Spaces
+
+   Orthonormal lists are particularly easy to work with, as illustrated by the next
+result.
+
+ 6.24     norm of an orthonormal linear combination
+
+ Suppose 𝑒1 , … , 𝑒𝑚 is an orthonormal list of vectors in 𝑉. Then
+
+                      ‖𝑎1 𝑒1 + ⋯ + 𝑎𝑚 𝑒𝑚 ‖2 = |𝑎1 |2 + ⋯ + |𝑎𝑚 |2
+
+ for all 𝑎1 , … , 𝑎𝑚 ∈ 𝐅.
+
+Proof   Because each 𝑒𝑘 has norm 1, this follows from repeated applications of
+the Pythagorean theorem (6.12).
+
+      The result above has the following important corollary.
+
+ 6.25     orthonormal lists are linearly independent
+
+ Every orthonormal list of vectors is linearly independent.
+
+Proof   Suppose 𝑒1 , … , 𝑒𝑚 is an orthonormal list of vectors in 𝑉 and 𝑎1 , … , 𝑎𝑚 ∈ 𝐅
+are such that
+                                𝑎1 𝑒1 + ⋯ + 𝑎𝑚 𝑒𝑚 = 0.
+Then |𝑎1 |2 + ⋯ + |𝑎𝑚 |2 = 0 (by 6.24), which means that all the 𝑎𝑘 ’s are 0. Thus
+𝑒1 , … , 𝑒𝑚 is linearly independent.
+
+      Now we come to an important inequality.
+
+ 6.26     Bessel’s inequality
+
+ Suppose 𝑒1 , … , 𝑒𝑚 is an orthonormal list of vectors in 𝑉. If 𝑣 ∈ 𝑉 then
+                                   2                 2
+                            ∣⟨𝑣, 𝑒1 ⟩∣ + ⋯ + ∣⟨𝑣, 𝑒𝑚 ⟩∣ ≤ ‖𝑣‖2.
+
+Proof     Suppose 𝑣 ∈ 𝑉. Then
+           𝑣 = ⟨𝑣, 𝑒1 ⟩𝑒1 + ⋯
+               ⏟⏟⏟⏟⏟⏟⏟⏟⏟      + ⟨𝑣, 𝑒𝑚 ⟩𝑒𝑚 + 𝑣 − ⟨𝑣, 𝑒1 ⟩𝑒1 −
+                                             ⏟⏟⏟⏟⏟⏟⏟⏟⏟⏟⏟      ⋯ − ⟨𝑣, 𝑒𝑚 ⟩𝑒𝑚 .
+                             𝑢                                𝑤
+   Let 𝑢 and 𝑤 be defined as in the equation above. If 𝑘 ∈ {1, … , 𝑚}, then
+⟨𝑤, 𝑒𝑘 ⟩ = ⟨𝑣, 𝑒𝑘 ⟩ − ⟨𝑣, 𝑒𝑘 ⟩⟨𝑒𝑘 , 𝑒𝑘 ⟩ = 0. This implies that ⟨𝑤, 𝑢⟩ = 0. The
+Pythagorean theorem now implies that
+                            ‖𝑣‖2 = ‖𝑢‖2 + ‖𝑤‖2
+                                 ≥ ‖𝑢‖2
+                                           2                  2
+                                 = ∣⟨𝑣, 𝑒1 ⟩∣ + ⋯ + ∣⟨𝑣, 𝑒𝑚 ⟩∣ ,
+where the last line comes from 6.24.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                         Section 6B             Orthonormal Bases                  199
+
+   The next definition introduces one of the most useful concepts in the study of
+inner product spaces.
+
+ 6.27 definition: orthonormal basis
+
+ An orthonormal basis of 𝑉 is an orthonormal list of vectors in 𝑉 that is also a
+ basis of 𝑉.
+
+   For example, the standard basis is an orthonormal basis of 𝐅𝑛.
+
+ 6.28    orthonormal lists of the right length are orthonormal bases
+
+ Suppose 𝑉 is finite-dimensional. Then every orthonormal list of vectors in 𝑉
+ of length dim 𝑉 is an orthonormal basis of 𝑉.
+
+Proof By 6.25, every orthonormal list of vectors in 𝑉 is linearly independent.
+Thus every such list of the right length is a basis—see 2.38.
+
+
+ 6.29 example: an orthonormal basis of 𝐅4
+
+   As mentioned above, the standard basis is an orthonormal basis of 𝐅4. We now
+show that
+           ( 12 , 21 , 12 , 12 ), ( 12 , 12 , − 21 , − 12 ), ( 21 , − 12 , − 21 , 21 ), (− 12 , 12 , − 12 , 12 )
+
+is also an orthonormal basis of 𝐅4.
+    We have
+                           ∥( 12 , 21 , 12 , 21 )∥ = √ 212 + 212 + 212 + 212 = 1.
+
+Similarly, the other three vectors in the list above also have norm 1.
+   Note that
+  ⟨( 21 , 12 , 12 , 21 ), ( 12 , 21 , − 12 , − 12 )⟩ = 21 ⋅ 12 + 12 ⋅ 12 + 12 ⋅ (− 12 ) + 12 ⋅ (− 21 ) = 0.
+
+Similarly, the inner product of any two distinct vectors in the list above also
+equals 0.
+   Thus the list above is orthonormal. Because we have an orthonormal list of
+length four in the four-dimensional vector space 𝐅4, this list is an orthonormal
+basis of 𝐅4 (by 6.28).
+
+    In general, given a basis 𝑒1 , … , 𝑒𝑛 of 𝑉 and a vector 𝑣 ∈ 𝑉, we know that there
+is some choice of scalars 𝑎1 , … , 𝑎𝑛 ∈ 𝐅 such that
+                                            𝑣 = 𝑎 1 𝑒1 + ⋯ + 𝑎 𝑛 𝑒𝑛 .
+Computing the numbers 𝑎1 , … , 𝑎𝑛 that satisfy the equation above can be a long
+computation for an arbitrary basis of 𝑉. The next result shows, however, that this
+is easy for an orthonormal basis—just take 𝑎𝑘 = ⟨𝑣, 𝑒𝑘 ⟩.
+
+                   Linear Algebra Done Right, fourth edition, by Sheldon Axler
+200        Chapter 6            Inner Product Spaces
+
+    Notice how the next result makes                                 The formula below for ‖𝑣‖ is called
+each inner product space of dimension                                Parseval’s identity. It was published in
+𝑛 behave like 𝐅𝑛, with the role of the                               1799 in the context of Fourier series.
+coordinates of a vector in 𝐅𝑛 played by
+⟨𝑣, 𝑒1 ⟩, … , ⟨𝑣, 𝑒𝑛 ⟩.
+
+ 6.30      writing a vector as a linear combination of an orthonormal basis
+
+ Suppose 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉 and 𝑢, 𝑣 ∈ 𝑉. Then
+ (a) 𝑣 = ⟨𝑣, 𝑒1 ⟩𝑒1 + ⋯ + ⟨𝑣, 𝑒𝑛 ⟩𝑒𝑛 ;
+ (b) ‖𝑣‖2 = ∣⟨𝑣, 𝑒1 ⟩∣2 + ⋯ + ∣⟨𝑣, 𝑒𝑛 ⟩∣2;
+ (c) ⟨𝑢, 𝑣⟩ = ⟨𝑢, 𝑒1 ⟩⟨𝑣, 𝑒1 ⟩ + ⋯ + ⟨𝑢, 𝑒𝑛 ⟩⟨𝑣, 𝑒𝑛 ⟩.
+
+Proof      Because 𝑒1 , … , 𝑒𝑛 is a basis of 𝑉, there exist scalars 𝑎1 , … , 𝑎𝑛 such that
+
+                                              𝑣 = 𝑎 1 𝑒1 + ⋯ + 𝑎 𝑛 𝑒𝑛 .
+
+Because 𝑒1 , … , 𝑒𝑛 is orthonormal, taking the inner product of both sides of this
+equation with 𝑒𝑘 gives ⟨𝑣, 𝑒𝑘 ⟩ = 𝑎𝑘 . Thus (a) holds.
+   Now (b) follows immediately from (a) and 6.24.
+   Take the inner product of 𝑢 with each side of (a) and then get (c) by using
+conjugate linearity [6.6(d) and 6.6(e)] in the second slot of the inner product.
+
+
+ 6.31 example: finding coefficients for a linear combination
+
+    Suppose we want to write the vector (1, 2, 4, 7) ∈ 𝐅4 as a linear combination
+of the orthonormal basis
+             ( 12 , 21 , 12 , 12 ), ( 12 , 12 , − 21 , − 12 ), ( 21 , − 12 , − 21 , 21 ), (− 12 , 12 , − 12 , 12 )
+
+of 𝐅4 from Example 6.29. Instead of solving a system of four linear equations
+in four unknowns, as typically would be required if we were working with a
+nonorthonormal basis, we simply evaluate four inner products and use 6.30(a),
+getting that (1, 2, 4, 7) equals
+
+      7( 12 , 21 , 12 , 12 ) − 4( 21 , 12 , − 12 , − 12 ) + ( 12 , − 21 , − 12 , 21 ) + 2(− 21 , 12 , − 12 , 12 ).
+
+    Now that we understand the usefulness of orthonormal bases, how do we go
+about finding them? For example, does 𝒫𝑚 (𝐑) with inner product as in 6.3(c)
+have an orthonormal basis? The next result will lead to answers to these questions.
+    The algorithm used in the next proof Jørgen Gram (1850–1916) and Erhard
+is called the Gram–Schmidt procedure. Schmidt (1876–1959) popularized this
+It gives a method for turning a linearly algorithm that constructs orthonormal
+independent list into an orthonormal list lists.
+with the same span as the original list.
+
+                     Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                                  Section 6B     Orthonormal Bases   201
+
+
+ 6.32   Gram–Schmidt procedure
+
+ Suppose 𝑣1 , … , 𝑣𝑚 is a linearly independent list of vectors in 𝑉. Let 𝑓1 = 𝑣1 .
+ For 𝑘 = 2, … , 𝑚, define 𝑓𝑘 inductively by
+                              ⟨𝑣𝑘 , 𝑓1 ⟩           ⟨𝑣𝑘 , 𝑓𝑘−1 ⟩
+                         𝑓𝑘 = 𝑣𝑘 −        𝑓1 − ⋯ −              𝑓 .
+                               ‖ 𝑓1 ‖ 2             ‖ 𝑓𝑘−1 ‖2 𝑘−1
+                                     𝑓
+ For each 𝑘 = 1, … , 𝑚, let 𝑒𝑘 = 𝑘 . Then 𝑒1 , … , 𝑒𝑚 is an orthonormal list of
+                                   ‖ 𝑓𝑘 ‖
+ vectors in 𝑉 such that
+
+                             span(𝑣1 , … , 𝑣𝑘 ) = span(𝑒1 , … , 𝑒𝑘 )
+
+ for each 𝑘 = 1, … , 𝑚.
+
+Proof    We will show by induction on 𝑘 that the desired conclusion holds. To
+get started with 𝑘 = 1, note that because 𝑒1 = 𝑓1 /‖ 𝑓1 ‖, we have ‖𝑒1 ‖ = 1; also,
+span(𝑣1 ) = span(𝑒1 ) because 𝑒1 is a nonzero multiple of 𝑣1 .
+     Suppose 1 < 𝑘 ≤ 𝑚 and the list 𝑒1 , … , 𝑒𝑘−1 generated by 6.32 is an orthonormal
+list such that
+6.33                      span(𝑣1 , … , 𝑣𝑘−1 ) = span(𝑒1 , … , 𝑒𝑘−1 ).
+Because 𝑣1 , … , 𝑣𝑚 is linearly independent, we have 𝑣𝑘 ∉ span(𝑣1 , … , 𝑣𝑘−1 ). Thus
+𝑣𝑘 ∉ span(𝑒1 , … , 𝑒𝑘−1 ) = span( 𝑓1 , … , 𝑓𝑘−1 ), which implies that 𝑓𝑘 ≠ 0. Hence
+we are not dividing by 0 in the definition of 𝑒𝑘 given in 6.32. Dividing a vector by
+its norm produces a new vector with norm 1; thus ‖𝑒𝑘 ‖ = 1.
+    Let 𝑗 ∈ {1, … , 𝑘 − 1}. Then
+                              1
+          ⟨𝑒𝑘 , 𝑒𝑗 ⟩ =                 ⟨𝑓 , 𝑓 ⟩
+                         ‖ 𝑓𝑘 ‖ ‖ 𝑓 𝑗 ‖ 𝑘 𝑗
+
+                              1             ⟨𝑣𝑘 , 𝑓1 ⟩       ⟨𝑣𝑘 , 𝑓𝑘−1 ⟩
+                   =                   ⟨𝑣 −            𝑓 −⋯−              𝑓 ,𝑓⟩
+                         ‖ 𝑓𝑘 ‖ ‖ 𝑓 𝑗 ‖ 𝑘    ‖ 𝑓1 ‖ 2 1       ‖ 𝑓𝑘−1 ‖2 𝑘−1 𝑗
+
+                              1
+                   =                   (⟨𝑣 , 𝑓 ⟩ − ⟨𝑣𝑘 , 𝑓𝑗 ⟩)
+                         ‖ 𝑓𝑘 ‖ ‖ 𝑓 𝑗 ‖ 𝑘 𝑗
+
+                   = 0.
+Thus 𝑒1 , … , 𝑒𝑘 is an orthonormal list.
+   From the definition of 𝑒𝑘 given in 6.32, we see that 𝑣𝑘 ∈ span(𝑒1 , … , 𝑒𝑘 ).
+Combining this information with 6.33 shows that
+                             span(𝑣1 , … , 𝑣𝑘 ) ⊆ span(𝑒1 , … , 𝑒𝑘 ).
+Both lists above are linearly independent (the 𝑣’s by hypothesis, and the 𝑒’s by
+orthonormality and 6.25). Thus both subspaces above have dimension 𝑘 , and
+hence they are equal, completing the induction step and thus completing the
+proof.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+202        Chapter 6       Inner Product Spaces
+
+
+
+ 6.34 example: an orthonormal basis of 𝒫2 (𝐑)
+
+   Suppose we make 𝒫2 (𝐑) into an inner product space using the inner product
+given by
+                                                       1
+                                         ⟨𝑝, 𝑞⟩ = ∫ 𝑝𝑞
+                                                      −1
+
+for all 𝑝, 𝑞 ∈ 𝒫2 (𝐑). We know that 1, 𝑥, 𝑥2 is a basis of 𝒫2 (𝐑), but it is not an
+orthonormal basis. We will find an orthonormal basis of 𝒫2 (𝐑) by applying the
+Gram–Schmidt procedure with 𝑣1 = 1, 𝑣2 = 𝑥, and 𝑣3 = 𝑥2.
+    To get started, take 𝑓1 = 𝑣1 = 1. Thus ‖ 𝑓1 ‖2 = ∫−1
+                                                      1
+                                                         1 = 2. Hence the formula
+in 6.32 tells us that
+                                        ⟨𝑣2 , 𝑓1 ⟩          ⟨𝑥, 1⟩
+                          𝑓2 = 𝑣 2 −            2
+                                                   𝑓1 = 𝑥 −         = 𝑥,
+                                         ‖ 𝑓1 ‖             ‖ 𝑓1 ‖2
+
+where the last equality holds because ⟨𝑥, 1⟩ = ∫−11
+                                                    𝑡 𝑑𝑡 = 0.
+    The formula above for 𝑓2 implies that ‖ 𝑓2 ‖ = ∫−1
+                                                2
+                                                       𝑡 𝑑𝑡 = 23 . Now the formula
+                                                     1 2
+
+in 6.32 tells us that
+                   ⟨𝑣3 , 𝑓1 ⟩     ⟨𝑣3 , 𝑓2 ⟩
+       𝑓3 = 𝑣3 −              𝑓 −            𝑓 = 𝑥2 − 12 ⟨𝑥2, 1⟩ − 32 ⟨𝑥2, 𝑥⟩𝑥 = 𝑥2 − 13 .
+                    ‖ 𝑓1 ‖2 1      ‖ 𝑓2 ‖ 2 2
+      The formula above for 𝑓3 implies that
+                            1             2        1
+               ‖ 𝑓3 ‖2 = ∫ (𝑡2 − 13 ) 𝑑𝑡 = ∫ (𝑡4 − 23 𝑡2 + 91 ) 𝑑𝑡 = 45
+                                                                     8
+                                                                        .
+                           −1                      −1
+
+      Now dividing each of 𝑓1 , 𝑓2 , 𝑓3 by its norm gives us the orthonormal list
+
+                                  √ 1 , √ 3 𝑥, √ 45 (𝑥2 − 1 ).
+                                    2         2   8         3
+
+The orthonormal list above has length three, which is the dimension of 𝒫2 (𝐑).
+Hence this orthonormal list is an orthonormal basis of 𝒫2 (𝐑) [by 6.28].
+
+      Now we can answer the question about the existence of orthonormal bases.
+
+ 6.35     existence of orthonormal basis
+
+ Every finite-dimensional inner product space has an orthonormal basis.
+
+Proof  Suppose 𝑉 is finite-dimensional. Choose a basis of 𝑉. Apply the Gram–
+Schmidt procedure (6.32) to it, producing an orthonormal list of length dim 𝑉.
+By 6.28, this orthonormal list is an orthonormal basis of 𝑉.
+
+    Sometimes we need to know not only that an orthonormal basis exists, but also
+that every orthonormal list can be extended to an orthonormal basis. In the next
+corollary, the Gram–Schmidt procedure shows that such an extension is always
+possible.
+
+                   Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                           Section 6B          Orthonormal Bases   203
+
+
+ 6.36   every orthonormal list extends to an orthonormal basis
+
+ Suppose 𝑉 is finite-dimensional. Then every orthonormal list of vectors in 𝑉
+ can be extended to an orthonormal basis of 𝑉.
+
+Proof     Suppose 𝑒1 , … , 𝑒𝑚 is an orthonormal list of vectors in 𝑉. Then 𝑒1 , … , 𝑒𝑚
+is linearly independent (by 6.25). Hence this list can be extended to a basis
+𝑒1 , … , 𝑒𝑚 , 𝑣1 , … , 𝑣𝑛 of 𝑉 (see 2.32). Now apply the Gram–Schmidt procedure
+(6.32) to 𝑒1 , … , 𝑒𝑚 , 𝑣1 , … , 𝑣𝑛 , producing an orthonormal list
+                                 𝑒1 , … , 𝑒𝑚 , 𝑓1 , … , 𝑓𝑛 ;
+here the formula given by the Gram–Schmidt procedure leaves the first 𝑚 vectors
+unchanged because they are already orthonormal. The list above is an orthonormal
+basis of 𝑉 by 6.28.
+
+   Recall that a matrix is called upper triangular if it looks like this:
+
+                                   ⎛
+                                       ∗          ∗⎞
+                                   ⎜               ⎟
+                                   ⎜
+                                   ⎜        ⋱      ⎟,
+                                                   ⎟
+                                   ⎝ 0            ∗⎠
+where the 0 in the matrix above indicates that all entries below the diagonal
+equal 0, and asterisks are used to denote entries on and above the diagonal.
+    In the last chapter, we gave a necessary and sufficient condition for an operator
+to have an upper-triangular matrix with respect to some basis (see 5.44). Now that
+we are dealing with inner product spaces, we would like to know whether there
+exists an orthonormal basis with respect to which we have an upper-triangular
+matrix. The next result shows that the condition for an operator to have an upper-
+triangular matrix with respect to some orthonormal basis is the same as the
+condition to have an upper-triangular matrix with respect to an arbitrary basis.
+
+ 6.37   upper-triangular matrix with respect to some orthonormal basis
+
+ Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉). Then 𝑇 has an upper-
+ triangular matrix with respect to some orthonormal basis of 𝑉 if and only if the
+ minimal polynomial of 𝑇 equals (𝑧 − 𝜆1 ) ⋯ (𝑧 − 𝜆𝑚 ) for some 𝜆1 , … , 𝜆𝑚 ∈ 𝐅.
+
+Proof Suppose 𝑇 has an upper-triangular matrix with respect to some basis
+𝑣1 , … , 𝑣𝑛 of 𝑉. Thus span(𝑣1 , … , 𝑣𝑘 ) is invariant under 𝑇 for each 𝑘 = 1, … , 𝑛
+(see 5.39).
+    Apply the Gram–Schmidt procedure to 𝑣1 , … , 𝑣𝑛 , producing an orthonormal
+basis 𝑒1 , … , 𝑒𝑛 of 𝑉. Because
+                        span(𝑒1 , … , 𝑒𝑘 ) = span(𝑣1 , … , 𝑣𝑘 )
+for each 𝑘 (see 6.32), we conclude that span(𝑒1 , … , 𝑒𝑘 ) is invariant under 𝑇 for
+each 𝑘 = 1, … , 𝑛. Thus, by 5.39, 𝑇 has an upper-triangular matrix with respect to
+the orthonormal basis 𝑒1 , … , 𝑒𝑛 . Now use 5.44 to complete the proof.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+204       Chapter 6     Inner Product Spaces
+
+   For complex vector spaces, the next Issai Schur (1875–1941) published a
+result is an important application of the proof of the next result in 1909.
+result above. See Exercise 20 for a ver-
+sion of Schur’s theorem that applies simultaneously to more than one operator.
+
+ 6.38     Schur’s theorem
+ Every operator on a finite-dimensional complex inner product space has an
+ upper-triangular matrix with respect to some orthonormal basis.
+
+Proof  The desired result follows from the second version of the fundamental
+theorem of algebra (4.13) and 6.37.
+
+
+
+Linear Functionals on Inner Product Spaces
+Because linear maps into the scalar field 𝐅 play a special role, we defined a special
+name for them and their vector space in Section 3F. Those definitions are repeated
+below in case you skipped Section 3F.
+
+ 6.39 definition: linear functional, dual space, 𝑉 ′
+
+ • A linear functional on 𝑉 is a linear map from 𝑉 to 𝐅.
+ • The dual space of 𝑉, denoted by 𝑉 ′, is the vector space of all linear
+   functionals on 𝑉. In other words, 𝑉 ′ = ℒ(𝑉, 𝐅).
+
+
+ 6.40 example: linear functional on 𝐅3
+
+      The function 𝜑 ∶ 𝐅3 → 𝐅 defined by
+
+                            𝜑(𝑧1 , 𝑧2 , 𝑧3 ) = 2𝑧1 − 5𝑧2 + 𝑧3
+
+is a linear functional on 𝐅3. We could write this linear functional in the form
+
+                                     𝜑(𝑧) = ⟨𝑧, 𝑤⟩
+
+for every 𝑧 ∈ 𝐅3, where 𝑤 = (2, −5, 1).
+
+
+ 6.41 example: linear functional on 𝒫5 (𝐑)
+
+      The function 𝜑 ∶ 𝒫5 (𝐑) → 𝐑 defined by
+                                        1
+                             𝜑(𝑝) = ∫ 𝑝(𝑡)(cos(𝜋𝑡)) 𝑑𝑡
+                                       −1
+
+is a linear functional on 𝒫5 (𝐑).
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                           Section 6B     Orthonormal Bases      205
+
+    If 𝑣 ∈ 𝑉, then the map that sends 𝑢 The next result is named in honor
+to ⟨𝑢, 𝑣⟩ is a linear functional on 𝑉. The of Frigyes Riesz (1880–1956), who
+next result states that every linear func- proved several theorems early in the
+tional on 𝑉 is of this form. For example, twentieth century that look very much
+we can take 𝑣 = (2, −5, 1) in Example like the result below.
+6.40.
+    Suppose we make the vector space 𝒫5 (𝐑) into an inner product space by
+defining ⟨𝑝, 𝑞⟩ = ∫−11
+                        𝑝𝑞. Let 𝜑 be as in Example 6.41. It is not obvious that there
+exists 𝑞 ∈ 𝒫5 (𝐑) such that
+                               1
+                           ∫       𝑝(𝑡)(cos(𝜋𝑡)) 𝑑𝑡 = ⟨𝑝, 𝑞⟩
+                             −1
+
+for every 𝑝 ∈ 𝒫5 (𝐑) [we cannot take 𝑞(𝑡) = cos(𝜋𝑡) because that choice of 𝑞 is
+not an element of 𝒫5 (𝐑)]. The next result tells us the somewhat surprising result
+that there indeed exists a polynomial 𝑞 ∈ 𝒫5 (𝐑) such that the equation above
+holds for all 𝑝 ∈ 𝒫5 (𝐑).
+
+ 6.42   Riesz representation theorem
+
+ Suppose 𝑉 is finite-dimensional and 𝜑 is a linear functional on 𝑉. Then there
+ is a unique vector 𝑣 ∈ 𝑉 such that
+
+                                      𝜑(𝑢) = ⟨𝑢, 𝑣⟩
+
+ for every 𝑢 ∈ 𝑉.
+
+Proof   First we show that there exists a vector 𝑣 ∈ 𝑉 such that 𝜑(𝑢) = ⟨𝑢, 𝑣⟩ for
+every 𝑢 ∈ 𝑉. Let 𝑒1 , … , 𝑒𝑛 be an orthonormal basis of 𝑉. Then
+                     𝜑(𝑢) = 𝜑(⟨𝑢, 𝑒1 ⟩𝑒1 + ⋯ + ⟨𝑢, 𝑒𝑛 ⟩𝑒𝑛 )
+                            = ⟨𝑢, 𝑒1 ⟩𝜑(𝑒1 ) + ⋯ + ⟨𝑢, 𝑒𝑛 ⟩𝜑(𝑒𝑛 )
+
+                            = ⟨𝑢, 𝜑(𝑒1 )𝑒1 + ⋯ + 𝜑(𝑒𝑛 )𝑒𝑛 ⟩
+for every 𝑢 ∈ 𝑉, where the first equality comes from 6.30(a). Thus setting
+6.43                        𝑣 = 𝜑(𝑒1 )𝑒1 + ⋯ + 𝜑(𝑒𝑛 )𝑒𝑛 ,
+we have 𝜑(𝑢) = ⟨𝑢, 𝑣⟩ for every 𝑢 ∈ 𝑉, as desired.
+     Now we prove that only one vector 𝑣 ∈ 𝑉 has the desired behavior. Suppose
+𝑣1 , 𝑣2 ∈ 𝑉 are such that
+                               𝜑(𝑢) = ⟨𝑢, 𝑣1 ⟩ = ⟨𝑢, 𝑣2 ⟩
+for every 𝑢 ∈ 𝑉. Then
+                        0 = ⟨𝑢, 𝑣1 ⟩ − ⟨𝑢, 𝑣2 ⟩ = ⟨𝑢, 𝑣1 − 𝑣2 ⟩
+for every 𝑢 ∈ 𝑉. Taking 𝑢 = 𝑣1 − 𝑣2 shows that 𝑣1 − 𝑣2 = 0. Thus 𝑣1 = 𝑣2 ,
+completing the proof of the uniqueness part of the result.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+206       Chapter 6        Inner Product Spaces
+
+
+
+ 6.44 example: computation illustrating Riesz representation theorem
+
+      Suppose we want to find a polynomial 𝑞 ∈ 𝒫2 (𝐑) such that
+                               1                            1
+6.45                           ∫    𝑝(𝑡)(cos(𝜋𝑡)) 𝑑𝑡 = ∫ 𝑝𝑞
+                               −1                           −1
+
+for every polynomial 𝑝 ∈ 𝒫2 (𝐑). To do this, we make 𝒫2 (𝐑) into an inner product
+space by defining ⟨𝑝, 𝑞⟩ to be the right side of the equation above for 𝑝, 𝑞 ∈ 𝒫2 (𝐑).
+Note that the left side of the equation above does not equal the inner product
+in 𝒫2 (𝐑) of 𝑝 and the function 𝑡 ↦ cos(𝜋𝑡) because this last function is not a
+polynomial.
+    Define a linear functional 𝜑 on 𝒫2 (𝐑) by letting
+                                          1
+                               𝜑(𝑝) = ∫ 𝑝(𝑡)(cos(𝜋𝑡)) 𝑑𝑡
+                                         −1
+
+for each 𝑝 ∈ 𝒫2 (𝐑). Now use the orthonormal basis from Example 6.34 and
+apply formula 6.43 from the proof of the Riesz representation theorem to see that
+if 𝑝 ∈ 𝒫2 (𝐑), then 𝜑(𝑝) = ⟨𝑝, 𝑞⟩, where
+                      1                                 1
+           𝑞(𝑥) = (∫ √ 12 cos(𝜋𝑡) 𝑑𝑡)√ 12 + (∫ √ 32 𝑡 cos(𝜋𝑡) 𝑑𝑡)√ 32 𝑥
+                      −1                             −1
+
+                           1
+                  + (∫ √ 45
+                         8
+                            (𝑡2 − 31 ) cos(𝜋𝑡) 𝑑𝑡)√ 45
+                                                    8
+                                                       (𝑥2 − 13 ).
+                          −1
+
+A bit of calculus applied to the equation above shows that
+                                            15         2
+                                    𝑞(𝑥) = 2𝜋 2 (1 − 3𝑥 ).
+
+
+   The same procedure shows that if we want to find 𝑞 ∈ 𝒫5 (𝐑) such that 6.45
+holds for all 𝑝 ∈ 𝒫5 (𝐑), then we should take
+                 105           2        2       2            2 4
+          𝑞(𝑥) = 8𝜋 4 ((27 − 2𝜋 ) + (24𝜋 − 270)𝑥 + (315 − 30𝜋 )𝑥 ).
+
+
+
+   Suppose 𝑉 is finite-dimensional and 𝜑 a linear functional on 𝑉. Then 6.43
+gives a formula for the vector 𝑣 that satisfies
+                                        𝜑(𝑢) = ⟨𝑢, 𝑣⟩
+for all 𝑢 ∈ 𝑉. Specifically, we have
+                               𝑣 = 𝜑(𝑒1 )𝑒1 + ⋯ + 𝜑(𝑒𝑛 )𝑒𝑛 .
+The right side of the equation above seems to depend on the orthonormal basis
+𝑒1 , … , 𝑒𝑛 as well as on 𝜑. However, 6.42 tells us that 𝑣 is uniquely determined
+by 𝜑. Thus the right side of the equation above is the same regardless of which
+orthonormal basis 𝑒1 , … , 𝑒𝑛 of 𝑉 is chosen.
+     For two additional different proofs of the Riesz representation theorem, see
+6.58 and also Exercise 13 in Section 6C.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                          Section 6B          Orthonormal Bases            207
+
+Exercises 6B
+
+1   Suppose 𝑒1 , … , 𝑒𝑚 is a list of vectors in 𝑉 such that
+                           ‖𝑎1 𝑒1 + ⋯ + 𝑎𝑚 𝑒𝑚 ‖2 = |𝑎1 |2 + ⋯ + |𝑎𝑚 |2
+    for all 𝑎1 , … , 𝑎𝑚 ∈ 𝐅. Show that 𝑒1 , … , 𝑒𝑚 is an orthonormal list.
+       This exercise provides a converse to 6.24.
+
+2   (a) Suppose 𝜃 ∈ 𝐑 . Show that both
+           (cos 𝜃, sin 𝜃), (− sin 𝜃, cos 𝜃)     and (cos 𝜃, sin 𝜃), (sin 𝜃, − cos 𝜃)
+        are orthonormal bases of 𝐑2.
+    (b) Show that each orthonormal basis of 𝐑2 is of the form given by one of
+        the two possibilities in (a).
+3   Suppose 𝑒1 , … , 𝑒𝑚 is an orthonormal list in 𝑉 and 𝑣 ∈ 𝑉. Prove that
+                                                      ⟺ 𝑣 ∈ span(𝑒1 , … , 𝑒𝑚 ).
+                                2                2
+            ‖𝑣‖2 = ∣⟨𝑣, 𝑒1 ⟩∣ + ⋯ + ∣⟨𝑣, 𝑒𝑚 ⟩∣
+4   Suppose 𝑛 is a positive integer. Prove that
+                 1 cos 𝑥 cos 2𝑥 cos 𝑛𝑥 sin 𝑥 sin 2𝑥 sin 𝑛𝑥
+                  , √ , √ ,…, √ , √ , √ ,…, √
+              √2𝜋    𝜋      𝜋      𝜋     𝜋      𝜋      𝜋
+    is an orthonormal list of vectors in 𝐶[−𝜋 , 𝜋], the vector space of continuous
+    real-valued functions on [−𝜋 , 𝜋] with inner product
+                                                  𝜋
+                                       ⟨ 𝑓 , 𝑔⟩ = ∫    𝑓 𝑔.
+                                                  −𝜋
+
+       Hint: The following formulas should help.
+                                           sin(𝑥 − 𝑦) + sin(𝑥 + 𝑦)
+                          (sin 𝑥)(cos 𝑦) =
+                                                      2
+                                           cos(𝑥 − 𝑦) − cos(𝑥 + 𝑦)
+                          (sin 𝑥)(sin 𝑦) =
+                                                      2
+                                           cos(𝑥 − 𝑦) + cos(𝑥 + 𝑦)
+                         (cos 𝑥)(cos 𝑦) =
+                                                      2
+
+5   Suppose 𝑓 ∶ [−𝜋 , 𝜋] → 𝐑 is continuous. For each nonnegative integer 𝑘 ,
+    define
+                     𝜋                                            𝜋
+        𝑎𝑘 = √1𝜋 ∫        𝑓 (𝑥) cos(𝑘𝑥) 𝑑𝑥    and 𝑏𝑘 = √1𝜋 ∫           𝑓 (𝑥) sin(𝑘𝑥) 𝑑𝑥.
+                     −𝜋                                           −𝜋
+
+    Prove that
+                                𝑎02    ∞                𝜋
+                                    + ∑ (𝑎𝑘2 + 𝑏𝑘2 ) ≤ ∫ 𝑓 2.
+                                 2    𝑘=1               −𝜋
+
+       The inequality above is actually an equality for all continuous functions
+       𝑓 ∶ [−𝜋 , 𝜋] → 𝐑 . However, proving that this inequality is an equality
+       involves Fourier series techniques beyond the scope of this book.
+
+             Linear Algebra Done Right, fourth edition, by Sheldon Axler
+208      Chapter 6      Inner Product Spaces
+
+ 6    Suppose 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉.
+      (a) Prove that if 𝑣1 , … , 𝑣𝑛 are vectors in 𝑉 such that
+                                                        1
+                                          ‖𝑒𝑘 − 𝑣𝑘 ‖ < √
+                                                         𝑛
+          for each 𝑘 , then 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉.
+      (b) Show that there exist 𝑣1 , … , 𝑣𝑛 ∈ 𝑉 such that
+                                                        1
+                                          ‖𝑒𝑘 − 𝑣𝑘 ‖ ≤ √
+                                                         𝑛
+          for each 𝑘 , but 𝑣1 , … , 𝑣𝑛 is not linearly independent.
+         This exercise states in (a) that an appropriately small perturbation of an
+                                                                         √
+         orthonormal basis is a basis. Then (b) shows that the number 1/ 𝑛 on the
+         right side of the inequality in (a) cannot be higher.
+
+ 7    Suppose 𝑇 ∈ ℒ(𝐑3 ) has an upper-triangular matrix with respect to the basis
+      (1, 0, 0), (1, 1, 1), (1, 1, 2). Find an orthonormal basis of 𝐑3 with respect to
+      which 𝑇 has an upper-triangular matrix.
+ 8    Make 𝒫2 (𝐑) into an inner product space by defining ⟨𝑝, 𝑞⟩ = ∫01 𝑝𝑞 for all
+      𝑝, 𝑞 ∈ 𝒫2 (𝐑).
+      (a) Apply the Gram–Schmidt procedure to the basis 1, 𝑥, 𝑥2 to produce an
+          orthonormal basis of 𝒫2 (𝐑).
+      (b) The differentiation operator (the operator that takes 𝑝 to 𝑝′ ) on 𝒫2 (𝐑)
+          has an upper-triangular matrix with respect to the basis 1, 𝑥, 𝑥2, which is
+          not an orthonormal basis. Find the matrix of the differentiation operator
+          on 𝒫2 (𝐑) with respect to the orthonormal basis produced in (a) and
+          verify that this matrix is upper triangular, as expected from the proof of
+          6.37.
+ 9    Suppose 𝑒1 , … , 𝑒𝑚 is the result of applying the Gram–Schmidt procedure to
+      a linearly independent list 𝑣1 , … , 𝑣𝑚 in 𝑉. Prove that ⟨𝑣𝑘 , 𝑒𝑘 ⟩ > 0 for each
+      𝑘 = 1, … , 𝑚.
+10    Suppose 𝑣1 , … , 𝑣𝑚 is a linearly independent list in 𝑉. Explain why the
+      orthonormal list produced by the formulas of the Gram–Schmidt procedure
+      (6.32) is the only orthonormal list 𝑒1 , … , 𝑒𝑚 in 𝑉 such that ⟨𝑣𝑘 , 𝑒𝑘 ⟩ > 0 and
+      span(𝑣1 , … , 𝑣𝑘 ) = span(𝑒1 , … , 𝑒𝑘 ) for each 𝑘 = 1, … , 𝑚.
+         The result in this exercise is used in the proof of 7.58.
+
+11    Find a polynomial 𝑞 ∈ 𝒫2 (𝐑) such that 𝑝( 12 ) = ∫01 𝑝𝑞 for every 𝑝 ∈ 𝒫2 (𝐑).
+12    Find a polynomial 𝑞 ∈ 𝒫2 (𝐑) such that
+                                  1                          1
+                                ∫ 𝑝(𝑥) cos(𝜋𝑥) 𝑑𝑥 = ∫ 𝑝𝑞
+                                 0                         0
+
+      for every 𝑝 ∈ 𝒫2 (𝐑).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+                                         Section 6B      Orthonormal Bases           209
+
+13   Show that a list 𝑣1 , … , 𝑣𝑚 of vectors in 𝑉 is linearly dependent if and only if
+     the Gram–Schmidt formula in 6.32 produces 𝑓𝑘 = 0 for some 𝑘 ∈ {1, … , 𝑚}.
+        This exercise gives an alternative to Gaussian elimination techniques for
+        determining whether a list of vectors in an inner product space is linearly
+        dependent.
+
+14   Suppose 𝑉 is a real inner product space and 𝑣1 , … , 𝑣𝑚 is a linearly indepen-
+     dent list of vectors in 𝑉. Prove that there exist exactly 2𝑚 orthonormal lists
+     𝑒1 , … , 𝑒𝑚 of vectors in 𝑉 such that
+                           span(𝑣1 , … , 𝑣𝑘 ) = span(𝑒1 , … , 𝑒𝑘 )
+     for all 𝑘 ∈ {1, … , 𝑚}.
+15   Suppose ⟨⋅, ⋅⟩1 and ⟨⋅, ⋅⟩2 are inner products on 𝑉 such that ⟨𝑢, 𝑣⟩1 = 0 if
+     and only if ⟨𝑢, 𝑣⟩2 = 0. Prove that there is a positive number 𝑐 such that
+     ⟨𝑢, 𝑣⟩1 = 𝑐⟨𝑢, 𝑣⟩2 for every 𝑢, 𝑣 ∈ 𝑉.
+        This exercise shows that if two inner products have the same pairs of
+        orthogonal vectors, then each of the inner products is a scalar multiple
+        of the other inner product.
+
+16   Suppose 𝑉 is finite-dimensional. Suppose ⟨⋅, ⋅⟩1 , ⟨⋅, ⋅⟩2 are inner products on
+     𝑉 with corresponding norms ‖ ⋅ ‖1 and ‖ ⋅ ‖2 . Prove that there exists a positive
+     number 𝑐 such that ‖𝑣‖1 ≤ 𝑐‖𝑣‖2 for every 𝑣 ∈ 𝑉.
+17   Suppose 𝐅 = 𝐂 and 𝑉 is finite-dimensional. Prove that if 𝑇 is an operator
+     on 𝑉 such that 1 is the only eigenvalue of 𝑇 and ‖𝑇𝑣‖ ≤ ‖𝑣‖ for all 𝑣 ∈ 𝑉,
+     then 𝑇 is the identity operator.
+18   Suppose 𝑢1 , … , 𝑢𝑚 is a linearly independent list in 𝑉. Show that there exists
+     𝑣 ∈ 𝑉 such that ⟨𝑢𝑘 , 𝑣⟩ = 1 for all 𝑘 ∈ {1, … , 𝑚}.
+
+19   Suppose 𝑣1 , … , 𝑣𝑛 is a basis of 𝑉. Prove that there exists a basis 𝑢1 , … , 𝑢𝑛
+     of 𝑉 such that
+                                             {0 if 𝑗 ≠ 𝑘 ,
+                                             ⎧
+                                ⟨𝑣𝑗 , 𝑢𝑘 ⟩ = ⎨
+                                             ⎩1 if 𝑗 = 𝑘.
+                                             {
+20   Suppose 𝐅 = 𝐂 , 𝑉 is finite-dimensional, and ℰ ⊆ ℒ(𝑉) is such that
+                                         𝑆𝑇 = 𝑇𝑆
+     for all 𝑆, 𝑇 ∈ ℰ. Prove that there is an orthonormal basis of 𝑉 with respect
+     to which every element of ℰ has an upper-triangular matrix.
+        This exercise strengthens Exercise 9(b) in Section 5E (in the context of inner
+        product spaces) by asserting that the basis in that exercise can be chosen to
+        be orthonormal.
+
+21   Suppose 𝐅 = 𝐂 , 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and all eigenvalues
+     of 𝑇 have absolute value less than 1. Let 𝜖 > 0. Prove that there exists a
+     positive integer 𝑚 such that ∥𝑇 𝑚 𝑣∥ ≤ 𝜖‖𝑣‖ for every 𝑣 ∈ 𝑉.
+
+              Linear Algebra Done Right, fourth edition, by Sheldon Axler
+210       Chapter 6     Inner Product Spaces
+
+22     Suppose 𝐶[−1, 1] is the vector space of continuous real-valued functions
+       on the interval [−1, 1] with inner product given by
+                                                   1
+                                       ⟨ 𝑓 , 𝑔⟩ = ∫     𝑓𝑔
+                                                   −1
+
+       for all 𝑓 , 𝑔 ∈ 𝐶[−1, 1]. Let 𝜑 be the linear functional on 𝐶[−1, 1] defined
+       by 𝜑( 𝑓 ) = 𝑓 (0). Show that there does not exist 𝑔 ∈ 𝐶[−1, 1] such that
+
+                                        𝜑( 𝑓 ) = ⟨ 𝑓 , 𝑔⟩
+
+       for every 𝑓 ∈ 𝐶[−1, 1].
+          This exercise shows that the Riesz representation theorem (6.42) does not
+          hold on infinite-dimensional vector spaces without additional hypotheses
+          on 𝑉 and 𝜑.
+
+23     For all 𝑢, 𝑣 ∈ 𝑉, define 𝑑(𝑢, 𝑣) = ‖𝑢 − 𝑣‖.
+       (a) Show that 𝑑 is a metric on 𝑉.
+       (b) Show that if 𝑉 is finite-dimensional, then 𝑑 is a complete metric on 𝑉
+           (meaning that every Cauchy sequence converges).
+       (c) Show that every finite-dimensional subspace of 𝑉 is a closed subset
+           of 𝑉 (with respect to the metric 𝑑 ).
+          This exercise requires familiarity with metric spaces.
+
+
+
+
+      orthogonality at the Supreme Court
+
+ Law professor Richard Friedman presenting a case before the U.S. Supreme
+ Court in 2010:
+ Mr. Friedman: I think that issue is entirely orthogonal to the issue here
+                 because the Commonwealth is acknowledging—
+ Chief Justice Roberts: I’m sorry. Entirely what?
+ Mr. Friedman: Orthogonal. Right angle. Unrelated. Irrelevant.
+ Chief Justice Roberts: Oh.
+ Justice Scalia: What was that adjective? I liked that.
+ Mr. Friedman: Orthogonal.
+ Chief Justice Roberts: Orthogonal.
+ Mr. Friedman: Right, right.
+ Justice Scalia: Orthogonal, ooh. (Laughter.)
+ Justice Kennedy: I knew this case presented us a problem. (Laughter.)
+
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+   Section 6C      Orthogonal Complements and Minimization Problems            211
+
+6C Orthogonal Complements and Minimization Problems
+Orthogonal Complements
+
+ 6.46 definition: orthogonal complement, 𝑈 ⟂
+
+ If 𝑈 is a subset of 𝑉, then the orthogonal complement of 𝑈 , denoted by 𝑈 ⟂,
+ is the set of all vectors in 𝑉 that are orthogonal to every vector in 𝑈 :
+
+                   𝑈 ⟂ = {𝑣 ∈ 𝑉 ∶ ⟨𝑢, 𝑣⟩ = 0 for every 𝑢 ∈ 𝑈}.
+
+   The orthogonal complement 𝑈 ⟂ depends on 𝑉 as well as on 𝑈 . However, the
+inner product space 𝑉 should always be clear from the context and thus it can be
+omitted from the notation.
+
+ 6.47 example: orthogonal complements
+
+• If 𝑉 = 𝐑3 and 𝑈 is the subset of 𝑉 consisting of the single point (2, 3, 5), then
+  𝑈 ⟂ is the plane {(𝑥, 𝑦, 𝑧) ∈ 𝐑3 ∶ 2𝑥 + 3𝑦 + 5𝑧 = 0}.
+• If 𝑉 = 𝐑3 and 𝑈 is the plane {(𝑥, 𝑦, 𝑧) ∈ 𝐑3 ∶ 2𝑥 + 3𝑦 + 5𝑧 = 0}, then 𝑈 ⟂ is
+  the line {(2𝑡, 3𝑡, 5𝑡) ∶ 𝑡 ∈ 𝐑}.
+• More generally, if 𝑈 is a plane in 𝐑3 containing the origin, then 𝑈 ⟂ is the line
+  containing the origin that is perpendicular to 𝑈 .
+• If 𝑈 is a line in 𝐑3 containing the origin, then 𝑈 ⟂ is the plane containing the
+  origin that is perpendicular to 𝑈 .
+• If 𝑉 = 𝐅5 and 𝑈 = {(𝑎, 𝑏, 0, 0, 0) ∈ 𝐅5 ∶ 𝑎, 𝑏 ∈ 𝐅}, then
+                        𝑈 ⟂ = {(0, 0, 𝑥, 𝑦, 𝑧) ∈ 𝐅5 ∶ 𝑥, 𝑦, 𝑧 ∈ 𝐅}.
+
+• If 𝑒1 , … , 𝑒𝑚 , 𝑓1 , … , 𝑓𝑛 is an orthonormal basis of 𝑉, then
+                        (span(𝑒1 , … , 𝑒𝑚 )) = span( 𝑓1 , … , 𝑓𝑛 ).
+                                             ⟂
+
+
+
+   We begin with some straightforward consequences of the definition.
+
+ 6.48    properties of orthogonal complement
+ (a) If 𝑈 is a subset of 𝑉, then 𝑈 ⟂ is a subspace of 𝑉.
+ (b) {0}⟂ = 𝑉.
+ (c) 𝑉 ⟂ = {0}.
+ (d) If 𝑈 is a subset of 𝑉, then 𝑈 ∩ 𝑈 ⟂ ⊆ {0}.
+ (e) If 𝐺 and 𝐻 are subsets of 𝑉 and 𝐺 ⊆ 𝐻 , then 𝐻 ⟂ ⊆ 𝐺⟂.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+212       Chapter 6     Inner Product Spaces
+
+Proof
+(a) Suppose 𝑈 is a subset of 𝑉. Then ⟨𝑢, 0⟩ = 0 for every 𝑢 ∈ 𝑈 ; thus 0 ∈ 𝑈 ⟂.
+      Suppose 𝑣, 𝑤 ∈ 𝑈 ⟂. If 𝑢 ∈ 𝑈 , then
+
+                        ⟨𝑢, 𝑣 + 𝑤⟩ = ⟨𝑢, 𝑣⟩ + ⟨𝑢, 𝑤⟩ = 0 + 0 = 0.
+
+      Thus 𝑣 + 𝑤 ∈ 𝑈 ⟂, which shows that 𝑈 ⟂ is closed under addition.
+      Similarly, suppose 𝜆 ∈ 𝐅 and 𝑣 ∈ 𝑈 ⟂. If 𝑢 ∈ 𝑈 , then
+
+                              ⟨𝑢, 𝜆𝑣⟩ = 𝜆⟨𝑢, 𝑣⟩ = 𝜆 ⋅ 0 = 0.
+
+      Thus 𝜆𝑣 ∈ 𝑈 ⟂, which shows that 𝑈 ⟂ is closed under scalar multiplication.
+      Thus 𝑈 ⟂ is a subspace of 𝑉.
+(b) Suppose that 𝑣 ∈ 𝑉. Then ⟨0, 𝑣⟩ = 0, which implies that 𝑣 ∈ {0}⟂. Thus
+    {0}⟂ = 𝑉.
+(c) Suppose that 𝑣 ∈ 𝑉 ⟂. Then ⟨𝑣, 𝑣⟩ = 0, which implies that 𝑣 = 0. Thus
+    𝑉 ⟂ = {0}.
+(d) Suppose 𝑈 is a subset of 𝑉 and 𝑢 ∈ 𝑈 ∩ 𝑈 ⟂. Then ⟨𝑢, 𝑢⟩ = 0, which implies
+    that 𝑢 = 0. Thus 𝑈 ∩ 𝑈 ⟂ ⊆ {0}.
+(e) Suppose 𝐺 and 𝐻 are subsets of 𝑉 and 𝐺 ⊆ 𝐻 . Suppose 𝑣 ∈ 𝐻 ⟂. Then
+    ⟨𝑢, 𝑣⟩ = 0 for every 𝑢 ∈ 𝐻 , which implies that ⟨𝑢, 𝑣⟩ = 0 for every 𝑢 ∈ 𝐺.
+    Hence 𝑣 ∈ 𝐺⟂. Thus 𝐻 ⟂ ⊆ 𝐺⟂.
+
+    Recall that if 𝑈 and 𝑊 are subspaces of 𝑉, then 𝑉 is the direct sum of 𝑈 and
+𝑊 (written 𝑉 = 𝑈 ⊕ 𝑊 ) if each element of 𝑉 can be written in exactly one way
+as a vector in 𝑈 plus a vector in 𝑊 (see 1.41). Furthermore, this happens if and
+only if 𝑉 = 𝑈 + 𝑊 and 𝑈 ∩ 𝑊 = {0} (see 1.46).
+    The next result shows that every finite-dimensional subspace of 𝑉 leads to a
+natural direct sum decomposition of 𝑉. See Exercise 16 for an example showing
+that the result below can fail without the hypothesis that the subspace 𝑈 is finite-
+dimensional.
+
+ 6.49    direct sum of a subspace and its orthogonal complement
+
+ Suppose 𝑈 is a finite-dimensional subspace of 𝑉. Then
+
+                                     𝑉 = 𝑈 ⊕ 𝑈 ⟂.
+
+Proof    First we will show that
+
+                                     𝑉 = 𝑈 + 𝑈 ⟂.
+
+To do this, suppose that 𝑣 ∈ 𝑉. Let 𝑒1 , … , 𝑒𝑚 be an orthonormal basis of 𝑈 . We
+want to write 𝑣 as the sum of a vector in 𝑈 and a vector orthogonal to 𝑈 .
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+   Section 6C      Orthogonal Complements and Minimization Problems             213
+
+   We have
+6.50     𝑣 = ⟨𝑣, 𝑒1 ⟩𝑒1
+             ⏟⏟⏟⏟⏟⏟⏟⏟⏟  + ⋯ + ⟨𝑣, 𝑒𝑚 ⟩𝑒𝑚 + 𝑣 − ⟨𝑣, 𝑒1 ⟩𝑒1
+                                           ⏟⏟⏟⏟⏟⏟⏟⏟⏟⏟⏟    − ⋯ − ⟨𝑣, 𝑒𝑚 ⟩𝑒𝑚 .
+                            𝑢                                    𝑤
+
+Let 𝑢 and 𝑤 be defined as in the equation above (as was done in the proof of 6.26).
+Because each 𝑒𝑘 ∈ 𝑈 , we see that 𝑢 ∈ 𝑈 . Because 𝑒1 , … , 𝑒𝑚 is an orthonormal
+list, for each 𝑘 = 1, … , 𝑚 we have
+                                ⟨𝑤, 𝑒𝑘 ⟩ = ⟨𝑣, 𝑒𝑘 ⟩ − ⟨𝑣, 𝑒𝑘 ⟩
+                                        = 0.
+Thus 𝑤 is orthogonal to every vector in span(𝑒1 , … , 𝑒𝑚 ), which shows that 𝑤 ∈ 𝑈 ⟂.
+Hence we have written 𝑣 = 𝑢 + 𝑤, where 𝑢 ∈ 𝑈 and 𝑤 ∈ 𝑈 ⟂, completing the
+proof that 𝑉 = 𝑈 + 𝑈 ⟂.
+   From 6.48(d), we know that 𝑈 ∩ 𝑈 ⟂ = {0}. Now equation 𝑉 = 𝑈 + 𝑈 ⟂
+implies that 𝑉 = 𝑈 ⊕ 𝑈 ⟂ (see 1.46).
+
+   Now we can see how to compute dim 𝑈 ⟂ from dim 𝑈 .
+
+ 6.51   dimension of orthogonal complement
+
+ Suppose 𝑉 is finite-dimensional and 𝑈 is a subspace of 𝑉. Then
+
+                             dim 𝑈 ⟂ = dim 𝑉 − dim 𝑈.
+
+Proof   The formula for dim 𝑈 ⟂ follows immediately from 6.49 and 3.94.
+
+   The next result is an important consequence of 6.49.
+
+ 6.52   orthogonal complement of the orthogonal complement
+
+ Suppose 𝑈 is a finite-dimensional subspace of 𝑉. Then
+                                                    ⟂
+                                       𝑈 = (𝑈 ⟂ ) .
+
+Proof   First we will show that
+                                                    ⟂
+6.53                                   𝑈 ⊆ (𝑈 ⟂ ) .
+To do this, suppose 𝑢 ∈ 𝑈 . Then ⟨𝑢, 𝑤⟩ = 0 for every 𝑤 ∈ 𝑈 ⟂ (by the definition
+of 𝑈 ⟂ ). Because 𝑢 is orthogonal to every vector in 𝑈 ⟂, we have 𝑢 ∈ (𝑈 ⟂ )⟂,
+completing the proof of 6.53.
+    To prove the inclusion in the other direction, suppose 𝑣 ∈ (𝑈 ⟂ )⟂. By 6.49,
+we can write 𝑣 = 𝑢 + 𝑤, where 𝑢 ∈ 𝑈 and 𝑤 ∈ 𝑈 ⟂. We have 𝑣 − 𝑢 = 𝑤 ∈ 𝑈 ⟂.
+Because 𝑣 ∈ (𝑈 ⟂ )⟂ and 𝑢 ∈ (𝑈 ⟂ )⟂ (from 6.53), we have 𝑣 − 𝑢 ∈ (𝑈 ⟂ )⟂. Thus
+𝑣 − 𝑢 ∈ 𝑈 ⟂ ∩ (𝑈 ⟂ ) , which implies that 𝑣 − 𝑢 = 0 [by 6.48(d)], which implies
+                     ⟂
+
+that 𝑣 = 𝑢, which implies that 𝑣 ∈ 𝑈 . Thus (𝑈 ⟂ )⟂ ⊆ 𝑈 , which along with 6.53
+completes the proof.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+214       Chapter 6     Inner Product Spaces
+
+    Suppose 𝑈 is a subspace of 𝑉 and Exercise 16(a) shows that the result
+we want to show that 𝑈 = 𝑉. In some below is not true without the hypothesis
+situations, the easiest way to do this is to that 𝑈 is finite-dimensional.
+show that the only vector orthogonal to
+𝑈 is 0, and then use the result below. For example, the result below is useful for
+Exercise 4.
+
+ 6.54     𝑈 ⟂ = {0} ⟺ 𝑈 = 𝑉 (for 𝑈 a finite-dimensional subspace of 𝑉 )
+
+ Suppose 𝑈 is a finite-dimensional subspace of 𝑉. Then
+
+                               𝑈 ⟂ = {0} ⟺ 𝑈 = 𝑉.
+
+Proof     First suppose 𝑈 ⟂ = {0}. Then by 6.52, 𝑈 = (𝑈 ⟂ )⟂ = {0}⟂ = 𝑉, as
+desired.
+   Conversely, if 𝑈 = 𝑉, then 𝑈 ⟂ = 𝑉 ⟂ = {0} by 6.48(c).
+
+      We now define an operator 𝑃𝑈 for each finite-dimensional subspace 𝑈 of 𝑉.
+
+ 6.55 definition: orthogonal projection, 𝑃𝑈
+
+ Suppose 𝑈 is a finite-dimensional subspace of 𝑉. The orthogonal projection
+ of 𝑉 onto 𝑈 is the operator 𝑃𝑈 ∈ ℒ(𝑉) defined as follows: For each 𝑣 ∈ 𝑉,
+ write 𝑣 = 𝑢 + 𝑤, where 𝑢 ∈ 𝑈 and 𝑤 ∈ 𝑈 ⟂. Then let 𝑃𝑈 𝑣 = 𝑢.
+
+    The direct sum decomposition 𝑉 = 𝑈 ⊕ 𝑈 ⟂ given by 6.49 shows that each
+𝑣 ∈ 𝑉 can be uniquely written in the form 𝑣 = 𝑢 + 𝑤 with 𝑢 ∈ 𝑈 and 𝑤 ∈ 𝑈 ⟂.
+Thus 𝑃𝑈 𝑣 is well defined. See the figure that accompanies the proof of 6.61 for
+the picture describing 𝑃𝑈 𝑣 that you should keep in mind.
+
+ 6.56 example: orthogonal projection onto one-dimensional subspace
+
+    Suppose 𝑢 ∈ 𝑉 with 𝑢 ≠ 0 and 𝑈 is the one-dimensional subspace of 𝑉
+defined by 𝑈 = span(𝑢).
+    If 𝑣 ∈ 𝑉, then
+                               ⟨𝑣, 𝑢⟩           ⟨𝑣, 𝑢⟩
+                          𝑣=          𝑢 + (𝑣 −         𝑢),
+                                ‖𝑢‖2             ‖𝑢‖2
+where the first term on the right is in span(𝑢) (and thus is in 𝑈 ) and the second
+term on the right is orthogonal to 𝑢 (and thus is in 𝑈 ⟂ ). Thus 𝑃𝑈 𝑣 equals the first
+term on the right. In other words, we have the formula
+                                              ⟨𝑣, 𝑢⟩
+                                     𝑃𝑈 𝑣 =          𝑢
+                                               ‖𝑢‖2
+for every 𝑣 ∈ 𝑉.
+    The formula above becomes 𝑃𝑈 𝑢 = 𝑢 if 𝑣 = 𝑢 and becomes 𝑃𝑈 𝑣 = 0 if
+𝑣 ∈ {𝑢}⟂. These equations are special cases of (b) and (c) in the next result.
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+  Section 6C      Orthogonal Complements and Minimization Problems            215
+
+
+ 6.57   properties of orthogonal projection 𝑃𝑈
+
+ Suppose 𝑈 is a finite-dimensional subspace of 𝑉. Then
+ (a) 𝑃𝑈 ∈ ℒ(𝑉);
+ (b) 𝑃𝑈 𝑢 = 𝑢 for every 𝑢 ∈ 𝑈 ;
+ (c) 𝑃𝑈 𝑤 = 0 for every 𝑤 ∈ 𝑈 ⟂ ;
+ (d) range 𝑃𝑈 = 𝑈 ;
+ (e) null 𝑃𝑈 = 𝑈 ⟂ ;
+ (f) 𝑣 − 𝑃𝑈 𝑣 ∈ 𝑈 ⟂ for every 𝑣 ∈ 𝑉 ;
+ (g) 𝑃𝑈2 = 𝑃𝑈 ;
+ (h) ‖𝑃𝑈 𝑣‖ ≤ ‖𝑣‖ for every 𝑣 ∈ 𝑉 ;
+ (i) if 𝑒1 , … , 𝑒𝑚 is an orthonormal basis of 𝑈 and 𝑣 ∈ 𝑉, then
+
+                           𝑃𝑈 𝑣 = ⟨𝑣, 𝑒1 ⟩𝑒1 + ⋯ + ⟨𝑣, 𝑒𝑚 ⟩𝑒𝑚 .
+
+Proof
+(a) To show that 𝑃𝑈 is a linear map on 𝑉, suppose 𝑣1 , 𝑣2 ∈ 𝑉. Write
+                          𝑣1 = 𝑢1 + 𝑤1      and 𝑣2 = 𝑢2 + 𝑤2
+    with 𝑢1 , 𝑢2 ∈ 𝑈 and 𝑤1 , 𝑤2 ∈ 𝑈 ⟂. Thus 𝑃𝑈 𝑣1 = 𝑢1 and 𝑃𝑈 𝑣2 = 𝑢2 . Now
+                           𝑣1 + 𝑣2 = (𝑢1 + 𝑢2 ) + (𝑤1 + 𝑤2 ),
+
+    where 𝑢1 + 𝑢2 ∈ 𝑈 and 𝑤1 + 𝑤2 ∈ 𝑈 ⟂. Thus
+                        𝑃𝑈 (𝑣1 + 𝑣2 ) = 𝑢1 + 𝑢2 = 𝑃𝑈 𝑣1 + 𝑃𝑈 𝑣2 .
+
+    Similarly, suppose 𝜆 ∈ 𝐅 and 𝑣 ∈ 𝑉. Write 𝑣 = 𝑢 + 𝑤, where 𝑢 ∈ 𝑈
+    and 𝑤 ∈ 𝑈 ⟂. Then 𝜆𝑣 = 𝜆𝑢 + 𝜆𝑤 with 𝜆𝑢 ∈ 𝑈 and 𝜆𝑤 ∈ 𝑈 ⟂. Thus
+    𝑃𝑈 (𝜆𝑣) = 𝜆𝑢 = 𝜆𝑃𝑈 𝑣.
+    Hence 𝑃𝑈 is a linear map from 𝑉 to 𝑉.
+(b) Suppose 𝑢 ∈ 𝑈 . We can write 𝑢 = 𝑢 + 0, where 𝑢 ∈ 𝑈 and 0 ∈ 𝑈 ⟂. Thus
+    𝑃𝑈 𝑢 = 𝑢.
+(c) Suppose 𝑤 ∈ 𝑈 ⟂. We can write 𝑤 = 0 + 𝑤, where 0 ∈ 𝑈 and 𝑤 ∈ 𝑈 ⟂. Thus
+    𝑃𝑈 𝑤 = 0.
+(d) The definition of 𝑃𝑈 implies that range 𝑃𝑈 ⊆ 𝑈 . Furthermore, (b) implies
+    that 𝑈 ⊆ range 𝑃𝑈 . Thus range 𝑃𝑈 = 𝑈 .
+(e) The inclusion 𝑈 ⟂ ⊆ null 𝑃𝑈 follows from (c). To prove the inclusion in the
+    other direction, note that if 𝑣 ∈ null 𝑃𝑈 then the decomposition given by 6.49
+    must be 𝑣 = 0 + 𝑣, where 0 ∈ 𝑈 and 𝑣 ∈ 𝑈 ⟂. Thus null 𝑃𝑈 ⊆ 𝑈 ⟂.
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+216        Chapter 6    Inner Product Spaces
+
+(f) If 𝑣 ∈ 𝑉 and 𝑣 = 𝑢 + 𝑤 with 𝑢 ∈ 𝑈 and 𝑤 ∈ 𝑈 ⟂, then
+                               𝑣 − 𝑃𝑈 𝑣 = 𝑣 − 𝑢 = 𝑤 ∈ 𝑈 ⟂.
+
+(g) If 𝑣 ∈ 𝑉 and 𝑣 = 𝑢 + 𝑤 with 𝑢 ∈ 𝑈 and 𝑤 ∈ 𝑈 ⟂, then
+                         (𝑃𝑈2 )𝑣 = 𝑃𝑈 (𝑃𝑈 𝑣) = 𝑃𝑈 𝑢 = 𝑢 = 𝑃𝑈 𝑣.
+
+(h) If 𝑣 ∈ 𝑉 and 𝑣 = 𝑢 + 𝑤 with 𝑢 ∈ 𝑈 and 𝑤 ∈ 𝑈 ⟂, then
+                          ‖𝑃𝑈 𝑣‖2 = ‖𝑢‖2 ≤ ‖𝑢‖2 + ‖𝑤‖2 = ‖𝑣‖2,
+       where the last equality comes from the Pythagorean theorem.
+(i) The formula for 𝑃𝑈 𝑣 follows from equation 6.50 in the proof of 6.49.
+
+     In the previous section we proved the Riesz representation theorem (6.42),
+whose key part states that every linear functional on a finite-dimensional inner
+product space is given by taking the inner product with some fixed vector. Seeing
+a different proof often provides new insight. Thus we now give a new proof of
+the key part of the Riesz representation theorem using orthogonal complements
+instead of orthonormal bases as in our previous proof.
+     The restatement below of the Riesz representation theorem provides an iden-
+tification of 𝑉 with 𝑉 ′. We will prove only the “onto” part of the result below
+because the more routine “one-to-one” part of the result can be proved as in 6.42.
+     Intuition behind this new proof: If 𝜑 ∈ 𝑉 ′, 𝑣 ∈ 𝑉, and 𝜑(𝑢) = ⟨𝑢, 𝑣⟩ for all
+𝑢 ∈ 𝑉, then 𝑣 ∈ (null 𝜑)⟂. However, (null 𝜑)⟂ is a one-dimensional subspace
+of 𝑉 (except for the trivial case in which 𝜑 = 0), as follows from 6.51 and 3.21.
+Thus we can obtain 𝑣 by choosing any nonzero element of (null 𝜑)⟂ and then
+multiplying by an appropriate scalar, as is done in the proof below.
+
+ 6.58     Riesz representation theorem, revisited
+
+ Suppose 𝑉 is finite-dimensional. For each 𝑣 ∈ 𝑉, define 𝜑𝑣 ∈ 𝑉 ′ by
+
+                                    𝜑𝑣 (𝑢) = ⟨𝑢, 𝑣⟩
+
+ for each 𝑢 ∈ 𝑉. Then 𝑣 ↦ 𝜑𝑣 is a one-to-one function from 𝑉 onto 𝑉 ′.
+
+Proof  To show that 𝑣 ↦ 𝜑𝑣 is surjective, Caution: The function 𝑣 ↦ 𝜑 is a
+suppose 𝜑 ∈ 𝑉 ′. If 𝜑 = 0, then 𝜑 = 𝜑0 . linear mapping from 𝑉 to 𝑉 ′ if 𝐅 = 𝐑 .
+                                                                          𝑣
+
+Thus assume 𝜑 ≠ 0. Hence null 𝜑 ≠ 𝑉, However, this function is not linear if
+which implies that (null 𝜑)⟂ ≠ {0} (by 𝐅 = 𝐂 because 𝜑 𝜆𝑣 = 𝜆𝜑𝑣 if 𝜆 ∈ 𝐂 .
+6.49 with 𝑈 = null 𝜑).
+   Let 𝑤 ∈ (null 𝜑)⟂ be such that 𝑤 ≠ 0. Let
+                                           𝜑(𝑤)
+6.59                                  𝑣=        𝑤.
+                                           ‖𝑤‖2
+Then 𝑣 ∈ (null 𝜑)⟂. Also, 𝑣 ≠ 0 (because 𝑤 ∉ null 𝜑).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+   Section 6C      Orthogonal Complements and Minimization Problems                 217
+
+   Taking the norm of both sides of 6.59 gives
+                                             |𝜑(𝑤)|
+6.60                                 ‖𝑣‖ =          .
+                                               ‖𝑤‖
+Applying 𝜑 to both sides of 6.59 and then using 6.60, we have
+                                         |𝜑(𝑤)|2
+                               𝜑(𝑣) =            = ‖𝑣‖2.
+                                           ‖𝑤‖2
+   Now suppose 𝑢 ∈ 𝑉. Using the equation above, we have
+                                         𝜑(𝑢)      𝜑(𝑢)
+                             𝑢 = (𝑢 −         𝑣) +      𝑣.
+                                         𝜑(𝑣)      ‖𝑣‖2
+The first term in parentheses above is in null 𝜑 and hence is orthogonal to 𝑣. Thus
+taking the inner product of both sides of the equation above with 𝑣 shows that
+                                        𝜑(𝑢)
+                             ⟨𝑢, 𝑣⟩ =        ⟨𝑣, 𝑣⟩ = 𝜑(𝑢).
+                                        ‖𝑣‖2
+Thus 𝜑 = 𝜑𝑣 , showing that 𝑣 ↦ 𝜑𝑣 is surjective, as desired.
+
+   See Exercise 13 for yet another proof of the Riesz representation theorem.
+
+Minimization Problems
+The following problem often arises:              The remarkable simplicity of the solu-
+Given a subspace 𝑈 of 𝑉 and a point              tion to this minimization problem has
+𝑣 ∈ 𝑉, find a point 𝑢 ∈ 𝑈 such that              led to many important applications of
+‖𝑣 − 𝑢‖ is as small as possible. The next        inner product spaces outside of pure
+result shows that 𝑢 = 𝑃𝑈 𝑣 is the unique         mathematics.
+solution of this minimization problem.
+
+ 6.61   minimizing distance to a subspace
+
+ Suppose 𝑈 is a finite-dimensional subspace of 𝑉, 𝑣 ∈ 𝑉, and 𝑢 ∈ 𝑈 . Then
+
+                                 ‖𝑣 − 𝑃𝑈 𝑣‖ ≤ ‖𝑣 − 𝑢‖.
+
+ Furthermore, the inequality above is an equality if and only if 𝑢 = 𝑃𝑈 𝑣.
+
+Proof   We have
+
+6.62                  ‖𝑣 − 𝑃𝑈 𝑣‖2 ≤ ‖𝑣 − 𝑃𝑈 𝑣‖2 + ‖𝑃𝑈 𝑣 − 𝑢‖2
+                                                                   2
+                                   = ∥(𝑣 − 𝑃𝑈 𝑣) + (𝑃𝑈 𝑣 − 𝑢)∥
+
+                                   = ‖𝑣 − 𝑢‖2,
+
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+218      Chapter 6      Inner Product Spaces
+
+where the first line above holds because 0 ≤ ‖𝑃𝑈 𝑣 − 𝑢‖2,
+the second line above comes from the Pythagorean the-
+orem [which applies because 𝑣 − 𝑃𝑈 𝑣 ∈ 𝑈 ⟂ by 6.57(f),
+and 𝑃𝑈 𝑣 − 𝑢 ∈ 𝑈], and the third line above holds by
+simple algebra. Taking square roots gives the desired
+inequality.
+    The inequality proved above is an equality if and
+only if 6.62 is an equality, which happens if and only if
+‖𝑃𝑈 𝑣 − 𝑢‖ = 0, which happens if and only if 𝑢 = 𝑃𝑈 𝑣.
+                                                                     𝑃𝑈 𝑣 is the closest
+   The last result is often combined with the formula                 point in 𝑈 to 𝑣.
+6.57(i) to compute explicit solutions to minimization
+problems, as in the following example.
+
+ 6.63 example: using linear algebra to approximate the sine function
+
+    Suppose we want to find a polynomial 𝑢 with real coefficients and of degree
+at most 5 that approximates the sine function as well as possible on the interval
+[−𝜋 , 𝜋], in the sense that
+                                   𝜋
+                                       ∣sin 𝑥 − 𝑢(𝑥)∣ 𝑑𝑥
+                                                      2
+                                 ∫
+                                  −𝜋
+
+is as small as possible.
+    Let 𝐶[−𝜋 , 𝜋] denote the real inner product space of continuous real-valued
+functions on [−𝜋 , 𝜋] with inner product
+                                                𝜋
+6.64                                 ⟨ 𝑓 , 𝑔⟩ = ∫    𝑓 𝑔.
+                                                −𝜋
+
+Let 𝑣 ∈ 𝐶[−𝜋 , 𝜋] be the function defined by 𝑣(𝑥) = sin 𝑥. Let 𝑈 denote the
+subspace of 𝐶[−𝜋 , 𝜋] consisting of the polynomials with real coefficients and of
+degree at most 5. Our problem can now be reformulated as follows:
+               Find 𝑢 ∈ 𝑈 such that ‖𝑣 − 𝑢‖ is as small as possible.
+    To compute the solution to our ap- A computer that can integrate is useful
+proximation problem, first apply the here.
+Gram–Schmidt procedure (using the in-
+ner product given by 6.64) to the basis 1, 𝑥, 𝑥2, 𝑥3, 𝑥4, 𝑥5 of 𝑈 , producing an ortho-
+normal basis 𝑒1 , 𝑒2 , 𝑒3 , 𝑒4 , 𝑒5 , 𝑒6 of 𝑈 . Then, again using the inner product given
+by 6.64, compute 𝑃𝑈 𝑣 using 6.57(i) (with 𝑚 = 6). Doing this computation shows
+that 𝑃𝑈 𝑣 is the function 𝑢 defined by
+6.65             𝑢(𝑥) = 0.987862𝑥 − 0.155271𝑥3 + 0.00564312𝑥5,
+where the 𝜋 ’s that appear in the exact answer have been replaced with a good
+decimal approximation. By 6.61, the polynomial 𝑢 above is the best approximation
+to the sine function on [−𝜋 , 𝜋] using polynomials of degree at most 5 (here “best
+approximation” means in the sense of minimizing ∫−𝜋  𝜋
+                                                        | sin 𝑥 − 𝑢(𝑥)|2 𝑑𝑥).
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+  Section 6C      Orthogonal Complements and Minimization Problems            219
+
+   To see how good this approximation is, the next figure shows the graphs of
+both the sine function and our approximation 𝑢 given by 6.65 over the interval
+[−𝜋 , 𝜋].
+
+
+
+
+              Graphs on [−𝜋 , 𝜋] of the sine function (red) and its best
+              fifth degree polynomial approximation 𝑢 (blue) from 6.65.
+
+    Our approximation 6.65 is so accurate that the two graphs are almost identical—
+our eyes may see only one graph! Here the red graph is placed almost exactly
+over the blue graph. If you are viewing this on an electronic device, enlarge the
+picture above by 400% near 𝜋 or −𝜋 to see a small gap between the two graphs.
+    Another well-known approximation to the sine function by a polynomial of
+degree 5 is given by the Taylor polynomial 𝑝 defined by
+                                              𝑥3 𝑥5
+6.66                            𝑝(𝑥) = 𝑥 −       + .
+                                              3!  5!
+To see how good this approximation is, the next picture shows the graphs of both
+the sine function and the Taylor polynomial 𝑝 over the interval [−𝜋 , 𝜋].
+
+
+
+
+                    Graphs on [−𝜋 , 𝜋] of the sine function (red)
+                    and the Taylor polynomial (blue) from 6.66.
+
+    The Taylor polynomial of degree 5 is an excellent approximation to sin 𝑥 for
+𝑥 near 0. But the picture above shows that for |𝑥| > 2, the Taylor polynomial is
+not so accurate, especially compared to 6.65. For example, taking 𝑥 = 3, our
+approximation 6.65 estimates sin 3 with an error of approximately 0.001, but the
+Taylor polynomial 6.66 estimates sin 3 with an error of approximately 0.4. Thus
+at 𝑥 = 3, the error in the Taylor polynomial is hundreds of times larger than the
+error given by 6.65. Linear algebra has helped us discover an approximation to
+the sine function that improves upon what we learned in calculus!
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+220       Chapter 6     Inner Product Spaces
+
+Pseudoinverse
+Suppose 𝑇 ∈ ℒ(𝑉, 𝑊) and 𝑤 ∈ 𝑊. Consider the problem of finding 𝑣 ∈ 𝑉 such
+that
+                              𝑇𝑣 = 𝑤.
+For example, if 𝑉 = 𝐅𝑛 and 𝑊 = 𝐅𝑚, then the equation above could represent a
+system of 𝑚 linear equations in 𝑛 unknowns 𝑣1 , … , 𝑣𝑛 , where 𝑣 = (𝑣1 , … , 𝑣𝑛 ).
+    If 𝑇 is invertible, then the unique solution to the equation above is 𝑣 = 𝑇 −1 𝑤.
+However, if 𝑇 is not invertible, then for some 𝑤 ∈ 𝑊 there may not exist any
+solutions of the equation above, and for some 𝑤 ∈ 𝑊 there may exist infinitely
+many solutions of the equation above.
+    If 𝑇 is not invertible, then we can still try to do as well as possible with the
+equation above. For example, if the equation above has no solutions, then instead
+of solving the equation 𝑇𝑣 − 𝑤 = 0, we can try to find 𝑣 ∈ 𝑉 such that ‖𝑇𝑣 − 𝑤‖
+is as small as possible. As another example, if the equation above has infinitely
+many solutions 𝑣 ∈ 𝑉, then among all those solutions we can try to find one such
+that ‖𝑣‖ is as small as possible.
+    The pseudoinverse will provide the tool to solve the equation above as well
+as possible, even when 𝑇 is not invertible. We need the next result to define the
+pseudoinverse.
+    In the next two proofs, we will use without further comment the result that if
+𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉, 𝑊), then null 𝑇 , (null 𝑇)⟂, and range 𝑇 are
+all finite-dimensional.
+
+ 6.67     restriction of a linear map to obtain a one-to-one and onto map
+
+ Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉, 𝑊). Then 𝑇|(null 𝑇)⟂ is an
+ injective map of (null 𝑇)⟂ onto range 𝑇.
+
+Proof Suppose that 𝑣 ∈ (null 𝑇)⟂ and 𝑇|(null 𝑇)⟂ 𝑣 = 0. Hence 𝑇𝑣 = 0 and
+thus 𝑣 ∈ (null 𝑇) ∩ (null 𝑇)⟂, which implies that 𝑣 = 0 [by 6.48(d)]. Hence
+null(𝑇|(null 𝑇)⟂ ) = {0}, which implies that 𝑇|(null 𝑇)⟂ is injective, as desired.
+    Clearly range(𝑇|(null 𝑇)⟂ ) ⊆ range 𝑇. To prove the inclusion in the other direc-
+tion, suppose 𝑤 ∈ range 𝑇. Hence there exists 𝑣 ∈ 𝑉 such that 𝑤 = 𝑇𝑣. There
+exist 𝑢 ∈ null 𝑇 and 𝑥 ∈ (null 𝑇)⟂ such that 𝑣 = 𝑢 + 𝑥 (by 6.49). Now
+                      𝑇|(null 𝑇)⟂ 𝑥 = 𝑇𝑥 = 𝑇𝑣 − 𝑇𝑢 = 𝑤 − 0 = 𝑤,
+
+which shows that 𝑤 ∈ range 𝑇|(null 𝑇)⟂ . Hence range 𝑇 ⊆ range 𝑇|(null 𝑇)⟂ , com-
+pleting the proof that range 𝑇|(null 𝑇)⟂ = range 𝑇.
+
+      Now we can define the pseudoinverse        To produce the pseudoinverse notation
+𝑇 † (pronounced “𝑇 dagger”) of a linear          𝑇 † in TEX, type T ̂\dagger.
+map 𝑇. In the next definition (and from
+now on), think of 𝑇|(null 𝑇)⟂ as an invertible linear map from (null 𝑇)⟂ onto range 𝑇 ,
+as is justified by the result above.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+   Section 6C      Orthogonal Complements and Minimization Problems               221
+
+
+ 6.68 definition: pseudoinverse, 𝑇 †
+
+ Suppose that 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉, 𝑊). The pseudoinverse
+ 𝑇 † ∈ ℒ(𝑊, 𝑉) of 𝑇 is the linear map from 𝑊 to 𝑉 defined by
+
+                            𝑇 † 𝑤 = (𝑇|(null 𝑇)⟂ )−1 𝑃range 𝑇 𝑤
+
+ for each 𝑤 ∈ 𝑊.
+
+   Recall that 𝑃range 𝑇 𝑤 = 0 if 𝑤 ∈ (range 𝑇)⟂ and 𝑃range 𝑇 𝑤 = 𝑤 if 𝑤 ∈ range 𝑇.
+Thus if 𝑤 ∈ (range 𝑇)⟂, then 𝑇 † 𝑤 = 0, and if 𝑤 ∈ range 𝑇 , then 𝑇 † 𝑤 is the
+unique element of (null 𝑇)⟂ such that 𝑇(𝑇 † 𝑤) = 𝑤.
+   The pseudoinverse behaves much like an inverse, as we will see.
+
+ 6.69   algebraic properties of the pseudoinverse
+
+ Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉, 𝑊).
+ (a) If 𝑇 is invertible, then 𝑇 † = 𝑇 −1.
+ (b) 𝑇𝑇 † = 𝑃range 𝑇 = the orthogonal projection of 𝑊 onto range 𝑇.
+ (c) 𝑇 † 𝑇 = 𝑃(null 𝑇)⟂ = the orthogonal projection of 𝑉 onto (null 𝑇)⟂.
+
+Proof
+(a) Suppose 𝑇 is invertible. Then (null 𝑇)⟂ = 𝑉 and range 𝑇 = 𝑊. Thus
+    𝑇|(null 𝑇)⟂ = 𝑇 and 𝑃range 𝑇 is the identity operator on 𝑊. Hence 𝑇 † = 𝑇 −1.
+(b) Suppose 𝑤 ∈ range 𝑇. Thus
+                      𝑇𝑇 † 𝑤 = 𝑇(𝑇|(null 𝑇)⟂ )−1 𝑤 = 𝑤 = 𝑃range 𝑇 𝑤.
+
+    If 𝑤 ∈ (range 𝑇)⟂, then 𝑇 † 𝑤 = 0. Hence 𝑇𝑇 † 𝑤 = 0 = 𝑃range 𝑇 𝑤. Thus 𝑇𝑇 †
+    and 𝑃range 𝑇 agree on range 𝑇 and on (range 𝑇)⟂. Hence these two linear maps
+    are equal (by 6.49).
+(c) Suppose 𝑣 ∈ (null 𝑇)⟂. Because 𝑇𝑣 ∈ range 𝑇, the definition of 𝑇 † shows
+    that
+                    𝑇 † (𝑇𝑣) = (𝑇|(null 𝑇)⟂ )−1 (𝑇𝑣) = 𝑣 = 𝑃(null 𝑇)⟂ 𝑣.
+
+    If 𝑣 ∈ null 𝑇 , then 𝑇 † 𝑇𝑣 = 0 = 𝑃(null 𝑇)⟂ 𝑣. Thus 𝑇 † 𝑇 and 𝑃(null 𝑇)⟂ agree on
+    (null 𝑇)⟂ and on null 𝑇. Hence these two linear maps are equal (by 6.49).
+
+    Suppose that 𝑇 ∈ ℒ(𝑉, 𝑊). If 𝑇 is The pseudoinverse is also called the
+surjective, then 𝑇𝑇 † is the identity opera- Moore–Penrose inverse.
+tor on 𝑊, as follows from (b) in the result
+above. If 𝑇 is injective, then 𝑇 † 𝑇 is the identity operator on 𝑉, as follows from
+(c) in the result above. For additional algebraic properties of the pseudoinverse,
+see Exercises 19–23.
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+222        Chapter 6     Inner Product Spaces
+
+    For 𝑇 ∈ ℒ(𝑉, 𝑊) and 𝑤 ∈ 𝑊, we now return to the problem of finding 𝑣 ∈ 𝑉
+that solves the equation
+                                𝑇𝑣 = 𝑤.
+As we noted earlier, if 𝑇 is invertible, then 𝑣 = 𝑇 −1 𝑤 is the unique solution, but
+if 𝑇 is not invertible, then 𝑇 −1 is not defined. However, the pseudoinverse 𝑇 † is
+defined. Taking 𝑣 = 𝑇 † 𝑤 makes 𝑇𝑣 as close to 𝑤 as possible, as shown by (a) of
+the next result. Thus the pseudoinverse provides what is called a best fit to the
+equation above.
+    Among all vectors 𝑣 ∈ 𝑉 that make 𝑇𝑣 as close as possible to 𝑤, the vector
+𝑇 † 𝑤 has the smallest norm, as shown by combining (b) in the next result with the
+condition for equality in (a).
+
+ 6.70     pseudoinverse provides best approximate solution or best solution
+
+ Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉, 𝑊), and 𝑤 ∈ 𝑊.
+ (a) If 𝑣 ∈ 𝑉, then
+                          ∥𝑇(𝑇 † 𝑤) − 𝑤∥ ≤ ‖𝑇𝑣 − 𝑤‖,
+        with equality if and only if 𝑣 ∈ 𝑇 † 𝑤 + null 𝑇.
+ (b) If 𝑣 ∈ 𝑇 † 𝑤 + null 𝑇 , then
+
+                                         ∥𝑇 † 𝑤∥ ≤ ‖𝑣‖,
+
+        with equality if and only if 𝑣 = 𝑇 † 𝑤.
+
+Proof
+(a) Suppose 𝑣 ∈ 𝑉. Then
+                         𝑇𝑣 − 𝑤 = (𝑇𝑣 − 𝑇𝑇 † 𝑤) + (𝑇𝑇 † 𝑤 − 𝑤).
+      The first term in parentheses above is in range 𝑇. Because the operator 𝑇𝑇 †
+      is the orthogonal projection of 𝑊 onto range 𝑇 [by 6.69(b)], the second term
+      in parentheses above is in (range 𝑇)⟂ [see 6.57(f)].
+      Thus the Pythagorean theorem implies the desired inequality that the norm of
+      the second term in parentheses above is less than or equal to ‖𝑇𝑣 − 𝑤‖, with
+      equality if and only if the first term in parentheses above equals 0. Hence
+      we have equality if and only if 𝑣 − 𝑇 † 𝑤 ∈ null 𝑇 , which is equivalent to the
+      statement that 𝑣 ∈ 𝑇 † 𝑤 + null 𝑇 , completing the proof of (a).
+(b) Suppose 𝑣 ∈ 𝑇 † 𝑤 + null 𝑇. Hence 𝑣 − 𝑇 † 𝑤 ∈ null 𝑇. Now
+                                   𝑣 = (𝑣 − 𝑇 † 𝑤) + 𝑇 † 𝑤.
+      The definition of 𝑇 † implies that 𝑇 † 𝑤 ∈ (null 𝑇)⟂. Thus the Pythagorean
+      theorem implies that ∥𝑇 † 𝑤∥ ≤ ‖𝑣‖, with equality if and only if 𝑣 = 𝑇 † 𝑤.
+
+      A formula for 𝑇 † will be given in the next chapter (see 7.78).
+
+                 Linear Algebra Done Right, fourth edition, by Sheldon Axler
+   Section 6C      Orthogonal Complements and Minimization Problems                           223
+
+
+
+ 6.71 example: pseudoinverse of a linear map from 𝐅4 to 𝐅3
+
+   Suppose 𝑇 ∈ ℒ(𝐅4 , 𝐅3 ) is defined by
+                          𝑇(𝑎, 𝑏, 𝑐, 𝑑) = (𝑎 + 𝑏 + 𝑐, 2𝑐 + 𝑑, 0).
+
+This linear map is neither injective nor surjective, but we can compute its pseudo-
+inverse. To do this, first note that range 𝑇 = {(𝑥, 𝑦, 0) ∶ 𝑥, 𝑦 ∈ 𝐅}. Thus
+                                𝑃range 𝑇 (𝑥, 𝑦, 𝑧) = (𝑥, 𝑦, 0)
+
+for each (𝑥, 𝑦, 𝑧) ∈ 𝐅3. Also,
+            null 𝑇 = {(𝑎, 𝑏, 𝑐, 𝑑) ∈ 𝐅4 ∶ 𝑎 + 𝑏 + 𝑐 = 0 and 2𝑐 + 𝑑 = 0}.
+The list (−1, 1, 0, 0), (−1, 0, 1, −2) of two vectors in null 𝑇 spans null 𝑇 because
+if (𝑎, 𝑏, 𝑐, 𝑑) ∈ null 𝑇 then
+                     (𝑎, 𝑏, 𝑐, 𝑑) = 𝑏(−1, 1, 0, 0) + 𝑐(−1, 0, 1, −2).
+
+Because the list (−1, 1, 0, 0), (−1, 0, 1, −2) is linearly independent, this list is a
+basis of null 𝑇.
+   Now suppose (𝑥, 𝑦, 𝑧) ∈ 𝐅3. Then
+6.72      𝑇 † (𝑥, 𝑦, 𝑧) = (𝑇|(null 𝑇)⟂ )−1 𝑃range 𝑇 (𝑥, 𝑦, 𝑧) = (𝑇|(null 𝑇)⟂ )−1 (𝑥, 𝑦, 0).
+
+The right side of the equation above is the vector (𝑎, 𝑏, 𝑐, 𝑑) ∈ 𝐅4 such that
+𝑇(𝑎, 𝑏, 𝑐, 𝑑) = (𝑥, 𝑦, 0) and (𝑎, 𝑏, 𝑐, 𝑑) ∈ (null 𝑇)⟂. In other words, 𝑎, 𝑏, 𝑐, 𝑑 must
+satisfy the following equations:
+                                         𝑎+𝑏+𝑐=𝑥
+                                            2𝑐 + 𝑑 = 𝑦
+                                           −𝑎 + 𝑏 = 0
+                                     −𝑎 + 𝑐 − 2𝑑 = 0,
+
+where the first two equations are equivalent to the equation 𝑇(𝑎, 𝑏, 𝑐, 𝑑) = (𝑥, 𝑦, 0)
+and the last two equations come from the condition for (𝑎, 𝑏, 𝑐, 𝑑) to be orthogonal
+to each of the basis vectors (−1, 1, 0, 0), (−1, 0, 1, −2) in this basis of null 𝑇.
+Thinking of 𝑥 and 𝑦 as constants and 𝑎, 𝑏, 𝑐, 𝑑 as unknowns, we can solve the
+system above of four equations in four unknowns, getting
+        1                  1                1                1
+    𝑎 = 11 (5𝑥 − 2𝑦), 𝑏 = 11 (5𝑥 − 2𝑦), 𝑐 = 11 (𝑥 + 4𝑦), 𝑑 = 11 (−2𝑥 + 3𝑦).
+
+Hence 6.72 tells us that
+                               1
+               𝑇 † (𝑥, 𝑦, 𝑧) = 11 (5𝑥 − 2𝑦, 5𝑥 − 2𝑦, 𝑥 + 4𝑦, −2𝑥 + 3𝑦).
+
+The formula above for 𝑇 † shows that 𝑇𝑇 † (𝑥, 𝑦, 𝑧) = (𝑥, 𝑦, 0) for all (𝑥, 𝑦, 𝑧) ∈ 𝐅3,
+which illustrates the equation 𝑇𝑇 † = 𝑃range 𝑇 from 6.69(b).
+
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+224      Chapter 6      Inner Product Spaces
+
+Exercises 6C
+
+1     Suppose 𝑣1 , … , 𝑣𝑚 ∈ 𝑉. Prove that
+                           {𝑣1 , … , 𝑣𝑚 }⟂ = (span(𝑣1 , … , 𝑣𝑚 )) .
+                                                                   ⟂
+
+
+2     Suppose 𝑈 is a subspace of 𝑉 with basis 𝑢1 , … , 𝑢𝑚 and
+                                     𝑢1 , … , 𝑢𝑚 , 𝑣1 , … , 𝑣𝑛
+
+      is a basis of 𝑉. Prove that if the Gram–Schmidt procedure is applied to the
+      basis of 𝑉 above, producing a list 𝑒1 , … , 𝑒𝑚 , 𝑓1 , … , 𝑓𝑛 , then 𝑒1 , … , 𝑒𝑚 is an
+      orthonormal basis of 𝑈 and 𝑓1 , … , 𝑓𝑛 is an orthonormal basis of 𝑈 ⟂.
+3     Suppose 𝑈 is the subspace of 𝐑4 defined by
+                           𝑈 = span((1, 2, 3, −4), (−5, 4, 3, 2)).
+
+      Find an orthonormal basis of 𝑈 and an orthonormal basis of 𝑈 ⟂.
+4     Suppose 𝑒1 , … , 𝑒𝑛 is a list of vectors in 𝑉 with ‖𝑒𝑘 ‖ = 1 for each 𝑘 = 1, … , 𝑛
+      and
+                                               2                 2
+                              ‖𝑣‖2 = ∣⟨𝑣, 𝑒1 ⟩∣ + ⋯ + ∣⟨𝑣, 𝑒𝑛 ⟩∣
+      for all 𝑣 ∈ 𝑉. Prove that 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉.
+         This exercise provides a converse to 6.30(b).
+
+5     Suppose that 𝑉 is finite-dimensional and 𝑈 is a subspace of 𝑉. Show that
+      𝑃𝑈⟂ = 𝐼 − 𝑃𝑈 , where 𝐼 is the identity operator on 𝑉.
+
+6     Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉, 𝑊). Show that
+                                 𝑇 = 𝑇𝑃(null 𝑇)⟂ = 𝑃range 𝑇 𝑇.
+
+7     Suppose that 𝑋 and 𝑌 are finite-dimensional subspaces of 𝑉. Prove that
+      𝑃𝑋 𝑃𝑌 = 0 if and only if ⟨𝑥, 𝑦⟩ = 0 for all 𝑥 ∈ 𝑋 and all 𝑦 ∈ 𝑌 .
+
+8     Suppose 𝑈 is a finite-dimensional subspace of 𝑉 and 𝑣 ∈ 𝑉. Define a linear
+      functional 𝜑 ∶ 𝑈 → 𝐅 by
+                                    𝜑(𝑢) = ⟨𝑢, 𝑣⟩
+      for all 𝑢 ∈ 𝑈 . By the Riesz representation theorem (6.42) as applied to the
+      inner product space 𝑈 , there exists a unique vector 𝑤 ∈ 𝑈 such that
+                                        𝜑(𝑢) = ⟨𝑢, 𝑤⟩
+
+      for all 𝑢 ∈ 𝑈 . Show that 𝑤 = 𝑃𝑈 𝑣.
+9     Suppose 𝑉 is finite-dimensional. Suppose 𝑃 ∈ ℒ(𝑉) is such that 𝑃2 = 𝑃
+      and every vector in null 𝑃 is orthogonal to every vector in range 𝑃. Prove
+      that there exists a subspace 𝑈 of 𝑉 such that 𝑃 = 𝑃𝑈 .
+
+                Linear Algebra Done Right, fourth edition, by Sheldon Axler
+     Section 6C        Orthogonal Complements and Minimization Problems                225
+
+10     Suppose 𝑉 is finite-dimensional and 𝑃 ∈ ℒ(𝑉) is such that 𝑃2 = 𝑃 and
+                                            ‖𝑃𝑣‖ ≤ ‖𝑣‖
+
+       for every 𝑣 ∈ 𝑉. Prove that there exists a subspace 𝑈 of 𝑉 such that 𝑃 = 𝑃𝑈 .
+11     Suppose 𝑇 ∈ ℒ(𝑉) and 𝑈 is a finite-dimensional subspace of 𝑉. Prove that
+                          𝑈 is invariant under 𝑇 ⟺ 𝑃𝑈 𝑇𝑃𝑈 = 𝑇𝑃𝑈 .
+
+12     Suppose 𝑉 is finite-dimensional, 𝑇 ∈ ℒ(𝑉), and 𝑈 is a subspace of 𝑉.
+       Prove that
+                     𝑈 and 𝑈 ⟂ are both invariant under 𝑇 ⟺ 𝑃𝑈 𝑇 = 𝑇𝑃𝑈 .
+
+13     Suppose 𝐅 = 𝐑 and 𝑉 is finite-dimensional. For each 𝑣 ∈ 𝑉, let 𝜑𝑣 denote
+       the linear functional on 𝑉 defined by
+                                          𝜑𝑣 (𝑢) = ⟨𝑢, 𝑣⟩
+
+       for all 𝑢 ∈ 𝑉.
+       (a) Show that 𝑣 ↦ 𝜑𝑣 is an injective linear map from 𝑉 to 𝑉 ′.
+       (b) Use (a) and a dimension-counting argument to show that 𝑣 ↦ 𝜑𝑣 is an
+           isomorphism from 𝑉 onto 𝑉 ′.
+           The purpose of this exercise is to give an alternative proof of the Riesz
+           representation theorem (6.42 and 6.58) when 𝐅 = 𝐑 . Thus you should not
+           use the Riesz representation theorem as a tool in your solution.
+
+14     Suppose that 𝑒1 , … , 𝑒𝑛 is an orthonormal basis of 𝑉. Explain why the dual
+       basis (see 3.112) of 𝑒1 , … , 𝑒𝑛 is 𝑒1 , … , 𝑒𝑛 under the identification of 𝑉 ′ with
+       𝑉 provided by the Riesz representation theorem (6.58).
+
+15     In 𝐑4 , let
+                               𝑈 = span((1, 1, 0, 0), (1, 1, 1, 2)).
+       Find 𝑢 ∈ 𝑈 such that ‖𝑢 − (1, 2, 3, 4)‖ is as small as possible.
+16     Suppose 𝐶[−1, 1] is the vector space of continuous real-valued functions
+       on the interval [−1, 1] with inner product given by
+                                                     1
+                                         ⟨ 𝑓 , 𝑔⟩ = ∫     𝑓𝑔
+                                                     −1
+
+       for all 𝑓 , 𝑔 ∈ 𝐶[−1, 1]. Let 𝑈 be the subspace of 𝐶[−1, 1] defined by
+                               𝑈 = { 𝑓 ∈ 𝐶[−1, 1] ∶ 𝑓 (0) = 0}.
+
+       (a) Show that 𝑈 ⟂ = {0}.
+       (b) Show that 6.49 and 6.52 do not hold without the finite-dimensional
+           hypothesis.
+
+                  Linear Algebra Done Right, fourth edition, by Sheldon Axler
+226      Chapter 6     Inner Product Spaces
+
+                                                                1
+17    Find 𝑝 ∈ 𝒫3 (𝐑) such that 𝑝(0) = 0, 𝑝′(0) = 0, and ∫ ∣2 + 3𝑥 − 𝑝(𝑥)∣2 𝑑𝑥 is
+                                                                0
+      as small as possible.
+                                      𝜋
+18    Find 𝑝 ∈ 𝒫5 (𝐑) that makes ∫         ∣sin 𝑥 − 𝑝(𝑥)∣ 𝑑𝑥 as small as possible.
+                                                         2
+                                      −𝜋
+         The polynomial 6.65 is an excellent approximation to the answer to this
+         exercise, but here you are asked to find the exact solution, which involves
+         powers of 𝜋 . A computer that can perform symbolic integration should
+         help.
+
+19    Suppose 𝑉 is finite-dimensional and 𝑃 ∈ ℒ(𝑉) is an orthogonal projection
+      of 𝑉 onto some subspace of 𝑉. Prove that 𝑃† = 𝑃.
+20    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉, 𝑊). Show that
+
+                 null 𝑇 † = (range 𝑇)⟂        and   range 𝑇 † = (null 𝑇)⟂.
+
+21    Suppose 𝑇 ∈ ℒ(𝐅3 , 𝐅2 ) is defined by
+
+                              𝑇(𝑎, 𝑏, 𝑐) = (𝑎 + 𝑏 + 𝑐, 2𝑏 + 3𝑐).
+
+      (a) For (𝑥, 𝑦) ∈ 𝐅2, find a formula for 𝑇 † (𝑥, 𝑦).
+      (b) Verify that the equation 𝑇𝑇 † = 𝑃range 𝑇 from 6.69(b) holds with the
+          formula for 𝑇 † obtained in (a).
+      (c) Verify that the equation 𝑇 † 𝑇 = 𝑃(null 𝑇)⟂ from 6.69(c) holds with the
+          formula for 𝑇 † obtained in (a).
+
+22    Suppose 𝑉 is finite-dimensional and 𝑇 ∈ ℒ(𝑉, 𝑊). Prove that
+
+                              𝑇𝑇 † 𝑇 = 𝑇     and 𝑇 † 𝑇𝑇 † = 𝑇 †.
+         Both formulas above clearly hold if 𝑇 is invertible because in that case we
+         can replace 𝑇 † with 𝑇 −1.
+
+23    Suppose 𝑉 and 𝑊 are finite-dimensional and 𝑇 ∈ ℒ(𝑉, 𝑊). Prove that
+                                               †
+                                           (𝑇 † ) = 𝑇.
+         The equation above is analogous to the equation (𝑇 −1 )−1 = 𝑇 that holds if
+         𝑇 is invertible.
+
+
+
+
+               Linear Algebra Done Right, fourth edition, by Sheldon Axler
+

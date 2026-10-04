@@ -1,0 +1,557 @@
+{
+ "version": 1,
+ "id": "2c",
+ "blocks": [
+  {
+   "id": "c2-intro-dimension",
+   "kind": "prose",
+   "number": "",
+   "title": "Measuring a vector space by a basis",
+   "tex": "A finite-dimensional vector space can have many different bases.\n    We first show that their lengths agree, then use this common length\n    to compare subspaces and to recognize bases more efficiently.",
+   "page": "44"
+  },
+  {
+   "id": "c2-thm-basis-length",
+   "kind": "theorem",
+   "number": "2.34",
+   "title": "All bases have the same length",
+   "tex": "Any two bases of a finite-dimensional vector space have equal lengths.",
+   "page": "44",
+   "proof": "Let the two bases have lengths $m$ and $n$. The first basis\n    is linearly independent, and the second spans the space, so the\n    independent-list length bound gives $m\\le n$. Applying that bound\n    with the two bases exchanged gives $n\\le m$. Therefore $m=n$.\n    The argument includes empty bases because the length bound also\n    applies to lists of length zero.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Apply the comparison between an independent list and a spanning list in both directions."
+   ],
+   "uses": [
+    "c2-def-basis",
+    "c2-thm-independent-length"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-def-dimension",
+   "kind": "definition",
+   "number": "2.35",
+   "title": "Dimension",
+   "tex": "The \\emph{dimension} of a finite-dimensional vector space $V$,\n    denoted by $\\dim V$, is the length of a basis of $V$. A basis exists\n    by the basis existence theorem, and the basis-length theorem shows\n    that the answer does not depend on the choice of basis.",
+   "page": "44"
+  },
+  {
+   "id": "c2-lem-zero-dimension",
+   "kind": "lemma",
+   "number": "",
+   "title": "Dimension zero characterizes the zero space",
+   "tex": "A finite-dimensional vector space $V$ satisfies $\\dim V=0$\n    if and only if $V=\\{0\\}$.",
+   "page": "44",
+   "proof": "If $\\dim V=0$, a basis of $V$ has length zero. The span of\n    the empty list is $\\{0\\}$, and a basis spans its entire space,\n    so $V=\\{0\\}$.\n\n    Conversely, the empty list is linearly independent: there are\n    no coefficients for which the independence condition could fail.\n    Its span is $\\{0\\}$, so it is a basis of the zero space.\n    Hence that space has dimension zero.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "What is the span of the empty list?"
+   ],
+   "uses": [
+    "c2-def-span",
+    "c2-def-linear-independence",
+    "c2-def-basis",
+    "c2-thm-basis-existence",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-coordinate-dimension",
+   "kind": "example",
+   "number": "2.36",
+   "title": "Dimension of a coordinate space",
+   "tex": "For every integer $n\\ge0$, $\\dim\\F^n=n$.",
+   "page": "44",
+   "proof": "For $n\\ge1$, let $e_j$ have coordinate $j$ equal to $1$\n    and every other coordinate equal to $0$. Every vector\n    $x=(x_1,\\ldots,x_n)$ has the expression\n    $x=x_1e_1+\\cdots+x_ne_n$, as can be checked in each coordinate.\n    Thus $e_1,\\ldots,e_n$ spans $\\F^n$. If\n    $a_1e_1+\\cdots+a_ne_n=0$, coordinate $j$ gives $a_j=0$.\n    The list is therefore independent and hence a basis.\n    Its length is $n$, proving the formula.\n\n    For $n=0$, the space $\\F^0$ consists of its single zero vector,\n    the empty coordinate list. Its dimension is zero by the\n    zero-dimension lemma.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check the spanning and independence properties of the standard coordinate vectors."
+   ],
+   "uses": [
+    "c1-def-coordinate-space",
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c2-def-span",
+    "c2-def-linear-independence",
+    "c2-def-basis",
+    "c2-def-dimension",
+    "c2-lem-zero-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-polynomial-dimension",
+   "kind": "example",
+   "number": "2.36",
+   "title": "Dimension of bounded-degree polynomial spaces",
+   "tex": "For every nonnegative integer $m$,\n    \\[\n    \\dim\\Poly_m(\\F)=m+1.\n    \\]",
+   "page": "44",
+   "proof": "Every member of $\\Poly_m(\\F)$ is a linear combination of\n    the functions $1,z,\\ldots,z^m$, so that list spans the space.\n    If $a_0+a_1z+\\cdots+a_mz^m$ is the zero function, uniqueness of\n    polynomial coefficients gives $a_0=\\cdots=a_m=0$.\n    Thus the list is independent and is a basis. It has $m+1$\n    entries, so the definition of dimension gives the formula.\n    When $m=0$, the list consists only of the constant function\n    $1$, and the same argument applies.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use uniqueness of polynomial coefficients to establish independence."
+   ],
+   "uses": [
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients",
+    "c2-def-basis",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-repeated-coordinate-dimension",
+   "kind": "example",
+   "number": "2.36",
+   "title": "A two-dimensional coordinate constraint",
+   "tex": "The set\n    \\[\n    U=\\{(x,x,y):x,y\\in\\F\\}\n    \\]\n    is a subspace of $\\F^3$ with dimension $2$.",
+   "page": "44",
+   "proof": "Set $u=(1,1,0)$ and $v=(0,0,1)$. The identity\n    $(x,x,y)=xu+yv$ shows that every member of $U$ lies in\n    $\\Span(u,v)$, and every combination $au+bv=(a,a,b)$ belongs\n    to $U$. Hence $U=\\Span(u,v)$, which is a subspace.\n\n    If $au+bv=0$, its first coordinate gives $a=0$ and its third\n    gives $b=0$. Thus $u,v$ is independent and spans $U$, making\n    it a basis of length $2$. Therefore $\\dim U=2$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Express a general element using one vector for each free parameter."
+   ],
+   "uses": [
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c2-def-span",
+    "c2-thm-span-smallest",
+    "c2-def-linear-independence",
+    "c2-def-basis",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-zero-sum-dimension",
+   "kind": "example",
+   "number": "2.36",
+   "title": "The plane where three coordinates add to zero",
+   "tex": "The set\n    \\[\n    U=\\{(x,y,z)\\in\\F^3:x+y+z=0\\}\n    \\]\n    is a subspace of dimension $2$.",
+   "page": "44",
+   "proof": "Put $u=(1,-1,0)$ and $v=(1,0,-1)$. A combination\n    $au+bv=(a+b,-a,-b)$ has coordinate sum zero.\n    Conversely, if $x+y+z=0$, then\n    \\[\n    (x,y,z)=(-y)u+(-z)v,\n    \\]\n    because $x=-y-z$. Therefore $U=\\Span(u,v)$ and is a subspace.\n\n    In a relation $au+bv=0$, the second coordinate gives $-a=0$\n    and the third gives $-b=0$. Adding $a$ to the first scalar\n    equality and $b$ to the second gives $a=b=0$. Thus $u,v$\n    is a basis of $U$, proving $\\dim U=2$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Find two vectors satisfying the constraint, then solve for their coefficients in a general vector."
+   ],
+   "uses": [
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c2-def-span",
+    "c2-thm-span-smallest",
+    "c2-def-linear-independence",
+    "c2-def-basis",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-subspace-dimension",
+   "kind": "theorem",
+   "number": "2.37",
+   "title": "A subspace cannot have larger dimension",
+   "tex": "If $U$ is a subspace of a finite-dimensional vector space $V$,\n    then $U$ is finite-dimensional and\n    \\[\n    \\dim U\\le\\dim V.\n    \\]",
+   "page": "45",
+   "proof": "The finite-dimensional subspace theorem ensures that $U$\n    is finite-dimensional. Choose a basis of $U$ and a basis of $V$.\n    The basis of $U$ is also an independent list in $V$: a relation\n    among its entries uses the same operations and the same zero\n    vector in the two spaces, so its coefficients must vanish.\n    The basis of $V$ is a spanning list in $V$. The independent-list\n    length bound therefore compares their lengths as\n    $\\dim U\\le\\dim V$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Regard a basis of the subspace as an independent list in the ambient space."
+   ],
+   "uses": [
+    "c1-def-subspace",
+    "c2-thm-subspaces-finite",
+    "c2-thm-basis-existence",
+    "c2-def-basis",
+    "c2-thm-independent-length",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-dimension-depends-on-field",
+   "kind": "example",
+   "number": "",
+   "title": "Dimension depends on the scalar field",
+   "tex": "The complex numbers have dimension $1$ as a vector space\n    over $\\C$, but dimension $2$ as a vector space over $\\R$.\n    Here the notation $\\dim_{\\C}\\C$ or $\\dim_{\\R}\\C$ specifies the\n    scalar field.",
+   "page": "45",
+   "proof": "Over $\\C$, the list consisting of $1$ spans because every\n    $z\\in\\C$ equals $z1$. A relation $a1=0$ forces $a=0$,\n    so this list is a basis and $\\dim_{\\C}\\C=1$.\n\n    Restricting scalars to $\\R$ still gives a vector space: the\n    vector-space identities remain valid, and multiplying a complex\n    number by a real scalar produces a complex number.\n    Every complex number is $a+bi$ for real $a,b$, so $1,i$ spans\n    this real vector space. If $a+bi=0$ with real $a,b$, equality\n    of the real and imaginary coordinates gives $a=b=0$.\n    Thus $1,i$ is a real basis, and $\\dim_{\\R}\\C=2$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "The coefficients allowed in a linear combination change when the scalar field changes."
+   ],
+   "uses": [
+    "c1-def-complex",
+    "c1-thm-complex-laws",
+    "c1-def-vector-space",
+    "c2-def-span",
+    "c2-def-linear-independence",
+    "c2-def-basis",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-full-length-independent",
+   "kind": "theorem",
+   "number": "2.38",
+   "title": "An independent list of full length is a basis",
+   "tex": "If $V$ is finite-dimensional, every independent list in $V$\n    with length $\\dim V$ is a basis of $V$.",
+   "page": "45",
+   "proof": "Let the list have length $n=\\dim V$. Extend it to a basis\n    by the independent-list extension theorem. If $k$ new entries\n    were appended, this basis would have length $n+k$.\n    Every basis has length $\\dim V=n$, so $n+k=n$ and hence\n    $k=0$. Thus the original list was already a basis.\n    This also handles $n=0$: the extension cannot append an entry\n    to the empty list.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Extend the list to a basis and compare lengths."
+   ],
+   "uses": [
+    "c2-thm-extend-independent",
+    "c2-thm-basis-length",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-full-dimension-equality",
+   "kind": "theorem",
+   "number": "2.39",
+   "title": "A subspace of full dimension is the whole space",
+   "tex": "If $U$ is a subspace of a finite-dimensional vector space $V$\n    and $\\dim U=\\dim V$, then $U=V$.",
+   "page": "45",
+   "proof": "Choose a basis of $U$. Its length is $\\dim U=\\dim V$,\n    and it is independent in $V$ because $U$ uses the same operations.\n    The full-length independence theorem makes this list a basis\n    of $V$. Consequently every vector in $V$ is a linear combination\n    of members of $U$, and belongs to $U$ because $U$ is a subspace.\n    Thus $V\\subseteq U$. The given inclusion $U\\subseteq V$\n    proves equality. Empty bases cause no exception to this argument.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Show that a basis of the subspace is also a basis of the ambient space."
+   ],
+   "uses": [
+    "c1-def-subspace",
+    "c1-thm-subspace-test",
+    "c2-thm-subspaces-finite",
+    "c2-thm-basis-existence",
+    "c2-def-basis",
+    "c2-def-dimension",
+    "c2-thm-full-length-independent"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-proper-subspace-dimension",
+   "kind": "corollary",
+   "number": "",
+   "title": "Proper subspaces have strictly smaller dimension",
+   "tex": "For a subspace $U$ of a finite-dimensional vector space $V$,\n    \\[\n    U\\ne V\\quad\\Longleftrightarrow\\quad \\dim U<\\dim V.\n    \\]",
+   "page": "45",
+   "proof": "If $U\\ne V$, the subspace dimension inequality gives\n    $\\dim U\\le\\dim V$. Equality would imply $U=V$ by the\n    full-dimension equality theorem, so the inequality is strict.\n    Conversely, if $\\dim U<\\dim V$, equality of the two spaces\n    would give equality of their dimensions, a contradiction.\n    Therefore $U\\ne V$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Combine the dimension inequality with its equality case."
+   ],
+   "uses": [
+    "c2-thm-subspace-dimension",
+    "c2-thm-full-dimension-equality",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-ex-two-vector-basis",
+   "kind": "example",
+   "number": "2.40",
+   "title": "Recognizing a basis without solving every spanning equation",
+   "tex": "The list $(5,7),(4,3)$ is a basis of $\\F^2$.",
+   "page": "46",
+   "proof": "Suppose $a(5,7)+b(4,3)=(0,0)$. Comparing coordinates gives\n    $5a+4b=0$ and $7a+3b=0$. Multiply the first equation by $3$\n    and the second by $4$, then subtract to obtain $13a=0$.\n    Since $13\\ne0$ in $\\F$, scalar cancellation gives $a=0$.\n    The first equation then becomes $4b=0$, and $4\\ne0$ gives\n    $b=0$. Thus the list is independent. Its length is $2$,\n    which equals $\\dim\\F^2$, so the full-length independence\n    theorem makes it a basis.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "An independence calculation is enough because the dimension is already known."
+   ],
+   "uses": [
+    "c1-def-coordinate-addition",
+    "c1-def-coordinate-scaling",
+    "c1-lem-scalar-cancellation",
+    "c2-def-linear-independence",
+    "c2-ex-coordinate-dimension",
+    "c2-thm-full-length-independent"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-polynomial-differentiation",
+   "kind": "theorem",
+   "number": "",
+   "title": "Differentiating powers of a shifted variable",
+   "tex": "Every real polynomial is differentiable on $\\R$.\n    For real $a$ and an integer $k\\ge1$,\n    \\[\n    \\frac{d}{dx}(x-a)^k=k(x-a)^{k-1}.\n    \\]\n    A constant polynomial has derivative zero. Derivatives of\n    real linear combinations of these functions are obtained by\n    taking the same linear combination of their derivatives.",
+   "page": "46"
+  },
+  {
+   "id": "c2-remark-polynomial-differentiation-faith",
+   "kind": "remark",
+   "number": "",
+   "title": "A calculus rule accepted for the polynomial example",
+   "tex": "The preceding differentiation rule is taken on faith here\n    as elementary calculus background. The derivative itself was\n    defined in the subspace section, and linearity of differentiation\n    was included among that section's accepted analysis facts.",
+   "page": "46"
+  },
+  {
+   "id": "c2-ex-prescribed-polynomial-derivative-basis",
+   "kind": "example",
+   "number": "2.41",
+   "title": "A basis for polynomials with a vanishing derivative",
+   "tex": "Let\n    \\[\n    U=\\{p\\in\\Poly_3(\\R):p'(5)=0\\}.\n    \\]\n    Then $U$ is a three-dimensional subspace of $\\Poly_3(\\R)$,\n    and the list\n    \\[\n    1,\\quad (x-5)^2,\\quad (x-5)^3\n    \\]\n    is a basis of $U$.",
+   "page": "46",
+   "proof": "The zero polynomial has derivative zero and lies in $U$.\n    For $p,q\\in U$, linearity of differentiation gives\n    $(p+q)'(5)=p'(5)+q'(5)=0$. For $a\\in\\R$ and $p\\in U$,\n    it gives $(ap)'(5)=ap'(5)=0$. Addition and scalar multiplication\n    stay inside $\\Poly_3(\\R)$ because it is a vector space.\n    Thus the subspace test applies, and $U$ is finite-dimensional\n    as a subspace of the four-dimensional space $\\Poly_3(\\R)$.\n\n    The derivatives of the displayed functions are respectively\n    $0$, $2(x-5)$, and $3(x-5)^2$, so all three functions lie in $U$.\n    Suppose their linear combination\n    \\[\n    a+b(x-5)^2+c(x-5)^3\n    \\]\n    is the zero polynomial. Expanding the powers, its coefficient\n    of $x^3$ is $c$. Coefficient uniqueness gives $c=0$.\n    With $c=0$, its coefficient of $x^2$ is $b$, so $b=0$.\n    The remaining constant polynomial is $a$, giving $a=0$.\n    Hence the three functions are independent.\n\n    Comparing this independent list with a basis of $U$ gives\n    $3\\le\\dim U$. On the other hand, the polynomial $x$ belongs\n    to $\\Poly_3(\\R)$ and has derivative $1$ at $5$, so it does\n    not belong to $U$. Thus $U$ is a proper subspace of\n    $\\Poly_3(\\R)$, and the proper-subspace dimension theorem gives\n    $\\dim U<4$. Since dimension is an integer, $\\dim U=3$.\n    The displayed independent list has this length and is\n    therefore a basis of $U$.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Verify independence by considering the highest powers that can occur.",
+    "Bound the dimension from below using the independent list and from above by showing that the subspace is proper."
+   ],
+   "uses": [
+    "c1-thm-subspace-test",
+    "c2-def-polynomial-space",
+    "c2-lem-polynomial-coefficients",
+    "c2-def-linear-independence",
+    "c2-thm-independent-length",
+    "c2-thm-subspaces-finite",
+    "c2-thm-basis-existence",
+    "c2-ex-polynomial-dimension",
+    "c2-thm-full-length-independent",
+    "c2-thm-proper-subspace-dimension",
+    "c2-thm-polynomial-differentiation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-full-length-spanning",
+   "kind": "theorem",
+   "number": "2.42",
+   "title": "A spanning list of full length is a basis",
+   "tex": "If $V$ is finite-dimensional, every spanning list in $V$\n    with length $\\dim V$ is a basis of $V$.",
+   "page": "46",
+   "proof": "Let the spanning list have length $n=\\dim V$. Reduce it\n    to a basis by deleting entries as in the spanning-list\n    reduction theorem. If $k$ entries were deleted, the resulting\n    basis would have length $n-k$. Since every basis has length\n    $n$, we have $n-k=n$ and hence $k=0$. No entries were deleted,\n    so the original list is a basis. When $n=0$, this argument\n    says that the empty spanning list is already a basis.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Reduce the spanning list to a basis and count how many entries could have been deleted."
+   ],
+   "uses": [
+    "c2-thm-reduce-spanning",
+    "c2-thm-basis-length",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-lem-intersection-subspace",
+   "kind": "lemma",
+   "number": "",
+   "title": "An intersection of two subspaces is a subspace",
+   "tex": "If $U,W$ are subspaces of a vector space $V$, then\n    $U\\cap W$ is also a subspace of $V$.",
+   "page": "47",
+   "proof": "Both $U$ and $W$ contain zero, so $0\\in U\\cap W$.\n    If $x,y\\in U\\cap W$, then both vectors belong to $U$ and to $W$.\n    Closure under addition in each subspace places $x+y$ in both,\n    hence in their intersection. If $a\\in\\F$ and $x\\in U\\cap W$,\n    closure under scalar multiplication in each subspace places\n    $ax$ in both. The subspace test now proves the assertion.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check each of the subspace conditions simultaneously in both sets."
+   ],
+   "uses": [
+    "c1-thm-subspace-test"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-dimension-sum",
+   "kind": "theorem",
+   "number": "2.43",
+   "title": "Dimension of the sum of two subspaces",
+   "tex": "If $U,W$ are subspaces of a finite-dimensional vector space,\n    then\n    \\[\n    \\dim(U+W)=\\dim U+\\dim W-\\dim(U\\cap W).\n    \\]",
+   "page": "47",
+   "proof": "The spaces $U$, $W$, and $U\\cap W$ are finite-dimensional:\n    the intersection is a subspace by the preceding lemma, and\n    all three are subspaces of the given finite-dimensional space.\n    Choose a basis $b_1,\\ldots,b_r$ of $U\\cap W$.\n    Extend it to a basis\n    \\[\n    b_1,\\ldots,b_r,u_1,\\ldots,u_p\n    \\]\n    of $U$, and also to a basis\n    \\[\n    b_1,\\ldots,b_r,w_1,\\ldots,w_q\n    \\]\n    of $W$. The extension theorem applies because the intersection\n    basis remains independent when viewed in either containing space.\n\n    Consider the concatenated list\n    \\[\n    b_1,\\ldots,b_r,u_1,\\ldots,u_p,w_1,\\ldots,w_q.\n    \\]\n    Every entry belongs to $U+W$. If $x\\in U+W$, write $x=u+w$\n    with $u\\in U$ and $w\\in W$, expand $u$ and $w$ in their\n    respective bases, and combine the two coefficients of each\n    $b_i$. This expresses $x$ as a linear combination of the\n    concatenated list, so that list spans $U+W$.\n\n    To prove independence, suppose\n    \\[\n    \\sum_{i=1}^r a_i b_i+\n    \\sum_{j=1}^p c_j u_j+\n    \\sum_{k=1}^q d_k w_k=0.\n    \\]\n    Put $y=\\sum_{k=1}^q d_k w_k$. This vector belongs to $W$.\n    The displayed relation also expresses it as\n    $-\\sum_i a_i b_i-\\sum_j c_j u_j$, which belongs to $U$.\n    Thus $y\\in U\\cap W$, and we can write\n    $y=\\sum_{i=1}^r e_i b_i$. Consequently\n    \\[\n    \\sum_{i=1}^r(-e_i)b_i+\\sum_{k=1}^q d_k w_k=0.\n    \\]\n    Independence of the chosen basis of $W$ gives $d_k=0$ for\n    every $k$, as well as $e_i=0$ for every $i$. Substituting\n    $d_k=0$ in the original relation leaves a relation in the\n    chosen basis of $U$, so all $a_i$ and all $c_j$ vanish.\n    The concatenated list is therefore independent and is a\n    basis of $U+W$.\n\n    Counting basis entries now gives\n    \\[\n    \\dim(U+W)=r+p+q=(r+p)+(r+q)-r\n    =\\dim U+\\dim W-\\dim(U\\cap W).\n    \\]\n    Any of $r,p,q$ may be zero. In that event the corresponding\n    sums are empty and equal zero, and the same spanning and\n    independence arguments apply without omitted coefficients.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Start with a basis of the intersection and extend it separately to bases of the two subspaces.",
+    "When checking independence of the joined list, move one group of added vectors to the other side and show that its sum lies in the intersection."
+   ],
+   "uses": [
+    "c1-thm-subspace-test",
+    "c1-def-subspace-sum",
+    "c1-thm-smallest-sum",
+    "c2-def-span",
+    "c2-def-linear-independence",
+    "c2-def-basis",
+    "c2-thm-subspaces-finite",
+    "c2-thm-basis-existence",
+    "c2-thm-extend-independent",
+    "c2-def-dimension",
+    "c2-lem-intersection-subspace"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-cor-two-summand-dimension",
+   "kind": "corollary",
+   "number": "",
+   "title": "Dimension addition detects a direct sum of two subspaces",
+   "tex": "For subspaces $U,W$ of a finite-dimensional vector space,\n    \\[\n    U+W\\text{ is direct}\n    \\quad\\Longleftrightarrow\\quad\n    \\dim(U+W)=\\dim U+\\dim W.\n    \\]",
+   "page": "48",
+   "proof": "The dimension formula shows that the displayed equality\n    holds exactly when $\\dim(U\\cap W)=0$. The intersection is\n    finite-dimensional, and the zero-dimension lemma says that\n    this happens exactly when $U\\cap W=\\{0\\}$. The two-subspace\n    intersection criterion identifies the latter condition\n    precisely with directness of $U+W$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Identify the term that must vanish in the dimension formula."
+   ],
+   "uses": [
+    "c1-thm-direct-intersection",
+    "c2-lem-zero-dimension",
+    "c2-lem-intersection-subspace",
+    "c2-thm-subspaces-finite",
+    "c2-thm-dimension-sum"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-thm-direct-dimension",
+   "kind": "theorem",
+   "number": "",
+   "title": "Dimension addition and directness for finitely many summands",
+   "tex": "Let $V_1,\\ldots,V_m$ be finite-dimensional subspaces of a\n    vector space $V$, where $m\\ge1$. Their sum $S=V_1+\\cdots+V_m$\n    is finite-dimensional, and\n    \\[\n    \\dim S\\le\\sum_{j=1}^m\\dim V_j.\n    \\]\n    Equality holds if and only if the sum is direct.",
+   "page": "48",
+   "proof": "Choose a basis $B_j$ of each $V_j$, and concatenate these\n    lists to form a list $B$. The list $B$ spans $S$: express\n    a vector in $S$ as a sum of vectors from the $V_j$, and\n    expand each of those vectors in $B_j$. Thus $S$ is\n    finite-dimensional. The length of $B$ is\n    $N=\\sum_{j=1}^m\\dim V_j$. Comparing a basis of $S$ with\n    the spanning list $B$ gives $\\dim S\\le N$.\n\n    Suppose the sum is direct. In a relation expressing zero\n    as a linear combination of $B$, group the terms belonging\n    to $B_j$ into a vector $x_j\\in V_j$. Then\n    $\\sum_{j=1}^m x_j=0$. The zero criterion for direct sums\n    gives $x_j=0$ for every $j$. Independence of each $B_j$\n    then makes every coefficient in the relation zero.\n    Thus $B$ is independent as well as spanning, and\n    $\\dim S=N$.\n\n    Conversely, suppose $\\dim S=N$. The spanning list $B$\n    has length $\\dim S$, so it is a basis by the full-length\n    spanning theorem. If $\\sum_{j=1}^m x_j=0$ with $x_j\\in V_j$,\n    expand each $x_j$ in $B_j$. These expansions give a\n    zero linear combination of $B$. Its independence makes\n    all the coefficients zero, and hence every $x_j=0$.\n    The zero criterion proves directness.\n\n    If some $V_j=\\{0\\}$, its chosen basis is empty, and its\n    contribution to both the concatenated list and every\n    grouped relation is empty. In particular, the argument\n    also covers $N=0$.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Concatenate a basis from each summand and first check that the resulting list spans the sum.",
+    "Relate independence of that concatenated list to the zero criterion for directness."
+   ],
+   "uses": [
+    "c1-def-subspace-sum",
+    "c1-thm-smallest-sum",
+    "c1-thm-direct-zero",
+    "c2-def-span",
+    "c2-def-finite-dimensional",
+    "c2-def-linear-independence",
+    "c2-def-basis",
+    "c2-thm-independent-length",
+    "c2-thm-basis-existence",
+    "c2-def-dimension",
+    "c2-thm-full-length-spanning"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c2-remark-dimension-counting",
+   "kind": "remark",
+   "number": "",
+   "title": "Dimension as a counting principle",
+   "tex": "The dimension formula plays a role similar to the formula\n    for the size of a union of two finite sets. A shared subspace\n    is counted twice when the two dimensions are added, and its\n    dimension must be subtracted once. For several summands,\n    directness is exactly the condition under which their\n    dimensions add without a correction.",
+   "page": "48"
+  },
+  {
+   "id": "c2-thm-low-dimensional-subspaces",
+   "kind": "theorem",
+   "number": "",
+   "title": "Classifying subspaces of the plane and of three-dimensional space",
+   "tex": "The subspaces of $\\R^2$ are exactly $\\{0\\}$, the lines through\n    the origin, and $\\R^2$. The subspaces of $\\R^3$ are exactly\n    $\\{0\\}$, the lines through the origin, the planes through\n    the origin, and $\\R^3$.\n\n    Here a line through the origin is a set\n    $\\{au:a\\in\\R\\}$ with $u\\ne0$. A plane through the origin\n    is a set $\\{au+bv:a,b\\in\\R\\}$ in which neither $u$ nor $v$\n    is a scalar multiple of the other.",
+   "page": "48",
+   "proof": "First record how the geometric descriptions correspond to\n    bases. If $u\\ne0$, the list consisting of $u$ is independent:\n    from $au=0$, a nonzero $a$ would give\n    $u=a^{-1}(au)=a^{-1}0=0$, a contradiction. Its span is the\n    specified line, so that line is a subspace of dimension $1$.\n\n    Suppose neither $u$ nor $v$ is a scalar multiple of the other.\n    In particular both vectors are nonzero, because zero is a\n    scalar multiple of every vector. If $au+bv=0$ and $b\\ne0$,\n    multiplication by $b^{-1}$ would give $v=(-a/b)u$, contrary\n    to the hypothesis. Hence $b=0$. Since $u\\ne0$, the preceding\n    one-vector argument gives $a=0$. Thus $u,v$ is independent;\n    its span is the specified plane, which is a subspace of\n    dimension $2$.\n\n    Conversely, a basis of a one-dimensional space is a list\n    consisting of a nonzero vector: a zero basis vector would\n    give a nontrivial zero relation with coefficient $1$.\n    Its span is therefore a line of the stated kind.\n    A basis $u,v$ of a two-dimensional space cannot have\n    $v=au$, because $au-v=0$ would be a nontrivial relation.\n    It also cannot have $u=bv$, by the relation $u-bv=0$.\n    Hence its span is a plane of the stated kind.\n\n    Now let $U$ be a subspace of $\\R^2$. It is finite-dimensional,\n    and $0\\le\\dim U\\le2$. If the dimension is zero, the\n    zero-dimension lemma gives $U=\\{0\\}$. If it is one, the\n    preceding basis argument makes $U$ a line. If it is two,\n    the full-dimension equality theorem gives $U=\\R^2$.\n    All three listed types are subspaces: lines are spans,\n    and the zero space and the whole space are subspaces\n    by the subspace test.\n\n    For $U\\subseteq\\R^3$, the possible dimensions are\n    $0,1,2,3$. Dimension zero gives $\\{0\\}$, dimension one\n    gives a line, and dimension two gives a plane by the\n    preceding arguments. Dimension three gives $\\R^3$\n    by the full-dimension equality theorem. Conversely,\n    lines and planes are spans and hence subspaces, while\n    $\\{0\\}$ and $\\R^3$ are subspaces by the subspace test.\n    This proves that both classifications are exhaustive.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "List the possible dimensions of a subspace of each ambient space.",
+    "Interpret a basis of length one or two geometrically, and use the full-dimension equality theorem for the largest case."
+   ],
+   "uses": [
+    "c1-def-vector-space",
+    "c1-thm-scalar-zero",
+    "c1-thm-subspace-test",
+    "c1-thm-complex-inverses",
+    "c2-def-span",
+    "c2-thm-span-smallest",
+    "c2-def-linear-independence",
+    "c2-def-basis",
+    "c2-thm-subspaces-finite",
+    "c2-thm-basis-existence",
+    "c2-def-dimension",
+    "c2-lem-zero-dimension",
+    "c2-ex-coordinate-dimension",
+    "c2-thm-subspace-dimension",
+    "c2-thm-full-dimension-equality"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c2-card-dimension-definition",
+   "item": "c2-def-dimension",
+   "front": "How is the dimension of a finite-dimensional vector space defined,\n    and what makes this definition independent of choices?",
+   "back": "It is the length of a basis. Bases exist, and the basis-length\n    theorem says that any two bases have the same length."
+  },
+  {
+   "id": "c2-card-dimension-zero",
+   "item": "c2-lem-zero-dimension",
+   "front": "Which finite-dimensional vector space has dimension zero?",
+   "back": "Exactly the zero space $\\{0\\}$; its basis is the empty list."
+  },
+  {
+   "id": "c2-card-standard-dimensions",
+   "item": "c2-ex-polynomial-dimension",
+   "front": "What is $\\dim\\Poly_m(\\F)$ for a nonnegative integer $m$?",
+   "back": "It is $m+1$, because $1,z,\\ldots,z^m$ is a basis."
+  },
+  {
+   "id": "c2-card-field-and-dimension",
+   "item": "c2-ex-dimension-depends-on-field",
+   "front": "What are the dimensions of $\\C$ over $\\C$ and over $\\R$?",
+   "back": "They are $1$ and $2$, respectively: bases are $1$ over $\\C$\n    and $1,i$ over $\\R$."
+  },
+  {
+   "id": "c2-card-independent-full-length",
+   "item": "c2-thm-full-length-independent",
+   "front": "When does the length of an independent list guarantee that it is a basis?",
+   "back": "In a finite-dimensional space $V$, length $\\dim V$ is enough.\n    An extension to a basis cannot add any entries."
+  },
+  {
+   "id": "c2-card-proper-dimension",
+   "item": "c2-thm-proper-subspace-dimension",
+   "front": "How does a proper subspace of a finite-dimensional space compare in dimension?",
+   "back": "Its dimension is strictly smaller. A subspace with equal\n    dimension must be the whole space."
+  },
+  {
+   "id": "c2-card-dimension-of-sum",
+   "item": "c2-thm-dimension-sum",
+   "front": "State the dimension formula for two subspaces of a finite-dimensional space.",
+   "back": "$\\dim(U+W)=\\dim U+\\dim W-\\dim(U\\cap W)$."
+  },
+  {
+   "id": "c2-card-intersection-basis-idea",
+   "item": "c2-thm-dimension-sum",
+   "front": "What basis construction proves the dimension formula for a sum?",
+   "back": "Extend one basis of the intersection to bases of both subspaces,\n    then join the added vectors while keeping the intersection basis once."
+  },
+  {
+   "id": "c2-card-direct-dimension",
+   "item": "c2-thm-direct-dimension",
+   "front": "When does $\\dim(V_1+\\cdots+V_m)$ equal\n    $\\dim V_1+\\cdots+\\dim V_m$ for finite-dimensional summands?",
+   "back": "Exactly when the sum is direct. Concatenating bases of the\n    summands then gives a basis of the sum."
+  },
+  {
+   "id": "c2-card-subspaces-three-space",
+   "item": "c2-thm-low-dimensional-subspaces",
+   "front": "Which subspaces can occur in $\\R^3$?",
+   "back": "The zero space, lines through the origin, planes through\n    the origin, and the whole space, corresponding to dimensions\n    $0,1,2,3$."
+  }
+ ]
+}

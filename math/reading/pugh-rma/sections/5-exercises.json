@@ -1,0 +1,451 @@
+{
+ "version": 1,
+ "id": "5-exercises",
+ "blocks": [
+  {
+   "id": "c5-exercises-intro",
+   "kind": "prose",
+   "number": "",
+   "tex": "These exercises are extra credit: none of them gates the chapter, and they may be taken in any order. Several concern maps defined on matrices; there, as in the corollary on smoothness of inversion, $\\mathcal{L}(\\R^n,\\R^n)$ is identified with $\\R^{n^2}$ by listing matrix entries, and because all norms on $\\R^{n^2}$ are comparable, differentiability and the sublinearity of a remainder may be checked using the operator norm."
+  },
+  {
+   "id": "c5-ex-rank-one-norm",
+   "kind": "exercise",
+   "number": "",
+   "title": "The operator norm of a rank-one map",
+   "tex": "Let $a \\in \\R^n$ and $b \\in \\R^m$, and define $T : \\R^n \\to \\R^m$ by $Tv = \\inner{a}{v}\\,b$. Show that $T$ is linear and that $\\norm{T} = \\abs{a}\\,\\abs{b}$.",
+   "proof": "Linearity: $T(v + cw) = \\inner{a}{v + cw}\\,b = (\\inner{a}{v} + c\\inner{a}{w})\\,b = Tv + c\\,Tw$, since the inner product is linear in its second argument.\n\n\\emph{Upper bound.} By the Cauchy--Schwarz inequality, $\\abs{Tv} = \\abs{\\inner{a}{v}}\\,\\abs{b} \\le \\abs{a}\\,\\abs{v}\\,\\abs{b}$ for every $v$. So $\\abs{a}\\abs{b}$ is a stretching constant for $T$, and $\\norm{T} \\le \\abs{a}\\,\\abs{b}$.\n\n\\emph{Lower bound.} If $a = 0$ then $T = 0$ and both sides are $0$. Otherwise $u = a/\\abs{a}$ is a unit vector, and \\[ \\abs{Tu} = \\frac{\\abs{\\inner{a}{a}}}{\\abs{a}}\\,\\abs{b} = \\abs{a}\\,\\abs{b} . \\] Since $\\abs{u} \\le 1$, the definition of the operator norm as a supremum gives $\\norm{T} \\ge \\abs{Tu} = \\abs{a}\\,\\abs{b}$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Cauchy--Schwarz gives the upper bound; for the lower bound test $T$ on the unit vector $a/\\abs{a}$."
+   ],
+   "uses": [
+    "c5-def-normed-space",
+    "c5-def-linear-map",
+    "c5-def-operator-norm",
+    "c5-prop-opnorm-bound"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-norm-conorm-continuous",
+   "kind": "exercise",
+   "number": "",
+   "title": "The norm and the conorm are attained and continuous",
+   "tex": "Let $n \\ge 1$ and let $S, T : \\R^n \\to \\R^n$ be linear. \\begin{enumerate} \\item There are unit vectors $u, u' \\in \\R^n$ with $\\abs{Tu} = \\norm{T}$ and $\\abs{Tu'} = m(T)$. \\item $\\abs{\\,\\norm{S} - \\norm{T}\\,} \\le \\norm{S - T}$ and $\\abs{\\,m(S) - m(T)\\,} \\le \\norm{S - T}$. Hence $T \\mapsto \\norm{T}$ and $T \\mapsto m(T)$ are continuous functions on $\\mathcal{L}(\\R^n,\\R^n)$. \\item Deduce once more that $GL(n)$ is open in $\\mathcal{L}(\\R^n,\\R^n)$. \\end{enumerate}",
+   "proof": "(1) Let $\\Sigma = \\set{u \\in \\R^n : \\abs{u} = 1}$. It is closed and bounded, hence compact by the Heine--Borel theorem, and nonempty because $n \\ge 1$. The function $\\varphi(u) = \\abs{Tu}$ is continuous on $\\R^n$, since $\\abs{\\varphi(u) - \\varphi(u')} \\le \\abs{Tu - Tu'} \\le \\norm{T}\\,\\abs{u - u'}$ and $\\norm{T} < \\infty$ for a linear map on $\\R^n$. A continuous real function on a nonempty compact set attains its maximum and its minimum, say at $u, u' \\in \\Sigma$. For $v \\ne 0$ we have $\\abs{Tv}/\\abs{v} = \\varphi(v/\\abs{v})$ with $v/\\abs{v} \\in \\Sigma$, and conversely every point of $\\Sigma$ is of this form; so \\[ \\norm{T} = \\sup_{v \\ne 0} \\frac{\\abs{Tv}}{\\abs{v}} = \\sup_{\\Sigma} \\varphi = \\varphi(u), \\qquad m(T) = \\inf_{v \\ne 0} \\frac{\\abs{Tv}}{\\abs{v}} = \\inf_{\\Sigma} \\varphi = \\varphi(u') , \\] using the characterization of the operator norm as a supremum of ratios and the definition of the conorm.\n\n(2) The operator norm is a norm, so the triangle inequality gives $\\norm{S} \\le \\norm{S - T} + \\norm{T}$ and $\\norm{T} \\le \\norm{T - S} + \\norm{S}$; together, $\\abs{\\,\\norm{S} - \\norm{T}\\,} \\le \\norm{S - T}$. For the conorm, let $v \\ne 0$. Then \\[ \\abs{Sv} \\ge \\abs{Tv} - \\abs{(S - T)v} \\ge m(T)\\,\\abs{v} - \\norm{S - T}\\,\\abs{v} , \\] so $\\abs{Sv}/\\abs{v} \\ge m(T) - \\norm{S - T}$. Taking the infimum over $v \\ne 0$ gives $m(S) \\ge m(T) - \\norm{S - T}$, and exchanging the roles of $S$ and $T$ gives $m(T) \\ge m(S) - \\norm{S - T}$. Both functions are therefore Lipschitz with constant $1$ for the operator norm, in particular continuous.\n\n(3) By the proposition on the conorm, $GL(n) = \\set{T : m(T) > 0}$ is the preimage of the open set $(0,\\infty)$ under the continuous function $m$, hence open.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "The unit sphere is compact and $u \\mapsto \\abs{Tu}$ is continuous on it; both the norm and the conorm are extreme values of this function.",
+    "For the conorm estimate write $\\abs{Sv} \\ge \\abs{Tv} - \\abs{(S-T)v}$ and divide by $\\abs{v}$."
+   ],
+   "uses": [
+    "c5-def-operator-norm",
+    "c5-prop-opnorm-bound",
+    "c5-prop-rn-bounded",
+    "c5-prop-opnorm-is-norm",
+    "c5-def-conorm",
+    "c5-prop-conorm",
+    "c5-thm-finite-dim-continuous"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-norm-derivative",
+   "kind": "exercise",
+   "number": "",
+   "title": "The derivative of the Euclidean norm",
+   "tex": "Let $N : \\R^n \\to \\R$, $N(x) = \\abs{x}$. Show that $N$ is differentiable at every $p \\ne 0$ with \\[ (DN)_p(v) = \\frac{\\inner{p}{v}}{\\abs{p}} , \\] and that $N$ is not differentiable at $0$.",
+   "proof": "Let $q(x) = \\inner{x}{x} = \\abs{x}^2$. This is the quadratic form $x \\mapsto \\inner{x}{Ax}$ with $A = I$, so by the exercise on quadratic forms $q$ is differentiable everywhere with $(Dq)_p(v) = \\inner{p}{v} + \\inner{v}{p} = 2\\inner{p}{v}$. The function $s(t) = \\sqrt{t}$ is differentiable on the open set $(0,\\infty)$ with $s'(t) = 1/(2\\sqrt{t})$, by the one-variable inverse function theorem of Chapter 3 applied to $t \\mapsto t^2$ on $(0,\\infty)$; so by the consistency with one-variable calculus $(Ds)_t(h) = h/(2\\sqrt{t})$.\n\nOn the open set $\\R^n \\setminus \\set{0}$ the function $q$ is positive, so $N = s \\circ q$ there. By the chain rule, $N$ is differentiable at every $p \\ne 0$ with \\[ (DN)_p(v) = (Ds)_{q(p)}\\big( (Dq)_p(v) \\big) = \\frac{2\\inner{p}{v}}{2\\sqrt{\\abs{p}^2}} = \\frac{\\inner{p}{v}}{\\abs{p}} . \\]\n\nAt the origin: suppose $N$ were differentiable at $0$ with derivative $T$. Fix $u \\ne 0$. By the limit formula for the derivative, $Tu = \\lim_{t \\to 0} (N(tu) - N(0))/t = \\lim_{t \\to 0} \\abs{t}\\,\\abs{u}/t$. But this quotient equals $\\abs{u}$ for $t > 0$ and $-\\abs{u}$ for $t < 0$, and $\\abs{u} \\ne -\\abs{u}$, so the limit does not exist. This contradiction shows $N$ is not differentiable at $0$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Write $\\abs{x} = \\sqrt{\\inner{x}{x}}$ and use the chain rule away from the origin.",
+    "At the origin look at the difference quotients along a line through $0$, from both sides."
+   ],
+   "uses": [
+    "c5-def-derivative",
+    "c5-thm-derivative-unique",
+    "c5-prop-one-variable",
+    "c5-thm-chain-rule",
+    "c5-ex-quadratic"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-directional-not-enough",
+   "kind": "exercise",
+   "number": "",
+   "title": "Directional derivatives do not suffice",
+   "tex": "Define $f : \\R^2 \\to \\R$ by $f(x,y) = \\dfrac{x^2 y}{x^2 + y^2}$ for $(x,y) \\ne (0,0)$ and $f(0,0) = 0$. Show that $f$ is continuous, that for every $u \\in \\R^2$ the directional derivative \\[ \\lim_{t \\to 0} \\frac{f(tu) - f(0)}{t} \\] exists, and that nevertheless $f$ is not differentiable at the origin.",
+   "proof": "\\emph{Continuity.} Away from the origin $f$ is a quotient of polynomials with nonvanishing denominator, hence continuous. At the origin, for $(x,y) \\ne (0,0)$, \\[ \\abs{f(x,y)} = \\frac{x^2}{x^2 + y^2}\\,\\abs{y} \\le \\abs{y} \\le \\abs{(x,y)} , \\] so $f(x,y) \\to 0 = f(0,0)$ as $(x,y) \\to (0,0)$.\n\n\\emph{Directional derivatives.} For $u = (u_1,u_2) \\ne 0$ and $t \\ne 0$, \\[ f(tu) = \\frac{t^2u_1^2 \\cdot tu_2}{t^2 u_1^2 + t^2u_2^2} = t\\,\\frac{u_1^2u_2}{\\abs{u}^2} , \\] so the difference quotient $(f(tu) - f(0))/t$ is the constant $\\ell(u) = u_1^2u_2/\\abs{u}^2$, and the limit exists and equals $\\ell(u)$. For $u = 0$ the quotient is $0$; put $\\ell(0) = 0$.\n\n\\emph{Not differentiable.} Suppose $f$ were differentiable at $0$ with derivative $T$. By the limit formula for the derivative, $Tu = \\ell(u)$ for every $u$. Now $\\ell(e_1) = 0$ and $\\ell(e_2) = 0$, so by linearity $T = 0$. But $\\ell(e_1 + e_2) = \\ell(1,1) = \\tfrac12 \\ne 0 = T(e_1 + e_2)$. This contradiction shows $f$ is not differentiable at the origin. (Equivalently: the directional derivative $u \\mapsto \\ell(u)$ is not linear in $u$, while the derivative of a differentiable function would be.)",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Compute $f(tu)$ for fixed $u$; it is a multiple of $t$.",
+    "If $(Df)_0$ existed, the limit formula would force $(Df)_0(u) = u_1^2u_2/\\abs{u}^2$, which is not linear in $u$."
+   ],
+   "uses": [
+    "c5-def-derivative",
+    "c5-thm-derivative-unique",
+    "c5-def-partials",
+    "c5-prop-jacobian",
+    "c5-ex-partials-not-enough"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-zero-derivative-constant",
+   "kind": "exercise",
+   "number": "",
+   "title": "Zero derivative on a connected open set",
+   "tex": "Let $U \\subseteq \\R^n$ be open and connected, and let $f : U \\to \\R^m$ be differentiable with $(Df)_x = 0$ for every $x \\in U$. Show that $f$ is constant. Show by example that the conclusion fails if $U$ is not connected.",
+   "proof": "Fix $p \\in U$, let $c = f(p)$, and let $E = \\set{x \\in U : f(x) = c}$. Then $p \\in E$, so $E \\ne \\emptyset$.\n\n\\emph{$E$ is open.} Let $x \\in E$. Since $U$ is open there is a ball $B = \\set{y : \\abs{y - x} < r} \\subseteq U$. For $y \\in B$ the segment $[x,y]$ lies in $B$, because $\\abs{(x + t(y-x)) - x} = t\\abs{y - x} < r$ for $0 \\le t \\le 1$. On this segment $\\norm{(Df)_z} = 0$, so the mean value inequality with $M = 0$ gives $\\abs{f(y) - f(x)} \\le 0$, that is, $f(y) = c$. Hence $B \\subseteq E$.\n\n\\emph{$E$ is closed in $U$.} Differentiability implies continuity, so $f$ is continuous on $U$, and $U \\setminus E = f^{-1}(\\R^m \\setminus \\set{c})$ is the preimage of an open set under a continuous map on the open set $U$, hence open.\n\nThus $U = E \\cup (U \\setminus E)$ is a union of two disjoint open sets. Since $U$ is connected and $E \\ne \\emptyset$, $U \\setminus E = \\emptyset$: $f \\equiv c$ on $U$.\n\n\\emph{Example.} Let $U = \\set{x : \\abs{x} < 1} \\cup \\set{x : \\abs{x - 3e_1} < 1}$, the union of two disjoint open balls, and let $f = 0$ on the first ball and $f = 1$ on the second. At each $p \\in U$ the function agrees with a constant on a ball about $p$, so the remainder $f(p+v) - f(p) - 0v$ vanishes for small $v$ and $(Df)_p = 0$. But $f$ is not constant.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Show that the set of points where $f$ takes the value $f(p)$ is both open and closed in $U$.",
+    "Openness comes from the mean value inequality on a ball with $M = 0$; closedness from continuity."
+   ],
+   "uses": [
+    "c5-def-derivative",
+    "c5-thm-diff-continuous",
+    "c5-thm-mvt",
+    "c5-thm-linear-rules"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-lipschitz-bounded-derivative",
+   "kind": "exercise",
+   "number": "",
+   "title": "Bounded derivative and Lipschitz maps",
+   "tex": "Let $U \\subseteq \\R^n$ be open, $f : U \\to \\R^m$ differentiable on $U$, and $M \\ge 0$. \\begin{enumerate} \\item If $U$ is convex and $\\norm{(Df)_x} \\le M$ for every $x \\in U$, then $\\abs{f(q) - f(p)} \\le M\\abs{q - p}$ for all $p, q \\in U$. \\item Conversely, if $\\abs{f(q) - f(p)} \\le M\\abs{q - p}$ for all $p, q \\in U$, then $\\norm{(Df)_x} \\le M$ for every $x \\in U$. \\item Prove or disprove: (1) holds without the assumption that $U$ is convex. \\end{enumerate}",
+   "proof": "(1) For $p, q \\in U$ the segment $[p,q]$ lies in $U$ by convexity, and $\\norm{(Df)_x} \\le M$ along it. The mean value inequality gives $\\abs{f(q) - f(p)} \\le M\\abs{q - p}$.\n\n(2) Fix $x \\in U$ and $u \\in \\R^n$. For small $t \\ne 0$ the point $x + tu$ lies in $U$ and, by hypothesis, \\[ \\abs{ \\frac{f(x + tu) - f(x)}{t} } \\le \\frac{M\\abs{tu}}{\\abs{t}} = M\\abs{u} . \\] By the limit formula for the derivative, $w_t = (f(x+tu) - f(x))/t \\to (Df)_x u$ as $t \\to 0$. Then $\\abs{(Df)_xu} \\le \\abs{w_t} + \\abs{(Df)_xu - w_t} \\le M\\abs{u} + \\abs{(Df)_xu - w_t}$, and letting $t \\to 0$ gives $\\abs{(Df)_x u} \\le M\\abs{u}$. As $u$ was arbitrary, $\\norm{(Df)_x} \\le M$ because the operator norm is the least stretching constant.\n\n(3) False. Take $n = m = 1$, $U = \\R \\setminus \\set{0}$, and $f(x) = 1$ for $x > 0$, $f(x) = -1$ for $x < 0$. Near each point of $U$ the function $f$ is constant, so it is differentiable with $(Df)_x = 0$ for all $x$: the hypothesis of (1) holds with $M = 0$. But $\\abs{f(1) - f(-1)} = 2 > 0 \\cdot \\abs{1 - (-1)}$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "(1) is the mean value inequality. For (2), bound the difference quotients along a line and pass to the limit.",
+    "For (3), a function that is locally constant but takes two values on a disconnected domain has zero derivative and is not Lipschitz."
+   ],
+   "uses": [
+    "c5-def-derivative",
+    "c5-thm-derivative-unique",
+    "c5-thm-mvt",
+    "c5-prop-opnorm-bound",
+    "c5-thm-linear-rules"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-euler-homogeneous",
+   "kind": "exercise",
+   "number": "",
+   "title": "Euler's theorem on homogeneous functions",
+   "tex": "Let $f : \\R^n \\setminus \\set{0} \\to \\R$ be differentiable and let $k \\in \\R$. Call $f$ \\emph{positively homogeneous of degree $k$} if $f(tx) = t^k f(x)$ for all $x \\ne 0$ and all $t > 0$. Show that $f$ is positively homogeneous of degree $k$ if and only if \\[ (Df)_x(x) = k\\,f(x) \\qquad \\text{for all } x \\ne 0 . \\] (Here $t^c$, for $t > 0$ and real $c$, is the real power, with its standard properties: $t^c t^{c'} = t^{c+c'}$, $1^c = 1$, and $t \\mapsto t^c$ is differentiable on $(0,\\infty)$ with derivative $c\\,t^{c-1}$. Chapter 3 proved this for integer $c$.)",
+   "proof": "Fix $x \\ne 0$ and let $\\sigma(t) = tx$, a linear map $\\R \\to \\R^n$ with $(D\\sigma)_t(h) = hx$. Since $x \\ne 0$, $\\sigma$ maps the open interval $(0,\\infty)$ into $\\R^n \\setminus \\set{0}$. By the chain rule the function $g(t) = f(tx) = f(\\sigma(t))$ is differentiable on $(0,\\infty)$ with $(Dg)_t(h) = (Df)_{tx}(hx) = h\\,(Df)_{tx}(x)$, and by the consistency with one-variable calculus \\[ g'(t) = (Df)_{tx}(x) \\qquad (t > 0) . \\] We also use the properties of real powers granted in the statement: $t \\mapsto t^c$ is differentiable on $(0,\\infty)$ with derivative $c\\,t^{c-1}$, and $t^{-k}t^k = 1$.\n\n\\emph{Homogeneous implies the identity.} If $f$ is positively homogeneous of degree $k$ then $g(t) = t^kf(x)$, so $g'(t) = k t^{k-1} f(x)$. Comparing the two formulas for $g'$ at $t = 1$ gives $(Df)_x(x) = k f(x)$.\n\n\\emph{The identity implies homogeneous.} Suppose $(Df)_y(y) = kf(y)$ for all $y \\ne 0$. Let $h(t) = t^{-k}g(t)$ for $t > 0$. By the one-variable product rule, \\[ h'(t) = -k t^{-k-1} g(t) + t^{-k} g'(t) = -k t^{-k-1} f(tx) + t^{-k} (Df)_{tx}(x) . \\] Applying the identity at the point $y = tx$ and using linearity of $(Df)_{tx}$, \\[ (Df)_{tx}(x) = \\frac{1}{t}\\,(Df)_{tx}(tx) = \\frac{k}{t}\\,f(tx) , \\] so $h'(t) = -kt^{-k-1}f(tx) + kt^{-k-1}f(tx) = 0$ for all $t > 0$. By the one-variable mean value theorem, $h$ is constant on $(0,\\infty)$, so $h(t) = h(1) = f(x)$, that is, $f(tx) = t^kf(x)$. Since $x \\ne 0$ was arbitrary, $f$ is positively homogeneous of degree $k$.",
+   "difficulty": 3,
+   "minutes": 25,
+   "hints": [
+    "Differentiate $t \\mapsto f(tx)$ with the chain rule; at $t = 1$ you get $(Df)_x(x)$.",
+    "For the converse, show that $t \\mapsto t^{-k}f(tx)$ has zero derivative on $(0,\\infty)$."
+   ],
+   "uses": [
+    "c5-def-derivative",
+    "c5-prop-one-variable",
+    "c5-thm-linear-rules",
+    "c5-thm-chain-rule"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-det-derivative",
+   "kind": "exercise",
+   "number": "",
+   "title": "The derivative of the determinant",
+   "tex": "Regard $\\det$ as a function on $\\mathcal{L}(\\R^n,\\R^n) = \\R^{n^2}$, and write $\\operatorname{tr} H = \\sum_i h_{ii}$ for the trace of a matrix $H = (h_{ij})$. Besides the facts of linear algebra the chapter takes for granted, use two more: the permutation expansion $\\det A = \\sum_{\\sigma} \\operatorname{sgn}(\\sigma) \\prod_{i=1}^n a_{i\\sigma(i)}$, the sum over all permutations $\\sigma$ of $\\set{1,\\dots,n}$, and multiplicativity, $\\det(AB) = \\det A \\cdot \\det B$. \\begin{enumerate} \\item Show that $\\det$ is differentiable at the identity $I$ with $(D\\det)_I(H) = \\operatorname{tr} H$. \\item Show that for every invertible $A$, $\\det$ is differentiable at $A$ with $(D\\det)_A(H) = \\det A \\cdot \\operatorname{tr}(A^{-1}H)$. \\end{enumerate}",
+   "proof": "(1) By the permutation expansion, $\\det(I + H) = \\sum_{\\sigma} \\operatorname{sgn}(\\sigma) \\prod_{i=1}^n \\big( \\delta_{i\\sigma(i)} + h_{i\\sigma(i)} \\big)$, where $\\delta_{ij}$ is $1$ if $i = j$ and $0$ otherwise. We sort the terms by their degree in the entries of $H$.\n\nFor $\\sigma$ the identity permutation the product is $\\prod_i (1 + h_{ii}) = 1 + \\sum_i h_{ii} + (\\text{products of two or more entries } h_{ii})$. For $\\sigma \\ne \\id$ there are at least two indices $i$ with $\\sigma(i) \\ne i$ (a bijection that fixes all indices but one fixes that one too), and for such $i$ the factor is $\\delta_{i\\sigma(i)} + h_{i\\sigma(i)} = h_{i\\sigma(i)}$; so every term in the expansion of this product is a product of at least two entries of $H$. Hence \\[ \\det(I + H) = 1 + \\operatorname{tr} H + P(H) , \\] where $P(H)$ is a finite sum, of some fixed number $N$ of terms, each of the form $\\pm h_{i_1j_1} \\cdots h_{i_dj_d}$ with $d \\ge 2$.\n\nEach entry satisfies $\\abs{h_{ij}} \\le \\norm{H}$. So if $\\norm{H} \\le 1$, each term of $P(H)$ has absolute value at most $\\norm{H}^d \\le \\norm{H}^2$, and $\\abs{P(H)} \\le N\\norm{H}^2$. Therefore $\\abs{P(H)}/\\norm{H} \\le N\\norm{H} \\to 0$ as $H \\to 0$: $P$ is a sublinear remainder. Since $\\det I = 1$ and $H \\mapsto \\operatorname{tr} H$ is linear, $\\det$ is differentiable at $I$ with $(D\\det)_I(H) = \\operatorname{tr} H$.\n\n(2) Let $A$ be invertible and put $\\varphi(H) = I + A^{-1}H$. This is a constant plus the linear map $H \\mapsto A^{-1}H$, so $\\varphi$ is differentiable with $(D\\varphi)_0(H) = A^{-1}H$, and $\\varphi(0) = I$. Since the determinant is multiplicative, \\[ \\det(A + H) = \\det\\big( A(I + A^{-1}H) \\big) = \\det A \\cdot \\det(\\varphi(H)) . \\] By the chain rule, $\\det \\circ \\varphi$ is differentiable at $0$ with derivative $(D\\det)_I \\circ (D\\varphi)_0 : H \\mapsto \\operatorname{tr}(A^{-1}H)$, and multiplying by the constant $\\det A$ multiplies the derivative by $\\det A$. So $H \\mapsto \\det(A + H)$ is differentiable at $0$ with derivative $H \\mapsto \\det A \\cdot \\operatorname{tr}(A^{-1}H)$. By the definition of the derivative, this is exactly the statement that $\\det$ is differentiable at $A$ with that derivative: the remainder $\\det(A+H) - \\det A - \\det A\\operatorname{tr}(A^{-1}H)$ is the same in both readings.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Expand $\\det(I + H)$ as a sum over permutations and sort the terms by their degree in the entries of $H$.",
+    "Every term of degree at least $2$ is $O(\\norm{H}^2)$, because $\\abs{h_{ij}} \\le \\norm{H}$. For (2) factor $A + H = A(I + A^{-1}H)$ and use the chain rule."
+   ],
+   "uses": [
+    "c5-def-linear-map",
+    "c5-rem-linear-facts",
+    "c5-prop-rn-bounded",
+    "c5-cor-norms-equivalent",
+    "c5-def-derivative",
+    "c5-thm-linear-rules",
+    "c5-thm-chain-rule"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-inversion-derivative",
+   "kind": "exercise",
+   "number": "",
+   "title": "The derivative of matrix inversion",
+   "tex": "Let $\\operatorname{Inv} : GL(n) \\to \\mathcal{L}(\\R^n,\\R^n)$ be $T \\mapsto T^{-1}$, on the open set $GL(n) \\subseteq \\R^{n^2}$. \\begin{enumerate} \\item Show that $\\operatorname{Inv}$ is differentiable at every $T \\in GL(n)$, with \\[ (D\\operatorname{Inv})_T(S) = -\\,T^{-1} S\\, T^{-1} . \\] \\item Deduce: if $U \\subseteq \\R^k$ is open, $A : U \\to \\mathcal{L}(\\R^n,\\R^n)$ is differentiable at $p$, and $A(p)$ is invertible, then $A(x)$ is invertible for all $x$ near $p$, and $x \\mapsto A(x)^{-1}$ is differentiable at $p$ with derivative $v \\mapsto -A(p)^{-1}\\,(DA)_p(v)\\,A(p)^{-1}$. \\end{enumerate}",
+   "proof": "(1) Fix $T \\in GL(n)$ and let $S$ satisfy $\\norm{S} \\le \\dfrac{1}{2\\norm{T^{-1}}}$. Then $\\norm{(T + S) - T} < 1/\\norm{T^{-1}}$, so by the theorem on operators near an invertible operator, $T + S$ is invertible and \\[ \\norm{(T+S)^{-1} - T^{-1}} \\le \\frac{\\norm{T^{-1}}^2\\norm{S}}{1 - \\norm{T^{-1}}\\norm{S}} \\le 2\\norm{T^{-1}}^2\\norm{S} \\le \\norm{T^{-1}} , \\] whence $\\norm{(T+S)^{-1}} \\le 2\\norm{T^{-1}}$.\n\nThe identity $(T+S)^{-1} - T^{-1} = (T+S)^{-1}\\big( T - (T+S) \\big)T^{-1} = -(T+S)^{-1} S T^{-1}$ is checked by expanding the middle expression. Subtracting the candidate derivative, \\[ E(S) = (T+S)^{-1} - T^{-1} + T^{-1}ST^{-1} = -\\big( (T+S)^{-1} - T^{-1} \\big) S T^{-1} = (T+S)^{-1} S T^{-1} S T^{-1} . \\] By submultiplicativity, $\\norm{E(S)} \\le \\norm{(T+S)^{-1}}\\,\\norm{T^{-1}}^2\\,\\norm{S}^2 \\le 2\\norm{T^{-1}}^3\\norm{S}^2$, so $\\norm{E(S)}/\\norm{S} \\le 2\\norm{T^{-1}}^3\\norm{S} \\to 0$ as $S \\to 0$. The map $S \\mapsto -T^{-1}ST^{-1}$ is linear. Hence $\\operatorname{Inv}$ is differentiable at $T$ with the stated derivative.\n\n(2) A map differentiable at $p$ is continuous at $p$. Since $GL(n)$ is open and contains $A(p)$, there is an $\\eta > 0$ with $\\set{B : \\norm{B - A(p)} < \\eta} \\subseteq GL(n)$, and by continuity a $\\delta > 0$ such that $\\norm{A(x) - A(p)} < \\eta$, hence $A(x) \\in GL(n)$, whenever $\\abs{x - p} < \\delta$. On the open ball $U' = \\set{x : \\abs{x - p} < \\delta}$ the map $x \\mapsto A(x)^{-1}$ equals $\\operatorname{Inv} \\circ A$, with $A : U' \\to \\R^{n^2}$ differentiable at $p$, $A(U') \\subseteq GL(n)$, and $\\operatorname{Inv}$ differentiable at $A(p)$ by (1). The chain rule gives differentiability at $p$ with derivative $(D\\operatorname{Inv})_{A(p)} \\circ (DA)_p : v \\mapsto -A(p)^{-1}\\,(DA)_p(v)\\,A(p)^{-1}$.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Write $(T+S)^{-1} - T^{-1} = -(T+S)^{-1}ST^{-1}$ and subtract the candidate derivative.",
+    "The remainder is $(T+S)^{-1}ST^{-1}ST^{-1}$, of size $\\norm{S}^2$ once $\\norm{(T+S)^{-1}}$ is bounded for small $S$; the theorem on operators near an invertible one bounds it."
+   ],
+   "uses": [
+    "c5-prop-opnorm-is-norm",
+    "c5-thm-inverse-open",
+    "c5-cor-gl-open",
+    "c5-cor-norms-equivalent",
+    "c5-def-derivative",
+    "c5-thm-diff-continuous",
+    "c5-thm-chain-rule",
+    "c5-prop-change-target"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-hadamard-lemma",
+   "kind": "exercise",
+   "number": "",
+   "title": "Hadamard's lemma",
+   "tex": "Let $U \\subseteq \\R^n$ be open and convex, $f : U \\to \\R$ of class $C^1$, and $p \\in U$. Show that there are continuous functions $g_1, \\dots, g_n : U \\to \\R$ such that \\[ f(x) = f(p) + \\sum_{j=1}^n (x_j - p_j)\\,g_j(x) \\qquad \\text{for all } x \\in U, \\] and $g_j(p) = \\dfrac{\\partial f}{\\partial x_j}(p)$.",
+   "proof": "Write $\\partial_j f$ for $\\partial f/\\partial x_j$; these are continuous on $U$ because $f$ is $C^1$. For $x \\in U$ let $\\sigma_x(t) = p + t(x - p)$; by convexity $\\sigma_x([0,1]) \\subseteq U$. Define \\[ g_j(x) = \\int_0^1 \\partial_j f(\\sigma_x(t))\\,dt , \\] which exists because the integrand is continuous in $t$.\n\n\\emph{The identity.} By the $C^1$ mean value theorem, $f(x) - f(p) = T(x - p)$ with $T = \\int_0^1 (Df)_{\\sigma_x(t)}\\,dt$. The matrix of $(Df)_y$ is the Jacobian, a single row with entries $\\partial_jf(y)$, so the matrix of $T$ has entries $\\int_0^1 \\partial_j f(\\sigma_x(t))\\,dt = g_j(x)$, and $T(x - p) = \\sum_j g_j(x)(x_j - p_j)$. At $x = p$ the integrand is the constant $\\partial_j f(p)$, so $g_j(p) = \\partial_j f(p)$.\n\n\\emph{Continuity of $g_j$.} Fix $x \\in U$ and $\\eps > 0$. We claim there is a $\\delta > 0$ such that $\\abs{\\partial_jf(z) - \\partial_jf(s)} < \\eps$ whenever $s \\in [p,x]$, $z \\in U$ and $\\abs{z - s} < \\delta$. If not, there are $s_k \\in [p,x]$ and $z_k \\in U$ with $\\abs{z_k - s_k} < 1/k$ and $\\abs{\\partial_jf(z_k) - \\partial_jf(s_k)} \\ge \\eps$. The segment $[p,x]$ is closed and bounded, hence compact, so a subsequence $s_{k_l}$ converges to some $s \\in [p,x]$; then $z_{k_l} \\to s$ as well, and continuity of $\\partial_jf$ at $s$ makes both $\\partial_jf(z_{k_l})$ and $\\partial_jf(s_{k_l})$ converge to $\\partial_jf(s)$, contradicting $\\abs{\\partial_jf(z_{k_l}) - \\partial_jf(s_{k_l})} \\ge \\eps$.\n\nNow let $x_k \\to x$ in $U$, and let $k$ be so large that $\\abs{x_k - x} < \\delta$. For $t \\in [0,1]$, $\\abs{\\sigma_{x_k}(t) - \\sigma_x(t)} = t\\abs{x_k - x} < \\delta$ with $\\sigma_x(t) \\in [p,x]$, so $\\abs{\\partial_jf(\\sigma_{x_k}(t)) - \\partial_jf(\\sigma_x(t))} < \\eps$ for every $t$. By monotonicity of the integral, \\[ \\abs{g_j(x_k) - g_j(x)} \\le \\int_0^1 \\abs{\\partial_jf(\\sigma_{x_k}(t)) - \\partial_jf(\\sigma_x(t))}\\,dt \\le \\eps . \\] Hence $g_j(x_k) \\to g_j(x)$, and $g_j$ is continuous on $U$.",
+   "difficulty": 3,
+   "minutes": 40,
+   "hints": [
+    "The $C^1$ mean value theorem writes $f(x) - f(p)$ as an averaged derivative applied to $x - p$; read off the entries of that average.",
+    "$g_j(x) = \\int_0^1 \\partial_jf(p + t(x-p))\\,dt$. For continuity, show the integrands converge uniformly in $t$ as $x_k \\to x$, using that $\\partial_jf$ is uniformly continuous near the compact segment $[p,x]$."
+   ],
+   "uses": [
+    "c5-def-c1",
+    "c5-prop-c1-partials",
+    "c5-prop-jacobian",
+    "c5-def-vector-integral",
+    "c5-thm-c1-mvt"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-taylor-second-order",
+   "kind": "exercise",
+   "number": "",
+   "title": "Second-order Taylor expansion",
+   "tex": "Let $U \\subseteq \\R^n$ be open, $f : U \\to \\R$ of class $C^2$, and $p \\in U$. Show that \\[ f(p + v) = f(p) + (Df)_p(v) + \\tfrac12\\,(D^2f)_p(v,v) + E(v), \\qquad \\text{where } \\frac{E(v)}{\\abs{v}^2} \\to 0 \\text{ as } v \\to 0 . \\]",
+   "proof": "Choose $\\rho > 0$ with $B = \\set{x : \\abs{x - p} < \\rho} \\subseteq U$ and fix $v$ with $0 < \\abs{v} < \\rho$. Let $J = (-\\rho/\\abs{v}, \\rho/\\abs{v})$, an open interval containing $[0,1]$, and $\\sigma(t) = p + tv$, which maps $J$ into $B$; $\\sigma$ is a constant plus a linear map, with $(D\\sigma)_t(h) = hv$.\n\n\\emph{Derivatives along the line.} Let $g = f \\circ \\sigma : J \\to \\R$. By the chain rule and the consistency with one-variable calculus, $g$ is differentiable with $g'(t) = (Df)_{\\sigma(t)}(v)$. Next, let $\\mathrm{E} : \\mathcal{L}(\\R^n,\\R) \\to \\R^n$ be the linear bijection listing matrix entries. Since $f$ is $C^2$, the map $Df : U \\to \\mathcal{L}(\\R^n,\\R)$ is differentiable with $(D(Df))_x(u) = (D^2f)_x(u,\\cdot)$, so by the rule for changing the target $\\mathrm{E} \\circ Df : U \\to \\R^n$ is differentiable with derivative $\\mathrm{E} \\circ (D^2f)_x$. By the chain rule, $\\mathrm{E} \\circ Df \\circ \\sigma$ is differentiable on $J$ with derivative $h \\mapsto \\mathrm{E}\\big( (D^2f)_{\\sigma(t)}(hv,\\cdot) \\big)$. Now $g' = \\lambda \\circ (\\mathrm{E} \\circ Df \\circ \\sigma)$, where $\\lambda : \\R^n \\to \\R$, $\\lambda(w) = \\big(\\mathrm{E}^{-1}w\\big)(v)$, is linear; by the rule for changing the target again, $g'$ is differentiable with $(Dg')_t(h) = (D^2f)_{\\sigma(t)}(hv, v) = h\\,(D^2f)_{\\sigma(t)}(v,v)$, so by the consistency with one-variable calculus \\[ g''(t) = (D^2f)_{\\sigma(t)}(v,v) \\qquad (t \\in J) . \\]\n\n\\emph{Two mean value theorems.} Put $c = (D^2f)_p(v,v)$ and $\\phi(t) = g(t) - g(0) - g'(0)\\,t - \\tfrac12 c\\,t^2$ on $J$. Then $\\phi(0) = 0$, $\\phi'(t) = g'(t) - g'(0) - ct$, $\\phi'(0) = 0$, and $\\phi''(t) = g''(t) - c$. By the one-variable mean value theorem there is $\\theta_1 \\in (0,1)$ with $\\phi(1) = \\phi(1) - \\phi(0) = \\phi'(\\theta_1)$, and then $\\theta_2 \\in (0,\\theta_1)$ with $\\phi'(\\theta_1) = \\phi'(\\theta_1) - \\phi'(0) = \\theta_1\\phi''(\\theta_2)$. Hence \\[ \\abs{\\phi(1)} \\le \\abs{\\phi''(\\theta_2)} = \\abs{ (D^2f)_{\\sigma(\\theta_2)}(v,v) - (D^2f)_p(v,v) } . \\] Since $g(1) = f(p+v)$, $g(0) = f(p)$ and $g'(0) = (Df)_p(v)$, the number $\\phi(1)$ is exactly $E(v)$.\n\n\\emph{The estimate.} For a bilinear $\\beta \\in \\mathcal{L}^2$ and $v \\ne 0$, bilinearity gives $\\beta(v,v) = \\abs{v}^2\\beta(v/\\abs{v}, v/\\abs{v})$, so $\\abs{\\beta(v,v)} \\le \\norm{\\beta}\\abs{v}^2$ by the formula for the norm on $\\mathcal{L}^2$. Let $\\eps > 0$. Since $D^2f$ is continuous at $p$, there is $\\delta \\in (0,\\rho]$ with $\\norm{(D^2f)_x - (D^2f)_p} < \\eps$ for $\\abs{x - p} < \\delta$. If $\\abs{v} < \\delta$ then every $\\sigma(t)$ with $t \\in [0,1]$ is within $\\delta$ of $p$, and applying the bound to $\\beta = (D^2f)_{\\sigma(\\theta_2)} - (D^2f)_p$, \\[ \\abs{E(v)} \\le \\norm{(D^2f)_{\\sigma(\\theta_2)} - (D^2f)_p}\\,\\abs{v}^2 \\le \\eps\\abs{v}^2 . \\] Thus $\\abs{E(v)}/\\abs{v}^2 \\le \\eps$ for $0 < \\abs{v} < \\delta$, which is the claim.",
+   "difficulty": 3,
+   "minutes": 45,
+   "hints": [
+    "Restrict to the line: $g(t) = f(p + tv)$ is twice differentiable with $g'(t) = (Df)_{p+tv}(v)$ and $g''(t) = (D^2f)_{p+tv}(v,v)$.",
+    "Apply the one-variable mean value theorem twice to $\\phi(t) = g(t) - g(0) - g'(0)t - \\tfrac12(D^2f)_p(v,v)t^2$, whose value and derivative vanish at $0$.",
+    "Continuity of $D^2f$ at $p$ makes $\\abs{\\phi''}$ at most $\\eps\\abs{v}^2$ on $[0,1]$ once $\\abs{v}$ is small."
+   ],
+   "uses": [
+    "c5-thm-chain-rule",
+    "c5-prop-one-variable",
+    "c5-thm-linear-rules",
+    "c5-def-second-derivative",
+    "c5-prop-change-target",
+    "c5-cor-entries",
+    "c5-def-higher-derivatives",
+    "c5-def-cr"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-second-derivative-test",
+   "kind": "exercise",
+   "number": "",
+   "title": "The second derivative test",
+   "tex": "Let $U \\subseteq \\R^n$ be open, $f : U \\to \\R$ of class $C^2$, and $p \\in U$ with $(Df)_p = 0$. Suppose $(D^2f)_p(v,v) > 0$ for every $v \\ne 0$. Show that $f$ has a strict local minimum at $p$: there is $\\delta > 0$ such that $f(x) > f(p)$ whenever $0 < \\abs{x - p} < \\delta$.",
+   "proof": "Let $\\beta = (D^2f)_p$, a bilinear map $\\R^n \\times \\R^n \\to \\R$. Bilinear maps are bounded: there is $M$ with $\\abs{\\beta(x,y)} \\le M\\abs{x}\\abs{y}$. Hence $Q(u) = \\beta(u,u)$ is continuous on $\\R^n$: \\[ \\abs{Q(u) - Q(u')} = \\abs{\\beta(u - u', u) + \\beta(u', u - u')} \\le M\\big( \\abs{u} + \\abs{u'} \\big)\\abs{u - u'} . \\] The unit sphere $\\Sigma$ is compact and nonempty, and $Q > 0$ on it, so $Q$ attains a minimum $c > 0$ on $\\Sigma$. For $v \\ne 0$, bilinearity gives $\\beta(v,v) = \\abs{v}^2\\,Q(v/\\abs{v}) \\ge c\\abs{v}^2$.\n\nBy the second-order Taylor expansion with $(Df)_p = 0$, $f(p + v) - f(p) = \\tfrac12\\beta(v,v) + E(v)$ with $E(v)/\\abs{v}^2 \\to 0$. Choose $\\delta > 0$ so that $\\set{x : \\abs{x - p} < \\delta} \\subseteq U$ and $\\abs{E(v)} \\le \\tfrac{c}{4}\\abs{v}^2$ for $0 < \\abs{v} < \\delta$. Then for such $v$, \\[ f(p+v) - f(p) \\ge \\tfrac{c}{2}\\abs{v}^2 - \\tfrac{c}{4}\\abs{v}^2 = \\tfrac{c}{4}\\abs{v}^2 > 0 . \\]",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "By compactness of the unit sphere, $(D^2f)_p(u,u) \\ge c > 0$ for unit vectors $u$, hence $(D^2f)_p(v,v) \\ge c\\abs{v}^2$ for all $v$.",
+    "Compare with the second-order Taylor expansion: the error is eventually smaller than $\\tfrac{c}{4}\\abs{v}^2$."
+   ],
+   "uses": [
+    "c5-lem-bilinear-bounded",
+    "c5-thm-finite-dim-continuous",
+    "c5-def-second-derivative",
+    "c5-ex-taylor-second-order"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-mixed-partials-weak",
+   "kind": "exercise",
+   "number": "",
+   "title": "Equality of mixed partials under a weaker hypothesis",
+   "tex": "Let $U \\subseteq \\R^2$ be open, $f : U \\to \\R$, and $p = (a,b) \\in U$. Suppose that $\\dfrac{\\partial f}{\\partial x}$, $\\dfrac{\\partial f}{\\partial y}$ and $\\dfrac{\\partial^2 f}{\\partial y\\,\\partial x} = \\dfrac{\\partial}{\\partial y}\\Big(\\dfrac{\\partial f}{\\partial x}\\Big)$ exist at every point of $U$, and that $\\dfrac{\\partial^2 f}{\\partial y\\,\\partial x}$ is continuous at $p$. Show that $\\dfrac{\\partial^2 f}{\\partial x\\,\\partial y}(p)$ exists and equals $\\dfrac{\\partial^2 f}{\\partial y\\,\\partial x}(p)$.",
+   "proof": "Write $f_x$, $f_y$, $f_{xy} = \\partial_y(f_x)$ for the three given partial derivatives, and $L = f_{xy}(p)$. Choose $\\rho > 0$ with $\\set{z : \\abs{z - p} < 2\\rho} \\subseteq U$; then the open square $Q = \\set{(x,y) : \\abs{x - a} < \\rho,\\ \\abs{y - b} < \\rho}$ lies in $U$. For $0 < \\abs{h}, \\abs{k} < \\rho$ define the second difference \\[ \\Delta(h,k) = f(a+h, b+k) - f(a+h, b) - f(a, b+k) + f(a,b) . \\]\n\n\\emph{Step 1: $\\Delta(h,k) = hk\\,f_{xy}(a + \\theta h, b + \\theta' k)$ for some $\\theta, \\theta' \\in (0,1)$ depending on $h, k$.} Let $\\varphi(x) = f(x, b+k) - f(x, b)$ for $\\abs{x - a} < \\rho$. Since $f_x$ exists on $Q$, $\\varphi$ is differentiable with $\\varphi'(x) = f_x(x, b+k) - f_x(x,b)$, and $\\Delta(h,k) = \\varphi(a+h) - \\varphi(a)$. By the one-variable mean value theorem there is $\\theta \\in (0,1)$ with $\\Delta(h,k) = h\\,\\varphi'(a + \\theta h)$. Next let $\\psi(y) = f_x(a + \\theta h, y)$ for $\\abs{y - b} < \\rho$. Since $f_{xy}$ exists on $Q$, $\\psi$ is differentiable with $\\psi'(y) = f_{xy}(a + \\theta h, y)$, and $\\varphi'(a + \\theta h) = \\psi(b+k) - \\psi(b) = k\\,\\psi'(b + \\theta' k)$ for some $\\theta' \\in (0,1)$, again by the mean value theorem. Combining, $\\Delta(h,k) = hk\\,f_{xy}(a + \\theta h, b + \\theta' k)$.\n\n\\emph{Step 2: $\\Delta(h,k)/(hk)$ is close to $L$.} Let $\\eps > 0$. By continuity of $f_{xy}$ at $p$ there is $\\delta \\in (0, \\rho]$ with $\\abs{f_{xy}(z) - L} < \\eps$ whenever $\\abs{z - p} < \\delta$. If $0 < \\abs{h}, \\abs{k} < \\delta/2$ then $\\abs{(a + \\theta h, b + \\theta' k) - p} \\le \\abs{h} + \\abs{k} < \\delta$, so by Step 1 \\[ \\abs{ \\frac{\\Delta(h,k)}{hk} - L } < \\eps . \\]\n\n\\emph{Step 3: let $k \\to 0$.} Fix $h$ with $0 < \\abs{h} < \\delta/2$. Since $f_y$ exists at $(a+h,b)$ and at $(a,b)$, \\[ \\lim_{k \\to 0} \\frac{\\Delta(h,k)}{k} = \\lim_{k \\to 0} \\Big( \\frac{f(a+h,b+k) - f(a+h,b)}{k} - \\frac{f(a,b+k) - f(a,b)}{k} \\Big) = f_y(a+h, b) - f_y(a,b) . \\] Dividing by $h$, the quotient $\\dfrac{f_y(a+h,b) - f_y(a,b)}{h}$ is the limit as $k \\to 0$ of $\\Delta(h,k)/(hk)$, and by Step 2 these numbers lie in the closed interval $[L - \\eps, L + \\eps]$ for $0 < \\abs{k} < \\delta/2$. A limit of numbers in a closed interval lies in it, so \\[ \\abs{ \\frac{f_y(a+h,b) - f_y(a,b)}{h} - L } \\le \\eps \\qquad \\text{whenever } 0 < \\abs{h} < \\delta/2 . \\] As $\\eps$ was arbitrary, $\\lim_{h \\to 0} \\big( f_y(a+h,b) - f_y(a,b) \\big)/h$ exists and equals $L$. By definition this limit is $\\dfrac{\\partial^2 f}{\\partial x\\,\\partial y}(p)$, so it exists and equals $\\dfrac{\\partial^2 f}{\\partial y\\,\\partial x}(p)$.",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "Use the second difference $\\Delta(h,k) = f(a+h,b+k) - f(a+h,b) - f(a,b+k) + f(a,b)$, as in the proof of symmetry.",
+    "Two applications of the one-variable mean value theorem give $\\Delta(h,k) = hk\\,f_{xy}(a + \\theta h, b + \\theta'k)$, so $\\Delta/(hk)$ is within $\\eps$ of $f_{xy}(p)$ for small $h, k$.",
+    "For fixed $h$ let $k \\to 0$: $\\Delta(h,k)/k \\to f_y(a+h,b) - f_y(a,b)$, and the bound survives the limit."
+   ],
+   "uses": [
+    "c5-def-partials",
+    "c5-def-second-derivative",
+    "c5-lem-second-difference",
+    "c5-cor-mixed-partials",
+    "c5-ex-mixed-partials-fail"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-bounded-c1-not-c1",
+   "kind": "exercise",
+   "number": "",
+   "title": "A bounded sequence in $C^1$ need not have a $C^1$ limit",
+   "tex": "Prove or disprove: if $U \\subseteq \\R^n$ is open, $f_k \\in C^1(U,\\R)$ with $\\sup_k \\norm{f_k}_1 < \\infty$, and $f_k \\to f$ uniformly on $U$, then $f$ is of class $C^1$.",
+   "proof": "False. Take $n = 1$, $U = (-1,1)$, and \\[ f_k(x) = \\sqrt{x^2 + 1/k} , \\qquad k \\ge 1 . \\] The polynomial $x \\mapsto x^2 + 1/k$ is $C^1$ and maps $U$ into $(0,\\infty)$, where $\\sqrt{\\cdot}$ is $C^1$ with derivative $1/(2\\sqrt{t})$ (the one-variable inverse function theorem of Chapter 3 applied to $t \\mapsto t^2$), so $f_k$ is $C^1$ as a composite, with \\[ f_k'(x) = \\frac{x}{\\sqrt{x^2 + 1/k}}, \\qquad \\abs{f_k'(x)} \\le 1 . \\] In one variable $\\norm{(Df_k)_x} = \\abs{f_k'(x)}$, so $\\norm{f_k}_1 = \\max\\set{ \\sup_U \\abs{f_k},\\ \\sup_U \\abs{f_k'} } \\le \\max\\set{\\sqrt{2},\\ 1} = \\sqrt{2}$: the sequence is bounded in $C^1(U,\\R)$.\n\nThe sequence converges uniformly to $f(x) = \\abs{x}$: for $x \\in U$, \\[ 0 \\le \\sqrt{x^2 + 1/k} - \\abs{x} = \\frac{1/k}{\\sqrt{x^2 + 1/k} + \\abs{x}} \\le \\frac{1/k}{\\sqrt{1/k}} = \\frac{1}{\\sqrt{k}} \\to 0 . \\] But $\\abs{x}$ is not differentiable at $0$: if it were, with derivative $T$, the limit formula would give $T(1) = \\lim_{t \\to 0} \\abs{t}/t$, which does not exist since the quotient is $1$ for $t > 0$ and $-1$ for $t < 0$. So $f$ is not $C^1$, and the statement is false.\n\n(What is true is the limit lemma: if in addition the derivatives $Df_k$ converge uniformly, then $f$ is $C^1$.)",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Look for $C^1$ functions converging uniformly to $\\abs{x}$ with derivatives bounded by $1$.",
+    "Try $\\sqrt{x^2 + 1/k}$."
+   ],
+   "uses": [
+    "c5-def-cr-norm",
+    "c5-thm-cr-algebra",
+    "c5-thm-derivative-unique",
+    "c5-lem-c1-limit",
+    "c5-ex-cr-series"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-one-point-convergence",
+   "kind": "exercise",
+   "number": "",
+   "title": "Convergence at one point suffices",
+   "tex": "Let $U \\subseteq \\R^n$ be open, convex and bounded, and let $f_k : U \\to \\R^m$ be $C^1$ maps. Suppose that the sequence $(f_k(p_0))$ converges for some $p_0 \\in U$, and that $Df_k \\to G$ uniformly on $U$ for some $G : U \\to \\mathcal{L}(\\R^n,\\R^m)$. Show that $(f_k)$ converges uniformly on $U$ to a $C^1$ map $f$ with $Df = G$.",
+   "proof": "Since $U$ is bounded there is $d < \\infty$ with $\\abs{x - p_0} \\le d$ for all $x \\in U$. Put $\\eta_{k,l} = \\sup_{y \\in U} \\norm{(Df_k)_y - (Df_l)_y}$; then $\\eta_{k,l} \\le \\sup_U \\norm{Df_k - G} + \\sup_U \\norm{G - Df_l} \\to 0$ as $k, l \\to \\infty$. Since the suprema on the right tend to $0$ they are finite from some index $K_0$ on, so $\\eta_{k,l} < \\infty$ for $k, l \\ge K_0$.\n\nFix $k, l \\ge K_0$ and $x \\in U$. The map $f_k - f_l$ is differentiable with derivative $Df_k - Df_l$, whose norm is at most $\\eta_{k,l}$ on $U$, and the segment $[p_0, x]$ lies in $U$ by convexity. The mean value inequality gives \\[ \\abs{ (f_k - f_l)(x) - (f_k - f_l)(p_0) } \\le \\eta_{k,l}\\,\\abs{x - p_0} \\le d\\,\\eta_{k,l} , \\] hence $\\abs{f_k(x) - f_l(x)} \\le \\abs{f_k(p_0) - f_l(p_0)} + d\\,\\eta_{k,l}$ for every $x \\in U$.\n\nLet $\\eps > 0$. Since $(f_k(p_0))$ converges it is Cauchy, so there is $K \\ge K_0$ with $\\abs{f_k(p_0) - f_l(p_0)} < \\eps/2$ and $d\\,\\eta_{k,l} < \\eps/2$ for all $k, l \\ge K$. Then $\\sup_{x \\in U} \\abs{f_k(x) - f_l(x)} < \\eps$ for $k, l \\ge K$: the sequence is uniformly Cauchy. In particular $(f_k(x))$ is Cauchy in the complete space $\\R^m$ for each $x$, so it converges to some $f(x)$; letting $l \\to \\infty$ in $\\abs{f_k(x) - f_l(x)} < \\eps$ gives $\\abs{f_k(x) - f(x)} \\le \\eps$ for all $k \\ge K$ and all $x$, so $f_k \\to f$ uniformly on $U$.\n\nFinally $f_k \\to f$ pointwise and $Df_k \\to G$ uniformly, with each $f_k$ of class $C^1$, so by the lemma on the limit of the derivatives, $f$ is $C^1$ with $Df = G$.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Apply the mean value inequality to $f_k - f_l$ on the segment from $p_0$ to $x$.",
+    "This shows $(f_k)$ is uniformly Cauchy; then the lemma on the limit of the derivatives finishes."
+   ],
+   "uses": [
+    "c5-def-c1",
+    "c5-thm-linear-rules",
+    "c5-thm-mvt",
+    "c5-lem-c1-limit"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-c1-diffeo-cr",
+   "kind": "exercise",
+   "number": "",
+   "title": "A $C^1$ diffeomorphism that is $C^r$ is a $C^r$ diffeomorphism",
+   "tex": "Let $U_0, V_0 \\subseteq \\R^m$ be open and let $f : U_0 \\to V_0$ be a $C^1$ diffeomorphism. Show that if $f$ is of class $C^r$ for some $r \\ge 1$, then $f^{-1}$ is of class $C^r$ too.",
+   "proof": "Since $f$ and $f^{-1}$ are differentiable, the proposition on differentiable inverses says that $(Df)_y$ is invertible for every $y \\in U_0$ and \\[ \\big( D(f^{-1}) \\big)_x = \\Big( (Df)_{f^{-1}(x)} \\Big)^{-1} \\qquad (x \\in V_0) , \\] that is, $D(f^{-1}) = \\operatorname{Inv} \\circ Df \\circ f^{-1}$ on $V_0$, where $Df$ is regarded as a map from $U_0$ into the open set $\\mathcal{U} \\subseteq \\R^{m^2}$ of invertible matrices and $\\operatorname{Inv} : \\mathcal{U} \\to \\R^{m^2}$ is inversion.\n\nWe show by induction that $f^{-1}$ is $C^k$ for $1 \\le k \\le r$. The case $k = 1$ is the hypothesis. Suppose $f^{-1}$ is $C^k$ with $1 \\le k < r$. Peeling off one derivative, $f$ is $C^r$ means $Df$ is $C^{r-1}$, and a $C^{r-1}$ map is $C^k$ because $k \\le r - 1$; here $Df$ is $C^k$ as a map into $\\mathcal{L}(\\R^m,\\R^m)$, equivalently its matrix entries are $C^k$, so it is $C^k$ as a map $U_0 \\to \\R^{m^2}$. Matrix inversion is $C^\\infty$, in particular $C^k$, on $\\mathcal{U}$. Composites of $C^k$ maps are $C^k$, so $D(f^{-1}) = \\operatorname{Inv} \\circ Df \\circ f^{-1}$ is $C^k$ on $V_0$ as a map into $\\R^{m^2}$, hence as a map into $\\mathcal{L}(\\R^m,\\R^m)$. Since $f^{-1}$ is differentiable with a $C^k$ derivative, peeling off one derivative shows $f^{-1}$ is $C^{k+1}$. This completes the induction, and $f^{-1}$ is $C^r$.",
+   "difficulty": 3,
+   "minutes": 25,
+   "hints": [
+    "Differentiate $f^{-1}$ by the formula $D(f^{-1}) = \\operatorname{Inv}\\circ Df\\circ f^{-1}$ and bootstrap, as in the proof that the implicit function is $C^r$."
+   ],
+   "uses": [
+    "c5-def-diffeo",
+    "c5-prop-diffeo-derivative",
+    "c5-prop-peel",
+    "c5-lem-cr-linear",
+    "c5-thm-cr-algebra",
+    "c5-cor-inversion-smooth"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-matrix-square-root",
+   "kind": "exercise",
+   "number": "",
+   "title": "Square roots of matrices near the identity",
+   "tex": "Show that there are open sets $U_0, V_0 \\subseteq \\R^{n^2}$, both containing $I$, such that every $A \\in V_0$ has exactly one square root in $U_0$ (one $X \\in U_0$ with $X^2 = A$), and that the map $A \\mapsto X$ so defined is $C^\\infty$ on $V_0$.",
+   "proof": "Let $\\Phi : \\R^{n^2} \\to \\R^{n^2}$, $\\Phi(X) = X^2$. Each entry of $X^2$ is $\\sum_k x_{ik}x_{kj}$, a polynomial in the entries of $X$; polynomials are $C^r$ for every $r$, because coordinate functions are linear and sums, scalar multiples and products of $C^r$ functions are $C^r$, and a map with $C^r$ components is $C^r$. So $\\Phi$ is $C^\\infty$.\n\n\\emph{The derivative at $I$.} For $H \\in \\R^{n^2}$, $\\Phi(I + H) = I + 2H + H^2$, and $H \\mapsto 2H$ is linear. By submultiplicativity $\\norm{H^2} \\le \\norm{H}^2$, so $\\norm{H^2}/\\norm{H} \\le \\norm{H} \\to 0$ as $H \\to 0$: the remainder $H^2$ is sublinear (for the operator norm, hence for any norm on $\\R^{n^2}$, as all are comparable). Thus $(D\\Phi)_I(H) = 2H$, which is invertible with inverse $H \\mapsto \\tfrac12 H$.\n\n\\emph{The inverse function theorem.} Applied to the $C^1$ map $\\Phi$ at $I$, it gives open sets $U_0 \\ni I$ and $V_0 \\ni \\Phi(I) = I$ such that $\\Phi$ restricts to a $C^1$ diffeomorphism $U_0 \\to V_0$. Since $\\Phi$ is $C^r$ for every $r$, the exercise on $C^1$ diffeomorphisms shows that $\\Phi^{-1} : V_0 \\to U_0$ is $C^r$ for every $r$, that is, $C^\\infty$.\n\nFor $A \\in V_0$, bijectivity of $\\Phi : U_0 \\to V_0$ says exactly that there is one and only one $X \\in U_0$ with $X^2 = A$, namely $X = \\Phi^{-1}(A)$; and $A \\mapsto \\Phi^{-1}(A)$ is $C^\\infty$ on $V_0$.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Apply the inverse function theorem to $\\Phi(X) = X^2$ at $X = I$.",
+    "$\\Phi(I + H) = I + 2H + H^2$, so $(D\\Phi)_I(H) = 2H$; the square-root map is $\\Phi^{-1}$ near $I$."
+   ],
+   "uses": [
+    "c5-def-derivative",
+    "c5-prop-opnorm-is-norm",
+    "c5-cor-norms-equivalent",
+    "c5-lem-cr-linear",
+    "c5-thm-cr-algebra",
+    "c5-cor-inversion-smooth",
+    "c5-def-diffeo",
+    "c5-thm-inverse",
+    "c5-ex-c1-diffeo-cr"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-global-diffeomorphism",
+   "kind": "exercise",
+   "number": "",
+   "title": "A global inverse function theorem",
+   "tex": "Let $f : \\R^m \\to \\R^m$ be of class $C^r$, $r \\ge 1$, and suppose $\\norm{(Df)_x - I} \\le \\tfrac12$ for every $x \\in \\R^m$. Show that $f$ is a $C^r$ diffeomorphism of $\\R^m$ onto $\\R^m$.",
+   "proof": "Let $g(x) = f(x) - x$. Then $g$ is differentiable with $(Dg)_x = (Df)_x - I$, so $\\norm{(Dg)_x} \\le \\tfrac12$ for all $x$. Since $\\R^m$ is convex, the mean value inequality gives \\[ \\abs{g(x) - g(y)} \\le \\tfrac12\\abs{x - y} \\qquad \\text{for all } x, y \\in \\R^m . \\]\n\n\\emph{$f$ is injective.} $\\abs{f(x) - f(y)} = \\abs{(x - y) + (g(x) - g(y))} \\ge \\abs{x - y} - \\tfrac12\\abs{x - y} = \\tfrac12\\abs{x - y}$, so $f(x) = f(y)$ forces $x = y$.\n\n\\emph{$f$ is surjective.} Fix $z \\in \\R^m$. Since $f(x) = x + g(x)$, the equation $f(x) = z$ is equivalent to $x = z - g(x)$. The map $K(x) = z - g(x)$ satisfies $\\abs{K(x) - K(y)} = \\abs{g(x) - g(y)} \\le \\tfrac12\\abs{x - y}$, so it is a contraction of the complete metric space $\\R^m$. By the Banach contraction principle of Chapter 4, $K$ has a fixed point $x$, and $f(x) = z$.\n\n\\emph{The derivative is everywhere invertible.} $(Df)_x = I - S$ with $S = I - (Df)_x$ and $\\norm{S} \\le \\tfrac12 < 1$, so $(Df)_x$ is invertible by the lemma on small perturbations of the identity.\n\n\\emph{The inverse is $C^1$.} Let $f^{-1} : \\R^m \\to \\R^m$ be the inverse of the bijection $f$. Any point $q \\in \\R^m$ is $q = f(p)$ for some $p$, by surjectivity. By the inverse function theorem there are open sets $U_0 \\ni p$ and $V_0 \\ni q$ such that $f|_{U_0} : U_0 \\to V_0$ is a $C^1$ diffeomorphism. For $x \\in V_0$, both $(f|_{U_0})^{-1}(x)$ and $f^{-1}(x)$ are points of $\\R^m$ that $f$ sends to $x$, so they are equal by injectivity of $f$: on $V_0$ the map $f^{-1}$ coincides with $(f|_{U_0})^{-1}$. Differentiability at a point of the open set $V_0$, and the derivative there, are defined by a limit over small $v$, so they depend only on the map on $V_0$; hence $f^{-1}$ is differentiable at every point of $V_0$ with $D(f^{-1}) = D\\big( (f|_{U_0})^{-1} \\big)$ there, a continuous function on $V_0$. Since such sets $V_0$ cover $\\R^m$ and continuity at a point is also a local matter, $f^{-1}$ is differentiable on $\\R^m$ with continuous derivative: $f^{-1}$ is $C^1$, and $f$ is a $C^1$ diffeomorphism of $\\R^m$ onto itself.\n\n\\emph{The inverse is $C^r$.} $f$ is a $C^1$ diffeomorphism $\\R^m \\to \\R^m$ of class $C^r$, so by the exercise on $C^1$ diffeomorphisms its inverse is $C^r$. Thus $f$ is a $C^r$ diffeomorphism of $\\R^m$ onto itself.",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "$g = f - \\id$ has $\\norm{Dg} \\le \\frac12$ everywhere, so $g$ is $\\frac12$-Lipschitz by the mean value inequality.",
+    "Injectivity: $\\abs{f(x) - f(y)} \\ge \\frac12\\abs{x - y}$. Surjectivity: $f(x) = z$ is the fixed point equation $x = z - g(x)$ of a contraction.",
+    "Smoothness of the inverse: the inverse function theorem is local, and global injectivity glues the local inverses together into a $C^1$ inverse; then bootstrap with the exercise on $C^1$ diffeomorphisms."
+   ],
+   "uses": [
+    "c5-thm-linear-rules",
+    "c5-thm-mvt",
+    "c5-lem-perturb-identity",
+    "c5-def-cr",
+    "c5-def-diffeo",
+    "c5-thm-inverse",
+    "c5-cor-open-mapping",
+    "c5-ex-local-not-global",
+    "c5-ex-c1-diffeo-cr"
+   ],
+   "optional": true
+  },
+  {
+   "id": "c5-ex-lagrange-multiplier",
+   "kind": "exercise",
+   "number": "",
+   "title": "Lagrange's multiplier",
+   "tex": "Let $U \\subseteq \\R^n$ be open, $n \\ge 2$, and let $f, g : U \\to \\R$ be of class $C^1$. Let $p \\in U$ with $(Dg)_p \\ne 0$, and let $M = \\set{x \\in U : g(x) = g(p)}$ be the level set of $g$ through $p$. Suppose $f$ restricted to $M$ has a local maximum at $p$: there is an open set $N \\ni p$ with $f(x) \\le f(p)$ for all $x \\in M \\cap N$. Show that there is a $\\lambda \\in \\R$ with \\[ (Df)_p = \\lambda\\,(Dg)_p . \\]",
+   "proof": "\\emph{Step 0: an interior maximum has zero derivative.} Let $\\Omega \\subseteq \\R^k$ be open and $\\phi : \\Omega \\to \\R$ differentiable at $q$ with $\\phi(x) \\le \\phi(q)$ for all $x$ in a neighbourhood of $q$. For $u \\in \\R^k$, the limit formula gives $(D\\phi)_q(u) = \\lim_{t \\to 0} (\\phi(q + tu) - \\phi(q))/t$. For small $t \\ne 0$ the numerator is $\\le 0$, so the quotient is $\\le 0$ for $t > 0$ and $\\ge 0$ for $t < 0$; the limit is therefore both $\\le 0$ and $\\ge 0$, hence $0$. So $(D\\phi)_q = 0$.\n\n\\emph{Step 1: reduction.} The entries of the $1 \\times n$ matrix of $(Dg)_p$ are the partial derivatives $\\partial_j g(p)$, and $(Dg)_p \\ne 0$, so some $\\partial_j g(p) \\ne 0$. We may assume $j = n$: otherwise let $P : \\R^n \\to \\R^n$ be the linear map that exchanges the $j$-th and $n$-th coordinates, a bijection with $P^{-1} = P$, and replace $U, f, g, p, N$ by $P^{-1}(U)$, $f \\circ P$, $g \\circ P$, $P^{-1}p$, $P^{-1}(N)$. These are again open sets and $C^1$ functions (composites with a linear map), $P^{-1}$ maps the level set of $g$ onto that of $g \\circ P$, the local maximum hypothesis transfers, the chain rule gives $(D(f\\circ P))_{P^{-1}p} = (Df)_p \\circ P$ and likewise for $g$, so $\\partial_n(g \\circ P)(P^{-1}p) = \\partial_j g(p) \\ne 0$; and a relation $(Df)_p \\circ P = \\lambda\\,(Dg)_p \\circ P$ composed with $P^{-1}$ on the right gives $(Df)_p = \\lambda\\,(Dg)_p$.\n\nSo assume $\\partial_n g(p) \\ne 0$ and write points of $\\R^n = \\R^{n-1} \\times \\R$ as $(x, y)$, with $p = (x_0, y_0)$. In the notation of block partial derivatives, $\\frac{\\partial g}{\\partial y}(p) : \\R \\to \\R$ is multiplication by $\\partial_n g(p) \\ne 0$, which is invertible.\n\n\\emph{Step 2: the implicit function theorem.} Applied to $g$ at $(x_0,y_0)$ with $z_0 = g(p)$ and $m = 1$, it gives $\\tau > 0$ and a $C^1$ function $h$ on $\\Omega = \\set{x \\in \\R^{n-1} : \\abs{x - x_0} < \\tau}$ with $h(x_0) = y_0$, $(x, h(x)) \\in U$ and $g(x, h(x)) = g(p)$ for all $x \\in \\Omega$, and \\[ (Dh)_x = -\\Big( \\frac{\\partial g}{\\partial y}(x,h(x)) \\Big)^{-1} \\circ \\frac{\\partial g}{\\partial x}(x,h(x)) . \\] Let $\\Pi(x) = (x, h(x))$, a map $\\Omega \\to U$ whose components are coordinate functions and $h$; it is differentiable with $(D\\Pi)_x(u) = (u, (Dh)_x u)$, and continuous. Since $\\Pi(x_0) = p \\in N$ and $N$ is open, there is $\\tau' \\in (0,\\tau]$ with $\\Pi(x) \\in N$ for $\\abs{x - x_0} < \\tau'$. Such points $\\Pi(x)$ lie in $M \\cap N$, so the function $\\phi = f \\circ \\Pi$ satisfies $\\phi(x) \\le f(p) = \\phi(x_0)$ for $\\abs{x - x_0} < \\tau'$: $\\phi$ has a local maximum at $x_0$. It is differentiable there by the chain rule, so $(D\\phi)_{x_0} = 0$ by Step 0.\n\n\\emph{Step 3: the multiplier.} Write $a = \\frac{\\partial f}{\\partial x}(p)$, $b = \\frac{\\partial f}{\\partial y}(p)$, $\\alpha = \\frac{\\partial g}{\\partial x}(p)$, $\\beta = \\frac{\\partial g}{\\partial y}(p)$; here $b$ and $\\beta$ are the scalars $\\partial_n f(p)$ and $\\partial_n g(p)$, with $\\beta \\ne 0$, and $(Dh)_{x_0} = -\\beta^{-1}\\alpha$. By the chain rule and the decomposition of a derivative into block partial derivatives, for $u \\in \\R^{n-1}$, \\[ 0 = (D\\phi)_{x_0}(u) = (Df)_p\\big( u, (Dh)_{x_0}u \\big) = a\\,u + b\\,(Dh)_{x_0}u = a\\,u - b\\beta^{-1}\\,\\alpha\\,u . \\] Put $\\lambda = b/\\beta$. Then $a = \\lambda\\alpha$ as linear maps on $\\R^{n-1}$, and $b = \\lambda\\beta$ by the choice of $\\lambda$. For $(u, w) \\in \\R^{n-1} \\times \\R$, \\[ (Df)_p(u,w) = a\\,u + b\\,w = \\lambda(\\alpha\\,u + \\beta\\,w) = \\lambda\\,(Dg)_p(u,w) . \\] So $(Df)_p = \\lambda\\,(Dg)_p$.",
+   "difficulty": 4,
+   "minutes": 60,
+   "hints": [
+    "First show that a differentiable function with a local maximum at an interior point has zero derivative there.",
+    "Some $\\partial g/\\partial x_j(p) \\ne 0$; take $j = n$. The implicit function theorem writes the level set near $p$ as a graph $y = h(x)$, and $x \\mapsto f(x, h(x))$ has a local maximum at $x_0$.",
+    "Differentiate $f(x,h(x))$ with the chain rule and substitute the formula for $Dh$; the multiplier is $\\lambda = \\partial_nf(p)/\\partial_ng(p)$."
+   ],
+   "uses": [
+    "c5-thm-derivative-unique",
+    "c5-prop-jacobian",
+    "c5-prop-components",
+    "c5-thm-chain-rule",
+    "c5-lem-cr-linear",
+    "c5-thm-cr-algebra",
+    "c5-def-partial-maps",
+    "c5-thm-implicit",
+    "c5-ex-circle"
+   ],
+   "optional": true
+  }
+ ],
+ "cards": []
+}

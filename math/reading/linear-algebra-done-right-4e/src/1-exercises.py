@@ -1,0 +1,506 @@
+from common import Section
+
+s = Section('1-exercises')
+
+
+def exercise(name, title, tex, proof, difficulty, minutes, hints, uses):
+    return s.r(
+        name, title, tex, proof, difficulty, minutes, hints, uses,
+        kind='exercise', optional=True
+    )
+
+
+s.p(
+    'intro-chapter-one-exercises',
+    'Practice with vectors and subspaces',
+    r'''These optional problems develop fluency with scalar arithmetic, vector-space axioms, and subspace decompositions. Each problem can be solved using the chapter's required material without relying on another exercise.'''
+)
+
+exercise(
+    'ex-solve-complex-equation',
+    'Solving a complex scalar equation',
+    r'''Find every $z\in\C$ satisfying $(2-i)z=3+4i$, and prove that your answer is unique.''',
+    r'''The defining multiplication gives $(2-i)(2+i)=5$. Hence $t=(2+i)/5$ satisfies $t(2-i)=1$. Multiplying the proposed equation by $t$ shows that every solution must satisfy
+\[
+z=\frac{(2+i)(3+4i)}5=\frac{2+11i}{5}.
+\]
+Here the numerator is $6+8i+3i+4i^2=2+11i$. Conversely, setting $z=t(3+4i)$ gives $(2-i)z=((2-i)t)(3+4i)=3+4i$, so the displayed value is a solution. The necessity calculation proves uniqueness.''',
+    1, 10,
+    [
+        r'Find a scalar that multiplies $2-i$ to a nonzero real number.',
+        r'Try multiplying by $2+i$.'
+    ],
+    ['def-complex', 'ex-complex-product', 'thm-complex-laws', 'thm-complex-inverses',
+     'def-scalar-inverses']
+)
+
+exercise(
+    'ex-cancel-nonzero-vector',
+    'Cancelling a nonzero vector',
+    r'''Let $V$ be a vector space over $\F$. Prove that $av=0$ holds exactly when $a=0$ or $v=0$. Deduce that, for a fixed nonzero $v\in V$, the equality $av=bv$ forces $a=b$.''',
+    r'''If $a=0$, then $av=0$ by the zero-scalar identity. If $v=0$, the scalar-times-zero identity gives $av=0$. Conversely, suppose $av=0$ and $a\ne0$. Multiplication by $a^{-1}$ yields
+\[
+v=1v=(a^{-1}a)v=a^{-1}(av)=a^{-1}0=0.
+\]
+Now suppose $v\ne0$ and $av=bv$. Scalar distributivity gives
+\[
+(a-b)v+bv=((a-b)+b)v=av=bv=0+bv.
+\]
+Vector cancellation gives $(a-b)v=0$. The first assertion and $v\ne0$ imply $a-b=0$, and scalar addition then gives $a=b$.''',
+    2, 15,
+    [
+        r'When the scalar is nonzero, multiply by its inverse.',
+        r'Turn $av=bv$ into an equation with zero on one side.'
+    ],
+    ['def-vector-space', 'thm-zero-scalar', 'thm-scalar-zero',
+     'lem-vector-cancellation', 'thm-complex-inverses',
+     'def-scalar-inverses']
+)
+
+exercise(
+    'ex-two-term-subspace-test',
+    'A two-term subspace test',
+    r'''Let $U$ be a nonempty subset of a vector space $V$. Prove that $U$ is a subspace if and only if $ax+by\in U$ for all $x,y\in U$ and all $a,b\in\F$. Explain why nonemptiness cannot be omitted.''',
+    r'''If $U$ is a subspace, scalar closure puts $ax$ and $by$ in $U$, and addition closure puts their sum in $U$.
+
+Conversely, assume the stated two-term condition. Choose $u\in U$, using nonemptiness. Taking $a=b=0$ and $x=y=u$ gives $0u+0u=0\in U$. For $x,y\in U$, taking $a=b=1$ gives $x+y\in U$. For $x\in U$ and $c\in\F$, taking $a=c$, $b=0$, and $y=x$ gives $cx+0x=cx\in U$. The subspace test now applies.
+
+The empty set satisfies the two-term condition because it has no choices of $x,y$ for which the condition could fail. It is not a subspace, since it does not contain a zero vector. Thus the hypothesis of nonemptiness is necessary.''',
+    2, 20,
+    [
+        r'Recover zero, sums, and scalar multiples by choosing the two scalars.',
+        r'For the zero vector, begin with one element whose existence is guaranteed by nonemptiness.'
+    ],
+    ['thm-subspace-test', 'def-vector-space', 'thm-zero-scalar']
+)
+
+exercise(
+    'ex-coordinate-level-set',
+    'A coordinate condition with a parameter',
+    r'''For $b\in\F$, let
+\[
+H_b=\{(x_1,x_2,x_3)\in\F^3:x_1+2x_2-4x_3=b\}.
+\]
+Determine exactly which values of $b$ make $H_b$ a subspace of $\F^3$.''',
+    r'''If $H_b$ is a subspace, it contains $(0,0,0)$. Substitution into its defining equation gives $b=0$.
+
+For $b=0$, the zero vector belongs to $H_0$. If $x,y\in H_0$, then
+\[
+(x_1+y_1)+2(x_2+y_2)-4(x_3+y_3)
+=(x_1+2x_2-4x_3)+(y_1+2y_2-4y_3)=0.
+\]
+Hence $x+y\in H_0$. If $c\in\F$ and $x\in H_0$, then
+\[
+cx_1+2cx_2-4cx_3=c(x_1+2x_2-4x_3)=0,
+\]
+so $cx\in H_0$. The subspace test proves that $H_0$ is a subspace. Therefore the answer is precisely $b=0$.''',
+    2, 15,
+    [
+        r'First test whether the zero vector satisfies the defining equation.'
+    ],
+    ['thm-subspace-test', 'def-coordinate-addition',
+     'def-coordinate-scaling', 'thm-complex-laws']
+)
+
+exercise(
+    'ex-change-scalar-field',
+    'The scalar field changes the answer',
+    r'''Define
+\[
+S=\{(a+bi,a-bi):a,b\in\R\}\subseteq\C^2.
+\]
+Prove that $S$ is a subspace when $\C^2$ is regarded as a real vector space, but is not a subspace when $\C^2$ is regarded as a complex vector space.''',
+    r'''The complex coordinate-space identities still hold when scalars are restricted to $\R$, so $\C^2$ with those restricted scalars is a real vector space. Taking $a=b=0$ gives $(0,0)\in S$. For two elements of $S$, coordinate addition gives
+\[
+(a+bi,a-bi)+(c+di,c-di)
+=((a+c)+(b+d)i,(a+c)-(b+d)i),
+\]
+which belongs to $S$. If $r\in\R$, then
+\[
+r(a+bi,a-bi)=(ra+(rb)i,ra-(rb)i)\in S.
+\]
+The subspace test proves the real assertion.
+
+For complex scalars, $(1,1)\in S$, but $i(1,1)=(i,i)\notin S$. Indeed, if $(i,i)=(a+bi,a-bi)$ for real $a,b$, comparison in the first coordinate forces $a=0$ and $b=1$. The second coordinate would then require $i=-i$, contrary to equality of complex pairs, whose imaginary coordinates here are $1$ and $-1$. Thus closure under complex scalar multiplication fails.''',
+    3, 30,
+    [
+        r'Use the real parameters $a,b$ to check closure under real scalar multiplication.',
+        r'For complex scalar multiplication, test $i$ on a vector with real coordinates.'
+    ],
+    ['def-complex', 'def-coordinate-addition', 'def-coordinate-scaling',
+     'lem-coordinate-laws', 'def-vector-space', 'thm-subspace-test']
+)
+
+exercise(
+    'ex-eventually-constant-sequences',
+    'Splitting an eventually constant sequence',
+    r'''In the vector space of scalar sequences, define
+\[
+\begin{aligned}
+E&=\{x:\text{there is }N\in\N\text{ such that }x_n=0\text{ for all }n\ge N\},\\
+C&=\{x:\text{there is }a\in\F\text{ such that }x_n=a\text{ for every }n\},\\
+V&=\{x:\text{there are }N\in\N,\ a\in\F\text{ such that }x_n=a
+       \text{ for all }n\ge N\}.
+\end{aligned}
+\]
+Prove that all three sets are subspaces and that $V=E\oplus C$.''',
+    r'''Each set contains the zero sequence. If $x,y\in E$ vanish beyond indices $N_x,N_y$, then $x+y$ vanishes for every $n\ge\max(N_x,N_y)$. Every scalar multiple of $x$ vanishes for $n\ge N_x$. Thus $E$ is a subspace.
+
+The sum of two constant sequences with values $a,b$ is constant with value $a+b$, and a scalar multiple by $c$ of the first is constant with value $ca$. Thus $C$ is a subspace.
+
+If $x,y\in V$ have respective constant tails $a,b$ starting at $N_x,N_y$, then $x+y$ has constant tail $a+b$ starting at $\max(N_x,N_y)$. A scalar multiple $cx$ has constant tail $ca$ starting at $N_x$. Thus $V$ is a subspace.
+
+An element of $E+C$ is eventually equal to the value of its constant summand, so $E+C\subseteq V$. Conversely, if $x\in V$ has constant tail $a$, let $c$ be the constant sequence with value $a$. The sequence $e=x-c$ vanishes on that tail, giving $x=e+c\in E+C$.
+
+Finally, if a sequence belongs to $E\cap C$, write its constant value as $a$. At every sufficiently large index its value is also zero, so $a=0$. Consequently $E\cap C=\{0\}$, and the two-subspace direct-sum criterion gives $V=E\oplus C$.''',
+    3, 35,
+    [
+        r'For two tail conditions, use the larger of their starting indices.',
+        r'Subtract the eventual constant value from every term of the sequence.'
+    ],
+    ['def-sequences', 'ex-sequence-space', 'thm-subspace-test',
+     'def-subspace-sum', 'thm-direct-intersection']
+)
+
+exercise(
+    'ex-function-support-decomposition',
+    'Separating functions on two parts of a set',
+    r'''Let $A\subseteq X$, and let $\F^X$ denote the vector space of scalar-valued functions on $X$. Define
+\[
+U=\{f\in\F^X:f(x)=0\text{ for every }x\in X\setminus A\},
+\quad
+W=\{f\in\F^X:f(x)=0\text{ for every }x\in A\}.
+\]
+Prove that $U,W$ are subspaces and that $\F^X=U\oplus W$. Your argument should also cover $A=\varnothing$ and $A=X$.''',
+    r'''The zero function belongs to both sets. If two functions vanish on a specified subset, their pointwise sum also vanishes there, and every scalar multiple of either function vanishes there. Applying the subspace test with the specified subsets $X\setminus A$ and $A$ proves that $U$ and $W$ are subspaces.
+
+For $f\in\F^X$, define
+\[
+u(x)=
+\begin{cases}f(x),&x\in A,\\0,&x\in X\setminus A,\end{cases}
+\qquad
+w(x)=
+\begin{cases}0,&x\in A,\\f(x),&x\in X\setminus A.\end{cases}
+\]
+These definitions assign one value at every $x\in X$, because the two subsets are disjoint and have union $X$. They give $u\in U$, $w\in W$, and $f=u+w$, proving $\F^X=U+W$.
+
+If $g\in U\cap W$, then $g$ vanishes on both parts of $X$ and hence at every point of $X$. Thus $g$ is the zero function. The direct-sum criterion proves the claim. The definitions and pointwise argument remain valid when either part of $X$ is empty, including when $X$ itself is empty.''',
+    3, 30,
+    [
+        r'Define one function by keeping the values on $A$ and setting the other values to zero.',
+        r'A function in both subspaces must vanish on both parts of $X$.'
+    ],
+    ['def-function-space', 'thm-function-space', 'thm-subspace-test',
+     'def-subspace-sum', 'thm-direct-intersection']
+)
+
+exercise(
+    'ex-arbitrary-intersections',
+    'Intersections of any family of subspaces',
+    r'''Let $(U_j)_{j\in J}$ be a family of subspaces of $V$. Prove that
+\[
+\{v\in V:v\in U_j\text{ for every }j\in J\}
+\]
+is a subspace. Identify this set when $J=\varnothing$.''',
+    r'''Write $M$ for the displayed set. Every subspace $U_j$ contains zero, so $0\in M$. If $x,y\in M$, then for each $j\in J$ both vectors belong to $U_j$. Addition closure in $U_j$ gives $x+y\in U_j$ for every $j$, so $x+y\in M$. For $c\in\F$ and $x\in M$, scalar closure in every $U_j$ gives $cx\in U_j$ for every $j$, so $cx\in M$. The subspace test proves the assertion.
+
+If $J=\varnothing$, the requirement that $v\in U_j$ for every $j\in J$ imposes no condition on $v\in V$. Thus $M=V$, which is a subspace of itself. This also explains why the proof covers an empty indexing set.''',
+    2, 20,
+    [
+        r'To belong to an intersection, an element must pass the membership test in every set.',
+        r'A universal statement over an empty indexing set has no failing instance.'
+    ],
+    ['def-subspace', 'thm-subspace-test']
+)
+
+exercise(
+    'ex-union-two-subspaces',
+    'When a union is a subspace',
+    r'''For subspaces $U,W$ of $V$, prove that $U\cup W$ is a subspace if and only if $U\subseteq W$ or $W\subseteq U$.''',
+    r'''If $U\subseteq W$, then $U\cup W=W$, a subspace. If $W\subseteq U$, then the union equals $U$, also a subspace.
+
+Conversely, suppose the union is a subspace and neither containment holds. Choose $u\in U\setminus W$ and $w\in W\setminus U$. Closure of the union under addition gives $u+w\in U\cup W$. If $u+w\in U$, then $-u\in U$ by scalar closure and the negative-one identity, so $(u+w)+(-u)=w\in U$, a contradiction. If $u+w\in W$, then $-w\in W$, so $(u+w)+(-w)=u\in W$, also a contradiction. These two cases exhaust membership in the union. Therefore at least one containment must hold.''',
+    3, 30,
+    [
+        r'Assume neither subspace contains the other and choose a witness to each failure.',
+        r'Consider the sum of those two witnesses and test its possible locations.'
+    ],
+    ['thm-subspace-test', 'def-vector-space', 'thm-negative-one']
+)
+
+exercise(
+    'ex-separate-closure-conditions',
+    'Neither closure condition can replace the other',
+    r'''Give a subset of $\R^2$ containing zero that is closed under addition but not under real scalar multiplication. Give another subset containing zero that is closed under real scalar multiplication but not under addition. Verify every assertion.''',
+    r'''For the first set, take
+\[
+P=\{(x,0):x\in\R,\ x\ge0\}.
+\]
+It contains $(0,0)$. If $(x,0),(y,0)\in P$, then $x+y\ge0$, so their sum is in $P$. However, $(1,0)\in P$ and $(-1)(1,0)=(-1,0)\notin P$. Thus scalar closure fails.
+
+For the second set, take
+\[
+Q=\{(x,0):x\in\R\}\cup\{(0,y):y\in\R\}.
+\]
+It contains zero. Multiplying a vector on either coordinate axis by a real scalar leaves it on that same axis, so $Q$ is closed under scalar multiplication. The vectors $(1,0)$ and $(0,1)$ lie in $Q$, while their sum $(1,1)$ lies on neither axis. Thus addition closure fails.''',
+    2, 20,
+    [
+        r'For addition without arbitrary scaling, use a condition involving nonnegativity.',
+        r'For scaling without addition, use more than one line through zero.'
+    ],
+    ['foundations', 'def-coordinate-addition', 'def-coordinate-scaling',
+     'thm-subspace-test']
+)
+
+exercise(
+    'ex-two-slanted-lines',
+    'A direct sum inside three-coordinate space',
+    r'''Let
+\[
+U=\{(t,t,0):t\in\F\},\qquad
+W=\{(0,t,t):t\in\F\}.
+\]
+Prove that $U,W$ are subspaces of $\F^3$ and that
+\[
+U\oplus W=\{(x,y,z)\in\F^3:y=x+z\}.
+\]
+Give the unique decomposition of a vector in the set on the right.''',
+    r'''Both sets contain zero. Adding elements of $U$ with parameters $a,b$ gives the element with parameter $a+b$, and scaling by $c$ gives the element with parameter $ca$. The same two assertions hold for the parametrization of $W$. The subspace test therefore applies to both sets.
+
+A typical sum is
+\[
+(a,a,0)+(0,b,b)=(a,a+b,b),
+\]
+whose middle coordinate equals the sum of its first and third coordinates. Thus $U+W$ is contained in the displayed set. Conversely, if $y=x+z$, then
+\[
+(x,y,z)=(x,x,0)+(0,z,z),
+\]
+so the reverse inclusion holds.
+
+If a vector lies in $U\cap W$, write it as both $(a,a,0)$ and $(0,b,b)$. The first-coordinate equation gives $a=0$, and the third-coordinate equation gives $b=0$. Hence the intersection contains only zero, and the sum is direct. In the displayed decomposition, the first coordinate forces the $U$ parameter to be $x$, and the third forces the $W$ parameter to be $z$, establishing the asserted uniqueness explicitly.''',
+    2, 20,
+    [
+        r'Write a typical sum using separate parameters for the two subspaces.',
+        r'The first and third coordinates determine the two parameters.'
+    ],
+    ['thm-subspace-test', 'def-coordinate-addition', 'def-coordinate-scaling',
+     'def-subspace-sum', 'thm-direct-intersection']
+)
+
+exercise(
+    'ex-graph-complement',
+    'Constructing a complement by matching coordinates',
+    r'''Let
+\[
+U=\{(a,b,a+2b,3a-b):a,b\in\F\}\subseteq\F^4.
+\]
+Find a subspace $W$ such that $\F^4=U\oplus W$, and give a formula for the two components of an arbitrary $(x_1,x_2,x_3,x_4)\in\F^4$.''',
+    r'''Take
+\[
+W=\{(0,0,c,d):c,d\in\F\}.
+\]
+Both $U$ and $W$ contain zero. Adding two vectors in $U$ adds their parameters, because, for example,
+$(a+2b)+(a'+2b')=(a+a')+2(b+b')$ and
+$(3a-b)+(3a'-b')=3(a+a')-(b+b')$.
+Multiplying a vector in $U$ by $r\in\F$ replaces $(a,b)$ by $(ra,rb)$, by distributivity. Thus $U$ is closed under both operations. Addition and scaling in $W$ preserve the zero first and second coordinates, so $W$ is also closed under both operations. The subspace test proves that both are subspaces.
+
+For any $x=(x_1,x_2,x_3,x_4)$,
+\[
+x=(x_1,x_2,x_1+2x_2,3x_1-x_2)
+ +(0,0,x_3-x_1-2x_2,x_4-3x_1+x_2).
+\]
+The first summand belongs to $U$ and the second to $W$, proving that their sum is all of $\F^4$.
+
+If a vector in $U$ also belongs to $W$, its first two coordinates force $a=b=0$; all four coordinates then vanish. Hence $U\cap W=\{0\}$, so the decomposition is direct and the two displayed components are unique.''',
+    3, 30,
+    [
+        r'Use the first two coordinates to select an element of $U$.',
+        r'The difference between the given vector and that element has its first two coordinates zero.'
+    ],
+    ['thm-subspace-test', 'def-coordinate-addition', 'def-coordinate-scaling',
+     'def-subspace-sum', 'thm-direct-intersection']
+)
+
+exercise(
+    'ex-three-lines-pairwise-intersections',
+    'Pairwise intersections do not guarantee a direct sum',
+    r'''Construct three nonzero subspaces $L_1,L_2,L_3$ of $\F^2$ such that every pair has intersection $\{0\}$, their sum is $\F^2$, and their sum is not direct. Verify the subspace conditions and all three conclusions.''',
+    r'''Set
+\[
+L_1=\{(t,0):t\in\F\},\quad
+L_2=\{(0,t):t\in\F\},\quad
+L_3=\{(t,2t):t\in\F\}.
+\]
+Each set contains zero, and its parametrization is preserved by parameter addition and multiplication by a scalar. Thus each is a subspace. The respective vectors $(1,0),(0,1),(1,2)$ show that all three are nonzero.
+
+A vector in $L_1\cap L_2$ has both coordinates zero. A vector $(t,2t)$ in $L_3\cap L_1$ satisfies $2t=0$, which gives $t=0$ because $2\ne0$ in $\F$. A vector $(t,2t)$ in $L_3\cap L_2$ satisfies $t=0$ from its first coordinate. Thus all pairwise intersections are $\{0\}$.
+
+Every $(x,y)\in\F^2$ equals $(x,0)+(0,y)+(0,0)$ with the summands in the three respective subspaces, proving that their sum is $\F^2$. However,
+\[
+(0,0)=(1,0)+(0,2)+(-1,-2)
+\]
+is a representation of zero with all three summands nonzero and in the respective subspaces. The direct-zero criterion therefore rules out a direct sum.''',
+    3, 30,
+    [
+        r'Use the two coordinate axes and one additional line through zero.',
+        r'Find a nonzero vector on the third line and express its negative using the two axes.'
+    ],
+    ['thm-subspace-test', 'def-subspace-sum', 'thm-direct-zero',
+     'def-coordinate-addition', 'def-coordinate-scaling',
+     'lem-scalar-cancellation']
+)
+
+exercise(
+    'ex-modular-subspace-identity',
+    'An identity with a containment hypothesis',
+    r'''Let $U,W,Z$ be subspaces of $V$, and assume $U\subseteq W$. Prove
+\[
+W\cap(U+Z)=U+(W\cap Z).
+\]
+Then give an example showing that the identity can fail when the containment hypothesis is dropped.''',
+    r'''Let $v\in W\cap(U+Z)$. There exist $u\in U$ and $z\in Z$ such that $v=u+z$. Because $u\in U\subseteq W$ and $v\in W$, closure of $W$ under addition and negatives gives $z=v-u\in W$. Thus $z\in W\cap Z$, so $v\in U+(W\cap Z)$.
+
+For the reverse inclusion, write $v=u+z$ with $u\in U$ and $z\in W\cap Z$. The hypotheses put both $u$ and $z$ in $W$, so $v\in W$. They also put $u\in U$ and $z\in Z$, so $v\in U+Z$. Hence $v\in W\cap(U+Z)$.
+
+For failure without containment, work in $\F^2$ and take
+\[
+U=\{(t,0):t\in\F\},\quad
+W=\{(0,t):t\in\F\},\quad
+Z=\{(0,0)\}.
+\]
+Each contains zero and is closed under coordinate addition and scalar multiplication, so each is a subspace. Here $U+Z=U$, and $W\cap U=\{0\}$ because membership in both forces both coordinates to vanish. Thus the left side is $\{0\}$. But $W\cap Z=\{0\}$, making the right side $U$. These sets differ because $(1,0)\in U$ and $(1,0)\ne0$.''',
+    3, 35,
+    [
+        r'For the difficult inclusion, write a vector as $u+z$ and solve for $z$.',
+        r'The condition $U\subseteq W$ is what puts both $v$ and $u$ in $W$.'
+    ],
+    ['thm-subspace-test', 'def-subspace-sum',
+     'def-vector-subtraction', 'thm-negative-one',
+     'def-coordinate-addition', 'def-coordinate-scaling']
+)
+
+exercise(
+    'ex-alternative-complements',
+    'A subspace can have different complements',
+    r'''Find distinct subspaces $U_1,U_2$ of $\F^2$ and a nonzero subspace $W$ such that
+\[
+\F^2=U_1\oplus W=U_2\oplus W.
+\]
+Give both decompositions of an arbitrary vector and prove their uniqueness.''',
+    r'''Define
+\[
+U_1=\{(t,t):t\in\F\},\quad
+U_2=\{(t,2t):t\in\F\},\quad
+W=\{(0,t):t\in\F\}.
+\]
+Each parametrization includes zero and is preserved by addition of parameters and multiplication of the parameter by a scalar. Hence the subspace test applies to all three. The vector $(0,1)$ proves $W\ne\{0\}$. Also $(1,1)\in U_1$ but $(1,1)\notin U_2$: its first coordinate would force the parameter to be $1$, while its second coordinate would then have to be $2$. Thus $U_1\ne U_2$.
+
+For every $(x,y)\in\F^2$,
+\[
+(x,y)=(x,x)+(0,y-x)
+      =(x,2x)+(0,y-2x).
+\]
+These are decompositions in $U_1+W$ and $U_2+W$, respectively. In any decomposition $(x,y)=(t,t)+(0,a)$, equality of first coordinates gives $t=x$, and equality of second coordinates then gives $a=y-x$. In any decomposition $(x,y)=(t,2t)+(0,a)$, the same coordinate comparisons give $t=x$ and $a=y-2x$. Both decompositions are unique, so both sums are direct.''',
+    3, 30,
+    [
+        r'Keep one coordinate axis as $W$ and try two different slanted lines.',
+        r'The first coordinate can force the component on a slanted line.'
+    ],
+    ['thm-subspace-test', 'def-direct-sum',
+     'def-coordinate-addition', 'def-coordinate-scaling',
+     'lem-scalar-cancellation']
+)
+
+exercise(
+    'ex-finite-union-proper-subspaces',
+    'A finite union of proper subspaces misses a vector',
+    r'''Let $m\ge1$, and let $U_1,\ldots,U_m$ be proper subspaces of a vector space $V$ over $\F$, where $\F$ is $\R$ or $\C$. Prove
+\[
+V\ne U_1\cup\cdots\cup U_m.
+\]
+A proper subspace means a subspace that is not equal to $V$. Do not assume that $V$ is finite-dimensional.''',
+    r'''We prove the assertion by induction on $m$. For $m=1$, properness means that some vector of $V$ is outside $U_1$, which is the required conclusion.
+
+Assume $m\ge2$ and the assertion has been proved for $m-1$ proper subspaces of any vector space over $\F$. Applying it to $U_1,\ldots,U_{m-1}$ gives a vector
+\[
+x\in V\setminus(U_1\cup\cdots\cup U_{m-1}).
+\]
+Properness of $U_m$ gives $y\in V\setminus U_m$. In particular $y\ne0$, because every subspace contains zero. Consider the vectors $x+ty$ for $t\in\F$.
+
+Fix $j<m$. Suppose two distinct scalars $s,t$ both give vectors in $U_j$. Subtracting these two vectors, using closure under negatives and addition, gives
+\[
+(s-t)y=(x+sy)-(x+ty)\in U_j.
+\]
+Because $s-t\ne0$, scalar closure gives $y=(s-t)^{-1}((s-t)y)\in U_j$. Subtracting $sy$ from $x+sy$ now gives $x\in U_j$, contradicting the choice of $x$. Consequently, for each $j<m$, at most one scalar $t$ has $x+ty\in U_j$.
+
+If two distinct scalars $s,t$ give vectors in $U_m$, the same subtraction and multiplication by $(s-t)^{-1}$ give $y\in U_m$, contradicting the choice of $y$. Thus at most one scalar is excluded by $U_m$ as well.
+
+There are therefore at most $m$ scalars $t$ for which $x+ty$ lies in at least one of the $m$ subspaces: each subspace contributes at most one such scalar. The $m+1$ real numbers $0,1,\ldots,m$ are distinct elements of $\F$, also when $\F=\C$ through the real embedding. At least one of these scalars is not among those at most $m$ excluded values. For that scalar $t$, the vector $x+ty$ belongs to none of $U_1,\ldots,U_m$. This completes the induction.''',
+    4, 90,
+    [
+        r'Try induction on the number of subspaces.',
+        r'Choose $x$ outside the first $m-1$ subspaces and $y$ outside the last one; examine $x+ty$.',
+        r'If one subspace contains $x+sy$ and $x+ty$ with $s\ne t$, subtraction forces $y$ into that subspace.'
+    ],
+    ['foundations', 'def-scalars', 'def-subspace', 'thm-subspace-test',
+     'def-vector-space', 'def-vector-subtraction', 'thm-negative-one',
+     'thm-complex-inverses', 'def-scalar-inverses']
+)
+
+s.card(
+    'ex-subspace-zero',
+    'ex-coordinate-level-set',
+    r'What immediate test can rule out a set defined by a nonhomogeneous coordinate equation as a subspace?',
+    r'Check the zero vector. Every subspace contains it; in the displayed family this forces $b=0$.'
+)
+
+s.card(
+    'ex-scalar-field',
+    'ex-change-scalar-field',
+    r'Why can the same subset be a real subspace but fail to be a complex subspace?',
+    r'Real scalar closure does not imply complex scalar closure. In the example, multiplication of $(1,1)$ by $i$ leaves the subset.'
+)
+
+s.card(
+    'ex-empty-intersection',
+    'ex-arbitrary-intersections',
+    r'What is the intersection of an empty family of subspaces when the ambient space is fixed as $V$?',
+    r'It is $V$: every vector satisfies all of the zero membership conditions.'
+)
+
+s.card(
+    'ex-union-criterion',
+    'ex-union-two-subspaces',
+    r'When is the union of two subspaces a subspace?',
+    r'Exactly when one of the subspaces is contained in the other.'
+)
+
+s.card(
+    'ex-function-splitting',
+    'ex-function-support-decomposition',
+    r'How can a function on $X$ be split according to a subset $A\subseteq X$?',
+    r'Keep its values on $A$ and set the other values to zero for one component; keep its values on $X\setminus A$ for the other. The two components sum to the original function.'
+)
+
+s.card(
+    'ex-three-subspaces',
+    'ex-three-lines-pairwise-intersections',
+    r'Do pairwise zero intersections guarantee that a sum of three subspaces is direct?',
+    r'No. The lines $\{(t,0)\}$, $\{(0,t)\}$, and $\{(t,2t)\}$ have pairwise intersection $\{0\}$, but $(1,0)+(0,2)+(-1,-2)=0$ is a nontrivial zero decomposition.'
+)
+
+s.card(
+    'ex-complement-uniqueness',
+    'ex-alternative-complements',
+    r'Does fixing $W$ make its complementary subspace unique?',
+    r'No. In $\F^2$, the vertical axis has both $\{(t,t):t\in\F\}$ and $\{(t,2t):t\in\F\}$ as complements.'
+)
+
+s.card(
+    'ex-finite-union-idea',
+    'ex-finite-union-proper-subspaces',
+    r'What is the key counting idea in the proof that finitely many proper subspaces cannot cover a real or complex vector space?',
+    r'Choose $x,y$ so that each subspace contains $x+ty$ for at most one scalar $t$. Finitely many excluded scalars cannot exhaust the available choices.'
+)
+
+s.write()

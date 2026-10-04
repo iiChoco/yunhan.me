@@ -1,0 +1,8 @@
+Chapter 5 referee review: complete.
+Reviewed all required statements and proofs and all 16 optional exercises.
+Checked dimension-zero cases, polynomial minimality, invariant restrictions, triangularization, eigenvalue multiplicity versus eigenspace dimension, simultaneous eigenvectors, and the quotient construction for simultaneous triangularization.
+The quintic diagonalization example now proves distinct roots algebraically with a formal derivative lemma; it does not infer distinctness from rounded numerical roots.
+The distinct-eigenspace proof explicitly discards zero vectors before applying eigenvector independence.
+The inverse-minimal-polynomial exercise uses a summation formula valid also for degree zero.
+Unproved external facts are explicitly marked: the previously accepted fundamental theorem of algebra and the quintic radical-impossibility/numerical statements.
+No remaining mathematical gap identified in this chapter.

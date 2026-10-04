@@ -1,0 +1,8 @@
+CONTENT AUDIT
+PASS
+SITE CHECKER
+Linear Algebra Done Right — Proof Reading Module: 9 chapters, 44 sections, 1021 blocks, 766 to prove (273 h budgeted), 383 cards
+
+SITE RENDERER
+
+Renderer exit: 0

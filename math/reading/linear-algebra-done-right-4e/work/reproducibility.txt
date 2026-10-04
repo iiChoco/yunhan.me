@@ -1,0 +1,1 @@
+PASS: regenerated the manifest and all 44 section scripts; every JSON file was byte-identical.

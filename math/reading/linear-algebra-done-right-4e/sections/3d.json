@@ -1,0 +1,683 @@
+{
+ "version": 1,
+ "id": "3d",
+ "blocks": [
+  {
+   "id": "c3-intro-invertibility",
+   "kind": "prose",
+   "number": "",
+   "title": "Recovering inputs and changing coordinates",
+   "tex": "An inverse recovers an input from its image. In finite dimensions, the dimension formula often proves that an inverse exists without constructing it explicitly. We then use invertible maps to compare vector spaces and to understand how matrices change when bases change.",
+   "page": "82"
+  },
+  {
+   "id": "c3-def-invertible-map",
+   "kind": "definition",
+   "number": "3.59",
+   "title": "Invertible linear maps",
+   "tex": "A map $T\\in\\Lin(V,W)$ is invertible if there is a linear map $S\\in\\Lin(W,V)$ with\n\\[ST=I_V,\\qquad TS=I_W.\\]\nSuch a map $S$ is called an inverse of $T$. The two identity maps act on different spaces when $V$ and $W$ differ.",
+   "page": "82"
+  },
+  {
+   "id": "c3-thm-inverse-unique",
+   "kind": "theorem",
+   "number": "3.60",
+   "title": "Uniqueness of a linear inverse",
+   "tex": "An invertible linear map has exactly one inverse.",
+   "page": "82",
+   "proof": "Existence is part of invertibility. Suppose $S,R:W\\to V$ are both inverses of $T:V\\to W$. Since $TR=I_W$ and $ST=I_V$, associativity and the identity laws give\n\\[S=S I_W=S(TR)=(ST)R=I_VR=R.\\]\nThus any two inverses agree.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compose one proposed inverse with the identity written using the other inverse."
+   ],
+   "uses": [
+    "c3-def-invertible-map",
+    "c3-thm-composition-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-map-inverse",
+   "kind": "definition",
+   "number": "3.61",
+   "title": "Notation for the inverse map",
+   "tex": "The unique inverse of an invertible map $T$ is written $T^{-1}$. For $T:V\\to W$, it belongs to $\\Lin(W,V)$ and satisfies $T^{-1}T=I_V$ and $TT^{-1}=I_W$.",
+   "page": "82"
+  },
+  {
+   "id": "c3-ex-coordinate-inverse",
+   "kind": "example",
+   "number": "3.62",
+   "title": "Undoing a coordinate transformation",
+   "tex": "The map $T:\\R^3\\to\\R^3$ given by $T(x,y,z)=(-y,x,4z)$ is invertible, with\n\\[T^{-1}(x,y,z)=(y,-x,z/4).\\]",
+   "page": "82",
+   "proof": "Each coordinate of $T$ is a fixed scalar combination of the input coordinates, so the coordinate characterization of linear maps makes $T$ linear. The same characterization makes $S(x,y,z)=(y,-x,z/4)$ linear. Direct substitution gives\n\\[S(T(x,y,z))=S(-y,x,4z)=(x,y,z)\\]\nand\n\\[T(S(x,y,z))=T(y,-x,z/4)=(x,y,z).\\]\nThus $ST=TS=I_{\\R^3}$, so $S$ is the inverse of $T$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Check both compositions, not only one."
+   ],
+   "uses": [
+    "c3-thm-coordinate-linear-maps",
+    "c3-def-invertible-map",
+    "c3-def-map-inverse"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-invertible-bijective",
+   "kind": "theorem",
+   "number": "3.63",
+   "title": "Invertibility is equivalent to bijectivity",
+   "tex": "A linear map is invertible if and only if it is both injective and surjective.",
+   "page": "83",
+   "proof": "Suppose $T:V\\to W$ has an inverse $S$. If $Tu=Tv$, applying $S$ gives $u=v$, so $T$ is injective. For every $w\\in W$, the equality $w=T(Sw)$ gives a preimage, so $T$ is surjective.\nConversely, suppose $T$ is injective and surjective. For each $w\\in W$, surjectivity supplies a preimage and injectivity makes that preimage unique. Define $Sw$ to be this unique vector. Then $TS=I_W$. Also $S(Tv)=v$, since $v$ is the unique preimage of $Tv$, giving $ST=I_V$.\nIt remains to check that $S$ is linear. For $w_1,w_2\\in W$,\n\\[T(Sw_1+Sw_2)=w_1+w_2=T(S(w_1+w_2)).\\]\nInjectivity of $T$ gives $S(w_1+w_2)=Sw_1+Sw_2$. For $a\\in\\F$ and $w\\in W$,\n\\[T(aSw)=aw=T(S(aw)),\\]\nso injectivity also gives $S(aw)=aSw$. Thus $S$ is a linear inverse, as required.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "For the reverse direction, define the inverse by unique preimages.",
+    "Then use injectivity of the original map to prove that this inverse function is linear."
+   ],
+   "uses": [
+    "c3-def-invertible-map",
+    "c3-def-injective",
+    "c3-def-surjective",
+    "c3-def-linear-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-injective-not-invertible",
+   "kind": "example",
+   "number": "3.64",
+   "title": "Injectivity can fail to provide an inverse",
+   "tex": "On $\\Poly(\\R)$, the linear map $Mp=x^2p$ is injective but not invertible.",
+   "page": "84",
+   "proof": "Linearity was proved for multiplication by a fixed polynomial. Suppose $Mp=0$, and write $p(x)=\\sum_{j=0}^m a_jx^j$. Then $\\sum_{j=0}^m a_jx^{j+2}$ is the zero polynomial. Uniqueness of polynomial coefficients gives all $a_j=0$, so $p=0$. The null-space criterion proves injectivity. Every polynomial of the form $x^2p$ has value zero at $x=0$, while the constant polynomial $1$ has value one there. Hence $1$ is not in the range, and $M$ is not surjective. The invertibility criterion therefore rules out an inverse.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Use coefficient uniqueness for injectivity and evaluation at zero for failure of surjectivity."
+   ],
+   "uses": [
+    "c3-ex-polynomial-multiplication",
+    "c2-lem-polynomial-coefficients",
+    "c3-thm-injective-null",
+    "c3-thm-invertible-bijective"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-surjective-not-invertible",
+   "kind": "example",
+   "number": "3.64",
+   "title": "Surjectivity can fail to provide an inverse",
+   "tex": "The backward shift $B:\\F^\\infty\\to\\F^\\infty$, defined by\n\\[B(x_1,x_2,\\ldots)=(x_2,x_3,\\ldots),\\]\nis surjective but not invertible.",
+   "page": "84",
+   "proof": "The backward shift is linear by the earlier example. Given $y=(y_1,y_2,\\ldots)$, the sequence $(0,y_1,y_2,\\ldots)$ is a preimage of $y$, proving surjectivity. The nonzero sequence $(1,0,0,\\ldots)$ and the zero sequence both have image zero. Thus $B$ is not injective and cannot be invertible.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Construct a preimage by inserting one new first entry."
+   ],
+   "uses": [
+    "c3-ex-backward-shift",
+    "c3-def-injective",
+    "c3-def-surjective",
+    "c3-thm-invertible-bijective"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-equal-dimension-invertibility",
+   "kind": "theorem",
+   "number": "3.65",
+   "title": "Equal dimensions make either condition sufficient",
+   "tex": "Suppose $V,W$ are finite-dimensional, $\\dim V=\\dim W$, and $T\\in\\Lin(V,W)$. Then the following conditions are equivalent: $T$ is invertible; $T$ is injective; $T$ is surjective.",
+   "page": "84",
+   "proof": "Write $n=\\dim V=\\dim W$. Rank-nullity gives\n\\[n=\\dim\\Null T+\\dim\\Range T.\\]\nIf $T$ is injective, its null space is $\\{0\\}$, so $\\dim\\Range T=n$. The range is a subspace of $W$ of the same dimension as $W$, hence equals $W$. Thus $T$ is surjective. Conversely, if $T$ is surjective, then $\\dim\\Range T=n$ and rank-nullity gives $\\dim\\Null T=0$. A zero-dimensional space is $\\{0\\}$, so $T$ is injective. The invertibility-bijectivity theorem now gives all three equivalences. These calculations include $n=0$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Apply rank-nullity and compare the range dimension with the target dimension."
+   ],
+   "uses": [
+    "c3-thm-rank-nullity",
+    "c3-thm-injective-null",
+    "c3-thm-range-subspace",
+    "c3-def-surjective",
+    "c2-thm-full-dimension-equality",
+    "c2-lem-zero-dimension",
+    "c3-thm-invertible-bijective"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-polynomial-second-derivative",
+   "kind": "example",
+   "number": "3.67",
+   "title": "Solving a polynomial second-derivative equation",
+   "tex": "For every $q\\in\\Poly(\\R)$, there is exactly one $p\\in\\Poly(\\R)$ satisfying\n\\[\\big((x^2+5x+7)p\\big)''=q.\\]",
+   "page": "85",
+   "proof": "Multiplication by $x^2+5x+7$ and polynomial differentiation are linear, so their composition\n\\[Tp=\\big((x^2+5x+7)p\\big)''\\]\nis linear on $\\Poly(\\R)$. If $p$ is nonzero of degree $k$ with leading coefficient $a_k\\ne0$, the product $(x^2+5x+7)p$ has leading term $a_kx^{k+2}$: every other product term has smaller exponent. Applying the coefficient formula for differentiation twice gives leading term $(k+2)(k+1)a_kx^k$ in $Tp$. Its coefficient is nonzero because $(k+2)(k+1)$ is a positive real number. Thus $Tp$ has degree $k$, in particular $Tp\\ne0$. Hence $T$ is injective on the entire polynomial space.\nChoose a nonnegative integer $m$ with $q\\in\\Poly_m(\\R)$. The same degree calculation, together with $T0=0$, shows that $T$ restricts to a linear map from $\\Poly_m(\\R)$ to itself. This restriction is injective, and its domain is finite-dimensional. Equal-dimension invertibility makes the restriction surjective, so there is a $p\\in\\Poly_m(\\R)$ with $Tp=q$. Finally, injectivity of $T$ on the entire polynomial space proves uniqueness even among polynomials with no prescribed degree bound. If $q=0$, the same reasoning gives $p=0$.",
+   "difficulty": 3,
+   "minutes": 35,
+   "hints": [
+    "Compute the highest-degree term of the image of a nonzero polynomial.",
+    "Work on a sufficiently large bounded-degree polynomial space before invoking finite-dimensional results."
+   ],
+   "uses": [
+    "c3-ex-polynomial-multiplication",
+    "c3-ex-polynomial-differentiation",
+    "c3-lem-composition-linear",
+    "c2-thm-polynomial-differentiation",
+    "c2-lem-polynomial-coefficients",
+    "c2-def-degree",
+    "c2-thm-bounded-polynomials",
+    "c3-thm-injective-null",
+    "c3-thm-linear-zero",
+    "c3-thm-equal-dimension-invertibility"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-one-sided-inverse",
+   "kind": "theorem",
+   "number": "3.68",
+   "title": "A one-sided inverse suffices in equal finite dimensions",
+   "tex": "Suppose $V,W$ are finite-dimensional spaces of equal dimension, $T\\in\\Lin(V,W)$, and $S\\in\\Lin(W,V)$. Then\n\\[ST=I_V\\quad\\Longleftrightarrow\\quad TS=I_W.\\]",
+   "page": "85",
+   "proof": "Suppose $ST=I_V$. If $Tu=Tv$, applying $S$ gives $u=v$, so $T$ is injective. The equal-dimension theorem makes $T$ invertible. Composing $ST=I_V$ on the right with $T^{-1}$ gives\n\\[S=S(TT^{-1})=(ST)T^{-1}=T^{-1}.\\]\nConsequently $TS=I_W$. For the reverse implication, suppose $TS=I_W$. If $Sw_1=Sw_2$, applying $T$ gives $w_1=w_2$, so $S$ is injective. The same equal-dimension theorem makes $S$ invertible. Composing $TS=I_W$ on the right with $S^{-1}$ gives $T=S^{-1}$, hence $ST=I_V$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "A left inverse forces injectivity of the map to its right."
+   ],
+   "uses": [
+    "c3-def-injective",
+    "c3-thm-equal-dimension-invertibility",
+    "c3-def-map-inverse",
+    "c3-thm-composition-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-isomorphism",
+   "kind": "definition",
+   "number": "3.69",
+   "title": "Isomorphisms of vector spaces",
+   "tex": "An isomorphism is an invertible linear map. Two vector spaces over the same scalar field are isomorphic if an isomorphism exists from one to the other.",
+   "page": "86"
+  },
+  {
+   "id": "c3-lem-isomorphism-basis",
+   "kind": "lemma",
+   "number": "",
+   "title": "An isomorphism transports a basis",
+   "tex": "Suppose $T:V\\to W$ is an isomorphism and $v_1,\\ldots,v_n$ is a basis of $V$. Then $Tv_1,\\ldots,Tv_n$ is a basis of $W$. In particular, being isomorphic to a finite-dimensional space makes a vector space finite-dimensional.",
+   "page": "86",
+   "proof": "Given $w\\in W$, surjectivity gives $v\\in V$ with $Tv=w$. Expand $v=\\sum a_jv_j$ and apply linearity to obtain $w=\\sum a_jTv_j$, proving that the image list spans $W$. If $\\sum b_jTv_j=0$, then $T(\\sum b_jv_j)=0$. Injectivity and $T0=0$ give $\\sum b_jv_j=0$, and independence of the original basis gives every $b_j=0$. Thus the image list is a basis. If $n=0$, then $V=\\{0\\}$ and surjectivity together with $T0=0$ gives $W=\\{0\\}$, so the empty image list is a basis. If instead the known finite-dimensional space is the target, apply the same result to the inverse isomorphism.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use surjectivity for spanning and injectivity for independence."
+   ],
+   "uses": [
+    "c3-def-isomorphism",
+    "c3-thm-invertible-bijective",
+    "c3-def-map-inverse",
+    "c3-def-linear-map",
+    "c3-thm-linear-zero",
+    "c2-def-basis",
+    "c2-def-finite-dimensional"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-isomorphism-dimension",
+   "kind": "theorem",
+   "number": "3.70",
+   "title": "Dimension classifies finite-dimensional vector spaces",
+   "tex": "Two finite-dimensional vector spaces over $\\F$ are isomorphic if and only if they have the same dimension.",
+   "page": "86",
+   "proof": "If an isomorphism exists, it transports any basis of the first space to a basis of the second. The two bases have the same length, so the dimensions agree. Conversely, suppose both dimensions equal $n$, and choose bases $v_1,\\ldots,v_n$ and $w_1,\\ldots,w_n$. The basis-prescription theorem supplies a linear map $T$ with $Tv_j=w_j$. Every vector in the target is a combination of the $w_j$, so linearity shows it is the image of the same combination of the $v_j$; hence $T$ is surjective. If $T(\\sum a_jv_j)=0$, then $\\sum a_jw_j=0$, so all $a_j=0$. Thus its null space is $\\{0\\}$, making it injective. The invertibility criterion makes $T$ an isomorphism. When $n=0$, the prescribed map is the unique map between the two zero spaces, and the same empty-list argument applies.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Match one basis with the other."
+   ],
+   "uses": [
+    "c3-lem-isomorphism-basis",
+    "c2-thm-basis-existence",
+    "c2-def-dimension",
+    "c3-thm-linear-map-basis",
+    "c3-thm-injective-null",
+    "c3-thm-invertible-bijective",
+    "c3-def-isomorphism"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-coordinate-isomorphism",
+   "kind": "example",
+   "number": "",
+   "title": "Finite-dimensional spaces and coordinate models",
+   "tex": "If $\\dim V=n$, then $V$ is isomorphic to $\\F^n$. In particular, $\\Poly_m(\\F)$ is isomorphic to $\\F^{m+1}$ for every nonnegative integer $m$.",
+   "page": "87",
+   "proof": "The coordinate space $\\F^n$ has dimension $n$, so the dimension classification supplies an isomorphism with $V$. The polynomial space $\\Poly_m(\\F)$ has dimension $m+1$, so applying the same result gives its isomorphism with $\\F^{m+1}$. The first assertion includes $n=0$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compare dimensions with the standard coordinate and monomial bases."
+   ],
+   "uses": [
+    "c3-thm-isomorphism-dimension",
+    "c2-ex-coordinate-dimension",
+    "c2-ex-polynomial-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-map-matrix-isomorphism",
+   "kind": "theorem",
+   "number": "3.71",
+   "title": "The matrix representation is an isomorphism",
+   "tex": "Fix a basis $\\mathcal B=(v_1,\\ldots,v_n)$ of $V$ and a basis $\\mathcal C=(w_1,\\ldots,w_m)$ of $W$. Then\n\\[\\Mat:\\Lin(V,W)\\longrightarrow\\F^{m,n},\\qquad\nT\\longmapsto\\Mat(T,\\mathcal B,\\mathcal C)\\]\nis an isomorphism.",
+   "page": "87",
+   "proof": "The matrix rules for sums and scalar multiples make this function linear. Suppose two maps $S,T$ have the same matrix. Their corresponding columns give the same $\\mathcal C$ coefficients for $Sv_k$ and $Tv_k$, so these vectors agree for every $k$. A linear map is determined by its values on a basis, hence $S=T$. Thus the matrix representation is injective.\nGiven an arbitrary $A\\in\\F^{m,n}$, prescribe\n\\[Tv_k=\\sum_{j=1}^m A_{jk}w_j\\quad(1\\le k\\le n).\\]\nThe basis-prescription theorem gives a linear map with exactly these values, and its matrix is $A$. Thus the representation is surjective and therefore invertible. If $n=0$, the prescribed list is empty and there is only the zero map from $V=\\{0\\}$; there is also only one $m$-by-$0$ matrix. If $m=0$, every prescribed image is the empty sum zero and there is only one $0$-by-$n$ matrix. The argument includes both cases.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "For surjectivity, use the columns of an arbitrary matrix to prescribe the images of a basis."
+   ],
+   "uses": [
+    "c3-thm-linear-map-space",
+    "c3-def-map-matrix",
+    "c3-thm-matrix-addition",
+    "c3-thm-matrix-scaling",
+    "c3-thm-linear-map-basis",
+    "c3-thm-invertible-bijective",
+    "c3-def-isomorphism"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-linear-map-dimension",
+   "kind": "theorem",
+   "number": "3.72",
+   "title": "The dimension of a space of linear maps",
+   "tex": "If $V,W$ are finite-dimensional, then $\\Lin(V,W)$ is finite-dimensional and\n\\[\\dim\\Lin(V,W)=(\\dim V)(\\dim W).\\]",
+   "page": "87",
+   "proof": "Put $n=\\dim V$ and $m=\\dim W$, and choose bases. The matrix representation is an isomorphism from $\\Lin(V,W)$ to $\\F^{m,n}$. The matrix space has a basis of length $mn$. Applying the basis-transport lemma to the inverse isomorphism transports this finite basis to a basis of $\\Lin(V,W)$. Thus that space is finite-dimensional, and its basis has length $mn$, proving the formula. When either $m$ or $n$ is zero, the matrix-space basis and its transported basis are empty, giving dimension zero.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Transport a basis of the matrix space back to the linear-map space."
+   ],
+   "uses": [
+    "c3-thm-map-matrix-isomorphism",
+    "c3-thm-matrix-space-dimension",
+    "c3-lem-isomorphism-basis",
+    "c3-def-map-inverse",
+    "c2-def-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-vector-matrix",
+   "kind": "definition",
+   "number": "3.73",
+   "title": "The coordinate column of a vector",
+   "tex": "For a basis $\\mathcal B=(v_1,\\ldots,v_n)$ of $V$ and a vector $v=\\sum_{j=1}^n b_jv_j$, define\n\\[\\Mat(v,\\mathcal B)=\n\\begin{pmatrix}b_1\\\\ \\vdots\\\\ b_n\\end{pmatrix}\\in\\F^{n,1}.\\]\nUniqueness of basis coefficients makes this well-defined. When the basis is fixed, write simply $\\Mat(v)$. If $n=0$, this is the unique $0$-by-$1$ column.",
+   "page": "88"
+  },
+  {
+   "id": "c3-ex-vector-matrix",
+   "kind": "example",
+   "number": "3.74",
+   "title": "Reading coordinate columns",
+   "tex": "With respect to the basis $1,x,x^2,x^3,x^4$ of $\\Poly_4(\\R)$, the coordinate column of $2-7x+5x^3+x^4$ is\n\\[\\begin{pmatrix}2\\\\-7\\\\0\\\\5\\\\1\\end{pmatrix}.\\]\nWith respect to the standard basis of $\\F^n$, the coordinate column of $(x_1,\\ldots,x_n)$ has entries $x_1,\\ldots,x_n$ in that order.",
+   "page": "88",
+   "proof": "The polynomial is $2\\cdot1-7x+0x^2+5x^3+x^4$, so uniqueness of its basis expansion gives the first column. For the second assertion, the standard expansion is $(x_1,\\ldots,x_n)=\\sum_{j=1}^n x_je_j$. The definition of the coordinate column records these coefficients. For $n=0$, both the expansion and column have no entries.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Insert a zero coefficient for any omitted basis vector."
+   ],
+   "uses": [
+    "c3-def-vector-matrix",
+    "c2-thm-basis-coordinates",
+    "c2-ex-monomial-independent",
+    "c2-thm-bounded-polynomials",
+    "c2-ex-standard-spanning"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-vector-matrix-isomorphism",
+   "kind": "theorem",
+   "number": "",
+   "title": "Coordinates give an isomorphism",
+   "tex": "For a fixed basis $\\mathcal B$ of length $n$, the function\n\\[v\\longmapsto\\Mat(v,\\mathcal B)\\]\nis an isomorphism from $V$ onto $\\F^{n,1}$.",
+   "page": "88",
+   "proof": "If $u$ and $v$ have coefficient lists $(a_j)$ and $(b_j)$, then $u+v$ has coefficients $a_j+b_j$, and $cu$ has coefficients $ca_j$. These follow by expanding and using uniqueness of basis coefficients. Thus coordinate columns preserve addition and scalar multiplication. If two columns agree, the corresponding basis expansions agree, so the function is injective. Every column $(b_j)$ is the coordinate column of $\\sum b_jv_j$, so it is surjective. The invertibility criterion makes it an isomorphism. Empty columns give the same bijection when $n=0$.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Build the preimage of an arbitrary column by taking its entries as basis coefficients."
+   ],
+   "uses": [
+    "c3-def-vector-matrix",
+    "c2-thm-basis-coordinates",
+    "c3-thm-invertible-bijective",
+    "c3-def-isomorphism"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-matrix-columns",
+   "kind": "theorem",
+   "number": "3.75",
+   "title": "Columns are coordinate columns of basis images",
+   "tex": "Fix bases $\\mathcal B=(v_1,\\ldots,v_n)$ of $V$ and $\\mathcal C$ of $W$. For $T\\in\\Lin(V,W)$ and $1\\le k\\le n$, the $k$th column of $\\Mat(T,\\mathcal B,\\mathcal C)$ is $\\Mat(Tv_k,\\mathcal C)$.",
+   "page": "89",
+   "proof": "By definition, the entries in column $k$ of the matrix of $T$ are the coefficients expressing $Tv_k$ in the basis $\\mathcal C$. By the definition of a vector's coordinate column, these same coefficients, in the same order, form $\\Mat(Tv_k,\\mathcal C)$. Hence the columns agree.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compare the two definitions of the entries."
+   ],
+   "uses": [
+    "c3-def-map-matrix",
+    "c3-def-vector-matrix"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-matrix-action",
+   "kind": "theorem",
+   "number": "3.76",
+   "title": "Applying a map is matrix multiplication in coordinates",
+   "tex": "For fixed bases $\\mathcal B$ of $V$ and $\\mathcal C$ of $W$, every $T\\in\\Lin(V,W)$ and $v\\in V$ satisfy\n\\[\\Mat(Tv,\\mathcal C)=\\Mat(T,\\mathcal B,\\mathcal C)\\Mat(v,\\mathcal B).\\]",
+   "page": "89",
+   "proof": "Write $v=\\sum_{k=1}^n b_kv_k$ and put $A=\\Mat(T,\\mathcal B,\\mathcal C)$. Linearity of $T$ gives $Tv=\\sum b_kTv_k$. The coordinate map is linear, so\n\\[\\Mat(Tv,\\mathcal C)=\\sum_{k=1}^n b_k\\Mat(Tv_k,\\mathcal C)\n=\\sum_{k=1}^n b_k A_{\\cdot,k}.\\]\nThe column-combination formula for matrix multiplication identifies the last sum with $A\\Mat(v,\\mathcal B)$. If $n=0$, then $v=0$ and $Tv=0$; both sides are the zero column, with the matrix product given by empty sums. If the target dimension is zero, both sides are the unique empty column.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Expand the input in its basis and compare the resulting linear combination of columns."
+   ],
+   "uses": [
+    "c3-def-vector-matrix",
+    "c3-thm-vector-matrix-isomorphism",
+    "c3-thm-matrix-columns",
+    "c3-thm-column-combination",
+    "c3-def-linear-map",
+    "c3-thm-linear-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-range-matrix-rank",
+   "kind": "theorem",
+   "number": "3.78",
+   "title": "Range dimension equals matrix rank",
+   "tex": "For finite-dimensional $V,W$ and $T\\in\\Lin(V,W)$, the dimension of $\\Range T$ equals the column rank, and hence the rank, of any matrix representing $T$.",
+   "page": "90",
+   "proof": "Choose bases $\\mathcal B$ of $V$ and $\\mathcal C$ of $W$, and put $A=\\Mat(T,\\mathcal B,\\mathcal C)$. By the matrix-action theorem, the coordinate column of every vector in $\\Range T$ is a linear combination of the columns of $A$. Conversely, for any scalars $b_1,\\ldots,b_n$, that column combination is the coordinate column of $T(\\sum b_kv_k)$. Therefore the coordinate isomorphism maps $\\Range T$ onto the column span of $A$. Its restriction is linear and injective and has precisely that span as its target range, so the invertibility criterion makes the restriction an isomorphism. Both spaces are finite-dimensional subspaces, and isomorphic finite-dimensional spaces have equal dimensions. The dimension of the column span is the column rank by definition; equality of row and column rank identifies it with the rank. The argument also includes empty column lists and zero-dimensional ranges.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Restrict the coordinate isomorphism to the range of the map."
+   ],
+   "uses": [
+    "c3-thm-matrix-action",
+    "c3-thm-vector-matrix-isomorphism",
+    "c3-thm-range-subspace",
+    "c3-thm-invertible-bijective",
+    "c3-thm-isomorphism-dimension",
+    "c3-def-row-column-rank",
+    "c3-thm-row-column-rank",
+    "c3-def-rank",
+    "c2-thm-span-smallest",
+    "c2-thm-subspaces-finite"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-remark-basis-labels",
+   "kind": "remark",
+   "number": "",
+   "title": "Displaying the bases explicitly",
+   "tex": "We write $\\Mat(T,\\mathcal B,\\mathcal C)$ with the domain basis first and the target basis second. For an operator on one space, $\\Mat(T,\\mathcal B)$ abbreviates $\\Mat(T,\\mathcal B,\\mathcal B)$. Keeping both labels visible is useful when an identity map converts one coordinate system to another.",
+   "page": "90"
+  },
+  {
+   "id": "c3-def-identity-matrix",
+   "kind": "definition",
+   "number": "3.79",
+   "title": "Identity matrices",
+   "tex": "For $n\\ge0$, the identity matrix $I_n\\in\\F^{n,n}$ has entry $1$ when its row and column indices agree and entry $0$ otherwise. For $n=0$, this is the unique empty square matrix. We may write $I$ when its size is determined by context.",
+   "page": "90"
+  },
+  {
+   "id": "c3-lem-identity-matrix-laws",
+   "kind": "lemma",
+   "number": "",
+   "title": "Identity matrices act as identities",
+   "tex": "For every $A\\in\\F^{m,n}$,\n\\[I_mA=A,\\qquad AI_n=A.\\]\nIf $\\mathcal B$ is a basis of length $n$ of $V$, then $\\Mat(I_V,\\mathcal B)=I_n$.",
+   "page": "91",
+   "proof": "For an entry with indices $j,k$, the matrix product formula gives\n\\[(I_mA)_{jk}=\\sum_{\\ell=1}^m(I_m)_{j\\ell}A_{\\ell k}=A_{jk},\\]\nbecause the only nonzero coefficient from the identity row has $\\ell=j$. Similarly,\n\\[(AI_n)_{jk}=\\sum_{\\ell=1}^n A_{j\\ell}(I_n)_{\\ell k}=A_{jk},\\]\nbecause only $\\ell=k$ contributes. If either dimension is zero, the matrices in the relevant equality have no entries, so equality still holds. Finally, $I_Vv_k=v_k$ has coefficient $1$ at position $k$ and zero at all other basis positions. These coefficient columns form $I_n$, proving the last assertion, including the empty-basis case.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "In each entry formula, at most one summand can be nonzero."
+   ],
+   "uses": [
+    "c3-def-identity-matrix",
+    "c3-def-matrix-product",
+    "c3-def-map-matrix",
+    "c3-def-zero-identity-maps"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-def-invertible-matrix",
+   "kind": "definition",
+   "number": "3.80",
+   "title": "Invertible square matrices",
+   "tex": "A square matrix $A\\in\\F^{n,n}$ is invertible if some $B\\in\\F^{n,n}$ satisfies\n\\[AB=BA=I_n.\\]\nSuch a matrix $B$ is an inverse of $A$. The next result proves uniqueness, after which we denote it by $A^{-1}$.",
+   "page": "91"
+  },
+  {
+   "id": "c3-lem-matrix-inverse-laws",
+   "kind": "lemma",
+   "number": "",
+   "title": "Uniqueness and product rules for matrix inverses",
+   "tex": "A square matrix has at most one inverse. For invertible square matrices of compatible equal size,\n\\[(A^{-1})^{-1}=A,\\qquad (AC)^{-1}=C^{-1}A^{-1}.\\]\nThe identity matrix is invertible, including $I_0$.",
+   "page": "91",
+   "proof": "If $B,D$ are inverses of $A$, associativity and the identity laws give\n\\[B=B(AD)=(BA)D=D.\\]\nThus the inverse is unique. The two equalities $AA^{-1}=A^{-1}A=I$ show that $A$ is an inverse of $A^{-1}$, proving the first formula. For the second,\n\\[(AC)(C^{-1}A^{-1})=A(CC^{-1})A^{-1}=AA^{-1}=I,\\]\nand\n\\[(C^{-1}A^{-1})(AC)=C^{-1}(A^{-1}A)C=C^{-1}C=I.\\]\nThus $C^{-1}A^{-1}$ is the inverse of $AC$. Finally, $II=I$, so $I$ is its own inverse. For size zero, the unique empty matrix is $I_0$ and all these products are the unique empty matrix, so the same conclusions hold.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Keep the order of the factors when undoing a product."
+   ],
+   "uses": [
+    "c3-def-invertible-matrix",
+    "c3-lem-identity-matrix-laws",
+    "c3-lem-matrix-product-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-matrix-composition-bases",
+   "kind": "theorem",
+   "number": "3.81",
+   "title": "Composition with all basis choices displayed",
+   "tex": "Let $T:U\\to V$ and $S:V\\to W$ be linear maps, and fix bases $\\mathcal A,\\mathcal B,\\mathcal C$ of the respective finite-dimensional spaces. Then\n\\[\\Mat(ST,\\mathcal A,\\mathcal C)\n=\\Mat(S,\\mathcal B,\\mathcal C)\\Mat(T,\\mathcal A,\\mathcal B).\\]",
+   "page": "91",
+   "proof": "Write $P=\\Mat(T,\\mathcal A,\\mathcal B)$ and $Q=\\Mat(S,\\mathcal B,\\mathcal C)$. If $\\mathcal A=(u_1,\\ldots,u_m)$, $\\mathcal B=(v_1,\\ldots,v_n)$, and $\\mathcal C=(w_1,\\ldots,w_p)$, then\n\\[Tu_k=\\sum_{j=1}^n P_{jk}v_j,\\qquad Sv_j=\\sum_{\\ell=1}^p Q_{\\ell j}w_\\ell.\\]\nLinearity gives\n\\[STu_k=\\sum_{\\ell=1}^p\\left(\\sum_{j=1}^n Q_{\\ell j}P_{jk}\\right)w_\\ell.\\]\nHence entry $(\\ell,k)$ of the matrix of $ST$ is $\\sum_jQ_{\\ell j}P_{jk}$, which is entry $(\\ell,k)$ of $QP$. This proves the formula. If the middle basis is empty, both inner sums are empty sums zero; if either outer basis is empty, there are no corresponding matrix entries to check. Thus zero-dimensional cases are included.",
+   "difficulty": 2,
+   "minutes": 15,
+   "hints": [
+    "Expand the image of a domain basis vector twice, using the intermediate basis."
+   ],
+   "uses": [
+    "c3-def-map-matrix",
+    "c3-def-matrix-product",
+    "c3-def-linear-map",
+    "c3-def-map-composition",
+    "c3-thm-linear-zero"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-basis-transition-inverse",
+   "kind": "theorem",
+   "number": "3.82",
+   "title": "Opposite coordinate changes are inverse matrices",
+   "tex": "For two bases $\\mathcal B,\\mathcal C$ of a finite-dimensional space $V$, the matrices\n\\[P=\\Mat(I_V,\\mathcal B,\\mathcal C),\\qquad\nQ=\\Mat(I_V,\\mathcal C,\\mathcal B)\\]\nare invertible and satisfy $P^{-1}=Q$.",
+   "page": "92",
+   "proof": "Apply the composition formula to $I_VI_V=I_V$, starting in basis $\\mathcal B$, using $\\mathcal C$ as the intermediate basis, and ending in $\\mathcal B$. It gives\n\\[QP=\\Mat(I_V,\\mathcal B)=I_n.\\]\nStarting and ending in $\\mathcal C$ instead gives $PQ=I_n$. By the definition of a matrix inverse, $P$ and $Q$ are inverses of one another. For $n=0$, both matrices are $I_0$ and the same equations hold.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compose the two identity maps while keeping their coordinate systems distinct."
+   ],
+   "uses": [
+    "c3-thm-matrix-composition-bases",
+    "c3-lem-identity-matrix-laws",
+    "c3-def-invertible-matrix",
+    "c3-lem-matrix-inverse-laws"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-ex-basis-transition",
+   "kind": "example",
+   "number": "3.83",
+   "title": "A concrete transition matrix and its inverse",
+   "tex": "Let $\\mathcal B=((4,2),(5,3))$ and let $\\mathcal E=((1,0),(0,1))$. Prove that $\\mathcal B$ is a basis of $\\F^2$ and that\n\\[\n\\Mat(I,\\mathcal B,\\mathcal E)=\n\\begin{pmatrix}4&5\\\\2&3\\end{pmatrix},\\qquad\n\\Mat(I,\\mathcal E,\\mathcal B)=\n\\begin{pmatrix}3/2&-5/2\\\\-1&2\\end{pmatrix}.\n\\]",
+   "page": "92",
+   "proof": "A relation $a(4,2)+b(5,3)=0$ gives $4a+5b=0$ and $2a+3b=0$. Twice the second equation minus the first gives $b=0$, and then $a=0$. Thus the two-vector list is independent and is a basis of the two-dimensional space $\\F^2$. Its vectors already have standard coordinates $(4,2)$ and $(5,3)$, giving the first matrix, call it $P$. Let $Q$ be the second displayed matrix. Direct multiplication gives\n\\[\nPQ=\\begin{pmatrix}6-5&-10+10\\\\3-3&-5+6\\end{pmatrix}=I_2,\n\\qquad\nQP=\\begin{pmatrix}6-5&15/2-15/2\\\\-4+4&-5+6\\end{pmatrix}=I_2.\n\\]\nThus $Q=P^{-1}$. Opposite transition matrices are inverses, so uniqueness of the inverse identifies $Q$ with $\\Mat(I,\\mathcal E,\\mathcal B)$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "The columns of the first matrix are the new basis vectors written in standard coordinates."
+   ],
+   "uses": [
+    "c3-def-map-matrix",
+    "c3-thm-basis-transition-inverse",
+    "c3-lem-matrix-inverse-laws",
+    "c2-ex-coordinate-dimension",
+    "c2-thm-full-length-independent",
+    "c3-def-matrix-product"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-change-basis",
+   "kind": "theorem",
+   "number": "3.84",
+   "title": "Changing the basis of an operator",
+   "tex": "Suppose $T\\in\\Lin(V)$ and $\\mathcal B,\\mathcal C$ are bases of the finite-dimensional space $V$. Set\n\\[A=\\Mat(T,\\mathcal B),\\qquad B=\\Mat(T,\\mathcal C),\\qquad\nP=\\Mat(I_V,\\mathcal B,\\mathcal C).\\]\nThen\n\\[A=P^{-1}BP.\\]",
+   "page": "93",
+   "proof": "Let $D=\\Mat(T,\\mathcal B,\\mathcal C)$. The composition $TI_V$, with the identity converting $\\mathcal B$ coordinates into $\\mathcal C$ coordinates before $T$ is applied, gives\n\\[D=\\Mat(T,\\mathcal C,\\mathcal C)\\Mat(I_V,\\mathcal B,\\mathcal C)=BP.\\]\nThe composition $I_VT$, now ending in basis $\\mathcal B$, gives\n\\[A=\\Mat(I_V,\\mathcal C,\\mathcal B)\\Mat(T,\\mathcal B,\\mathcal C)=P^{-1}D,\\]\nwhere the transition-inverse theorem supplies the inverse matrix. Substituting $D=BP$ yields $A=P^{-1}BP$. The composition and transition theorems include zero-dimensional spaces, so no separate nonzero-dimension assumption is needed.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Introduce the matrix of $T$ whose domain and target use different bases.",
+    "Factor that mixed-basis matrix through an identity map."
+   ],
+   "uses": [
+    "c3-thm-matrix-composition-bases",
+    "c3-thm-basis-transition-inverse"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c3-thm-matrix-inverse",
+   "kind": "theorem",
+   "number": "3.86",
+   "title": "The matrix of an inverse is the inverse matrix",
+   "tex": "Suppose $T\\in\\Lin(V)$ is invertible and $\\mathcal B$ is a basis of the finite-dimensional space $V$. Then\n\\[\\Mat(T^{-1},\\mathcal B)=\\big(\\Mat(T,\\mathcal B)\\big)^{-1}.\\]",
+   "page": "93",
+   "proof": "Write $A=\\Mat(T,\\mathcal B)$ and $B=\\Mat(T^{-1},\\mathcal B)$. The equalities $T^{-1}T=I_V$ and $TT^{-1}=I_V$, together with the matrix composition formula, give\n\\[BA=\\Mat(I_V,\\mathcal B)=I_n,\\qquad\nAB=\\Mat(I_V,\\mathcal B)=I_n.\\]\nThus $A$ is invertible and $B$ is its inverse. Uniqueness of a matrix inverse yields the claimed formula, including $n=0$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Take matrices of both inverse identities."
+   ],
+   "uses": [
+    "c3-def-map-inverse",
+    "c3-thm-matrix-composition-bases",
+    "c3-lem-identity-matrix-laws",
+    "c3-def-invertible-matrix",
+    "c3-lem-matrix-inverse-laws"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c3-card-inverse-definition",
+   "item": "c3-def-invertible-map",
+   "front": "What two identities define an inverse of $T:V\\to W$?",
+   "back": "$T^{-1}T=I_V$ and $TT^{-1}=I_W$."
+  },
+  {
+   "id": "c3-card-inverse-linearity",
+   "item": "c3-thm-invertible-bijective",
+   "front": "How do you prove that the inverse function of a bijective linear map is linear?",
+   "back": "Apply the original map to the desired additivity and homogeneity identities, then use its injectivity."
+  },
+  {
+   "id": "c3-card-equal-dimension-inverse",
+   "item": "c3-thm-equal-dimension-invertibility",
+   "front": "When does injectivity alone imply invertibility of a linear map $V\\to W$?",
+   "back": "When $V,W$ are finite-dimensional and have equal dimension."
+  },
+  {
+   "id": "c3-card-infinite-dimensional-inverse",
+   "item": "c3-ex-injective-not-invertible",
+   "front": "Give an injective operator that is not invertible.",
+   "back": "On $\\Poly(\\R)$, multiplication by $x^2$ is injective but cannot produce the constant polynomial $1$."
+  },
+  {
+   "id": "c3-card-isomorphism-dimension",
+   "item": "c3-thm-isomorphism-dimension",
+   "front": "When are two finite-dimensional vector spaces over the same field isomorphic?",
+   "back": "Exactly when they have the same dimension."
+  },
+  {
+   "id": "c3-card-linear-map-dimension",
+   "item": "c3-thm-linear-map-dimension",
+   "front": "What is $\\dim\\Lin(V,W)$ for finite-dimensional $V,W$?",
+   "back": "$(\\dim V)(\\dim W)$."
+  },
+  {
+   "id": "c3-card-matrix-action",
+   "item": "c3-thm-matrix-action",
+   "front": "How are the coordinate columns of $v$ and $Tv$ related?",
+   "back": "$\\Mat(Tv,\\mathcal C)=\\Mat(T,\\mathcal B,\\mathcal C)\\Mat(v,\\mathcal B)$."
+  },
+  {
+   "id": "c3-card-rank-range",
+   "item": "c3-thm-range-matrix-rank",
+   "front": "Why is the rank of a representing matrix independent of the chosen bases?",
+   "back": "It equals $\\dim\\Range T$, which does not involve a basis choice."
+  },
+  {
+   "id": "c3-card-change-basis-direction",
+   "item": "c3-thm-change-basis",
+   "front": "If $P=\\Mat(I,\\mathcal B,\\mathcal C)$, how are $A=\\Mat(T,\\mathcal B)$ and $B=\\Mat(T,\\mathcal C)$ related?",
+   "back": "$A=P^{-1}BP$; the matrix $P$ converts $\\mathcal B$ coordinates to $\\mathcal C$ coordinates."
+  },
+  {
+   "id": "c3-card-matrix-inverse-order",
+   "item": "c3-lem-matrix-inverse-laws",
+   "front": "What is the inverse of a product of two invertible matrices?",
+   "back": "$(AC)^{-1}=C^{-1}A^{-1}$."
+  }
+ ]
+}

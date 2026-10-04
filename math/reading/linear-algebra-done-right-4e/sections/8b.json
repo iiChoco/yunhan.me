@@ -1,0 +1,512 @@
+{
+ "version": 1,
+ "id": "8b",
+ "blocks": [
+  {
+   "id": "c8-intro-generalized-decomposition",
+   "kind": "prose",
+   "number": "",
+   "title": "Decomposing an operator into generalized eigenspaces",
+   "tex": "Throughout this section, $V$ is finite-dimensional. Definitions and statements over $\\F$ apply over either $\\R$ or $\\C$; statements requiring the complex field say so explicitly. Generalized eigenspaces separate an operator into invariant pieces on which subtracting an eigenvalue leaves a nilpotent operator. Their dimensions lead to a definition of the characteristic polynomial without determinants.",
+   "page": "308"
+  },
+  {
+   "id": "c8-def-generalized-eigenspace",
+   "kind": "definition",
+   "number": "8.19",
+   "title": "Generalized eigenspaces",
+   "tex": "For $T\\in\\Lin(V)$ and $\\lambda\\in\\F$, define\n\\[\nG(\\lambda,T)\n=\\{v\\in V:(T-\\lambda I)^kv=0\n\\text{ for some integer }k\\ge1\\}.\n\\]\nThis set contains zero as well as the generalized eigenvectors corresponding to $\\lambda$.",
+   "page": "308"
+  },
+  {
+   "id": "c8-thm-generalized-eigenspace-kernel",
+   "kind": "theorem",
+   "number": "8.20",
+   "title": "A single kernel describes a generalized eigenspace",
+   "tex": "Let $T\\in\\Lin(V)$, $\\lambda\\in\\F$, and $n=\\dim V$. Then\n\\[\nG(\\lambda,T)=\\Null(T-\\lambda I)^n.\n\\]\nIn particular, $G(\\lambda,T)$ is a subspace and contains $E(\\lambda,T)$. Furthermore,\n\\[\nG(\\lambda,T)\\ne\\{0\\}\n\\quad\\Longleftrightarrow\\quad\n\\lambda\\text{ is an eigenvalue of }T.\n\\]",
+   "page": "308",
+   "proof": "Put $A=T-\\lambda I$. First suppose $n\\ge1$. If $A^nv=0$, the positive exponent $n$ shows directly that $v\\in G(\\lambda,T)$. Conversely, suppose $A^kv=0$ for some $k\\ge1$. If $k\\le n$, increasing kernels of powers give $v\\in\\Null A^n$. If $k>n$, stabilization at the dimension gives $\\Null A^k=\\Null A^n$, so the same conclusion holds. This proves the kernel equality.\n\nIf $n=0$, then $V=\\{0\\}$. The generalized eigenspace is $\\{0\\}$, and $\\Null A^0=\\Null I_V=\\{0\\}$, so the equality still holds. A kernel of a linear map is a subspace, which proves the subspace assertion in all cases.\n\nIf $v\\in E(\\lambda,T)$, then $Av=0$, so the exponent $1$ puts $v$ in $G(\\lambda,T)$. In particular, an eigenvalue supplies a nonzero member of the generalized eigenspace.\n\nConversely, let $v\\ne0$ belong to $G(\\lambda,T)$, and choose the least positive integer $k$ with $A^kv=0$. Then $u=A^{k-1}v$ is nonzero: for $k=1$ it equals $v$, and for $k>1$ its vanishing would contradict minimality. Because $Au=A^kv=0$, we have $Tu=\\lambda u$. Thus $\\lambda$ is an eigenvalue.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Compare every kernel of a power with the kernel at exponent $\\dim V$.",
+    "From a nonzero vector killed by a power, take its last nonzero image before it reaches zero."
+   ],
+   "uses": [
+    "c8-def-generalized-eigenspace",
+    "c8-thm-kernel-powers-increasing",
+    "c8-thm-stabilization-dimension",
+    "c3-thm-null-subspace",
+    "c5-def-operator-powers",
+    "c5-def-eigenspace",
+    "c5-def-eigenvalue",
+    "c2-lem-zero-dimension",
+    "c1-foundations"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-ex-generalized-coordinate-decomposition",
+   "kind": "example",
+   "number": "8.21",
+   "title": "A plane and a line as generalized eigenspaces",
+   "tex": "On $\\C^3$, let\n\\[\nT(z_1,z_2,z_3)=(4z_2,0,5z_3).\n\\]\nIts eigenvalues are $0$ and $5$, and\n\\[\nG(0,T)=\\{(z_1,z_2,0):z_1,z_2\\in\\C\\},\n\\qquad\nG(5,T)=\\{(0,0,z_3):z_3\\in\\C\\}.\n\\]\nThese spaces give the direct sum\n\\[\n\\C^3=G(0,T)\\oplus G(5,T).\n\\]",
+   "page": "308",
+   "proof": "The coordinate formula is linear. Its standard matrix is upper triangular with diagonal entries $0,0,5$, so its eigenvalues are exactly $0$ and $5$.\n\nFor any $z=(z_1,z_2,z_3)$, repeated application gives\n\\[\nT^2z=(0,0,25z_3),\\qquad T^3z=(0,0,125z_3).\n\\]\nConsequently $\\Null T^3$ is the displayed coordinate plane. For $A=T-5I$,\n\\[\nAz=(-5z_1+4z_2,-5z_2,0),\n\\]\nand further applications give\n\\[\nA^2z=(25z_1-40z_2,25z_2,0),\\qquad\nA^3z=(-125z_1+300z_2,-125z_2,0).\n\\]\nThe last expression vanishes exactly when $z_2=0$ and then $z_1=0$. Thus $\\Null A^3$ is the displayed coordinate line. The generalized-eigenspace kernel theorem identifies these kernels with $G(0,T)$ and $G(5,T)$.\n\nEvery vector has the expression\n\\[\n(z_1,z_2,z_3)=(z_1,z_2,0)+(0,0,z_3)\n\\]\nwith terms in the stated spaces. If a vector in the plane plus a vector in the line is zero, comparison of the three coordinates makes both terms zero. The zero criterion for direct sums therefore proves the asserted direct sum.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Compute the third powers of $T$ and $T-5I$.",
+    "Use the resulting coordinate descriptions to check directness."
+   ],
+   "uses": [
+    "c8-thm-generalized-eigenspace-kernel",
+    "c3-thm-coordinate-linear-maps",
+    "c3-def-map-matrix",
+    "c5-thm-triangular-eigenvalues",
+    "c1-thm-direct-zero",
+    "c2-ex-coordinate-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-thm-generalized-restriction-nilpotent",
+   "kind": "theorem",
+   "number": "8.22(a,b)",
+   "title": "Invariant generalized eigenspaces and nilpotent restrictions",
+   "tex": "For $T\\in\\Lin(V)$ and $\\lambda\\in\\F$, the subspace $G=G(\\lambda,T)$ is invariant under $T$. The operator\n\\[\nN=(T-\\lambda I)|_G\n\\]\nis nilpotent. If $d=\\dim G$, then\n\\[\n(T-\\lambda I)^dv=0\\qquad\\text{for every }v\\in G.\n\\]\nWhen $d=0$, the last statement concerns only the zero vector and uses the zeroth-power convention.",
+   "page": "309",
+   "proof": "Write $n=\\dim V$. The kernel description gives\n\\[\nG=\\Null(T-\\lambda I)^n.\n\\]\nThe polynomial $p(z)=(z-\\lambda)^n$ satisfies $p(T)=(T-\\lambda I)^n$ by multiplicativity of polynomial evaluation. The kernel of a polynomial in $T$ is invariant under $T$, so $G$ is invariant. Because $G$ is also a subspace, $Tv-\\lambda v$ belongs to $G$ for every $v\\in G$. Thus $N$ is an operator on $G$.\n\nFor every nonnegative integer $k$ and $v\\in G$,\n\\[\nN^kv=(T-\\lambda I)^kv.\n\\]\nThis follows by induction: it holds at $k=0$; if it holds at $k$, applying $N$, whose value agrees with $T-\\lambda I$ on $G$, proves it at $k+1$. All intermediate vectors stay in $G$ by invariance.\n\nIf $n\\ge1$, the kernel description now gives $N^n=0$, so $N$ is nilpotent. If $n=0$, then $G=\\{0\\}$ and $N=0$, which is also nilpotent. For $d\\ge1$, the nilpotent index bound gives $N^d=0$, yielding the asserted formula. If $d=0$, every $v\\in G$ is zero, and its image under $(T-\\lambda I)^0=I$ is zero as well.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Use the kernel of a polynomial in $T$ to obtain invariance.",
+    "Compare powers of the restriction with restrictions of powers, then use its own space's dimension."
+   ],
+   "uses": [
+    "c8-thm-generalized-eigenspace-kernel",
+    "c8-def-nilpotent",
+    "c8-thm-nilpotent-index-bound",
+    "c5-thm-polynomial-invariant",
+    "c5-thm-polynomial-evaluation-product",
+    "c5-def-invariant",
+    "c5-def-operator-powers",
+    "c2-thm-subspaces-finite",
+    "c2-lem-zero-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-thm-generalized-eigenspace-decomposition",
+   "kind": "theorem",
+   "number": "8.22(c)",
+   "title": "Generalized eigenspace decomposition over the complex field",
+   "tex": "Suppose $V$ is a complex vector space and $T\\in\\Lin(V)$. If $\\lambda_1,\\ldots,\\lambda_m$ are the distinct eigenvalues of $T$, then\n\\[\nV=G(\\lambda_1,T)\\oplus\\cdots\\oplus G(\\lambda_m,T).\n\\]\nFor $V=\\{0\\}$, the eigenvalue list is empty and the empty direct sum means $\\{0\\}$.",
+   "page": "309",
+   "proof": "The number of distinct eigenvalues is finite because it is bounded by $\\dim V$. Each generalized eigenspace is a subspace.\n\nTo prove directness, suppose\n\\[\nv_1+\\cdots+v_m=0,\\qquad v_j\\in G(\\lambda_j,T).\n\\]\nDiscard every zero term. If any terms remain, they are nonzero generalized eigenvectors associated with distinct eigenvalues. The generalized-eigenvector independence theorem makes this remaining list independent. Its displayed sum is a relation with every coefficient equal to $1$, which contradicts independence. Therefore every original $v_j$ is zero. The zero criterion proves that the sum is direct.\n\nThe generalized-eigenvector basis theorem provides a basis of $V$ consisting of generalized eigenvectors of $T$. Each basis vector belongs to the generalized eigenspace for its associated scalar; that scalar is an eigenvalue by the nonzero generalized-eigenspace criterion. Consequently every basis vector belongs to one of the listed subspaces. Their sum therefore contains a basis of $V$ and hence contains all of $V$. The reverse inclusion holds because they are subspaces of $V$, proving equality.\n\nIf $V=\\{0\\}$, there are no eigenvalues, the generalized-eigenvector basis is empty, and its span is $\\{0\\}$. This gives the stated empty-sum convention.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Prove directness by discarding zero terms from a proposed relation.",
+    "Use a basis of generalized eigenvectors to prove that the sum exhausts the space."
+   ],
+   "uses": [
+    "c8-thm-generalized-eigenspace-kernel",
+    "c8-thm-generalized-eigenvectors-independent",
+    "c8-thm-generalized-basis",
+    "c5-cor-eigenvalue-bound",
+    "c1-thm-direct-zero",
+    "c2-def-basis",
+    "c2-def-span"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-def-eigenvalue-multiplicity",
+   "kind": "definition",
+   "number": "8.23",
+   "title": "Multiplicity of an eigenvalue",
+   "tex": "For an eigenvalue $\\lambda$ of $T\\in\\Lin(V)$, its multiplicity is\n\\[\n\\dim G(\\lambda,T)\n=\\dim\\Null(T-\\lambda I)^{\\dim V}.\n\\]\nThe equality follows from the kernel description of generalized eigenspaces.",
+   "page": "310"
+  },
+  {
+   "id": "c8-ex-generalized-multiplicities",
+   "kind": "example",
+   "number": "8.24",
+   "title": "Multiplicity two without two independent eigenvectors",
+   "tex": "Define $T\\in\\Lin(\\C^3)$ by\n\\[\nT(x,y,z)=(6x+3y+4z,6y+2z,7z).\n\\]\nIts eigenvalues are $6$ and $7$, with generalized eigenspaces\n\\[\nG(6,T)=\\Span((1,0,0),(0,1,0)),\n\\qquad\nG(7,T)=\\Span((10,2,1)).\n\\]\nTheir respective multiplicities are $2$ and $1$. The list\n\\[\n(1,0,0),\\ (0,1,0),\\ (10,2,1)\n\\]\nis a basis of generalized eigenvectors, but $T$ has no basis of eigenvectors.",
+   "page": "310",
+   "proof": "The formula defines a linear operator. Its standard matrix\n\\[\n\\begin{pmatrix}\n6&3&4\\\\\n0&6&2\\\\\n0&0&7\n\\end{pmatrix}\n\\]\nis upper triangular, so its eigenvalues are precisely $6$ and $7$.\n\nPut $A=T-6I$. Direct substitution gives\n\\[\nA(x,y,z)=(3y+4z,2z,z),\\quad\nA^2(x,y,z)=(10z,2z,z),\\quad\nA^3(x,y,z)=(10z,2z,z).\n\\]\nThus $\\Null A^3$ is the plane $z=0$. For $B=T-7I$, the corresponding calculations give\n\\[\n\\begin{aligned}\nB(x,y,z)&=(-x+3y+4z,-y+2z,0),\\\\\nB^2(x,y,z)&=(x-6y+2z,y-2z,0),\\\\\nB^3(x,y,z)&=(-x+9y-8z,-y+2z,0).\n\\end{aligned}\n\\]\nThe last expression is zero exactly when $y=2z$ and $x=10z$. The generalized-eigenspace kernel theorem therefore gives the two asserted subspaces.\n\nThe standard vectors $(1,0,0),(0,1,0)$ form a basis of the first subspace. The nonzero vector $(10,2,1)$ forms a basis of the second. Thus their dimensions, and hence the multiplicities, are $2$ and $1$.\n\nFor the concatenated list, a zero relation has third coordinate equal to the coefficient of $(10,2,1)$, so that coefficient is zero; the first two coordinates then make the other coefficients zero. The list spans because\n\\[\n(x,y,z)=(x-10z)(1,0,0)+(y-2z)(0,1,0)+z(10,2,1).\n\\]\nIt is therefore a basis, and each vector lies in the indicated generalized eigenspace.\n\nFinally, $A(x,y,z)=0$ forces $z=0$ and $y=0$, so\n\\[\nE(6,T)=\\Span((1,0,0)).\n\\]\nLikewise, $B(x,y,z)=0$ gives\n\\[\nE(7,T)=\\Span((10,2,1)).\n\\]\nEvery eigenvector belongs to one of these two lines. Their sum has dimension $2$: their displayed generators are independent because their third coordinates differ as above. It cannot span $\\C^3$, whose dimension is $3$. Hence no basis can consist entirely of eigenvectors.",
+   "difficulty": 2,
+   "minutes": 25,
+   "hints": [
+    "Compute the cubes of the two shifted operators.",
+    "Compare each generalized eigenspace with the kernel of the first power."
+   ],
+   "uses": [
+    "c8-thm-generalized-eigenspace-kernel",
+    "c8-def-eigenvalue-multiplicity",
+    "c3-thm-coordinate-linear-maps",
+    "c3-def-map-matrix",
+    "c5-thm-triangular-eigenvalues",
+    "c5-def-eigenspace",
+    "c2-def-basis",
+    "c2-def-dimension",
+    "c2-ex-coordinate-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-thm-multiplicity-sum",
+   "kind": "theorem",
+   "number": "8.25",
+   "title": "The multiplicities account for the whole dimension",
+   "tex": "For an operator on a finite-dimensional complex vector space, the sum of the multiplicities of its distinct eigenvalues is $\\dim V$.",
+   "page": "311",
+   "proof": "Let the distinct eigenvalues be $\\lambda_1,\\ldots,\\lambda_m$. The generalized eigenspace decomposition is a direct sum equal to $V$, so the dimension formula for a finite direct sum gives\n\\[\n\\dim V=\\sum_{j=1}^m\\dim G(\\lambda_j,T).\n\\]\nBy definition, each summand on the right is the multiplicity of the corresponding eigenvalue. If $V=\\{0\\}$, there are no eigenvalues and the empty sum is $0=\\dim V$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Take dimensions in the generalized eigenspace decomposition."
+   ],
+   "uses": [
+    "c8-thm-generalized-eigenspace-decomposition",
+    "c8-def-eigenvalue-multiplicity",
+    "c3-thm-direct-sum-dimension"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-def-algebraic-geometric-multiplicity",
+   "kind": "definition",
+   "number": "",
+   "title": "Algebraic and geometric multiplicity",
+   "tex": "The multiplicity $\\dim G(\\lambda,T)$ is also called the algebraic multiplicity of $\\lambda$. Its geometric multiplicity is $\\dim E(\\lambda,T)$. These names distinguish two dimensions attached to the same eigenvalue.",
+   "page": "311"
+  },
+  {
+   "id": "c8-thm-diagonalizable-multiplicities",
+   "kind": "theorem",
+   "number": "",
+   "title": "Geometric multiplicity and diagonalizable operators",
+   "tex": "For every eigenvalue $\\lambda$ of an operator on a finite-dimensional space,\n\\[\n1\\le\\dim E(\\lambda,T)\\le\\dim G(\\lambda,T).\n\\]\nIf $T$ is diagonalizable over $\\F$, then\n\\[\nG(\\lambda,T)=E(\\lambda,T)\n\\qquad\\text{for every }\\lambda\\in\\F.\n\\]\nFor a complex operator, diagonalizability is equivalent to equality of the algebraic and geometric multiplicities at every eigenvalue.",
+   "page": "311",
+   "proof": "An eigenvalue has a nonzero eigenvector, so its eigenspace has dimension at least $1$. The inclusion $E(\\lambda,T)\\subseteq G(\\lambda,T)$ and monotonicity of subspace dimension give the second inequality.\n\nSuppose $T$ is diagonalizable. Choose an eigenvector basis $v_1,\\ldots,v_n$, with $Tv_j=\\mu_jv_j$. For $v=\\sum_j a_jv_j$ and any integer $k\\ge1$, induction on $k$ gives\n\\[\n(T-\\lambda I)^kv=\\sum_{j=1}^n a_j(\\mu_j-\\lambda)^kv_j.\n\\]\nIf $v\\in G(\\lambda,T)$, choose $k$ making this expression zero. Basis independence implies\n$a_j(\\mu_j-\\lambda)^k=0$ for every $j$. If $\\mu_j\\ne\\lambda$, its nonzero difference has a nonzero power, so $a_j=0$. Hence only eigenvectors for $\\lambda$ occur in the expansion of $v$, and $(T-\\lambda I)v=0$. Thus $G(\\lambda,T)\\subseteq E(\\lambda,T)$; the reverse inclusion was already proved. Empty bases cause no exception.\n\nNow suppose the field is complex and the two multiplicities agree at every eigenvalue. Taking their sum and using the multiplicity-sum theorem gives\n\\[\n\\sum_{\\lambda}\\dim E(\\lambda,T)=\\dim V.\n\\]\nThe eigenspace-dimension characterization of diagonalizability then makes $T$ diagonalizable. The reverse implication follows from the equality of spaces just proved. On the zero space the dimension sum and eigenvalue list are empty, and the empty basis gives diagonalizability.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "In an eigenvector basis, a power of $T-\\lambda I$ multiplies each coordinate by a scalar power.",
+    "For the complex converse, sum the geometric multiplicities."
+   ],
+   "uses": [
+    "c8-thm-generalized-eigenspace-kernel",
+    "c8-def-generalized-eigenspace",
+    "c8-def-algebraic-geometric-multiplicity",
+    "c8-thm-multiplicity-sum",
+    "c5-thm-diagonalizable-equivalences",
+    "c5-def-eigenspace",
+    "c2-thm-basis-coordinates",
+    "c2-thm-subspace-dimension",
+    "c2-lem-zero-dimension",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-def-characteristic-polynomial",
+   "kind": "definition",
+   "number": "8.26",
+   "title": "Characteristic polynomial",
+   "tex": "Let $T$ act on a finite-dimensional complex vector space. If its distinct eigenvalues are $\\lambda_1,\\ldots,\\lambda_m$ with multiplicities $d_1,\\ldots,d_m$, define its characteristic polynomial by\n\\[\nq_T(z)=\\prod_{j=1}^m(z-\\lambda_j)^{d_j}.\n\\]\nFor the zero space, the product is empty and $q_T=1$.",
+   "page": "311"
+  },
+  {
+   "id": "c8-ex-characteristic-polynomial-three",
+   "kind": "example",
+   "number": "8.27",
+   "title": "A characteristic polynomial with a repeated factor",
+   "tex": "The characteristic polynomial of\n\\[\nT(x,y,z)=(6x+3y+4z,6y+2z,7z)\n\\]\non $\\C^3$ is\n\\[\nq_T(z)=(z-6)^2(z-7).\n\\]",
+   "page": "311",
+   "proof": "The earlier multiplicity calculation gives eigenvalues $6$ and $7$, with multiplicities $2$ and $1$, respectively. The definition of the characteristic polynomial inserts one factor for each distinct eigenvalue with its multiplicity as exponent. It therefore gives precisely $(z-6)^2(z-7)$.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use the previously computed generalized eigenspace dimensions."
+   ],
+   "uses": [
+    "c8-ex-generalized-multiplicities",
+    "c8-def-characteristic-polynomial"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-thm-characteristic-degree-roots",
+   "kind": "theorem",
+   "number": "8.28",
+   "title": "Degree and zeros of the characteristic polynomial",
+   "tex": "For an operator $T$ on a finite-dimensional complex vector space, its characteristic polynomial is monic, has degree $\\dim V$, and has exactly the eigenvalues of $T$ as its zeros.",
+   "page": "312",
+   "proof": "Write the defining product as\n\\[\nq_T(z)=\\prod_{j=1}^m(z-\\lambda_j)^{d_j}.\n\\]\nEach $d_j$ is positive because an eigenvalue has a nonzero generalized eigenspace. Every factor is monic, so the product is monic. The product-degree rule gives\n\\[\n\\deg q_T=\\sum_{j=1}^m d_j=\\dim V,\n\\]\nwhere the last equality is the multiplicity-sum theorem.\n\nFor any scalar $a$, the finite product $q_T(a)$ is zero exactly when one of its scalar factors is zero: a product of nonzero field elements is nonzero. Since each $d_j\\ge1$, the factor $(a-\\lambda_j)^{d_j}$ is zero exactly when $a=\\lambda_j$. Thus the zeros are precisely the eigenvalues.\n\nIf $V=\\{0\\}$, then $q_T=1$, which is monic of degree zero and has no zeros. The operator on that space has no eigenvalues because it has no nonzero vector. This verifies every assertion in the empty-product case.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Use degree addition for products and the sum of the multiplicities."
+   ],
+   "uses": [
+    "c8-def-characteristic-polynomial",
+    "c8-thm-multiplicity-sum",
+    "c8-thm-generalized-eigenspace-kernel",
+    "c4-lem-polynomial-product-degree",
+    "c5-def-monic",
+    "c5-def-eigenvalue",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-thm-cayley-hamilton",
+   "kind": "theorem",
+   "number": "8.29",
+   "title": "Cayley–Hamilton theorem",
+   "tex": "Let $T$ act on a finite-dimensional complex vector space, and let $q_T$ be its characteristic polynomial. Then\n\\[\nq_T(T)=0.\n\\]",
+   "page": "312",
+   "proof": "First suppose $V\\ne\\{0\\}$. Let $\\lambda_1,\\ldots,\\lambda_m$ be the distinct eigenvalues, and put\n\\[\nG_j=G(\\lambda_j,T),\\qquad d_j=\\dim G_j.\n\\]\nEach $d_j\\ge1$. On $G_j$, the operator $(T-\\lambda_jI)|_{G_j}$ is nilpotent. The nilpotent restriction theorem therefore gives\n\\[\n(T-\\lambda_jI)^{d_j}v=0\n\\qquad(v\\in G_j).\n\\]\n\nMultiplicativity of polynomial evaluation gives\n\\[\nq_T(T)=\\prod_{j=1}^m(T-\\lambda_jI)^{d_j}.\n\\]\nAll these factors are polynomials in $T$, so they commute. Fix an index $k$. Move the factor $(T-\\lambda_kI)^{d_k}$ to the rightmost position. For $v\\in G_k$, that factor sends $v$ to zero, and all the remaining linear factors preserve zero. Hence $q_T(T)v=0$ for every $v\\in G_k$.\n\nEvery vector of $V$ is a sum of vectors in the $G_k$ by the generalized eigenspace decomposition. The operator $q_T(T)$ is linear and vanishes on each summand, so it vanishes on all of $V$.\n\nIf $V=\\{0\\}$, then $q_T=1$ and $q_T(T)=I_V$. The identity and zero operator coincide on the zero space, so the conclusion holds there as well.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Show that the characteristic polynomial annihilates each generalized eigenspace separately.",
+    "Use the dimension of that generalized eigenspace, then move its factor to act first."
+   ],
+   "uses": [
+    "c8-def-characteristic-polynomial",
+    "c8-def-eigenvalue-multiplicity",
+    "c8-thm-generalized-restriction-nilpotent",
+    "c8-thm-generalized-eigenspace-decomposition",
+    "c5-thm-polynomial-evaluation-product",
+    "c5-def-polynomial-operator",
+    "c3-thm-linear-zero",
+    "c3-def-linear-map"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-thm-characteristic-minimal-divisibility",
+   "kind": "theorem",
+   "number": "8.30",
+   "title": "The minimal polynomial divides the characteristic polynomial",
+   "tex": "Let $T$ act on a finite-dimensional complex vector space, with minimal polynomial $p_T$ and characteristic polynomial $q_T$. Then $p_T$ divides $q_T$. Moreover,\n\\[\np_T=q_T\n\\quad\\Longleftrightarrow\\quad\n\\deg p_T=\\dim V.\n\\]",
+   "page": "312",
+   "proof": "Cayley–Hamilton gives $q_T(T)=0$. The annihilating-divisibility theorem says that every polynomial vanishing at $T$ is a polynomial multiple of $p_T$. Hence\n\\[\nq_T=p_Th\n\\]\nfor some polynomial $h$.\n\nIf $p_T=q_T$, the characteristic-degree theorem gives $\\deg p_T=\\dim V$. Conversely, suppose $\\deg p_T=\\dim V=\\deg q_T$. Both $p_T$ and $q_T$ are nonzero, so $h$ is nonzero. Degree addition in the product implies $\\deg h=0$, making $h$ a nonzero constant. Both $p_T$ and $q_T$ are monic, so comparison of leading coefficients gives $h=1$. Thus $p_T=q_T$.\n\nOn the zero space, both polynomials are $1$ by their definitions, and the same assertions hold with degree zero.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Apply the general description of annihilating polynomials to Cayley–Hamilton.",
+    "If the degrees agree, compare the remaining constant factor using monicity."
+   ],
+   "uses": [
+    "c8-thm-cayley-hamilton",
+    "c8-thm-characteristic-degree-roots",
+    "c5-thm-annihilating-divisibility",
+    "c5-def-minimal-polynomial",
+    "c5-def-monic",
+    "c4-lem-polynomial-product-degree"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-lem-triangular-nullity-bound",
+   "kind": "lemma",
+   "number": "",
+   "title": "Zero diagonal entries bound the nullities of powers",
+   "tex": "Suppose $S\\in\\Lin(V)$ has an upper-triangular matrix in a basis $v_1,\\ldots,v_n$. Let $d$ be the number of zero entries on its diagonal. Then\n\\[\n\\dim\\Null S^k\\le d\n\\qquad\\text{for every integer }k\\ge1.\n\\]",
+   "page": "313",
+   "proof": "Write the diagonal entries as $a_1,\\ldots,a_n$. First consider $S$ itself. Its triangular matrix gives\n\\[\nSv_j=a_jv_j+u_j,\\qquad\nu_j\\in\\Span(v_1,\\ldots,v_{j-1}).\n\\]\nThe images $Sv_j$ at indices where $a_j\\ne0$ form an independent list. Indeed, suppose a nontrivial relation among them is zero, and choose the largest index $j$ with a nonzero coefficient $c_j$ in that relation. Every image at a smaller index belongs to $\\Span(v_1,\\ldots,v_{j-1})$. Therefore the coefficient of $v_j$ in the relation is exactly $c_ja_j$, which is nonzero. This contradicts uniqueness of coordinates in the basis.\n\nThere are $n-d$ such independent images, all in $\\Range S$. Hence $\\dim\\Range S\\ge n-d$. Rank-nullity yields\n\\[\n\\dim\\Null S=n-\\dim\\Range S\\le d.\n\\]\n\nLet $A$ be the triangular matrix of $S$. The matrix of $S^k$ is $A^k$. Induction using the triangular-product lemma shows that $A^k$ is upper triangular with diagonal entries $a_1^k,\\ldots,a_n^k$. For $k\\ge1$, the scalar $a_j^k$ vanishes exactly when $a_j$ vanishes. Thus $A^k$ has the same number $d$ of zero diagonal entries. Applying the nullity argument just proved to $S^k$ gives $\\dim\\Null S^k\\le d$.\n\nFor $n=0$, the space and all kernels are $\\{0\\}$, and the diagonal is empty, so the inequality is $0\\le0$.",
+   "difficulty": 2,
+   "minutes": 20,
+   "hints": [
+    "Select the columns whose diagonal entries are nonzero and prove their independence using a largest index.",
+    "Powers of an upper-triangular matrix raise its diagonal entries to the corresponding powers."
+   ],
+   "uses": [
+    "c5-def-upper-triangular",
+    "c5-thm-triangular-invariant",
+    "c5-lem-triangular-sum-product",
+    "c3-thm-matrix-composition",
+    "c3-thm-rank-nullity",
+    "c2-thm-basis-coordinates",
+    "c2-thm-independent-length",
+    "c2-thm-basis-existence",
+    "c1-lem-scalar-cancellation"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-thm-triangular-multiplicities",
+   "kind": "theorem",
+   "number": "8.31",
+   "title": "Multiplicity counts occurrences on a triangular diagonal",
+   "tex": "Suppose $V$ is complex, $\\dim V=n$, and an upper-triangular matrix $A$ represents $T\\in\\Lin(V)$. The multiplicity of each eigenvalue $\\lambda$ equals the number of indices $j$ for which $A_{j,j}=\\lambda$. Consequently,\n\\[\nq_T(z)=\\prod_{j=1}^n(z-A_{j,j}).\n\\]",
+   "page": "313",
+   "proof": "If $n=0$, there are no eigenvalues or diagonal entries, and the displayed empty product is $1=q_T$. Suppose now $n\\ge1$.\n\nFor an eigenvalue $\\lambda$, let $m_\\lambda=\\dim G(\\lambda,T)$, and let $d_\\lambda$ count its occurrences on the diagonal of $A$. The matrix $A-\\lambda I_n$ represents $T-\\lambda I$, is upper triangular, and has exactly $d_\\lambda$ zero diagonal entries. The triangular nullity bound with exponent $n$ gives\n\\[\nm_\\lambda\n=\\dim\\Null(T-\\lambda I)^n\n\\le d_\\lambda.\n\\]\nThe diagonal-eigenvalue theorem says that every diagonal entry of $A$ is an eigenvalue and that all eigenvalues occur there. Thus summing the counts $d_\\lambda$ over the distinct eigenvalues gives $n$. The multiplicity-sum theorem also gives $\\sum_\\lambda m_\\lambda=n$.\n\nEvery difference $d_\\lambda-m_\\lambda$ is nonnegative, and their sum is zero. Therefore each difference is zero, establishing the claimed multiplicity equality. In the definition of $q_T$, the factor $z-\\lambda$ occurs $m_\\lambda$ times. Replacing this count by the equal number of diagonal occurrences gives the displayed product.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "First prove that each multiplicity is at most its diagonal occurrence count.",
+    "Both collections of counts sum to $\\dim V$; use this to turn every inequality into equality."
+   ],
+   "uses": [
+    "c8-lem-triangular-nullity-bound",
+    "c8-thm-generalized-eigenspace-kernel",
+    "c8-def-eigenvalue-multiplicity",
+    "c8-thm-multiplicity-sum",
+    "c8-def-characteristic-polynomial",
+    "c5-thm-triangular-eigenvalues",
+    "c3-thm-matrix-addition",
+    "c3-thm-matrix-scaling",
+    "c3-def-identity-matrix"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-def-block-diagonal",
+   "kind": "definition",
+   "number": "8.35",
+   "title": "Block diagonal matrices",
+   "tex": "A square matrix is block diagonal if its row and column indices can be divided, in the same order, into consecutive groups such that every entry connecting different groups is zero. The square submatrices within the groups are its diagonal blocks. If those blocks are $A_1,\\ldots,A_m$, write\n\\[\n\\operatorname{diag}(A_1,\\ldots,A_m)\n=\n\\begin{pmatrix}\nA_1& &0\\\\\n &\\ddots& \\\\\n0& &A_m\n\\end{pmatrix},\n\\]\nwhere blank off-block regions also mean zero entries. The empty square matrix is the block diagonal matrix with no blocks.",
+   "page": "314"
+  },
+  {
+   "id": "c8-ex-block-diagonal-matrix",
+   "kind": "example",
+   "number": "8.36",
+   "title": "Three diagonal blocks of different sizes",
+   "tex": "The matrix\n\\[\nA=\n\\begin{pmatrix}\n4&0&0&0&0\\\\\n0&2&-3&0&0\\\\\n0&0&2&0&0\\\\\n0&0&0&1&7\\\\\n0&0&0&0&1\n\\end{pmatrix}\n\\]\nis block diagonal with blocks\n\\[\nA_1=(4),\\qquad\nA_2=\\begin{pmatrix}2&-3\\\\0&2\\end{pmatrix},\n\\qquad\nA_3=\\begin{pmatrix}1&7\\\\0&1\\end{pmatrix}.\n\\]\nFor the operator on $\\C^5$ with standard matrix $A$, the eigenvalue multiplicities are $1$ for $4$, $2$ for $2$, and $2$ for $1$. Its characteristic polynomial is\n\\[\n(z-4)(z-2)^2(z-1)^2.\n\\]",
+   "page": "314",
+   "proof": "Partition the indices into the consecutive groups $\\{1\\}$, $\\{2,3\\}$, and $\\{4,5\\}$. Inspection of the displayed entries shows that every entry whose row and column belong to different groups is zero. The submatrices inside these groups are exactly $A_1,A_2,A_3$. This verifies the block diagonal definition.\n\nThe matrix is also upper triangular, with diagonal $4,2,2,1,1$. The triangular eigenvalue theorem gives precisely the three eigenvalues $4,2,1$. The triangular multiplicity theorem equates their multiplicities with the respective occurrence counts $1,2,2$, and its characteristic-polynomial formula gives the stated product.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Partition the indices into groups of sizes $1,2,2$.",
+    "Use the upper-triangular diagonal for the multiplicities."
+   ],
+   "uses": [
+    "c8-def-block-diagonal",
+    "c8-thm-triangular-multiplicities",
+    "c5-thm-triangular-eigenvalues",
+    "c5-def-upper-triangular"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-thm-generalized-block-diagonal",
+   "kind": "theorem",
+   "number": "8.37",
+   "title": "Triangular blocks associated with distinct eigenvalues",
+   "tex": "Suppose $V$ is complex and $T\\in\\Lin(V)$. Let its distinct eigenvalues be $\\lambda_1,\\ldots,\\lambda_m$ with multiplicities $d_1,\\ldots,d_m$. There is a basis in which the matrix of $T$ is\n\\[\n\\operatorname{diag}(A_1,\\ldots,A_m),\n\\]\nwhere $A_j$ is a $d_j$-by-$d_j$ upper-triangular matrix whose diagonal entries all equal $\\lambda_j$. For $V=\\{0\\}$, this means the empty matrix in the empty basis.",
+   "page": "315",
+   "proof": "For each eigenvalue, put $G_j=G(\\lambda_j,T)$. This is an invariant subspace of dimension $d_j$, and\n\\[\nN_j=(T-\\lambda_jI)|_{G_j}\n\\]\nis nilpotent. The nilpotent triangularization theorem gives a basis $\\mathcal B_j$ of $G_j$ in which $N_j$ has an upper-triangular matrix with every diagonal entry zero. Since\n\\[\nT|_{G_j}=N_j+\\lambda_jI_{G_j},\n\\]\nthe matrix of this restriction in $\\mathcal B_j$ is upper triangular with every diagonal entry equal to $\\lambda_j$. Call it $A_j$.\n\nConcatenate the lists $\\mathcal B_1,\\ldots,\\mathcal B_m$. They span $V$: the generalized eigenspace decomposition expresses every vector as a sum of vectors from the $G_j$, and each such component expands in its basis $\\mathcal B_j$. To prove independence, group a zero linear relation on the concatenated list by its subspace $G_j$. Directness of the generalized eigenspace sum forces each grouped vector to be zero. Independence within each $\\mathcal B_j$ then makes every coefficient in the original relation zero. Thus the concatenated list is a basis of $V$.\n\nFor a basis vector belonging to $\\mathcal B_j$, invariance puts its image under $T$ in $G_j$. Its coordinates in all other groups are therefore zero, while its coordinates in group $j$ are precisely the corresponding column of $A_j$. This proves that the full matrix is block diagonal with the stated blocks.\n\nIf $V=\\{0\\}$, there are no eigenvalues or blocks. The empty basis and empty square matrix give the conclusion.",
+   "difficulty": 3,
+   "minutes": 30,
+   "hints": [
+    "Triangularize the nilpotent part separately on each generalized eigenspace.",
+    "Concatenate these bases and use invariance to locate all the zero off-block entries."
+   ],
+   "uses": [
+    "c8-thm-generalized-restriction-nilpotent",
+    "c8-thm-generalized-eigenspace-decomposition",
+    "c8-def-eigenvalue-multiplicity",
+    "c8-def-block-diagonal",
+    "c8-thm-nilpotent-triangular",
+    "c3-def-map-matrix",
+    "c3-thm-matrix-addition",
+    "c3-thm-matrix-scaling",
+    "c1-thm-direct-zero",
+    "c2-def-basis"
+   ],
+   "optional": false
+  },
+  {
+   "id": "c8-ex-generalized-block-basis",
+   "kind": "example",
+   "number": "8.38",
+   "title": "Changing a triangular matrix into two separate blocks",
+   "tex": "For\n\\[\nT(x,y,z)=(6x+3y+4z,6y+2z,7z),\n\\]\nthe basis\n\\[\n\\mathcal B=((1,0,0),(0,1,0),(10,2,1))\n\\]\ngives\n\\[\n\\Mat(T,\\mathcal B)=\n\\begin{pmatrix}\n6&3&0\\\\\n0&6&0\\\\\n0&0&7\n\\end{pmatrix}\n=\n\\operatorname{diag}\\left(\n\\begin{pmatrix}6&3\\\\0&6\\end{pmatrix},\n(7)\n\\right).\n\\]\nThe first block represents the restriction to $G(6,T)$, and the second represents the restriction to $G(7,T)$.",
+   "page": "315",
+   "proof": "The earlier multiplicity example proves that $\\mathcal B$ is a basis, with its first two vectors forming a basis of $G(6,T)$ and its third vector forming a basis of $G(7,T)$. Write these vectors as $b_1,b_2,b_3$. Direct calculation gives\n\\[\nTb_1=6b_1,\\qquad Tb_2=3b_1+6b_2,\n\\]\nand\n\\[\nTb_3=T(10,2,1)=(70,14,7)=7b_3.\n\\]\nTheir coordinate columns in $\\mathcal B$ are therefore $(6,0,0)$, $(3,6,0)$, and $(0,0,7)$. These are exactly the columns of the displayed matrix. The first two and the last index form its diagonal blocks, and the identified basis subspaces give the asserted interpretations as restriction matrices.",
+   "difficulty": 1,
+   "minutes": 10,
+   "hints": [
+    "Compute the three basis-vector images and express them in the same basis."
+   ],
+   "uses": [
+    "c8-ex-generalized-multiplicities",
+    "c8-def-block-diagonal",
+    "c3-def-map-matrix",
+    "c5-def-invariant"
+   ],
+   "optional": false
+  }
+ ],
+ "cards": [
+  {
+   "id": "c8-card-generalized-eigenspace",
+   "item": "c8-def-generalized-eigenspace",
+   "front": "Define $G(\\lambda,T)$.",
+   "back": "$\\displaystyle G(\\lambda,T)=\\{v:(T-\\lambda I)^kv=0\\text{ for some integer }k\\ge1\\}$. It includes the zero vector."
+  },
+  {
+   "id": "c8-card-generalized-fixed-power",
+   "item": "c8-thm-generalized-eigenspace-kernel",
+   "front": "Which single power describes a generalized eigenspace in finite dimensions?",
+   "back": "$\\displaystyle G(\\lambda,T)=\\Null(T-\\lambda I)^{\\dim V}$."
+  },
+  {
+   "id": "c8-card-generalized-nilpotent-part",
+   "item": "c8-thm-generalized-restriction-nilpotent",
+   "front": "What remains of $T$ on $G(\\lambda,T)$ after subtracting $\\lambda I$?",
+   "back": "The restriction $(T-\\lambda I)|_{G(\\lambda,T)}$ is nilpotent. The generalized eigenspace is invariant under $T$."
+  },
+  {
+   "id": "c8-card-generalized-direct-sum",
+   "item": "c8-thm-generalized-eigenspace-decomposition",
+   "front": "State the generalized eigenspace decomposition over $\\C$.",
+   "back": "If $\\lambda_1,\\ldots,\\lambda_m$ are the distinct eigenvalues, then\n$\\displaystyle V=G(\\lambda_1,T)\\oplus\\cdots\\oplus G(\\lambda_m,T)$."
+  },
+  {
+   "id": "c8-card-algebraic-geometric-multiplicity",
+   "item": "c8-def-algebraic-geometric-multiplicity",
+   "front": "What are the algebraic and geometric multiplicities of an eigenvalue?",
+   "back": "They are $\\dim G(\\lambda,T)$ and $\\dim E(\\lambda,T)$, respectively."
+  },
+  {
+   "id": "c8-card-characteristic-polynomial-definition",
+   "item": "c8-def-characteristic-polynomial",
+   "front": "Define the characteristic polynomial using eigenvalues and multiplicities.",
+   "back": "If the distinct eigenvalues are $\\lambda_j$ with multiplicities $d_j$, then\n$\\displaystyle q_T(z)=\\prod_j(z-\\lambda_j)^{d_j}$.\nFor the zero space, $q_T=1$."
+  },
+  {
+   "id": "c8-card-cayley-hamilton-idea",
+   "item": "c8-thm-cayley-hamilton",
+   "front": "Why does the characteristic polynomial annihilate each generalized eigenspace?",
+   "back": "Its factor $(T-\\lambda I)^{\\dim G(\\lambda,T)}$ annihilates that generalized eigenspace. All polynomial factors commute, so this factor can be applied first."
+  },
+  {
+   "id": "c8-card-minimal-characteristic",
+   "item": "c8-thm-characteristic-minimal-divisibility",
+   "front": "How are the minimal and characteristic polynomials related?",
+   "back": "The minimal polynomial divides the characteristic polynomial. They are equal exactly when the minimal polynomial has degree $\\dim V$."
+  },
+  {
+   "id": "c8-card-triangular-multiplicity-count",
+   "item": "c8-thm-triangular-multiplicities",
+   "front": "How is an eigenvalue's multiplicity read from an upper-triangular representing matrix?",
+   "back": "It is the number of occurrences of that eigenvalue on the diagonal."
+  },
+  {
+   "id": "c8-card-generalized-block-form",
+   "item": "c8-thm-generalized-block-diagonal",
+   "front": "What matrix form follows from generalized eigenspace decomposition over $\\C$?",
+   "back": "A block diagonal matrix with one block per distinct eigenvalue. Each block is upper triangular, its diagonal is constant at that eigenvalue, and its size is the eigenvalue's multiplicity."
+  }
+ ]
+}
